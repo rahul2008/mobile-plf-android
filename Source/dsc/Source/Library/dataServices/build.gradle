@@ -1,10 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
-apply plugin: 'com.neenbedankt.android-apt'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -14,135 +15,8 @@ def coverageSourceDirs = [
         '../dataServices/src/main/java'
 ]
 
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "dataServices"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    apply plugin: 'com.jfrog.artifactory'
-}
-
-group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.dsc_dataServices)
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-}
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion 26
@@ -217,33 +91,22 @@ android {
 
 }
 
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 dependencies {
     //Coco
 
-    def dp = project.ext.has('useprojectdependencies')
-
-   if(dp) {
+    if (directdependencies) {
         compile(project(':ConsentAccessToolKit'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
-            exclude group: 'com.google.code.findbugs', module: 'jsr305'
-            transitive true
-        }
+        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), changing: true)
+                {
+                    exclude group: 'com.google.code.findbugs', module: 'jsr305'
+                }
     }
 
-    if(dp) {
+    if (directdependencies) {
         compile(project(':AppInfra'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), changing: true)
     }
 
     //Android Support
@@ -252,7 +115,12 @@ dependencies {
     }
 
     //3rd Party
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    def daggerVer = 2.11
+    compile "com.google.dagger:dagger:$daggerVer"
+    compile "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'joda-time:joda-time:2.9.7'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
@@ -260,10 +128,8 @@ dependencies {
     compile 'javax.inject:javax.inject:1'
 
     compile "com.google.dagger:dagger:2.11"
-    apt "com.google.dagger:dagger-compiler:2.11"
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'javax.annotation:jsr250-api:1.0'
-    testApt "com.google.dagger:dagger-compiler:2.11"
 
     //Test Compile
     testCompile "junit:junit:4.12"
@@ -307,8 +173,4 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         html.enabled = true
     }
 
-}
-
-tasks.withType(Test) {
-    ignoreFailures = true
 }
