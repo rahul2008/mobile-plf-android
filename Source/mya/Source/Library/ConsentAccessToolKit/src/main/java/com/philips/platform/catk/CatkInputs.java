@@ -12,25 +12,25 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
- * This class is used to provide input parameters and customizations for BackendConsent access tool kit.
+ * This class is used to provide input parameters and customizations for Consent access tool kit.
  */
 
 public class CatkInputs {
 
-    private AppInfraInterface appInfra;
+    private final AppInfraInterface appInfra;
 
-    private Context context;
+    private final Context context;
 
-    private List<ConsentDefinition> consentDefinitionList;
+    private final List<ConsentDefinition> consentDefinitionList;
 
-    CatkInputs() {
-    }
-
-    void setContext(Context context) {
-        this.context = context;
+    private CatkInputs(Builder builder) {
+        appInfra = builder.appInfra;
+        context = builder.context;
+        consentDefinitionList = builder.consentDefinitionList;
     }
 
     public Context getContext() {
@@ -41,46 +41,47 @@ public class CatkInputs {
         return appInfra;
     }
 
-    void setAppInfra(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
-
     public List<ConsentDefinition> getConsentDefinitions() {
-        return consentDefinitionList;
-    }
-
-    void setConsentDefinitionList(List<ConsentDefinition> consentDefinitionList) {
-        this.consentDefinitionList = consentDefinitionList;
+        return Collections.unmodifiableList(consentDefinitionList);
     }
 
     public static class Builder {
 
-        private CatkInputs catkInputs;
+        private AppInfraInterface appInfra;
+
+        private Context context;
+
+        private List<ConsentDefinition> consentDefinitionList;
 
         public Builder() {
-            catkInputs = new CatkInputs();
         }
 
         public Builder setAppInfraInterface(AppInfraInterface appInfra) {
-            catkInputs.setAppInfra(appInfra);
+            this.appInfra = appInfra;
             return this;
         }
 
         public Builder setContext(Context context) {
-            catkInputs.setContext(context);
+            this.context = context;
             return this;
         }
 
         public Builder setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-            catkInputs.setConsentDefinitionList(consentDefinitions);
+            this.consentDefinitionList = consentDefinitions;
             return this;
         }
 
         public CatkInputs build() {
-            if (catkInputs.getConsentDefinitions() == null) {
-                throw new InvalidInputException("consent configurations were not given");
+            if (appInfra == null) {
+                throw new InvalidInputException("AppInfraInterface not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
             }
-            return catkInputs;
+            if (context == null) {
+                throw new InvalidInputException("Context not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
+            }
+            if (consentDefinitionList == null) {
+                throw new InvalidInputException("ConsentDefinitions not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
+            }
+            return new CatkInputs(this);
         }
     }
 
