@@ -54,7 +54,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         UIDHelper.injectCalligraphyFonts();
         setRetainInstance(true);
         initViews(view);
-        recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
         init(new DefaultItemAnimator(),new RecyclerViewSeparatorItemDecoration(getContext()),
                 new LinearLayoutManager(getContext()));
