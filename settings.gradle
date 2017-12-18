@@ -103,6 +103,8 @@ include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 include ':uidApp'
 project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+//include ':uAppFwLibApp'
+//project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
@@ -118,8 +120,9 @@ project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
-include ':MyAccountApp'
-project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+//include ':MyAccountApp'
+//project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+// DO NOT DISABLE bll and cml demoapp
 include ':commlib-demoapp'
 project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 include ':bluelib-demoapp'
