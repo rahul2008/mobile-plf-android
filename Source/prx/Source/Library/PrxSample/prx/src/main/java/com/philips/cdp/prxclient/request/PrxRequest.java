@@ -13,9 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Description : This is the URL Builder base class to build all the PRX relevent URL's.
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
+ * This is the URL Builder base class to build all the PRX relevant URLs.
+ * @since 1.0.0
  */
 public abstract class PrxRequest {
 
@@ -27,8 +26,10 @@ public abstract class PrxRequest {
     private final String mServiceId;
 
     /**
-     * @param ctn ctn of the product.
-     * @param serviceId PRX ServiceId.
+     * PRX request constructor.
+     * @param ctn CTN of the product
+     * @param serviceId PRX ServiceId
+     * @since 1.0.0
      */
     public PrxRequest(String ctn, String serviceId) {
         this.mCtn = ctn;
@@ -36,10 +37,12 @@ public abstract class PrxRequest {
     }
 
     /**
-     * @param ctn ctn of the product.
-     * @param serviceID PRX ServiceId.
-     * @param sector sector.
-     * @param catalog catalog.
+     * PRX request constructor.
+     * @param ctn ctn of the product
+     * @param serviceID PRX ServiceId
+     * @param sector sector
+     * @param catalog catalog
+     * @since 1.0.0
      */
     public PrxRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.mCtn = ctn;
@@ -49,41 +52,61 @@ public abstract class PrxRequest {
     }
 
     /**
-     * @return returns the ctn.
+     * Get the CTN.
+     * @return returns the ctn
+     * @since 1.0.0
      */
     public String getCtn() {
         return this.mCtn;
     }
 
     /**
-     * @return returns the sector.
+     * Get the sector.
+     * @return returns the sector
+     * @since 1.0.0
      */
     public PrxConstants.Sector getSector() {
         return mSector;
     }
 
     /**
-     * @param mSector
+     * Set the sector.
+     * @param mSector the type of sector
+     * @since 1.0.0
      */
     public void setSector(final PrxConstants.Sector mSector) {
         this.mSector = mSector;
     }
 
+    /**
+     * Get the catalog.
+     * @return returns the catalog
+     */
     public PrxConstants.Catalog getCatalog() {
         return mCatalog;
     }
 
+    /**
+     * Set the catalog.
+     * @param catalog catalog
+     */
     public void setCatalog(PrxConstants.Catalog catalog) {
         this.mCatalog = catalog;
     }
 
+    /**
+     * Get the Response data.
+     * @param jsonObject JSON Object
+     * @return returns the response data
+     */
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
 
     /**
      * Returns the base prx url from service discovery.
-     * @param appInfra appinfra instance.
-     * @param listener callback urlreceived
+     * @param appInfra AppInfra instance.
+     * @param listener callback url received
+     * @since 1.0.0
      */
     public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
@@ -109,31 +132,35 @@ public abstract class PrxRequest {
 
 
     /**
-     * Interface which gives callback onUrlReceieved.
+     * Interface which gives callback on Url Received.
+     * @since 1.0.0
      */
     public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
         void onSuccess(String url);
     }
 
     /**
-     * returns request type
+     * returns request type.
      * @return request type for ex . GET/POST/PUT.
+     * @since 1.0.0
      */
     public int getRequestType() {
         return RequestType.GET.getValue();
     }
 
     /**
-     *
+     * Get the headers.
      * @return headers
+     * @since 1.0.0
      */
     public Map<String, String> getHeaders() {
         return null;
     }
 
     /**
-     *
+     *  Get the parameters.
      * @return params
+     * @since 1.0.0
      */
     public Map<String, String> getParams() {
         return null;
@@ -143,12 +170,14 @@ public abstract class PrxRequest {
      * Get Max num of retries.
      *
      * @return Max num of retries
+     * @since 1.0.0
      */
     public int getMaxRetries() {
         return maxRetries;
     }
 
     /**
+     * Set the maximum number of retries.
      * @param maxRetries - Set maximum number of retries when request failed
      */
     public void setMaxRetries(final int maxRetries) {
@@ -156,16 +185,19 @@ public abstract class PrxRequest {
     }
 
     /**
-     * get request time out in milli seconds
+     * Get request time out in milli seconds.
      *
      * @return timeout.
+     * @since 1.0.0
      */
     public int getRequestTimeOut() {
         return requestTimeOut;
     }
 
     /**
+     * Set the request timeout.
      * @param requestTimeOut - Set request time out in milli seconds
+     * @since 1.0.0
      */
     public void setRequestTimeOut(final int requestTimeOut) {
         this.requestTimeOut = requestTimeOut;
