@@ -37,7 +37,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_CALLEE_TAG;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;

@@ -5,6 +5,8 @@ import java.util.Date;
 
 
 public class UserDataModel implements DataModel, Serializable {
+
+    private static final long serialVersionUID = -7030556197218091117L;
     private String givenName;
     private String name;
     private Date birthday;

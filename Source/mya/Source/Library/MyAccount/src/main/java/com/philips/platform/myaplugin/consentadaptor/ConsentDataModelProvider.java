@@ -5,10 +5,6 @@ import com.philips.platform.myaplugin.uappadaptor.ConsentDataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
-/**
- * Created by philips on 11/17/17.
- */
-
 public class ConsentDataModelProvider extends ConsentDataInterface {
     ConsentDataModel consentDataModel;
     @Override
