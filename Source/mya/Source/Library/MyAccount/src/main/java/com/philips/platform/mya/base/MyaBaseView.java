@@ -3,11 +3,11 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.mya.base.mvp;
+package com.philips.platform.mya.base;
 
-public interface MyaPresenterInterface<ViewT> {
 
-    void onViewActive(ViewT view);
+import android.content.Context;
 
-    void onViewInactive();
+public interface MyaBaseView {
+    Context getContext();
 }
