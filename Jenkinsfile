@@ -191,6 +191,20 @@ stage('Build+test') {
         }
 }
 
+node('master') {
+    stage('Cleaning workspace') {
+//Disabled the skipping of clean-up for now.
+//        if (BranchName =~ /master|develop|release\/platform_.*/) {
+//            echo "${BranchName} does not get cleared"
+//        } else {
+            def wrk = pwd() + "@script/"
+            dir("${wrk}") {
+                deleteDir()
+            }
+//        }
+    }
+} 
+
 
 // timestamps {
 //     node ('android && device') {
@@ -495,16 +509,16 @@ stage('Build+test') {
 //     } // end node ('android')
 // }//timestamp
 
-// node('master') {
-//     stage('Cleaning workspace') {
-// //Disabled the skipping of clean-up for now.
-// //        if (BranchName =~ /master|develop|release\/platform_.*/) {
-// //            echo "${BranchName} does not get cleared"
-// //        } else {
-//             def wrk = pwd() + "@script/"
-//             dir("${wrk}") {
-//                 deleteDir()
-//             }
-// //        }
-//     }
-// } 
+node('master') {
+    stage('Cleaning workspace') {
+//Disabled the skipping of clean-up for now.
+//        if (BranchName =~ /master|develop|release\/platform_.*/) {
+//            echo "${BranchName} does not get cleared"
+//        } else {
+            def wrk = pwd() + "@script/"
+            dir("${wrk}") {
+                deleteDir()
+            }
+//        }
+    }
+} 
