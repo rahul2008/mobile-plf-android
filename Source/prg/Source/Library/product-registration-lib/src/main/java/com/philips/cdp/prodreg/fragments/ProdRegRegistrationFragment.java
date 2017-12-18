@@ -6,6 +6,7 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.*;
+import android.content.DialogInterface;
 import android.graphics.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -443,23 +444,27 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 String imageURL;
     @Override
     public void setSummaryView(final Data summaryData) {
-        if (summaryData != null) {
-            final String productTitle = summaryData.getProductTitle();
-            if (!TextUtils.isEmpty(productTitle)) {
-                productTitleTextView.setVisibility(View.VISIBLE);
-                productTitleTextView.setText(productTitle);
-            } else {
-                productTitleTextView.setVisibility(View.GONE);
-            }
-            minDate = summaryData.getSop();
-            int width = getResources().getDisplayMetrics().widthPixels;
-            productImageView.getLayoutParams().height = (int) ((width));
+        try {
+            if (summaryData != null) {
+                final String productTitle = summaryData.getProductTitle();
+                if (!TextUtils.isEmpty(productTitle)) {
+                    productTitleTextView.setVisibility(View.VISIBLE);
+                    productTitleTextView.setText(productTitle);
+                } else {
+                    productTitleTextView.setVisibility(View.GONE);
+                }
+                minDate = summaryData.getSop();
+                int width = getResources().getDisplayMetrics().widthPixels;
+                productImageView.getLayoutParams().height = (int) ((width));
 
-             imageURL = summaryData.getImageURL();
-            imageLoader.get(imageURL,ImageLoader.getImageListener(productImageView,
-                    R.drawable.product_placeholder, R.drawable.product_placeholder));
-            productImageView.requestLayout();
-            field_serial.addTextChangedListener(getWatcher());
+                imageURL = summaryData.getImageURL();
+                imageLoader.get(imageURL, ImageLoader.getImageListener(productImageView,
+                        R.drawable.product_placeholder, R.drawable.product_placeholder));
+                productImageView.requestLayout();
+                field_serial.addTextChangedListener(getWatcher());
+            }
+        }catch (Exception e){
+            ProdRegLogger.i("Exception ***", "" + e.getMessage());
         }
     }
 
@@ -525,7 +530,7 @@ String imageURL;
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                     .setDialogType(DialogConstants.TYPE_DIALOG)
                     .setDialogView(view)
-                    .setCancelable(false);
+                    .setCancelable(true);
             alertDialogFragment = builder.create();
             alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
             Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
