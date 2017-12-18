@@ -1,0 +1,23 @@
+{
+"version" : "1.0",
+"analytics" : {
+"rsids" : "philipsmobileappsdev",
+"server" : "philips.112.2o7.net",
+"charset" : "UTF-8",
+"ssl" : true,
+"offlineEnabled" : true,
+"lifecycleTimeout" : 30,
+"batchLimit" : 50,
+"channel" : "CP:registration",
+"privacyDefault" : "optedin",
+"poi" : []
+},
+"target" : {
+"clientCode" : "amsdk",
+"timeout" : 5
+},
+"audienceManager" : {
+"server" : ""
+}
+}
+

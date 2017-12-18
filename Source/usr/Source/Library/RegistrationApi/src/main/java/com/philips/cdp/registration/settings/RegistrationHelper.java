@@ -13,6 +13,7 @@ import android.os.LocaleList;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
@@ -71,7 +72,7 @@ public class RegistrationHelper {
     private UappSettings urSettings;
 
     private RegistrationHelper() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
     /**
      * @return instance of this class

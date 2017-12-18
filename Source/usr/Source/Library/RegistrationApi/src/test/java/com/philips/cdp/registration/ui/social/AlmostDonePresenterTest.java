@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
@@ -55,7 +56,7 @@ public class AlmostDonePresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         presenter = new AlmostDonePresenter(mockContract, mockUser);
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         registrationSettingsURL = new RegistrationSettingsURL();
