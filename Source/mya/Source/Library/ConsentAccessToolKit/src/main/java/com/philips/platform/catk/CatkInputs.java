@@ -28,7 +28,7 @@ public class CatkInputs {
 
     private Context context;
 
-    private Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations;
+    private List<ConsentConfiguration> consentConfigurations;
 
     CatkInputs() {
     }
@@ -49,11 +49,11 @@ public class CatkInputs {
         this.appInfra = appInfra;
     }
 
-    Map<ConsentHandlerInterface, ConsentConfiguration> getConfigurations() {
+    List<ConsentConfiguration> getConfigurations() {
         return consentConfigurations;
     }
 
-    void setConsentConfigurations(Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations) {
+    void setConsentConfigurations(List<ConsentConfiguration> consentConfigurations) {
         this.consentConfigurations = consentConfigurations;
     }
 
@@ -75,7 +75,7 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConfigurations(Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations) {
+        public Builder setConfigurations(List<ConsentConfiguration> consentConfigurations) {
             catkInputs.setConsentConfigurations(consentConfigurations);
             return this;
         }

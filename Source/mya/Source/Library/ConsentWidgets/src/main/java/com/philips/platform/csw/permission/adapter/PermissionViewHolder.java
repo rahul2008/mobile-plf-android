@@ -72,7 +72,7 @@ class PermissionViewHolder extends BasePermissionViewHolder {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (consentToggleListener != null) {
                     setLoading(consentView);
-                    consentToggleListener.onToggledConsent(consentView.getDefinition(), b);
+                    consentToggleListener.onToggledConsent(consentView.getDefinition(), consentView.getHandler(), b);
                 }
             }
         });

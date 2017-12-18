@@ -9,6 +9,7 @@ package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.ConsentListCallback;
@@ -28,15 +29,15 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
     @NonNull
     private final PermissionInterface permissionInterface;
     @NonNull
-    private final ConsentHandlerInterface consentHandlerInterface;
+    private final List<ConsentConfiguration> configurationList;
     @NonNull
     private final PermissionAdapter adapter;
 
     @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final ConsentHandlerInterface consentInteractor, @NonNull final PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final List<ConsentConfiguration> configurationList, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
-        this.consentHandlerInterface = consentInteractor;
+        this.configurationList = configurationList;
         this.adapter = adapter;
         this.adapter.setConsentToggleListener(this);
     }
@@ -48,12 +49,14 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
 
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        consentHandlerInterface.checkConsents(this);
+        for(ConsentConfiguration configuration : configurationList) {
+            configuration.getHandlerInterface().checkConsents(this);
+        }
     }
 
     @Override
-    public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
-        consentHandlerInterface.post(definition, consentGiven, this);
+    public void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
+        handler.post(definition, consentGiven, this);
         permissionInterface.showProgressDialog();
     }
 

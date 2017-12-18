@@ -26,14 +26,12 @@ import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class ConsentAccessToolKit {
 
@@ -52,7 +50,7 @@ public class ConsentAccessToolKit {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations;
+    private List<ConsentConfiguration> consentConfigurations;
 
     ConsentAccessToolKit() {
     }
@@ -209,7 +207,7 @@ public class ConsentAccessToolKit {
 
     public List<ConsentDefinition> getConsentDefinitions() {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        for(ConsentConfiguration config : consentConfigurations.values()){
+        for (ConsentConfiguration config : consentConfigurations) {
             definitions.addAll(config.getConsentDefinitionList());
         }
         return Collections.unmodifiableList(definitions);

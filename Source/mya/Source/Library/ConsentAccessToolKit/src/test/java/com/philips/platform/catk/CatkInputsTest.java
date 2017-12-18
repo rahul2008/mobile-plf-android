@@ -14,7 +14,8 @@ import org.junit.Test;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.catk.mock.ContextMock;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import java.util.List;
 
@@ -43,13 +44,13 @@ public class CatkInputsTest {
     }
 
     private void whenBuilding() {
-        inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).build();
+        inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConfigurations(consentDefinitions).build();
     }
 
     CatkInputs.Builder inputBuilder;
     AppInfraInterface appInfra;
     ContextMock context;
-    List<ConsentDefinition> consentDefinitions;
+    List<ConsentConfiguration> consentDefinitions;
 
     ContextMock someContext;
     AppInfraInterface someAppInfraInterface;

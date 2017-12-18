@@ -77,6 +77,7 @@ public class MyAccountState extends BaseState {
         });
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
+        //TODO: Get Configurations launchInput.addConfigurations(ConsentAccessToolKit.getInstance().getConfigurations())
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);

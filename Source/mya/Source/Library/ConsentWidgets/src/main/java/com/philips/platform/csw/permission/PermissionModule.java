@@ -7,7 +7,6 @@ import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,12 +16,12 @@ public class PermissionModule {
 
     private PermissionInterface permissionInterface;
     private HelpClickListener helpClickListener;
-    private Map<ConsentHandlerInterface, ConsentConfiguration> map;
+    private List<ConsentConfiguration> consentConfigurations;
 
     public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener) {
         this.permissionInterface = permissionInterface;
         this.helpClickListener = helpClickListener;
-        this.map = null; // TODO: Get from CatKInputs
+        this.consentConfigurations = new ArrayList<>(); // TODO: Get from CatKInputs
     }
 
     @Provides
@@ -35,30 +34,18 @@ public class PermissionModule {
         return helpClickListener;
     }
 
-
     @Provides
-    Map<ConsentHandlerInterface, ConsentConfiguration> provideConfigurations() {
-        return map;
+    List<ConsentConfiguration> provideConfigurations() {
+        return consentConfigurations;
     }
 
     @Provides
-    ConsentHandlerInterface provideConsentHandlerInterface() {
-        // TODO: Provide Interface
-        return null;
-    }
-
-
-    @Provides
-    List<ConsentDefinition> provideConsentDefinitions() {
-        // TODO: Provide Definitions
-        return null;
-    }
-
-    @Provides
-    List<ConsentView> provideConsentViews(List<ConsentDefinition> definitions) {
+    List<ConsentView> provideConsentViews(List<ConsentConfiguration> configurations) {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for (final ConsentDefinition definition : definitions) {
-            consentViewList.add(new ConsentView(definition));
+        for(ConsentConfiguration configuration : configurations) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
         }
         return consentViewList;
     }
