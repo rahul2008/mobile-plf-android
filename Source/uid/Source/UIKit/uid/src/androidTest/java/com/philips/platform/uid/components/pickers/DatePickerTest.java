@@ -25,6 +25,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+@Ignore
 public class DatePickerTest {
 
     @Rule
@@ -58,7 +59,6 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
-    @Ignore
     @Test
     public void verifyCancelButtonTextColor() throws Exception {
         int titleId = getViewId("button2");
@@ -68,7 +68,6 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
-    @Ignore
     @Test
     public void verifyOkButtonTextColor() throws Exception {
         int titleId = getViewId("button1");
