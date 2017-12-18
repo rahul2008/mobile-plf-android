@@ -128,6 +128,8 @@ public class MyaSettingsPresenterTest {
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
+        myaSettingsPresenter.handleOnClickSettingsItem("Mya_Privacy_Settings", null);
+        verify(view).exitMyAccounts();
     }
 
     @Test

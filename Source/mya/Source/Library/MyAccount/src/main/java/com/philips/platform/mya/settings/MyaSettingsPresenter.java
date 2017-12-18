@@ -62,6 +62,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
+            if (fragmentLauncher == null)
+                view.exitMyAccounts();
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
             getConsentAccessInstance().init(initConsentToolKit(appInfra));
             CswInterface cswInterface = getCswInterface();

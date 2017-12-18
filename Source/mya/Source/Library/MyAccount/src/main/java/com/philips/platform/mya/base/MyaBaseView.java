@@ -10,4 +10,5 @@ import android.content.Context;
 
 public interface MyaBaseView {
     Context getContext();
+    boolean exitMyAccounts();
 }
