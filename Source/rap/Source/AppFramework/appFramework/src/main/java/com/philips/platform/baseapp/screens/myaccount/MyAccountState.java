@@ -122,18 +122,17 @@ public class MyAccountState extends BaseState {
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
-                .setConfigurations(createCatkDefinitions(context, currentLocale))
+                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
                 .build();
         ConsentAccessToolKit.getInstance().init(catkInputs);
 
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
-        // TODO: Initialize UserRegistration with Definitons..
-
+        // TODO: Initialize UserRegistration with Definitions..
 
         List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
         consentConfigurations.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
-        consentConfigurations.add(new ConsentConfiguration(urDefinitions, null));
+        consentConfigurations.add(new ConsentConfiguration(urDefinitions, null));   // TODO: Add UserRegistrationHandler
         MyaHelper.getInstance().setConfigurations(consentConfigurations);
     }
 
