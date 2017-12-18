@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'de.felixschulze.gradle.hockeyapp'
+//apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 
 def supportLibraryVer = '26.0.2'
@@ -126,7 +126,7 @@ publishing {
         }
     }
 }
-
+/*
 hockeyapp {
     apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
     commitSha = objcdp.getCommitHashLong()
@@ -137,8 +137,12 @@ hockeyapp {
     mandatory = 1
     status = 2
     notesType = 1
+
 //    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
 }
+=======
+    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
+}*/
 
 android {
     compileSdkVersion compileSdkVer

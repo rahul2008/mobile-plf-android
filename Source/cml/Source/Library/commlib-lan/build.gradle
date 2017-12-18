@@ -9,10 +9,6 @@ buildscript { bs ->
     repositories {
         maven {
             url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
         }
         maven {
             url repos.plugin
@@ -24,8 +20,8 @@ buildscript { bs ->
     }
 
     dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -49,26 +45,7 @@ archivesBaseName = "commlib-lan"
 
 version = objcdp.getVersion(versions.cml_commlib)
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
-
 repositories {
-    maven {
-        url repos.jcenter
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
     maven {
         url objcdp.getArtifactoryUrl()
         credentials {
@@ -248,9 +225,7 @@ configurations.all {
  * Zips external documentation to be included with a release
  */
 task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }

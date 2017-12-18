@@ -128,7 +128,7 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.philips.cdp2.ews.demoapplication"
+        applicationId "com.philips.platform.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -192,7 +192,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 //    compile 'joda-time:joda-time:2.9.9'
     // Philips Dependencies
-    compile project(':UApp')
+    compile project(':ewsUApp')
     compile "com.android.support:support-annotations:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
     compile "com.android.support:cardview-v7:${versions.support}"

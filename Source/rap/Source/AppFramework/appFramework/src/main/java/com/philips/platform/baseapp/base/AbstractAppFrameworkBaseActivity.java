@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -27,6 +26,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.themesettings.ThemeHelper;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener, EWSActionBarListener {
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener, UAppActionBarListener {
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
@@ -247,18 +247,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     }
 
     @Override
-    public void closeButton(boolean visibility) {
-
+    public void closeButton(boolean b) {
+        //TODO: Handle here the close button
     }
-
-    @Override
-    public void updateActionBar(int i, boolean b) {
-
-    }
-
-    @Override
-    public void updateActionBar(String s, boolean b) {
-
-    }
-
 }

@@ -1,29 +1,24 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSDependencies;
-import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.ews.demoapplication.microapp.DemoUapp;
+import com.philips.platform.ews.demoapplication.microapp.DemoUappDependencies;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -46,53 +41,17 @@ public class EWSFragmentState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         RALog.d(TAG, " navigate to EWS Launcher called");
-        EWSInterface ewsInterface = getEwsApp();
-        ewsInterface.init(getUappDependencies(), getUappSettings());
-        ewsInterface.launch(getFragmentLauncher(uiLauncher), new EWSLauncherInput());
-    }
-
-    @NonNull
-    protected EWSInterface getEwsApp() {
-        return new EWSInterface();
-    }
-
-    @NonNull
-    protected FragmentLauncher getFragmentLauncher(UiLauncher uiLauncher) {
-        return (FragmentLauncher) uiLauncher;
-    }
-
-    @NonNull
-    protected UappSettings getUappSettings() {
-        return new UappSettings(context.getApplicationContext());
-    }
-
-    @NonNull
-    protected UappDependencies getUappDependencies() {
-        AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
-
-        /*
-        our component required to have 3 different content initialization, in case of the ref app
-        we use defaults only - Base, Happy flow and Trouble shooting flow
-        */
-
-        return new EWSDependencies(appInfra, createProductMap(),
-                new ContentConfiguration(new BaseContentConfiguration(),
-                        new HappyFlowContentConfiguration.Builder().build(),
-                        new TroubleShootContentConfiguration.Builder().build())) {
+        DemoUappDependencies demoUappDependencies = new DemoUappDependencies((((AppFrameworkApplication) context).getAppInfra())) {
             @Override
             public CommCentral getCommCentral() {
-                return ((AppFrameworkApplication) context.getApplicationContext()).getCommCentralInstance();
+                return ((AppFrameworkApplication) context).getCommCentralInstance();
             }
         };
-    }
-
-
-    // creating default product name which will be used by EWS Component
-    @NonNull
-    protected Map<String, String> createProductMap() {
-        Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, context.getString(R.string.ews_device_name_default));
-        return productKeyMap;
+        DemoUapp demoUapp = new DemoUapp();
+        demoUapp.init(demoUappDependencies, new UappSettings(context));
+        //its up to proposition to pass theme or not, if not passing theme then it will show default theme of library
+        demoUapp.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, new ThemeConfiguration(context, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, AccentRange.ORANGE, NavigationColor.BRIGHT), -1, null),
+                (null));
     }
 
     @Override

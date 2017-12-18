@@ -98,7 +98,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -121,7 +121,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -180,7 +180,7 @@ hockeyapp {
     mandatory = 1
     status = 2
     notesType = 1
-    notes = new File(projectDir,"/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
+    notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
 android {
@@ -191,7 +191,7 @@ android {
         minSdkVersion config.minSdk
         targetSdkVersion config.targetSdk
         versionCode config.versionCode
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi config.renderScriptApi
         renderscriptSupportModeEnabled true
@@ -237,7 +237,7 @@ dependencies {
     compile "com.android.support:multidex:${versionsAndroid.multidex}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versionsExternal.butterKnife}"
 
-    compile ("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
+    compile("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -374,13 +374,11 @@ dependencies {
         }
     }
 
-    if(dp) {
-        compile project(':ews')
+    if (dp) {
+        compile project(':ewsUApp')
     } else {
-        compile(group: 'com.philips.cdp', name: 'ews-android', version: versions.ews_ews+ objcdp.getVersionSuffix(), ext: 'aar')
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'ewsUApp', version: versions.ews_ews + objcdp.getVersionSuffix())
+
     }
 
     if(dp) {
@@ -421,20 +419,20 @@ task copyToLib(type: Copy) {
 tasks.withType(Test) {
     ignoreFailures = true
     maxParallelForks = Runtime.runtime.availableProcessors()
-    maxHeapSize="2048m"
+    maxHeapSize = "2048m"
 }
 
 task('printArtifactoryApkPath') {
     doLast {
-        if(new File('apkname.txt').exists()) {
+        if (new File('apkname.txt').exists()) {
             new File('apkname.txt').delete()
         }
         File apkname = new File('apkname.txt')
-        apkname.append(objcdp.getArtifactoryContextUrl() + \
-        "/" + objcdp.getArtifactoryPublishRepoKey() + \
-        "/" + project.group.replace('.','/') + "/" + \
-        archivesBaseName + "/" + version + \
-        "/" + archivesBaseName + "-" + version + ".apk")
+        apkname.append(objcdp.getArtifactoryContextUrl() +   \
+          "/" + objcdp.getArtifactoryPublishRepoKey() +   \
+          "/" + project.group.replace('.', '/') + "/" +   \
+          archivesBaseName + "/" + version +   \
+          "/" + archivesBaseName + "-" + version + ".apk")
         println "Artifactory path of apk stored in apkname.txt"
     }
 }

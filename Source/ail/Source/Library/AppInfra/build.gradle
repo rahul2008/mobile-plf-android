@@ -8,14 +8,11 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
+        maven {
+            url repos.jcenter
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -24,9 +21,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -37,20 +34,14 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "AppInfra"
 
 allprojects {
     repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
         maven {
             url 'https://maven.google.com'
         }
@@ -82,7 +73,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -92,7 +83,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -102,7 +94,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -124,7 +116,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -142,19 +134,13 @@ android {
     signingConfigs {
         release
     }
-//    signingConfigs {
-//        config {
-//            keyAlias 'AppInfra'
-//            keyPassword 'AppInfra'
-//            storeFile file('C:/Users/310238655/Desktop/AppInfraKeystore.jks')
-//            storePassword 'AppInfra'
-//        }
-//    }
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -199,21 +185,24 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile deps.adobemobilelib
+    compile deps.gson
+    compile 'com.android.volley:volley:1.0.0'
+    compile deps.support.design
+    compile deps.support.supportv4
+    compile deps.support.annotations
+
     testCompile 'org.mockito:mockito-core:2.8.9'
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile deps.assertj
+
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
-    compile(group: 'com.google.code.gson', name: 'gson', version: '2.8.1')
-    compile 'com.android.volley:volley:1.0.0'
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile 'com.android.support:support-annotations:26.0.2'
-    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile deps.junit
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
