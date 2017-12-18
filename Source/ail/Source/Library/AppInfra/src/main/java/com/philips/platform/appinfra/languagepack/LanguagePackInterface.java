@@ -5,10 +5,12 @@
  */
 package com.philips.platform.appinfra.languagepack;
 
+import java.io.Serializable;
+
 /**
  * The Language Pack Interface.
  */
-public interface LanguagePackInterface {
+public interface LanguagePackInterface extends Serializable {
 
 	/**
 	 * download language pack overview file.

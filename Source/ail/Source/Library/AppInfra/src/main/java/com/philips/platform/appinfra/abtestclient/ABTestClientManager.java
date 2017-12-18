@@ -30,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ABTestClientManager implements ABTestClientInterface {
 
+    private static final long serialVersionUID = 2599852794565370760L;
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private AppInfra mAppInfra;
     private String mExperience = null;

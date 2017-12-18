@@ -23,6 +23,7 @@ import java.util.Map;
  */
 public class AppTagging implements AppTaggingInterface {
 
+    private static final long serialVersionUID = 4532714074636578025L;
     static final String PAGE_NAME = "ailPageName";
     static final String ACTION_NAME = "ailActionName";
     static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";

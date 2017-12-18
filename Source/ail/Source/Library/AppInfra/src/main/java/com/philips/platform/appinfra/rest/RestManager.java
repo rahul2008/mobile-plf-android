@@ -32,6 +32,8 @@ import java.util.HashMap;
  * The Rest webservice request class .
  */
 public class RestManager implements RestInterface {
+
+    private static final long serialVersionUID = -5276610949381468217L;
     private RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
 

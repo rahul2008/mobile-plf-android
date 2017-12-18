@@ -39,6 +39,7 @@ import java.util.TimeZone;
 
 public class AppUpdateManager implements AppUpdateInterface {
 
+	private static final long serialVersionUID = 86938410214278272L;
 	private Context mContext;
 	private AppInfra mAppInfra;
 	private Handler mHandler;

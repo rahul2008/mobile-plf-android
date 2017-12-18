@@ -46,6 +46,7 @@ import java.util.Set;
 
 public class AppConfigurationManager implements AppConfigurationInterface {
 
+    private static final long serialVersionUID = 7173449930783456564L;
     private final AppInfra mAppInfra;
     private final Context mContext;
     private JSONObject dynamicConfigJsonCache;
