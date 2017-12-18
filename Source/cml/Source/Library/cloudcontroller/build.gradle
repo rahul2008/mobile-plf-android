@@ -181,6 +181,7 @@ dependencies {
     }
     testCompile deps.powermock_junit
     testCompile deps.powermock_mockito
+    compile deps.gson
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')

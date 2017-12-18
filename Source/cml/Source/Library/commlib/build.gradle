@@ -190,6 +190,7 @@ dependencies {
 
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
+    compile deps.gson
 }
 
 configurations.all {
