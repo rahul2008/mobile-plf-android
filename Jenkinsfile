@@ -18,7 +18,6 @@ def errors = []
         node('android && device') {
             try {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true, timeout: 15], [$class: 'CheckoutOption', timeout: 15], [$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-android']]])
-
                 //Build + test
                 sh '''#!/bin/bash -l
                             set -e
@@ -56,15 +55,19 @@ def errors = []
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'icf unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'icf unit test release'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'ail coverage tests'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'uid Unit Tests'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'uid Code Coverage'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'sdb coverage debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'usr unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'usr unit test release'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests hsdp'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'pse coverage debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ths/Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ths unit test release'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-api', reportFiles: 'index.html', reportName: 'bll Bluelib Public API'])
@@ -99,7 +102,7 @@ def errors = []
                 publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test debug'])
                 publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])  
-
+                
                 if (params.PSRAbuild && (BranchName =~ /master|release\/platform_.*/))  {
                         sh '''#!/bin/bash -l
                             chmod -R 775 .
@@ -122,6 +125,14 @@ def errors = []
                             echo "Leak Canary build is not supported for Branch: ${BranchName}"
                         }
                     }
+                }
+
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                        echo "Publish to artifactory"
+                        sh '''#!/bin/bash -l
+                            set -e
+                            ./gradlew saveResDep zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+                        '''
                 }
 
                 if (params.LeakCanarybuild) {
@@ -173,21 +184,11 @@ def errors = []
                         '''
                     sh shellcommand
                 }
-
-                step('Publish to artifactory') {
-                    if (BranchName =~ /master|develop|release\/platform_.*/) {
-                            echo "Publish to artifactory"
-                            sh '''#!/bin/bash -l
-                                set -e
-                                ./gradlew saveResDep zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
-                            '''
-                    }
-                }                
             } catch(err) {
                 errors << "errors found: ${err}"
             } finally {
                 if (errors.size() > 0) {
-                    step ('error reporting') {
+                    stage ('error reporting') {
                         currentBuild.result = 'FAILURE'
                         for (int i = 0; i < errors.size(); i++) {
                             echo errors[i];
@@ -195,11 +196,11 @@ def errors = []
                     }
                 }
 
-                step('Cleaning workspace') {
+                stage('Cleaning workspace') {
                     step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
                 }
 
-                step('informing') {
+                stage('informing') {
                     step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
                 }
             }
@@ -208,7 +209,7 @@ def errors = []
     }
 
     node('master') {
-        step('Cleaning workspace') {
+        stage('Cleaning workspace') {
             def wrk = pwd() + "@script/"
             dir("${wrk}") {
                 deleteDir()
