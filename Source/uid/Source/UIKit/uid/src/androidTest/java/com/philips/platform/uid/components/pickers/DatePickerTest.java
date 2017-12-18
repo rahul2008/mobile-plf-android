@@ -58,6 +58,7 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
+    @Ignore
     @Test
     public void verifyCancelButtonTextColor() throws Exception {
         int titleId = getViewId("button2");
@@ -67,6 +68,7 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
+    @Ignore
     @Test
     public void verifyOkButtonTextColor() throws Exception {
         int titleId = getViewId("button1");
