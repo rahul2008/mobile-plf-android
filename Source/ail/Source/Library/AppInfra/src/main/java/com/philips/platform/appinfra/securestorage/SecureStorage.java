@@ -45,12 +45,12 @@ public class SecureStorage implements SecureStorageInterface {
     private final Context mContext;
     private final AppInfra mAppInfra;
 
-    private Cipher encryptCipher = null;
-    private Cipher decryptCipher = null;
+    private transient Cipher encryptCipher = null;
+    private transient Cipher decryptCipher = null;
 
     private final Lock writeLock;
     private final Lock readLock;
-    private SecureStorageHelper secureStorageHelper;
+    private transient SecureStorageHelper secureStorageHelper;
     private String TAG = getClass().getSimpleName();
 
     public SecureStorage(AppInfra bAppInfra) {

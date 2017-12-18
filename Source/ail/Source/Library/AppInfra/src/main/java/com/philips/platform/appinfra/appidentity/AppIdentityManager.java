@@ -14,7 +14,7 @@ import com.philips.platform.appinfra.AppInfra;
 public class AppIdentityManager implements AppIdentityInterface {
 
     private static final long serialVersionUID = 7416890164115573406L;
-    private AppIdentityManagerHelper mAppIdentityManagerHelper;
+    private transient AppIdentityManagerHelper mAppIdentityManagerHelper;
 
     public AppIdentityManager(AppInfra aAppInfra) {
         mAppIdentityManagerHelper = new AppIdentityManagerHelper(aAppInfra);

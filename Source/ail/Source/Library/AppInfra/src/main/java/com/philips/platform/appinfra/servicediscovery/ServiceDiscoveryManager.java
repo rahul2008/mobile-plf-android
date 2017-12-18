@@ -62,14 +62,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private static final String STATE_PRODUCTION = "PRODUCTION";
     private final AppInfra mAppInfra;
     private final Context context;
-    private final RequestManager mRequestItemManager;
+    private final transient RequestManager mRequestItemManager;
     private final ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
     private final ReentrantLock downloadLock;
-    private OnGetHomeCountryListener.SOURCE countryCodeSource;
-    private AISDResponse serviceDiscovery = null;
+    private transient OnGetHomeCountryListener.SOURCE countryCodeSource;
+    private transient AISDResponse serviceDiscovery = null;
     private String countryCode;
     private long holdbackTime = 0l;
-    private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
+    private transient ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     String mCountry;
     private String mCountrySourceType;
     /**

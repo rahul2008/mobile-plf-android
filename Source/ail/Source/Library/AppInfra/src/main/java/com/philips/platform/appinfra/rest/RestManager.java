@@ -34,7 +34,7 @@ import java.util.HashMap;
 public class RestManager implements RestInterface {
 
     private static final long serialVersionUID = -5276610949381468217L;
-    private RequestQueue mRequestQueue;
+    private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
 
     public RestManager(AppInfra appInfra) {

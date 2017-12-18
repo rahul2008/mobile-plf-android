@@ -49,17 +49,17 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private static final long serialVersionUID = 7173449930783456564L;
     private final AppInfra mAppInfra;
     private final Context mContext;
-    private JSONObject dynamicConfigJsonCache;
-    private JSONObject cloudConfigJsonCache;
-    private JSONObject staticConfigJsonCache;
+    private transient JSONObject dynamicConfigJsonCache;
+    private transient JSONObject cloudConfigJsonCache;
+    private transient JSONObject staticConfigJsonCache;
     private static final String APPCONFIG_SECURE_STORAGE_KEY = "ail.app_config";
     private static final String APPCONFIG_SECURE_STORAGE_KEY_NEW = "ailNew.app_config";
     private static final String CLOUD_APP_CONFIG_FILE = "CloudConfig";
     private static final String CLOUD_APP_CONFIG_JSON = "cloudConfigJson";
     private static final String CLOUD_APP_CONFIG_URL = "cloudConfigUrl";
-    private JSONObject result = null;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mPrefEditor;
+    private transient JSONObject result = null;
+    private transient SharedPreferences mSharedPreferences;
+    private transient SharedPreferences.Editor mPrefEditor;
 
     private SecureStorageInterface mSecureStorageInterface;
 

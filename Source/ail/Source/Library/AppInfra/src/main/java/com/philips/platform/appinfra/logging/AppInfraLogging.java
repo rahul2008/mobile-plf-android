@@ -22,7 +22,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     private static final long serialVersionUID = -4898715486015827285L;
     private AppInfra mAppInfra;
-    private Logger mJavaLogger;
+    private transient Logger mJavaLogger;
     String mComponentID="";
     String mComponentVersion="";
 

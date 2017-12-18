@@ -27,7 +27,7 @@ public class FragmentLauncher extends UiLauncher implements Serializable {
     /**
      * FragmentActivity context of your Fragment. If you would like to launch uApp using fragment.
      */
-    protected FragmentActivity mFragmentActivity = null;
+    protected transient FragmentActivity mFragmentActivity = null;
 
     /**
      * FragmentLauncher constructor for launching the uApp.

@@ -44,11 +44,11 @@ public class TimeSyncSntpClient implements TimeInterface {
     private static String[] serverPool;
     private final ReentrantLock mRefreshInProgressLock;
     private AppInfra mAppInfra;
-    private SharedPreferences mSharedPreferences;
+    private transient SharedPreferences mSharedPreferences;
     private long mOffset;
     private Calendar mNextRefreshTime;
     private boolean isSynchronized = false;
-    final Handler responseHandler = new Handler(Looper.getMainLooper()) {
+    final transient Handler responseHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             isSynchronized = (boolean) msg.obj;

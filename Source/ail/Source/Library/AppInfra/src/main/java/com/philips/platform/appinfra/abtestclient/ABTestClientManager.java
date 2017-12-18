@@ -38,10 +38,10 @@ public class ABTestClientManager implements ABTestClientInterface {
     protected CACHESTATUSVALUES mCachestatusvalues;
     private boolean isAppRestarted = false;
     private String previousVersion;
-    private SharedPreferences mSharedPreferences;
+    private transient SharedPreferences mSharedPreferences;
     private CacheModel mCacheModel;
     private String cacheToPreference;
-    private SharedPreferences.Editor editor;
+    private transient SharedPreferences.Editor editor;
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;

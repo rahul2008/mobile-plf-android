@@ -33,7 +33,7 @@ public class AppTagging implements AppTaggingInterface {
     private final AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
-    private AppTaggingHandler appTaggingHandle;
+    private transient AppTaggingHandler appTaggingHandle;
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
