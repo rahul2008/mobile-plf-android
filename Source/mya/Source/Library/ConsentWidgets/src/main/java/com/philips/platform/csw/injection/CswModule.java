@@ -9,6 +9,10 @@ package com.philips.platform.csw.injection;
 
 import android.content.Context;
 
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+
+import java.util.List;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,14 +21,21 @@ import dagger.Provides;
 @Module
 public class CswModule {
     private final Context context;
+    private List<ConsentConfiguration> consentConfigurationList;
 
-    public CswModule(Context context) {
+    public CswModule(Context context, List<ConsentConfiguration> consentConfigurationList) {
         this.context = context;
+        this.consentConfigurationList = consentConfigurationList;
     }
 
     @Singleton
     @Provides
     public Context provideAppContext() {
         return context;
+    }
+
+    @Provides
+    public List<ConsentConfiguration> provideConsentCOnfiguration(){
+        return consentConfigurationList;
     }
 }

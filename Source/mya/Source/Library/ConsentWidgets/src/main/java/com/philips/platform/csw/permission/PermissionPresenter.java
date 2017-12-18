@@ -48,9 +48,11 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
     }
 
     void getConsentStatus() {
-        permissionInterface.showProgressDialog();
-        for(ConsentConfiguration configuration : configurationList) {
-            configuration.getHandlerInterface().checkConsents(this);
+        if(!configurationList.isEmpty()) {
+            permissionInterface.showProgressDialog();
+            for (ConsentConfiguration configuration : configurationList) {
+                configuration.getHandlerInterface().checkConsents(this);
+            }
         }
     }
 

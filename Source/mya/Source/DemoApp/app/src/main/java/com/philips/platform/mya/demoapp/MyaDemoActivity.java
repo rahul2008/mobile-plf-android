@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -45,7 +46,7 @@ public class MyaDemoActivity extends UIDActivity {
     public void launch() {
         MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
         MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
-        MyaDependencies uappDependencies = new MyaDependencies(applicationContext.getAppInfra());
+        MyaDependencies uappDependencies = new MyaDependencies(applicationContext.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
         myAccountDemoUAppInterface.init(uappDependencies, new UappSettings(this));
         myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
     }

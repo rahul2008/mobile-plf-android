@@ -50,7 +50,7 @@ public class ConsentAccessToolKit {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentConfiguration> consentConfigurations;
+    private List<ConsentDefinition> consentDefinitionList;
 
     ConsentAccessToolKit() {
     }
@@ -68,7 +68,7 @@ public class ConsentAccessToolKit {
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
         extractContextNames(catkInputs);
-        this.consentConfigurations = catkInputs.getConfigurations();
+        this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
     }
 
@@ -206,11 +206,7 @@ public class ConsentAccessToolKit {
     }
 
     public List<ConsentDefinition> getConsentDefinitions() {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        for (ConsentConfiguration config : consentConfigurations) {
-            definitions.addAll(config.getConsentDefinitionList());
-        }
-        return Collections.unmodifiableList(definitions);
+        return Collections.unmodifiableList(consentDefinitionList);
     }
 
     interface ConfigCompletionListener {

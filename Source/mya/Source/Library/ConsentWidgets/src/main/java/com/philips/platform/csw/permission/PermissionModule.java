@@ -1,8 +1,8 @@
 package com.philips.platform.csw.permission;
 
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.ArrayList;
@@ -21,7 +21,9 @@ public class PermissionModule {
     public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener) {
         this.permissionInterface = permissionInterface;
         this.helpClickListener = helpClickListener;
-        this.consentConfigurations = new ArrayList<>(); // TODO: Get from CatKInputs
+
+        List<ConsentConfiguration> configs = CswInterface.getCswComponent().getConsentConfigurations();
+        this.consentConfigurations = configs == null ? new ArrayList<ConsentConfiguration>() : configs;
     }
 
     @Provides
@@ -42,7 +44,7 @@ public class PermissionModule {
     @Provides
     List<ConsentView> provideConsentViews(List<ConsentConfiguration> configurations) {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for(ConsentConfiguration configuration : configurations) {
+        for (ConsentConfiguration configuration : configurations) {
             for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
                 consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
             }

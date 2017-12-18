@@ -10,13 +10,9 @@ package com.philips.platform.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is used to provide input parameters and customizations for BackendConsent access tool kit.
@@ -28,7 +24,7 @@ public class CatkInputs {
 
     private Context context;
 
-    private List<ConsentConfiguration> consentConfigurations;
+    private List<ConsentDefinition> consentDefinitionList;
 
     CatkInputs() {
     }
@@ -49,12 +45,12 @@ public class CatkInputs {
         this.appInfra = appInfra;
     }
 
-    List<ConsentConfiguration> getConfigurations() {
-        return consentConfigurations;
+    public List<ConsentDefinition> getConsentDefinitions() {
+        return consentDefinitionList;
     }
 
-    void setConsentConfigurations(List<ConsentConfiguration> consentConfigurations) {
-        this.consentConfigurations = consentConfigurations;
+    void setConsentDefinitionList(List<ConsentDefinition> consentDefinitionList) {
+        this.consentDefinitionList = consentDefinitionList;
     }
 
     public static class Builder {
@@ -75,13 +71,13 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConfigurations(List<ConsentConfiguration> consentConfigurations) {
-            catkInputs.setConsentConfigurations(consentConfigurations);
+        public Builder setConfigurations(List<ConsentDefinition> consentDefinitions) {
+            catkInputs.setConsentDefinitionList(consentDefinitions);
             return this;
         }
 
         public CatkInputs build() {
-            if (catkInputs.getConfigurations() == null) {
+            if (catkInputs.getConsentDefinitions() == null) {
                 throw new InvalidInputException("consent configurations were not given");
             }
             return catkInputs;

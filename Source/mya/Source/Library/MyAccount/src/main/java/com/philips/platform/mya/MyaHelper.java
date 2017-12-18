@@ -9,9 +9,12 @@ package com.philips.platform.mya;
 
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import java.util.List;
 
 public class MyaHelper {
 
@@ -20,13 +23,15 @@ public class MyaHelper {
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
     private MyaLaunchInput myaLaunchInput;
+    private List<ConsentConfiguration> consentConfigurationList;
 
-    private MyaHelper(){}
+    private MyaHelper() {
+    }
 
-    public static MyaHelper getInstance(){
-        if(instance == null){
+    public static MyaHelper getInstance() {
+        if (instance == null) {
             synchronized (MyaHelper.class) {
-                if(instance == null){
+                if (instance == null) {
                     instance = new MyaHelper();
                 }
             }
@@ -40,6 +45,14 @@ public class MyaHelper {
 
     public void setAppInfra(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
+    }
+
+    public List<ConsentConfiguration> getConsentConfigurationList() {
+        return consentConfigurationList;
+    }
+
+    public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
+        this.consentConfigurationList = consentConfigurationList;
     }
 
     public MyaListener getMyaListener() {

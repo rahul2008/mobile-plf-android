@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
 import com.philips.platform.csw.injection.DaggerCswComponent;
+import com.philips.platform.csw.permission.PermissionModule;
 import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -24,6 +26,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import java.util.List;
 
 public class CswInterface implements UappInterface {
 
@@ -101,8 +105,11 @@ public class CswInterface implements UappInterface {
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+
+        List<ConsentConfiguration> consentConfigurationList = ((CswDependencies) uappDependencies).getConsentConfigurationList();
+
         return DaggerCswComponent.builder()
-                .cswModule(new CswModule(uappSettings.getContext()))
+                .cswModule(new CswModule(uappSettings.getContext(), consentConfigurationList))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 
