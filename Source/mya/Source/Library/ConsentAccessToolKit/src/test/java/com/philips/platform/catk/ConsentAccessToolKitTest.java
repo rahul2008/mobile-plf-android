@@ -22,7 +22,6 @@ import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
@@ -187,7 +186,7 @@ public class ConsentAccessToolKitTest {
     @Test
     public void init_setsConsentDefinition() {
         givenInitWasCalled("appName", "propName");
-        assertEquals(consentConfigurations, consentAccessToolKit.getConsentDefinitions());
+        assertEquals(consentDefinitions, consentAccessToolKit.getConsentDefinitions());
     }
 
     private void thenServiceInfoProviderWasCalled() {
@@ -216,7 +215,7 @@ public class ConsentAccessToolKitTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConfigurations(consentConfigurations).build();
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {
@@ -234,7 +233,7 @@ public class ConsentAccessToolKitTest {
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
     private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1, Locale.US);
     private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1, Locale.US);
-    private List<ConsentConfiguration> consentConfigurations = Arrays.asList(new ConsentConfiguration(Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types), new ConsentInteractor(consentAccessToolKit)));
+    private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {

@@ -46,7 +46,6 @@ import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -128,7 +127,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         CatkInputs.Builder builder = new CatkInputs.Builder();
         kit.init(builder.setContext(getActivity()
                 .getApplicationContext())
-                .setConfigurations(consentDefinitions)
+                .setConsentDefinitions(consentDefinitions)
                 .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
                 .build());
 

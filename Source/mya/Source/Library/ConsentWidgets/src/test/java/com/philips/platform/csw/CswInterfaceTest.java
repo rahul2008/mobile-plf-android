@@ -3,7 +3,11 @@ package com.philips.platform.csw;
 import android.test.mock.MockContext;
 
 import com.philips.platform.consenthandlerinterface.BuildConfig;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.ConsentListCallback;
+import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;
@@ -20,6 +24,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
+import java.util.List;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -28,9 +36,8 @@ import static org.junit.Assert.assertTrue;
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CswInterfaceTest {
 
-
     @Mock
-    private ConsentHandlerInterface mockHandlerInterface;
+    private List<ConsentConfiguration> consentConfigurations;
 
     @Before
     public void setup() {
@@ -40,7 +47,7 @@ public class CswInterfaceTest {
         cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, mockHandlerInterface);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentConfigurations);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

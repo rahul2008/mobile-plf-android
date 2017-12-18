@@ -71,7 +71,7 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConfigurations(List<ConsentDefinition> consentDefinitions) {
+        public Builder setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
             catkInputs.setConsentDefinitionList(consentDefinitions);
             return this;
         }
