@@ -7,6 +7,7 @@ package com.philips.platform.uappframework.uappinput;
 
 /**
 This class is used for Setting & getting application Context
+ @since 1.0.0
  */
 import android.content.Context;
 
@@ -15,8 +16,9 @@ public class UappSettings {
      protected  Context mContext;
 
     /**
-     * Constructor for Upappsettings
-     * @param applicationContext :For passing application Context
+     * Constructor for Uappsettings
+     * @param applicationContext For passing application Context
+     * @since 1.0.0
      */
 
    public UappSettings(Context applicationContext){
@@ -24,8 +26,9 @@ public class UappSettings {
    }
 
     /**
-     * For retrieving application co
+     * For retrieving application context
      * @return application context
+     * @since 1.0.0
      */
 
     public Context getContext(){
