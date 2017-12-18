@@ -53,11 +53,11 @@ public class ForgotPasswordTest {
         forgotPassword = new ForgotPassword(contextMock, forgotPasswordHabdlerMock);
     }
 
-    @Test
+/*    @Test
     public void onSuccess() throws Exception {
 
         forgotPassword.onSuccess();
-    }
+    }*/
 
 
 
@@ -83,9 +83,9 @@ public class ForgotPasswordTest {
         forgotPassword.onFlowDownloadSuccess();
     }
 
-    @Test
+/*    @Test
     public void onFlowDownloadFailure() throws Exception {
         forgotPassword.onFlowDownloadFailure();
-    }
+    }*/
 
 }
