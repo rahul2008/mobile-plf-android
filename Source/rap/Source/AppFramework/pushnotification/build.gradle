@@ -2,8 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'jacoco'
 
+apply from: "../scripts/task_reporting_pushnotification.gradle"
+apply from: "../scripts/versions.gradle"
+apply from: "../scripts/task_reporting_logging.gradle"
+apply from: "../scripts/flavors_pushnotification.gradle"
+
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "${versionsExternal.jacocoToolVersion}"
 }
 
 buildscript {
@@ -98,43 +103,16 @@ artifactory {
 
 android {
 
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
+        versionCode config.versionCodePn
         versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-    }
-    buildTypes {
-        release {
-//            testCoverageEnabled true
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            debuggable true
-            shrinkResources false
-            testCoverageEnabled true
-        }
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-
-        unitTests.all {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
-            testLogging {
-                events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
-            }
-        }
     }
 
     lintOptions {
@@ -144,8 +122,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.google.android.gms:play-services-gcm:11.0.4'
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    compile "com.google.android.gms:play-services-gcm:${versionsExternal.gcm}"
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -158,56 +136,21 @@ dependencies {
         }
     }
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.4.2'
-    testCompile 'org.robolectric:shadows-multidex:3.3.2'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+    testCompile "junit:junit:${versionsExternal.junit}"
+    testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
+    testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
+    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
+    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
+    testCompile "org.mockito:mockito-all:${versionsExternal.mockitoAll}"
 
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile "org.powermock:powermock-module-junit4:1.6.6"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
-    testCompile "org.powermock:powermock-module-junit4-rule-agent:1.6.6"
-    testCompile "org.powermock:powermock-api-mockito:1.6.6"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
-    testCompile 'org.robolectric:robolectric:3.4.2'
-    testCompile 'org.robolectric:robolectric-annotations:3.3.2'
+    testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4-rule-agent:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
 
-    testCompile 'org.json:json:20170516'
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-        dir: "${buildDir}/intermediates/classes/debug",
-        excludes: [
-                '**/R.class',
-                '**/R$*.class',
-                '**/*$ViewInjector*.*',
-                '**/*$ViewBinder*.*',
-                '**/BuildConfig.*',
-                '**/Manifest*.*',
-                '**/com/philips/platform/referenceapp/utils/PushNotificationConstants*.*'
-        ])
-
-    def coverageSourceDirs = [
-            "src/main/java"
-    ]
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-
-    executionData = fileTree(dir: buildDir, includes: [
-            "jacoco/testDebugUnitTest.exec",
-    ])
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
+    testCompile "org.json:json:${versionsExternal.json}"
 }
 
 apply plugin: 'com.google.gms.google-services'

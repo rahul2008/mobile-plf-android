@@ -393,7 +393,6 @@ dependencies {
     testCompile "junit:junit:${versionsExternal.junit}"
     testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
     testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-//    testCompile "org.robolectric:shadows-multidex:${versionsExternal.junit}"
     testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
     testCompile "org.mockito:mockito-all:${versionsExternal.mockitoAll}"
 
