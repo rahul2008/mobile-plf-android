@@ -81,7 +81,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     AlertDialogFragment alertDialogFragment;
     Bundle bundle;
     private boolean isFirstLaunch;
-    private String purchaseDateStr;
+    private String purchaseDateStr="";
     ProdRegUtil prodRegUtil;
 
 
@@ -338,9 +338,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
                 field_serial.setFocusable(false);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    int mYear;
-                    int mMonthInt;
-                    int mDay;
+                    int mYear=0;
+                    int mMonthInt=0;
+                    int mDay=0;
                     if (!purchaseDateStr.equalsIgnoreCase("")) {
                         final String[] mEditDisplayDate = purchaseDateStr.toString().split("-");
                         mYear = Integer.parseInt(mEditDisplayDate[0]);
@@ -470,7 +470,9 @@ String imageURL;
 
     @Override
     public void setProductView(final RegisteredProduct registeredProduct) {
-        purchaseDateStr = registeredProduct.getPurchaseDate();
+        if(registeredProduct.getPurchaseDate()!=null) {
+            purchaseDateStr = registeredProduct.getPurchaseDate();
+        }
         date_EditText.setText(prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate()));
         field_serial.setText(registeredProduct.getSerialNumber());
         final String productCtn = registeredProduct.getCtn();
