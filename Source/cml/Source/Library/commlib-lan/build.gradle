@@ -77,7 +77,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 

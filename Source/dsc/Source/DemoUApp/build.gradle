@@ -41,31 +41,26 @@ android {
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
-    //Coco
-    if (directdependencies) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), changing: true)
+
+    for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
+        if (directdependencies) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
+        }
     }
 
-    if (directdependencies) {
-        compile(project(':securedblibrary'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), changing: true)
-    }
+    compile deps.support.appcompatv7
+    compile deps.ormlite.core
+    compile deps.ormlite.android
 
-    //3rd Party
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
+    testCompile deps.junit
 
-    //Module
-    compile(directdependencies ? project(':dataServices') : project(':dataServices'))
-
-    testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

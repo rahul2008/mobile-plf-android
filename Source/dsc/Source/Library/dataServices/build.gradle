@@ -89,6 +89,7 @@ android {
         }
     }
 
+    publishNonDefault true
 }
 
 dependencies {
