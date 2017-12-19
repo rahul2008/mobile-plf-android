@@ -10,6 +10,9 @@ package com.philips.platform.mya.launcher;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
+/**
+ * This class is used to provide dependencies for myaccount.
+ */
 public class MyaDependencies extends UappDependencies {
 
     public MyaDependencies(AppInfraInterface appInfra) {
