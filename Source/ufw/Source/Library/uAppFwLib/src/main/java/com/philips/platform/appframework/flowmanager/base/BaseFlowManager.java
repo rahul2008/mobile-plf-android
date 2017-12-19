@@ -32,6 +32,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * For using Flow Manager, the class has to be extending to this class.
+ * @since 1.1.0
+ */
 public abstract class BaseFlowManager {
 
     private Map<String, BaseState> stateMap;
@@ -46,24 +50,30 @@ public abstract class BaseFlowManager {
 
     @Deprecated
     /**
-     * @deprecated  - Will be absolute soon , request to use default constructor with initialize api
+     * @deprecated  Deprecated since 1.1.0, request to use default constructor with initialize api.
+     * @since 1.1.0
      */
     public BaseFlowManager(final Context context, final String jsonPath) throws JsonAlreadyParsedException {
         parseFlowManagerJson(context, jsonPath, null);
     }
 
+    /**
+     * Base Flow Manager constructor
+     * @since 1.1.0
+     */
     public BaseFlowManager() {
     }
 
     /**
      * Should be called to initialize flow manager
      *
-     * @param context             - context
-     * @param jsonPath            - Path of Flow manager JSON file
-     * @param flowManagerListener - call back listener on parse success
+     * @param context context
+     * @param jsonPath Path of Flow manager JSON file
+     * @param flowManagerListener call back listener on parse success
      * @throws JsonFileNotFoundException
      * @throws JsonStructureException
      * @throws JsonAlreadyParsedException
+     * @since 1.1.0
      */
 
     public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
@@ -82,14 +92,15 @@ public abstract class BaseFlowManager {
     }
 
     /**
-     * Should be called to initialize flow manager
+     * Should be called to initialize flow manager.
      *
-     * @param context             - context
-     * @param resId               - resId of the json file placed in raw folder
-     * @param flowManagerListener - call back listener on parse success
+     * @param context context
+     * @param resId resId of the json file placed in raw folder
+     * @param flowManagerListener call back listener on parse success
      * @throws JsonFileNotFoundException
      * @throws JsonStructureException
      * @throws JsonAlreadyParsedException
+     * @since 2.2.0
      */
     public void initialize(@NonNull final Context context, @RawRes final int resId, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
         if (appFlowMap != null) {
@@ -107,13 +118,14 @@ public abstract class BaseFlowManager {
     }
 
     /**
-     * Should be called to initialize flow manager
+     * Should be called to initialize flow manager.
      *
-     * @param context             - context
-     * @param appFlow             - AppFlow object which is mapped to Json response
-     * @param flowManagerListener - call back listener on parse success
+     * @param context context
+     * @param appFlow AppFlow object which is mapped to Json response
+     * @param flowManagerListener call back listener on parse success
      * @throws AppFlowNullException
      * @throws JsonAlreadyParsedException
+     * @since 2.2.0
      */
     public void initialize(@NonNull final Context context, @NonNull final AppFlowModel appFlow, @NonNull final FlowManagerListener flowManagerListener) throws JsonAlreadyParsedException, AppFlowNullException {
         if (appFlowMap != null) {
@@ -170,8 +182,9 @@ public abstract class BaseFlowManager {
     /**
      * This method will create and return the object of BaseCondition depending on Condition ID.
      *
-     * @param conditionId Condition ID for which the BaseCondition object needs to be created.
-     * @return Object of BaseCondition type.
+     * @param conditionId Condition ID for which the BaseCondition object needs to be created
+     * @return Object of BaseCondition type
+     * @since 1.1.0
      */
     public BaseCondition getCondition(String conditionId) throws ConditionIdNotSetException {
         if (conditionId != null && conditionId.length() != 0) {
@@ -194,6 +207,7 @@ public abstract class BaseFlowManager {
      *
      * @param stateId state ID.
      * @return Object to BaseState if available or 'null'.
+     * @since 1.1.0
      */
     // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
     @NonNull
@@ -201,6 +215,11 @@ public abstract class BaseFlowManager {
         return stateMap.get(stateId);
     }
 
+    /**
+     * Get the state ID.
+     * @return returns the state ID
+     * @since 1.1.0
+     */
     @NonNull
     public BaseState getCurrentState() {
         return currentState;
@@ -215,6 +234,7 @@ public abstract class BaseFlowManager {
      *
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
+     * @since 1.1.0
      */
     public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         setCurrentState(currentState);
@@ -224,13 +244,14 @@ public abstract class BaseFlowManager {
     /**
      * Method to get next state for passed event id
      *
-     * @param eventId
-     * @return
+     * @param eventId The event ID
+     * @return returns the base state
      * @throws NoEventFoundException
      * @throws NoStateException
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
      * @throws ConditionIdNotSetException
+     * @since 1.1.0
      */
     @NonNull
     public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
@@ -255,7 +276,8 @@ public abstract class BaseFlowManager {
 
     @Deprecated
     /**
-     * @deprecated - Will be absolute soon
+     * @deprecated - deprecated since 1.1.0
+     * @since 1.1.0
      */
     public BaseState getFirstState() throws NoStateException {
         BaseState firstState = stateMap.get(this.firstState);
@@ -297,12 +319,13 @@ public abstract class BaseFlowManager {
     /**
      * Method to get State while navigating back
      *
-     * @param currentState
+     * @param currentState the current state
      * @return returns BaseState
      * @throws NoStateException
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
      * @throws ConditionIdNotSetException
+     * @since 1.1.0
      */
     public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         return getBackState();
@@ -316,6 +339,7 @@ public abstract class BaseFlowManager {
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
      * @throws ConditionIdNotSetException
+     * @since 1.1.0
      */
     public BaseState getBackState() throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
@@ -346,6 +370,10 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
+    /**
+     * Clear the states.
+     * @since 1.1.0
+     */
     public void clearStates() {
         flowManagerStack.clear();
     }
