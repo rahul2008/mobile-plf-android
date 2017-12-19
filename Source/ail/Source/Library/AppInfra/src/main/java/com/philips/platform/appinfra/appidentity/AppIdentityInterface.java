@@ -5,10 +5,12 @@
  */
 package com.philips.platform.appinfra.appidentity;
 
+import java.io.Serializable;
+
 /**
  * The Identify of App interface .
  */
-public interface AppIdentityInterface {
+public interface AppIdentityInterface extends Serializable {
 
     enum AppState {DEVELOPMENT,TEST,STAGING,ACCEPTANCE,PRODUCTION}
 

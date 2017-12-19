@@ -16,9 +16,15 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
  * @since 1.0.0
  */
 
-public class ActivityLauncher extends UiLauncher  {
+public class ActivityLauncher extends UiLauncher {
 
+    private static final long serialVersionUID = -4985232973624436758L;
 
+    /**
+     * These are Flags used for specifying screen orientation.
+     * <p/>
+     * <p> <b>Note : </b> The flags are similar to default android screen orientation flags</p>
+     */
 
 
     public enum ActivityOrientation {
