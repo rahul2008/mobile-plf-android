@@ -14,6 +14,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * This class is used to provide input settings for myaccount.
+ * @since 2017.5.0
  */
 public class MyaSettings extends UappSettings {
 
