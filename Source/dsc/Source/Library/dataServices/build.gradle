@@ -227,24 +227,23 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
-        project(':ConsentAccessToolKit')
+   if(dp) {
+        compile(project(':ConsentAccessToolKit'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    exclude group: 'com.google.code.findbugs', module: 'jsr305'
-                    transitive true
-                }
+        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            exclude group: 'com.google.code.findbugs', module: 'jsr305'
+            transitive true
+        }
     }
 
-
-    if (dp) {
+    if(dp) {
         compile(project(':AppInfra'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+        {
+            transitive = true
+        }
     }
 
     //Android Support
