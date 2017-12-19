@@ -30,6 +30,4 @@ public class ConsentInteractorMock extends ConsentInteractor {
             callback.onGetConsentFailed(getStatusForConsentType_returnError);
         }
     }
-
-
 }
