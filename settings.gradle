@@ -120,7 +120,8 @@ project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-//include ':commlib-demoapp'
-//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-//include ':bluelib-demoapp'
-//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+// DO NOT DISABLE bll and cml demoapp
+include ':commlib-demoapp'
+project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+include ':bluelib-demoapp'
+project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
