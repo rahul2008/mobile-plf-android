@@ -10,12 +10,11 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.io.Serializable;
+
+public class FragmentLauncher extends UiLauncher {
 
 
-public class FragmentLauncher extends UiLauncher implements Serializable {
-
-    private static final long serialVersionUID = 3890701675982248919L;
+    private static final long serialVersionUID = -8850230596535485531L;
     /**
         * Resource container ID. If you would like to launch uApp using fragment.
     */
