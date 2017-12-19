@@ -36,6 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * SQLite database open helper which can be extended by your application to help manage when the application needs to
  * create or upgrade its database.
+ * @since 1.0.0
  */
 public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelper {
 
@@ -50,11 +51,13 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     private LoggingInterface appInfraLogger;
 
     /**
+     * Constructor of SecureDbOrmLiteSqliteOpenHelper.
      * @param context         Associated content from the application. This is needed to locate the database.
      * @param dataBaseName    Name of the database we are opening.
      * @param factory         Cursor factory or null if none.
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
+     * @since 1.0.0
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
@@ -82,6 +85,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
      * @param configFileId    file-id which probably should be a R.raw.ormlite_config.txt or some static value.
+     * @since 1.0.0
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            int configFileId, String password) {
@@ -97,6 +101,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
      * @param configFile      Configuration file to be loaded.
+     * @since 1.0.0
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            File configFile, String password) {
@@ -114,6 +119,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
      * @param stream          Stream opened to the configuration file to be loaded.
+     * @since 1.0.0
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
                                            InputStream stream, String databaseKey) {
@@ -182,6 +188,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *
      * @param database         Database being created.
      * @param connectionSource To use get connections to the database to be created.
+     * @since 1.0.0
      */
     public abstract void onCreate(SQLiteDatabase database, ConnectionSource connectionSource);
 
@@ -198,12 +205,15 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param connectionSource To use get connections to the database to be updated.
      * @param oldVersion       The version of the current database so we can know what to do to the database.
      * @param newVersion       The version that we are upgrading the database to.
+     * @since 1.0.0
      */
     public abstract void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion,
                                    int newVersion);
 
     /**
      * Get the connection source associated with the helper.
+     * @return returns the connection source
+     * @since 1.0.0
      */
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
@@ -291,6 +301,12 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "Successfully Created Key");
     }
 
+    /**
+     * Get the permission to write the DB
+     * @return returns the database object
+     * @throws SQLException
+     * @since 1.1.0
+     */
     public SQLiteDatabase getWriteDbPermission() throws SQLException {
 
         return getWritableDatabase(getKeyName());
@@ -308,6 +324,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 
     /**
      * Close any open connections.
+     * @since 1.0.0
      */
     @Override
     public void close() {
@@ -322,6 +339,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 
     /**
      * Return true if the helper is still open. Once {@link #close()} is called then this will return false.
+     * @since 1.0.0
      */
     public boolean isOpen() {
         return isOpen;
@@ -393,6 +411,12 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 
     }
 
+    /**
+     * Get the app version.
+     * @return returns the app version
+     * @since 2.2.0
+     *
+     */
     public String getSecureDbAppVersion() {
         String mAppVersion = null;
         try {
