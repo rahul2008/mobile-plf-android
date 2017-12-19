@@ -21,12 +21,13 @@ import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class ConsentAccessToolKit {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitions;
+    private List<ConsentDefinition> consentDefinitionList;
 
     ConsentAccessToolKit() {
     }
@@ -67,7 +68,7 @@ public class ConsentAccessToolKit {
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
         extractContextNames(catkInputs);
-        this.consentDefinitions = catkInputs.getConsentDefinitions();
+        this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
     }
 
@@ -205,7 +206,7 @@ public class ConsentAccessToolKit {
     }
 
     public List<ConsentDefinition> getConsentDefinitions() {
-        return Collections.unmodifiableList(consentDefinitions);
+        return Collections.unmodifiableList(consentDefinitionList);
     }
 
     interface ConfigCompletionListener {

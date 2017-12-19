@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -64,7 +62,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
             CswInterface cswInterface = getCswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra);
+            CswDependencies cswDependencies = new CswDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));

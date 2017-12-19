@@ -14,7 +14,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -26,13 +26,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,7 +68,7 @@ public class MyAccountStateTest {
     private FragmentTransaction fragmentTransaction;
 
     private MyAccountState myAccountState;
-  
+
 
     @Mock
     UIStateData uiStateData;
@@ -82,7 +80,7 @@ public class MyAccountStateTest {
     @Before
     public void setUp() {
         myAccountState = new MyAccountStateMock(myaInterface);
-     
+
         myAccountState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
 
@@ -123,7 +121,7 @@ public class MyAccountStateTest {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
         assertEquals(2, definitions.size());
     }
-    
+
     @After
     public void tearDown() {
         myaInterface = null;
@@ -136,7 +134,7 @@ public class MyAccountStateTest {
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createConsentDefinitions(mockContext, Locale.forLanguageTag(LANGUAGE_TAG));
+        return myAccountState.createCatkDefinitions(mockContext, Locale.forLanguageTag(LANGUAGE_TAG));
     }
 
     class MyAccountStateMock extends MyAccountState {

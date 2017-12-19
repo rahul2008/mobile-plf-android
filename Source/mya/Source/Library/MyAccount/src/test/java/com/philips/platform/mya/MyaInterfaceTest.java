@@ -7,10 +7,26 @@
 
 package com.philips.platform.mya;
 
-import android.content.Context;
+import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -29,20 +45,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import android.content.Context;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -69,6 +72,8 @@ public class MyaInterfaceTest {
 
     @Mock
     private CatkComponent mockCatkComponent;
+    @Mock
+    private List<ConsentConfiguration> consentConfigurations;
 
     @Before
     public void setup() {
@@ -90,7 +95,6 @@ public class MyaInterfaceTest {
         actionBarListener = new ActionBarListenerMock();
 
     }
-
 
     @Test
     public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
@@ -130,13 +134,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentConfigurations), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentConfigurations), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
@@ -144,7 +148,7 @@ public class MyaInterfaceTest {
     private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass, String expectedTag) {
         assertEquals(expectedParentContainerId, fragmentTransaction.replace_containerId);
         assertTrue(fragmentTransaction.replace_fragment.getClass().isAssignableFrom(expectedFragmentClass));
-//        assertEquals(expectedTag, fragmentTransaction.replace_tag);
+        // assertEquals(expectedTag, fragmentTransaction.replace_tag);
     }
 
     private void thenAddToBackStackWasCalled(String expectedBackStackId) {
@@ -152,11 +156,11 @@ public class MyaInterfaceTest {
     }
 
     private void thenAddToBackStackWasNotCalled() {
-//        assertNull(fragmentTransaction.addToBackStack_backStackId);
+        // assertNull(fragmentTransaction.addToBackStack_backStackId);
     }
 
     private void thenFragmentHasBundle() {
-//        assertNotNull(fragmentTransaction.replace_fragment.getArguments());
+        // assertNotNull(fragmentTransaction.replace_fragment.getArguments());
     }
 
     private void thenCommitAllowingStateLossWasCalled() {
@@ -166,7 +170,5 @@ public class MyaInterfaceTest {
     private void thenStartActivityWasCalledWithIntent() {
         assertNotNull(launchInput.context.startActivity_intent);
     }
-
-
 
 }

@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.model;
+package com.philips.platform.consenthandlerinterface.datamodel;
 
 public enum ConsentStatus {
     active,

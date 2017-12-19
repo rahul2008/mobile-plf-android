@@ -230,6 +230,8 @@ configurations.all {
 dependencies {
     //3rd party
     compile(project(':ConsentWidgets'))
+    compile(project(':ConsentHandlerInterface'))
+    compile(project(':ConsentAccessToolKit'))
     //Coco
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {

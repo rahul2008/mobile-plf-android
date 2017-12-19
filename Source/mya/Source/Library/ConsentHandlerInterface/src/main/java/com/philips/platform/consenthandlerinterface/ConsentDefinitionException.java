@@ -1,4 +1,4 @@
-package com.philips.platform.catk.model;
+package com.philips.platform.consenthandlerinterface;
 
 public class ConsentDefinitionException extends RuntimeException {
 

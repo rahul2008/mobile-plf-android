@@ -7,6 +7,7 @@
 
 package com.philips.platform.catk;
 
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,21 +15,19 @@ import org.junit.Test;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.catk.mock.ContextMock;
-import com.philips.platform.catk.model.ConsentDefinition;
-
-import java.util.List;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 public class CatkInputsTest {
 
     @Before
-    public void setup () {
+    public void setup() {
         someContext = new ContextMock();
         someAppInfraInterface = new AppInfraInterfaceMock();
         this.inputBuilder = new CatkInputs.Builder();
     }
 
     @Test(expected = CatkInputs.InvalidInputException.class)
-    public void build_whenConsentDefinitionsNotSetThrowsException (){
+    public void build_whenConsentDefinitionsNotSetThrowsException() {
         givenContext(someContext);
         givenAppInfraInterface(someAppInfraInterface);
         whenBuilding();

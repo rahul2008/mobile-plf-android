@@ -12,8 +12,11 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.MyaFragment;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -72,7 +75,6 @@ public class MyAccountState extends BaseState {
         });
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
-        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale((AppFrameworkApplication) actContext.getApplicationContext())));
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
@@ -98,22 +100,40 @@ public class MyAccountState extends BaseState {
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
+    List<ConsentDefinition> createCatkDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), Collections.singletonList("moment"), 2, currentLocale));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), Collections.singletonList("coaching"), 2, currentLocale));
         return definitions;
     }
 
-    
-    
+    List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition("TODO: Marketing consent", "TODO: Marketing help", Collections.singletonList("marketing"), 1, currentLocale));
+        return definitions;
+    }
+
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
-        ConsentAccessToolKit.getInstance().init(new CatkInputs.Builder()
+
+        Locale currentLocale = getLocale(app);
+
+        CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
-                .setConsentDefinitions(createConsentDefinitions(context, getLocale(app))).build());
+                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
+                .build();
+        ConsentAccessToolKit.getInstance().init(catkInputs);
+
+
+        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
+        // TODO: Initialize UserRegistration with Definitions..
+
+        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
+        consentConfigurations.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentConfigurations.add(new ConsentConfiguration(urDefinitions, null));   // TODO: Add UserRegistrationHandler
+        MyaHelper.getInstance().setConfigurations(consentConfigurations);
     }
 
 
@@ -129,6 +149,6 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
 
-        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
     }
 }
