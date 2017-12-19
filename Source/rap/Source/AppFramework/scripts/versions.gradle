@@ -1,12 +1,12 @@
 
 ext.config = [
 
-        versionCode    : 1,
-        versionCodePn  : 1,
-        targetSdk      : 26,
-        renderScriptApi: 26,
-        minSdk         : 21,
-        buildTools     : "26.0.2"
+        versionCode                  : 1,
+        versionCodePushNotification  : 1,
+        targetSdk                    : 26,
+        renderScriptApi              : 26,
+        minSdk                       : 21,
+        buildTools                   : "26.0.2"
 ]
 
 // Version of libraries and tools provided by Android framework
