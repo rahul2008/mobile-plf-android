@@ -1,5 +1,7 @@
 package com.philips.platform.mya.usr;
 
+import android.util.Log;
+
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.platform.consenthandlerinterface.ConsentError;
@@ -31,22 +33,25 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void checkConsents(ConsentListCallback callback) {
-        final boolean receiveMarketingEmail = user.getReceiveMarketingEmail();
-        List<Consent> marketingConsents = new ArrayList<>(definitions.size());
 
-        for (ConsentDefinition definition : definitions) {
+        try {
+            final boolean receiveMarketingEmail = user.getReceiveMarketingEmail();
+            List<Consent> marketingConsents = new ArrayList<>(definitions.size());
 
-            final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
-            marketingConsents.add(marketingConsent);
+            for (ConsentDefinition definition : definitions) {
+
+                final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
+                marketingConsents.add(marketingConsent);
+            }
+
+            callback.onGetConsentRetrieved(marketingConsents);
+        } catch (Exception consentFailed) {
+            callback.onGetConsentFailed(new ConsentError(consentFailed.getLocalizedMessage(), -1)); // TODO: Check with CatkError Codes
         }
-
-        callback.onGetConsentRetrieved(marketingConsents);
-
     }
 
     @Override
     public void post(ConsentDefinition definition, boolean status, CreateConsentCallback callback) {
-
         user.updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status)), status);
     }
 

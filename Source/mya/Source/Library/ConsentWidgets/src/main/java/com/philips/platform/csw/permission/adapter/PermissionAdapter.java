@@ -7,10 +7,12 @@
 
 package com.philips.platform.csw.permission.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
@@ -20,12 +22,10 @@ import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;
 import com.philips.platform.mya.consentwidgets.R;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHolder> {
 

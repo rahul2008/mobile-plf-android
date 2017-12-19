@@ -48,11 +48,11 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
     }
 
     void getConsentStatus() {
-        if(!configurationList.isEmpty()) {
+        if (!configurationList.isEmpty()) {
             permissionInterface.showProgressDialog();
             for (ConsentConfiguration configuration : configurationList) {
                 ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
-                if(handlerInterface != null) {
+                if (handlerInterface != null) {
                     handlerInterface.checkConsents(this);
                 }
             }
@@ -73,7 +73,10 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
             consentMap.put(consent.getType(), consent);
         }
         for (ConsentView consentView : consentViews) {
-            consentView.storeConsent(consentMap.get(consentView.getType()));
+            Consent consent = consentMap.get(consentView.getType());
+            if (consent != null) {
+                consentView.storeConsent(consent);
+            }
         }
         adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
