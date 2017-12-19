@@ -98,11 +98,6 @@ public class InsightsFragmentTest {
         assertEquals(testActivity.getString(R.string.RA_DLS_ps_tips_title), insightsFragment.getActionbarTitle());
     }
 
-    @Test
-    public void dBChangeSuccessTest() {
-        insightsFragment.dBChangeSuccess(SyncType.INSIGHT);
-        verify(presenter, atLeast(1)).loadInsights(any(DataServicesManager.class));
-    }
 
     @After
     public void tearDown() {
