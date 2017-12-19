@@ -17,12 +17,21 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class FragmentLauncher extends UiLauncher {
 
+    private static final long serialVersionUID = -8850230596535485531L;
+    /**
+        * Resource container ID. If you would like to launch uApp using fragment.
+    */
+
     protected int mContainerResId;
 
 
    protected ActionBarListener mActionBarListener = null;
 
-    protected FragmentActivity mFragmentActivity = null;
+    /**
+     * FragmentActivity context of your Fragment. If you would like to launch uApp using fragment.
+     */
+    protected transient FragmentActivity mFragmentActivity = null;
+
 
     /**
      * FragmentLauncher constructor for launching the uApp.

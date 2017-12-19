@@ -12,9 +12,16 @@ import android.support.annotation.AnimRes;
  * @since 1.0.0
  */
 
-public abstract class UiLauncher  {
+import java.io.Serializable;
 
 
+public abstract class UiLauncher implements Serializable {
+
+
+    private static final long serialVersionUID = -8906511992872569045L;
+    /**
+     * Enter {@Link android.view.animation}
+     */
 
     protected int mEnterAnimResId;
     protected int mExitAnimResId;
