@@ -7,12 +7,12 @@ package com.philips.platform.appinfra.internationalization;
 
 //import android.os.LocaleList;
 
-import java.util.Locale;
+import java.io.Serializable;
 
 /**
  * The interface Local interface.
  */
-public interface InternationalizationInterface {
+public interface InternationalizationInterface extends Serializable {
 
     /**
      * Gets country.

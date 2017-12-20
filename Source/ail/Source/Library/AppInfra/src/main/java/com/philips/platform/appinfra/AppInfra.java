@@ -43,6 +43,7 @@ import java.io.Serializable;
  */
 public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serializable {
 
+    private static final long serialVersionUID = -5261016522164936691L;
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
     private AppTaggingInterface tagging;

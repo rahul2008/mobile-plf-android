@@ -10,9 +10,10 @@ package com.philips.platform.appinfra.apisigning;
  * The ApiSigning Interface for WhiteBox API, using HSDP API Signing  .
  */
 
+import java.io.Serializable;
 import java.util.Map;
 
-public interface ApiSigningInterface {
+public interface ApiSigningInterface extends Serializable {
     /**
      * Creates an API signature instance according to HSDP specification
      * @param requestMethod Type of method(POST, GET)

@@ -242,10 +242,10 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+    if(dp) {
         compile project(':UserRegistrationUApp')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     }
 
     //Android Support Libraries
@@ -270,7 +270,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //Module projects
-    compile(project(':dscUApp'))
+    compile(project(':dataServicesUApp'))
 }
 
 task copyToLib(type: Copy) {

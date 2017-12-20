@@ -8,10 +8,11 @@ import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public interface AIKMInterface {
+public interface AIKMInterface extends Serializable {
 
     /**
      * API to fetch value of url and tokens for the provided service id's

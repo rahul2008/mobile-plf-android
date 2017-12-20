@@ -6,6 +6,8 @@
 package com.philips.platform.uappframework.listener;
 
 
+import java.io.Serializable;
+
 /**
  * This interface needs to be implemented by uApp fragments for handling back key events.
  * Application is expected to call this API for each uApp if it is launched as fragment on back event by checking
@@ -13,7 +15,7 @@ package com.philips.platform.uappframework.listener;
  * @since 1.0.0
  */
 
-public interface BackEventListener  {
+public interface BackEventListener extends Serializable {
     /**
      * Check if UApp us handling back key event.
      * @return true if uApp is handling back key event else return false.

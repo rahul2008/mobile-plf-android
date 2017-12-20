@@ -39,8 +39,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content>,Serializable {
 
+    private static final long serialVersionUID = -9138112456497881450L;
     private final int downloadLimit;
-    private final ContentDatabaseHandler mContentDatabaseHandler;
+    private final transient ContentDatabaseHandler mContentDatabaseHandler;
     private final String mServiceId;
     //   private URL mServiceURL;
     private final Class<Content> mClassType;
