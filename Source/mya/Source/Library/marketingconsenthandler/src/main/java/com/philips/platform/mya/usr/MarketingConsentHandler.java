@@ -1,7 +1,5 @@
 package com.philips.platform.mya.usr;
 
-import android.util.Log;
-
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.platform.consenthandlerinterface.ConsentError;
@@ -64,7 +62,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         return new Consent(backendConsent, definition);
     }
 
-    private static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
+    static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
         private final CreateConsentCallback callback;
         private final ConsentDefinition definition;
         private final Consent marketingConsent;
