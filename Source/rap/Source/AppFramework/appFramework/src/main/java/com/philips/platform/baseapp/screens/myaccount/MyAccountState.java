@@ -130,7 +130,6 @@ public class MyAccountState extends BaseState {
 
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
-        // TODO: Initialize UserRegistration with Definitions..
 
         List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
         consentConfigurations.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));

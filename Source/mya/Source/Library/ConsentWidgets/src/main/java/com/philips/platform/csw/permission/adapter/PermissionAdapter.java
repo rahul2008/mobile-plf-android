@@ -92,7 +92,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         for (ConsentView consentView : items) {
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getErrorCode() != 2);
+            consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
         notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
@@ -103,7 +103,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             ConsentView consentView = items.get(position);
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getErrorCode() != 2);
+            consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
             notifyItemChanged(position + HEADER_COUNT);
         }
     }

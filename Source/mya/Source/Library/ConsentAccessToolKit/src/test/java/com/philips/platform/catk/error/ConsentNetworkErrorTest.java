@@ -13,6 +13,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.After;
@@ -59,66 +60,66 @@ public class ConsentNetworkErrorTest {
     @Test
     public void testInit() throws Exception {
         givenConsentNetworkErrorWithType(mockVolleyError);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_UNKNOWN);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_UNKNOWN);
     }
 
     @Test
     public void tesGetMessage() throws Exception {
         givenConsentNetworkErrorWithType(mockTimeoutError);
         givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
         thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetMessageServerError() throws Exception {
         givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+        givenErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
         givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
         thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetStatusCode() throws Exception {
         givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        givenErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
         givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
-        thenStatusCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenStatusCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
     @Test
     public void testSuccessCode() throws Exception {
         givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(CatkConstants.CONSENT_SUCCESS);
+        givenErrorCodeIs(ConsentError.CONSENT_SUCCESS);
         givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_SUCCESS);
-        thenStatusCodeIs(CatkConstants.CONSENT_SUCCESS);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_SUCCESS);
+        thenStatusCodeIs(ConsentError.CONSENT_SUCCESS);
     }
 
     @Test
     public void testNoConnectionErrorType() throws Exception {
         givenConsentNetworkErrorWithType(mockNoConnectionError);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
     }
 
     @Test
     public void testServerErrorErrorType() throws Exception {
         givenConsentNetworkErrorWithType(mockServerError);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
     }
 
     @Test
     public void testAuthFailureErrorType() throws Exception {
         givenConsentNetworkErrorWithType(mockAuthFailureError);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_AUTHENTICATION_FAILURE);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE);
     }
 
     @Test
     public void testTimeOutErrorType() throws Exception {
         givenConsentNetworkErrorWithType(mockTimeoutError);
-        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
     private void givenConsentNetworkErrorWithType(VolleyError error) {

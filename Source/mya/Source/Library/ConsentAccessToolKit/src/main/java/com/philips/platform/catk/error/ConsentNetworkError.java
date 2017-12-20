@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.listener.NetworkErrorListener;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 
 import android.util.Log;
 
@@ -24,7 +25,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
     private static final String UNKNOWN_NETWORK_ERROR = "Unknown network markErrorAndGetPrevious";
     private ServerError mServerError;
     private VolleyError mVolleyError;
-    private int mCatkErrorCode = CatkConstants.CONSENT_SUCCESS;
+    private int mCatkErrorCode = ConsentError.CONSENT_SUCCESS;
     private String mCustomErrorMessage;
 
     public ConsentNetworkError(VolleyError error) {
@@ -38,15 +39,15 @@ public class ConsentNetworkError implements NetworkErrorListener {
 
     private void initErrorCode(final VolleyError error) {
         if (error instanceof NoConnectionError) {
-            mCatkErrorCode = CatkConstants.CONSENT_ERROR_NO_CONNECTION;
+            mCatkErrorCode = ConsentError.CONSENT_ERROR_NO_CONNECTION;
         } else if (error instanceof AuthFailureError) {
-            mCatkErrorCode = CatkConstants.CONSENT_ERROR_AUTHENTICATION_FAILURE;
+            mCatkErrorCode = ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
         } else if (error instanceof TimeoutError) {
-            mCatkErrorCode = CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT;
+            mCatkErrorCode = ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT;
         } else if (error instanceof com.android.volley.ServerError) {
-            mCatkErrorCode = CatkConstants.CONSENT_ERROR_SERVER_ERROR;
+            mCatkErrorCode = ConsentError.CONSENT_ERROR_SERVER_ERROR;
         } else {
-            mCatkErrorCode = CatkConstants.CONSENT_ERROR_UNKNOWN;
+            mCatkErrorCode = ConsentError.CONSENT_ERROR_UNKNOWN;
         }
     }
 

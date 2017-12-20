@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.consenthandlerinterface.ConsentError.CONSENT_ERROR_UNKNOWN;
+
 /**
  * Created by Entreco on 19/12/2017.
  */
@@ -37,14 +39,13 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             List<Consent> marketingConsents = new ArrayList<>(definitions.size());
 
             for (ConsentDefinition definition : definitions) {
-
                 final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
                 marketingConsents.add(marketingConsent);
             }
 
             callback.onGetConsentRetrieved(marketingConsents);
         } catch (Exception consentFailed) {
-            callback.onGetConsentFailed(new ConsentError(consentFailed.getLocalizedMessage(), -1)); // TODO: Check with CatkError Codes
+            callback.onGetConsentFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN)); // TODO: Check with CatkError Codes
         }
     }
 
