@@ -6,12 +6,13 @@
 
 package com.philips.platform.appinfra.contentloader;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*
  * The Content Interface.
  */
-public interface ContentInterface {
+public interface ContentInterface extends Serializable {
     /**
      * The unique id of this content ID
      * @return unique content ID

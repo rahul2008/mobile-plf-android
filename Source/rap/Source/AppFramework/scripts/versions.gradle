@@ -1,11 +1,12 @@
 
 ext.config = [
 
-        versionCode    : 1,
-        targetSdk      : 26,
-        renderScriptApi: 26,
-        minSdk         : 21,
-        buildTools     : "26.0.2"
+        versionCode                  : 1,
+        versionCodePushNotification  : 1,
+        targetSdk                    : 26,
+        renderScriptApi              : 26,
+        minSdk                       : 21,
+        buildTools                   : "26.0.2"
 ]
 
 // Version of libraries and tools provided by Android framework
@@ -20,6 +21,7 @@ ext.versionsAndroid = [
 // Version of used external libraries and tools
 ext.versionsExternal = [
 
+        gcm                 : "11.0.4",
         junit               : "4.12",
         robolectric         : "3.4.2",
         robolectricSupport  : "3.3.2",
