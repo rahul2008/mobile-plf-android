@@ -711,6 +711,11 @@ public class THSManagerTest {
             }
 
             @Override
+            public String getSourceId() {
+                return null;
+            }
+
+            @Override
             public SDKLocalDate getDob() {
                 return null;
             }
@@ -808,6 +813,11 @@ public class THSManagerTest {
             @Override
             public boolean isShowAvailableNow() {
                 return false;
+            }
+
+            @Override
+            public int getRank() {
+                return 0;
             }
 
             @Override

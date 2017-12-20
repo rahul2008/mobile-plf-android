@@ -251,7 +251,7 @@ public class THSCostSummaryPresenterTest {
     public void onCreateVisitResponse_when_sdk_error_reason_null() throws Exception {
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
         mTHSCostSummaryPresenter.onCreateVisitResponse(thsVisitMock,thssdkErrorMock);
-        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean(), anyBoolean());
     }
 
     @Test(expected = NullPointerException.class)
@@ -266,7 +266,7 @@ public class THSCostSummaryPresenterTest {
 
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
         mTHSCostSummaryPresenter.onCreateVisitResponse(thsVisitMock,thssdkErrorMock);
-        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean(), false);
     }
 
     @Test

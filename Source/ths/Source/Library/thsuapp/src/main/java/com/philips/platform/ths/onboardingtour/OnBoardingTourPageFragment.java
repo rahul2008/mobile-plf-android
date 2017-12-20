@@ -18,6 +18,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
@@ -71,12 +72,12 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_slide_fragment, null);
 
-        TextView tvOnBoaringText = (TextView) view.findViewById(R.id.onboarding_page_text);
+        TextView tvOnBoardingText = view.findViewById(R.id.onboarding_page_text);
         SpannableStringBuilder spannableStringBuilder = getSpannableStringBuilder();
-        View background = view.findViewById(R.id.welcome_slide_fragment_layout);
+        ImageView background = view.findViewById(R.id.onboarding_background_image);
 
-        tvOnBoaringText.setText(spannableStringBuilder);
-        background.setBackground(ContextCompat.getDrawable(getActivity(), backgroundId));
+        tvOnBoardingText.setText(spannableStringBuilder);
+        background.setImageDrawable(ContextCompat.getDrawable(getActivity(), backgroundId));
         return view;
     }
 
