@@ -1,15 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
+apply plugin: 'jacoco-android'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
-jacoco {
-    toolVersion = versions.jacoco
-}
-
-def coverageSourceDirs = [
-        '../ConsentHandlerInterface/src/main/java'
-]
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -34,6 +26,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -63,6 +56,11 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    jacocoAndroidUnitTestReport {
+        csv.enabled false
+        html.enabled true
+        xml.enabled false
+    }
 
     defaultConfig {
         minSdkVersion versions.minsdk
