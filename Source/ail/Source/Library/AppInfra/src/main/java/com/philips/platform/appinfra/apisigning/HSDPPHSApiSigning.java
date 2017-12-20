@@ -23,6 +23,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class HSDPPHSApiSigning implements ApiSigningInterface {
+
+    private static final long serialVersionUID = -1960924347821402867L;
     private byte[] secretKey;
     private String sharedKey;
     private static final String ALGORITHM_NAME = "HmacSHA256";

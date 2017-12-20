@@ -8,13 +8,14 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
+import java.io.Serializable;
 import java.util.Map;
 
 
 /**
  * The interface Ai app tagging interface.
  */
-public interface AppTaggingInterface {
+public interface AppTaggingInterface extends Serializable {
 
 	/**
 	 * Create instance for component ai app tagging interface.
