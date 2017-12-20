@@ -1,7 +1,6 @@
 package com.philips.platform.mya.settings;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,7 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
         getItemViewType(position);
         String key = (String) settingsList.keySet().toArray()[position];
         SettingsModel settingsModel = settingsList.get(key);
-        holder.settingTitle.setText((settingsModel != null && !TextUtils.isEmpty(settingsModel.getFirstItem())) ? settingsModel.getFirstItem() : key);
+        holder.settingTitle.setText((settingsModel != null && settingsModel.getFirstItem() != null) ? settingsModel.getFirstItem() : key);
         if (holder.settingValue != null && settingsModel != null && settingsModel.getItemCount() == 2) {
             holder.settingValue.setText(settingsModel.getSecondItem());
         }
@@ -82,9 +81,5 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
             settingTitle = view.findViewById(R.id.item_title);
             settingValue = view.findViewById(R.id.second_item);
         }
-    }
-
-    Map<String, SettingsModel> getSettingsList() {
-        return settingsList;
     }
 }

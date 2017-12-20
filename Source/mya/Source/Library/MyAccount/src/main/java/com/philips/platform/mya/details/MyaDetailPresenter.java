@@ -9,7 +9,7 @@ package com.philips.platform.mya.details;
 
 import android.text.TextUtils;
 
-import com.philips.platform.mya.base.MyaBasePresenter;
+import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -35,13 +35,14 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
             view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
             view.setGender(userDataModel.getGender());
             view.setDateOfBirth(userDataModel.getBirthday());
+
         }
     }
 
     private void setUserName(UserDataModel userDataModel) {
         String givenName = userDataModel.getGivenName();
         String familyName = userDataModel.getFamilyName();
-        if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
+        if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName)) {
             view.setUserName(givenName.concat(" ").concat(familyName));
             view.setCircleText(String.valueOf(givenName.charAt(0)).toUpperCase().concat(String.valueOf(familyName.charAt(0))).toUpperCase());
         } else if (!TextUtils.isEmpty(givenName)) {

@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.mya.base;
+package com.philips.platform.mya.base.mvp;
 
 
 public class MyaBasePresenter<ViewT> implements MyaPresenterInterface<ViewT> {
@@ -18,9 +18,5 @@ public class MyaBasePresenter<ViewT> implements MyaPresenterInterface<ViewT> {
     @Override
     public void onViewInactive() {
         view = null;
-    }
-
-    public ViewT getView() {
-        return view;
     }
 }
