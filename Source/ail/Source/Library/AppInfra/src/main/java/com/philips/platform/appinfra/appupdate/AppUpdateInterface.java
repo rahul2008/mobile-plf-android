@@ -5,12 +5,13 @@
  */
 package com.philips.platform.appinfra.appupdate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *  AppUpdate Interface.
  */
-public interface AppUpdateInterface {
+public interface AppUpdateInterface extends Serializable {
 
 	/**
 	 * refreshes the appupdate info available in the server.

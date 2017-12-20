@@ -36,6 +36,7 @@ import static com.philips.platform.appinfra.securestorage.SecureStorageHelper.AE
  */
 public class SecureStorage implements SecureStorageInterface {
 
+    private static final long serialVersionUID = -6433107689089347839L;
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
@@ -44,12 +45,12 @@ public class SecureStorage implements SecureStorageInterface {
     private final Context mContext;
     private final AppInfra mAppInfra;
 
-    private Cipher encryptCipher = null;
-    private Cipher decryptCipher = null;
+    private transient Cipher encryptCipher = null;
+    private transient Cipher decryptCipher = null;
 
     private final Lock writeLock;
     private final Lock readLock;
-    private SecureStorageHelper secureStorageHelper;
+    private transient SecureStorageHelper secureStorageHelper;
     private String TAG = getClass().getSimpleName();
 
     public SecureStorage(AppInfra bAppInfra) {
