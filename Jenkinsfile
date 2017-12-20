@@ -184,6 +184,18 @@ def errors = []
                         '''
                     sh shellcommand
                 }
+
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    APK_NAME = readFile("apkname.txt").trim()
+                    echo "APK_NAME = ${APK_NAME}"
+                    if(params.LeakCanarybuild){
+                        build job: "Platform-Infrastructure/E2E_Tests/Reliability/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+                    } else {
+                        def jobBranchName = BranchName.replace('/', '_')
+                        echo "jobBranchName = ${jobBranchName}"
+                        build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+                    }
+                }
             } catch(err) {
                 errors << "errors found: ${err}"
             } finally {
