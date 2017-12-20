@@ -254,7 +254,7 @@ dependencies {
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'joda-time:joda-time:2.9.7'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'javax.inject:javax.inject:1'
