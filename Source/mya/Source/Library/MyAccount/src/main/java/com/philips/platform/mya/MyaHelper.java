@@ -9,11 +9,14 @@ package com.philips.platform.mya;
 
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyaHelper {
@@ -52,7 +55,20 @@ public class MyaHelper {
     }
 
     public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
+        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
         this.consentConfigurationList = consentConfigurationList;
+    }
+
+    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
+        List<String> uniqueTypes = new ArrayList<>();
+        for(ConsentConfiguration configuration : consentConfigurationList){
+            for(ConsentDefinition definition : configuration.getConsentDefinitionList()){
+                for(String type : definition.getTypes()){
+                    if(uniqueTypes.contains(type)) throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                    uniqueTypes.add(type);
+                }
+            }
+        }
     }
 
     public MyaListener getMyaListener() {
