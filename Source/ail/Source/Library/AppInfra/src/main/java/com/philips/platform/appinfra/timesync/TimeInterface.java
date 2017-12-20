@@ -5,12 +5,13 @@
  */
 package com.philips.platform.appinfra.timesync;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * The UTC Time Sync Interface
  */
-public interface TimeInterface {
+public interface TimeInterface extends Serializable {
     /**
      * Gets utc time from NTP server.
      *

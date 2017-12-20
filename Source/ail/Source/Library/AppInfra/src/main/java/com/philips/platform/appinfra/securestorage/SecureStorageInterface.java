@@ -6,13 +6,13 @@
 package com.philips.platform.appinfra.securestorage;
 
 
-
+import java.io.Serializable;
 import java.security.Key;
 
 /**
  * The interface Secure storage interface.
  */
-public interface SecureStorageInterface {
+public interface SecureStorageInterface extends Serializable {
 
 
     /**

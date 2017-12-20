@@ -6,10 +6,12 @@
 
 package com.philips.platform.appinfra.appconfiguration;
 
+import java.io.Serializable;
+
 /**
  * The App Configuration Interface .
  */
-public interface AppConfigurationInterface {
+public interface AppConfigurationInterface extends Serializable {
 
     /**
      * Gets property for key.
