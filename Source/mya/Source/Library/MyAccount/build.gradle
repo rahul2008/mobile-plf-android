@@ -6,7 +6,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = versions.jacaco
 }
 
 def coverageSourceDirs = [
@@ -302,7 +302,17 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: '../MyAccount/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/myaplugin/*.class',
+                       '**/view/*.class',
+                       '**/model/*.class',
+                       '**/error/*.class',
+                       '**/activity/*.class',
+                       '**/tabs/*.class',
+                       '**/base/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

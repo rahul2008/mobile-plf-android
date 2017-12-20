@@ -6,37 +6,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.BuildConfig;
+import com.philips.platform.mya.R;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-import static org.mockito.Matchers.anyInt;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by philips on 11/23/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaSettingsAdapterTest {
-MyaSettingsAdapter myaSettingsAdapter;
+    private MyaSettingsAdapter myaSettingsAdapter;
 
     private final static int DOUBLE_VIEW = 0;
     private final static int SINGLE_VIEW = 1;
-
-    @Mock
-    LinkedHashMap<String, SettingsModel> settingsListMock;
 
     @Mock
     Context contextMock;
@@ -48,50 +43,61 @@ MyaSettingsAdapter myaSettingsAdapter;
     ViewGroup viewGroupMock;
 
     @Mock
-    SettingsModel settingsModel;
-
-    @Mock
     View viewMock;
 
-    private Set<String>  hashStringSet = new LinkedHashSet<>();
-
-
     @Before
-    public void setUp() throws Exception{
-        MockitoAnnotations.initMocks(this);
-        hashStringSet.add("One");
-        hashStringSet.add("Two");
-        hashStringSet.add("Three");
-        when(settingsListMock.keySet()).thenReturn(hashStringSet) ;
-        when(settingsModel.getItemCount()).thenReturn(new Integer(2));
-        when(settingsModel.getFirstItem()).thenReturn("1");
-        when(settingsModel.getSecondItem()).thenReturn("2");
-        when(settingsModel.getThirdItem()).thenReturn("3");
-        myaSettingsAdapter = new MyaSettingsAdapter(settingsListMock);
-
+    public void setUp() throws Exception {
+        initMocks(this);
+        LinkedHashMap<String, SettingsModel> map = new LinkedHashMap<>();
+        addData(map);
+        myaSettingsAdapter = new MyaSettingsAdapter(map);
+        assertTrue(myaSettingsAdapter.getItemCount() == 2);
+        View.OnClickListener onClickListener = mock(View.OnClickListener.class);
+        myaSettingsAdapter.setOnClickListener(onClickListener);
+        assertNotNull(myaSettingsAdapter.getSettingsList());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testOnCreateViewForSingleView() throws Exception{
+    private void addData(LinkedHashMap<String, SettingsModel> map) {
+        SettingsModel countrySettingsModel = new SettingsModel();
+        countrySettingsModel.setItemCount(2);
+        countrySettingsModel.setFirstItem("some_first_item");
+        countrySettingsModel.setSecondItem("IN");
+        map.put("MYA_Country", countrySettingsModel);
+        map.put("Mya_Privacy_Settings", new SettingsModel());
+    }
+
+    @Test
+    public void testOnCreateViewForSingleView() throws Exception {
+        View view = mock(View.class);
+        Label label = mock(Label.class);
+        Label label2 = mock(Label.class);
+        when(view.findViewById(R.id.item_title)).thenReturn(label);
+        when(view.findViewById(R.id.second_item)).thenReturn(label2);
         when(viewGroupMock.getContext()).thenReturn(contextMock);
-        when(contextMock.getSystemService(contextMock.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
-        myaSettingsAdapter.onCreateViewHolder(viewGroupMock,SINGLE_VIEW);
+        when(contextMock.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
+        when(layoutInflaterMock.inflate(R.layout.mya_single_item_layout, viewGroupMock, false)).thenReturn(view);
+        MyaSettingsAdapter.SettingsViewHolder settingsViewHolder = myaSettingsAdapter.onCreateViewHolder(viewGroupMock, SINGLE_VIEW);
+        myaSettingsAdapter.onBindViewHolder(settingsViewHolder, 0);
+        verify(label).setText("some_first_item");
+        verify(label2).setText("IN");
+
+        myaSettingsAdapter.onBindViewHolder(settingsViewHolder, 1);
+        verify(label).setText("Mya_Privacy_Settings");
         assertNotNull(myaSettingsAdapter);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testOnCreateViewForDoubleView() throws Exception{
+    public void testOnCreateViewForDoubleView() throws Exception {
         when(viewGroupMock.getContext()).thenReturn(contextMock);
-        when(contextMock.getSystemService(contextMock.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
-        myaSettingsAdapter.onCreateViewHolder(viewGroupMock,DOUBLE_VIEW);
+        when(contextMock.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
+        myaSettingsAdapter.onCreateViewHolder(viewGroupMock, DOUBLE_VIEW);
         assertNotNull(myaSettingsAdapter);
     }
 
     @Test
-    public void shouldNotNull_getItemCount(){
+    public void shouldNotNull_getItemCount() {
         assertNotNull(myaSettingsAdapter.getItemCount());
     }
-
 
 
 }

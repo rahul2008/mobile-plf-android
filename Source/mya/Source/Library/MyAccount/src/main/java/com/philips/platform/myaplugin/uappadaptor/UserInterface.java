@@ -9,6 +9,8 @@ import java.io.Serializable;
 public abstract class UserInterface implements DataInterface, Serializable {
 
 
+    private static final long serialVersionUID = -37048850981108559L;
+
     @Override
     public abstract DataModel getData(DataModelType dataModelType);
 
