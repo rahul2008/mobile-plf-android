@@ -37,19 +37,19 @@ android {
 }
 
 dependencies {
-    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
-    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
+    def suffix = objcdp.getVersionSuffix()
 
-    if (directdependencies) {
-        compile(project(':uAppFwLib'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
+    for (dep in [':uAppFwLib', ':pluginreferenceboard']) {
+        if (directdependencies) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
     compile deps.support.design
-    compile "com.android.support:cardview-v7:${versions.support}"
+    compile deps.support.cardview
 
     testCompile deps.junit
 }

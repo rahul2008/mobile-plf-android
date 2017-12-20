@@ -18,26 +18,26 @@ android {
 
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
+    lintOptions {
+        abortOnError false
+    }
+    publishNonDefault true
+}
 
-    dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-
-        compile 'com.android.support:appcompat-v7:25.1.1'
-        compile 'com.android.support:design:25.1.1'
-
+dependencies {
+    for (dep in [':uAppFwLib', ':AppInfra']) {
         if (directdependencies) {
-            compile(project(':uAppFwLib'))
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-                transitive = true
-            }
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
-
-        compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-        compile 'com.google.code.gson:gson:2.8.1'
-        compile(directdependencies ? project(':AppInfra') : project(':AppInfra'))
     }
+
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.leakcanary
+    compile deps.gson
 }

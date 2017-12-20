@@ -75,18 +75,16 @@ dependencies {
     if (findProject(":commlib-testutils")) {
         testCompile project(path: ':commlib-testutils', configuration: 'debug')
     } else {
-        testCompile("$group:commlib-testutils:$versions.cml_commlib$suffix") { changing = true }
+        testCompile("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
-	def dp = project.ext.has('useprojectdependencies')
-	
-
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), changing: true)
-
-	compile(dp ? project(':AppInfra') : ailModule)
-	{
-        exclude group: 'com.android.support'
-        transitive = true
+    for (dep in [':AppInfra']) {
+        if (directdependencies) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
+        }
     }
 
     testCompile deps.assertj
