@@ -6,7 +6,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = versions.jacaco
 }
 
 def coverageSourceDirs = [
