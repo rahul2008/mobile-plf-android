@@ -22,17 +22,17 @@ public class RefAppKpsConfigurationInfoTest {
 
     @Test
     public void getBootStrapId() {
-        assertEquals("000000ffe0000003", refAppKpsConfigurationInfo.getBootStrapId());
+        assertEquals("000000fff0000012", refAppKpsConfigurationInfo.getBootStrapId());
     }
 
     @Test
     public void getBootStrapKey() {
-        assertEquals("45240d84f206035f9f19856fd266e59b", refAppKpsConfigurationInfo.getBootStrapKey());
+        assertEquals("68b6717490cc1265a6e31884ad16e0e5", refAppKpsConfigurationInfo.getBootStrapKey());
     }
 
     @Test
     public void getProductId() {
-        assertEquals("FI-AIR_KPSPROV", refAppKpsConfigurationInfo.getProductId());
+        assertEquals("CDP_KPSPROV", refAppKpsConfigurationInfo.getProductId());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class RefAppKpsConfigurationInfoTest {
 
     @Test
     public void getComponentId() {
-        assertEquals("FI-AIR-AND", refAppKpsConfigurationInfo.getComponentId());
+        assertEquals("CDP-APP-AND", refAppKpsConfigurationInfo.getComponentId());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class RefAppKpsConfigurationInfoTest {
 
     @Test
     public void getAppType() {
-        assertEquals("FI-AIR-AND-DEV", refAppKpsConfigurationInfo.getAppType());
+        assertEquals("CDP-AND-DEV", refAppKpsConfigurationInfo.getAppType());
     }
 
     @Test

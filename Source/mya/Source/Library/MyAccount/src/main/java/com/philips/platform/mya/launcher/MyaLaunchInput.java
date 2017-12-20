@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
+ * @since 2017.5.0
  */
 
 public class MyaLaunchInput extends UappLaunchInput {
@@ -46,6 +47,7 @@ public class MyaLaunchInput extends UappLaunchInput {
      * Get status of is current fragment need to add to backstack or no.
      *
      * @return true if need to add to fragment back stack
+     * @since 2017.5.0
      */
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
@@ -55,6 +57,7 @@ public class MyaLaunchInput extends UappLaunchInput {
      * Enable  add to back stack for current fragment.
      *
      * @param isAddToBackStack
+     * @since 2017.5.0
      */
     public void addToBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;

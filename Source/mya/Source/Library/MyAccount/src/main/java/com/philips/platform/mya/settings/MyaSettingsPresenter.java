@@ -5,7 +5,6 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -19,8 +18,9 @@ import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.MyaUtil;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -47,8 +47,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
         if (key.equals("MYA_Country")) {
-            Context context = view.getContext();
-            view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
+            view.showDialog(view.getContext().getString(R.string.MYA_change_country), view.getContext().getString(R.string.MYA_change_country_message));
         }
     }
 
@@ -63,13 +62,15 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
+            if (fragmentLauncher == null)
+                view.exitMyAccounts();
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-            getConsentAccessInstance().init(initConsentToolKit(view.getContext(), appInfra));
+            getConsentAccessInstance().init(initConsentToolKit(appInfra));
             CswInterface cswInterface = getCswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(fragmentLauncher, buildLaunchInput(true));
             return true;
         }
         return false;
@@ -96,24 +97,24 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         };
     }
 
-    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+    CswLaunchInput buildLaunchInput(boolean addToBackStack) {
         ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, view.getContext());
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
 
-    CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
+    CatkInputs initConsentToolKit(AppInfraInterface appInfra) {
         CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
+        catkInputs.setContext(view.getContext());
         catkInputs.setAppInfra(appInfra);
         return catkInputs;
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
-        String profileItems = "settings.menuItems";
+        String settingItems = "settings.menuItems";
         try {
-            ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey(profileItems, "mya", error);
+            ArrayList<?> propertyForKey = (ArrayList<?>) appInfraInterface.getConfigInterface().getPropertyForKey(settingItems, "mya", error);
             return getLocalisedList(propertyForKey, appInfraInterface);
         } catch (IllegalArgumentException exception) {
             exception.getMessage();
@@ -121,13 +122,14 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return null;
     }
 
-    private LinkedHashMap<String, SettingsModel> getLocalisedList(ArrayList propertyForKey, AppInfraInterface appInfraInterface) {
+    private LinkedHashMap<String, SettingsModel> getLocalisedList(ArrayList<?> propertyForKey, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
+        MyaUtil myaUtil = new MyaUtil();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) propertyForKey.get(i);
-                settingsModel.setFirstItem(getStringResourceByName(key));
+                settingsModel.setFirstItem(myaUtil.getStringResourceByName(view.getContext(),key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
@@ -145,16 +147,5 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
         return profileList;
-    }
-
-    private String getStringResourceByName(String aString) {
-        Context context = view.getContext();
-        String packageName = context.getPackageName();
-        int resId = context.getResources().getIdentifier(aString, "string", packageName);
-        try {
-            return context.getString(resId);
-        } catch (Exception exception) {
-            return null;
-        }
     }
 }
