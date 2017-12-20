@@ -162,7 +162,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 currentLocale));
         definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("coaching"),
                 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to store binary data", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("binary data"), 1,
+        definitions.add(new ConsentDefinition("I allow Philips to store binary data", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("binary"), 1,
                 currentLocale));
         definitions.add(new ConsentDefinition("I allow Philips to use my mobile application usage statistics", "Giving this consent you are allowing Philips to process mobile usage statistics related to you", Collections.singletonList("clickstream"), 1,
                 currentLocale));
