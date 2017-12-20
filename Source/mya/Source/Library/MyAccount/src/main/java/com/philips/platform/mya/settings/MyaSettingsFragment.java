@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -42,11 +42,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private boolean isDialogOpen = false;
     private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
     private String dialogTitle,dialogMessage;
-    private DefaultItemAnimator defaultItemAnimator;
-    private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
-    private LinearLayoutManager linearLayoutManager;
-    private View dialogView;
-    private AppConfigurationInterface.AppConfigurationError error;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,17 +49,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         UIDHelper.injectCalligraphyFonts();
         setRetainInstance(true);
         initViews(view);
+        recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
-        init(new DefaultItemAnimator(),new RecyclerViewSeparatorItemDecoration(getContext()),
-                new LinearLayoutManager(getContext()));
-        error = new AppConfigurationInterface.AppConfigurationError();
         return view;
-    }
-
-    void init(DefaultItemAnimator defaultItemAnimator, RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration, LinearLayoutManager linearLayoutManager) {
-        this.defaultItemAnimator=defaultItemAnimator;
-        this.recyclerViewSeparatorItemDecoration = recyclerViewSeparatorItemDecoration;
-        this.linearLayoutManager = linearLayoutManager;
     }
 
     @Override
@@ -86,8 +73,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
+        } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
                 showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
@@ -95,6 +84,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 dismissDialog();
             }
         }
+
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
@@ -142,28 +137,28 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         this.dialogMessage = message;
         this.isDialogOpen = true;
         LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        dialogView = inflater.inflate(R.layout.mya_dialog_layout, null);
+        View view = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDialogView(dialogView)
+                .setDialogView(view)
                 .setDimLayer(DialogConstants.DIM_SUBTLE)
                 .setCancelable(false)
                 .setDividers(false);
 
-        Label textView = dialogView.findViewById(R.id.message_label);
-        Label title_label = dialogView.findViewById(R.id.title_label);
-        Button logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
-        Button cancel = dialogView.findViewById(R.id.mya_dialog_cancel_btn);
+        Label textView = view.findViewById(R.id.message_label);
+        Label title_label = view.findViewById(R.id.title_label);
+        Button logout = view.findViewById(R.id.mya_dialog_logout_btn);
+        Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
         AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
-        logout.setOnClickListener(handleOnClickLogOut());
-        cancel.setOnClickListener(handleOnClickCancel());
+        logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
+        cancel.setOnClickListener(handleOnClickCancel(alertDialogFragment));
     }
 
-    private View.OnClickListener handleOnClickCancel() {
+    private View.OnClickListener handleOnClickCancel(final AlertDialogFragment alertDialogFragment) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,7 +179,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener handleOnClickLogOut() {
+    private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,25 +194,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap) {
         MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
-        RecyclerView.LayoutManager mLayoutManager = getLinearLayoutManager();
-        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = getRecyclerViewSeparatorItemDecoration();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
-        recyclerView.setItemAnimator(getAnimator());
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myaSettingsAdaptor);
         myaSettingsAdaptor.setOnClickListener(getOnClickListener(dataModelLinkedHashMap));
-    }
-
-    protected DefaultItemAnimator getAnimator() {
-        return defaultItemAnimator;
-    }
-
-    protected RecyclerViewSeparatorItemDecoration getRecyclerViewSeparatorItemDecoration() {
-        return recyclerViewSeparatorItemDecoration;
-    }
-
-    protected LinearLayoutManager getLinearLayoutManager() {
-        return linearLayoutManager;
     }
 
     @Override
@@ -242,13 +225,5 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
             }
         };
-    }
-
-    View getDialogView() {
-        return dialogView;
-    }
-
-    AppConfigurationInterface.AppConfigurationError getError() {
-        return error;
     }
 }

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
@@ -34,7 +34,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
     private View email_divider;
-    private final String DETAILS_BUNDLE = "details_bundle";
+    private String DETAILS_BUNDLE = "details_bundle";
     private MyaDetailPresenter myaDetailPresenter;
 
     @Override
@@ -88,7 +88,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 
     @Override
     public String getActionbarTitle(Context context) {
-        return context.getString(R.string.MYA_My_details);
+        return context.getString(R.string.MYA_My_account);
     }
 
     @Override
@@ -123,8 +123,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     public void setGender(String gender) {
         if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
             genderLabel.setText(gender);
-        } else {
-            genderLabel.setText(getString(R.string.MYA_Not_Available));
         }
     }
 
@@ -134,8 +132,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
             String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
-        } else
-            dob_value.setText(getString(R.string.MYA_Not_Available));
+        }
     }
 
     @Override

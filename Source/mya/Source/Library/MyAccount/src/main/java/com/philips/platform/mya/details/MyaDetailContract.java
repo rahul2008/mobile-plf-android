@@ -8,8 +8,8 @@
 package com.philips.platform.mya.details;
 
 
-import com.philips.platform.mya.base.MyaBaseView;
-import com.philips.platform.mya.base.MyaPresenterInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.Date;
