@@ -9,6 +9,7 @@ package com.philips.platform.csw.injection;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import javax.inject.Singleton;
 
@@ -28,5 +29,11 @@ public class AppInfraModule {
     @Provides
     public LoggingInterface providesLoggingInterface() {
         return appInfraInterface.getLogging();
+    }
+
+    @Singleton
+    @Provides
+    public AppTaggingInterface providesAppTaggingInterface() {
+        return appInfraInterface.getTagging();
     }
 }
