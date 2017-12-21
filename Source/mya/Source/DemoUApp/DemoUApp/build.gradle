@@ -106,7 +106,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -214,9 +214,15 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
     compile(dp ? project(':MyAccount') : project(':MyAccount'))
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-                transitive = true
+    
+    if(dp) {
+        compile project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
+            transitive = true
+        }
     }
+
     if(dp) {
         compile(project(':UserRegistrationUApp'))
     } else {

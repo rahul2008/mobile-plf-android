@@ -7,7 +7,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jakewharton.butterknife'
 
 jacoco {
-    toolVersion = versions.jacaco
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -116,7 +116,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }

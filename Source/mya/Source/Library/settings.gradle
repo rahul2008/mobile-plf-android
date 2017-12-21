@@ -6,5 +6,3 @@ include 'ConsentAccessToolKit'
 project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
 include 'ConsentWidgets'
 project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
-include ':MyAccount'
-project(':MyAccount').projectDir = new File('../Library/MyAccount')

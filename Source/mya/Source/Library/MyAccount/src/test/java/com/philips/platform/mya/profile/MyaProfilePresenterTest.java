@@ -23,9 +23,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
@@ -45,11 +42,6 @@ public class MyaProfilePresenterTest {
         context = mock(Context.class);
         when(view.getContext()).thenReturn(context);
         myaProfilePresenter = new MyaProfilePresenter(view);
-        MyaProfileFragment myaProfileFragment = new MyaProfileFragment();
-        myaProfilePresenter.onViewActive(myaProfileFragment);
-        myaProfilePresenter.onViewInactive();
-        assertNull(myaProfilePresenter.getView());
-        assertNotNull(myaProfilePresenter.getMyaDetailsFragment());
     }
 
     @Test
@@ -70,13 +62,9 @@ public class MyaProfilePresenterTest {
         UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
         UserDataModel userDataModel = new UserDataModel();
         userDataModel.setGivenName("some_name");
-        userDataModel.setFamilyName("family_name");
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaProfilePresenter.setUserName(userDataModelProvider);
-        verify(view).setUserName(userDataModel.getGivenName().concat(" ").concat(userDataModel.getFamilyName()));
-        userDataModel.setFamilyName("");
-        when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
-        myaProfilePresenter.setUserName(userDataModelProvider);
+        verify(view).setUserName(userDataModel.getGivenName());
     }
 
     @Test
@@ -92,6 +80,5 @@ public class MyaProfilePresenterTest {
         assertTrue(myaProfilePresenter.handleOnClickProfileItem(key, null));
         verify(myaDetailsFragment).setArguments(null);
         verify(view).showPassedFragment(myaDetailsFragment);
-        assertFalse(myaProfilePresenter.handleOnClickProfileItem("some_item",null));
     }
 }

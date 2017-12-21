@@ -21,13 +21,11 @@ import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.net.MalformedURLException;
@@ -38,6 +36,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_CONSUMER_EXIST_CHECK;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE;
 
 public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void, THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>, THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
 
@@ -64,7 +63,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             return;
         }
         try {
-            AmwellLog.i(AmwellLog.LOG, "Initialize - Call initiated from Client");
+            AmwellLog.i("initializeAwsdk", "Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -84,6 +83,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         if (sdkError.getSdkError() != null) {
             if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
+                AmwellLog.e("onInitializationResponse",sdkError.getSdkError().getMessage());
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
         }else {
@@ -97,12 +97,15 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
             mThsInitFragment.hideProgressBar();
             if (mThsInitFragment.getContext() != null) {
-                String errorMesage = "";
+                String errorMesage = mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message);
                 if(null!=var1 && null!=var1.getMessage()){
-                    errorMesage=var1.getMessage();
+                    mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,var1.getMessage(),false);//
+                    AmwellLog.e("onInitializationFailure",var1.getMessage());
+                    if(var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)){
+                        errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_service_available_only_in_us);
+                    }
                 }
-                mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,errorMesage,false);
-                mThsInitFragment.showError(mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message),true);
+                mThsInitFragment.showError(errorMesage,true, false);
             }
         }
     }
@@ -125,6 +128,9 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
                 sdkError = thssdkError.getSdkError();
             }
             if (null != sdkError) {
+
+                AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.getMessage());
+
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
                 return;
             }

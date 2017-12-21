@@ -5,11 +5,13 @@
  */
 package com.philips.platform.appinfra;
 
+import java.io.Serializable;
+
 /**
  * The interface for version Information.
  */
 
-public interface ComponentVersionInfo {
+public interface ComponentVersionInfo extends Serializable {
 
     /**
      * Gets component ID.

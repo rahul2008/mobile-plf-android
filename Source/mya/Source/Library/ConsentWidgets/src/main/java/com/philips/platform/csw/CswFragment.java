@@ -28,8 +28,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
-    private ConsentBundleConfig config;
-
     private boolean isAddedToBackStack;
 
     @Override
@@ -37,7 +35,6 @@ public class CswFragment extends Fragment implements BackEventListener {
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
 
         if (getArguments() != null) {
-            config = new ConsentBundleConfig(getArguments());
             isAddedToBackStack = getArguments().getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, false);
         }
 
@@ -52,7 +49,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
         if (state != null) {
-            config = new ConsentBundleConfig(state);
             isAddedToBackStack = state.getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK);
         }
     }
@@ -61,7 +57,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         if (state != null) {
-            state.putAll(config.toBundle());
             state.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
         }
     }
@@ -93,9 +88,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     }
 
     private PermissionView buildPermissionView() {
-        PermissionView permissionView = new PermissionView();
-        permissionView.setArguments(config.toBundle());
-        return permissionView;
+        return new PermissionView();
     }
 
     public int getFragmentCount() {
@@ -127,10 +120,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     @Override
     public boolean handleBackEvent() {
         return !(onBackPressed());
-    }
-
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return config.getConsentDefinitions();
     }
 
     public boolean getIsAddedToBackStack() {

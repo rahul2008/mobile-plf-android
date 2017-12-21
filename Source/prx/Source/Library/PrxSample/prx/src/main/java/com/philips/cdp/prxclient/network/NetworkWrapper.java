@@ -25,20 +25,31 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Description : This is the Network Wrapper class.
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
+ * A class which performs HTTP get, maintains request queue, handles caching etc.
+ It is responsible for interacting with any third party libraries that is used for performing network operations.
+ @since 1.0.0
  */
 public class NetworkWrapper {
 
     private final PRXDependencies mPrxDependencies;
     private final LoggingInterface mPrxLogging;
 
+    /**
+     * NetworkWrapper constructor.
+     * @param prxDependencies PRX dependencies
+     * @since 1.0.0
+     */
     public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
         mPrxLogging = prxDependencies.mAppInfraLogging;
     }
 
+    /**
+     *  Execute custom JSON request.
+     * @param prxRequest PRX Request
+     * @param listener Response listener
+     * @since 1.0.0
+     */
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         if (listener == null) {
             mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");

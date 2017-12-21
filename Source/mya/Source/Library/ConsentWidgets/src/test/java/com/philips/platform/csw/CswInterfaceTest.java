@@ -2,10 +2,8 @@ package com.philips.platform.csw;
 
 import android.test.mock.MockContext;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;
@@ -15,14 +13,11 @@ import com.philips.platform.csw.mock.FragmentTransactionMock;
 import com.philips.platform.csw.mock.LaunchInputMock;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -51,7 +46,6 @@ public class CswInterfaceTest {
     @Test
     public void launchReplacesWithCswFragmentOnParentContainer() throws InterruptedException {
         givenFragmentLauncherWithParentContainerId(A_SPECIFIC_CONTAINER_ID);
-        givenConsentBundleConfig(new ConsentBundleConfig(new ArrayList<ConsentDefinition>()));
         givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, CswFragment.class, CSWFRAGMENT);
@@ -62,19 +56,15 @@ public class CswInterfaceTest {
     @Test
     public void launchWithActivityLauncher_correctFragmentIsReplacedInContainer() {
         givenActivityLauncher();
-        givenConsentBundleConfig(new ConsentBundleConfig(new ArrayList<ConsentDefinition>()));
         givenLaunchInput();
         whenCallingLaunchWithoutAddToBackstack();
         thenStartActivityWasCalledWithIntent();
     }
 
     private void givenLaunchInput() {
-        givenLaunchInput = new LaunchInputMock(givenConfig);
+        givenLaunchInput = new LaunchInputMock();
     }
 
-    private void givenConsentBundleConfig(ConsentBundleConfig config) {
-        this.givenConfig = config;
-    }
 
     private void givenActivityLauncher() {
         givenActivityLauncher = new ActivityLauncherMock(null, null, 0, null);
@@ -130,7 +120,6 @@ public class CswInterfaceTest {
     private static final String CSWFRAGMENT = "CSWFRAGMENT";
 
     private CswInterface cswInterface;
-    private ConsentBundleConfig givenConfig;
 
     private static final int A_SPECIFIC_CONTAINER_ID = 938462837;
 

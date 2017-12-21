@@ -65,6 +65,9 @@ repositories {
     }
 }
 
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.cml_commlib)
+
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -225,9 +228,7 @@ artifacts {
  * Zips external documentation to be included with a release
  */
 task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }

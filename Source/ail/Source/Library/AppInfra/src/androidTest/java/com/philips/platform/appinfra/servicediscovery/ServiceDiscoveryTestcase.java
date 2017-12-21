@@ -818,32 +818,32 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				rurl.toString());
 	}
 
-	public void testgetServicesUrl() {
-		HashMap<String, ServiceDiscoveryService> responseMap;
-		String[] serviceIds = {"userreg.janrain.api", "prxclient.assets"};
-		ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-
-		responseMap = aisdResponse.getServicesUrl(serviceId,
-				AISDResponse.AISDPreference.AISDCountryPreference, null);
-		assertNotNull(responseMap);
-
-		responseMap = aisdResponse.getServicesUrl(serviceId,
-				AISDResponse.AISDPreference.AISDLanguagePreference, null);
-		assertNotNull(responseMap);
-
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("ctn", "HD9740");
-		parameters.put("sector", "B2C");
-		parameters.put("catalog", "shavers");
-
-		responseMap = aisdResponse.getServicesUrl(serviceId,
-				AISDResponse.AISDPreference.AISDCountryPreference, parameters);
-		assertNotNull(responseMap);
-
-		responseMap = aisdResponse.getServicesUrl(serviceId,
-				AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
-		assertNotNull(responseMap);
-	}
+//	public void testgetServicesUrl() {
+//		HashMap<String, ServiceDiscoveryService> responseMap;
+//		String[] serviceIds = {"userreg.janrain.api", "prxclient.assets"};
+//		ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+//
+//		responseMap = aisdResponse.getServicesUrl(serviceId,
+//				AISDResponse.AISDPreference.AISDCountryPreference, null);
+//		assertNotNull(responseMap);
+//
+//		responseMap = aisdResponse.getServicesUrl(serviceId,
+//				AISDResponse.AISDPreference.AISDLanguagePreference, null);
+//		assertNotNull(responseMap);
+//
+//		Map<String, String> parameters = new HashMap<>();
+//		parameters.put("ctn", "HD9740");
+//		parameters.put("sector", "B2C");
+//		parameters.put("catalog", "shavers");
+//
+//		responseMap = aisdResponse.getServicesUrl(serviceId,
+//				AISDResponse.AISDPreference.AISDCountryPreference, parameters);
+//		assertNotNull(responseMap);
+//
+//		responseMap = aisdResponse.getServicesUrl(serviceId,
+//				AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
+//		assertNotNull(responseMap);
+//	}
 
 	public void testgetLocaleWithPreference() {
 		String localbyCountry = aisdResponse.getLocaleWithPreference(AISDResponse.AISDPreference.AISDCountryPreference);

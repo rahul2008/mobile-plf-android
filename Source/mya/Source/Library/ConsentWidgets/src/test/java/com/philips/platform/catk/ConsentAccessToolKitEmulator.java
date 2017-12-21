@@ -3,7 +3,9 @@ package com.philips.platform.catk;
 
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
+
+import java.util.List;
 
 public class ConsentAccessToolKitEmulator extends ConsentAccessToolKit {
 
@@ -27,7 +29,7 @@ public class ConsentAccessToolKitEmulator extends ConsentAccessToolKit {
     }
 
     @Override
-    public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
+    public void createConsent(final List<BackendConsent> consent, final CreateConsentListener consentListener) {
 
     }
 

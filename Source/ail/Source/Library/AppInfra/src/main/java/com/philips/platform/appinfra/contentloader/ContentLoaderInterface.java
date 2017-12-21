@@ -6,13 +6,14 @@
 
 package com.philips.platform.appinfra.contentloader;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*
  * The Content loader Interface.
  * Example of article summary download https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(0).limit.(100).json
  */
-public interface ContentLoaderInterface<Content extends ContentInterface> {
+public interface ContentLoaderInterface<Content extends ContentInterface> extends Serializable {
     enum STATE {NOT_INITIALIZED, INITIALIZING, CACHED_DATA_AVAILABLE, CACHED_DATA_OUTDATED, REFRESHING, CONFIGURATION_ERROR};
     enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR, DOWNLOAD_IN_PROGRESS,DATABASE_ERROR,NO_DATA_FOUND_IN_DB};
     enum OPERATOR {AND, OR};

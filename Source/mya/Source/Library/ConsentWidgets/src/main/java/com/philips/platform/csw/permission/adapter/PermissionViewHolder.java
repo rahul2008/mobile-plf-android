@@ -37,7 +37,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     private Label label;
     private Label help;
     private Label error;
-    private ProgressBar progress;
     @Nullable
     private ConsentToggleListener consentToggleListener;
     @NonNull
@@ -52,7 +51,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
         this.label = itemView.findViewById(R.id.consentText);
         this.help = itemView.findViewById(R.id.consentHelp);
         this.error = itemView.findViewById(R.id.consentError);
-        this.progress = itemView.findViewById(R.id.progressBar);
         this.consentToggleListener = consentToggleListener;
         this.helpClickListener = helpClickListener;
         this.help.setPaintFlags(this.help.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -64,7 +62,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     void setDefinition(final ConsentView consentView) {
         // Update UI here
         label.setText(consentView.getConsentText());
-        progress.setVisibility(consentView.isLoading() ? View.VISIBLE : View.INVISIBLE);
         toggle.setVisibility(consentView.isLoading() ? View.INVISIBLE : View.VISIBLE);
         error.setVisibility(consentView.isError() ? View.VISIBLE : View.INVISIBLE);
         toggle.animate().alpha(consentView.isError() ? 0.5f : 1.0f).start();
@@ -95,7 +92,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     private void setLoading(ConsentView consentView) {
         consentView.setIsLoading(true);
         consentView.setError(false);
-        progress.setVisibility(View.VISIBLE);
         error.setVisibility(View.INVISIBLE);
     }
 

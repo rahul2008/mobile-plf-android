@@ -30,17 +30,18 @@ import java.util.concurrent.CountDownLatch;
 
 public class ABTestClientManager implements ABTestClientInterface {
 
+    private static final long serialVersionUID = 2599852794565370760L;
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private AppInfra mAppInfra;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
-    protected CACHESTATUSVALUES mCachestatusvalues;
+    protected transient CACHESTATUSVALUES mCachestatusvalues;
     private boolean isAppRestarted = false;
     private String previousVersion;
-    private SharedPreferences mSharedPreferences;
-    private CacheModel mCacheModel;
+    private transient SharedPreferences mSharedPreferences;
+    private transient CacheModel mCacheModel;
     private String cacheToPreference;
-    private SharedPreferences.Editor editor;
+    private transient SharedPreferences.Editor editor;
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;

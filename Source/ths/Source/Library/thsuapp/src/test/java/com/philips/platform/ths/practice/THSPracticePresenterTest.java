@@ -117,6 +117,11 @@ public class THSPracticePresenterTest {
             }
 
             @Override
+            public String getSourceId() {
+                return null;
+            }
+
+            @Override
             public SDKLocalDate getDob() {
                 return null;
             }
