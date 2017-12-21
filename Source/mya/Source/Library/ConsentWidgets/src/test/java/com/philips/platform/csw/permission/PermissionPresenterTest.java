@@ -3,12 +3,15 @@ package com.philips.platform.csw.permission;
 import android.test.mock.MockContext;
 
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.model.BackendConsent;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
@@ -35,7 +38,7 @@ import static org.mockito.Mockito.verify;
 public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
     private ConsentNetworkError givenError;
-    private RequiredConsent requiredConsent;
+    private Consent requiredConsent;
 
     @Mock
     private PermissionInterface mockPermissionInterface;
@@ -121,17 +124,17 @@ public class PermissionPresenterTest {
     }
 
     private void givenActiveClickStreamConsent() {
-        Consent consent = new Consent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
         ConsentDefinition consentDefinition = new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
                 1, new Locale("en", "US"));
-        requiredConsent = new RequiredConsent(consent, consentDefinition);
+        requiredConsent = new Consent(consent, consentDefinition);
     }
 
     private void givenRejectedClickStreamConsent() {
-        Consent consent = new Consent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
         ConsentDefinition consentDefinition = new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
                 1, new Locale("en", "US"));
-        requiredConsent = new RequiredConsent(consent, consentDefinition);
+        requiredConsent = new Consent(consent, consentDefinition);
     }
 
     public void whenCreateConsentSuccess() {

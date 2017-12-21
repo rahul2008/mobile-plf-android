@@ -44,6 +44,11 @@ public class Consent {
         return consent != null ? consent.getType() : null;
     }
 
+    public ConsentStatus getStatus(){
+        BackendConsent consent = getRepresentingConsent();
+        return consent != null ? consent.getStatus() : ConsentStatus.inactive;
+    }
+
     public ConsentDefinition getDefinition() {
         return definition;
     }

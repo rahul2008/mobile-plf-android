@@ -9,17 +9,12 @@ package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.catk.ConsentInteractor;
-import javax.inject.Inject;
-
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
