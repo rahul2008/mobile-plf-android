@@ -63,36 +63,37 @@ class OnBoardingTourPresenter implements THSBasePresenter {
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel1() {
         List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 26, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(27, 61, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(62, 84, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(88, 112, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(113, 128, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(129, onBoardingTourFragment.getString(R.string.onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(0, 64, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(65, onBoardingTourFragment.getString(R.string.onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         return new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one, spanValues, ON_BOARDING_PAGE_1);
 
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel2() {
         List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 17, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(18, onBoardingTourFragment.getString(R.string.onboarding_two_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(0, 23, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(25, 52, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        spanValues.add(new OnBoardingSpanValue(53, 65, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(66, 73, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        spanValues.add(new OnBoardingSpanValue(75, onBoardingTourFragment.getString(R.string.onboarding_two_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         return new OnBoardingTourContentModel(R.string.onboarding_two_text, R.mipmap.onboarding_tour_two, spanValues, ON_BOARDING_PAGE_2);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel3() {
         List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 26, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(27, 62, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(63, onBoardingTourFragment.getString(R.string.onboarding_three_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(0, 31, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(32, 53, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        spanValues.add(new OnBoardingSpanValue(55, 100, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(101, onBoardingTourFragment.getString(R.string.onboarding_three_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         return new OnBoardingTourContentModel(R.string.onboarding_three_text, R.mipmap.onboarding_tour_three, spanValues, ON_BOARDING_PAGE_3);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel4() {
         List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 6, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(7, 120, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(121, onBoardingTourFragment.getString(R.string.onboarding_four_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        spanValues.add(new OnBoardingSpanValue(0, 28, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(29, 35, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        spanValues.add(new OnBoardingSpanValue(36, 43, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(44, onBoardingTourFragment.getString(R.string.onboarding_four_text).length()-1, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         return new OnBoardingTourContentModel(R.string.onboarding_four_text, R.mipmap.onboarding_tour_four, spanValues, ON_BOARDING_PAGE_4);
     }
 

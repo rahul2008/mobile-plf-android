@@ -81,6 +81,9 @@ artifactory {
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.cml_commlib)
+
 publishing {
     publications {
         aar(MavenPublication) {

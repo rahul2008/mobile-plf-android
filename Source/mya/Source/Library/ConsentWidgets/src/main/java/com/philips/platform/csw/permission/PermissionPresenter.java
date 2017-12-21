@@ -10,9 +10,17 @@ package com.philips.platform.csw.permission;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.ConsentInteractor;
+import javax.inject.Inject;
+
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.HashMap;
@@ -29,6 +37,8 @@ public class PermissionPresenter implements ConsentInteractor.ConsentListCallbac
     private final ConsentInteractor consentInteractor;
     @NonNull
     private final PermissionAdapter adapter;
+
+    private static final String CONSENT_TYPE_CLICKSTREAM = "clickstream";
 
     @Inject
     PermissionPresenter(
@@ -85,7 +95,18 @@ public class PermissionPresenter implements ConsentInteractor.ConsentListCallbac
 
     @Override
     public void onCreateConsentSuccess(Consent consent) {
+        if (consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+            updateClickStream(consent.getStatus());
+        }
         adapter.onCreateConsentSuccess(consent);
         permissionInterface.hideProgressDialog();
+    }
+
+    private void updateClickStream(ConsentStatus consentStatus) {
+        if (consentStatus.name().equals(ConsentStatus.active.name())) {
+            CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        } else {
+            CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        }
     }
 }

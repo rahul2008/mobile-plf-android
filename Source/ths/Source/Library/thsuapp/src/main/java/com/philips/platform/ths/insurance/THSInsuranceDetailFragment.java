@@ -179,7 +179,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
             String firstName = null;
             String lastName = null;
             String dob = null;
-            if (!relationship.isPrimarySubscriber()) {
+            if (null != relationship && !relationship.isPrimarySubscriber()) {
                 firstName = (firstNameEditBox.getText() == null) ? null : firstNameEditBox.getText().toString().trim();
                 lastName = (lastNameEditBox.getText() == null) ? null : lastNameEditBox.getText().toString().trim();
                 dob = (relationDOBEditBox.getText() == null) ? null : relationDOBEditBox.getText().toString().trim();

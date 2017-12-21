@@ -13,7 +13,7 @@ public class THSInitFragmentTestMock extends THSInitFragment {
 
     }
 
-    public void showError(String message, final boolean shouldGoBack) {
+    public void showError(String message, final boolean shouldGoBack, boolean shouldPopFragmentTillWelcomeScreen) {
 
     }
 
