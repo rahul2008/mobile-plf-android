@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -456,36 +455,21 @@ public class THSManager {
     }
 
     protected String generatePasswordRandomly() {
-        //First 3 Capital Letter
-        String firstThreeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuilder password = new StringBuilder();
+
         Random rnd = new Random();
-        while (password.length() < 3) { // length of the random string.
+        int length = rnd.nextInt(16 - 8) + 8;
+
+        String firstThreeChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        StringBuilder password = new StringBuilder();
+
+        while (password.length() < length) { // length of the random string.
             int index = (int) (rnd.nextFloat() * firstThreeChars.length());
             password.append(firstThreeChars.charAt(index));
         }
 
-        //Next 3 Small letters
-        String fourthThreeChars = "abcdefghijklmnopqrstuvwxyz";
-        StringBuilder nextPassword = new StringBuilder();;
-        while (nextPassword.length() < 3) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * fourthThreeChars.length());
-            nextPassword.append(fourthThreeChars.charAt(index));
-        }
-        password.append(nextPassword);
-
-        //Last 2 numbers
-        String lastTwoChars = "0123456789";
-        StringBuilder lastTwoPassword = new StringBuilder();;
-        while (lastTwoPassword.length() < 2) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * lastTwoChars.length());
-            lastTwoPassword.append(lastTwoChars.charAt(index));
-        }
-        password.append(lastTwoPassword);
-
-        String saltStr = password.toString();
-        //AmwellLog.e(AmwellLog.LOG,"password -> " + saltStr);
-        return saltStr;
+        String randomPassowrd = password.toString();
+       // AmwellLog.e(AmwellLog.LOG,"password -> " + randomPassowrd);
+        return randomPassowrd;
     }
 
     public void enrollDependent(final Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
@@ -1010,7 +994,7 @@ public class THSManager {
     }
 
     public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), latitude, longitude, radius, false, new SDKCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                 thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);

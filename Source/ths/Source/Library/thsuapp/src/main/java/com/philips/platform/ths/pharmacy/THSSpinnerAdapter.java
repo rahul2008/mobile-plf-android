@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 
 import com.americanwell.sdk.entity.State;
 import com.philips.platform.ths.R;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -27,13 +28,14 @@ public class THSSpinnerAdapter extends ArrayAdapter<Integer> {
     private Context context;
     private Label pharmacyState;
     private List<State> stateList;
-    private LayoutInflater inflator;
+    private LayoutInflater inflater;
 
     public THSSpinnerAdapter(@NonNull Context context, @LayoutRes int resource, List<State> stateList) {
         super(context, resource);
         this.context = context;
         this.stateList = stateList;
-        inflator = (LayoutInflater.from(context));
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(context));
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class THSSpinnerAdapter extends ArrayAdapter<Integer> {
     @NonNull
     protected View getCustomView(int position,@Nullable View convertView, @NonNull ViewGroup parent) {
 
-        convertView = inflator.inflate(R.layout.ths_pharmacy_spinner_layout, null);
+        convertView = inflater.inflate(R.layout.ths_pharmacy_spinner_layout, null);
         pharmacyState = (Label) convertView.findViewById(R.id.pharmacy_state_list_item);
         pharmacyState.setText(stateList.get(position).getName());
         return convertView;
