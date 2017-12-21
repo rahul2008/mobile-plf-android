@@ -61,7 +61,8 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
             THSManager.getInstance().getVisitReportAttachment(mThsVisitHistoryDetailFragment.getContext(),
                     mThsVisitHistoryDetailFragment.getVisitReport(),this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            mThsVisitHistoryDetailFragment.hideProgressBar();
+            mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
