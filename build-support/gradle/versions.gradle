@@ -35,7 +35,8 @@ ext.versions = [
         minsdk                    : 21,
         buildtools                : "26.0.2",
         support                   : "26.0.2",
-        jacoco                    : "0.7.6.201602180812"
+        jacoco                    : "0.7.6.201602180812",
+        dagger                    : "2.11"
 ]
 
 ext.builddeps = [
@@ -69,13 +70,19 @@ ext.deps = [
                 supportv4  : "com.android.support:support-v4:${ext.versions.support}"
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
+        constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
+        dagger             : [
+                dagger          : "com.google.dagger:dagger:${ext.versions.dagger}",
+                androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
+                androidprocessor: "com.google.dagger:dagger-android-processor:${ext.versions.dagger}",
+                compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}"
+        ],
         gson               : 'com.google.code.gson:gson:2.8.1',
         joda_time          : 'joda-time:joda-time:2.9.9',
         ormlite            : [
                 core   : "com.j256.ormlite:ormlite-core:5.0",
                 android: "com.j256.ormlite:ormlite-android:5.0"
         ],
-        constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
         leakcanary         : 'com.squareup.leakcanary:leakcanary-android:1.5',
 
         // Testing
