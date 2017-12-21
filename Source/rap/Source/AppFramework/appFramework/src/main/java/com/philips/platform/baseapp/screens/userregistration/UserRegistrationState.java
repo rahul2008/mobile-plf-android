@@ -8,8 +8,8 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -35,14 +35,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -260,22 +260,20 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void updateTaggingBasedOnClickStreamConsent() {
-        final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
-        toolkit.getStatusForConsentType("clickstream", 0, new ConsentResponseListener() {
+        final ConsentInteractor interactor = new ConsentInteractor(ConsentAccessToolKit.getInstance());
+        interactor.getStatusForConsentType("clickstream", new ConsentInteractor.ConsentCallback() {
+
             @Override
-            public void onResponseSuccessConsent(List<Consent> responseData) {
-                if (responseData != null && !responseData.isEmpty()) {
-                    Consent consentModel = responseData.get(0);
-                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
-                        getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-                    } else {
-                        getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-                    }
+            public void onGetConsentRetrieved(@NonNull Consent consent) {
+                if (consent.getStatus().equals(ConsentStatus.active)) {
+                    getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+                } else {
+                    getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
                 }
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentNetworkError consentNetworkError) {
+            public void onGetConsentFailed(ConsentNetworkError consentNetworkError) {
                 RALog.e("Consent Network Error", consentNetworkError.getMessage());
             }
         });
