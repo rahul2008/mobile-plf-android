@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -32,12 +33,18 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.listener.ConsentResponseListener;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
@@ -56,7 +63,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 /**
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra.
- *
+ * <p>
  * Secret Key and Shared key are same  for TEST and DEV AppState.
  * We do not have revceived China Keys for TEST and DEV AppState.
  * China Keys are available for STAGE only.
@@ -129,7 +136,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
-        switch (configuration){
+        switch (configuration) {
             case STAGING:
                 setStageConfig(appConfigurationInterface, configError);
                 break;
@@ -216,6 +223,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
+
+        updateTaggingBasedOnClickStreamConsent();
+
         if (null != activity && getUserObject(activity).isUserSignIn()) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
@@ -234,21 +244,42 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             }
         }
-            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            BaseState baseState = null;
-            try {
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), UR_COMPLETE);
-            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                    e) {
-                RALog.d(TAG, e.getMessage());
-                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-            }
-            if (null != baseState) {
-                getFragmentActivity().finish();
-                baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
-            }
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseState baseState = null;
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), UR_COMPLETE);
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            RALog.d(TAG, e.getMessage());
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
+        if (null != baseState) {
+            getFragmentActivity().finish();
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+        }
+    }
 
+    private void updateTaggingBasedOnClickStreamConsent() {
+        final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
+        toolkit.getStatusForConsentType("clickstream", 0, new ConsentResponseListener() {
+            @Override
+            public void onResponseSuccessConsent(List<Consent> responseData) {
+                if (responseData != null && !responseData.isEmpty()) {
+                    Consent consentModel = responseData.get(0);
+                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
+                        getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+                    } else {
+                        getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+                    }
+                }
+            }
+
+            @Override
+            public void onResponseFailureConsent(ConsentNetworkError consentNetworkError) {
+                RALog.e("Consent Network Error", consentNetworkError.getMessage());
+            }
+        });
+    }
 
     @Override
     public void updateDataModel() {
@@ -265,7 +296,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      * Launch registration fragment
      */
     private void launchUR() {
-        RALog.d(TAG," LaunchUr called ");
+        RALog.d(TAG, " LaunchUr called ");
         userObject = new User(getApplicationContext());
         userObject.registerUserRegistrationListener(this);
         URLaunchInput urLaunchInput = new URLaunchInput();
@@ -284,7 +315,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      * For doing dynamic initialisation Of User registration
      */
     public void initializeUserRegistrationLibrary() {
-        RALog.d(TAG," initializeUserRegistrationLibrary called ");
+        RALog.d(TAG, " initializeUserRegistrationLibrary called ");
         URDependancies urDependancies = new URDependancies(getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
@@ -321,7 +352,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
-        RALog.d(TAG," User Logout success  ");
+        RALog.d(TAG, " User Logout success  ");
         DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(new DBRequestListener() {
             @Override
             public void onSuccess(List list) {
