@@ -65,6 +65,9 @@ repositories {
     }
 }
 
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.cml_commlib)
+
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {

@@ -50,7 +50,7 @@
             android:layout_below="@+id/ths_intake_medication_label"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:textSize="@dimen/ths_small_body_text"
-            style="@style/UIDLabel.Header"
+            style="@style/ths_user_name"
             />
 
         <com.philips.platform.uid.view.widget.Label

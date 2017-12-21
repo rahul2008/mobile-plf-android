@@ -68,7 +68,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             address.setAddress1(mTHSBillingAddressFragment.mAddressOneEditText.getText().toString().trim());
             address.setAddress2(mTHSBillingAddressFragment.mAddressTwoEditText.getText().toString().trim());
             address.setCity(mTHSBillingAddressFragment.mCityEditText.getText().toString().trim());
-            address.setState(mTHSBillingAddressFragment.stateList.get(mTHSBillingAddressFragment.stateSpinner.getSelectedItemPosition()));
+            address.setState(mTHSBillingAddressFragment.mCurrentSelectedState);
             address.setZipCode(mTHSBillingAddressFragment.mZipcodeEditText.getText().toString().trim());
             createPaymentRequest.setAddress(address);
 
@@ -88,23 +88,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     }
 
 
-    void updateAddresIfAvailable(Address address) {
-        if (null != address) {
-            mTHSBillingAddressFragment.mAddressOneEditText.setText(address.getAddress1());
-            mTHSBillingAddressFragment.mAddressTwoEditText.setText(address.getAddress2());
-            mTHSBillingAddressFragment.mCityEditText.setText(address.getCity());
-            mTHSBillingAddressFragment.mZipcodeEditText.setText(address.getZipCode());
-            State currentState = address.getState();
-            if (null != currentState) {
-                //  currentState.
-                int currentStateindex = mTHSBillingAddressFragment.stateList.indexOf(currentState);
-                if (currentStateindex > -1) {
-                    mTHSBillingAddressFragment.stateSpinner.setSelection(currentStateindex);
-                }
-            }
-        }
 
-    }
 
     public boolean validateZip(String zipCode){
         return pattern.matcher(zipCode).matches();

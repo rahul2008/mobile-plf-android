@@ -42,10 +42,28 @@
                 android:text="@string/ths_more_details" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_first_name"
+                android:id="@+id/ths_dependant_email_address_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ths_more_detail"
+                android:layout_marginTop="@dimen/ths_fab_margin"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_dependant_email_address_title" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_dependant_email_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+                android:layout_below="@id/ths_dependant_email_address_title"
+                android:layout_marginBottom="@dimen/ths_fab_margin" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_dependant_email_address"
+                android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_first_name" />
 
@@ -135,6 +153,7 @@
                 android:id="@+id/radio_group_single_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:layout_below="@id/ths_gender">
 
                 <com.philips.platform.uid.view.widget.RadioButton
@@ -150,7 +169,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ths_checkbox_female"
-                    android:layout_marginBottom="@dimen/ths_list_item_height"
                     android:enabled="true"
                     android:text="@string/ths_male" />
             </com.philips.platform.uid.view.widget.RadioGroup>
@@ -161,6 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/radio_group_single_line"
+                android:layout_marginTop="@dimen/ths_list_space"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_location" />
 
@@ -182,8 +201,7 @@
                         style="@style/ths_location_right"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:editable="false"
-                        android:inputType="none"
+                        android:focusable="false"
                         android:hint="@string/ths_state" />
 
                 </com.philips.platform.uid.view.widget.InputValidationLayout>

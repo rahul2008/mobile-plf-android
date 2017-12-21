@@ -86,7 +86,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER,sdkError), true);
+                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER,sdkError), true, false);
             } else {
                 THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
                 thsConsumer.setConsumer(viewInterface.getConsumerInfo());

@@ -8,6 +8,7 @@ package com.philips.platform.thsdemolaunch;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -25,12 +26,13 @@ import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
-import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -47,10 +49,10 @@ import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSCompletionProtocol {
+public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Purple_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
@@ -60,7 +62,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        initTheme();
-        themeConfiguration = new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
+        themeConfiguration = new ThemeConfiguration(this, ColorRange.PURPLE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
         UIDHelper.init(themeConfiguration);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_activity_launch);
@@ -71,12 +73,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
 
         User user = new User(this);
-        if(user!=null && !user.isUserSignIn()) {
+        if (user != null && !user.isUserSignIn()) {
             startRegistrationFragment();
-        }else {
+        } else {
             launchAmwell();
         }
-       // launchAmwell();
+        // launchAmwell();
     }
 
 
@@ -163,34 +165,26 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        /*Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
-        BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //use the compression format of your need
-        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());*/
-
         User user = new User(this);
-        THSConsumer thsConsumer = new THSConsumer();
 
-        THSConsumer baby = new THSConsumer();
-        baby.setFirstName("baby1");
-        baby.setLastName("Hosur");
-        baby.setHsdpToken(user.getHsdpAccessToken());
-        baby.setGender(Gender.MALE);
-        baby.setEmail(user.getEmail());
+        THSConsumer baby1 = new THSConsumer();
+        baby1.setFirstName("checkbaby1");
+        baby1.setLastName("Hosur");
+        baby1.setHsdpToken(user.getHsdpAccessToken());
+        baby1.setGender(Gender.MALE);
+        baby1.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016,8,24);
-        baby.setDob(calendar.getTime());
-        baby.setHsdpUUID(calendar.getTime()+"baby1");
-        baby.setDependent(true);
-        baby.setBloodPressureSystolic("120");
-        baby.setBloodPressureDiastolic("80");
-        baby.setTemperature(90.0);
-        baby.setWeight(56);
-      //  baby.setProfilePic(is);
+        baby1.setDob(calendar.getTime());
+        baby1.setHsdpUUID("baby1");
+        baby1.setDependent(true);
+        baby1.setBloodPressureSystolic("120");
+        baby1.setBloodPressureDiastolic("80");
+        baby1.setTemperature(90.0);
+        baby1.setWeight(56);
+
         ArrayList dependants = new ArrayList();
-        dependants.add(baby);
+        dependants.add(baby1);
 
         THSConsumer baby2 = new THSConsumer();
         baby2.setFirstName("baby2");
@@ -199,22 +193,40 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby2.setGender(Gender.FEMALE);
         baby2.setEmail(user.getEmail());
         Calendar calendar2 = Calendar.getInstance();
-        calendar.set(2015,8,24);
+        calendar.set(2015, 8, 24);
         baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID(calendar.getTime() + "baby2");
+        baby2.setHsdpUUID("baby2");
         baby2.setDependent(true);
         baby2.setBloodPressureSystolic("120");
         baby2.setBloodPressureDiastolic("80");
         baby2.setTemperature(90.0);
         baby2.setWeight(56);
-       // baby2.setProfilePic(is);
-        //ArrayList dependants = new ArrayList();
         dependants.add(baby2);
 
+
+        THSConsumer baby3 = new THSConsumer();
+        baby3.setFirstName("baby3");
+        baby3.setLastName("Hosur");
+        baby3.setHsdpToken(user.getHsdpAccessToken());
+        baby3.setGender(Gender.MALE);
+        baby3.setEmail(user.getEmail());
+
+        calendar.set(2016,8,24);
+        baby3.setDob(calendar.getTime());
+        baby3.setHsdpUUID("baby3");
+        baby3.setDependent(true);
+        baby3.setBloodPressureSystolic("120");
+        baby3.setBloodPressureDiastolic("80");
+        baby3.setTemperature(90.0);
+        baby3.setWeight(56);
+        dependants.add(baby3);
+
+
+        THSConsumer thsConsumer = new THSConsumer();
         thsConsumer.setDob(user.getDateOfBirth());
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setFirstName(user.getGivenName());
-        thsConsumer.setGender(Gender.FEMALE);
+        thsConsumer.setGender(Gender.MALE);
         thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
@@ -229,7 +241,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra());
         uappDependencies.setThsConsumer(thsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
-        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE),R.style.Theme_DLS_GroupBlue_UltraLight, null);
+        PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
 
     }
 
@@ -272,6 +285,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     @Override
     public void didExitTHS(THSExitType thsExitType) {
-        AmwellLog.d(this.getClass().getName(),thsExitType.toString());
+        AmwellLog.d(this.getClass().getName(), thsExitType.toString());
+        Intent intent = new Intent(this, FirstActivity.class);
+        startActivity(intent);
     }
 }

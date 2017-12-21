@@ -69,6 +69,9 @@ repositories {
     }
 }
 
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.bll_shinelib)
+
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {

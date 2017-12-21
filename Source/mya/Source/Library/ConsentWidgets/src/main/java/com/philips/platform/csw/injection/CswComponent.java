@@ -10,6 +10,9 @@ package com.philips.platform.csw.injection;
 import android.content.Context;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.catk.NetworkController;
+import com.philips.platform.csw.permission.PermissionPresenter;
 
 import javax.inject.Singleton;
 
@@ -21,4 +24,6 @@ public interface CswComponent {
     Context context();
 
     LoggingInterface getLoggingInterface();
+
+    AppTaggingInterface getAppTaggingInterface();
 }

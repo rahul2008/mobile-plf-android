@@ -65,7 +65,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     public void onFailure(Throwable throwable) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             mThsScheduledVisitsFragment.doTagging( ANALYTICS_FETCH_APPOINTMENTS,mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),false);
-            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
+            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true, false);
             stopRefreshing();
         }
     }

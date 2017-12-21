@@ -21,7 +21,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_follow_up_patient_name"
-                style="@style/UIDLabel.Header"
+                style="@style/ths_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pth_intake_follow_up_label"
