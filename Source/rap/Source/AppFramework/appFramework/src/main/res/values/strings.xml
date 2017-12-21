@@ -365,8 +365,6 @@ Receive free product accessories</string>
     <string name="RA_DLS_theme_set_text" translatable="false">SET</string>
 
 
-
-
     <string name="RA_DLS_data_fetch_wait" translatable="false">Wait..While we fetch your sleep data from device</string>
     <string name="RA_DLS_data_fetch_error" translatable="false">Not able to fetch data</string>
 
@@ -394,6 +392,12 @@ Receive free product accessories</string>
     <string name="RA_MYA_Consent_Moment_Help" translatable="false">Giving this consent you are allowing Philips to store information related to you</string>
     <string name="RA_MYA_Consent_Coaching_Text" translatable="false">I allow Philips to use my data for Coaching purposes</string>
     <string name="RA_MYA_Consent_Coaching_Help" translatable="false">Giving this consent you are allowing Philips to process information related to you</string>
+    <string name="RA_MYA_Consent_Binary_Text" translatable="false">I allow Philips to store binary data</string>
+    <string name="RA_MYA_Consent_Binary_Help" translatable="false">Giving this consent you are allowing Philips to store information related to you</string>
+    <string name="RA_MYA_Consent_Clickstream_Text" translatable="false">I allow Philips to use my mobile application usage statistics</string>
+    <string name="RA_MYA_Consent_Clickstream_Help" translatable="false">Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+
     <string name="RA_DLS_insights_error" translatable="false">Error loading Insights</string>
     <string name="RA_loading_articles" translatable="false">Loading Article</string>
+
 </resources>
