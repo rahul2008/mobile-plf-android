@@ -1,6 +1,7 @@
 package com.philips.platform.mya.demouapp.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -177,6 +178,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 currentLocale));
         definitions.add(new ConsentDefinition("I allow Philips to use my mobile application usage statistics", "Giving this consent you are allowing Philips to process mobile usage statistics related to you", Collections.singletonList("clickstream"), 1,
                 currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to use my data for Research and Analytics purposes", "Research and Analytics purpose explanation", Arrays.asList("research", "analytics"), 1, currentLocale));
         return definitions;
 
     }
