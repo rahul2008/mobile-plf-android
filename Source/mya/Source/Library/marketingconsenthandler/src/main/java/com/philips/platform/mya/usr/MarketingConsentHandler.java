@@ -2,10 +2,10 @@ package com.philips.platform.mya.usr;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.ConsentListCallback;
-import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
+import com.philips.platform.consenthandlerinterface.PostConsentCallback;
 import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
@@ -32,7 +32,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     @Override
-    public void checkConsents(ConsentListCallback callback) {
+    public void checkConsents(CheckConsentsCallback callback) {
 
         try {
             final boolean receiveMarketingEmail = user.getReceiveMarketingEmail();
@@ -43,14 +43,14 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
                 marketingConsents.add(marketingConsent);
             }
 
-            callback.onGetConsentRetrieved(marketingConsents);
+            callback.onGetConsentsSuccess(marketingConsents);
         } catch (Exception consentFailed) {
-            callback.onGetConsentFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN)); // TODO: Check with CatkError Codes
+            callback.onGetConsentsFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN)); // TODO: Check with CatkError Codes
         }
     }
 
     @Override
-    public void post(ConsentDefinition definition, boolean status, CreateConsentCallback callback) {
+    public void post(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         user.updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status)), status);
     }
 
@@ -64,11 +64,11 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
-        private final CreateConsentCallback callback;
+        private final PostConsentCallback callback;
         private final ConsentDefinition definition;
         private final Consent marketingConsent;
 
-        MarketingUpdateCallback(CreateConsentCallback callback, ConsentDefinition definition, ConsentStatus consentStatus) {
+        MarketingUpdateCallback(PostConsentCallback callback, ConsentDefinition definition, ConsentStatus consentStatus) {
             this.callback = callback;
             this.definition = definition;
             marketingConsent = createConsentFromDefinition(definition, consentStatus);
@@ -76,12 +76,12 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
         @Override
         public void onUpdateSuccess() {
-            callback.onCreateConsentSuccess(marketingConsent);
+            callback.onPostConsentSuccess(marketingConsent);
         }
 
         @Override
         public void onUpdateFailedWithError(int i) {
-            callback.onCreateConsentFailed(definition, new ConsentError("Error updating Marketing Consent", i));
+            callback.onPostConsentFailed(definition, new ConsentError("Error updating Marketing Consent", i));
         }
     }
 }

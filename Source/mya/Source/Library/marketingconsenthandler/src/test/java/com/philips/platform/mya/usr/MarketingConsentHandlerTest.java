@@ -1,9 +1,9 @@
 package com.philips.platform.mya.usr;
 
 import com.philips.cdp.registration.User;
+import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
 import com.philips.platform.consenthandlerinterface.ConsentError;
-import com.philips.platform.consenthandlerinterface.ConsentListCallback;
-import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
+import com.philips.platform.consenthandlerinterface.PostConsentCallback;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
@@ -35,9 +35,9 @@ import static org.mockito.Mockito.when;
 public class MarketingConsentHandlerTest {
 
     @Mock
-    private ConsentListCallback givenConsentListCallback;
+    private CheckConsentsCallback givenCheckConsentCallback;
     @Mock
-    private CreateConsentCallback givenCreateConsentCallback;
+    private PostConsentCallback givenPostConsentCallback;
     @Mock
     private User mockUser;
     @Captor
@@ -128,30 +128,30 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenCheckingConsents() {
-        subject.checkConsents(givenConsentListCallback);
+        subject.checkConsents(givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenCheckingConsentsThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
-        subject.checkConsents(givenConsentListCallback);
+        subject.checkConsents(givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenPostingConsentDefinitionSucceeds() {
-        subject.post(givenConsentDefinition, givenStatus, givenCreateConsentCallback);
+        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateSuccess();
     }
 
     private void whenPostingConsentDefinitionFails(int errorCode) {
-        subject.post(givenConsentDefinition, givenStatus, givenCreateConsentCallback);
+        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
     }
 
     private void theMarketingConsentIsReportedToCallback(ConsentStatus active) {
-        verify(givenCreateConsentCallback).onCreateConsentSuccess(consentCaptor.capture());
+        verify(givenPostConsentCallback).onPostConsentSuccess(consentCaptor.capture());
 
         if (active == ConsentStatus.active) {
             assertTrue(consentCaptor.getValue().isAccepted());
@@ -161,7 +161,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void thenMarketingConsentIsRetrieved(ConsentStatus active) {
-        verify(givenConsentListCallback).onGetConsentRetrieved(consentGetCaptor.capture());
+        verify(givenCheckConsentCallback).onGetConsentsSuccess(consentGetCaptor.capture());
 
         if (active == ConsentStatus.active) {
             assertTrue(consentGetCaptor.getValue().get(0).isAccepted());
@@ -171,13 +171,13 @@ public class MarketingConsentHandlerTest {
     }
 
     private void thenErrorIsReportedToCallback(int errorCode) {
-        verify(givenCreateConsentCallback).onCreateConsentFailed(any(ConsentDefinition.class), errorCaptor.capture());
+        verify(givenPostConsentCallback).onPostConsentFailed(any(ConsentDefinition.class), errorCaptor.capture());
         assertEquals(errorCode, errorCaptor.getValue().getErrorCode());
     }
 
     private void thenErrorCallbackIsCalled() {
-        verify(givenConsentListCallback).onGetConsentFailed(any(ConsentError.class));
-        verify(givenConsentListCallback, never()).onGetConsentRetrieved(anyList());
+        verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
+        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(anyList());
     }
 
 }
