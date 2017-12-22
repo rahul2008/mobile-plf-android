@@ -9,16 +9,19 @@ package com.philips.platform.catk.model;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class RequiredConsentTest {
+public class ConsentTest {
 
     @Test
-    public void isAccepted_trueIfHigherVersionBackendConsentIsActive () {
+    public void isAccepted_trueIfHigherVersionBackendConsentIsActive() {
         givenActiveBackendConsentOfVersion(1);
         givenConsentDefinitionOfVersion(0);
         whenRequiredConsentIsCreated();
@@ -57,6 +60,30 @@ public class RequiredConsentTest {
     }
 
     @Test
+    public void isAccepted_trueWhenMultipleConsentsAreGivenWithSameState() {
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenConsentDefinitionOfVersion(0);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsActive();
+    }
+
+    @Test
+    public void isAccepted_falseWhenMultipleConsentsAreGivenWithDifferentState() {
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenInactiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenActiveBackendConsentOfVersion(0);
+        givenConsentDefinitionOfVersion(0);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsInactive();
+    }
+
+    @Test
     public void isChangeable_falseWhenCurrentVersionHigherThanDefinition() {
         givenActiveBackendConsentOfVersion(1);
         givenConsentDefinitionOfVersion(0);
@@ -80,7 +107,7 @@ public class RequiredConsentTest {
     }
 
     private void givenInactiveBackendConsentOfVersion(int version) {
-        backendConsent = new Consent(Locale.US, ConsentStatus.inactive, TYPE, version);
+        backendConsent.add(new BackendConsent(Locale.US, ConsentStatus.inactive, TYPE, version));
     }
 
     private void givenConsentDefinitionOfVersion(int version) {
@@ -88,11 +115,11 @@ public class RequiredConsentTest {
     }
 
     private void givenActiveBackendConsentOfVersion(int version) {
-        backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
+        backendConsent.add(new BackendConsent(Locale.US, ConsentStatus.active, TYPE, version));
     }
 
     private void whenRequiredConsentIsCreated() {
-        requiredConsent = new RequiredConsent(backendConsent, consentDefinition);
+        requiredConsent = new Consent(backendConsent, consentDefinition);
     }
 
     private void thenRequiredConsentIsActive() {
@@ -111,9 +138,9 @@ public class RequiredConsentTest {
         assertFalse(requiredConsent.isChangeable());
     }
 
-    private RequiredConsent requiredConsent;
+    private Consent requiredConsent;
     private ConsentDefinition consentDefinition;
-    private Consent backendConsent;
+    private List<BackendConsent> backendConsent = new ArrayList<>();
     private final String TYPE = "type1";
 
 }

@@ -14,7 +14,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -64,7 +63,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-            getConsentAccessInstance().init(initConsentToolKit(view.getContext(), appInfra));
             CswInterface cswInterface = getCswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
@@ -73,10 +71,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             return true;
         }
         return false;
-    }
-
-    ConsentAccessToolKit getConsentAccessInstance() {
-        return ConsentAccessToolKit.getInstance();
     }
 
     CswInterface getCswInterface() {
@@ -97,17 +91,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
-    }
-
-    CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(appInfra);
-        return catkInputs;
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {

@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.urdemo.URDemouAppDependencies;
@@ -24,7 +25,11 @@ import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
@@ -71,12 +76,19 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     private void initCatk() {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(this);
-        catkInputs.setAppInfra(mAppInfraInterface);
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface).setConsentDefinitions(createConsentDefinitions(Locale.US));
+        ConsentAccessToolKit.getInstance().init(catkBuilder.build());
     }
 
+    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
+                currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Coaching purpose explanation", Collections.singletonList("coaching"),
+                1, currentLocale));
+        return definitions;
+
+    }
     private void initAppInfra() {
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
     }

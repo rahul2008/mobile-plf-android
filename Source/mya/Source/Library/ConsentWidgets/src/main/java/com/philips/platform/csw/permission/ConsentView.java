@@ -8,7 +8,7 @@
 package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.catk.model.Consent;
 
 import android.support.annotation.Nullable;
 
@@ -20,7 +20,7 @@ public class ConsentView {
     private boolean isOnline = true;
 
     @Nullable
-    private RequiredConsent consent;
+    private Consent consent;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
@@ -42,7 +42,7 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    public ConsentView storeConsent(RequiredConsent consent) {
+    public ConsentView storeConsent(Consent consent) {
         this.consent = consent;
         this.isLoading = false;
         this.isError = false;
