@@ -16,14 +16,13 @@ import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
-/**
- * Created by Entreco on 20/12/2017.
- */
 public class MyaHelperTest {
     private MyaHelper subject = MyaHelper.getInstance();
     private List<ConsentConfiguration> configurations = new ArrayList<>();
-    @Mock private ConsentHandlerInterface handler1;
-    @Mock private ConsentHandlerInterface handler2;
+    @Mock
+    private ConsentHandlerInterface handler1;
+    @Mock
+    private ConsentHandlerInterface handler2;
 
     @Before
     public void setUp() throws Exception {
@@ -32,21 +31,21 @@ public class MyaHelperTest {
 
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_single_configuration() {
-        givenConfigurationsWithTypes(handler1,"moment", "moment");
+        givenConfigurationsWithTypes(handler1, "moment", "moment");
         whenSettingConfiguration();
     }
 
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_multiple_configurations() {
-        givenConfigurationsWithTypes(handler1,"moment", "consent");
-        givenConfigurationsWithTypes(handler2,"moment", "coaching");
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "moment", "coaching");
         whenSettingConfiguration();
     }
 
     @Test
     public void itShouldNotThrowExceptionWhenSettingConfigurationWithUniquesDuplicateTypes() {
-        givenConfigurationsWithTypes(handler1,"moment", "consent");
-        givenConfigurationsWithTypes(handler2,"coaching", "marketing");
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "coaching", "marketing");
         whenSettingConfiguration();
     }
 
@@ -59,7 +58,7 @@ public class MyaHelperTest {
 
     private void givenConfigurationsWithTypes(ConsentHandlerInterface handler, String... types) {
         List<ConsentDefinition> definitions = new ArrayList<>();
-        for(String type : types){
+        for (String type : types) {
             definitions.add(createDefinitionsWithType(type));
         }
         configurations.add(new ConsentConfiguration(definitions, handler));
@@ -70,7 +69,7 @@ public class MyaHelperTest {
     }
 
     private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition("text:" + type, "help:" +type, Collections.singletonList(type), 0, Locale.US);
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0, Locale.US);
     }
 
 }

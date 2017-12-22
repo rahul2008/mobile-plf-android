@@ -4,10 +4,6 @@ import android.test.mock.MockContext;
 
 import com.philips.platform.consenthandlerinterface.BuildConfig;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.ConsentListCallback;
-import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;
@@ -25,8 +21,6 @@ import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
 import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

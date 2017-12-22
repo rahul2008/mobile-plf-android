@@ -1,9 +1,5 @@
 package com.philips.platform.consenthandlerinterface;
 
-/**
- * Created by Entreco on 15/12/2017.
- */
-
 public class ConsentError {
     private final String error;
     private final int errorCode;

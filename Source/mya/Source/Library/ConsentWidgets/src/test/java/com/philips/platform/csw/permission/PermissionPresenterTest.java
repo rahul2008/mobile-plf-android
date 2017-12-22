@@ -89,13 +89,13 @@ public class PermissionPresenterTest {
     @Test
     public void testHideProgressDialog_onError() throws Exception {
         givenConsentError();
-        mPermissionPresenter.onGetConsentFailed(givenError);
+        mPermissionPresenter.onGetConsentsFailed(givenError);
         verify(mockPermissionInterface).hideProgressDialog();
     }
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
-        mPermissionPresenter.onGetConsentRetrieved(new ArrayList<Consent>());
+        mPermissionPresenter.onGetConsentsSuccess(new ArrayList<Consent>());
         verify(mockPermissionInterface).hideProgressDialog();
     }
 
@@ -154,7 +154,7 @@ public class PermissionPresenterTest {
     }
 
     public void whenCreateConsentSuccess() {
-        mPermissionPresenter.onCreateConsentSuccess(requiredConsent);
+        mPermissionPresenter.onPostConsentSuccess(requiredConsent);
     }
 
     private void thenVerifyEnableTaggingIsInvoked() {
@@ -201,16 +201,16 @@ public class PermissionPresenterTest {
     }
 
     private void whenGetConsentFailed() {
-        mPermissionPresenter.onGetConsentFailed(givenError);
+        mPermissionPresenter.onGetConsentsFailed(givenError);
     }
 
     private void whenCreateConsentFailed() {
-        mPermissionPresenter.onCreateConsentFailed(null, givenError);
+        mPermissionPresenter.onPostConsentFailed(null, givenError);
     }
 
     private void whenCreateConsentSucceeds() {
         when(mockRequiredConsent.getType()).thenReturn("");
-        mPermissionPresenter.onCreateConsentSuccess(mockRequiredConsent);
+        mPermissionPresenter.onPostConsentSuccess(mockRequiredConsent);
     }
 
     private void whenTogglingConsentTo(boolean toggled) {
