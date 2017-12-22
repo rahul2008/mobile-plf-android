@@ -10,13 +10,17 @@ import android.os.Bundle;
 
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
+import java.io.Serializable;
+
 
 /**
  The purpose of the class if to launch microapp as activity
  */
 
-public class ActivityLauncher extends UiLauncher  {
+public class ActivityLauncher extends UiLauncher {
 
+
+    private static final long serialVersionUID = 8088033137658622938L;
 
     /**
      * These are Flags used for specifying screen orientation.

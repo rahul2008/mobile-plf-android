@@ -8,8 +8,12 @@ package com.philips.platform.uappframework.launcher;
 
 import android.support.annotation.AnimRes;
 
-public abstract class UiLauncher  {
+import java.io.Serializable;
 
+public abstract class UiLauncher implements Serializable {
+
+
+    private static final long serialVersionUID = -8906511992872569045L;
     /**
      * Enter {@Link android.view.animation}
      */

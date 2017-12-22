@@ -5,12 +5,12 @@
 */
 package com.philips.platform.uappframework;
 
-import android.content.Context;
-
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import java.io.Serializable;
 
 
 /**
@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
  */
 
-public interface UappInterface  {
+public interface UappInterface extends Serializable {
     /**
      *  For intitalizing uApp
      *  @param uappDependencies : Object of UappDependencies

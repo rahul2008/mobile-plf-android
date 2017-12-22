@@ -18,6 +18,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class InternationalizationManager implements InternationalizationInterface {
 
+    private static final long serialVersionUID = -238589639136393116L;
     private final Context context;
     private AppInfra mAppInfra;
 

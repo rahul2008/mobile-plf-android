@@ -6,12 +6,13 @@
 
 package com.philips.platform.appinfra.logging;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * The Logging Interface
  */
-public interface LoggingInterface {
+public interface LoggingInterface extends Serializable {
     /**
      * The enum Log level.
      */
