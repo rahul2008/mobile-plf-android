@@ -21,6 +21,7 @@ buildscript {
         classpath builddeps.androidapt // dsc & rap requires this
         classpath builddeps.googleservices // rap-pushnotification requires this
         classpath builddeps.pitest
+        classpath builddeps.jacoco
     }
 }
 
@@ -43,6 +44,24 @@ println "Working branch: ${objcdp.getWorkingBranch()}"
 
 
 subprojects {
+    buildscript {
+        apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+        repositories {
+            maven {
+                url repos.jcenter
+            }
+            maven {
+                url repos.plugin
+                credentials {
+                    username = "readonly"
+                    password = "123qweasdzxc"
+                }
+            }
+        }
+    }
+
+    group = 'com.philips.cdp'
 
     if (!it.projectDir.exists()) {
         throw new GradleException("Project not found ${it}")
