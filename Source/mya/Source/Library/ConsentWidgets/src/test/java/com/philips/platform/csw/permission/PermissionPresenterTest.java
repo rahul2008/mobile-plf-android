@@ -2,28 +2,20 @@ package com.philips.platform.csw.permission;
 
 import android.test.mock.MockContext;
 
-import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,19 +24,22 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.ConsentError;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
-import com.philips.platform.csw.permission.adapter.PermissionAdapter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
+    private Consent requiredConsent;
     private List<ConsentConfiguration> givenConsentConfigurations = new ArrayList<>();
 
     @Mock
@@ -138,8 +133,7 @@ public class PermissionPresenterTest {
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
         ConsentAccessToolKitEmulator consentAccessToolKit = new ConsentAccessToolKitEmulator();
-        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentConfigurations);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

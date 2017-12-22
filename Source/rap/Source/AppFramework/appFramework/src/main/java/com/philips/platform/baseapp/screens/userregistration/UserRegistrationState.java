@@ -42,9 +42,10 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
@@ -261,7 +262,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private void updateTaggingBasedOnClickStreamConsent() {
         final ConsentInteractor interactor = new ConsentInteractor(ConsentAccessToolKit.getInstance());
-        interactor.getStatusForConsentType("clickstream", new ConsentInteractor.ConsentCallback() {
+        interactor.getStatusForConsentType("clickstream", new ConsentCallback() {
 
             @Override
             public void onGetConsentRetrieved(@NonNull Consent consent) {
@@ -273,8 +274,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             }
 
             @Override
-            public void onGetConsentFailed(ConsentNetworkError consentNetworkError) {
-                RALog.e("Consent Network Error", consentNetworkError.getMessage());
+            public void onGetConsentFailed(ConsentError error) {
+                RALog.e("Consent Network Error", error.getError());
             }
         });
     }

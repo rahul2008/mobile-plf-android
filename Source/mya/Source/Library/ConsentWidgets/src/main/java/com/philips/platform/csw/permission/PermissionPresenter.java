@@ -10,12 +10,6 @@ package com.philips.platform.csw.permission;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.csw.CswInterface;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
@@ -23,6 +17,8 @@ import com.philips.platform.consenthandlerinterface.ConsentListCallback;
 import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.HashMap;
@@ -57,11 +53,11 @@ public class PermissionPresenter implements ConsentListCallback, ConsentToggleLi
     }
 
     void getConsentStatus() {
-        if(!configurationList.isEmpty()) {
+        if (!configurationList.isEmpty()) {
             permissionInterface.showProgressDialog();
             for (ConsentConfiguration configuration : configurationList) {
                 ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
-                if(handlerInterface != null) {
+                if (handlerInterface != null) {
                     handlerInterface.checkConsents(this);
                 }
             }

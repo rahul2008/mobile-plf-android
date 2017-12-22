@@ -11,10 +11,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.catk.NetworkController;
-import com.philips.platform.csw.permission.PermissionPresenter;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.csw.permission.PermissionModule;
 
 import java.util.List;
 
