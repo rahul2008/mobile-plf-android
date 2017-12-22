@@ -73,18 +73,15 @@ public class THSDependentPresenter implements THSBasePresenter {
 
     protected void updateDependents() {
 
-        final List<Consumer> server = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getConsumer().getDependents();
-         List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getDependents();
+        Consumer consumerUser = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getConsumer();
+        final List<Consumer> server = consumerUser.getDependents();
+        List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getDependents();
 
-        List<THSConsumer> newObject = new ArrayList<>();
+        for(THSConsumer thsConsumer:local){
+            for(Consumer consumer: server){
 
-        for(Consumer consumer: server){
-            for(THSConsumer thsConsumer:local){
-                if(thsConsumer.getFirstName()!=null && thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
+                if(thsConsumer.getHsdpUUID().equalsIgnoreCase(consumer.getSourceId())){
                     thsConsumer.setConsumer(consumer);
-                    newObject.add(thsConsumer);
-                }else {
-                    addDependentToConsumer(consumer,newObject);
                 }
             }
         }
@@ -93,7 +90,7 @@ public class THSDependentPresenter implements THSBasePresenter {
 
     }
 
-    private List addDependentToConsumer(Consumer consumer, List<THSConsumer> localDependents) {
+   /* private List addDependentToConsumer(Consumer consumer, List<THSConsumer> localDependents) {
 
         for (THSConsumer thsConsumer : localDependents){
             if(thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
@@ -125,5 +122,5 @@ public class THSDependentPresenter implements THSBasePresenter {
 
         localDependents.add(baby);
         return localDependents;
-    }
+    }*/
 }

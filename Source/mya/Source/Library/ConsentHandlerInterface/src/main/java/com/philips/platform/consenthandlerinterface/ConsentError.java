@@ -1,9 +1,5 @@
 package com.philips.platform.consenthandlerinterface;
 
-/**
- * Created by Entreco on 15/12/2017.
- */
-
 public class ConsentError {
 
     public static final int CONSENT_SUCCESS = 0;

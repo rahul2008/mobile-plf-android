@@ -90,7 +90,7 @@ public class THSShippingAddressPresenterTest {
     @Mock
     FragmentLauncher fragmentLauncherMock;
 
-    THSShippingAddressFragment thsShippingAddressFragment;
+    THSShippingAddressFragmentMock thsShippingAddressFragment;
 
     @Mock
     List<State> stateListMock;
@@ -138,7 +138,7 @@ public class THSShippingAddressPresenterTest {
         when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
-        thsShippingAddressFragment = new THSShippingAddressFragment();
+        thsShippingAddressFragment = new THSShippingAddressFragmentMock();
         when(thsShippingAddressFragmentMock.getActivity()).thenReturn(activityMock);
         when(thsShippingAddressFragmentMock.getActivity().getApplicationContext()).thenReturn(applicationContextMock);
         when(thsShippingAddressFragmentMock.getSupportedCountries()).thenReturn(countryListMock);

@@ -1,7 +1,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.consenthandlerinterface.CreateConsentCallback;
+import com.philips.platform.consenthandlerinterface.PostConsentCallback;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
@@ -85,7 +85,7 @@ public class DataPushSynchroniseTest {
     Consent consent;
 
     @Captor
-    private ArgumentCaptor<CreateConsentCallback> consentCallbackCaptor;
+    private ArgumentCaptor<PostConsentCallback> consentCallbackCaptor;
 
 
     @Before

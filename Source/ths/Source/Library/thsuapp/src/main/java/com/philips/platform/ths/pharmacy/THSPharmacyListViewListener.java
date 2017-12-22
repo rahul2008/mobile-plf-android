@@ -23,4 +23,5 @@ public interface THSPharmacyListViewListener extends THSBaseView{
     void hideProgressBar();
     void showErrorToast(String errorMessage);
     void showError(String errorMessage);
+    void updatePharmacyList(List<Pharmacy> pharmacies);
 }

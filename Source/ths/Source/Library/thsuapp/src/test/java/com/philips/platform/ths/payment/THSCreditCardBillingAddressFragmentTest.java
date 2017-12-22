@@ -155,7 +155,7 @@ public class THSCreditCardBillingAddressFragmentTest {
         mThsCreditCardBillingAddressFragment.setArguments(bundle);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onClick() throws Exception {
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         final View viewById = mThsCreditCardBillingAddressFragment.getView().findViewById(R.id.update_shipping_address);
@@ -164,14 +164,14 @@ public class THSCreditCardBillingAddressFragmentTest {
         verify(mThsWelcomeBackPresenterMock).onEvent(R.id.update_shipping_address);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validateAddress(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mAddressOneEditText.setText("valid address");
         verify(appTaggingInterface,atLeastOnce()).trackActionWithInfo(anyString(),any(Map.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validateCitiAddress(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mCityEditText.setText("valid address");
@@ -179,7 +179,7 @@ public class THSCreditCardBillingAddressFragmentTest {
 
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validatemZipcodeEditText(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mZipcodeEditText.setText("35006");

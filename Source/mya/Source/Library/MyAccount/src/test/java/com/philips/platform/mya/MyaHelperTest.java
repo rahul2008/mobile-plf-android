@@ -16,9 +16,6 @@ import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
-/**
- * Created by Entreco on 20/12/2017.
- */
 public class MyaHelperTest {
     private MyaHelper subject = MyaHelper.getInstance();
     private List<ConsentConfiguration> configurations = new ArrayList<>();

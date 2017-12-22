@@ -23,6 +23,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
@@ -118,6 +119,9 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if(null!=THSManager.getInstance() ) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
             THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
+            if (THSManager.getInstance().getThsCompletionProtocol() != null) {// added for uGrow request
+                THSManager.getInstance().getThsCompletionProtocol().didExitTHS(Other);
+            }
             THSManager.getInstance().resetTHSManagerData();
         }
     }

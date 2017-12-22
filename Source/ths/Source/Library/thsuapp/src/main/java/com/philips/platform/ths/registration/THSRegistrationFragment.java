@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.registration;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,11 +28,14 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSUtilities;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RadioButton;
 import com.philips.platform.uid.view.widget.RadioGroup;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,7 +55,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private EditText mEditTextStateSpinner;
     private RadioButton mCheckBoxMale;
     private RadioButton mCheckBoxFemale;
-    private CustomSpinner mStateSpinner;
+    //private CustomSpinner mStateSpinner;
+    protected UIPicker uiPicker;
+    private Label anchorUIPicker, dependantEmailAddress;
+    protected State mCurrentSelectedState;
 
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> mValidStates = null;
@@ -80,14 +87,15 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     private void setView(ViewGroup view) {
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.registration_form_container);
-        mContinueButton = (ProgressBarButton) view.findViewById(R.id.ths_continue);
+        mRelativeLayout = view.findViewById(R.id.registration_form_container);
+        mContinueButton = view.findViewById(R.id.ths_continue);
+        dependantEmailAddress = view.findViewById(R.id.ths_dependant_email_address);
         mContinueButton.setOnClickListener(this);
-        mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
+        mEditTextFirstName = view.findViewById(R.id.ths_edit_first_name);
         mEditTextFirstName.setOnFocusChangeListener(this);
-        mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
+        mEditTextLastName = view.findViewById(R.id.ths_edit_last_name);
         mEditTextLastName.setOnFocusChangeListener(this);
-        mDateOfBirth = (EditText) view.findViewById(R.id.ths_edit_dob);
+        mDateOfBirth = view.findViewById(R.id.ths_edit_dob);
         firstNameValidationLayout = view.findViewById(R.id.ths_edit_first_name_container);
         lastNameValidationLayout = view.findViewById(R.id.ths_edit_last_name_container);
         ths_edit_dob_container = view.findViewById(R.id.ths_edit_dob_container);
@@ -95,18 +103,18 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mDateOfBirth.setFocusable(false);
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
-        mEditTextStateSpinner = (EditText) view.findViewById(R.id.ths_edit_location);
+        mEditTextStateSpinner = view.findViewById(R.id.ths_edit_location);
         int defaultLocationIcoColor = THSUtilities.getAttributeColor(getContext(), R.attr.uidButtonPrimaryNormalBackgroundColor);
         Drawable drawableInt = THSUtilities.getGpsDrawableFromFontIcon(getContext(), R.string.dls_location, defaultLocationIcoColor, 24);
 
         mEditTextStateSpinner.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableInt, null);
-        mEditTextStateSpinner.setFocusable(false);
-        radio_group_single_line = (RadioGroup) view.findViewById(R.id.radio_group_single_line);
+        radio_group_single_line = view.findViewById(R.id.radio_group_single_line);
         mEditTextStateSpinner.setClickable(true);
         mEditTextStateSpinner.setOnClickListener(this);
-        mCheckBoxMale = (RadioButton) view.findViewById(R.id.ths_checkbox_male);
-        mCheckBoxFemale = (RadioButton) view.findViewById(R.id.ths_checkbox_female);
-        mStateSpinner = new CustomSpinner(getContext(), null);
+        mCheckBoxMale = view.findViewById(R.id.ths_checkbox_male);
+        mCheckBoxFemale = view.findViewById(R.id.ths_checkbox_female);
+        anchorUIPicker = view.findViewById(R.id.ths_label);
+
 
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
@@ -118,15 +126,32 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
 
 
-        mStateSpinner.setAdapter(spinnerAdapter);
-        mStateSpinner.setSelection(0);
-        mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
+        uiPicker = new UIPicker(popupThemedContext);
+        uiPicker.setAdapter(spinnerAdapter);
+        uiPicker.setAnchorView(anchorUIPicker);
+        uiPicker.setModal(true);
+        uiPicker.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mCurrentSelectedState = mValidStates.get(position);
+                        mEditTextStateSpinner.setText(mCurrentSelectedState.getName());
+                        uiPicker.setSelection(position);
+                        uiPicker.dismiss();
+                    }
+                }
+        );
         prePopulateData();
     }
 
     private void prePopulateData() {
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
+
+        if(user.getEmail() != null){
+            dependantEmailAddress.setText(user.getEmail());
+        }
         if (user.getFirstName() != null) {
             mEditTextFirstName.setText(user.getFirstName());
         }
@@ -172,12 +197,14 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (id == R.id.ths_continue) {
             if (validateUserDetails()) {
 
+                mContinueButton.showProgressIndicator();
+
                 if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
                 } else {
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
                 }
             }
 
@@ -186,7 +213,17 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }
         if (id == R.id.ths_edit_location) {
-            mStateSpinner.performClick();
+            uiPicker.show();
+            updateUiPickerSelection();
+        }
+    }
+
+    private void updateUiPickerSelection() {
+        if (null != mCurrentSelectedState) {
+            int currentStateindex = mValidStates.indexOf(mCurrentSelectedState);
+            if (currentStateindex > -1) {
+                uiPicker.setSelection(currentStateindex);
+            }
         }
     }
 

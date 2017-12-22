@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Entreco on 15/12/2017.
- */
 public class ConsentErrorTest {
 
     private ConsentError subject;
