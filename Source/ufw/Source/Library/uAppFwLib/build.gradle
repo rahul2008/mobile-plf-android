@@ -9,8 +9,7 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -42,10 +41,9 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
+objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "uAppFwLib"
 
 allprojects {
@@ -87,7 +85,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications('aar')
+                publications ('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -97,8 +95,7 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -119,7 +116,7 @@ task tgzTask(type: Tar) {
     classifier = 'src'
     from projectDir
     include '**/*'
-    exclude('build')
+    exclude ('build')
     extension = 'tgz'
     compression = Compression.GZIP
 }
@@ -139,7 +136,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml {
+            pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -163,7 +160,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules-ufw.pro'
     }
@@ -179,7 +176,6 @@ android {
             buildOutputDir = "debug"
         }
     }
-    publishNonDefault true
 }
 
 configurations.all {
@@ -193,20 +189,20 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+    if(dp) {
         compile(project(':AppInfra'))
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            exclude group: 'com.android.support'
+            exclude group: 'com.android.support'	
             transitive = true
         }
     }
 
-    if (dp) {
+    if(dp) {
         compile(project(':uid'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            exclude group: 'com.android.support'
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'	
             transitive = true
         }
     }
@@ -214,8 +210,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.1.1'
-
-    compile('com.android.support:support-annotations:26.0.2')
+  
+    compile ('com.android.support:support-annotations:26.0.2')
     compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
@@ -226,7 +222,7 @@ task copyToLib(type: Copy) {
 
 
 tasks.withType(Test) {
-    ignoreFailures = true
+  ignoreFailures = true
 }
 
 //apply from: "resolution.gradle"

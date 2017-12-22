@@ -3,14 +3,166 @@
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
+
+buildscript { bs ->
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpSCM)
+    }
+}
+
 apply plugin: 'jacoco'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
 
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "shinelibDemoUApp"
+
 version = objcdp.getVersion(versions.bll_shinelib)
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.cml_commlib)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+
 
 android {
     compileSdkVersion versions.sdk
@@ -21,7 +173,7 @@ android {
         targetSdkVersion versions.target
 
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
     }
 
     buildTypes {
@@ -37,21 +189,40 @@ android {
 }
 
 dependencies {
-    def suffix = objcdp.getVersionSuffix()
+    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
+    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
 
-    for (dep in [':uAppFwLib', ':pluginreferenceboard']) {
-        if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
-        } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+    def dp = project.ext.has('useprojectdependencies')
+    if(dp) {
+        compile(project(':uAppFwLib'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
+        transitive = true
         }
     }
 
     compile deps.support.design
-    compile deps.support.cardview
+    compile "com.android.support:cardview-v7:${versions.support}"
 
     testCompile deps.junit
+}
+
+/**
+ * Zips external documentation to be included with a release
+ */
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
 
 jacoco {
