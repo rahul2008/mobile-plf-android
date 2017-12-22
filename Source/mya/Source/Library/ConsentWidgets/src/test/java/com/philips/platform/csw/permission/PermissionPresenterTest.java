@@ -5,6 +5,7 @@ import android.test.mock.MockContext;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.BackendConsent;
@@ -15,8 +16,6 @@ import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import org.junit.Before;
@@ -32,6 +31,7 @@ import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -181,6 +181,7 @@ public class PermissionPresenterTest {
     }
 
     private void whenCreateConsentSucceeds() {
+        when(mockRequiredConsent.getType()).thenReturn("");
         mPermissionPresenter.onCreateConsentSuccess(mockRequiredConsent);
     }
 

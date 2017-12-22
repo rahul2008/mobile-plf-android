@@ -90,7 +90,7 @@ public class PermissionPresenter implements ConsentInteractor.ConsentListCallbac
 
     @Override
     public void onCreateConsentSuccess(Consent consent) {
-        if (consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+        if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
             updateClickStream(consent.getStatus());
         }
         adapter.onCreateConsentSuccess(consent);
