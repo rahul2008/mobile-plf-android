@@ -45,7 +45,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
-    
+
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +60,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
-        if(actionBarListener!=null) {
+        if (actionBarListener != null) {
             actionBarListener.updateActionBar(R.string.ths_welcome, false);
         }
 
@@ -103,13 +103,15 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
                 } else {
                     if (position == (pager.getAdapter().getCount() - 1)) {
                         rightArrow.setVisibility(View.GONE);
+                        leftArrow.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.VISIBLE);
+                        skipButton.setVisibility(View.GONE);
                     } else {
+                        leftArrow.setVisibility(View.GONE);
                         rightArrow.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.GONE);
+                        skipButton.setVisibility(View.VISIBLE);
                     }
-                    skipButton.setVisibility(View.VISIBLE);
-                    leftArrow.setVisibility(View.GONE);
                 }
 
                 startAppTagging(position);

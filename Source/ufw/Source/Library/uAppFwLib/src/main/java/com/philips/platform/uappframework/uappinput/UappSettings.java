@@ -7,16 +7,22 @@ package com.philips.platform.uappframework.uappinput;
 
 /**
 This class is used for Setting & getting application Context
+ @since 1.0.0
  */
+
 import android.content.Context;
 
-public class UappSettings {
+import java.io.Serializable;
 
-     protected  Context mContext;
+public class UappSettings implements Serializable {
+
+    private static final long serialVersionUID = -8187303062569754675L;
+    protected  Context mContext;
 
     /**
-     * Constructor for Upappsettings
-     * @param applicationContext :For passing application Context
+     * Constructor for Uappsettings
+     * @param applicationContext For passing application Context
+     * @since 1.0.0
      */
 
    public UappSettings(Context applicationContext){
@@ -24,8 +30,9 @@ public class UappSettings {
    }
 
     /**
-     * For retrieving application co
+     * For retrieving application context
      * @return application context
+     * @since 1.0.0
      */
 
     public Context getContext(){

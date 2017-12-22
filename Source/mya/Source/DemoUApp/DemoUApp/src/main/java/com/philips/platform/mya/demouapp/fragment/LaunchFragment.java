@@ -158,10 +158,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("moment"), 1,
                 currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Coaching purpose explanation", Collections.singletonList("coaching"),
+        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("coaching"),
                 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to store binary data", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("binary"), 1,
+                currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to use my mobile application usage statistics", "Giving this consent you are allowing Philips to process mobile usage statistics related to you", Collections.singletonList("clickstream"), 1,
+                currentLocale));
         return definitions;
 
     }

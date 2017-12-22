@@ -7,37 +7,47 @@ package com.philips.platform.uappframework.launcher;
 
 
 import android.support.annotation.AnimRes;
+/**
+ * Contains methods for setting animations for the activity
+ * @since 1.0.0
+ */
 
-public abstract class UiLauncher  {
+import java.io.Serializable;
 
+
+public abstract class UiLauncher implements Serializable {
+
+
+    private static final long serialVersionUID = -8906511992872569045L;
     /**
      * Enter {@Link android.view.animation}
      */
-    protected int mEnterAnimResId;
 
-    /**
-     * Exit {@Link android.view.animation}
-     */
+    protected int mEnterAnimResId;
     protected int mExitAnimResId;
 
     /**
+     * Animation for enter.
      * @returns the enter animation ID  {@Link android.view.animation}
+     * @since 1.0.0
      */
     public int getEnterAnimation() {
         return mEnterAnimResId;
     }
     /**
+     * Animation for exit.
      * @returns the exit animation ID  {@Link android.view.animation}
+     * @since 1.0.0
      */
     public int getExitAnimation() {
         return mExitAnimResId;
     }
 
     /**
-     * @param enterAnim
-     * @param exitAnim
-     *
-     *  setting custom animations  {@Link android.view.animation}
+     * Setting custom animations.  {@Link android.view.animation}
+     * @param enterAnim the enter animation
+     * @param exitAnim the exit animation
+     * @since 1.0.0
      */
     public void setCustomAnimation(@AnimRes int enterAnim, @AnimRes int exitAnim) {
         this.mEnterAnimResId = enterAnim;

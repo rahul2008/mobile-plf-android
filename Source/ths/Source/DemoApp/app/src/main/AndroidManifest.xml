@@ -18,7 +18,7 @@
             android:value="@string/google_maps_key" />
         <activity android:name="com.philips.platform.thsdemolaunch.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.DLS.GroupBlue.Bright"
+            android:theme="@style/Theme.DLS.Purple.Bright"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
         </activity>
         <activity android:name="com.philips.platform.thsdemolaunch.FirstActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.DLS.GroupBlue.Bright"
+            android:theme="@style/Theme.DLS.Purple.Bright"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
