@@ -56,18 +56,24 @@ public class MyaHelper {
 
     public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
         throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
-        this.consentConfigurationList = consentConfigurationList;
+        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
     }
 
     private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
         List<String> uniqueTypes = new ArrayList<>();
-        for(ConsentConfiguration configuration : consentConfigurationList){
-            for(ConsentDefinition definition : configuration.getConsentDefinitionList()){
-                for(String type : definition.getTypes()){
-                    if(uniqueTypes.contains(type)) {
-                        throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
+            for (ConsentConfiguration configuration : consentConfigurationList) {
+                if (configuration != null) {
+                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                        if (definition != null) {
+                            for (String type : definition.getTypes()) {
+                                if (uniqueTypes.contains(type)) {
+                                    throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                                }
+                                uniqueTypes.add(type);
+                            }
+                        }
                     }
-                    uniqueTypes.add(type);
                 }
             }
         }
