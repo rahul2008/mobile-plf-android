@@ -19,10 +19,8 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.registration.dependantregistration.OnItemClickListener;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
 
@@ -84,6 +82,6 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
 
     public void showErrorToast(){
         final String string = getString(R.string.ths_se_server_error_toast_message);
-        showError(string,true);
+        showError(string,true, false);
     }
 }
