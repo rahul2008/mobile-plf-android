@@ -64,7 +64,9 @@ public class MyaHelper {
         for(ConsentConfiguration configuration : consentConfigurationList){
             for(ConsentDefinition definition : configuration.getConsentDefinitionList()){
                 for(String type : definition.getTypes()){
-                    if(uniqueTypes.contains(type)) throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                    if(uniqueTypes.contains(type)) {
+                        throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                    }
                     uniqueTypes.add(type);
                 }
             }
