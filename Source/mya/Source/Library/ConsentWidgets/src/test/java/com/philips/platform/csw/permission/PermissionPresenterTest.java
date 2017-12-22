@@ -5,7 +5,6 @@ import android.test.mock.MockContext;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.BackendConsent;
