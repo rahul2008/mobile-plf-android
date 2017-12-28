@@ -129,7 +129,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initCatk() {
-        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(Locale.US);
+        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(getLocale(MyAccountDemoUAppInterface.getAppInfra()));
         ConsentAccessToolKit kit = ConsentAccessToolKit.getInstance();
 
         CatkInputs.Builder builder = new CatkInputs.Builder();
@@ -142,6 +142,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         List<ConsentConfiguration> consentConfigurationList = new ArrayList<>();
         consentConfigurationList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
         MyaHelper.getInstance().setConfigurations(consentConfigurationList);
+    }
+
+    private Locale getLocale(AppInfraInterface appInfra) {
+        Locale locale = Locale.US;
+        if (appInfra != null && appInfra.getInternationalization() != null && appInfra.getInternationalization().getUILocaleString() != null) {
+            String[] localeComponents = appInfra.getInternationalization().getUILocaleString().split("_");
+            if (localeComponents.length == 2) {
+                locale = new Locale(localeComponents[0], localeComponents[1]);
+            }
+        }
+        return locale;
     }
 
     @NonNull
