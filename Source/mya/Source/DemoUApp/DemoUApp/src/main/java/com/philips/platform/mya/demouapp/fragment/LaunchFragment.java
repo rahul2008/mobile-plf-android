@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.mya.demouapp.fragment;
 
 import java.util.ArrayList;
@@ -55,10 +62,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     public int checkedId = R.id.radioButton;
