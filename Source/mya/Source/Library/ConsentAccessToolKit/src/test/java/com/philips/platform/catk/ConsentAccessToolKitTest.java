@@ -20,7 +20,8 @@ import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.mock.ServiceInfoProviderMock;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
@@ -39,6 +40,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -75,13 +77,17 @@ public class ConsentAccessToolKitTest {
 
     @Captor
     ArgumentCaptor<NetworkAbstractModel> captorNetworkAbstractModel;
-    @Mock private AppInfraInterface mockAppInfra;
-    @Mock private Context mockContext;
-    @Mock private AppConfigurationInterface mockConfigInterface;
+    @Mock
+    private AppInfraInterface mockAppInfra;
+    @Mock
+    private Context mockContext;
+    @Mock
+    private AppConfigurationInterface mockConfigInterface;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        ConsentAccessToolKit.setInstance(new ConsentAccessToolKit());
         consentAccessToolKit = ConsentAccessToolKit.getInstance();
         catkComponent = new CatkComponentMock();
         catkComponent.getUser_return = user;
@@ -160,8 +166,8 @@ public class ConsentAccessToolKitTest {
     @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
-        Consent consent = new Consent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
-        consentAccessToolKit.createConsent(consent, mockCreateConsentListener);
+        BackendConsent consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
+        consentAccessToolKit.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
@@ -177,6 +183,12 @@ public class ConsentAccessToolKitTest {
         assertEquals(consents, consentResponseListener.responseData);
     }
 
+    @Test
+    public void init_setsConsentDefinition() {
+        givenInitWasCalled("appName", "propName");
+        assertEquals(consentDefinitions, consentAccessToolKit.getConsentDefinitions());
+    }
+
     private void thenServiceInfoProviderWasCalled() {
         assertNotNull(serviceInfoProvider.responseListener);
         assertNotNull(serviceInfoProvider.serviceDiscovery);
@@ -187,7 +199,7 @@ public class ConsentAccessToolKitTest {
         when(mockConfigInterface.getPropertyForKey(eq("appName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(appName);
         when(mockConfigInterface.getPropertyForKey(eq("propositionName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(propName);
 
-        consentAccessToolKit.setComponentProvider(new ComponentProvider(){
+        consentAccessToolKit.setComponentProvider(new ComponentProvider() {
 
             @Override
             public CatkComponent getComponent(CatkInputs catkInputs) {
@@ -203,10 +215,7 @@ public class ConsentAccessToolKitTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setAppInfra(mockAppInfra);
-        catkInputs.setContext(mockContext);
-        return catkInputs;
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {
@@ -217,19 +226,22 @@ public class ConsentAccessToolKitTest {
     private NetworkControllerMock networkControllerMock;
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
-    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, "en-GB", buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "Consent", ConsentStatus.active, "Subject1");
-    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, "en-GB", buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "Consent", ConsentStatus.active, "Subject1");
+    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, "en-GB", buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
+    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, "en-GB", buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
-    private Consent momentConsent = new Consent(new Locale("en", "GB"), ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
-    private List<Consent> consents = Arrays.asList(momentConsent);
+    private BackendConsent momentConsent = new BackendConsent(new Locale("en", "GB"), ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
+    private List<BackendConsent> consents = Arrays.asList(momentConsent);
+    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1, Locale.US);
+    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1, Locale.US);
+    private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {
-        public List<Consent> responseData;
+        public List<BackendConsent> responseData;
         public ConsentNetworkError error;
 
         @Override
-        public void onResponseSuccessConsent(List<Consent> responseData) {
+        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
             this.responseData = responseData;
         }
 
