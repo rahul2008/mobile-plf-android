@@ -19,6 +19,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Get status of is current fragment need to add to backstack or no.
      *
      * @return true if need to add to fragment back stack
+     * @since 2.0.0
      */
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
@@ -29,6 +30,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Enable  add to back stack for current fragment.
      *
      * @param isAddToBackStack
+     * @since 2.0.0
      */
     public void enableAddtoBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
@@ -43,6 +45,7 @@ public class URLaunchInput extends UappLaunchInput {
     /**
      * Get Registration function.
      * @return Registration function  RegistrationFunction
+     * @since 2.0.0
      */
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
@@ -54,6 +57,7 @@ public class URLaunchInput extends UappLaunchInput {
      * RegistrationFunction.SignIn - Will display the Sign in option on top.
      *
      * @param registrationFunction
+     * @since 2.0.0
      */
     public void setRegistrationFunction(RegistrationFunction registrationFunction) {
         this.registrationFunction = registrationFunction;
@@ -64,16 +68,27 @@ public class URLaunchInput extends UappLaunchInput {
      * Terms and conditions, Privacy policy and know about user registration completion.
      *
      * @param userRegistrationListener
+     * @since 2.0.0
      */
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
     }
 
+    /**
+     *
+     * @return UserRegistrationUIEventListener
+     * @since 2.0.0
+     */
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
     }
 
+    /**
+     *
+     * @return RegistrationLaunchMode
+     * @since 2.0.0
+     */
     public RegistrationLaunchMode getEndPointScreen() {
         return registrationLaunchMode;
     }
@@ -87,11 +102,17 @@ public class URLaunchInput extends UappLaunchInput {
      * Please see RegistrationContentConfiguration class for more details.
      *
      * @param registrationContentConfiguration
+     * @since 2.0.0
      */
     public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration) {
         this.registrationContentConfiguration = registrationContentConfiguration;
     }
 
+    /**
+     *
+     * @return RegistrationContentConfiguration
+     * @since 2.0.0
+     */
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         return this.registrationContentConfiguration;
     }
@@ -103,11 +124,17 @@ public class URLaunchInput extends UappLaunchInput {
      * Advised not to use for normal use-cases.
      *
      * @param uiFlow - Any one of the UIFlow enum values.
+     *               @since 2.0.0
      */
     public void setUIFlow(UIFlow uiFlow) {
         this.uiFlow = uiFlow;
     }
 
+    /**
+     *
+     * @return UIFlow
+     * @since 2.0.0
+     */
     public UIFlow getUIflow() {
         return uiFlow;
     }
