@@ -24,7 +24,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener, ConsentInteractor.CreateConsentCallback {
+public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener,
+        ConsentInteractor.CreateConsentCallback {
 
     @NonNull
     private final PermissionInterface permissionInterface;
@@ -69,6 +70,9 @@ public class PermissionPresenter implements ConsentInteractor.ConsentListCallbac
         }
         for (ConsentView consentView : consentViews) {
             consentView.storeConsent(consentMap.get(consentView.getType()));
+            if (consentView.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+                updateClickStream(consentView.isChecked());
+            }
         }
         adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
@@ -91,14 +95,14 @@ public class PermissionPresenter implements ConsentInteractor.ConsentListCallbac
     @Override
     public void onCreateConsentSuccess(Consent consent) {
         if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-            updateClickStream(consent.getStatus());
+            updateClickStream(consent.getStatus().name().equals(ConsentStatus.active.name()));
         }
         adapter.onCreateConsentSuccess(consent);
         permissionInterface.hideProgressDialog();
     }
 
-    private void updateClickStream(ConsentStatus consentStatus) {
-        if (consentStatus.name().equals(ConsentStatus.active.name())) {
+    private void updateClickStream(boolean isActive) {
+        if (isActive) {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         } else {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
