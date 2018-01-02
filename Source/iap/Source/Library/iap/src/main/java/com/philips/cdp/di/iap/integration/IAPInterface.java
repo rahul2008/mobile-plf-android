@@ -23,6 +23,12 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     private User mUser;
     private IAPServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
 
+    /**
+     *
+     * @param uappDependencies Object of UappDependencies
+     * @param uappSettings Object of UppSettings
+     *                     @since 2.0.0
+     */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
@@ -32,6 +38,13 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
     }
 
+    /**
+     *
+     * @param  uiLauncher Object of UiLauncher
+     * @param uappLaunchInput Object of  UappLaunchInput
+     * @throws RuntimeException
+     * @since 2.0.0
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
@@ -47,6 +60,11 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         }
     }
 
+    /**
+     *
+     * @param iapListener
+     * @since 2.0.0
+     */
     @Override
     public void getProductCartCount(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
@@ -55,6 +73,11 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         else throw new RuntimeException("User is not logged in.");
     }
 
+    /**
+     *
+     * @param iapListener
+     * @since 2.0.0
+     */
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
@@ -63,6 +86,12 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         } else throw new RuntimeException("User is not logged in.");
     }
 
+    /**
+     *
+     * @param iapListener
+     * @return
+     * @since 2.0.0
+     */
     @Override
     public boolean isCartVisible(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());

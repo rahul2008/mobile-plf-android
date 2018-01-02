@@ -38,20 +38,43 @@ public class Product implements Serializable {
     private boolean shouldSendEmailAfterRegistration = true;
     private String friendlyName;
 
+    /**
+     *
+     * @param productModelNumber
+     * @param sector
+     * @param catalog
+     * @since 2.0.0
+     */
     public Product(String productModelNumber, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.productModelNumber = productModelNumber;
         this.sector = sector;
         this.catalog = catalog;
     }
 
+    /**
+     *
+     * @return FreindlyName
+     * @since 2.0.0
+     */
     public String getFriendlyName() {
         return friendlyName;
     }
 
+    /**
+     *
+     * @param friendlyName
+     * @since 2.0.0
+     */
     public void setFriendlyName(final String friendlyName) {
         this.friendlyName = friendlyName;
     }
 
+    /**
+     *
+     * @param context
+     * @param metadataListener
+     * @since 2.0.0
+     */
     public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
@@ -61,6 +84,14 @@ public class Product implements Serializable {
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
     }
 
+    /**
+     *
+     *
+     * @param context
+     * @param product
+     * @param summaryListener
+     * @since 2.0.0
+     */
     public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
         ProductSummaryRequest productSummaryRequest = getProductSummaryRequest(product);
         productSummaryRequest.setSector(product.getSector());
@@ -70,11 +101,23 @@ public class Product implements Serializable {
         mRequestManager.executeRequest(productSummaryRequest, summaryResponseListener);
     }
 
+    /**
+     *
+     * @param product
+     * @return ProductSummaryRequest
+     * @since 2.0.0
+     */
     @NonNull
     protected ProductSummaryRequest getProductSummaryRequest(final Product product) {
         return new ProductSummaryRequest(product.getCtn(),ProdRegConstants.PRODUCTSUMMERYREQUEST_SERVICE_ID,getSector(),getCatalog());
     }
 
+    /**
+     *
+     * @param metadataListener
+     * @return ResponseListener
+     * @since 2.0.0
+     */
     @NonNull
     ResponseListener getPrxResponseListener(final MetadataListener metadataListener) {
         return new ResponseListener() {
@@ -91,6 +134,12 @@ public class Product implements Serializable {
         };
     }
 
+    /**
+     *
+     * @param summaryListener
+     * @return ResponseListener
+     * @since 2.0.0
+     */
     @NonNull
     ResponseListener getPrxResponseListenerForSummary(final SummaryListener summaryListener) {
         return new ResponseListener() {
@@ -107,10 +156,21 @@ public class Product implements Serializable {
         };
     }
 
+    /**
+     *
+     * @return Product
+     * @since 2.0.0
+     */
     protected Product getProduct() {
         return this;
     }
 
+    /**
+     *
+     * @param context
+     * @return RequestManager
+     * @since 2.0.0
+     */
     @NonNull
     RequestManager getRequestManager(final Context context) {
         AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
@@ -125,6 +185,7 @@ public class Product implements Serializable {
      * API return Model Number
      *
      * @return return model number as string
+     * @since 2.0.0
      */
     public String getCtn() {
         productModelNumber = productModelNumber != null ? productModelNumber : "";
@@ -134,6 +195,7 @@ public class Product implements Serializable {
     /**
      * API return Serial Number
      * @return return serial number as string
+     * @since 2.0.0
      */
     public String getSerialNumber() {
         productSerialNumber = productSerialNumber != null ? productSerialNumber : "";
@@ -143,6 +205,7 @@ public class Product implements Serializable {
     /**
      * API set the serial number
      * @param serialNumber serial Number
+     *                     @since 2.0.0
      */
 
     public void setSerialNumber(final String serialNumber) {
@@ -152,6 +215,7 @@ public class Product implements Serializable {
     /**
      * API return Sector
      * @return return sector as Enum's
+     * @since 2.0.0
      */
     public PrxConstants.Sector getSector() {
         return sector;
@@ -160,6 +224,7 @@ public class Product implements Serializable {
     /**
      * API return Catalog
      * @return return catalog as Enum's
+     * @since 2.0.0
      */
     public PrxConstants.Catalog getCatalog() {
         return catalog;
@@ -168,6 +233,7 @@ public class Product implements Serializable {
     /**
      * API return Locale
      * @return return local as string
+     * @since 2.0.0
      */
     public String getLocale() {
         return locale;
@@ -176,6 +242,7 @@ public class Product implements Serializable {
     /**
      * API set Local
      * @param locale local
+     *               @since 2.0.0
      */
     public void setLocale(String locale) {
         this.locale = locale;
@@ -184,6 +251,7 @@ public class Product implements Serializable {
     /**
      * API return date
      * @return Purchase date
+     * @since 2.0.0
      */
     public String getPurchaseDate() {
         return purchaseDate;
@@ -192,6 +260,7 @@ public class Product implements Serializable {
     /**
      * API set Date
      * @param purchaseDate purchase date
+     *                     @since 2.0.0
      */
 
     public void setPurchaseDate(final String purchaseDate) {
@@ -201,6 +270,7 @@ public class Product implements Serializable {
     /**
      * API return email
      * @return return Email
+     * @since 2.0.0
      */
     public boolean getEmail() {
         return shouldSendEmailAfterRegistration;
@@ -209,6 +279,7 @@ public class Product implements Serializable {
     /**
      * API need to set email confirmations
      * @param shouldSendEmailAfterRegistration shouldSendEmailAfterRegistration
+     *                                         @since 2.0.0
      */
     public void sendEmail(final boolean shouldSendEmailAfterRegistration) {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
@@ -218,6 +289,7 @@ public class Product implements Serializable {
      * API need to pass CTN to get Metadata
      * @param ctn ctn
      * @return ctn as string
+     * @since 2.0.0
      */
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
         return new ProductMetadataRequest(ctn, ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,getSector(),getCatalog());
