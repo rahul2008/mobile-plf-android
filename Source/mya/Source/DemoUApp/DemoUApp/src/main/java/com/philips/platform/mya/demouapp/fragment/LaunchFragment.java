@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.mya.demouapp.fragment;
 
 import java.util.ArrayList;
@@ -55,10 +62,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     public int checkedId = R.id.radioButton;
@@ -126,7 +129,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initCatk() {
-        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(Locale.US);
+        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(getLocale(MyAccountDemoUAppInterface.getAppInfra()));
         ConsentAccessToolKit kit = ConsentAccessToolKit.getInstance();
 
         CatkInputs.Builder builder = new CatkInputs.Builder();
@@ -139,6 +142,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         List<ConsentConfiguration> consentConfigurationList = new ArrayList<>();
         consentConfigurationList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
         MyaHelper.getInstance().setConfigurations(consentConfigurationList);
+    }
+
+    private Locale getLocale(AppInfraInterface appInfra) {
+        Locale locale = Locale.US;
+        if (appInfra != null && appInfra.getInternationalization() != null && appInfra.getInternationalization().getUILocaleString() != null) {
+            String[] localeComponents = appInfra.getInternationalization().getUILocaleString().split("_");
+            if (localeComponents.length == 2) {
+                locale = new Locale(localeComponents[0], localeComponents[1]);
+            }
+        }
+        return locale;
     }
 
     @NonNull
