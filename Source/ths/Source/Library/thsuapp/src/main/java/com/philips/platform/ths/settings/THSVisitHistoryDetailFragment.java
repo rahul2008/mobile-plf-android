@@ -70,10 +70,10 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     Label mImageButtonPharmacyEdit;
     Label mImageButtonShippingAddressEdit;
 
-    protected Label medicationShippingLabel;
+    protected Label medicationShippingLabel,prescriptionLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
     private RelativeLayout mLayoutContainer;
-    private RelativeLayout mAvailableTimeSlots;
+    private RelativeLayout mAvailableTimeSlots,ps_pharmacy_list_layout_item;
 
 
     @Nullable
@@ -103,8 +103,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
         mImageButtonShippingAddressEdit = view.findViewById(R.id.ps_edit_consumer_shipping_address);
         mImageButtonShippingAddressEdit.setVisibility(View.GONE);
 
-        Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
+        prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
         prescriptionLabel.setText("Your prescription was sent to");
+        ps_pharmacy_list_layout_item = view.findViewById(R.id.ps_pharmacy_list_layout_item);
         consumerCity = (Label) view.findViewById(R.id.ps_consumer_city);
         consumerName = (Label) view.findViewById(R.id.ps_consumer_name);
         consumerShippingAddress = (Label) view.findViewById(R.id.ps_consumer_shipping_address);
@@ -219,6 +220,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
             pharmacyName.setText(pharmacy.getName());
             pharmacyState.setText(pharmacy.getAddress().getState().getCode());
             pharmacyZip.setText(pharmacy.getAddress().getZipCode());
+        }else {
+            prescriptionLabel.setVisibility(View.GONE);
+            ps_pharmacy_list_layout_item.setVisibility(View.GONE);
         }
     }
 
