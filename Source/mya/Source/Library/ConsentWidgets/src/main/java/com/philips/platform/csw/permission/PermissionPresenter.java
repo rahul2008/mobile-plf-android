@@ -24,8 +24,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener,
-        ConsentInteractor.CreateConsentCallback {
+public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener, ConsentInteractor.CreateConsentCallback {
 
     @NonNull
     private final PermissionInterface permissionInterface;
