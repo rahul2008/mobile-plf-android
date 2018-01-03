@@ -39,6 +39,10 @@ public class MyaLaunchInput extends UappLaunchInput {
         return context;
     }
 
+    /**
+     *
+     * @param context - set the context from where myaccount micro-app is invoked
+     */
     public void setContext(Context context) {
         this.context = context;
     }

@@ -25,7 +25,10 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
-
+/**
+ * This class is used to launch myaccount either as fragment or activity.
+ * @since 2017.5.0
+ */
 public class MyaInterface implements UappInterface {
 
     public static String USER_PLUGIN = "user_plugin";
@@ -57,7 +60,7 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    private UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+    protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
         return new UserDataModelProvider(myaLaunchInput.getContext());
     }
 

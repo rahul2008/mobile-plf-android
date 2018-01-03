@@ -79,7 +79,7 @@ public class MyaInterfaceTest {
         when(userDataModelProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {
             @Override
-            public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+            protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
                 return userDataModelProvider;
             }
         };
