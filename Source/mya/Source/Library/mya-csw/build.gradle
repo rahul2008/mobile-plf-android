@@ -260,7 +260,14 @@ dependencies {
     }
 
 
-    compile(project(':ConsentHandlerInterface'))
+    if (dp) {
+        compile(project(':mya-chi'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'mya-chi', version: versions.mya_consentHandlerInterface + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+                {
+                    transitive = true
+                }
+    }
 
     // Tests
     testCompile 'junit:junit:4.12'

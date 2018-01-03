@@ -228,9 +228,9 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
    if(dp) {
-        compile(project(':ConsentAccessToolKit'))
+        compile(project(':mya-catk'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
         {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
             transitive true
