@@ -165,7 +165,7 @@ android {
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testApplicationId "com.philips.platform.mya.test"
+        testApplicationId "com.philips.platform.mya.csw.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent

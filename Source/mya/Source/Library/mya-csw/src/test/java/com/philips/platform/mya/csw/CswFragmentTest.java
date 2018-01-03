@@ -9,8 +9,8 @@ import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LayoutInflatorMock;
 import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.mya.csw.wrapper.CswFragmentWrapper;
-import com.philips.platform.mya.consentwidgets.BuildConfig;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.csw.BuildConfig;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Assert;
