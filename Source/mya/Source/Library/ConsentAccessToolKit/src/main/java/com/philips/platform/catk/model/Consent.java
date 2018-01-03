@@ -1,94 +1,63 @@
-/*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
-
 package com.philips.platform.catk.model;
 
-import com.philips.platform.catk.mapper.LocaleMapper;
 
-import org.joda.time.DateTime;
+import android.support.annotation.NonNull;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Consent {
-    private Locale locale;
-    private ConsentStatus status;
-    private String type;
-    private int version;
-    private DateTime timestamp;
 
-    public Consent(Locale locale, ConsentStatus status, String type, int version) {
-        this.locale = locale;
-        this.status = status;
-        this.type = type;
-        this.version = version;
+    private ConsentDefinition definition;
+    private List<BackendConsent> consents;
+
+    public Consent(BackendConsent consent, @NonNull ConsentDefinition definition) {
+        this.consents = new ArrayList<>();
+        this.consents.add(consent);
+        this.definition = definition;
     }
 
-    public Consent(Locale locale, ConsentStatus status, String type, int version, DateTime timestamp) {
-        this(locale, status, type, version);
-        this.timestamp = timestamp;
+    public Consent(List<BackendConsent> consent, @NonNull ConsentDefinition definition) {
+        this.consents = consent;
+        this.definition = definition;
     }
 
-    public Locale getLocale() {
-        return locale;
+    public boolean isChangeable() {
+        BackendConsent consent = getRepresentingConsent();
+        return consent == null || definition.getVersion() >= consent.getVersion();
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public ConsentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ConsentStatus status) {
-        this.status = status;
+    public boolean isAccepted() {
+        if (consents == null || consents.size() == 0) {
+            return false;
+        }
+        for (BackendConsent consent : consents) {
+            if (consent == null || !isConsentActive(consent)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getType() {
-        return type;
+        BackendConsent consent = getRepresentingConsent();
+        return consent != null ? consent.getType() : null;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public ConsentStatus getStatus(){
+        BackendConsent consent = getRepresentingConsent();
+        return consent != null ? consent.getStatus() : ConsentStatus.inactive;
     }
 
-    public int getVersion() {
-        return version;
+    public ConsentDefinition getDefinition() {
+        return definition;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    private BackendConsent getRepresentingConsent() {
+        return (consents != null) && (consents.size() > 0) ? consents.get(0) : null;
     }
 
-    public DateTime getTimestamp() { return timestamp; }
-
-    public void setTimestamp(DateTime timestamp) { this.timestamp = timestamp; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Consent)) return false;
-
-        Consent consent = (Consent) o;
-
-        if (version != consent.version) return false;
-        if (locale != null ? !locale.equals(consent.locale) : consent.locale != null) return false;
-        if (status != consent.status) return false;
-        if (type != null ? !type.equals(consent.type) : consent.type != null) return false;
-        return timestamp != null ? timestamp.equals(consent.timestamp) : consent.timestamp == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = locale != null ? locale.hashCode() : 0;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + version;
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
-        return result;
+    private boolean isConsentActive(BackendConsent consent) {
+        return consent.getStatus().equals(ConsentStatus.active) && definition.getVersion() <= consent.getVersion();
     }
 }

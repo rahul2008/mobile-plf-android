@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -66,6 +67,11 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 new IntentFilter(
                         ConnectivityManager.CONNECTIVITY_ACTION));
         hideKeypad(getActivity());
+
+        if(THSManager.getInstance().getAppInfra() == null){
+            Log.i("***","something went wrong");
+           exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        }
 
        /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -211,13 +217,13 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError(String message) {
-        showError(message, false);
+        showError(message, false, false);
     }
 
-    public void showError( String message, final boolean shouldGoBack) {
+    public void showError(String message, final boolean shouldGoBack, final boolean shouldPopFragmentTillWelcomeScreen) {
         if (isFragmentAttached()) {
             hideProgressBar();
-            if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
+            if (null == message) {  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
@@ -230,7 +236,15 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                 @Override
                                 public void onClick(View v) {
                                     alertDialogFragment.dismiss();
-                                    if (shouldGoBack) {
+                                    if (shouldPopFragmentTillWelcomeScreen) {
+                                        if (null != getActivity()) {
+                                            try {
+                                                getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+                                            }catch (Exception e){
+
+                                            }
+                                        }
+                                    } else if (shouldGoBack) {
                                         if (null != getActivity()) {
                                             if (getFragmentManager().getBackStackEntryCount() > 0) {
                                                 Fragment fragment = getFragmentManager().findFragmentByTag(THSInitFragment.TAG);
@@ -300,7 +314,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "exitToPropositon", "toUgrowPage");
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "exitToPropositon", "toUgrowPage");
+        }
         if (THSManager.getInstance().getThsCompletionProtocol() != null) {
             THSManager.getInstance().getThsCompletionProtocol().didExitTHS(tHSExitType);
         }

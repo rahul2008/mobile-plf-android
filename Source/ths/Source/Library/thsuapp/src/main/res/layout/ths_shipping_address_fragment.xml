@@ -35,8 +35,8 @@
         android:id="@+id/sa_shipping_address_line_one_validation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sa_address_line_one_text"
         android:layout_marginBottom="@dimen/ths_fab_margin"
+        android:layout_below="@+id/sa_address_line_one_text"
         app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
         app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
@@ -45,7 +45,6 @@
             style="@style/UIDEditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:hint="@string/ths_address_enter_first_address_line"
             android:imeOptions="actionNext"
             android:inputType="text"
@@ -94,7 +93,6 @@
             style="@style/UIDEditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:hint="@string/ths_address_enter_town_city"
             android:imeOptions="actionNext"
             android:inputType="text"
@@ -137,14 +135,25 @@
         android:layout_below="@id/sa_postal_code"
         android:text="@string/ths_address_state_string" />
 
-    <android.support.v7.widget.AppCompatSpinner
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/sa_state_text_place_holder"
+        style="@style/UIDEditTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sa_state_text"
+        android:imeOptions="actionNext"
+        android:focusable="false"
+        android:hint="@string/ths_user_enter_state"
+        android:maxLines="1" />
+   <!-- <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sa_state_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_state_text"
         android:background="?attr/uidTextBoxDefaultDisabledBackgroundColor">
 
-    </android.support.v7.widget.AppCompatSpinner>
+    </android.support.v7.widget.AppCompatSpinner>-->
 
 
 </RelativeLayout>

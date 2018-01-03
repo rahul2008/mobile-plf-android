@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.csw.permission.ConsentToggleListener;
 import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;
@@ -109,7 +109,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         }
     }
 
-    public void onCreateConsentSuccess(RequiredConsent consent) {
+    public void onCreateConsentSuccess(Consent consent) {
         int position = getIndexOfViewWithDefinition(consent.getDefinition());
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);

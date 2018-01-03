@@ -80,3 +80,6 @@ subprojects {
     ext.useprojectdependencies = true
 }
 
+configurations {
+    compile
+}

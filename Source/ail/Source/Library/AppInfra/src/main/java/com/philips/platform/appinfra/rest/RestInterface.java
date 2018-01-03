@@ -7,10 +7,12 @@ package com.philips.platform.appinfra.rest;
 
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 
+import java.io.Serializable;
+
 /**
  * The Interface for Request and NetWorkType
  */
-public interface RestInterface {
+public interface RestInterface extends Serializable {
 
     /**
      * Gets request queue.

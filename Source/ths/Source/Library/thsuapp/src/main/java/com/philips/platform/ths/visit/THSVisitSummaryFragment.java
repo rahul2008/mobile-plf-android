@@ -25,7 +25,6 @@ import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitSuccessful;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL_ENDS;
@@ -57,8 +56,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     Integer mProviderRating;
     Integer mVisitRating;
 
-    protected Label medicationShippingLabel;
-    protected RelativeLayout medicationShippingRelativeLayout;
+    protected Label medicationShippingLabel, prescriptionLabel;
+    protected RelativeLayout medicationShippingRelativeLayout,ps_pharmacy_list_layout_item;
 
 
     @Nullable
@@ -73,31 +72,35 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         view.findViewById(R.id.ps_edit_consumer_shipping_address).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_pharmacy).setVisibility(View.GONE);
 
-        medicationShippingLabel = (Label) view.findViewById(R.id.ps_shipped_to_label);
-        medicationShippingRelativeLayout = (RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
+        medicationShippingLabel = view.findViewById(R.id.ps_shipped_to_label);
+        medicationShippingRelativeLayout = view.findViewById(R.id.ps_shipping_layout_item);
 
         Bundle bundle = getArguments();
         mVisit = bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
 
-        providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
-        providerPractice = (Label) view.findViewById(R.id.details_practiceNameLabel);
+        providerName = view.findViewById(R.id.details_providerNameLabel);
+        providerPractice = view.findViewById(R.id.details_practiceNameLabel);
 
 
-        visitCost = (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
+        visitCost = view.findViewById(R.id.ths_wrap_up_payment_cost);
 
-        Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
-        prescriptionLabel.setText("Your prescription was sent to");
-        consumerCity = (Label) view.findViewById(R.id.ps_consumer_city);
-        mConsumerName = (Label) view.findViewById(R.id.ps_consumer_name);
-        consumerShippingAddress = (Label) view.findViewById(R.id.ps_consumer_shipping_address);
-        consumerShippingZip = (Label) view.findViewById(R.id.ps_consumer_shipping_zip);
-        consumerState = (Label) view.findViewById(R.id.ps_consumer_state);
-        pharmacyAddressLineOne = (Label) view.findViewById(R.id.ps_pharmacy_address_line_one);
-        pharmacyAddressLIneTwo = (Label) view.findViewById(R.id.ps_pharmacy_address_line_two);
-        pharmacyName = (Label) view.findViewById(R.id.ps_pharmacy_name);
-        pharmacyState = (Label) view.findViewById(R.id.ps_pharmacy_state);
-        pharmacyZip = (Label) view.findViewById(R.id.ps_pharmacy_zip_code);
-        continueButton = (Button) view.findViewById(R.id.ths_visit_summary_continue_button);
+        prescriptionLabel = view.findViewById(R.id.ps_prescription_sent_label);
+        prescriptionLabel.setText(getString(R.string.ths_prescription_sent_to_label));
+
+        ps_pharmacy_list_layout_item = view.findViewById(R.id.ps_pharmacy_list_layout_item);
+
+
+        consumerCity = view.findViewById(R.id.ps_consumer_city);
+        mConsumerName = view.findViewById(R.id.ps_consumer_name);
+        consumerShippingAddress = view.findViewById(R.id.ps_consumer_shipping_address);
+        consumerShippingZip = view.findViewById(R.id.ps_consumer_shipping_zip);
+        consumerState = view.findViewById(R.id.ps_consumer_state);
+        pharmacyAddressLineOne = view.findViewById(R.id.ps_pharmacy_address_line_one);
+        pharmacyAddressLIneTwo = view.findViewById(R.id.ps_pharmacy_address_line_two);
+        pharmacyName = view.findViewById(R.id.ps_pharmacy_name);
+        pharmacyState = view.findViewById(R.id.ps_pharmacy_state);
+        pharmacyZip = view.findViewById(R.id.ps_pharmacy_zip_code);
+        continueButton = view.findViewById(R.id.ths_visit_summary_continue_button);
         continueButton.setOnClickListener(this);
 
         mTHSVisitSummaryPresenter = new THSVisitSummaryPresenter(this);
@@ -106,7 +109,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         thsRatingDialogFragment = new THSRatingDialogFragment();
         thsRatingDialogFragment.setThsVisitSummaryPresenter(mTHSVisitSummaryPresenter);
         thsRatingDialogFragment.show(getFragmentManager(), "TAG");
-        mImageProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
+        mImageProviderImage = view.findViewById(R.id.details_providerImage);
 
 
         //
@@ -148,7 +151,6 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
 
     void updateShippingAddressView(Address address, String consumerName) {
-        //ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
         mConsumerName.setText(consumerName);
         if (null != address) {
             consumerCity.setText(address.getCity());
@@ -168,6 +170,9 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
             pharmacyName.setText(pharmacy.getName());
             pharmacyState.setText(pharmacy.getAddress().getState().getCode());
             pharmacyZip.setText(pharmacy.getAddress().getZipCode());
+        }else {
+            prescriptionLabel.setVisibility(View.GONE);
+            ps_pharmacy_list_layout_item.setVisibility(View.GONE);
         }
     }
 

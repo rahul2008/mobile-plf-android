@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.ths_faqs_expandable_list_group_item, null);
         }
 
-        TextView txtListChild = convertView
+        Label txtListChild = (Label) convertView
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);

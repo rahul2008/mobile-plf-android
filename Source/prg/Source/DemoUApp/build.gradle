@@ -116,7 +116,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -226,13 +226,14 @@ dependencies {
         exclude module: "support-annotations"
     }
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':uid') : uidModule) 	
-	{
-		exclude group: 'com.android.support'
-		transitive = true
-	}
+    if(dp) {
+        compile project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
 
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
-
 }
