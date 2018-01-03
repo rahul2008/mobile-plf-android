@@ -1,4 +1,4 @@
-package com.philips.platform.mya.usr;
+package com.philips.platform.mya.mch;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.chi.CheckConsentsCallback;
