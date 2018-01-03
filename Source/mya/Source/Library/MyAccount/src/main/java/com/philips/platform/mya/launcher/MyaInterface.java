@@ -57,7 +57,7 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+    private UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
         return new UserDataModelProvider(myaLaunchInput.getContext());
     }
 
