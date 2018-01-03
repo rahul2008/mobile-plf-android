@@ -82,6 +82,9 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             if (consent != null) {
                 consentView.storeConsent(consent);
             }
+            if (consentView.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+                updateClickStream(consentView.isChecked());
+            }
         }
         adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
@@ -104,14 +107,14 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     @Override
     public void onPostConsentSuccess(Consent consent) {
         if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-            updateClickStream(consent.getStatus());
+            updateClickStream(consent.getStatus().name().equals(ConsentStatus.active.name()));
         }
         adapter.onCreateConsentSuccess(consent);
         permissionInterface.hideProgressDialog();
     }
 
-    private void updateClickStream(ConsentStatus consentStatus) {
-        if (consentStatus.name().equals(ConsentStatus.active.name())) {
+    private void updateClickStream(boolean isActive) {
+        if (isActive) {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         } else {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
