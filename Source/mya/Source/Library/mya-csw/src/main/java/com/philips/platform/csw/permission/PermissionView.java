@@ -19,7 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.utils.CswLogger;

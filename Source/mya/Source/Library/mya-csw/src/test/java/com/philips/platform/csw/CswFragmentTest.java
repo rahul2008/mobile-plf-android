@@ -2,7 +2,7 @@ package com.philips.platform.csw;
 
 import android.os.Bundle;
 
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.csw.mock.ActionBarListenerMock;
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;

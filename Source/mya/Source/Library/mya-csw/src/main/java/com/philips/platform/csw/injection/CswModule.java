@@ -9,7 +9,7 @@ package com.philips.platform.csw.injection;
 
 import android.content.Context;
 
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.mya.chi.ConsentConfiguration;
 
 import java.util.List;
 

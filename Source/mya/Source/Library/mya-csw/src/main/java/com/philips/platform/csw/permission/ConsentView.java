@@ -9,9 +9,9 @@ package com.philips.platform.csw.permission;
 
 import android.support.annotation.Nullable;
 
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
 public class ConsentView {
 

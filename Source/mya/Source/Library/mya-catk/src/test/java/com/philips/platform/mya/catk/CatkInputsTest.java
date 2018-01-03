@@ -10,7 +10,7 @@ package com.philips.platform.mya.catk;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.catk.mock.ContextMock;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,8 +1,8 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.consenthandlerinterface.PostConsentCallback;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;

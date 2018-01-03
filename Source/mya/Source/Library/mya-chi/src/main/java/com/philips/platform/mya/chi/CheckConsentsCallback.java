@@ -5,9 +5,9 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.consenthandlerinterface;
+package com.philips.platform.mya.chi;
 
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.Consent;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@
 
 package com.philips.platform.mya.catk;
 
-import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.mya.chi.ConsentError;
 
 import org.junit.Test;
 

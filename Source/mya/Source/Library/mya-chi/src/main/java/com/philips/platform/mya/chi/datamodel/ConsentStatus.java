@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.consenthandlerinterface.datamodel;
+package com.philips.platform.mya.chi.datamodel;
 
 public enum ConsentStatus {
     active,

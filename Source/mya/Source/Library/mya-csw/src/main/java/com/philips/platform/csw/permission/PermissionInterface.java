@@ -7,7 +7,7 @@
 
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.mya.chi.ConsentError;
 
 public interface PermissionInterface {
 

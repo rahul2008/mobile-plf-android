@@ -11,7 +11,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.mya.chi.ConsentConfiguration;
 
 import java.util.List;
 

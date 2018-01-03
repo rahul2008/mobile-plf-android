@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.consenthandlerinterface;
+package com.philips.platform.mya.chi;
 
 public class ConsentError {
 

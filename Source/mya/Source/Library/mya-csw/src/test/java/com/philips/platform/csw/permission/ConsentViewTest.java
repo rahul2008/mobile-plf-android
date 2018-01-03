@@ -1,10 +1,10 @@
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.mya.chi.datamodel.Consent;
 
 import org.junit.Before;
 import org.junit.Test;

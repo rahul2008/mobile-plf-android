@@ -7,8 +7,8 @@
 
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 

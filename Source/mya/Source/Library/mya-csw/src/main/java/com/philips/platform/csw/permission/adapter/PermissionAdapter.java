@@ -14,9 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.consenthandlerinterface.ConsentError;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.csw.permission.ConsentToggleListener;
 import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;

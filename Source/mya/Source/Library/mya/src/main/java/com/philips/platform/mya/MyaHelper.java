@@ -10,8 +10,8 @@ package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;

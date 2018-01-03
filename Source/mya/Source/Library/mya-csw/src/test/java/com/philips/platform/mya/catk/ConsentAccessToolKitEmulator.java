@@ -1,10 +1,10 @@
 package com.philips.platform.mya.catk;
 
 
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
-import com.philips.platform.consenthandlerinterface.PostConsentCallback;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
 public class ConsentAccessToolKitEmulator implements ConsentHandlerInterface {
 

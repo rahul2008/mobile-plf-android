@@ -5,10 +5,10 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.consenthandlerinterface;
+package com.philips.platform.mya.chi;
 
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
 public interface PostConsentCallback {
     void onPostConsentFailed(ConsentDefinition definition, ConsentError error);

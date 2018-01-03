@@ -1,4 +1,4 @@
-package com.philips.platform.consenthandlerinterface.datamodel;
+package com.philips.platform.mya.chi.datamodel;
 
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package com.philips.platform.consenthandlerinterface.datamodel;
+package com.philips.platform.mya.chi.datamodel;
 
-import com.philips.platform.consenthandlerinterface.ConsentDefinitionException;
+import com.philips.platform.mya.chi.ConsentDefinitionException;
 
 import org.junit.Test;
 

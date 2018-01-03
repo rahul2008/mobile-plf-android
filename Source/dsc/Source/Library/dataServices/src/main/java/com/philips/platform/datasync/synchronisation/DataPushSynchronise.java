@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.consenthandlerinterface.ConsentCallback;
-import com.philips.platform.consenthandlerinterface.ConsentError;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.mya.chi.ConsentCallback;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;

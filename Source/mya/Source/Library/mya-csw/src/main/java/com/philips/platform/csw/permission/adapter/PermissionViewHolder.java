@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
 import com.philips.platform.csw.permission.ConsentToggleListener;
 import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;

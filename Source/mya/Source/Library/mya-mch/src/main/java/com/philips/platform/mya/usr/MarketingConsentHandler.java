@@ -2,20 +2,20 @@ package com.philips.platform.mya.usr;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
-import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
-import com.philips.platform.consenthandlerinterface.ConsentError;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
-import com.philips.platform.consenthandlerinterface.PostConsentCallback;
-import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.philips.platform.consenthandlerinterface.ConsentError.CONSENT_ERROR_UNKNOWN;
+import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 
 /**
  * Created by Entreco on 19/12/2017.

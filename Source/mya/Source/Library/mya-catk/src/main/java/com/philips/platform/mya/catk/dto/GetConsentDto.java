@@ -9,7 +9,7 @@ package com.philips.platform.mya.catk.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 public class GetConsentDto {
 

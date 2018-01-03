@@ -12,7 +12,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.platform.mya.catk.util.CustomRobolectricRunnerCATK;
-import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.After;

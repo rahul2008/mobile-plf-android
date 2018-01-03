@@ -3,7 +3,7 @@ package com.philips.platform.csw;
 import android.test.mock.MockContext;
 
 import com.philips.platform.consenthandlerinterface.BuildConfig;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;

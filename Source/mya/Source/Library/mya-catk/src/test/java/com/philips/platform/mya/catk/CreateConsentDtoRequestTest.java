@@ -12,7 +12,7 @@ import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;

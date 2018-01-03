@@ -8,7 +8,7 @@
 package com.philips.platform.mya.launcher;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.ArrayList;

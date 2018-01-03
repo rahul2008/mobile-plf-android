@@ -1,5 +1,7 @@
 package com.philips.platform.consenthandlerinterface;
 
+import com.philips.platform.mya.chi.ConsentError;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

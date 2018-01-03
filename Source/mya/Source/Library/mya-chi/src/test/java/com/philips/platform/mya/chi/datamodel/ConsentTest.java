@@ -5,11 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.consenthandlerinterface.datamodel;
-
-import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
-import com.philips.platform.consenthandlerinterface.datamodel.Consent;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+package com.philips.platform.mya.chi.datamodel;
 
 import org.junit.Test;
 
