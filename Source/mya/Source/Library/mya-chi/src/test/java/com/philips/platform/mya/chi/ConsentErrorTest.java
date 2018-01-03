@@ -1,4 +1,4 @@
-package com.philips.platform.consenthandlerinterface;
+package com.philips.platform.mya.chi;
 
 import com.philips.platform.mya.chi.ConsentError;
 

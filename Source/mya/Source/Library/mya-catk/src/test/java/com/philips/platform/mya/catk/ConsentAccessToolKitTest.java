@@ -25,7 +25,7 @@ import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
+import com.philips.platform.mya.catk.BuildConfig;
 
 import org.joda.time.DateTime;
 import org.junit.After;
