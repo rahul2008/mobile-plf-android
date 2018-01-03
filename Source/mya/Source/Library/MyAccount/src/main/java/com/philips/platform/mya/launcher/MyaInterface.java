@@ -23,7 +23,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
+import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
 
 public class MyaInterface implements UappInterface {
@@ -34,6 +34,7 @@ public class MyaInterface implements UappInterface {
      *
      * @param uiLauncher      - ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput - MyaLaunchInput
+     * @since 2017.5.0
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -81,6 +82,7 @@ public class MyaInterface implements UappInterface {
      *
      * @param uappDependencies - With an AppInfraInterface instance.
      * @param uappSettings     - With an application provideAppContext.
+     * @since 2017.5.0
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {

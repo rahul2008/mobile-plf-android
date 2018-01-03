@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public class UserDataModelProvider extends UserInterface implements Serializable {
 
+    private static final long serialVersionUID = -8976502136083301892L;
     private transient UserDataModel userDataModel;
     private transient Context context;
 

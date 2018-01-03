@@ -7,7 +7,6 @@ package com.philips.platform.mya.profile;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -34,6 +33,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     private MyaProfileContract.Presenter presenter;
     private TextView userNameTextView;
     private String PROFILE_BUNDLE = "profile_bundle";
+    private DefaultItemAnimator defaultItemAnimator;
+    private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,25 +45,21 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         userNameTextView = view.findViewById(R.id.mya_user_name);
         presenter = new MyaProfilePresenter(this);
         setRetainInstance(true);
+        init(new DefaultItemAnimator(),new RecyclerViewSeparatorItemDecoration(getContext()),
+                new LinearLayoutManager(getContext()));
         return view;
+    }
+
+    void init(DefaultItemAnimator defaultItemAnimator, RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration, LinearLayoutManager linearLayoutManager) {
+        this.defaultItemAnimator=defaultItemAnimator;
+        this.recyclerViewSeparatorItemDecoration = recyclerViewSeparatorItemDecoration;
+        this.linearLayoutManager = linearLayoutManager;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(PROFILE_BUNDLE, getArguments());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.onViewActive(this);
-    }
-
-    @Override
-    public void onPause() {
-        presenter.onViewInactive();
-        super.onPause();
     }
 
     @Override
@@ -98,13 +96,25 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public void showProfileItems(final Map<String, String> profileList) {
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        RecyclerView.LayoutManager mLayoutManager = getLinearLayoutManager();
+        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = getRecyclerViewSeparatorItemDecoration();
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setItemAnimator(getAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
         myaProfileAdaptor.setOnClickListener(onClickRecylerViewItem(profileList));
+    }
+
+    protected DefaultItemAnimator getAnimator() {
+        return defaultItemAnimator;
+    }
+
+    protected RecyclerViewSeparatorItemDecoration getRecyclerViewSeparatorItemDecoration() {
+        return recyclerViewSeparatorItemDecoration;
+    }
+
+    protected LinearLayoutManager getLinearLayoutManager() {
+        return linearLayoutManager;
     }
 
     private View.OnClickListener onClickRecylerViewItem(final Map<String, String> profileList) {
@@ -131,7 +141,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public void showPassedFragment(Fragment fragment) {
+    public void showPassedFragment(MyaBaseFragment fragment) {
+        fragment.setFragmentLauncher(getFragmentLauncher());
+        fragment.setActionbarUpdateListener(getActionbarUpdateListener());
         showFragment(fragment);
     }
 

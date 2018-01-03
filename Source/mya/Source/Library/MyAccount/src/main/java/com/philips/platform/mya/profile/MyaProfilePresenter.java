@@ -6,13 +6,14 @@
 package com.philips.platform.mya.profile;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaUtil;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
@@ -41,7 +42,6 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
             UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
             setUserModel(userDataModel);
         }
-
     }
 
     @Override
@@ -60,19 +60,30 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     private void setUserModel(UserDataModel userDataModel) {
-        if (userDataModel != null && userDataModel.getGivenName() != null) {
-            view.setUserName(userDataModel.getGivenName());
+        String givenName = userDataModel.getGivenName();
+        String familyName = userDataModel.getFamilyName();
+        if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
+            view.setUserName(givenName.concat(" ").concat(familyName));
+        } else if (!TextUtils.isEmpty(givenName)) {
+            view.setUserName(givenName);
         }
     }
 
-    private TreeMap<String,String> getProfileList(AppConfigurationInterface appConfigurationManager) {
+    private TreeMap<String, String> getProfileList(AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();
-            ArrayList propertyForKey = (ArrayList) appConfigurationManager.getPropertyForKey
+            ArrayList<?> propertyForKey = (ArrayList<?>) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(propertyForKey);
+            TreeMap<String, String> treeMap = new TreeMap<>();
+            MyaUtil myaUtil = new MyaUtil();
+            if (propertyForKey != null && propertyForKey.size() != 0) {
+                myaUtil.getLocalisedList(view.getContext(), propertyForKey, treeMap);
+            } else {
+                treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
+            }
+            return treeMap;
         } catch (IllegalArgumentException exception) {
             // TODO: Deepthi, use TLA while logging
             exception.getMessage();
@@ -80,28 +91,4 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         return null;
     }
 
-    private TreeMap<String, String> getLocalisedList(ArrayList propertyForKey) {
-        TreeMap<String, String> profileList = new TreeMap<>();
-        if (propertyForKey != null && propertyForKey.size() != 0) {
-            for (int i = 0; i < propertyForKey.size(); i++) {
-                String profileKey = (String) propertyForKey.get(i);
-                String stringResourceByName = getStringResourceByName(profileKey);
-                profileList.put(profileKey, stringResourceByName);
-            }
-        } else {
-            profileList.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
-        }
-        return profileList;
-    }
-
-    private String getStringResourceByName(String aString) {
-        Context context = view.getContext();
-        String packageName = context.getPackageName();
-        int resId = context.getResources().getIdentifier(aString, "string", packageName);
-        try {
-            return context.getString(resId);
-        } catch (Exception exception) {
-            return null;
-        }
-    }
 }

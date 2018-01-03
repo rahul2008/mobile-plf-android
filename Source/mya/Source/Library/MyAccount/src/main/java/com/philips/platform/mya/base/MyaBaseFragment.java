@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.mya.base.mvp;
+package com.philips.platform.mya.base;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -11,15 +11,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.platform.mya.MyaConstants;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-// TODO: Deepthi, change package name to base
 public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
-
+    public static final String MY_ACCOUNTS_CALLEE_TAG= "My_Accounts_callee_tag";
+    public static final String TAG = MyaBaseFragment.class.getSimpleName();
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
     private ActionBarListener mActionbarUpdateListener;
@@ -33,7 +32,6 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
     private Context context;
 
     private FragmentLauncher fragmentLauncher;
-
 
 
     @Override
@@ -90,7 +88,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
                     .findFragmentById(getId());
 
             if (!(currentFrag instanceof MyaBaseFragment))
-                fragmentTransaction.addToBackStack(MyaConstants.MY_ACCOUNTS_CALLEE_TAG);
+                fragmentTransaction.addToBackStack(MY_ACCOUNTS_CALLEE_TAG);
             else
                 fragmentTransaction.addToBackStack(simpleName);
 
@@ -116,21 +114,20 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         return context;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        context = null;
-    }
-
     public final boolean exitMyAccounts() {
-        final FragmentActivity activity = getActivity();
+        FragmentActivity activity;
+        if (fragmentLauncher == null)
+            activity = getActivity();
+        else
+            activity = fragmentLauncher.getFragmentActivity();
+
         try {
             if (activity != null && !activity.isFinishing()) {
                 if (activity instanceof MyaActivity) {
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();
-                    return fragManager.popBackStackImmediate(MyaConstants.MY_ACCOUNTS_CALLEE_TAG,
+                    return fragManager.popBackStackImmediate(MY_ACCOUNTS_CALLEE_TAG,
                             FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
             }
