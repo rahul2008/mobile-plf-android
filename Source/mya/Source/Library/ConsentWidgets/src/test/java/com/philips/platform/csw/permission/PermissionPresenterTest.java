@@ -31,8 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -170,7 +168,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenClickStreamConsentView() {
-        ConsentView consentView = new ConsentView(clickStreamConsentDefinition());
+        ConsentView consentView = new ConsentView(clickStreamConsentDefinition(), mockHandlerInterface);
         List<ConsentView> consentViews = new ArrayList<>();
         consentViews.add(consentView);
         when(mockAdapter.getConsentViews()).thenReturn(consentViews);
@@ -188,7 +186,7 @@ public class PermissionPresenterTest {
     private void whenOnGetConsentRetrieved() {
         ArrayList<Consent> consentArrayList = new ArrayList<>();
         consentArrayList.add(requiredConsent);
-        mPermissionPresenter.onGetConsentRetrieved(consentArrayList);
+        mPermissionPresenter.onGetConsentsSuccess(consentArrayList);
     }
 
     private void thenVerifyEnableTaggingIsInvoked() {
