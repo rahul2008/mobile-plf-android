@@ -12,7 +12,6 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.mya.catk.BuildConfig;
 
 import org.junit.After;
 import org.junit.Before;
