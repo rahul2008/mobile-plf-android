@@ -61,7 +61,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     void setDefinition(final ConsentView consentView) {
         // Update UI here
         label.setText(consentView.getConsentText());
-        toggle.setVisibility(consentView.isLoading() ? View.INVISIBLE : View.VISIBLE);
         error.setVisibility(consentView.isError() ? View.VISIBLE : View.INVISIBLE);
         toggle.animate().alpha(consentView.isError() ? 0.5f : 1.0f).start();
         toggle.setEnabled(consentView.isEnabled());
