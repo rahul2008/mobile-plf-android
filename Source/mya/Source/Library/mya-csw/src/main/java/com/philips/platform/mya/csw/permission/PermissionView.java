@@ -23,8 +23,8 @@ import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 

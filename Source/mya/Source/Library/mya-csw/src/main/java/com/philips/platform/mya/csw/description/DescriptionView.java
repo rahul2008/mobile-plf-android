@@ -8,7 +8,7 @@
 package com.philips.platform.mya.csw.description;
 
 import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.csw.R;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

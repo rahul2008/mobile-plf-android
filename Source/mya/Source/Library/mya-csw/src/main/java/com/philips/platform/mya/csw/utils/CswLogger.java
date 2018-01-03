@@ -11,7 +11,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.consentwidgets.BuildConfig;
+import com.philips.platform.mya.csw.BuildConfig;
 
 /**
  * Consent Widget loggger used for logginan system .

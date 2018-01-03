@@ -12,7 +12,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
+import com.philips.platform.mya.catk.BuildConfig;
 
 /**
  * Consent Widget loggger used for logginan system .

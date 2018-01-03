@@ -26,7 +26,7 @@ import com.philips.platform.mya.chi.ConsentHandlerInterface;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 

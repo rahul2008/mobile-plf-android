@@ -20,7 +20,7 @@ import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.csw.R;
 
 import java.util.ArrayList;
 import java.util.List;

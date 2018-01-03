@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
