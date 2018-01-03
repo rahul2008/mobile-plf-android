@@ -2,7 +2,7 @@ package com.philips.platform.mya.csw;
 
 import android.test.mock.MockContext;
 
-import com.philips.platform.consenthandlerinterface.BuildConfig;
+import com.philips.platform.mya.chi.BuildConfig;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.mock.ActivityLauncherMock;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
