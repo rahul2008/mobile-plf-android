@@ -9,7 +9,7 @@ package com.philips.platform.mya;
 
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;

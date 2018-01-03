@@ -3,7 +3,7 @@ package com.philips.platform.csw.permission;
 import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.catk.ConsentAccessToolKitEmulator;
+import com.philips.platform.mya.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;

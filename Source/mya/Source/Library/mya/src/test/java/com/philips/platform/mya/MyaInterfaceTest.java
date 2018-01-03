@@ -10,7 +10,7 @@ package com.philips.platform.mya;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.mya.catk.injection.CatkComponent;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;

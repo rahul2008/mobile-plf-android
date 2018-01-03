@@ -8,7 +8,7 @@ package com.philips.platform.datasync.synchronisation;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.consenthandlerinterface.ConsentCallback;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;

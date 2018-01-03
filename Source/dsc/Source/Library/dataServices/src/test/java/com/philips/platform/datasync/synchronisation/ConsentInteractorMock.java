@@ -1,7 +1,7 @@
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.consenthandlerinterface.ConsentCallback;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;

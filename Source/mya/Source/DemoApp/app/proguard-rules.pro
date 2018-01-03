@@ -87,7 +87,7 @@
 -keep class com.google.gson.examples.android.model.** { *; }
 
 # MyAccount Enums
--keep enum com.philips.platform.catk.model.ConsentStatus { *; }
+-keep enum com.philips.platform.mya.catk.model.ConsentStatus { *; }
 
 
 #HSDP Lib
