@@ -37,7 +37,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -62,7 +62,7 @@ public class MyaInterfaceTest {
     private Context context;
 
     private final int A_SPECIFIC_CONTAINER_ID = 12345678;
-    public static final String MYAFRAGMENT = MY_ACCOUNTS_CALLEE_TAG;
+    public static final String MYAFRAGMENT = MY_ACCOUNTS_INVOKE_TAG;
 
     @Mock
     User mockUser;
@@ -79,7 +79,7 @@ public class MyaInterfaceTest {
         when(userDataModelProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {
             @Override
-            public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+            protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
                 return userDataModelProvider;
             }
         };
@@ -96,8 +96,8 @@ public class MyaInterfaceTest {
     public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
         whenCallingLaunchWithAddToBackstack();
-        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaTabFragment.class, MY_ACCOUNTS_CALLEE_TAG);
-        thenAddToBackStackWasCalled(MY_ACCOUNTS_CALLEE_TAG);
+        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaTabFragment.class, MY_ACCOUNTS_INVOKE_TAG);
+        thenAddToBackStackWasCalled(MY_ACCOUNTS_INVOKE_TAG);
         thenCommitAllowingStateLossWasCalled();
         thenFragmentHasBundle();
     }
