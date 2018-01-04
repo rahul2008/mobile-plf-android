@@ -4,7 +4,7 @@ import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -41,7 +40,7 @@ public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
-    private List<ConsentConfiguration> givenConsentConfigurations = new ArrayList<>();
+    private List<ConsentHandlerMapping> givenConsentHandlerMappings = new ArrayList<>();
 
     @Mock
     private PermissionInterface mockPermissionInterface;
@@ -152,7 +151,7 @@ public class PermissionPresenterTest {
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
         ConsentAccessToolKitEmulator consentAccessToolKit = new ConsentAccessToolKitEmulator();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentConfigurations);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentHandlerMappings);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }
@@ -223,13 +222,13 @@ public class PermissionPresenterTest {
 
     private void givenConsentConfigurations() {
         ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
-        ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
-        givenConsentConfigurations = Arrays.asList(configuration);
+        ConsentHandlerMapping configuration = new ConsentHandlerMapping(Arrays.asList(definition), mockHandlerInterface);
+        givenConsentHandlerMappings = Arrays.asList(configuration);
         givenPresenter();
     }
 
     private void givenPresenter() {
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentConfigurations, mockAdapter);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentHandlerMappings, mockAdapter);
     }
 
     private void whenGetConsentFailed() {

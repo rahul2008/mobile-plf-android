@@ -11,7 +11,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -72,7 +72,7 @@ public class MyaInterfaceTest {
     User mockUser;
     @Mock
     private CatkComponent mockCatkComponent;
-    private List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
+    private List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
 
     @Before
     public void setup() {
@@ -132,13 +132,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentConfigurations), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentConfigurations), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }

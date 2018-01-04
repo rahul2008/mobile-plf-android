@@ -10,7 +10,7 @@ package com.philips.platform.csw.permission;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
@@ -32,7 +32,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     @NonNull
     private final PermissionInterface permissionInterface;
     @NonNull
-    private final List<ConsentConfiguration> configurationList;
+    private final List<ConsentHandlerMapping> configurationList;
     @NonNull
     private final PermissionAdapter adapter;
 
@@ -40,7 +40,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final List<ConsentConfiguration> configurationList, @NonNull final PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final List<ConsentHandlerMapping> configurationList, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
         this.configurationList = configurationList;
         this.adapter = adapter;
@@ -55,7 +55,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     void getConsentStatus() {
         if (!configurationList.isEmpty()) {
             permissionInterface.showProgressDialog();
-            for (ConsentConfiguration configuration : configurationList) {
+            for (ConsentHandlerMapping configuration : configurationList) {
                 ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
                 if (handlerInterface != null) {
                     handlerInterface.checkConsents(this);

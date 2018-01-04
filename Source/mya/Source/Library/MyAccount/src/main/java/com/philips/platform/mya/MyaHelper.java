@@ -10,7 +10,7 @@ package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -26,7 +26,7 @@ public class MyaHelper {
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
     private MyaLaunchInput myaLaunchInput;
-    private List<ConsentConfiguration> consentConfigurationList;
+    private List<ConsentHandlerMapping> consentHandlerMappingList;
 
     private MyaHelper() {
     }
@@ -50,19 +50,19 @@ public class MyaHelper {
         this.appInfra = appInfra;
     }
 
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
+    public List<ConsentHandlerMapping> getConsentHandlerMappingList() {
+        return consentHandlerMappingList;
     }
 
-    public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
-        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
+    public void setConfigurations(List<ConsentHandlerMapping> consentHandlerMappingList) {
+        throwExceptionWhenDuplicateTypesExist(consentHandlerMappingList);
+        this.consentHandlerMappingList = consentHandlerMappingList == null ? new ArrayList<ConsentHandlerMapping>() : consentHandlerMappingList;
     }
 
-    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
+    private void throwExceptionWhenDuplicateTypesExist(List<ConsentHandlerMapping> consentHandlerMappingList) {
         List<String> uniqueTypes = new ArrayList<>();
-        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
-            for (ConsentConfiguration configuration : consentConfigurationList) {
+        if (consentHandlerMappingList != null && !consentHandlerMappingList.isEmpty()) {
+            for (ConsentHandlerMapping configuration : consentHandlerMappingList) {
                 if (configuration != null) {
                     for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
                         if (definition != null) {
