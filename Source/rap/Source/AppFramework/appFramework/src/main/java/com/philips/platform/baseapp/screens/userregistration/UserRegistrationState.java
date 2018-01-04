@@ -265,7 +265,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             @Override
             public void onGetConsentRetrieved(@NonNull Consent consent) {
-                if (consent.getStatus().equals(ConsentStatus.active)) {
+                if (consent.isAccepted() && consent.getStatus().equals(ConsentStatus.active)) {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
                 } else {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
