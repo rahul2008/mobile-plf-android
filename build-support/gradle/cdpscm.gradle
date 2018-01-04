@@ -86,6 +86,7 @@ publishing {
                 }
             }
 
+            
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
