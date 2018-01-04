@@ -27,7 +27,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      *
      * @param uappDependencies Object of UappDependencies
      * @param uappSettings Object of UppSettings
-     *                     @since 2.0.0
+     *                     @since 1.0.0
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -43,7 +43,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      * @param  uiLauncher Object of UiLauncher
      * @param uappLaunchInput Object of  UappLaunchInput
      * @throws RuntimeException
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
@@ -63,7 +63,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     /**
      *
      * @param iapListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @Override
     public void getProductCartCount(IAPListener iapListener) {
@@ -76,7 +76,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     /**
      *
      * @param iapListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
@@ -90,7 +90,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      *
      * @param iapListener
      * @return
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @Override
     public boolean isCartVisible(IAPListener iapListener) {

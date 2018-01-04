@@ -110,7 +110,7 @@ public class User {
      * @param emailAddress            String email id .
      * @param password                String password
      * @param traditionalLoginHandler TraditionalLoginHandler listener.
-     *                                @Since 2.0.0
+     *                                @Since 1.0.0
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
@@ -163,7 +163,7 @@ public class User {
      * @param providerName       String provider name.
      * @param socialLoginHandler SocialProviderLoginHandler callback.
      * @param mergeToken         String merge token.
-     *                           @since 2.0.0
+     *                           @since 1.0.0
      */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler,
@@ -196,7 +196,7 @@ public class User {
      * @param tokenSecret        String token secrete.
      * @param socialLoginHandler SocialProviderLoginHandler callback.
      * @param mergeToken         String merge token .
-     *                           @since 2.0.0
+     *                           @since 1.0.0
      */
     public void loginUserUsingSocialNativeProvider(final Activity activity,
                                                    final String providerName,
@@ -233,7 +233,7 @@ public class User {
      * @param olderThanAgeLimit
      * @param isReceiveMarketingEmail
      * @param traditionalRegisterHandler
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void registerUserInfoForTraditional(String firstName, final String givenName, final String userEmail,
                                                final String password,
@@ -254,7 +254,7 @@ public class User {
      *
      * @param emailAddress          String email address
      * @param forgotPasswordHandler ForgotPasswordHandler callback.
-     *                              @since 2.0.0
+     *                              @since 1.0.0
      */
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
@@ -272,7 +272,7 @@ public class User {
      * {@code refreshLoginSession} method refreshes the session of an already logged in user.
      *
      * @param refreshLoginSessionHandler RefreshLoginSessionHandler callback
-     *                                   @since 2.0.0
+     *                                   @since 1.0.0
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
@@ -285,7 +285,7 @@ public class User {
      *
      * @param emailAddress            String email id
      * @param resendVerificationEmail ResendVerificationEmailHandler callback
-     *                                @since 2.0.0
+     *                                @since 1.0.0
      */
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
@@ -323,7 +323,7 @@ public class User {
      * @param password
      * @param mergeToken
      * @param traditionalLoginHandler
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
@@ -341,7 +341,7 @@ public class User {
      * @param isReceiveMarketingEmail
      * @param socialProviderLoginHandler
      * @param socialRegistrationToken
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
@@ -359,7 +359,7 @@ public class User {
      * Get user instance
      *
      * @return DIUserProfile instance or null if not logged in
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public DIUserProfile getUserInstance() {
         CaptureRecord captureRecord = Jump.getSignedInUser();
@@ -421,7 +421,7 @@ public class User {
      * Get Email verification status
      *
      * @return
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @Deprecated
     public boolean getEmailVerificationStatus() {
@@ -446,7 +446,7 @@ public class User {
      * Is email varified
      *
      * @return true if verified
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean isEmailVerified() {
         return isLoginTypeVerified(USER_EMAIL_VERIFIED);
@@ -456,7 +456,7 @@ public class User {
      * Is mobile no is verified .
      *
      * @return true if mobile no is verified
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean isMobileVerified() {
         return isLoginTypeVerified(USER_MOBILE_VERIFIED);
@@ -466,7 +466,7 @@ public class User {
      * {@code isUserSignIn} method checks if a user is logged in
      *
      * @return boolean
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean isUserSignIn() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
@@ -524,7 +524,7 @@ public class User {
 
     /**
      * {@code isTermsAndConditionAccepted} method checks if a user is accepted terms and condition or no
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean isTermsAndConditionAccepted() {
         String mobileNo = getMobile();
@@ -546,7 +546,7 @@ public class User {
      *
      * @param existingProvider
      * @return
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean handleMergeFlowError(String existingProvider) {
         if (existingProvider.equals(USER_CAPTURE)) {
@@ -560,7 +560,7 @@ public class User {
      *
      * @param updateReceiveMarketingEmail UpdateUserDetailsHandler call bacl isntance.
      * @param receiveMarketingEmail       true to recieve else flase.
-     *                                    @since 2.0.0
+     *                                    @since 1.0.0
      */
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateReceiveMarketingEmail,
@@ -577,7 +577,7 @@ public class User {
      *
      * @param updateUserDetailsHandler
      * @param date
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void updateDateOfBirth(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
@@ -592,7 +592,7 @@ public class User {
      *
      * @param updateUserDetailsHandler
      * @param gender
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void updateGender(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
@@ -667,7 +667,7 @@ public class User {
      * {@code logout} method logs out a logged in user.
      *
      * @param logoutHandler
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
@@ -691,7 +691,7 @@ public class User {
     /**
      *
      * @return access token
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getAccessToken() {
         CaptureRecord captureRecord = Jump.getSignedInUser();
@@ -707,7 +707,7 @@ public class User {
      * Refresh User object and align with Server
      *
      * @param handler Callback mHandler
-     *                @since 2.0.0
+     *                @since 1.0.0
      */
     public void refreshUser(final RefreshUserHandler handler) {
         if (networkUtility.isNetworkAvailable()) {
@@ -767,7 +767,7 @@ public class User {
      * {@code getEmail} method returns the email address of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getEmail() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -781,7 +781,7 @@ public class User {
      * {@code getMobile} method returns the Mobile Number of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getMobile() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -804,7 +804,7 @@ public class User {
      * {@code getGivenName} method returns the given name of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getGivenName() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -818,7 +818,7 @@ public class User {
      * Get older than age limit.
      *
      * @return true if older than age limits as per countries specific .
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean getOlderThanAgeLimit() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -832,7 +832,7 @@ public class User {
      * {@code getReceiveMarketingEmail} method checks if the user has subscribed to receive marketing email.
      *
      * @return boolean
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean getReceiveMarketingEmail() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -847,7 +847,7 @@ public class User {
      * Get Date of birth
      *
      * @return Date object
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public Date getDateOfBirth() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -861,7 +861,7 @@ public class User {
      * Get Date of birth
      *
      * @return Date object
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public Gender getGender() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -876,7 +876,7 @@ public class User {
      * {@code getGivenName} method returns the display name of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getDisplayName() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -890,7 +890,7 @@ public class User {
      * {@code getFamilyName} method returns the family name of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getFamilyName() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -904,7 +904,7 @@ public class User {
      * {@code getJanrainUUID} method returns the Janrain UUID of a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getJanrainUUID() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -918,7 +918,7 @@ public class User {
      * {@code getHsdpUUID} method returns the HSDP UUID of a logged in user.
      *
      * @return String\
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getHsdpUUID() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -933,7 +933,7 @@ public class User {
      * {@code getHsdpAccessToken} method returns the access token for a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getHsdpAccessToken() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -947,7 +947,7 @@ public class User {
      * {@code getLanguageCode} method returns the language code for a logged in user
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getLanguageCode() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -961,7 +961,7 @@ public class User {
      * {@code getCountryCode} method returns country code for a logged in user.
      *
      * @return String
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public String getCountryCode() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -986,7 +986,7 @@ public class User {
      * register User Registration Listener
      *
      * @param userRegistrationListener UserRegistrationListener callback
-     *                                 @since 2.0.0
+     *                                 @since 1.0.0
      */
     public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
@@ -996,7 +996,7 @@ public class User {
      * remove  User Registration Listener
      *
      * @param userRegistrationListener UserRegistrationListener callback prevoulsy registered.
-     *                                 @since 2.0.0
+     *                                 @since 1.0.0
      */
     public void unRegisterUserRegistrationListener(UserRegistrationListener
                                                            userRegistrationListener) {

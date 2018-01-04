@@ -57,7 +57,7 @@ public class RegUtility {
      * @param termsAndConditionsAcceptance
      * @param activity
      * @param termsAndConditionClickListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static void linkifyTermsandCondition(
             TextView termsAndConditionsAcceptance,
@@ -76,7 +76,7 @@ public class RegUtility {
      * @param termsAndConditionsAcceptance
      * @param activity
      * @param termsAndConditionClickListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static void linkifyTermsandCondition(
             CheckBox termsAndConditionsAcceptance,
@@ -95,7 +95,7 @@ public class RegUtility {
      * @param receivePhilipsNewsView
      * @param activity
      * @param receivePhilipsNewsClickListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
@@ -113,7 +113,7 @@ public class RegUtility {
      * @param receivePhilipsNewsView
      * @param activity
      * @param receivePhilipsNewsClickListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
@@ -131,7 +131,7 @@ public class RegUtility {
      * @param accountSettingPhilipsNews
      * @param activity
      * @param accountSettingsPhilipsClickListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
 
     public static void linkifyAccountSettingPhilips(
@@ -152,7 +152,7 @@ public class RegUtility {
      * @param accountSettingsPhilipsClickListener
      * @param moreAccountSettings
      * @param link
-     * @since 2.0.0
+     * @since 1.0.0
      */
     private static void setupLinkify(TextView accountSettingPhilipsNews, Activity activity,
                                      ClickableSpan accountSettingsPhilipsClickListener,
@@ -174,7 +174,7 @@ public class RegUtility {
     /**
      *
      * @param spanableString
-     * @since 2.0.0
+     * @since 1.0.0
      */
     private static void removeUnderlineFromLink(SpannableString spanableString) {
         for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
@@ -201,7 +201,7 @@ public class RegUtility {
      *
      * @param registrationEnv
      * @return Configuration
-     * @since 2.0.0
+     * @since 1.0.0
      */
 
     public static Configuration getConfiguration(String registrationEnv) {
@@ -226,7 +226,7 @@ public class RegUtility {
     /**
      *
      * @return UIFlow
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static UIFlow getUiFlow() {
 
@@ -246,7 +246,7 @@ public class RegUtility {
     /**
      *
      * @param providers
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if (providers != null) {
@@ -266,7 +266,7 @@ public class RegUtility {
     /**
      *
      * @return AccountStartTime
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static long getCreateAccountStartTime() {
         return createAccountStartTime;
@@ -291,7 +291,7 @@ public class RegUtility {
     /**
      *
      * @return defaultSupportedHomeCountries
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static String[] getDefaultSupportedHomeCountries() {
         return defaultSupportedHomeCountries;
@@ -304,7 +304,7 @@ public class RegUtility {
      *
      * @param serverResponse
      * @return error Message
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static String getErrorMessageFromInvalidField(JSONObject serverResponse) {
         try {
@@ -334,7 +334,7 @@ public class RegUtility {
     /**
      *
      * @return List of Supported Countries
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public static List<String> supportedCountryList() {
         ArrayList<String> defaultCountries = new ArrayList<String>(Arrays.asList(RegUtility.getDefaultSupportedHomeCountries()));
@@ -364,7 +364,7 @@ public class RegUtility {
     /**
      *
      * @return  FallbackCountryCode
-     * @since 2.0.0
+     * @since 1.0.0
      */
     @NonNull
     public static String getFallbackCountryCode() {

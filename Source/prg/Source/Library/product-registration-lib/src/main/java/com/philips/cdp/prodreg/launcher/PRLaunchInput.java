@@ -24,7 +24,7 @@ public class PRLaunchInput extends UappLaunchInput {
      *
      * @param products
      * @param isAppLaunchFlow
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public PRLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
         this.products = products;
@@ -34,7 +34,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @return Products
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public ArrayList<Product> getProducts() {
         return products;
@@ -43,7 +43,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @return boolean for AppLaunchFlow or not
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public boolean isAppLaunchFlow() {
         return isAppLaunchFlow;
@@ -52,7 +52,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @return ProdRegUiListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public ProdRegUiListener getProdRegUiListener() {
         return prodRegUiListener;
@@ -61,7 +61,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @param prodRegUiListener
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
         this.prodRegUiListener = prodRegUiListener;
@@ -70,7 +70,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @return BackgroundImageResourceId in Integer
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public int getBackgroundImageResourceId() {
         return backgroundImageResourceId;
@@ -79,7 +79,7 @@ public class PRLaunchInput extends UappLaunchInput {
     /**
      *
      * @param backgroundImageResourceId
-     * @since 2.0.0
+     * @since 1.0.0
      */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {
         this.backgroundImageResourceId = backgroundImageResourceId;
