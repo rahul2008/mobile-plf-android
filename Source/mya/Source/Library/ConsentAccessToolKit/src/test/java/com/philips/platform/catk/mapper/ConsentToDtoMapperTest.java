@@ -8,7 +8,7 @@
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentDto;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
 import com.philips.platform.catk.model.ConsentStatus;
 
 import org.junit.Before;
@@ -21,17 +21,17 @@ import static org.junit.Assert.assertEquals;
 public class ConsentToDtoMapperTest {
     private CreateConsentDto result;
     private ConsentToDtoMapper givenMapper;
-    private Consent givenConsent;
-    private Consent activeTypeMomentLocaleNlNlVersion1Consent;
-    private Consent activityTypeWithMissingCountry;
-    private Consent activityTypeWithMissingLanguage;
+    private BackendConsent givenConsent;
+    private BackendConsent activeTypeMomentLocaleNlNlVersion1Consent;
+    private BackendConsent activityTypeWithMissingCountry;
+    private BackendConsent activityTypeWithMissingLanguage;
 
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
-        activeTypeMomentLocaleNlNlVersion1Consent = new Consent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingLanguage = new Consent(new Locale("", "NL"), ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingCountry = new Consent(new Locale("nl", ""), ConsentStatus.active, "moment", 1);
+        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingLanguage = new BackendConsent(new Locale("", "NL"), ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingCountry = new BackendConsent(new Locale("nl", ""), ConsentStatus.active, "moment", 1);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ConsentToDtoMapperTest {
         whenCallingMapWith();
     }
 
-    private void givenConsent(Consent consent) {
+    private void givenConsent(BackendConsent consent) {
         this.givenConsent = consent;
     }
 

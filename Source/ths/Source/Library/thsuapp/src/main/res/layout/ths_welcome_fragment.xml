@@ -1,9 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
-    android:background="?attr/uidContentPrimaryBackgroundColor">
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:fillViewport="true">
+
     <RelativeLayout
         android:id="@+id/init_container"
         android:layout_width="match_parent"
@@ -42,8 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/appointments"
-            android:background="?attr/uidContentPrimaryBackgroundColor"
-            >
+            android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -53,13 +53,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="?attr/uidNavigationSecondaryBackgroundColor" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha=".2"
-                    android:background="@drawable/ths_welcome"
-                    android:scaleType="centerCrop"
-                     />
+                    android:src="@drawable/ths_welcome"
+                    android:scaleType="centerCrop" />
 
             </FrameLayout>
 
@@ -68,21 +68,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/ths_list_space"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginBottom="@dimen/ths_list_space"
                 android:layout_marginTop="@dimen/ths_list_space"
-                app:uidComponentType="Secondary"
-                android:text="@string/ths_see_doctor" />
+                android:text="@string/ths_see_doctor"
+                app:uidComponentType="Secondary" />
 
             <ImageView
                 android:id="@+id/ths_amwell_brand"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@id/ths_start"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:src="@mipmap/amwell_white_logo"
-                android:layout_height="wrap_content" />
+                android:src="@mipmap/amwell_white_logo" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_service_provided_by"
@@ -91,11 +91,11 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/ths_amwell_brand"
                 android:layout_marginTop="@dimen/ths_fab_margin"
+                android:background="@android:color/transparent"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:background="@android:color/transparent"
-                android:text="@string/ths_this_services_is_provided_by" />
+                android:text="@string/ths_this_services_is_provided_by"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_quick"
@@ -105,11 +105,11 @@
                 android:layout_above="@id/ths_service_provided_by"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:background="@android:color/transparent"
-                android:paddingLeft="@dimen/ths_fab_margin"
-                android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:paddingRight="@dimen/ths_fab_margin"
                 android:maxLines="2"
-                android:text="@string/ths_quick_visit" />
+                android:paddingLeft="@dimen/ths_fab_margin"
+                android:paddingRight="@dimen/ths_fab_margin"
+                android:text="@string/ths_quick_visit"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/init_amwell"
@@ -118,10 +118,10 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/ths_quick"
                 android:enabled="false"
-                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:text="@string/ths_see_provider"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:textSize="@dimen/ths_see_provider" />
 
         </RelativeLayout>

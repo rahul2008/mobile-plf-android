@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
@@ -67,6 +68,15 @@ public class DemoAppManager {
     }
 
     private void initDataServicesLibrary(Context context) {
+
+        if(ConsentAccessToolKit.getInstance().getConsentDefinitions() == null){
+            throw new RuntimeException("Consent Access Toolkit must be initialized first ->\n\n" +
+                    "ConsentAccessToolKit.getInstance().init(new CatkInputs.Builder()\n" +
+                    "                .setContext(context)\n" +
+                    "                .setAppInfraInterface(app.getAppInfra())\n" +
+                    "                .setConsentDefinitions(<list of your consentDefinitions>).build());");
+        }
+
         mDataServicesManager = DataServicesManager.getInstance();
 
         OrmCreator creator = new OrmCreator(new UuidGenerator());

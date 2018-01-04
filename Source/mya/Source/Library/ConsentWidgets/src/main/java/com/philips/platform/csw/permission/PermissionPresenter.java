@@ -7,32 +7,29 @@
 
 package com.philips.platform.csw.permission;
 
+import android.support.annotation.NonNull;
+
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.permission.adapter.PermissionAdapter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.permission.adapter.PermissionAdapter;
-
-import android.support.annotation.NonNull;
-
-public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener, CreateConsentInteractor.Callback {
+public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener, ConsentInteractor.CreateConsentCallback {
 
     @NonNull
     private final PermissionInterface permissionInterface;
     @NonNull
-    private final GetConsentInteractor getConsentInteractor;
-    @NonNull
-    private final CreateConsentInteractor createConsentInteractor;
+    private final ConsentInteractor consentInteractor;
     @NonNull
     private final PermissionAdapter adapter;
 
@@ -40,11 +37,9 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final GetConsentInteractor getConsentInteractor,
-            @NonNull final CreateConsentInteractor createConsentInteractor, @NonNull final PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final ConsentInteractor consentInteractor, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
-        this.getConsentInteractor = getConsentInteractor;
-        this.createConsentInteractor = createConsentInteractor;
+        this.consentInteractor = consentInteractor;
         this.adapter = adapter;
         this.adapter.setConsentToggleListener(this);
     }
@@ -56,23 +51,27 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        getConsentInteractor.fetchLatestConsents(this);
+        consentInteractor.fetchLatestConsents(this);
     }
 
     @Override
     public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
-        createConsentInteractor.createConsentStatus(definition, this, consentGiven);
+        consentInteractor.createConsentStatus(definition, this, consentGiven);
+        permissionInterface.showProgressDialog();
     }
 
     @Override
-    public void onGetConsentRetrieved(@NonNull List<RequiredConsent> consents) {
+    public void onGetConsentRetrieved(@NonNull List<Consent> consents) {
         List<ConsentView> consentViews = adapter.getConsentViews();
-        Map<String, RequiredConsent> consentMap = new HashMap<>();
-        for (RequiredConsent consent : consents) {
+        Map<String, Consent> consentMap = new HashMap<>();
+        for (Consent consent : consents) {
             consentMap.put(consent.getType(), consent);
         }
         for (ConsentView consentView : consentViews) {
             consentView.storeConsent(consentMap.get(consentView.getType()));
+            if (consentView.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+                updateClickStream(consentView.isChecked());
+            }
         }
         adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
@@ -89,18 +88,20 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     public void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
         adapter.onCreateConsentFailed(definition, error);
         permissionInterface.showErrorDialog(error);
+        permissionInterface.hideProgressDialog();
     }
 
     @Override
-    public void onCreateConsentSuccess(RequiredConsent consent) {
-        if (consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-            updateClickStream(consent.getStatus());
+    public void onCreateConsentSuccess(Consent consent) {
+        if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+            updateClickStream(consent.getStatus().name().equals(ConsentStatus.active.name()));
         }
         adapter.onCreateConsentSuccess(consent);
+        permissionInterface.hideProgressDialog();
     }
 
-    private void updateClickStream(ConsentStatus consentStatus) {
-        if (consentStatus.name().equals(ConsentStatus.active.name())) {
+    private void updateClickStream(boolean isActive) {
+        if (isActive) {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         } else {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);

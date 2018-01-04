@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.os.Looper;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
@@ -23,6 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by philips on 11/30/17.
@@ -41,6 +43,8 @@ public class ForgotPasswordTest {
     private Context contextMock;
     @Mock
     private ForgotPasswordHandler forgotPasswordHabdlerMock;
+    @Mock
+    private Looper mockLooper;
 
     ForgotPassword forgotPassword;
 
@@ -55,7 +59,7 @@ public class ForgotPasswordTest {
 
 /*    @Test
     public void onSuccess() throws Exception {
-
+        when(contextMock.getMainLooper()).thenReturn(mockLooper);
         forgotPassword.onSuccess();
     }*/
 
@@ -85,6 +89,7 @@ public class ForgotPasswordTest {
 
 /*    @Test
     public void onFlowDownloadFailure() throws Exception {
+        when(contextMock.getMainLooper()).thenReturn(mockLooper);
         forgotPassword.onFlowDownloadFailure();
     }*/
 
