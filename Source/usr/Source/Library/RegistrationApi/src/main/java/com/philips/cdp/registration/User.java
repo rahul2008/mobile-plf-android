@@ -98,7 +98,7 @@ public class User {
      * @param context
      */
     public User(Context context) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }

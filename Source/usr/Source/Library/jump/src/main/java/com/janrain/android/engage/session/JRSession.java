@@ -1160,6 +1160,9 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     public void triggerAuthenticationDidCompleteWithPayload(JRDictionary rpx_result) {
         JRAuthenticatedUser user = null;
+        if (mCurrentlyAuthenticatingProvider == null) {
+            throwDebugException(new RuntimeException("Unexpected state"));
+        }
         if (!rpx_result.getAsDictionary("auth_info").isEmpty()) {
             user = new JRAuthenticatedUser(
                     rpx_result,

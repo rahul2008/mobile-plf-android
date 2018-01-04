@@ -1,16 +1,21 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2017
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
 package com.philips.platform.myaplugin.uappadaptor;
 
 import java.io.Serializable;
 
-/**
- * Created by philips on 11/16/17.
- */
+
 
 public class ConsentDataModel implements DataModel, Serializable {
-    String applicationName;
-    String propositionName;
-    String consentsDefination;
-    String CONSENT_DATA_MODEL="Consent";
+
+    private static final long serialVersionUID = -5802044993385447319L;
+    private String applicationName;
+    private String propositionName;
+    private String consentsDefination;
+    private String CONSENT_DATA_MODEL="Consent";
 
     public String getApplicationName() {
         return applicationName;

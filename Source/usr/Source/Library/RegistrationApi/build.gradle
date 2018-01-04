@@ -36,7 +36,7 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
     }
 }
 
@@ -269,7 +269,7 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     // Set this dependency to build and run UI Automator tests
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-v4:26.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
 }
 
@@ -315,7 +315,7 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-/*task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest"]) {
+task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest"]) {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -333,24 +333,6 @@ def coverageSourceDirs = [
         xml.enabled = true
         html.enabled = true
     }
-}*/
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
 }
 
 tasks.withType(Test) {

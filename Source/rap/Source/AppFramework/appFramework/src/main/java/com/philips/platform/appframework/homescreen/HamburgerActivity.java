@@ -526,6 +526,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                     selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
+                }else {
+                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                    presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
                 break;
         }

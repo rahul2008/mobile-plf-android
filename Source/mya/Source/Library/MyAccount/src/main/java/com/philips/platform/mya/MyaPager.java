@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 

@@ -174,7 +174,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
 
@@ -478,6 +478,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
+                    trackInvalidCredentials();
                 } else {
                     if (null != userRegistrationFailureInfo.getErrorDescription()) {
                         mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
@@ -633,6 +634,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
+    }
+
+    private void trackInvalidCredentials() {
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.USER_ERROR,
+                AppTagingConstants.INVALID_CREDENTIALS);
     }
 
     @Override

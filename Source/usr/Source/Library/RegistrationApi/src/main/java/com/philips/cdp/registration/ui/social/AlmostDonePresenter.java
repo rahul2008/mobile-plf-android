@@ -54,7 +54,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     private boolean isOnline = true;
 
     public AlmostDonePresenter(AlmostDoneContract almostDoneContract, User user) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mUser = user;
         this.almostDoneContract = almostDoneContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);

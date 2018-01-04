@@ -10,6 +10,7 @@ package com.philips.cdp.registration.configuration;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -36,9 +37,21 @@ public class RegistrationConfiguration {
     @Inject
     AppConfiguration appConfiguration;
 
+    private RegistrationComponent component;
+
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     UserRegistrationUIEventListener userRegistrationUIEventListener;
+
+    public  RegistrationComponent getComponent() {
+        return component;
+    }
+
+
+    public void setComponent(RegistrationComponent component) {
+        this.component = component;
+        this.component.inject(this);
+    }
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
@@ -51,7 +64,7 @@ public class RegistrationConfiguration {
     private static volatile RegistrationConfiguration registrationConfiguration;
 
     private RegistrationConfiguration() {
-        URInterface.getComponent().inject(this);
+        //component.inject(this);
     }
 
     public static synchronized RegistrationConfiguration getInstance() {

@@ -5,6 +5,7 @@ import android.support.annotation.*;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -54,9 +55,9 @@ public class RLog {
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
-        mLoggingInterface = URInterface.getComponent().getLoggingInterface();
+        mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
         mLoggingInterface = mLoggingInterface.createInstanceForComponent("usr", RegistrationHelper.getRegistrationApiVersion());
-        mAppTaggingInterface = URInterface.getComponent().getAppTaggingInterface();
+        mAppTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
     }
 
     /**

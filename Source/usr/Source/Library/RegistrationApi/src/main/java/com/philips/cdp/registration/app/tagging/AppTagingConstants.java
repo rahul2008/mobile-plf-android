@@ -160,6 +160,7 @@ public class AppTagingConstants {
 
 	public static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
 
+	public static final String INVALID_CREDENTIALS="UR:failedLogin:Janrain:210:Incorrect username or password. Try again.";
 
 
 

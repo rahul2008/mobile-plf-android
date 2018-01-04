@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.*;
@@ -24,7 +25,7 @@ public class AddSecureEmailPresenter implements NetworkStateListener {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     public AddSecureEmailPresenter(AddSecureEmailContract addSecureEmailContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.addSecureEmailContract = addSecureEmailContract;
     }
 
