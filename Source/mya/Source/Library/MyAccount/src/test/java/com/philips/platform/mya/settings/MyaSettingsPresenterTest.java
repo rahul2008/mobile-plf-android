@@ -16,7 +16,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaHelper;
@@ -129,14 +130,10 @@ public class MyaSettingsPresenterTest {
 
     @Test
     public void shouldNotReturnNullWhenInvoked() {
-        LaunchInputMock myaLaunchInput = new LaunchInputMock();
-        myaLaunchInput.setConsentDefinitions(new ArrayList<ConsentDefinition>());
-        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false,view.getContext()));
+        MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
+        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
         assertNotNull(myaSettingsPresenter.getCswInterface());
         assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
-
     }
-
 
 }
