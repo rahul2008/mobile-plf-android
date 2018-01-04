@@ -80,8 +80,6 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
-
             artifact("$projectDir/dependencies.lock") {
                 classifier = '1stleveldependencies'
             }

@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfraUApp"
 version = objcdp.getVersion(versions.ail_appInfra)
