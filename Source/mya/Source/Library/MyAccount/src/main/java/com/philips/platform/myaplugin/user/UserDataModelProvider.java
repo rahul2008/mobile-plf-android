@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2017
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
 package com.philips.platform.myaplugin.user;
 
 import android.content.Context;
@@ -14,6 +19,7 @@ import java.io.Serializable;
 
 public class UserDataModelProvider extends UserInterface implements Serializable {
 
+    private static final long serialVersionUID = -8976502136083301892L;
     private transient UserDataModel userDataModel;
     private transient Context context;
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.ui.traditional.countrySelection.CountrySelectionAdapter;
@@ -102,6 +103,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     private void updateCountryList(int position) {
         Country country = filtredList.get(position);
         if (listener != null) {
+            trackPage(AppTaggingPages.COUNTRY);
             listener.onSelectCountry(country.getName(),
                     country.getCode());
         }

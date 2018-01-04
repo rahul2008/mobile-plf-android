@@ -45,7 +45,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements
 
     public MobileForgotPassVerifyResendCodePresenter(
             MobileForgotPassVerifyResendCodeFragment mobileVerifyCodeContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }

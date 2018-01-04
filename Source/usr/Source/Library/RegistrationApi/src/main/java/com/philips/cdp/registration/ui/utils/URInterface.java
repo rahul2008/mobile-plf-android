@@ -143,13 +143,10 @@ public class URInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         component = initDaggerComponents(uappDependencies, uappSettings);
+        RegistrationConfiguration.getInstance().setComponent(component);
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
-    }
-
-    public static RegistrationComponent getComponent() {
-        return component;
     }
 
     @NonNull
@@ -161,9 +158,4 @@ public class URInterface implements UappInterface {
                     .build();
     }
 
-    @Deprecated
-    @VisibleForTesting
-    public static void setComponent(RegistrationComponent componentMock) {
-        component = componentMock;
-    }
 }

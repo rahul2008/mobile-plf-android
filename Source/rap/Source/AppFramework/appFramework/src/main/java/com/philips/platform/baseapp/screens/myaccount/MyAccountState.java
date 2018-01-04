@@ -13,6 +13,8 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
@@ -53,7 +55,7 @@ public class MyAccountState extends BaseState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaBaseFragment.TAG, getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override

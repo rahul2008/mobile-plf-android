@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalConsentFragmentController;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -72,7 +71,7 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
-        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
+        networkUtility = RegistrationConfiguration.getInstance().getComponent().getNetworkUtility();
         View view = inflater.inflate(R.layout.reg_fragment_parental_consent, null);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 

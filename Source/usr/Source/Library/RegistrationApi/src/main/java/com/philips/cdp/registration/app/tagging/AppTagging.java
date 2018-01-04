@@ -10,6 +10,7 @@ package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class AppTagging {
 
-    private static AppTaggingInterface appTaggingInterface = URInterface.getComponent().getAppTaggingInterface();
+    private static AppTaggingInterface appTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
 
     public static void trackPage(String currPage) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
