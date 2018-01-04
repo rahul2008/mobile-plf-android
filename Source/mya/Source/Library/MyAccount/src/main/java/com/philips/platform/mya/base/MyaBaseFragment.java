@@ -17,7 +17,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
-    public static final String MY_ACCOUNTS_CALLEE_TAG= "My_Accounts_callee_tag";
+    public static final String MY_ACCOUNTS_INVOKE_TAG = "My_Accounts_invoke_tag";
     public static final String TAG = MyaBaseFragment.class.getSimpleName();
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
@@ -88,7 +88,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
                     .findFragmentById(getId());
 
             if (!(currentFrag instanceof MyaBaseFragment))
-                fragmentTransaction.addToBackStack(MY_ACCOUNTS_CALLEE_TAG);
+                fragmentTransaction.addToBackStack(MY_ACCOUNTS_INVOKE_TAG);
             else
                 fragmentTransaction.addToBackStack(simpleName);
 
@@ -127,7 +127,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();
-                    return fragManager.popBackStackImmediate(MY_ACCOUNTS_CALLEE_TAG,
+                    return fragManager.popBackStackImmediate(MY_ACCOUNTS_INVOKE_TAG,
                             FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
             }

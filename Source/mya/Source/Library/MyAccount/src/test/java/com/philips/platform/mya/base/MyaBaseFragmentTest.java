@@ -8,7 +8,6 @@
 package com.philips.platform.mya.base;
 
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,7 +28,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_CALLEE_TAG;
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -78,7 +77,7 @@ public class MyaBaseFragmentTest {
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivity);
         myaBaseFragment.setFragmentLauncher(fragmentLauncherMock);
         myaBaseFragment.exitMyAccounts();
-        verify(fragmentManagerMock).popBackStackImmediate(MY_ACCOUNTS_CALLEE_TAG,
+        verify(fragmentManagerMock).popBackStackImmediate(MY_ACCOUNTS_INVOKE_TAG,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
         assertEquals(myaBaseFragment.getFragmentLauncher(),fragmentLauncherMock);
         MyaActivity myaActivityMock = mock(MyaActivity.class);
@@ -128,7 +127,7 @@ public class MyaBaseFragmentTest {
         when(fragmentManagerMock.findFragmentById(value)).thenReturn(fragmentMock);
         myaBaseFragment.showFragment(myaBaseFragmentMock);
         when(fragmentManagerMock.findFragmentById(fragmentMock.getId())).thenReturn(myaBaseFragmentMock);
-        verify(fragmentTransactionMock,atLeastOnce()).addToBackStack(MY_ACCOUNTS_CALLEE_TAG);
+        verify(fragmentTransactionMock,atLeastOnce()).addToBackStack(MY_ACCOUNTS_INVOKE_TAG);
     }
 
     @Test
