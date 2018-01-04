@@ -81,12 +81,7 @@ android {
             testCoverageEnabled true
         }
     }
-
-    signingConfigs {
-        debug {
-            storeFile project.file('../../CatalogApp/extra/signing/debug.keystore')
-        }
-    }
+}
 
     lintOptions {
         abortOnError false
