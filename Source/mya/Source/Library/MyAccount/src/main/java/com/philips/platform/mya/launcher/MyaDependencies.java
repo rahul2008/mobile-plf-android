@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * This class is used to provide dependencies for myaccount.
+ *
  * @since 2017.5.0
  */
 public class MyaDependencies extends UappDependencies {
