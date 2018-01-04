@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.MyaUtil;
+import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
@@ -77,9 +77,9 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
             ArrayList<?> propertyForKey = (ArrayList<?>) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
             TreeMap<String, String> treeMap = new TreeMap<>();
-            MyaUtil myaUtil = new MyaUtil();
+            MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
             if (propertyForKey != null && propertyForKey.size() != 0) {
-                myaUtil.getLocalisedList(view.getContext(), propertyForKey, treeMap);
+                myaLocalizationHandler.getLocalisedList(view.getContext(), propertyForKey, treeMap);
             } else {
                 treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
             }

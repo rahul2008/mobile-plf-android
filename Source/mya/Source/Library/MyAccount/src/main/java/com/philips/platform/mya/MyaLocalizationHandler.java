@@ -13,7 +13,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MyaUtil {
+public class MyaLocalizationHandler {
 
     public Map<String, String> getLocalisedList(Context context, ArrayList<?> propertyForKey, Map<String, String> map) {
         for (int i = 0; i < propertyForKey.size(); i++) {

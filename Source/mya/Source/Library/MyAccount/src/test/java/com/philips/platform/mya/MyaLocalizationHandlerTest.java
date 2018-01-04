@@ -25,13 +25,13 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-public class MyaUtilTest {
+public class MyaLocalizationHandlerTest {
 
-    private MyaUtil myaUtil;
+    private MyaLocalizationHandler myaLocalizationHandler;
 
     @Before
     public void setup() {
-        myaUtil = new MyaUtil();
+        myaLocalizationHandler = new MyaLocalizationHandler();
     }
 
     @Test
@@ -40,10 +40,10 @@ public class MyaUtilTest {
         arrayList.add("MYA_My_details");
         TreeMap<String,String> map = new TreeMap<>();
         Application application = RuntimeEnvironment.application;
-        Map<String, String> localisedList = myaUtil.getLocalisedList(application, arrayList, map);
+        Map<String, String> localisedList = myaLocalizationHandler.getLocalisedList(application, arrayList, map);
         assertEquals(arrayList.size(),1);
         assertEquals(localisedList.get("MYA_My_details"),application.getString(R.string.MYA_My_details));
-        assertEquals(myaUtil.getStringResourceByName(application,"MYA_My_details"),application.getString(R.string.MYA_My_details));
+        assertEquals(myaLocalizationHandler.getStringResourceByName(application,"MYA_My_details"),application.getString(R.string.MYA_My_details));
     }
 
 

@@ -17,7 +17,7 @@ import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.MyaUtil;
+import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -114,12 +114,12 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     private LinkedHashMap<String, SettingsModel> getLocalisedList(ArrayList<?> propertyForKey, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
-        MyaUtil myaUtil = new MyaUtil();
+        MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) propertyForKey.get(i);
-                settingsModel.setFirstItem(myaUtil.getStringResourceByName(view.getContext(),key));
+                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(),key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
