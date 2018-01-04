@@ -3,6 +3,7 @@ package com.philips.cdp.registration.controller;
 
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
@@ -20,7 +21,7 @@ public class RussianConsent {
     ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     RussianConsent() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
     JSONObject addRussianConsent(JSONObject newUser) {

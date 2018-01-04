@@ -202,7 +202,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
 

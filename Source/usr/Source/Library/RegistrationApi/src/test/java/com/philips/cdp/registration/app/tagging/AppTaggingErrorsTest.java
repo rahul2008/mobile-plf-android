@@ -2,6 +2,7 @@ package com.philips.cdp.registration.app.tagging;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -67,7 +68,7 @@ public class AppTaggingErrorsTest {
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(registrationComponentMock.getAppTaggingInterface()).thenReturn(appTaggingInterfaceMock);
-        URInterface.setComponent(registrationComponentMock);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
 
         appTaggingErrors=new AppTaggingErrors();
     }
