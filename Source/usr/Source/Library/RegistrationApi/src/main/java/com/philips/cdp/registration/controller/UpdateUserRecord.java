@@ -94,7 +94,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     private String LOG_TAG = "RegisterSocial";
 
     public UpdateUserRecord(Context context) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = context;
     }
 

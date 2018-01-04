@@ -29,7 +29,7 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'}
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'}
 }
 
 def environment = 'production'
@@ -175,7 +175,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
@@ -192,7 +192,7 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
-    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.squareup.okio:okio:1.13.0'
     //WeChat China
     compile files('libs/libammsdk.jar')
     
@@ -207,10 +207,10 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
   //  androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'org.immutables:value:2.4.4'
 
 

@@ -134,7 +134,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homePresenter = new HomePresenter(this);
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
@@ -155,6 +155,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
         makeProviderButtonsClickable();
+        handleBtnClickableStates(true);
     }
 
     @Override
@@ -182,11 +183,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
+            if(!getRegistrationFragment().isHomeFragment()) {
+                return;
+            }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
             RLog.d(RLog.ONCLICK, "HomeFragment : socialButton providerName" + providerName);
             RLog.d(RLog.ONCLICK, "HomeFragment : socialButton getId" + socialButton.getId());
-
-
             if (mRegError.isShown()) mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
@@ -250,6 +252,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handleCountrySelection() {
+        if(!getRegistrationFragment().isHomeFragment()) {
+            return;
+        }
         if (homePresenter.isNetworkAvailable()) {
             ArrayList<Country> rawMasterList = homePresenter.getAllCountries();
             CountrySelectionListener countryChangeListener = new CountrySelectionListener() {
@@ -263,7 +268,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, homePresenter.getRecentSelectedCountry());
             getRegistrationFragment().addFragment(picker);
         } else {
-            homePresenter.updateHomeControls();
+            disableControlsOnNetworkConnectionGone();
         }
     }
 
@@ -294,7 +299,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void launchSignInFragment() {
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            getRegistrationFragment().addFragment(new SignInAccountFragment());
+            showSignInAccountFragment();
             return;
         }
         if (homePresenter.isNetworkAvailable()) {
@@ -316,8 +321,18 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
+    private void showSignInAccountFragment(){
+        if(!getRegistrationFragment().isHomeFragment()) {
+            return;
+        }
+        getRegistrationFragment().addFragment(new SignInAccountFragment());
+
+    }
 
     private void showCreateAccountFragment() {
+        if(!getRegistrationFragment().isHomeFragment()) {
+            return;
+        }
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
@@ -339,6 +354,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             trackMultipleActionsLogin(providerName);
             homePresenter.trackSocialProviderPage();
             if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+                handleBtnClickableStates(false);
                 if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
                     if (homePresenter.isWeChatAuthenticate()) {
                         homePresenter.startWeChatAuthentication();
@@ -406,8 +422,14 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         }
     }
 
+
     private void handlePrivacyPolicy() {
         if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+
+            if (!getRegistrationFragment().isHomeFragment()) {
+                return;
+            }
+            handleBtnClickableStates(false);
 
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
@@ -511,11 +533,16 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         handleBtnClickableStates(clickableState);
     }
 
-
-    private void handleBtnClickableStates(boolean state) {
+    @Override
+    public void handleBtnClickableStates(boolean state) {
         mBtnCreateAccount.setEnabled(state);
         enableSocialProviders(state);
         mBtnMyPhilips.setEnabled(state);
+        mCountryDisplay.setEnabled(state);
+        privacyPolicy.setEnabled(state);
+        mCountryDisplay2.setEnabled(state);
+        privacyPolicy2.setEnabled(state);
+        continueWithouAccount.setEnabled(state);
     }
 
     private void enableSocialProviders(boolean enableState) {
@@ -798,7 +825,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void navigateToLogin() {
-        getRegistrationFragment().addFragment(new SignInAccountFragment());
+        showSignInAccountFragment();
     }
 
     @Override

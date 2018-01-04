@@ -78,4 +78,6 @@ interface HomeContract {
     void countryChangeStarted();
 
     void genericError();
+
+    void handleBtnClickableStates(boolean state);
 }

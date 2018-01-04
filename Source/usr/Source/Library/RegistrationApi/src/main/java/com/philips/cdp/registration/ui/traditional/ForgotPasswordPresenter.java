@@ -83,7 +83,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         this.user = user;
         this.registrationHelper = registrationHelper;
         this.eventHelper = eventHelper;
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.forgotPasswordContract = forgotPasswordContract;
         this.context = context;
     }

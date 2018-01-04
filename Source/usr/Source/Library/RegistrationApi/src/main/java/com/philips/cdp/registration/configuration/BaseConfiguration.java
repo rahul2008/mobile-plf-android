@@ -28,7 +28,7 @@ public class BaseConfiguration {
     protected AppInfraWrapper appInfraWrapper;
 
     public BaseConfiguration() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
     @Nullable
