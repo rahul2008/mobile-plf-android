@@ -110,7 +110,7 @@ public class User {
      * @param emailAddress            String email id .
      * @param password                String password
      * @param traditionalLoginHandler TraditionalLoginHandler listener.
-     *                                @Since 1.0.0
+     *                                @since  1.0.0
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
