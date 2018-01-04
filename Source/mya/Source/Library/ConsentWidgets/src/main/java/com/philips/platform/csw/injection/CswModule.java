@@ -35,7 +35,7 @@ public class CswModule {
     }
 
     @Provides
-    public List<ConsentConfiguration> provideConsentCOnfiguration(){
+    public List<ConsentConfiguration> provideConsentConfiguration(){
         return consentConfigurationList;
     }
 }

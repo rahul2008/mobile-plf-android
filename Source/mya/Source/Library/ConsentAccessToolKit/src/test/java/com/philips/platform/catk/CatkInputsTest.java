@@ -72,7 +72,7 @@ public class CatkInputsTest {
     public void build_shouldReturnInstanceWhenNoDuplicateConsentDefinitionsAreSet() throws Exception {
         givenContext(someContext);
         givenAppInfraInterface(someAppInfraInterface);
-        givenConsentDefinitionTypes("momnet", "coaching");
+        givenConsentDefinitionTypes("moment", "coaching");
         whenBuilding();
     }
 
