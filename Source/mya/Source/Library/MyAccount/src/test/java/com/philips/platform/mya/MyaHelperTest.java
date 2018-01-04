@@ -1,7 +1,7 @@
 package com.philips.platform.mya;
 
 import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
@@ -18,7 +18,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MyaHelperTest {
     private MyaHelper subject = MyaHelper.getInstance();
-    private List<ConsentConfiguration> configurations = new ArrayList<>();
+    private List<ConsentHandlerMapping> configurations = new ArrayList<>();
     @Mock
     private ConsentHandlerInterface handler1;
     @Mock
@@ -61,7 +61,7 @@ public class MyaHelperTest {
         for (String type : types) {
             definitions.add(createDefinitionsWithType(type));
         }
-        configurations.add(new ConsentConfiguration(definitions, handler));
+        configurations.add(new ConsentHandlerMapping(definitions, handler));
     }
 
     private void whenSettingConfiguration() {

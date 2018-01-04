@@ -14,7 +14,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.base.MyaBaseFragment;
@@ -136,10 +136,10 @@ public class MyAccountState extends BaseState {
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
 
-        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
-        consentConfigurations.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
-        consentConfigurations.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
-        MyaHelper.getInstance().setConfigurations(consentConfigurations);
+        List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
+        consentHandlerMappings.add(new ConsentHandlerMapping(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentHandlerMappings.add(new ConsentHandlerMapping(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
 
@@ -155,6 +155,6 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
 
-        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentHandlerMappingList());
     }
 }

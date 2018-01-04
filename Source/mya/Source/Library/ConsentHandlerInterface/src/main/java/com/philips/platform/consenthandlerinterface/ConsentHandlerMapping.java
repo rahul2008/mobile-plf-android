@@ -11,12 +11,12 @@ import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import java.util.List;
 
-public class ConsentConfiguration {
+public class ConsentHandlerMapping {
 
     private final List<ConsentDefinition> consentDefinitionList;
     private final ConsentHandlerInterface consentHandlerInterface;
 
-    public ConsentConfiguration(List<ConsentDefinition> consentDefinitionList, ConsentHandlerInterface consentHandlerInterface) {
+    public ConsentHandlerMapping(List<ConsentDefinition> consentDefinitionList, ConsentHandlerInterface consentHandlerInterface) {
         this.consentDefinitionList = consentDefinitionList;
         this.consentHandlerInterface = consentHandlerInterface;
     }

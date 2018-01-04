@@ -3,7 +3,7 @@ package com.philips.platform.csw;
 import android.test.mock.MockContext;
 
 import com.philips.platform.consenthandlerinterface.BuildConfig;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 public class CswInterfaceTest {
 
     @Mock
-    private List<ConsentConfiguration> consentConfigurations;
+    private List<ConsentHandlerMapping> consentHandlerMappings;
 
     @Before
     public void setup() {
@@ -41,7 +41,7 @@ public class CswInterfaceTest {
         cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentConfigurations);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentHandlerMappings);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

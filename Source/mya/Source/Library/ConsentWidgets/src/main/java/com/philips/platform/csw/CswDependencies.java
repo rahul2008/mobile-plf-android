@@ -8,21 +8,21 @@
 package com.philips.platform.csw;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.List;
 
 public class CswDependencies extends UappDependencies {
 
-    private final List<ConsentConfiguration> consentConfigurationList;
+    private final List<ConsentHandlerMapping> consentHandlerMappingList;
 
-    public CswDependencies(AppInfraInterface appInfra, List<ConsentConfiguration> consentConfigurationList) {
+    public CswDependencies(AppInfraInterface appInfra, List<ConsentHandlerMapping> consentHandlerMappingList) {
         super(appInfra);
-        this.consentConfigurationList = consentConfigurationList;
+        this.consentHandlerMappingList = consentHandlerMappingList;
     }
 
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
+    public List<ConsentHandlerMapping> getConsentHandlerMappingList() {
+        return consentHandlerMappingList;
     }
 }

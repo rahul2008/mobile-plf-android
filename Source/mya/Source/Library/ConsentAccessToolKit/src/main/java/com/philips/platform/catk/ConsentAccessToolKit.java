@@ -25,7 +25,6 @@ import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
-import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
 import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
