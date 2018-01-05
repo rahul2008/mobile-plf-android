@@ -218,7 +218,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
     }
 
-    private void setUserNameAndLogoutText() {
+    public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
         if (!user.isUserSignIn()) {
             hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
