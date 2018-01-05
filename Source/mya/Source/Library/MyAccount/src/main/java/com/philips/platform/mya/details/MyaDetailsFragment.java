@@ -110,7 +110,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 
     @Override
     public void setEmail(String email) {
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
             email_arrow.setVisibility(View.VISIBLE);
             email_address_heading.setVisibility(View.GONE);
             email_address.setText(getString(R.string.MYA_Add_email_address));
@@ -140,7 +140,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 
     @Override
     public void setMobileNumber(String number) {
-        if (TextUtils.isEmpty(number)) {
+        if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
             mobile_number_heading.setVisibility(View.GONE);
             mobile_arrow.setVisibility(View.GONE);
             mobile_number.setText(getString(R.string.MYA_Add_mobile_number));

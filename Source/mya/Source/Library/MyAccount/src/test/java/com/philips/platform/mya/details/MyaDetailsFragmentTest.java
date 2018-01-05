@@ -118,6 +118,11 @@ public class MyaDetailsFragmentTest {
         assertTrue(mobile_arrow.getVisibility() == View.GONE);
         assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
         assertTrue(mobile_number.getVisibility() == View.GONE);
+        myaDetailsFragment.setMobileNumber("null");
+        assertTrue(mobile_number_heading.getVisibility() == View.GONE);
+        assertTrue(mobile_arrow.getVisibility() == View.GONE);
+        assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
+        assertTrue(mobile_number.getVisibility() == View.GONE);
     }
 
     @Test
