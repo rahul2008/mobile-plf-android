@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,8 +23,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InsightsFragment extends AbstractAppFrameworkBaseFragment implements InsightsContract.View, DBChangeListener, InsightsAdapter.InsightItemClickListener ,FragmentView{
+public class InsightsFragment extends AbstractAppFrameworkBaseFragment implements SynchronisationCompleteListener, InsightsContract.View, InsightsAdapter.InsightItemClickListener, FragmentView {
     public static final String TAG = InsightsFragment.class.getSimpleName();
 
     private List<Insight> mInsightList = new ArrayList();
@@ -52,6 +52,9 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     RecyclerView recyclerViewInsights;
 
     private ProgressDialog progressDialog;
+
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onResume() {
@@ -71,9 +74,13 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
         ButterKnife.bind(this, view);
         recyclerViewInsights.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         startAppTagging(TAG);
-
         dataServicesManager = DataServicesManager.getInstance();
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                dataServicesManager.synchronize();
+            }
+        });
         return view;
     }
 
@@ -84,20 +91,20 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onStart() {
         super.onStart();
-        dataServicesManager.registerDBChangeListener(this);
+        dataServicesManager.registerSynchronisationCompleteListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        dataServicesManager.unRegisterDBChangeListener();
+        dataServicesManager.unRegisterSynchronisationCosmpleteListener();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        insightPresenter= getInsightsPresenter();
+        insightPresenter = getInsightsPresenter();
 
         adapter = new InsightsAdapter(getActivity(), mInsightList);
         adapter.setInsightItemClickListener(this);
@@ -113,7 +120,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
 
     @Override
     public void hideProgressDialog() {
-        if(progressDialog!=null && progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
@@ -123,7 +130,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -131,11 +138,11 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onInsightLoadSuccess(final List<Insight> insightList) {
         RALog.d(TAG, "onInsightLoadSuccess : size - " + insightList.size());
-
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
                     mInsightList.clear();
                     mInsightList.addAll(insightList);
                     adapter.notifyDataSetChanged();
@@ -149,26 +156,21 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onInsightLoadError(String errorMessage) {
         RALog.d(TAG, "onInsightLoadError : " + errorMessage);
-        setErrorViewVisibility(adapter.getItemCount() == 0);
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                    setErrorViewVisibility(adapter.getItemCount() == 0);
+                }
+            });
+        }
     }
 
     private void setErrorViewVisibility(boolean isVisible) {
         errorLabel.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
-
-    @Override
-    public void dBChangeSuccess(SyncType syncType) {
-        RALog.d(TAG, "dBChangeSuccess : syncType - "+ syncType);
-        if(syncType == SyncType.INSIGHT) {
-            insightPresenter.loadInsights(dataServicesManager);
-        }
-    }
-
-    @Override
-    public void dBChangeFailed(Exception e) {
-        RALog.d(TAG, "dBChangeFailed : exception - "+ e.getMessage());
-    }
 
     @Override
     public void onInsightsItemClicked(String momentId) {
@@ -196,5 +198,32 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     public void onDestroy() {
         super.onDestroy();
         adapter.removeInsightItemClickListener();
+    }
+
+    @Override
+    public void onDestroyView() {
+        hideProgressDialog();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onSyncComplete() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                insightPresenter.loadInsights(dataServicesManager);
+            }
+        });
+
+    }
+
+    @Override
+    public void onSyncFailed(Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }
