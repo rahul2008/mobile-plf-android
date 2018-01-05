@@ -30,10 +30,8 @@ apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
@@ -44,76 +42,6 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-lan"
 
 version = objcdp.getVersion(versions.cml_commlib)
-
-repositories {
-    maven {
-        url objcdp.getArtifactoryUrl()
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-}
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.cml_commlib)
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
-                    def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                    resolvedArtifacts.each {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                        dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                        dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                    }
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -217,27 +145,4 @@ pitest {
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${projectDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
-}
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-}
-
-/**
- * Zips external documentation to be included with a release
- */
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-
-/**
- * Creates sources.jar for easier debugging
- */
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
 }

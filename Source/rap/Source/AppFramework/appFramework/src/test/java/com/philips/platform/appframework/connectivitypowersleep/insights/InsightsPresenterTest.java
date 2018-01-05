@@ -18,7 +18,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +39,7 @@ public class InsightsPresenterTest {
 
     @Mock
     Context context;
-    
+
     @Before
     public void setUp() {
         insightsPresenter = new InsightsPresenter(view, context);
@@ -54,7 +53,6 @@ public class InsightsPresenterTest {
     @Test
     public void loadInsightsTest() {
         insightsPresenter.loadInsights(dataServicesManager);
-        verify(view).showProgressDialog();
         verify(dataServicesManager).fetchInsights(insightsPresenter);
     }
 

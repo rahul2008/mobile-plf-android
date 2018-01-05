@@ -176,4 +176,11 @@
         <item name="android:gravity">start|center_vertical</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="UIDLabel.TabBarMoreItemText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="uidDrawableTint">?attr/uidTabsDefaultNormalOffIconColor</item>
+        <item name="android:textColor">?attr/uidListItemDefaultNormalOffTextColor</item>
+    </style>
 </resources>

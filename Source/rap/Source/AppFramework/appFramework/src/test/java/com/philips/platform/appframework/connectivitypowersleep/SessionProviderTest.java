@@ -56,7 +56,7 @@ public class SessionProviderTest {
     @Mock
     Summary summary;
     @Mock
-    Session session;
+    static Session session;
 
     @Before
     public void setUp() throws Exception {
@@ -123,7 +123,7 @@ public class SessionProviderTest {
     }
 
 
-    private class SessionProviderMock extends SessionProvider {
+    public static class SessionProviderMock extends SessionProvider {
 
         SessionProviderMock(@NonNull RefAppBleReferenceAppliance appliance, long sessionNumber, @NonNull Callback SessionGroupCallback) {
             super(appliance, sessionNumber, SessionGroupCallback);

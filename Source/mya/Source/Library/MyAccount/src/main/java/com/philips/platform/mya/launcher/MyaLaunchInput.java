@@ -37,14 +37,6 @@ public class MyaLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
-     * @param context - set the context from where myaccount micro-app is invoked
-     */
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    /**
      * Get status of is current fragment need to add to backstack or no.
      *
      * @return true if need to add to fragment back stack

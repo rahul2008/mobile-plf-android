@@ -14,6 +14,7 @@ public class UIDStringUtils {
      * @param str        Primary charsequence in which substring need to searched.
      * @param subString  substring to be searched.
      * @return 0 if main string contains substring else -1
+     * @since 3.0.0
      */
     public static int indexOfSubString(boolean ignoreCase, final CharSequence str, final CharSequence subString) {
         if (str == null || subString == null) {
@@ -39,6 +40,7 @@ public class UIDStringUtils {
      * @param subStrOffset offset in sub string
      * @param length       lenght of the lookup
      * @return the comparsion result if the string contains substring of given legth
+     * @since 3.0.0
      */
     public static boolean regionMatches(final boolean ignoreCase, final CharSequence str, final int strOffset,
                                         final CharSequence subStr, final int subStrOffset, final int length) {

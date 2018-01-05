@@ -56,7 +56,7 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
     public void onBindViewHolder(final InsightsInfoViewHolder holder, int position) {
         RALog.d(TAG, " onBindViewHolder called  ");
         Insight insight = insightList.get(position);
-        holder.tvTitle.setText(insight.getRuleId());
+        holder.tvTitle.setText(insight.getTitle());
         StringBuffer sb = new StringBuffer("");
         sb.append("Date : " + insight.getTimeStamp());
         sb.append("\nMomentId : " + insight.getMomentId());

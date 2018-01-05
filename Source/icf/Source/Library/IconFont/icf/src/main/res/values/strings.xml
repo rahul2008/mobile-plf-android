@@ -57,4 +57,6 @@
   <string name="dls_search" translatable="false">\uF037</string>
   <string name="dls_threedotshorizontal" translatable="false">\uF038</string>
   <string name="dls_threedotsvertical" translatable="false">\uF039</string>
+  <string name="dls_password_hide" translatable="false">\uF03A</string>
+  <string name="dls_password_show" translatable="false">\uF03B</string>
 </resources>
