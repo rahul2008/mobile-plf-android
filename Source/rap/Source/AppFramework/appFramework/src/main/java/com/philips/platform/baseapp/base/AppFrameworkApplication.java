@@ -122,14 +122,14 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-        //  determineHybrisFlow();
+      //  determineHybrisFlow();
+        RALog.d(LOG, "Mya state begin::");
+        initializeMya();
+        RALog.d(LOG, "Mya state end::");
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
         initializeIAP();
-        RALog.d(LOG, "Mya state begin::");
-        initializeMya();
-        RALog.d(LOG, "Mya state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.

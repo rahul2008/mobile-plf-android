@@ -74,10 +74,10 @@ public class THSFileUtils {
         final int dotIndex = fileName.lastIndexOf(".");
         final String fileNamePrefix = fileName.substring(0, dotIndex);
         final String fileNameExtension = fileName.substring(dotIndex + 1, fileName.length());
-        /*while (file.exists()) {
+        while (file.exists()) {
             fileName = fileNamePrefix + " (" + index++ + ")." + fileNameExtension;
             file = new File(path, fileName);
-        }*/
+        }
 
         if (file.exists()) {
             return file;

@@ -8,7 +8,7 @@
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.GetConsentDto;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
 
 import org.joda.time.DateTime;
 
@@ -16,9 +16,9 @@ public class DtoToConsentMapper {
     private static int IDX_TYPE = 0;
     private static int IDX_VERSION = 2;
 
-    public static Consent map(GetConsentDto consentDto) {
+    public static BackendConsent map(GetConsentDto consentDto) {
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
-        Consent consent = new Consent(LocaleMapper.toLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
+        BackendConsent consent = new BackendConsent(LocaleMapper.toLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
         consent.setTimestamp(new DateTime(consentDto.getDateTime()));
         return consent;
     }

@@ -162,6 +162,7 @@ public class THSConstants {
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";
     public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
+    public static final String KEY_ORIENTATION = "KEY_ORIENTATION";
 
 
     public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
@@ -196,4 +197,7 @@ public class THSConstants {
     public static final String THS_ANALYTICS_RESPONSE_CANCEL_VISIT = "Yes, cancel my visit";
     public static final String THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT = "No, continue waiting";
     //end inAppNotification tags
+
+    //service discovery error
+    public static final String THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE = "ServiceDiscovery cannot find the locale";
 }

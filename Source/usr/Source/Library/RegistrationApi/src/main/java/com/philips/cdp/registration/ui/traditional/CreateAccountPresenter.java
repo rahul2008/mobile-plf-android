@@ -39,7 +39,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
     EventHelper eventHelper;
 
     public CreateAccountPresenter(CreateAccountContract createAccountContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.createAccountContract = createAccountContract;
     }
 

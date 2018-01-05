@@ -142,7 +142,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();

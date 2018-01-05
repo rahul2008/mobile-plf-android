@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -61,7 +62,7 @@ public class ForgotPasswordPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(registrationComponentMock);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
 
         forgotPasswordPresenter = new ForgotPasswordPresenter(userMock, registrationHelperMock, eventHelperMock, forgotPasswordContractMock, contextMock);

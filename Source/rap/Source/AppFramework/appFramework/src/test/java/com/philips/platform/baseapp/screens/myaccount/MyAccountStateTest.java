@@ -26,13 +26,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,7 +68,7 @@ public class MyAccountStateTest {
     private FragmentTransaction fragmentTransaction;
 
     private MyAccountState myAccountState;
-  
+
 
     @Mock
     UIStateData uiStateData;
@@ -82,7 +80,7 @@ public class MyAccountStateTest {
     @Before
     public void setUp() {
         myAccountState = new MyAccountStateMock(myaInterface);
-     
+
         myAccountState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
 
@@ -121,9 +119,9 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(2, definitions.size());
+        assertEquals(5, definitions.size());
     }
-    
+
     @After
     public void tearDown() {
         myaInterface = null;

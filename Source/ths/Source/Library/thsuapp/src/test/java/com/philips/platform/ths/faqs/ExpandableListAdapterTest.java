@@ -52,7 +52,7 @@ public class ExpandableListAdapterTest {
     ViewGroup viewGroupMock;
 
     @Mock
-    TextView textViewMock;
+    Label textViewMock;
 
     @Mock
     Label textViewShowHideMock;

@@ -8,11 +8,11 @@ import android.support.annotation.VisibleForTesting;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegChinaConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +41,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MobileVerifyCodePresenter(MobileVerifyCodeContract mobileVerifyCodeContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }

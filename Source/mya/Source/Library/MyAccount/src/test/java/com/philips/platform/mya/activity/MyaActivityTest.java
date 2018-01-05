@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.BuildConfig;
-import com.philips.platform.mya.MyaConstants;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 
 import org.junit.Before;
@@ -17,6 +16,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
+import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -39,7 +39,7 @@ public class MyaActivityTest {
     public void setUp() {
         initMocks(this);
         intent = new Intent();
-        intent.putExtra(MyaConstants.MYA_DLS_THEME, 0);
+        intent.putExtra(MYA_DLS_THEME, 0);
         activity = buildActivity(MyaActivity.class, intent).withIntent(intent).get();
         when(fragmentManagerMock.beginTransaction()).thenReturn(fragmentTransactionMock);
     }

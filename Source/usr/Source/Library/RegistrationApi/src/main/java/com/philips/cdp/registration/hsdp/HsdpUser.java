@@ -65,7 +65,7 @@ public class HsdpUser {
      */
     public HsdpUser(Context context) {
         this.mContext = context;
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
     private DhpResponse dhpResponse = null;

@@ -1,14 +1,12 @@
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.csw.permission.adapter.PermissionAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,12 +16,10 @@ public class PermissionModule {
 
     private PermissionInterface permissionInterface;
     private HelpClickListener helpClickListener;
-    private ConsentBundleConfig config;
 
-    public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener, ConsentBundleConfig config) {
+    public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener) {
         this.permissionInterface = permissionInterface;
         this.helpClickListener = helpClickListener;
-        this.config = config;
     }
 
     @Provides
@@ -38,13 +34,13 @@ public class PermissionModule {
 
     @Provides
     List<ConsentDefinition> provideConsentDefinitions() {
-        return config.getConsentDefinitions();
+        return ConsentAccessToolKit.getInstance().getConsentDefinitions();
     }
 
     @Provides
     List<ConsentView> provideConsentViews() {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for (final ConsentDefinition definition : config.getConsentDefinitions()) {
+        for (final ConsentDefinition definition : ConsentAccessToolKit.getInstance().getConsentDefinitions()) {
             consentViewList.add(new ConsentView(definition));
         }
         return consentViewList;
@@ -56,13 +52,8 @@ public class PermissionModule {
     }
 
     @Provides
-    static CreateConsentInteractor provideCreateConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
-        return new CreateConsentInteractor(consentAccessToolKit);
-    }
-
-    @Provides
-    static GetConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit, List<ConsentDefinition> consentDefinitions) {
-        return new GetConsentInteractor(consentAccessToolKit, consentDefinitions);
+    static ConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
+        return new ConsentInteractor(consentAccessToolKit);
     }
 
     @Provides

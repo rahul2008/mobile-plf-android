@@ -259,6 +259,9 @@ public class JROpenIDAppAuth {
                     } catch (JSONException e) {
                         Log.e("log",e.getMessage());
                         triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
+                    } catch (RuntimeException e) {
+                        Log.e("log",e.getMessage());
+                        triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
                     }
 
                 }

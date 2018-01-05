@@ -10,9 +10,12 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,6 +60,9 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +103,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected String tagActions = "";
     public static long visitStartTime;
     private Label mLabelPatientName;
-    protected static int NumberOfConditionSelected=0;
+    protected static int NumberOfConditionSelected = 0;
 
     @Nullable
     @Override
@@ -105,7 +111,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         visitStartTime = THSTagUtils.getCurrentTime();
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
-        THSTagUtils.doTrackActionWithInfo( "totalPrepartationTimeStart",null,null);
+        THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeStart", null, null);
 
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
@@ -219,9 +225,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         topic.setSelected(isChecked);
-                        if(isChecked) {
+                        if (isChecked) {
                             NumberOfConditionSelected++;
-                        }else{
+                        } else {
                             NumberOfConditionSelected--;
                         }
                     }
@@ -265,13 +271,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         }
     }
 
-    protected void addTags(){
-        if(NumberOfConditionSelected>0){
+    protected void addTags() {
+        if (NumberOfConditionSelected > 0) {
             tagActions = THSTagUtils.addActions(tagActions, "SymptomsChecked");
-        }else{
-            tagActions = tagActions.replace("SymptomsChecked","");
+        } else {
+            tagActions = tagActions.replace("SymptomsChecked", "");
         }
-        if(!(tagActions.isEmpty())) {
+        if (!(tagActions.isEmpty())) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
@@ -317,7 +323,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.CAMERA},
                     REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA);
         } else {
@@ -409,18 +415,49 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         }
 
         if (null != picturePath) {
-            updateDocumentsToUpload(picturePath);
-            tagActions = THSTagUtils.addActions(tagActions, "documentsAdded");
-            thsSymptomsPresenter.uploadDocuments(mCapturedImageURI);
+            compressImage(mCapturedImageURI, picturePath);
         }
 
 
     }
 
-    public void updateDocumentsToUpload(String picturePath) {
+    private void compressImage(Uri imageUri, String picturePath) {
+        InputStream imageStream = null;
+        try {
+            imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+            Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            Uri compressedImageUri = getImageUri(getActivity(), selectedImage, picturePath);
+            String path = getRealPathFromURI(compressedImageUri);
+            updateDocumentsToUpload(path, compressedImageUri);
+            tagActions = THSTagUtils.addActions(tagActions, "documentsAdded");
+            thsSymptomsPresenter.uploadDocuments(compressedImageUri);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage, String picturePath) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String fileName = picturePath.substring(picturePath.lastIndexOf("/") + 1, picturePath.lastIndexOf("."));
+        String path = null;
+        path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, fileName, null);
+        return Uri.parse(path);
+    }
+
+    public void updateDocumentsToUpload(String picturePath, Uri compressedImageUri) {
         THSSelectedImagePojo image = new THSSelectedImagePojo();
         String filename = null;
-        filename = thsFileUtils.getFileName(getContext(), mCapturedImageURI);
+        filename = thsFileUtils.getFileName(getContext(), compressedImageUri);
         image.setTitle(filename);
         image.setDatetime(System.currentTimeMillis());
         image.setPath(picturePath);
@@ -476,12 +513,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             String json = gson.toJson(selectedImagePojoList);
 
             THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, json);
-        }else {
+        } else {
             THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, null);
         }
         if (null != documentRecordList) {
             THSManager.getInstance().setTHSDocumentList(documentRecordList);
-        }else {
+        } else {
             THSManager.getInstance().setTHSDocumentList(null);
         }
     }

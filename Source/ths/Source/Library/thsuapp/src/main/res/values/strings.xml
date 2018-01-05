@@ -99,6 +99,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     //Shipping address layout strings
     <string name="ths_address_shipping_address_string">Shipping address</string>
+    <string name="ths_payment_billing_address_string">Billing address</string>
     <string name="ths_address_address_line_one">Address line 1</string>
     <string name="ths_address_enter_first_address_line">Enter first address line</string>
     <string name="ths_address_address_line_two">Address line 2</string>
@@ -130,24 +131,25 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_choose_area_of_medicine_content">Select an area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding,please choose lactation specialist</string>
     <!-- Registration constants-->
     <string name="ths_detail">Details</string>
-    <string name="ths_location">Location</string>
-    <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell</string>
+    <string name="ths_location">State of residence</string>
+    <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell. Make sure the details you enter below correspond with the insurance details, if applicable.</string>
     <string name="ths_first_name">First name</string>
     <string name="ths_last_name">Last name</string>
-    <string name="ths_dob">Your date of birth</string>
+    <string name="ths_dob">Birth date</string>
     <string name="ths_inline_error_message">Error</string>
     <string name="ths_gender">Gender</string>
     <string name="ths_state">State</string>
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
-    <string name="ths_your_details">"Your details"</string>
+    <string name="ths_your_details">Patient details</string>
     <string name="ths_male_">Male</string>
     <string name="ths_first_name_validation">Enter first name</string>
     <string name="ths_last_name_validation">Enter last name</string>
     <string name="ths_dob_validation">Enter date of birth</string>
     <string name="ths_gender_validation">Select a gender</string>
     <string name="ths_state_validation">Select a state</string>
+    <string name="ths_dependant_email_address_title">Email address</string>
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
     <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
@@ -313,6 +315,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_see_provider_pre_welcome">See <b>a provider online,</b> anytime</string>
     <string name="ths_terms_and_conditions">Terms and conditions</string>
     <string name="ths_agree_continue">Agree &amp; continue</string>
+    <string name="ths_share_email_text_string">Philips will share your email address with Amwell.</string>
 
     <!-- Match making fragment strings-->
     <string name="ths_matchmaking_ok_button">Ok</string>
@@ -332,6 +335,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
     <string name="ths_appointment_invalid_reminder">Invalid reminder option selected</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
+    <string name="ths_user_enter_state">Enter your state</string>
+    <string name="ths_service_available_only_in_us">This service is available in US.</string>
 
 
     <!-- Dependent-->
@@ -385,10 +390,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="skip">Skip</string>
     <string name="done">Done</string>
 
-    <string name="onboarding_one_text">Filling in your information only takes a few steps and is done in a couple of minutes.\n\nYour information is then stored securely for all future online visits.</string>
-    <string name="onboarding_two_text">Choose the doctor that works for you. We’ll show you list of available doctors, their experience and ratings before starting your visit.</string>
-    <string name="onboarding_three_text">Our mobile app visits use secure, high-quality streaming video. See and speak with a doctor 24 hours a day form home or on the go.</string>
-    <string name="onboarding_four_text">During or after a visit provides can send prescriptions and recommendations for over-the-counter medications to a pharmacy of your choice.</string>
+    <string name="onboarding_one_text">To get the most out of your consult, we\'ll need some information. This is then stored securely for any future visits.</string>
+    <string name="onboarding_two_text">Experienced doctors with various medical backgrounds mean you can choose a consultation most relevant to your questions.</string>
+    <string name="onboarding_three_text">Your doctor may be authorized to prescribe medication, which can be sent to an address of your choice. Save yourself a trip to the pharmacy!</string>
+    <string name="onboarding_four_text">All online consultations are secure, and use high-quality streaming.</string>
 
     <string name="onboarding_tour_header">See <b>a provider online,</b> anytime</string>
 
@@ -425,4 +430,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Credit card details strings -->
     <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
+
+    <!-- Visit summary -->
+    <string name="ths_prescription_sent_to_label">Your prescription was sent to</string>
 </resources>

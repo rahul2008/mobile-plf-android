@@ -188,6 +188,7 @@ public class ProgressBarButton extends LinearLayout {
 
     /**
      * Show progress indicator on the button
+     * @since 3.0.0
      */
     public void showProgressIndicator() {
         setVisibilityOfProgressButtonElements(true);
@@ -195,6 +196,7 @@ public class ProgressBarButton extends LinearLayout {
 
     /**
      * Hide progress indicator on the button
+     * @since 3.0.0
      */
     public void hideProgressIndicator() {
         setVisibilityOfProgressButtonElements(false);
@@ -204,6 +206,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the progress of the indicator on the button
      *
      * @return value between 0 and 100
+     * @since 3.0.0
      */
     public int getProgress() {
         return progressBar.getProgress();
@@ -213,6 +216,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the progress of the indicator on the button
      *
      * @param progress value between 0 - 100
+     *                 @since 3.0.0
      */
     public void setProgress(int progress) {
         if (progress >= 0 && progress <= 100) {
@@ -224,6 +228,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the progress text of the button
      *
      * @param resId on the text that will be shown on the button
+     *              @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setProgressText(@StringRes int resId) {
@@ -234,6 +239,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the progress text of the button
      *
      * @return progress text of the button
+     * @since 3.0.0
      */
     public String getProgressText() {
         return progressTextView.getText().toString();
@@ -243,6 +249,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the progress text of the button
      *
      * @param text that will shown on the button
+     *             @since 3.0.0
      */
     public void setProgressText(CharSequence text) {
         progressTextView.setText(text);
@@ -253,6 +260,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the text of the button
      *
      * @param resId on the text that will be shown on the button
+     *              @since 3.0.0
      */
     public void setText(@StringRes int resId) {
         setText(getContext().getString(resId));
@@ -262,6 +270,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the button enabled state
      *
      * @param enabled true if it should be enabled, false otherwise
+     *                @since 3.0.0
      */
     public void setEnabled(boolean enabled) {
         button.setEnabled(enabled);
@@ -271,6 +280,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the text of the button
      *
      * @return text of the button
+     * @since 3.0.0
      */
     public String getText() {
         return button.getText().toString();
@@ -280,6 +290,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the text of the button
      *
      * @param text that will be shown on the button
+     *             @since 3.0.0
      */
     public void setText(CharSequence text) {
         if (!TextUtils.isEmpty(text)) {
@@ -291,6 +302,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the drawable on the button
      *
      * @param drawableId provided drawableId should be a non vector drawable resource id
+     *                   @since 3.0.0
      */
     public void setDrawable(@DrawableRes int drawableId) {
         if (drawableId != -1) {
@@ -302,6 +314,7 @@ public class ProgressBarButton extends LinearLayout {
      * Set the drawable on the button
      *
      * @param drawable provided drawable will be used to set on the button
+     *                 @since 3.0.0
      */
     public void setDrawable(Drawable drawable) {
         button.setImageDrawable(drawable);
@@ -311,6 +324,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the Button instance
      *
      * @return Button instance
+     * @since 3.0.0
      */
     public Button getButton() {
         return button;
@@ -320,6 +334,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the ProgressBar instance
      *
      * @return ProgressBar instance
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public ProgressBar getProgressBar() {
@@ -330,6 +345,7 @@ public class ProgressBarButton extends LinearLayout {
      * Get the progress TextView
      *
      * @return progress TextView
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public TextView getProgressTextView() {

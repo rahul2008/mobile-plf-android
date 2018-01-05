@@ -17,16 +17,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class CswLaunchInput extends UappLaunchInput {
 
-    private ConsentBundleConfig config;
     private final Context context;
 
-    public CswLaunchInput(ConsentBundleConfig config, Context context) {
-        this.config = config;
+    public CswLaunchInput(Context context) {
         this.context = context;
-    }
-
-    public ConsentBundleConfig getConfig() {
-        return config;
     }
 
     public Context getContext() {

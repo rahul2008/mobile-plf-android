@@ -1,6 +1,7 @@
 package com.philips.platform.mya.details;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
 import com.philips.platform.mya.BuildConfig;
@@ -87,6 +88,10 @@ public class MyaDetailsFragmentTest {
         Label genderLabel = myaDetailsFragment.getView().findViewById(R.id.gender_value);
         myaDetailsFragment.setGender("male");
         assertEquals(genderLabel.getText(), "male");
+        myaDetailsFragment.setGender("");
+        assertEquals(genderLabel.getText(), "Not available");
+        myaDetailsFragment.setGender(null);
+        assertEquals(genderLabel.getText(), "Not available");
     }
 
     @Test
@@ -95,6 +100,8 @@ public class MyaDetailsFragmentTest {
         Label dob_value = myaDetailsFragment.getView().findViewById(R.id.dob_value);
         myaDetailsFragment.setDateOfBirth(date);
         assertTrue(dob_value.getText()!=null);
+        myaDetailsFragment.setDateOfBirth(null);
+        assertEquals(dob_value.getText(), "Not available");
     }
 
     @Test
@@ -111,6 +118,11 @@ public class MyaDetailsFragmentTest {
         assertTrue(mobile_arrow.getVisibility() == View.GONE);
         assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
         assertTrue(mobile_number.getVisibility() == View.GONE);
+        myaDetailsFragment.setMobileNumber("null");
+        assertTrue(mobile_number_heading.getVisibility() == View.GONE);
+        assertTrue(mobile_arrow.getVisibility() == View.GONE);
+        assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
+        assertTrue(mobile_number.getVisibility() == View.GONE);
     }
 
     @Test
@@ -118,6 +130,19 @@ public class MyaDetailsFragmentTest {
         View email_mobile_arrow = myaDetailsFragment.getView().findViewById(R.id.email_mobile_right_arrow);
         myaDetailsFragment.handleArrowVisibility("some_mail@philips.com", "91992929929");
         assertTrue(email_mobile_arrow.getVisibility() == View.VISIBLE);
+    }
+
+
+    @Test
+    public void ShouldonSaveInstanceState() {
+        Bundle savedBundle = new Bundle();
+        Bundle argumentBundle = new Bundle();
+        argumentBundle.putInt("some_key", 100);
+        myaDetailsFragment.setArguments(argumentBundle);
+        myaDetailsFragment.onSaveInstanceState(savedBundle);
+        Bundle profile_bundle = savedBundle.getBundle("details_bundle");
+        assertTrue(profile_bundle.equals(argumentBundle));
+        assertEquals(profile_bundle.getInt("some_key"), 100);
     }
 
 }

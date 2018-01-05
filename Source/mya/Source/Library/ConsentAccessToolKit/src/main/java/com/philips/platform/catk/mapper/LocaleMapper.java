@@ -15,8 +15,8 @@ public class LocaleMapper {
     }
 
     public static String toLanguageString(Locale locale) {
-        if(isMissingCountry(locale)) throw new IllegalStateException("Consent is missing a Locale that specifies a country:" + locale);
-        if(isMissingLanguage(locale)) throw new IllegalStateException("Consent is missing a Locale that specifies a language:" + locale);
+        if(isMissingCountry(locale)) throw new IllegalStateException("BackendConsent is missing a Locale that specifies a country:" + locale);
+        if(isMissingLanguage(locale)) throw new IllegalStateException("BackendConsent is missing a Locale that specifies a language:" + locale);
         return locale.toString().replace('_', '-');
     }
 

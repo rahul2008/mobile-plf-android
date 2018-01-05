@@ -4,132 +4,14 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
-
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'pl.droidsonroids.pitest'
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "shinelib"
-
 version = objcdp.getVersion(versions.bll_shinelib)
-
-repositories {
-    maven {
-        url repos.jcenter
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url objcdp.getArtifactoryUrl()
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-}
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
-
 
 android {
     compileSdkVersion versions.sdk
@@ -277,35 +159,3 @@ pitest {
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-}
-
-/**
- * Zips external documentation to be included with a release
- */
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-
-/**
- * Creates sources.jar for easier debugging
- */
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-jacoco {
-    toolVersion = versions.jacoco
-}
-
-/*
-task wrapper(type: Wrapper) {
-    distributionUrl = gradledistributionurl
-}*/

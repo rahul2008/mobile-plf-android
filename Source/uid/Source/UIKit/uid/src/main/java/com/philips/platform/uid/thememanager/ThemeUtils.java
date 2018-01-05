@@ -41,6 +41,7 @@ public final class ThemeUtils {
      * @param context context which will be used to provide theme
      * @param resId   resourceID of color resource
      * @return Colorstate list as per theme.
+     * @since 3.0.0
      */
     @Nullable
     public static ColorStateList buildColorStateList(Context context, @ColorRes int resId) {

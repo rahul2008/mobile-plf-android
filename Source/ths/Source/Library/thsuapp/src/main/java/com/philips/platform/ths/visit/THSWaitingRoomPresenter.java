@@ -18,7 +18,6 @@ import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -206,7 +205,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onResponse(Void aVoid, SDKError sdkError) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_START_VISIT, sdkError));
+                mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_START_VISIT, sdkError),true, true);
                 return;
             } else {
                 // must  be cancel visit call back
@@ -223,7 +222,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != throwable && null != throwable.getMessage()) {
                 mTHSWaitingRoomFragment.doTagging(ANALYTICS_START_VISIT, throwable.getMessage(), false);
-                mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+                mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true, false);
             }
 
         }

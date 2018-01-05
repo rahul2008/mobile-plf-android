@@ -130,6 +130,7 @@ public class Label extends AppCompatTextView {
      * If different colors are reburied per span, consider using {@link UIDClickableSpan}
      *
      * @param resID Color selector resource id
+     *              @since 3.0.0
      */
     public void setHyperLinkColors(@ColorRes int resID) {
         linkColors = ThemeUtils.buildColorStateList(getContext(), resID);
@@ -146,6 +147,7 @@ public class Label extends AppCompatTextView {
      * Returns colors applied on links.
      *
      * @return colors applied on links
+     * @since 3.0.0
      */
     public ColorStateList getHyperLinkColors() {
         return linkColors;
@@ -188,6 +190,7 @@ public class Label extends AppCompatTextView {
      *
      * @param text text of the label
      * @return null if doesn't contain URL/ spans.
+     * @since 3.0.0
      */
     @Nullable
     private CharSequence decorateSpannableString(CharSequence text) {
@@ -227,6 +230,7 @@ public class Label extends AppCompatTextView {
      *
      * @param text text of the label
      * @return null if doesn't contain URL spans.
+     * @since 3.0.0
      */
     @Nullable
     private CharSequence decorateSpannedString(CharSequence text) {
@@ -353,6 +357,7 @@ public class Label extends AppCompatTextView {
      * Be sure to check for null before unwrapping values.
      *
      * @param externalClickInterceptor callback for URL spans
+     *                                 @since 3.0.0
      */
     public void setSpanClickInterceptor(UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor) {
         this.externalClickInterceptor = externalClickInterceptor;

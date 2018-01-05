@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2017
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
 package com.philips.platform.myaplugin.uappadaptor;
 
 import java.io.Serializable;
@@ -5,6 +10,8 @@ import java.util.Date;
 
 
 public class UserDataModel implements DataModel, Serializable {
+
+    private static final long serialVersionUID = -7030556197218091117L;
     private String givenName;
     private String name;
     private Date birthday;

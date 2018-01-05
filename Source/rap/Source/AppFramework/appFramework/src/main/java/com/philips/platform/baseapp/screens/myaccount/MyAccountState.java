@@ -13,7 +13,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.mya.MyaFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -27,9 +27,11 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 
 public class MyAccountState extends BaseState {
     private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
@@ -46,7 +48,7 @@ public class MyAccountState extends BaseState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaBaseFragment.TAG, getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
@@ -70,7 +72,6 @@ public class MyAccountState extends BaseState {
 
             }
         });
-        launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
         launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale((AppFrameworkApplication) actContext.getApplicationContext())));
         MyaInterface myaInterface = getInterface();
@@ -102,15 +103,20 @@ public class MyAccountState extends BaseState {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), Collections.singletonList("moment"), 1, currentLocale));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), Collections.singletonList("coaching"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help), Collections.singletonList("binary"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help), Collections.singletonList("clickstream"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to use my data for Research and Analytics purposes", "Research and Analytics purpose explanation", Arrays.asList("research", "analytics"), 1, currentLocale));
         return definitions;
     }
 
+
     @Override
     public void init(Context context) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(((AppFrameworkApplication) context.getApplicationContext()).appInfra);
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
+        ConsentAccessToolKit.getInstance().init(new CatkInputs.Builder()
+                .setContext(context)
+                .setAppInfraInterface(app.getAppInfra())
+                .setConsentDefinitions(createConsentDefinitions(context, getLocale(app))).build());
     }
 
 

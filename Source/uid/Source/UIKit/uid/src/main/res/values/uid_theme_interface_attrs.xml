@@ -127,4 +127,8 @@
     <declare-styleable name="UIDSplashScreen">
         <attr name="uidSplashScreenAppName" format="string|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDDiscreteSlider">
+        <attr name="discretePoints" format="reference"/>
+    </declare-styleable>
 </resources>

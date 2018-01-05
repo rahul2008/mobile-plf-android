@@ -7,33 +7,50 @@
 
 package com.philips.platform.catk;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.catk.mock.ContextMock;
+import com.philips.platform.catk.model.ConsentDefinition;
+
+import java.util.List;
 
 public class CatkInputsTest {
 
-    @Test
-    public void checkContextIsSet() throws Exception {
-        CatkInputs catkLaunchInput = new CatkInputs();
-        catkLaunchInput.setContext(new ContextMock());
-        assertNotNull(catkLaunchInput.getContext());
+    @Before
+    public void setup () {
+        someContext = new ContextMock();
+        someAppInfraInterface = new AppInfraInterfaceMock();
+        this.inputBuilder = new CatkInputs.Builder();
     }
 
-    @Test
-    public void checkContextIsSetNull() throws Exception {
-        CatkInputs catkLaunchInput = new CatkInputs();
-        catkLaunchInput.setContext(null);
-        assertNull(catkLaunchInput.getContext());
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void build_whenConsentDefinitionsNotSetThrowsException (){
+        givenContext(someContext);
+        givenAppInfraInterface(someAppInfraInterface);
+        whenBuilding();
     }
 
-    @Test
-    public void checkContextIsSetnotAssiged() throws Exception {
-        CatkInputs catkLaunchInput = new CatkInputs();;
-        assertNull(catkLaunchInput.getContext());
+    private void givenAppInfraInterface(AppInfraInterface appInfra) {
+        this.appInfra = appInfra;
     }
 
+    private void givenContext(ContextMock context) {
+        this.context = context;
+    }
+
+    private void whenBuilding() {
+        inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).build();
+    }
+
+    CatkInputs.Builder inputBuilder;
+    AppInfraInterface appInfra;
+    ContextMock context;
+    List<ConsentDefinition> consentDefinitions;
+
+    ContextMock someContext;
+    AppInfraInterface someAppInfraInterface;
 }
