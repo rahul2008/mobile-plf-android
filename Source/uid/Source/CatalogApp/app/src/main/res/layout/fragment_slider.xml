@@ -23,18 +23,10 @@
                 style="@style/UIDLabel.Header"
                 android:text="@string/page_title_slider" />
 
-            <com.philips.platform.uid.view.widget.Slider
-                android:progress="50"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/slider_top_bottom_margin"
-                android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
-                android:layout_marginEnd="@dimen/slider_temporary_horizontal_margin"
-                android:layout_marginStart="@dimen/slider_temporary_horizontal_margin"/>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/slider_top_bottom_margin"
                 android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right">
@@ -87,6 +79,48 @@
                     android:layout_toStartOf="@id/temparature_high_icon" />
 
             </RelativeLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/discrete_slider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/slider_top_bottom_margin"
+                android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/discrete_slider_label"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:textSize="@dimen/slider_label_size"
+                    android:layout_marginEnd="@dimen/slider_label_spacing"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/discrete_value"
+                    fontPath="fonts/centralesansbold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{frag.sliderProgress.get()}"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="@dimen/slider_label_size" />
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.DiscreteSlider
+                android:id="@+id/discrete_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
+                android:layout_marginEnd="@dimen/slider_temporary_horizontal_margin"
+                android:layout_marginStart="@dimen/slider_temporary_horizontal_margin"
+                android:progress="50"
+                discretePoints="@array/discretePoints"
+                />
 
         </LinearLayout>
     </ScrollView>

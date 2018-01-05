@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<resources>
+    <integer-array name="discretePoints">
+        <item>5</item>
+        <item>10</item>
+    </integer-array>
+</resources>

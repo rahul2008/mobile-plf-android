@@ -14,12 +14,12 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
@@ -91,6 +91,10 @@ public final class UIDUtils {
             return context.getResources().getDimensionPixelSize(resourceId);
         }
         return 0;
+    }
+
+    public static boolean isLayoutRTL(View view) {
+        return ViewCompat.getLayoutDirection(view) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 
     public static int getActionBarHeight(Context context) {

@@ -113,6 +113,7 @@ public class Button extends AppCompatButton {
      * This method can be used to set the drawable on left inside button
      *
      * @param drawable drawable to be set as a icon on button
+     *                 @since 3.0.0
      */
     public void setImageDrawable(Drawable drawable) {
         Drawable wrappedDrawable = drawable;

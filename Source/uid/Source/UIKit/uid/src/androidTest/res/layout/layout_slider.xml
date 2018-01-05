@@ -14,4 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <com.philips.platform.uid.view.widget.DiscreteSlider
+        android:id="@+id/uid_symmetric_discrete_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="2"
+        />
+
+    <com.philips.platform.uid.view.widget.DiscreteSlider
+        android:id="@+id/uid_asymmetric_discrete_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        discretePoints="@array/discretePoints"
+        />
+
 </LinearLayout>

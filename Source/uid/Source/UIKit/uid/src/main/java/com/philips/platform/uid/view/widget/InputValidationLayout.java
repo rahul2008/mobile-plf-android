@@ -167,6 +167,7 @@ public class InputValidationLayout extends LinearLayout {
      * Use this to set a validator. Depending upon the return value, the error message is shown.
      *
      * @param validator instance of the validator
+     *                  @since 3.0.0
      */
     public void setValidator(Validator validator) {
         this.validator = validator;
@@ -176,6 +177,7 @@ public class InputValidationLayout extends LinearLayout {
      * Sets error message based on resourceID.
      *
      * @param resID Resource id of the message
+     *              @since 3.0.0
      */
     public void setErrorMessage(int resID) {
         if (errorLabel != null) {
@@ -188,6 +190,7 @@ public class InputValidationLayout extends LinearLayout {
      * Sets the error message.
      *
      * @param errorMsg CharSeq of the message
+     *                 @since 3.0.0
      */
     public void setErrorMessage(CharSequence errorMsg) {
         if (errorLabel != null) {
@@ -200,6 +203,7 @@ public class InputValidationLayout extends LinearLayout {
      * Sets error drawable.
      *
      * @param drawable Drawable to be set for error
+     *                 @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setErrorDrawable(Drawable drawable) {
@@ -210,6 +214,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Sets error drawable from the resourceID
      * @param resID ResId of the Drawable
+     *              @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setErrorDrawable(@DrawableRes int resID) {
@@ -219,6 +224,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Call this to display the error. Error text and drawable must be set before calling this api.
+     * @since 3.0.0
      */
     public void showError() {
         isShowingError = true;
@@ -253,6 +259,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Call to hideError message and error layout.
+     * @since 3.0.0
      */
     public void hideError() {
         isShowingError = false;
@@ -264,6 +271,7 @@ public class InputValidationLayout extends LinearLayout {
      * Returns current error state.
      *
      * @return true if the error was displaying
+     * @since 3.0.0
      */
     public boolean isShowingError() {
         return isShowingError;
@@ -273,6 +281,7 @@ public class InputValidationLayout extends LinearLayout {
      * Returns error text view.
      *
      * @return errortextView
+     * @since 3.0.0
      */
     public Label getErrorLabelView() {
         return errorLabel;
@@ -282,6 +291,7 @@ public class InputValidationLayout extends LinearLayout {
      * Returns error icon view.
      *
      * @return Imageview containing error icon
+     * @since 3.0.0
      */
     public ImageView getErrorIconView() {
         return errorIcon;

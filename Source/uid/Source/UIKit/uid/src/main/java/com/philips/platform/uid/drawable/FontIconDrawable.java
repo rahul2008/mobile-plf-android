@@ -60,6 +60,7 @@ public class FontIconDrawable extends Drawable {
      * @param context Your activity or application context.
      * @param icon    The icon you want this drawable to display.
      * @param typeface typeface to be applied on drawable
+     *                 @since 3.0.0
      */
     public FontIconDrawable(@NonNull Context context, @NonNull String icon, @NonNull Typeface typeface) {
         this.context = context;
@@ -79,6 +80,7 @@ public class FontIconDrawable extends Drawable {
      * Set the size of this icon to the standard Android ActionBar.
      *
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable actionBarSize() {
         int ANDROID_ACTIONBAR_ICON_SIZE_DP = 24;
@@ -90,6 +92,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param dimenRes The dimension resource.
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable sizeRes(@DimenRes int dimenRes) {
         return sizePx(context.getResources().getDimensionPixelSize(dimenRes));
@@ -100,6 +103,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param size The size in density-independent pixels (dp).
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable sizeDp(int size) {
         return sizePx(dpToPx(context.getResources(), size));
@@ -111,6 +115,7 @@ public class FontIconDrawable extends Drawable {
      * @param res the res
      * @param dp  the dp
      * @return the int
+     * @since 3.0.0
      */
     private static int dpToPx(Resources res, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
@@ -122,6 +127,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param size The size in pixels (px).
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     private FontIconDrawable sizePx(int size) {
         this.size = size;
@@ -157,6 +163,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param color The color, usually from android.graphics.Color or 0xFF012345.
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable color(@ColorInt int color) {
         colorStateList = ColorStateList.valueOf(color);
@@ -170,6 +177,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param colorStateList The ColorStateList, usually from android.content.res.ColorStateList.
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable colorStateList(@NonNull ColorStateList colorStateList) {
         this.colorStateList = colorStateList;
@@ -183,6 +191,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param colorRes The color resource, from your R file.
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable colorRes(@ColorRes int colorRes) {
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes));
@@ -196,6 +205,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param alpha The alpha, between 0 (transparent) and 255 (opaque).
      * @return The current IconDrawable for chaining.
+     * @since 3.0.0
      */
     public FontIconDrawable alpha(int alpha) {
         setAlpha(alpha);
@@ -233,6 +243,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @return True if this drawable changes its appearance based on state,
      * false otherwise.
+     * @since 3.0.0
      */
     @Override
     public boolean isStateful() {
@@ -243,6 +254,7 @@ public class FontIconDrawable extends Drawable {
      * Set the alpha of this drawable.
      *
      * @param alpha The alpha to be applied to the drawable.
+     *              @since 3.0.0
      */
     @Override
     public void setAlpha(int alpha) {
@@ -253,6 +265,7 @@ public class FontIconDrawable extends Drawable {
      * Set the colorFilter of this drawable.
      *
      * @param cf The colorFilter to be applied to the drawable.
+     *           @since 3.0.0
      */
     @Override
     public void setColorFilter(ColorFilter cf) {
@@ -261,6 +274,7 @@ public class FontIconDrawable extends Drawable {
 
     /**
      * Clear the colorFilter of this drawable.
+     * @since 3.0.0
      *
      */
     @Override
@@ -272,6 +286,7 @@ public class FontIconDrawable extends Drawable {
      * Get the Opacity of this drawable.
      *
      *@return The current opacity.
+     * @since 3.0.0
      */
     @Override
     public int getOpacity() {
@@ -282,6 +297,7 @@ public class FontIconDrawable extends Drawable {
      * Sets paint style.
      *
      * @param style to be applied
+     *              @since 3.0.0
      */
     public void setStyle(@NonNull Paint.Style style) {
         paint.setStyle(style);
@@ -291,6 +307,7 @@ public class FontIconDrawable extends Drawable {
      * Call this function to get a parcelable instance of the drawable. Synonymous with onSaveInstance of Activity and should be called manually.
      *
      * @return Parcelable instance of the drawable to be used for saving.
+     * @since 3.0.0
      */
     public Parcelable onSaveInstanceState() {
         final SavedState ss = new SavedState(AbsSavedState.EMPTY_STATE);
@@ -308,6 +325,7 @@ public class FontIconDrawable extends Drawable {
      * Call this function to restore drawable instance to a new drawable. Synonymous with onRestoreInstance of Activity and should be called manually.
      *
      * @param savedState Saved state of the drawable obtained in the {@link #onSaveInstanceState()}
+     *                   @since 3.0.0
      */
     public void onRestoreInstanceState(Parcelable savedState) {
         if (savedState instanceof SavedState) {

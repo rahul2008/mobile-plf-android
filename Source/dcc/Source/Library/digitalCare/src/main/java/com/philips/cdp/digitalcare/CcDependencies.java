@@ -12,6 +12,7 @@ public class CcDependencies extends UappDependencies {
     /**
      * gets the dependency module
      * @param appInfra
+     * @since 1.0.0
      */
     public CcDependencies(AppInfraInterface appInfra) {
         super(appInfra);

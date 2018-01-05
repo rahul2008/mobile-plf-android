@@ -281,5 +281,6 @@
     <dimen name="uid_slider_border_ripple_radius">20dp</dimen>
     <dimen name="uid_slider_progress_bar_height">4dp</dimen>
     <dimen name="uid_slider_min_width">96dp</dimen>
+    <dimen name="uid_slider_tick_mark_width">2dp</dimen>
 
 </resources>
