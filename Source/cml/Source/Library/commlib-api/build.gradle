@@ -3,46 +3,12 @@
  * All rights reserved.
  */
 
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-api"
 version = objcdp.getVersion(versions.cml_commlib)
 
@@ -108,18 +74,16 @@ dependencies {
     if (findProject(":commlib-testutils")) {
         testCompile project(path: ':commlib-testutils', configuration: 'debug')
     } else {
-        testCompile("$group:commlib-testutils:$versions.cml_commlib$suffix") { changing = true }
+        testCompile("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
-	def dp = project.ext.has('useprojectdependencies')
-	
-
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), changing: true)
-
-	compile(dp ? project(':AppInfra') : ailModule)
-	{
-        exclude group: 'com.android.support'
-        transitive = true
+    for (dep in [':AppInfra']) {
+        if (directdependencies) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
+        }
     }
 
     testCompile deps.assertj

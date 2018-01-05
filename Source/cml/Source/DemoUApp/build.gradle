@@ -3,45 +3,11 @@
  * All rights reserved.
  */
 
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-demouapp"
 version = objcdp.getVersion(versions.cml_commlib)
 
@@ -107,9 +73,7 @@ dependencies {
 
     provided deps.support.annotations
 
-    def useProjectDependencies = project.ext.has('useprojectdependencies')
-
-    if (useProjectDependencies) {
+    if (directdependencies) {
         compile project(':commlib')
         compile project(':cloudcontroller')
         compile project(':uAppFwLib')
@@ -132,29 +96,4 @@ dependencies {
     }
 
     compile deps.joda_time
-}
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-}
-
-/**
- * Zips external documentation to be included with a release
- */
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-
-/**
- * Creates sources.jar for easier debugging
- */
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
 }

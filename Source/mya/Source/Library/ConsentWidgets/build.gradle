@@ -1,79 +1,21 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco-android'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'jacoco'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
-        classpath(builddeps.cdpSCM)
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
-    }
+jacoco {
+    toolVersion = versions.jacoco
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
+def coverageSourceDirs = [
+        '../ConsentWidgets/src/main/java'
+]
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "ConsentWidgets"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
-group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.mya_myAccount)
 
 android {
@@ -82,12 +24,6 @@ android {
 
     lintOptions {
         abortOnError false
-    }
-
-    jacocoAndroidUnitTestReport {
-        csv.enabled false
-        html.enabled true
-        xml.enabled false
     }
 
     testOptions {
@@ -148,28 +84,20 @@ android {
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
     }
-}
 
-configurations {
-    //compile.exclude module: 'support-annotations'
-}
-
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     //3rd party
-    compile 'com.google.code.gson:gson:2.7'
+    compile deps.gson
 
-    def daggerVer = 2.11
-    compile "com.google.dagger:dagger:$daggerVer"
-    compile "com.google.dagger:dagger-android-support:$daggerVer"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile deps.dagger.dagger
+    compile deps.dagger.androidsupport
+    annotationProcessor deps.dagger.androidprocessor
+    annotationProcessor deps.dagger.compiler
 
     // Philips Components
 
@@ -182,23 +110,10 @@ dependencies {
                     transitive = true
                 }
     }
-
-    if (dp) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
-    }
-
-
-    compile(project(':ConsentHandlerInterface'))
+    compile(project(':ConsentAccessToolKit'))
 
     // Tests
-    testCompile 'junit:junit:4.12'
+    testCompile deps.gson
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.robolectric:shadows-support-v4:3.3.2'
@@ -250,8 +165,23 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
-tasks.withType(Test) {
-    ignoreFailures = true
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../iap/build/intermediates/classes/debug'
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 task updateResources(type: Exec) {

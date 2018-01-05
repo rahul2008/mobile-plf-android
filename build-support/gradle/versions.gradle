@@ -3,39 +3,42 @@
  * All rights reserved.
  */
 
+ext.platformversion = "2017.5.0"
+
 ext.versions = [
-        ail_appInfra               : "2017.5.0",
-        bll_shinelib               : "2017.5.0",
-        cml_commlib                : "2017.5.0",
-        ews_ews                    : "2017.5.0",
-        dcc_digitalCare            : "2017.5.0",
-        dsc_dataServices           : "2017.5.0",
-        dpr_devicePairing          : "2017.5.0",
-        iap_iap                    : "2017.5.0",
-        icf_iconFont               : "2017.5.0",
-        mya_myAccount              : "2017.5.0",
-        mya_consentAccessToolKit   : "2017.5.0",
-        mya_consentHandlerInterface: "2017.5.0",
-        mya_marketingConsentHandler: "2017.5.0",
-        prg_productRegistrationLib : "2017.5.0",
-        prx_prx                    : "2017.5.0",
-        pse_productselection       : "2017.5.0",
-        rap_referenceApp           : "2017.5.0",
-        sdb_securedblibrary        : "2017.5.0",
-        ths_telehealth             : "2017.5.0",
-        uaf_uAppFwLib              : "2017.5.0",
-        uid_uid                    : "2017.5.0",
-        uit_uikitLib               : "2017.5.0",
-        usr_registrationApi        : "2017.5.0",
-        usr_jump                   : "2017.5.0",
-        usr_hsdp                   : "2017.5.0",
-        usr_coppa                  : "2017.5.0",
+        ail_appInfra               : ext.platformversion,
+        bll_shinelib               : ext.platformversion,
+        cml_commlib                : ext.platformversion,
+        ews_ews                    : ext.platformversion,
+        dcc_digitalCare            : ext.platformversion,
+        dsc_dataServices           : ext.platformversion,
+        dpr_devicePairing          : ext.platformversion,
+        iap_iap                    : ext.platformversion,
+        icf_iconFont               : ext.platformversion,
+        mya_myAccount              : ext.platformversion,
+        mya_consentAccessToolKit   : ext.platformversion,
+        mya_consentHandlerInterface: ext.platformversion,
+        mya_marketingConsentHandler: ext.platformversion,
+        prg_productRegistrationLib : ext.platformversion,
+        prx_prx                    : ext.platformversion,
+        pse_productselection       : ext.platformversion,
+        rap_referenceApp           : ext.platformversion,
+        sdb_securedblibrary        : ext.platformversion,
+        ths_telehealth             : ext.platformversion,
+        uaf_uAppFwLib              : ext.platformversion,
+        uid_uid                    : ext.platformversion,
+        uit_uikitLib               : ext.platformversion,
+        usr_registrationApi        : ext.platformversion,
+        usr_jump                   : ext.platformversion,
+        usr_hsdp                   : ext.platformversion,
+        usr_coppa                  : ext.platformversion,
         sdk                        : 26,
         target                     : 26,
         minsdk                     : 21,
         buildtools                 : "26.0.2",
         support                    : "26.0.2",
-        jacoco                     : "0.7.6.201602180812"
+        jacoco                     : "0.7.6.201602180812",
+        dagger                     : "2.11"
 ]
 
 ext.builddeps = [
@@ -48,7 +51,8 @@ ext.builddeps = [
 ]
 
 ext.repos = [
-        base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory'
+        base  : 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
+        google: 'https://maven.google.com'
 ]
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
@@ -62,12 +66,26 @@ ext.deps = [
         support            : [
                 annotations: "com.android.support:support-annotations:${ext.versions.support}",
                 appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
+                cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
                 design     : "com.android.support:design:${ext.versions.support}",
+                fragment   : "com.android.support:support-fragment:${ext.versions.support}",
                 supportv4  : "com.android.support:support-v4:${ext.versions.support}"
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
+        constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
+        dagger             : [
+                dagger          : "com.google.dagger:dagger:${ext.versions.dagger}",
+                androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
+                androidprocessor: "com.google.dagger:dagger-android-processor:${ext.versions.dagger}",
+                compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}"
+        ],
         gson               : 'com.google.code.gson:gson:2.8.1',
         joda_time          : 'joda-time:joda-time:2.9.9',
+        ormlite            : [
+                core   : "com.j256.ormlite:ormlite-core:5.0",
+                android: "com.j256.ormlite:ormlite-android:5.0"
+        ],
+        leakcanary         : 'com.squareup.leakcanary:leakcanary-android:1.5',
 
         // Testing
         android_testrunner : 'com.android.support.test:runner:0.5',

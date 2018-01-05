@@ -3,48 +3,12 @@
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
-
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'jacoco'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "shinelibDemoUApp"
-
 version = objcdp.getVersion(versions.bll_shinelib)
 
 android {
@@ -56,7 +20,7 @@ android {
         targetSdkVersion versions.target
 
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
     }
 
     buildTypes {
@@ -72,20 +36,19 @@ android {
 }
 
 dependencies {
-    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
-    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
+    def suffix = objcdp.getVersionSuffix()
 
-    def dp = project.ext.has('useprojectdependencies')
-    if(dp) {
-        compile(project(':uAppFwLib'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-        transitive = true
+    for (dep in [':uAppFwLib', ':pluginreferenceboard']) {
+        if (directdependencies) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
     compile deps.support.design
-    compile "com.android.support:cardview-v7:${versions.support}"
+    compile deps.support.cardview
 
     testCompile deps.junit
 }
