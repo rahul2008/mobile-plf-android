@@ -12,4 +12,6 @@
     <attr name="uidRadioButtonStyle" format="reference"/>
     <attr name="uidSliderStyle" format="reference"/>
     <attr name="uidAboutScreenStyle" format="reference"/>
+    <attr name="uidBottomTabItemStyle" format="reference" />
+    <attr name="uidBottomTabBarStyle" format="reference" />
 </resources>

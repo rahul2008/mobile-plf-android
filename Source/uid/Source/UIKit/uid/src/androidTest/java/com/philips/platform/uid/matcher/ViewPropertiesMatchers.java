@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uid.matcher;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -11,6 +12,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.hamcrest.Matcher;
@@ -271,12 +274,36 @@ public class ViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> hasSameGravity(final int gravity){
+    public static Matcher<? super View> hasSameLinearLayoutGravity(final int gravity){
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
                 setValues(((LinearLayout.LayoutParams)item.getLayoutParams()).gravity,gravity);
                 return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasSameFrameLayoutGravity(final int gravity){
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View item) {
+                setValues(((FrameLayout.LayoutParams)item.getLayoutParams()).gravity,gravity);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasSameImageTintListStateColor(final int[]attrs, final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if(view instanceof ImageView){
+                    ColorStateList colorStateList = ((ImageView)view).getImageTintList();
+                    setValues(Integer.toHexString(colorStateList.getColorForState(attrs,-1)), Integer.toHexString(color));
+                    return areEqual();
+                }
+                return false;
             }
         };
     }

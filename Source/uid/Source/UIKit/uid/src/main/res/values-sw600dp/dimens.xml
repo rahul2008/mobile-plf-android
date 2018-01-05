@@ -5,4 +5,5 @@
     <dimen name="uid_splash_screen_app_name_spacing">36sp</dimen>
     <dimen name="uid_about_screen_app_name_size">24sp</dimen>
     <dimen name="uid_about_screen_app_name_spacing">28sp</dimen>
+    <bool name="uid_is_tablet">true</bool>
 </resources>

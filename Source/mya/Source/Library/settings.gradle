@@ -1,3 +1,4 @@
+rootProject.Name 'MyAccount'
 include ':app'
 include 'DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')

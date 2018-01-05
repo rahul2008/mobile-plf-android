@@ -6,6 +6,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 apply plugin: 'com.neenbedankt.android-apt'
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'

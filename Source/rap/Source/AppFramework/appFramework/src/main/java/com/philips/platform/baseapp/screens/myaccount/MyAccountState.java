@@ -78,7 +78,6 @@ public class MyAccountState extends BaseState {
 
             }
         });
-        launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));

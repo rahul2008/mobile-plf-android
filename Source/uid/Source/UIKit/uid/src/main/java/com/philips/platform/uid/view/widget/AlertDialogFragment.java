@@ -212,6 +212,7 @@ public class AlertDialogFragment extends DialogFragment {
      *
      * @param manager The FragmentManager this fragment will be added to.
      * @param tag     The tag for this fragment, as per
+     *                @since 3.0.0
      */
     public void showAllowingStateLoss(FragmentManager manager, String tag) {
         FragmentTransaction ft = manager.beginTransaction();
@@ -304,6 +305,7 @@ public class AlertDialogFragment extends DialogFragment {
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
      * @param color Color of background
+     *              @since 3.0.0
      */
     public void setDimColor(int color) {
         dimColor = color;
@@ -380,6 +382,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of positive button
      *
      * @param listener Listener for positive button
+     *                 @since 3.0.0
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setPositiveButtonLister(listener);
@@ -392,6 +395,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of negative button
      *
      * @param listener Listener for negative button
+     *                 @since 3.0.0
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setNegativeButtonListener(listener);
@@ -404,6 +408,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of alternate button
      *
      * @param listener Listener for alternate button
+     *                 @since 3.0.0
      */
     public void setAlternateButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setAlternateButtonListener(listener);
@@ -441,7 +446,8 @@ public class AlertDialogFragment extends DialogFragment {
          * @param dialogStyle Selects a standard style: may be {@link #STYLE_NORMAL},
          * {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
          * {@link #STYLE_NO_INPUT}.
-         * @return
+         * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public Builder setDialogStyle(int dialogStyle) {
             this.dialogStyle = dialogStyle;
@@ -452,6 +458,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the title using the given resource id.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setTitle(@StringRes int titleId) {
             params.setTitle(params.getContext().getString(titleId));
@@ -462,6 +469,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the title displayed in the {@link AlertDialogFragment}.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setTitle(@NonNull CharSequence title) {
             params.setTitle(title.toString());
@@ -472,6 +480,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the message to display using the given resource id.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setMessage(@StringRes int messageId) {
             params.setMessage(params.getContext().getString(messageId));
@@ -482,6 +491,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the message to display.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setMessage(@NonNull CharSequence message) {
             params.setMessage(message.toString());
@@ -494,6 +504,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Takes precedence over values set using {@link #setIcon(Drawable)}.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setIcon(@DrawableRes int iconId) {
             params.setIconId(iconId);
@@ -509,6 +520,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @return this Builder object to allow for chaining of calls to set
          * methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setIcon(Drawable icon) {
             params.setIconDrawable(icon);
@@ -521,6 +533,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   The resource id of the text to display in the positive button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setPositiveButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setPositiveButtonText(params.getContext().getString(textId));
@@ -534,6 +547,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the positive button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setPositiveButton(CharSequence text, final View.OnClickListener listener) {
             params.setPositiveButtonText(text.toString());
@@ -547,6 +561,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   The resource id of the text to display in the negative button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setNegativeButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setNegativeButtonText(params.getContext().getString(textId));
@@ -560,6 +575,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the negative button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setNegativeButton(CharSequence text, final View.OnClickListener listener) {
             params.setNegativeButtonText(text.toString());
@@ -571,6 +587,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Sets whether the dialog is cancelable or not.  Default is true.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setCancelable(boolean cancelable) {
             params.setCancelable(cancelable);
@@ -582,6 +599,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param dialogType Can be one of two options: DialogConstants.TYPE_DIALOG or DialogConstants.TYPE_ALERT
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogType(int dialogType) {
             params.setDialogType(dialogType);
@@ -593,6 +611,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param dimLayer Can be one of two options: DialogConstants.DIM_SUBTLE or DialogConstants.DIM_STRONG
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
             params.setDimLayer(dimLayer);
@@ -604,6 +623,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param layout ResID of the layout to be set to the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogLayout(@LayoutRes int layout) {
             params.setContainerLayout(layout);
@@ -615,6 +635,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param view View to be added to the dialog layout.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogView(View view) {
             params.setDialogView(view);
@@ -627,6 +648,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the alternate button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setAlternateButton(CharSequence text, final View.OnClickListener listener) {
             params.setAlternateButtonText(text.toString());
@@ -640,6 +662,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   String to display in the alternate button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setAlternateButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setAlternateButtonText(params.getContext().getString(textId));
@@ -652,6 +675,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param showDividers boolean to set if dividers should be shown.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDividers(boolean showDividers) {
             params.setShowDividers(showDividers);
@@ -662,6 +686,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Sets the builder objects on dialog and returns {@link AlertDialogFragment}.
          *
          * @return AlertDialogFragment
+         * @since 3.0.0
          */
         public AlertDialogFragment create() {
             return create(new AlertDialogFragment());
@@ -671,7 +696,8 @@ public class AlertDialogFragment extends DialogFragment {
          * Gives a chance to provide any extension of {@link AlertDialogFragment} to intercept calls of {@link DialogFragment}
          *
          * @param alertDialogFragment Fragment which extends {@link AlertDialogFragment}
-         * @return
+         * @return AlertDialogFragment object
+         * @since 3.0.0
          */
         public <T extends AlertDialogFragment> AlertDialogFragment create(final T alertDialogFragment) {
             alertDialogFragment.setCancelable(params.isCancelable());

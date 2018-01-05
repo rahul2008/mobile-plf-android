@@ -137,6 +137,10 @@ hockeyapp {
     mandatory = 1
     status = 2
     notesType = 1
+
+//    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
+}
+=======
     notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
 }*/
 

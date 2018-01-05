@@ -78,6 +78,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(21, getString(R.string.page_title_about_screen));
         itemsMap.put(22, getString(R.string.page_title_splash_screen));
         itemsMap.put(23, getString(R.string.page_title_slider));
+        itemsMap.put(24, getString(R.string.page_title_bottom_tab_bar));
         return sortMap(itemsMap);
     }
 
@@ -174,6 +175,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 23:
                 navigationController.switchFragment(new SliderFragment());
+                break;
+            case 24:
+                navigationController.switchFragment(new BottomTabSettingsFragment());
                 break;
         }
     }

@@ -112,6 +112,7 @@ public class NavigationContainer extends FrameLayout {
     /**
      * Offset from where the shadow drawable should be drawn.
      * @param drawableTopOffset Top offset to be set
+     *                          @since 3.0.0
      */
     public void setShadowTopOffset(final int drawableTopOffset) {
         this.shadowTopOffset = drawableTopOffset;

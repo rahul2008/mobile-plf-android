@@ -119,6 +119,7 @@ public class SplashScreen extends LinearLayout {
      * This API will help you to set the exact string value to App name label. Alternatively app:uidSplashScreenAppName can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setAppName(CharSequence text) {
         appName.setText(text);
@@ -128,6 +129,7 @@ public class SplashScreen extends LinearLayout {
      * This API will help you to set the string to App name label through a string resource. Alternatively app:uidSplashScreenAppName can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setAppName(@StringRes int resID) {
         appName.setText(resID);
@@ -137,6 +139,7 @@ public class SplashScreen extends LinearLayout {
      * This API will help you to set the Splash screen logo using a drawable, by default Philips shield logo would be set.
      *
      * @param drawable drawable object to be set
+     *                 @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(Drawable drawable) {
@@ -147,6 +150,7 @@ public class SplashScreen extends LinearLayout {
      * This API will help you to set the Splash screen logo using a drawable, by default Philips shield logo would be set.
      *
      * @param resID resourceId of drawable to be set
+     *              @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(int resID) {
@@ -157,6 +161,7 @@ public class SplashScreen extends LinearLayout {
      * This API will help you to set the Splash screen logo using a Bitmap, by default Philips shield logo would be set.
      *
      * @param bitmap bitmap to be set
+     *               @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(Bitmap bitmap) {
