@@ -180,4 +180,7 @@
     <dimen name="uid_slider_progress_bar_height">4dp</dimen>
     <dimen name="uid_slider_min_width">96dp</dimen>
 
+    <!--Bottom Tab Bar-->
+    <dimen name="tablayout_height">56dp</dimen>
+
 </resources>
