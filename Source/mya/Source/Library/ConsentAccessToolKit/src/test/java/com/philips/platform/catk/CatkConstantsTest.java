@@ -7,9 +7,11 @@
 
 package com.philips.platform.catk;
 
-import static junit.framework.Assert.assertEquals;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 
 public class CatkConstantsTest {
 
@@ -25,42 +27,42 @@ public class CatkConstantsTest {
 
     @Test
     public void testConsentSuccess() {
-        assertEquals(0, new CatkConstants().CONSENT_SUCCESS);
+        assertEquals(0, ConsentError.CONSENT_SUCCESS);
     }
 
     @Test
     public void testConsentFailuer() {
-        assertEquals(-1, new CatkConstants().CONSENT_ERROR);
+        assertEquals(-1, ConsentError.CONSENT_ERROR);
     }
 
     @Test
     public void testConsentErrorno() {
-        assertEquals(2, new CatkConstants().CONSENT_ERROR_NO_CONNECTION);
+        assertEquals(2, ConsentError.CONSENT_ERROR_NO_CONNECTION);
     }
 
     @Test
     public void testConnectionTimeout() {
-        assertEquals(3, new CatkConstants().CONSENT_ERROR_CONNECTION_TIME_OUT);
+        assertEquals(3, ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
     @Test
     public void testAuthenticationFailuer() {
-        assertEquals(4, new CatkConstants().CONSENT_ERROR_AUTHENTICATION_FAILURE);
+        assertEquals(4, ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE);
     }
 
     @Test
     public void testConsentErorServers() {
-        assertEquals(5, new CatkConstants().CONSENT_ERROR_SERVER_ERROR);
+        assertEquals(5, ConsentError.CONSENT_ERROR_SERVER_ERROR);
     }
 
     @Test
     public void testInsufficentStock() {
-        assertEquals(6, new CatkConstants().CONSENT_ERROR_INSUFFICIENT_STOCK_ERROR);
+        assertEquals(6, ConsentError.CONSENT_ERROR_INSUFFICIENT_STOCK_ERROR);
     }
 
     @Test
     public void testConsentErroUnkown() {
-        assertEquals(7, new CatkConstants().CONSENT_ERROR_UNKNOWN);
+        assertEquals(7, ConsentError.CONSENT_ERROR_UNKNOWN);
     }
 
     @Test

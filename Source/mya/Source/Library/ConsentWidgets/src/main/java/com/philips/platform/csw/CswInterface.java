@@ -11,9 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
-import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -26,6 +25,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import java.util.List;
 
 public class CswInterface implements UappInterface {
 
@@ -63,7 +64,7 @@ public class CswInterface implements UappInterface {
             if (cswFragment.getArguments() == null) {
                 cswFragment.setArguments(new Bundle());
             }
-            cswFragment.getArguments().putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
+            cswFragment.getArguments().putBoolean(CswFragment.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -103,8 +104,11 @@ public class CswInterface implements UappInterface {
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+
+        List<ConsentHandlerMapping> consentHandlerMappingList = ((CswDependencies) uappDependencies).getConsentHandlerMappingList();
+
         return DaggerCswComponent.builder()
-                .cswModule(new CswModule(uappSettings.getContext()))
+                .cswModule(new CswModule(uappSettings.getContext(), consentHandlerMappingList))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 

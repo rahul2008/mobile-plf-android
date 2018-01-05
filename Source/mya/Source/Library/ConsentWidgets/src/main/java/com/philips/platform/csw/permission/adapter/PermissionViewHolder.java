@@ -7,14 +7,6 @@
 
 package com.philips.platform.csw.permission.adapter;
 
-import com.philips.platform.csw.permission.ConsentToggleListener;
-import com.philips.platform.csw.permission.ConsentView;
-import com.philips.platform.csw.permission.HelpClickListener;
-import com.philips.platform.csw.permission.adapter.BasePermissionViewHolder;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.Switch;
-
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,8 +20,15 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.csw.permission.ConsentToggleListener;
+import com.philips.platform.csw.permission.ConsentView;
+import com.philips.platform.csw.permission.HelpClickListener;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.Switch;
 
 class PermissionViewHolder extends BasePermissionViewHolder {
 
@@ -62,7 +61,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     void setDefinition(final ConsentView consentView) {
         // Update UI here
         label.setText(consentView.getConsentText());
-        toggle.setVisibility(consentView.isLoading() ? View.INVISIBLE : View.VISIBLE);
         error.setVisibility(consentView.isError() ? View.VISIBLE : View.INVISIBLE);
         toggle.animate().alpha(consentView.isError() ? 0.5f : 1.0f).start();
         toggle.setEnabled(consentView.isEnabled());
@@ -70,9 +68,10 @@ class PermissionViewHolder extends BasePermissionViewHolder {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (consentToggleListener != null) {
+                final ConsentHandlerInterface handler = consentView.getHandler();
+                if (consentToggleListener != null && handler != null) {
                     setLoading(consentView);
-                    consentToggleListener.onToggledConsent(consentView.getDefinition(), b);
+                    consentToggleListener.onToggledConsent(consentView.getDefinition(), handler, b);
                 }
             }
         });

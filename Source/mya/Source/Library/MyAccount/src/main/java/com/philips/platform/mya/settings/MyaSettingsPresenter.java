@@ -65,7 +65,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 view.exitMyAccounts();
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
             CswInterface cswInterface = getCswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra);
+            CswDependencies cswDependencies = new CswDependencies(appInfra, MyaHelper.getInstance().getConsentHandlerMappingList());
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));

@@ -8,8 +8,8 @@
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentDto;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,6 @@
-package com.philips.platform.catk;
+package com.philips.platform.consenthandlerinterface.datamodel;
 
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentDefinitionException;
+import com.philips.platform.consenthandlerinterface.ConsentDefinitionException;
 
 import org.junit.Test;
 

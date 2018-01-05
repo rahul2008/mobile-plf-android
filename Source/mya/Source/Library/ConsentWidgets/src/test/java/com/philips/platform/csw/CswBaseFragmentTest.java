@@ -4,6 +4,7 @@ import com.philips.platform.csw.mock.ActionBarListenerMock;
 import com.philips.platform.csw.mock.CswFragmentMock;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswBaseFragmentWrapper;
+import com.philips.platform.mya.consentwidgets.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class CswBaseFragmentTest {
 
     @Before

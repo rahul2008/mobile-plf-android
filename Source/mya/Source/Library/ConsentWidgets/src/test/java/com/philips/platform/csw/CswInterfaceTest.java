@@ -2,8 +2,8 @@ package com.philips.platform.csw;
 
 import android.test.mock.MockContext;
 
-import com.philips.platform.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
+import com.philips.platform.consenthandlerinterface.BuildConfig;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;
@@ -17,28 +17,31 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robolectric.annotation.Config;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class CswInterfaceTest {
 
+    @Mock
+    private List<ConsentHandlerMapping> consentHandlerMappings;
 
     @Before
     public void setup() {
         fragmentTransaction = new FragmentTransactionMock();
         fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);
-        consentAccessToolKit = new ConsentAccessToolKitEmulator();
         cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
-        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentHandlerMappings);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }
@@ -115,7 +118,6 @@ public class CswInterfaceTest {
     private FragmentActivityMock fragmentActivity;
     private FragmentTransactionMock fragmentTransaction;
     private FragmentManagerMock fragmentManager;
-    private ConsentAccessToolKitEmulator consentAccessToolKit;
 
     private static final String CSWFRAGMENT = "CSWFRAGMENT";
 

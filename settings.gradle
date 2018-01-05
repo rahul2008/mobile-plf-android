@@ -43,9 +43,11 @@ include ':telehealth'
 include ':MyAccount'
 include ':ConsentWidgets'
 include ':ConsentAccessToolKit'
+include ':ConsentHandlerInterface'
 include ':MyAccountUApp'
 include ':ews-android'
 include ':ewsUApp'
+include ':MarketingConsentHandler'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
@@ -90,9 +92,11 @@ project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuap
 project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
 project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
+project(':ConsentHandlerInterface').projectDir = new File('./Source/mya/Source/Library/ConsentHandlerInterface')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
+project(':MarketingConsentHandler').projectDir = new File('./Source/mya/Source/Library/MarketingConsentHandler')
 
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'

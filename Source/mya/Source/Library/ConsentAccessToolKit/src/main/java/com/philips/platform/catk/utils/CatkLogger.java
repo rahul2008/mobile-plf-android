@@ -8,12 +8,11 @@
 
 package com.philips.platform.catk.utils;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
-
-import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 /**
  * Consent Widget loggger used for logginan system .
@@ -65,15 +64,10 @@ public class CatkLogger {
     /**
      * Logs at debug level
      *
-     * @param tag
-     *            Tag
-     * @param message
-     *            Logging message
+     * @param tag     Tag
+     * @param message Logging message
      */
     public static void d(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.d(tag, message);
-        }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
     }
@@ -81,15 +75,10 @@ public class CatkLogger {
     /**
      * Logs at markErrorAndGetPrevious level
      *
-     * @param tag
-     *            Tag
-     * @param message
-     *            Logging message
+     * @param tag     Tag
+     * @param message Logging message
      */
     public static void e(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.e(tag, message);
-        }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
     }
@@ -97,15 +86,10 @@ public class CatkLogger {
     /**
      * Logs at info level
      *
-     * @param tag
-     *            Tag
-     * @param message
-     *            Logging message
+     * @param tag     Tag
+     * @param message Logging message
      */
     public static void i(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.i(tag, message);
-        }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
     }
@@ -113,15 +97,10 @@ public class CatkLogger {
     /**
      * Logs at verbose level
      *
-     * @param tag
-     *            Tag
-     * @param message
-     *            Logging message
+     * @param tag     Tag
+     * @param message Logging message
      */
     public static void v(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.v(tag, message);
-        }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
     }

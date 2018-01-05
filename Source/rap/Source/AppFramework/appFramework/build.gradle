@@ -239,6 +239,9 @@ dependencies {
 
     compile("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 
+
+    compile project(':MarketingConsentHandler')
+
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {

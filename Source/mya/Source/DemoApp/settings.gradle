@@ -8,3 +8,5 @@ include ':ConsentWidgets'
 project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
 include ':ConsentAccessToolKit'
 project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
+include ':ConsentHandlerInterface'
+project(':ConsentHandlerInterface').projectDir = new File('../Library/ConsentHandlerInterface')

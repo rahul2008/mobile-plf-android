@@ -1,18 +1,22 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
-
-/**
- * Created by Entreco on 13/12/2017.
- */
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 
 public class ConsentInteractorMock extends ConsentInteractor {
 
     public Consent getStatusForConsentType_returnConsent;
-    public ConsentNetworkError getStatusForConsentType_returnError;
+    public ConsentError getStatusForConsentType_returnError;
     public String getStatusForConsentType_consentType;
 
     public ConsentInteractorMock(ConsentAccessToolKit consentAccessToolKit) {
@@ -28,6 +32,4 @@ public class ConsentInteractorMock extends ConsentInteractor {
             callback.onGetConsentFailed(getStatusForConsentType_returnError);
         }
     }
-
-
 }

@@ -27,11 +27,13 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
 /**
  * This class is used to launch myaccount either as fragment or activity.
+ *
  * @since 2017.5.0
  */
 public class MyaInterface implements UappInterface {
 
     public static String USER_PLUGIN = "user_plugin";
+
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -91,6 +93,7 @@ public class MyaInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
+        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentHandlerMappingList());
     }
 
 }

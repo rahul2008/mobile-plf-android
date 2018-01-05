@@ -35,7 +35,7 @@ public class MyaActivityTest {
     ArgumentCaptor<Fragment> fragmentArgumentCaptor;
     private MyaActivity activity;
 
-   @Before()
+    @Before()
     public void setUp() {
         initMocks(this);
         intent = new Intent();

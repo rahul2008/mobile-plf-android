@@ -5,10 +5,11 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.model;
+package com.philips.platform.consenthandlerinterface;
 
-public enum ConsentStatus {
-    active,
-    rejected,
-    inactive
+public class ConsentDefinitionException extends RuntimeException {
+
+    public ConsentDefinitionException(String message) {
+        super(message);
+    }
 }

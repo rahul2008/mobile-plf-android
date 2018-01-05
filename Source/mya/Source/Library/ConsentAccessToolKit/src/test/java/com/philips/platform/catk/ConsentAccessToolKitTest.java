@@ -20,11 +20,11 @@ import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.mock.ServiceInfoProviderMock;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.joda.time.DateTime;

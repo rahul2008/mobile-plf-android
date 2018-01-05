@@ -19,7 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.utils.CswLogger;
@@ -129,12 +129,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showErrorDialog(ConsentNetworkError error) {
-        CswLogger.e(TAG, error.getMessage());
+    public void showErrorDialog(ConsentError error) {
+        CswLogger.e(TAG, error.getError());
         OkOnErrorListener okListener = new OkOnErrorListener();
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
                 .setTitle(R.string.csw_problem_occurred_error_title)
-                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()))
                 .setPositiveButton(R.string.csw_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);
