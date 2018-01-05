@@ -9,11 +9,8 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-
-import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
@@ -25,9 +22,9 @@ public class MyaLaunchInput extends UappLaunchInput {
     private Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
-    private List<ConsentDefinition> consentDefinitions;
 
-    public MyaLaunchInput(){}
+    public MyaLaunchInput() {
+    }
 
     public MyaLaunchInput(Context context, MyaListener myaListener) {
         this.context = context;
@@ -37,14 +34,6 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public Context getContext() {
         return context;
-    }
-
-    /**
-     *
-     * @param context - set the context from where myaccount micro-app is invoked
-     */
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     /**
@@ -69,13 +58,5 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public MyaListener getMyaListener() {
         return myaListener;
-    }
-
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return consentDefinitions;
-    }
-
-    public void setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-        this.consentDefinitions = consentDefinitions;
     }
 }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
@@ -66,7 +67,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private final String SLEEP_PROGRESS_VIEW_PROPERTY = "scoreAngle";
     private final int PROGRESS_SCORE_MAX = 360;
     private final int PROGRESS_PERCENTAGE_MAX = 100;
-    private final int IDEAL_DEEP_SLEEP_TIME = 120;
     private final int PROGRESS_DRAW_TIME = 1500;
     private User user;
 
@@ -75,6 +75,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private DataServicesManager dataServicesManager;
 
     private View view;
+
 
     @Override
     public void onAttach(Context context) {
@@ -92,6 +93,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         super.onResume();
         ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -145,6 +147,22 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         setHasOptionsMenu(true);
         startAppTagging(TAG);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataServicesManager.registerSynchronisationCompleteListener(this);
+        if(!user.isUserSignIn()) {
+            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
+            showToast("Please sign in!");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dataServicesManager.unRegisterSynchronisationCosmpleteListener();
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
@@ -277,11 +295,10 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             @Override
             public void run() {
                 RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,message);
-                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     @Override
     public void onDestroy() {
@@ -321,6 +338,22 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onSyncFailed(Exception e) {
         showToast("Sync failed");
+        new User(getActivity()).refreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                RALog.d(TAG,"Login Token refresh successful");
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int i) {
+                RALog.d(TAG,"Error while refreshing login token");
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String s) {
+                RALog.d(TAG,"Login Token refresh in progress");
+            }
+        });
     }
 
     @Override

@@ -8,7 +8,7 @@
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentDto;
-import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 
 public class ConsentToDtoMapper {
 

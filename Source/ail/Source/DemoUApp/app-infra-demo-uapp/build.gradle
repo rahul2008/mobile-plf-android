@@ -3,40 +3,162 @@ apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "AppInfraUApp"
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url 'https://maven.google.com'
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.ail_appInfra)
 
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
 
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
-    lintOptions {
-        abortOnError false
-    }
-    publishNonDefault true
-}
 
 dependencies {
-    for (dep in [':uAppFwLib', ':AppInfra']) {
-        if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
-        } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if(dp) {
+        compile(project(':uAppFwLib'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
         }
     }
 
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.leakcanary
-    compile deps.gson
+        compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+        compile 'com.google.code.gson:gson:2.8.1'
+        compile(dp ? project(':AppInfra') : project(':AppInfra'))
+    }
+}
+
+tasks.withType(Test) {
+  ignoreFailures = true
 }

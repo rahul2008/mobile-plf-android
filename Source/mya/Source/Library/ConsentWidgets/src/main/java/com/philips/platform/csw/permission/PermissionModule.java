@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.ArrayList;
@@ -16,10 +23,14 @@ public class PermissionModule {
 
     private PermissionInterface permissionInterface;
     private HelpClickListener helpClickListener;
+    private List<ConsentHandlerMapping> consentHandlerMappings;
 
     public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener) {
         this.permissionInterface = permissionInterface;
         this.helpClickListener = helpClickListener;
+
+        List<ConsentHandlerMapping> configs = CswInterface.getCswComponent().getConsentConfigurations();
+        this.consentHandlerMappings = configs == null ? new ArrayList<ConsentHandlerMapping>() : configs;
     }
 
     @Provides
@@ -33,27 +44,19 @@ public class PermissionModule {
     }
 
     @Provides
-    List<ConsentDefinition> provideConsentDefinitions() {
-        return ConsentAccessToolKit.getInstance().getConsentDefinitions();
+    List<ConsentHandlerMapping> provideConfigurations() {
+        return consentHandlerMappings;
     }
 
     @Provides
-    List<ConsentView> provideConsentViews() {
+    List<ConsentView> provideConsentViews(List<ConsentHandlerMapping> configurations) {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for (final ConsentDefinition definition : ConsentAccessToolKit.getInstance().getConsentDefinitions()) {
-            consentViewList.add(new ConsentView(definition));
+        for (ConsentHandlerMapping configuration : configurations) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
         }
         return consentViewList;
-    }
-
-    @Provides
-    static ConsentAccessToolKit provideConsentAccessToolkit() {
-        return ConsentAccessToolKit.getInstance();
-    }
-
-    @Provides
-    static ConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
-        return new ConsentInteractor(consentAccessToolKit);
     }
 
     @Provides

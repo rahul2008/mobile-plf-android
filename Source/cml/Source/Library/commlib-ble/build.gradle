@@ -86,8 +86,8 @@ dependencies {
         }
     }
 
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
-	compile(directdependencies ? project(':AppInfra') : ailModule)
+    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+    compile(directdependencies ? project(':AppInfra') : ailModule)
 
     testCompile deps.junit
     testCompile deps.mockito
