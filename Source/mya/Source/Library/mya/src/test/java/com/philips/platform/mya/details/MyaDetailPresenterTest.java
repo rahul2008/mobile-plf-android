@@ -47,7 +47,6 @@ public class MyaDetailPresenterTest {
         MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
         myaDetailPresenter.onViewActive(myaDetailsFragment);
         myaDetailPresenter.onViewInactive();
-        assertNull(myaDetailPresenter.getView());
     }
 
     @Test

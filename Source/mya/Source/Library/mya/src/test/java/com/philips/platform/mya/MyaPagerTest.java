@@ -3,7 +3,7 @@ package com.philips.platform.mya;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
