@@ -28,7 +28,6 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
@@ -36,7 +35,7 @@ public class MyaActivity extends UIDActivity {
 
     private TextView mTitle;
     private ImageView leftImageView;
-
+    public static final String MYA_DLS_THEME= "Mya_dls_theme";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +147,6 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-//        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);

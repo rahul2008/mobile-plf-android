@@ -4,6 +4,7 @@ import android.view.InflateException;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCodeFragment;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -34,7 +35,7 @@ public class MergeAccountFragmentTest {
     public void setUp() throws Exception {
 
         initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         mergeAccountFragment= new MergeAccountFragment();
     }
 

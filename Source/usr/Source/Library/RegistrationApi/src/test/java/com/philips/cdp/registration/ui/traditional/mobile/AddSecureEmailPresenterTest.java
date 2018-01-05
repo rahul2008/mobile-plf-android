@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.update.UpdateUserProfile;
@@ -37,7 +38,7 @@ public class AddSecureEmailPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(registrationComponentMock);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         presenter = new AddSecureEmailPresenter(contractMock);
         presenter.injectMocks(updateUserProfileMock);
     }

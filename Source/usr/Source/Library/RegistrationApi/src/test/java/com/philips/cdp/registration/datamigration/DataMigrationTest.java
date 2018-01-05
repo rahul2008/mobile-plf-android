@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
@@ -41,7 +42,7 @@ public class DataMigrationTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
 
       //  Mockito.when(contextMock.openFileInput(JR_CAPTURE_SIGNED_IN_USER)).thenReturn(fileInputStreamMock);
         dataMigration = new DataMigration(contextMock);

@@ -18,6 +18,7 @@ import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -53,7 +54,7 @@ public class MyAccountState extends BaseState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaBaseFragment.TAG, getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
@@ -116,7 +117,7 @@ public class MyAccountState extends BaseState {
 
     List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("TODO: Marketing consent", "TODO: Marketing help", Collections.singletonList("marketing"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), "TODO: Marketing help text here", Collections.singletonList("marketing"), 1, currentLocale));
         return definitions;
     }
 
@@ -136,10 +137,10 @@ public class MyAccountState extends BaseState {
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
 
-        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
-        consentConfigurations.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
-        consentConfigurations.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
-        MyaHelper.getInstance().setConfigurations(consentConfigurations);
+        List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
+        consentHandlerMappings.add(new ConsentHandlerMapping(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentHandlerMappings.add(new ConsentHandlerMapping(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
 
@@ -155,6 +156,6 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
 
-        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentHandlerMappingList());
     }
 }

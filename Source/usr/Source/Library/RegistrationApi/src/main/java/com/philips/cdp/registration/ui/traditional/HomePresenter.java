@@ -74,7 +74,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
 
     public HomePresenter(HomeContract homeContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.homeContract = homeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
@@ -401,6 +401,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 homeContract.navigateToCreateAccount();
             }
             if (deligateFlow == FLOWDELIGATE.SOCIALPROVIDER) {
+                homeContract.handleBtnClickableStates(false);
                 if (provider.equalsIgnoreCase("wechat")) {
                     if (isWeChatAuthenticate()) {
                         homeContract.startWeChatAuthentication();

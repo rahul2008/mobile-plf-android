@@ -135,14 +135,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell. Make sure the details you enter below correspond with the insurance details, if applicable.</string>
     <string name="ths_first_name">First name</string>
     <string name="ths_last_name">Last name</string>
-    <string name="ths_dob">Your date of birth</string>
+    <string name="ths_dob">Birth date</string>
     <string name="ths_inline_error_message">Error</string>
     <string name="ths_gender">Gender</string>
     <string name="ths_state">State</string>
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
-    <string name="ths_your_details">"Your details"</string>
+    <string name="ths_your_details">Patient details</string>
     <string name="ths_male_">Male</string>
     <string name="ths_first_name_validation">Enter first name</string>
     <string name="ths_last_name_validation">Enter last name</string>

@@ -3,6 +3,7 @@ package com.philips.cdp.registration;
 import android.app.Activity;
 import android.content.Context;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -69,7 +70,7 @@ public class UserTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         RLog.setMockLogger(mockLoggingInterface);
         user = new User(contextMock);
     }
