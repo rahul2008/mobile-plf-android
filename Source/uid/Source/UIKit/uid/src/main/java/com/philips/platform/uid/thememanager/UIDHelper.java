@@ -9,6 +9,8 @@ package com.philips.platform.uid.thememanager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -138,5 +140,11 @@ public class UIDHelper {
         return ThemeUtils.getNavigationThemedContext(context);
     }
 
+    public static int getColorFromAttribute(Resources.Theme theme, int attribute, int defColor) {
+        TypedArray themeArray = theme.obtainStyledAttributes(new int[] {attribute});
+        final int color = themeArray.getColor(0, defColor);
+        themeArray.recycle();
+        return color;
+    }
 
 }
