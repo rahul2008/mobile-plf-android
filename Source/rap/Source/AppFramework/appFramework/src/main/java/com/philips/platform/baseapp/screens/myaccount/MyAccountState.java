@@ -72,7 +72,6 @@ public class MyAccountState extends BaseState {
 
             }
         });
-        launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
         launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale((AppFrameworkApplication) actContext.getApplicationContext())));
         MyaInterface myaInterface = getInterface();
