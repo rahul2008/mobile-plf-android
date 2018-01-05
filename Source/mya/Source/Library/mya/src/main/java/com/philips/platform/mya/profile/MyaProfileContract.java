@@ -8,9 +8,9 @@ package com.philips.platform.mya.profile;
 import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.mya.base.MyaBaseView;
-import com.philips.platform.mya.base.MyaPresenterInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.Map;

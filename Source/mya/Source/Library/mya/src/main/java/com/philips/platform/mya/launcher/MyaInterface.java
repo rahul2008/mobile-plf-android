@@ -93,7 +93,7 @@ public class MyaInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
-        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentHandlerMappingList());
+        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
     }
 
 }
