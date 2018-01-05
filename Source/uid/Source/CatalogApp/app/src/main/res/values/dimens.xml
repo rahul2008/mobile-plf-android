@@ -119,8 +119,4 @@
     <dimen name="slider_temporary_vertical_margin">12dp</dimen>
     <dimen name="slider_label_spacing">4dp</dimen>
 
-    <!-- Bottom Tab Bar-->
-    <dimen name="tablayout_icon_size">48dp</dimen>
-    <dimen name="tablayout_icon_only_height">48dp</dimen>
-    <dimen name="tablayout_with_title_height">56dp</dimen>
 </resources>
