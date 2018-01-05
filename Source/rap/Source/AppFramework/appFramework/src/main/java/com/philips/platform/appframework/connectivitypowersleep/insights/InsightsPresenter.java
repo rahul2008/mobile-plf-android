@@ -81,7 +81,6 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
 
     @Override
     public void loadInsights(DataServicesManager dataServicesManager) {
-        view.showProgressDialog();
         dataServicesManager.fetchInsights(this);
     }
 

@@ -32,6 +32,7 @@ public class ActionBarTextView extends AppCompatTextView {
     /**
      * Sets the gravity for the text and doesn't apply any computations to make it centric
      * @param gravity text gravity
+     *                @since 3.0.0
      */
     public void setForcedGravity(int gravity) {
         setGravity(gravity);
@@ -41,6 +42,7 @@ public class ActionBarTextView extends AppCompatTextView {
     /**
      * Removes any gravity if set via {@link #setForcedGravity(int)}.
      * It tries to put the text in center relative to its parent.
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void removeForcedGravity() {

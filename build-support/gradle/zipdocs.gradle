@@ -1,0 +1,11 @@
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}

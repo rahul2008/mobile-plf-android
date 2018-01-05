@@ -20,6 +20,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -76,6 +77,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private Utils mUtils = null;
     private ContactUsUtils mContactUsUtils = null;
     private AlertDialog mAlertDialog = null;
+    private long mLastClkTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -238,6 +240,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onClick(View view) {
         final int id = view.getId();
+
+        if (SystemClock.elapsedRealtime() - mLastClkTime < 2000) {
+            return;
+        }
+        mLastClkTime = SystemClock.elapsedRealtime();
+
         final String tag = (String) view.getTag();
         boolean actionTaken = false;
 
