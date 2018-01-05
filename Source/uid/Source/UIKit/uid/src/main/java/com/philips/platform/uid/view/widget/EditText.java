@@ -114,8 +114,9 @@ public class EditText extends AppCompatEditText {
     }
 
     /**
-     * Method to check is the password is visisble
+     * Method to check is the password is visible
      * @return true if the password is visible
+     * @since 3.0.0
      */
     public boolean isPasswordVisible() {
         return getTransformationMethod() == null;
@@ -141,7 +142,11 @@ public class EditText extends AppCompatEditText {
         }
     }
 
-    //This is extracted as a method to avoid confusion why null check. This field will only be initialized in case icon is needs on right
+
+    /**
+     * This is extracted as a method to avoid confusion why null check. This field will only be initialized in case icon is needs on right
+     * @since 3.0.0
+     */
     private boolean hasIconClickHandler() {
         return editTextIconHandler != null;
     }

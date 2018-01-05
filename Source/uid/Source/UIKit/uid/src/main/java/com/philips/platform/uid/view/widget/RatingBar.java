@@ -154,6 +154,7 @@ public class RatingBar extends AppCompatRatingBar {
 
     /**
      * This API will help you to get the paint object that is used to draw the label in Rating Bar.
+     * @since 3.0.0
      */
     public Paint getPaint() {
         return paint;
@@ -163,6 +164,7 @@ public class RatingBar extends AppCompatRatingBar {
      * This API will help you to set the exact string value passed to Rating Bar label. Alternatively android:text can be used in xml.
      *
      * @param text String to be set to the Rating Bar label
+     *             @since 3.0.0
      */
     public void setText(String text) {
         this.text = text;
@@ -174,6 +176,7 @@ public class RatingBar extends AppCompatRatingBar {
      * This API will help you to set the string value passed to Rating Bar label through a string resource ID. Alternatively android:text can be used in xml.
      *
      * @param resID String resource ID to be set to the Rating Bar label
+     *              @since 3.0.0
      */
     public void setText(int resID) {
         text = String.valueOf(getResources().getText(resID));

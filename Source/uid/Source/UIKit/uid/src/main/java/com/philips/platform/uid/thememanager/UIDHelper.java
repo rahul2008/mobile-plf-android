@@ -80,6 +80,7 @@ public class UIDHelper {
      * <br> If you have used your own toobar then you can setup toolbar on your own using activity.setSupportActionBar(toolbar);
      *
      * @param activity Reference of activity you want to setup toolbar
+     *                 @since 3.0.0
      */
     public static void setupToolbar(@NonNull final AppCompatActivity activity) {
         final View toolbarView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar);
@@ -97,6 +98,7 @@ public class UIDHelper {
      *
      * @param activity        Reference of activity
      * @param titleResourceId String resourceId for title
+     *                        @since 3.0.0
      */
     public static void setTitle(AppCompatActivity activity, @StringRes int titleResourceId) {
         setTitle(activity, activity.getString(titleResourceId));
@@ -107,6 +109,7 @@ public class UIDHelper {
      *
      * @param activity Reference of activity
      * @param title    String which you would like to set as title
+     *                 @since 3.0.0
      */
     public static void setTitle(AppCompatActivity activity, CharSequence title) {
         final View titleView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar_title);
@@ -125,6 +128,7 @@ public class UIDHelper {
      *
      * @param context Original context
      * @return Context which provides UI background comptability across different content color ranges.
+     * @since 3.0.0
      */
     public static Context getPopupThemedContext(Context context) {
         return ThemeUtils.getPopupThemedContext(context);
