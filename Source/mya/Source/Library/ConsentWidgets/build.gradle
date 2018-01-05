@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.butterknife'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -9,11 +8,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 archivesBaseName = "ConsentWidgets"
 version = objcdp.getVersion(versions.mya_myAccount)
 
-buildscript {
-    dependencies {
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -84,9 +78,6 @@ dependencies {
     compile deps.dagger.androidsupport
     annotationProcessor deps.dagger.androidprocessor
     annotationProcessor deps.dagger.compiler
-
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Philips Components
 
