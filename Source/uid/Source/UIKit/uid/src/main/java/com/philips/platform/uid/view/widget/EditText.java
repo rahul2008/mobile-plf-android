@@ -187,7 +187,9 @@ public class EditText extends AppCompatEditText {
                 editTextIconHandler.processIconTouch();
             }
         }
-        updateActionIcon();
+        if (!isPasswordInputType()) {
+            updateActionIcon();
+        }
     }
 
     /**
