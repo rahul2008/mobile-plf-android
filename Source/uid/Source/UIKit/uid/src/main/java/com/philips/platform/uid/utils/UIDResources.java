@@ -17,6 +17,7 @@ public class UIDResources extends Resources {
      * @param metrics Current display metrics to consider when
      *                selecting/computing resource values.
      * @param config  Desired device configuration to consider when
+     *                @since 3.0.0
      */
     public UIDResources(AssetManager assets, DisplayMetrics metrics, Configuration config) {
         super(assets, metrics, config);

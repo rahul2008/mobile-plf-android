@@ -1,13 +1,11 @@
 # Release Notes MobileUitoolkit Android
 
-
-SPRINT - MUITK.PI17.5E.Sprint1
-Story 103494: Android Bottom TabBar
+SPRINT - MUITK.PI17.5.SprintIP
 Story 93663: Android Discrete Slider
-
+Story 103494: Android Bottom TabBar
 
 SPRINT - MUITK.PI17.5.Sprint3
-Story 93663: Android Horizontal Slider
+Story 89460: Android Horizontal Slider
 
 SPRINT - MUITK.PI17.5.Sprint1
 Story 81965: Android About Screen

@@ -32,6 +32,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
@@ -42,7 +43,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -113,7 +113,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
 
@@ -157,6 +157,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
         mobileVerifyCodePresenter.cleanUp();
     }

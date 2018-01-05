@@ -324,7 +324,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mActivity = getActivity();
-        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
+        networkUtility = RegistrationConfiguration.getInstance().getComponent().getNetworkUtility();
         final View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);

@@ -339,6 +339,8 @@
     <string name="page_title_slider">Slider</string>
     <string name="slider_icon_start_label">Min</string>
     <string name="slider_icon_end_label">Max</string>
+    <string name="discrete_slider">Discrete Slider</string>
+    <string name="discrete_slider_label">Quantity</string>
 
     <!--Bottom tab bar-->
     <string name="page_title_bottom_tab_bar">Bottom tab bar</string>

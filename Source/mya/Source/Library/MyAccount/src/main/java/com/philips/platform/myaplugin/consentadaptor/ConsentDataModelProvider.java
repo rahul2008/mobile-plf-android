@@ -1,13 +1,14 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2017
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
 package com.philips.platform.myaplugin.consentadaptor;
 
 import com.philips.platform.myaplugin.uappadaptor.ConsentDataInterface;
 import com.philips.platform.myaplugin.uappadaptor.ConsentDataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-
-/**
- * Created by philips on 11/17/17.
- */
 
 public class ConsentDataModelProvider extends ConsentDataInterface {
     ConsentDataModel consentDataModel;

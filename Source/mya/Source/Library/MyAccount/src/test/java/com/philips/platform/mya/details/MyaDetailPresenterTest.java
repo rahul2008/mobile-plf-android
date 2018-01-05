@@ -23,6 +23,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.Date;
 
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,6 +44,10 @@ public class MyaDetailPresenterTest {
         context = RuntimeEnvironment.application;
         when(view.getContext()).thenReturn(context);
         myaDetailPresenter = new MyaDetailPresenter(view);
+        MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+        myaDetailPresenter.onViewActive(myaDetailsFragment);
+        myaDetailPresenter.onViewInactive();
+        assertNull(myaDetailPresenter.getView());
     }
 
     @Test

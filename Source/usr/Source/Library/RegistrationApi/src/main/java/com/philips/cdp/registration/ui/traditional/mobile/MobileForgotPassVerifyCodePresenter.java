@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.support.annotation.*;
 
 import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
@@ -22,7 +23,7 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
 
     public MobileForgotPassVerifyCodePresenter(MobileForgotPassVerifyCodeContract
                                                        mobileVerifyCodeContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }

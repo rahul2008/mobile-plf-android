@@ -64,7 +64,7 @@ public class UserRegistrationInitializer {
     private final CompositeDisposable disposable = new CompositeDisposable();
 
     private UserRegistrationInitializer() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mHandler = new Handler();
     }
 

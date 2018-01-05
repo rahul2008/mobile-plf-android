@@ -15,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -91,6 +92,10 @@ public final class UIDUtils {
             return context.getResources().getDimensionPixelSize(resourceId);
         }
         return 0;
+    }
+
+    public static boolean isLayoutRTL(View view) {
+        return ViewCompat.getLayoutDirection(view) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 
     public static int getActionBarHeight(Context context) {

@@ -2,13 +2,13 @@ package com.philips.cdp.registration.ui.social;
 
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
     User mUser;
 
     public MergeSocialToSocialAccountPresenter(MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract,User mUser) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mUser=mUser;
         this.mergeSocialToSocialAccountContract = mergeSocialToSocialAccountContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
