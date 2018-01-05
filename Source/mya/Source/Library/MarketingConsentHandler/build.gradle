@@ -19,89 +19,46 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
-        multiDexEnabled true
-        testApplicationId "com.philips.platform.mya.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        generatedDensities = []
-        // replace the below string with your own Google client ID. Make sure this is consistent
-        // with the values used in openid_appauth_idp_configs.xml
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles 'proguard-rules.pro'
-            consumerProguardFiles 'consumer-proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
             minifyEnabled false
             testCoverageEnabled true
         }
-
-    }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 
 dependencies {
-    compile deps.support.annotations
-    compile deps.joda_time
-    compile deps.gson
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile deps.dagger.dagger
-    compile deps.dagger.androidsupport
-    annotationProcessor deps.dagger.androidprocessor
-    annotationProcessor deps.dagger.compiler
+    // Mya Components
+    compile(project(':ConsentHandlerInterface'))
 
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':registrationApi']) {
-        if (directdependencies) {
-            compile project(path: dep)
-        } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+    // Philips Coco's
+    def dp = project.ext.has('useprojectdependencies')
+    if (dp) {
+        compile project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
         }
     }
 
     testCompile deps.junit
     testCompile deps.mockito
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile('org.robolectric:robolectric:3.4-rc2') {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile deps.powermock_junit
-    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
-    testCompile deps.powermock_mockito
-    testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
 }

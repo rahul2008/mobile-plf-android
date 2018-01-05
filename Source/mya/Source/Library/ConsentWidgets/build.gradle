@@ -1,22 +1,19 @@
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'jacoco'
+apply plugin: 'com.jakewharton.butterknife'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-jacoco {
-    toolVersion = versions.jacoco
-}
-
-def coverageSourceDirs = [
-        '../ConsentWidgets/src/main/java'
-]
 
 archivesBaseName = "ConsentWidgets"
 version = objcdp.getVersion(versions.mya_myAccount)
+
+buildscript {
+    dependencies {
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+    }
+}
 
 android {
     compileSdkVersion versions.sdk
@@ -72,17 +69,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-        exclude 'lib/arm64-v8a/librsjni.so'
-        exclude 'lib/arm64-v8a/libRSSupport.so'
-        exclude 'lib/armeabi-v7a/libblasV8.so'
-        exclude 'lib/armeabi-v7a/librsjni.so'
-        exclude 'lib/armeabi-v7a/libRSSupport.so'
-        exclude 'lib/mips/libblasV8.so'
-        exclude 'lib/mips/librsjni.so'
-        exclude 'lib/mips/libRSSupport.so'
-        exclude 'lib/x86/libblasV8.so'
-        exclude 'lib/x86/librsjni.so'
-        exclude 'lib/x86/libRSSupport.so'
     }
 
     lintOptions {
@@ -99,6 +85,9 @@ dependencies {
     annotationProcessor deps.dagger.androidprocessor
     annotationProcessor deps.dagger.compiler
 
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     // Philips Components
 
     def dp = project.ext.has('useprojectdependencies')
@@ -110,7 +99,8 @@ dependencies {
                     transitive = true
                 }
     }
-    compile(project(':ConsentAccessToolKit'))
+
+    compile(project(':ConsentHandlerInterface'))
 
     // Tests
     testCompile deps.gson
@@ -131,57 +121,6 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
     testCompile 'org.powermock:powermock-api-mockito:1.6.6'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
-}
-
-task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug'
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
 }
 
 task updateResources(type: Exec) {

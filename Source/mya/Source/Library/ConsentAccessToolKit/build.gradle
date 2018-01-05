@@ -78,6 +78,8 @@ dependencies {
     annotationProcessor deps.dagger.androidprocessor
     annotationProcessor deps.dagger.compiler
 
+    compile(project(':ConsentHandlerInterface'))
+
     def suffix = objcdp.getVersionSuffix()
 
     for (dep in [':registrationApi']) {
