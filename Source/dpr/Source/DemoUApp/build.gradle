@@ -1,136 +1,20 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
-apply plugin: 'com.neenbedankt.android-apt'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "devicepairingUApp"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    apply plugin: 'com.jfrog.artifactory'
-}
-
-group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.dpr_devicePairing)
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -159,63 +43,29 @@ android {
 }
 
 dependencies {
-    //Coco
 
-    def dp = project.ext.has('useprojectdependencies')
+    def suffix = objcdp.getVersionSuffix()
 
-    if(dp) {
-        compile project(':registrationApi')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
-            transitive = true
+    for (dep in [':registrationApi', ':uAppFwLib', ':commlib', ':dataServicesUApp', ':cloudcontroller']) {
+        if (directdependencies) {
+            compile project(path: dep)
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
-    if(dp) {
-        compile project(':uAppFwLib')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {            
-            transitive = true
-        }
-    }
+    compile deps.support.fragment
+    compile deps.support.appcompatv7
+    compile deps.support.design
 
-    if(dp) {
-        compile project(':dataServicesUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
-            exclude group: 'com.android.support'
-            exclude group: 'joda-time', module: 'joda-time'
-            transitive = true
-        }
-    }
+    compile deps.constraintlayout
 
-    if(dp) {
-        compile project(':commlib')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true) {            
-            exclude group: 'com.android.support'
-        }
-    }
+    compile deps.multidex
+    compile deps.ormlite.core
+    compile deps.ormlite.android
 
-    if(dp) {
-        compile project(':cloudcontroller')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-    }
+    testCompile deps.junit
 
-    //Android Support libraries
-    compile 'com.android.support:support-fragment:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.2'
-
-    //Third party
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-
-    //test
-    testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'

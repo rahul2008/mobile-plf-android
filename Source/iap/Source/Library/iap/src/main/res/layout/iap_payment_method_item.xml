@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.philips.cdp.uikit.customviews.UIKitRadioButton
+    <com.philips.platform.uid.view.widget.RadioButton
         android:id="@+id/radio_btn_payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_card_name"
         style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_card_holder_name"
         style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:textColor="@color/iap_address_text_color"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_card_validity"
         style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
