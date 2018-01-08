@@ -7,23 +7,26 @@
 
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
-
 import android.support.annotation.Nullable;
+
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 public class ConsentView {
 
     private final ConsentDefinition definition;
+    private final ConsentHandlerInterface handler;
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
 
     @Nullable
-    private RequiredConsent consent;
+    private Consent consent;
 
-    ConsentView(final ConsentDefinition definition) {
+    ConsentView(final ConsentDefinition definition, final ConsentHandlerInterface handler) {
         this.definition = definition;
+        this.handler = handler;
     }
 
     public String getConsentText() {
@@ -42,7 +45,11 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    public ConsentView storeConsent(RequiredConsent consent) {
+    public ConsentHandlerInterface getHandler() {
+        return handler;
+    }
+
+    public ConsentView storeConsent(Consent consent) {
         this.consent = consent;
         this.isLoading = false;
         this.isError = false;

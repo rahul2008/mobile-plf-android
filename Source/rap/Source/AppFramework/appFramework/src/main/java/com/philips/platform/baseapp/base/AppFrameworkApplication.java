@@ -45,6 +45,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -122,13 +123,13 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
       //  determineHybrisFlow();
+        RALog.d(LOG, "Mya state begin::");
+        initializeMya();
+        RALog.d(LOG, "Mya state end::");
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
         initializeIAP();
-        RALog.d(LOG, "Mya state begin::");
-        initializeMya();
-        RALog.d(LOG, "Mya state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -163,6 +164,7 @@ public class AppFrameworkApplication extends Application {
     public void initDataServiceState() {
         dataSyncScreenState = new DemoDataServicesState();
         dataSyncScreenState.init(this);
+        DataServicesManager.getInstance().synchronize();
     }
 
     public LoggingInterface getLoggingInterface() {

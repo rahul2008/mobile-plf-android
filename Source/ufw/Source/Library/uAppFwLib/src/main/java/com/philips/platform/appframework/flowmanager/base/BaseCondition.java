@@ -8,15 +8,28 @@ package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
 
+/**
+ * This is the base class for all the conditions that needs to be used by the proposition. This is an abstract class. Any condition that is defined in the AppFlow.json will have create a corresponding class and extend from this base class. This ensures the FlowManager can access and check for this condition in getNextState internally.
+ * @since 1.1.0
+ */
 public abstract class BaseCondition {
 
     private String conditionID;
 
+    /**
+     * Constructor of BaseCondition
+     * @param conditionID The condition ID
+     * @since 1.1.0
+     */
     public BaseCondition(String conditionID){
         this.conditionID = conditionID;
     }
 
-
+    /**
+     * This API is used to get the condition ID for this Condition Object.
+     * @return returns the condition ID
+     * @since 1.1.0
+     */
     public String getConditionID() {
         return conditionID;
     }
@@ -24,9 +37,10 @@ public abstract class BaseCondition {
     /**
      * This Method will return true if the condition satisfies otherwise return false.
      *
-     * @param context The context to use.  Usually your {@link android.app.Application}
+     * @param context The context to use  Usually your {@link android.app.Application}
      *                or {@link android.app.Activity} object.
-     * @return 'true' if the condition satisfies otherwise return false.
+     * @return 'true' if the condition satisfies otherwise return false
+     * @since 1.1.0
      */
     public abstract boolean isSatisfied(Context context);
 }

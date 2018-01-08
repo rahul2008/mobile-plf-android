@@ -13,6 +13,7 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -48,6 +49,7 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     private static final int CHANGE_NUMBER_REQUEST_CODE = 102;
     private static final String ERROR_DESC = "error_description";
     private static final String ERROR_MSG = "message";
+    private String mobileNumberStr;
 
     private static final String STAT = "stat";
 
@@ -60,12 +62,13 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MobileVerifyResendCodePresenter(MobileVerifyResendCodeFragment mobileVerifyCodeContract) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
     public void resendOTPRequest(final String mobileNumber) {
+        mobileVerifyCodeContract.disableResendButton();
 
         Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(VERIFICATION_SMS_CODE_SERVICE_ID).cache();
 
@@ -120,19 +123,21 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString(HTTP_SERVICE_RESPONSE);
-        mobileVerifyCodeContract.hideProgressSpinner();
 
         if (response == null || response.isEmpty()) {
+            mobileVerifyCodeContract.hideProgressSpinner();
             mobileVerifyCodeContract.showSmsSendFailedError();
             return;
         }
 
         if(resultCode == RESEND_OTP_REQUEST_CODE) {
+            mobileVerifyCodeContract.hideProgressSpinner();
             handleResendSms(response);
-        }
-        if(resultCode == CHANGE_NUMBER_REQUEST_CODE){
+        } else if(resultCode == CHANGE_NUMBER_REQUEST_CODE){
             RLog.d("CHANGE_NUMBER_REQUEST_CODE","CHANGE_NUMBER_REQUEST_CODE"+response);
             handlePhoneNumberChange(response);
+        } else{
+            mobileVerifyCodeContract.hideProgressSpinner();
         }
     }
 
@@ -144,11 +149,15 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
             if (jsonObject.get(STAT).equals("ok")) {
                 RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
                 mobileVerifyCodeContract.refreshUser();
-                mobileVerifyCodeContract.enableResendButton();
+          //      mobileVerifyCodeContract.enableResendButton();
             } else {
+                mobileVerifyCodeContract.hideProgressSpinner();
+
                 mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode").toString());
             }
         } catch (Exception e) {
+            mobileVerifyCodeContract.hideProgressSpinner();
+
             mobileVerifyCodeContract.showSmsSendFailedError();
 
         }
@@ -189,13 +198,14 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
         serviceDiscoveryWrapper = wrapper;
     }
 
-    public void updatePhoneNumber(String uuid, Context context) {
-        Intent smsActivationIntent = updatePhoneNumberIntent(uuid,context);
+    public void updatePhoneNumber(String mobilenumber, Context context) {
+        mobileNumberStr = mobilenumber;
+        Intent smsActivationIntent = updatePhoneNumberIntent(mobilenumber,context);
         mobileVerifyCodeContract.startService(smsActivationIntent);
     }
 
 
-    private Intent updatePhoneNumberIntent(String url, Context mContext) {
+    private Intent updatePhoneNumberIntent(String mobilenumber, Context mContext) {
 
         final String receiverKey="receiver";
         final String bodyContentKey= "bodyContent";
@@ -205,7 +215,7 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
 
-        String bodyContent = getUpdateMobileNUmberURL(url);
+        String bodyContent = getUpdateMobileNUmberURL(mobilenumber);
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER BODY *** : " + bodyContent);
 
         httpServiceIntent.putExtra(receiverKey, receiver);

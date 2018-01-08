@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 
 /**
-This class needs to be extended for defining the input Type prerequisites for launching micro app
+This class needs to be extended for defining the input Type prerequisites for launching micro app.
+ @since 1.0.0
  */
 public class UappDependencies implements Serializable {
 
@@ -17,8 +18,9 @@ public class UappDependencies implements Serializable {
     protected AppInfraInterface mAppInfraInterface;
 
     /**
-     * Contructor for UappDependencies
-     * @param appInfra : Requires appInfraInterface object
+     * Constructor for UappDependencies.
+     * @param appInfra Requires appInfraInterface object
+     * @since 1.0.0
      */
 
     public UappDependencies(AppInfraInterface appInfra)
@@ -28,8 +30,9 @@ public class UappDependencies implements Serializable {
     }
 
     /**
-     * To retrieve AppInfra Interface object
+     * To retrieve AppInfra Interface object.
      * @return AppInfraInterface Object
+     * @since 1.0.0
      */
     public AppInfraInterface getAppInfra() {
         return mAppInfraInterface;

@@ -29,7 +29,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public RegistrationSettingsURL() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
     private static final String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";

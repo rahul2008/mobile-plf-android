@@ -66,8 +66,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
-
-
+import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
 
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
@@ -269,6 +268,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         showError(errorMessage);
     }
 
+    @Override
+    public void updatePharmacyList(List<Pharmacy> pharmacies) {
+        if(null != pharmacies){
+            pharmaciesList = pharmacies;
+        }
+    }
+
     /**
      * This method handles the filter for Mail order filtering only Mail order content.
      */
@@ -429,9 +435,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     public void showShippingFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THS_SHIPPING_ADDRESS,address);
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper, address);
-        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, bundle, true);
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {

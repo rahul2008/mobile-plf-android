@@ -11,6 +11,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -37,7 +38,10 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -62,13 +66,13 @@ public class MyaInterfaceTest {
     private Context context;
 
     private final int A_SPECIFIC_CONTAINER_ID = 12345678;
-    public static final String MYAFRAGMENT = MY_ACCOUNTS_CALLEE_TAG;
+    public static final String MYAFRAGMENT = MY_ACCOUNTS_INVOKE_TAG;
 
     @Mock
     User mockUser;
-
     @Mock
     private CatkComponent mockCatkComponent;
+    private List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
 
     @Before
     public void setup() {
@@ -79,7 +83,7 @@ public class MyaInterfaceTest {
         when(userDataModelProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {
             @Override
-            public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+            protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
                 return userDataModelProvider;
             }
         };
@@ -88,16 +92,14 @@ public class MyaInterfaceTest {
         fragmentActivity = new FragmentActivityMock(fragmentManager);
         appInfra = new AppInfraInterfaceMock();
         actionBarListener = new ActionBarListenerMock();
-
     }
-
 
     @Test
     public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
         whenCallingLaunchWithAddToBackstack();
-        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaTabFragment.class, MY_ACCOUNTS_CALLEE_TAG);
-        thenAddToBackStackWasCalled(MY_ACCOUNTS_CALLEE_TAG);
+        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaTabFragment.class, MY_ACCOUNTS_INVOKE_TAG);
+        thenAddToBackStackWasCalled(MY_ACCOUNTS_INVOKE_TAG);
         thenCommitAllowingStateLossWasCalled();
         thenFragmentHasBundle();
     }
@@ -130,13 +132,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
@@ -144,7 +146,7 @@ public class MyaInterfaceTest {
     private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass, String expectedTag) {
         assertEquals(expectedParentContainerId, fragmentTransaction.replace_containerId);
         assertTrue(fragmentTransaction.replace_fragment.getClass().isAssignableFrom(expectedFragmentClass));
-//        assertEquals(expectedTag, fragmentTransaction.replace_tag);
+        // assertEquals(expectedTag, fragmentTransaction.replace_tag);
     }
 
     private void thenAddToBackStackWasCalled(String expectedBackStackId) {
@@ -152,11 +154,11 @@ public class MyaInterfaceTest {
     }
 
     private void thenAddToBackStackWasNotCalled() {
-//        assertNull(fragmentTransaction.addToBackStack_backStackId);
+        // assertNull(fragmentTransaction.addToBackStack_backStackId);
     }
 
     private void thenFragmentHasBundle() {
-//        assertNotNull(fragmentTransaction.replace_fragment.getArguments());
+        // assertNotNull(fragmentTransaction.replace_fragment.getArguments());
     }
 
     private void thenCommitAllowingStateLossWasCalled() {
@@ -166,7 +168,5 @@ public class MyaInterfaceTest {
     private void thenStartActivityWasCalledWithIntent() {
         assertNotNull(launchInput.context.startActivity_intent);
     }
-
-
 
 }

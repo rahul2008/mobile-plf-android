@@ -7,13 +7,11 @@ package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.ConsentResponseListener;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -75,6 +73,9 @@ public class DataPushSynchronise extends EventMonitor {
     @NonNull
     List<? extends DataSender> senders;
 
+    @Inject
+    ConsentInteractor consentInteractor;
+
     List<? extends DataSender> configurableSenders;
 
     private DataServicesManager mDataServicesManager;
@@ -119,8 +120,7 @@ public class DataPushSynchronise extends EventMonitor {
                 public void run() {
                     if (sender instanceof MomentsDataSender) {
                         try {
-                            final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
-                            syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                            syncMoments(sender, nonSynchronizedData, countDownLatch);
                         } catch (Exception ex) {
                             countDownLatch.countDown();
                         }
@@ -144,38 +144,34 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     @VisibleForTesting
-    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit, final CountDownLatch countDownLatch) {
-        accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
-            @Override
-            public void onResponseSuccessConsent(List<Consent> responseData) {
-                if (responseData != null && !responseData.isEmpty()) {
-                    Consent consentModel = responseData.get(0);
-                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
-                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
-                        executor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    syncOthers(sender, nonSynchronizedData);
-                                } finally {
-                                    countDownLatch.countDown();
-                                }
-                            }
-                        });
-                    } else {
-                        countDownLatch.countDown();
-                    }
+    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
 
-                } else {
-                    countDownLatch.countDown();
-                    Log.d(" Consent : ", "no consent for type found on server");
-                }
+
+        consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentCallback() {
+
+
+            @Override
+            public void onGetConsentFailed(ConsentError error) {
+                countDownLatch.countDown();
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentNetworkError consentNetworkError) {
-                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentNetworkError.getMessage());
-                countDownLatch.countDown();
+            public void onGetConsentRetrieved(Consent consent) {
+                if (consent.isAccepted()) {
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                syncOthers(sender, nonSynchronizedData);
+                            } finally {
+                                countDownLatch.countDown();
+                            }
+                        }
+                    });
+                } else {
+                    countDownLatch.countDown();
+                }
+
             }
         });
     }

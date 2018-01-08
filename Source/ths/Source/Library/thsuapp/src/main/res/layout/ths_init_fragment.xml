@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha=".2"
-        android:background="@drawable/ths_welcome"
+        android:src="@mipmap/ths_welcome_image"
         android:scaleType="centerCrop"
         />
 </RelativeLayout>

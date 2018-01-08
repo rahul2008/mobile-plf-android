@@ -14,19 +14,20 @@ import java.io.Serializable;
 
 
 /**
- The purpose of the class if to launch microapp as activity
+ * The purpose of the class if to launch micro-app as activity
+ * @since 1.0.0
  */
 
 public class ActivityLauncher extends UiLauncher {
 
-
-    private static final long serialVersionUID = 8088033137658622938L;
+    private static final long serialVersionUID = -4985232973624436758L;
 
     /**
      * These are Flags used for specifying screen orientation.
      * <p/>
      * <p> <b>Note : </b> The flags are similar to default android screen orientation flags</p>
      */
+
 
     public enum ActivityOrientation {
         SCREEN_ORIENTATION_UNSPECIFIED(-1),
@@ -52,8 +53,9 @@ public class ActivityLauncher extends UiLauncher {
             this.value = value;
         }
         /**
-         To retrive Screen Orientation
-         @return  Orientation value
+         To retrieve Screen Orientation.
+         @return Orientation value
+         @since 1.0.0
          */
 
         public int getOrientationValue() {
@@ -62,15 +64,8 @@ public class ActivityLauncher extends UiLauncher {
     }
     protected static int mUiKitTheme;
 
-
-    /**
-     Specific Screen orientation
-     */
     protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
 
-    /**
-     Bundle object
-     */
     protected Bundle mBundle;
 
     private ThemeConfiguration mDLSThemeConfiguration;
@@ -78,9 +73,10 @@ public class ActivityLauncher extends UiLauncher {
     @Deprecated
     /**
      Constructor
-     @param screenOrientation : takes screen Oreintation
-     @param uikitTheme takes Uikit Theme
-
+     @deprecated deprecated since 3.0.0
+     @param screenOrientation takes screen Orientation
+     @param uikitTheme takes UIKit Theme
+     @since 1.0.0
 
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation ,int uikitTheme) {
@@ -91,10 +87,11 @@ public class ActivityLauncher extends UiLauncher {
     @Deprecated
     /**
      Constructor
+     @deprecated deprecated since 3.0.0
      @param screenOrientation : takes screen Orientation
      @param uikitTheme takes Uikit Theme
      @param bundle bundle object
-
+     @since 1.0.0
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation,int uikitTheme, Bundle bundle) {
         mScreenOrientation = screenOrientation;
@@ -105,11 +102,11 @@ public class ActivityLauncher extends UiLauncher {
 
     /**
      Constructor
-     @param screenOrientation : takes screen Orientation
+     @param screenOrientation takes screen Orientation
      @param dlsThemeConfiguration takes DLS configuration
      @param dlsUiKitTheme takes UiKit Theme
      @param bundle bundle object
-
+     @since 2.2.0
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
                             int dlsUiKitTheme, Bundle bundle) {
@@ -119,26 +116,37 @@ public class ActivityLauncher extends UiLauncher {
         mUiKitTheme = dlsUiKitTheme;
     }
     /**
-     @returns screen orientation
+     * Get the screen orientation
+     @return screen orientation
+     @since 1.0.0
      */
     public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
     }
+
     /**
-     @returns uikitTheme
+     * Get the UI Kit theme
+     * @return UI Kit theme
+     * @since 1.0.0
      */
     public int getUiKitTheme() {
         return this.mUiKitTheme;
     }
 
-
     /**
-     @returns Bundle
+     * Get the bundle
+     * @return returns the bundle
+     * @since 1.0.0
      */
     public Bundle getBundle() {
         return mBundle;
     }
 
+    /**
+     * Get the DLS Theme Configuration
+     * @return returns the theme configuration
+     * @since 2.2.0
+     */
     public ThemeConfiguration getDlsThemeConfiguration() {
         return mDLSThemeConfiguration;
     }

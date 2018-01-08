@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.traditional;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -38,7 +39,7 @@ public class AccountActivationPresenterTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
 
         accountActivationPresenter = new AccountActivationPresenter(accountActivationContractMock, registrationHelperMock);
 

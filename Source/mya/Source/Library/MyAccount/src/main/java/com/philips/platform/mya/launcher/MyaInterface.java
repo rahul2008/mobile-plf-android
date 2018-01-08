@@ -23,17 +23,23 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
+import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
-
+/**
+ * This class is used to launch myaccount either as fragment or activity.
+ *
+ * @since 2017.5.0
+ */
 public class MyaInterface implements UappInterface {
 
     public static String USER_PLUGIN = "user_plugin";
+
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
      * @param uiLauncher      - ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput - MyaLaunchInput
+     * @since 2017.5.0
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -56,7 +62,7 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+    protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
         return new UserDataModelProvider(myaLaunchInput.getContext());
     }
 
@@ -81,11 +87,13 @@ public class MyaInterface implements UappInterface {
      *
      * @param uappDependencies - With an AppInfraInterface instance.
      * @param uappSettings     - With an application provideAppContext.
+     * @since 2017.5.0
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
+        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentHandlerMappingList());
     }
 
 }

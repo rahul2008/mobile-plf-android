@@ -16,7 +16,6 @@ import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -33,7 +32,7 @@ class CoppaConsentUpdater {
 
     CoppaConsentUpdater(final Context context) {
         mContext = context;
-        timeInterface = CoppaInterface.getComponent().getTimeInterface();
+        timeInterface = RegistrationConfiguration.getInstance().getComponent().getTimeInterface();
     }
 
     /**

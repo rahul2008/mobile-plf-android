@@ -2,14 +2,14 @@ package com.philips.platform.csw;
 
 import android.os.Bundle;
 
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.csw.mock.ActionBarListenerMock;
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;
 import com.philips.platform.csw.mock.LayoutInflatorMock;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
+import com.philips.platform.mya.consentwidgets.BuildConfig;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class CswFragmentTest {
 
     @Before
@@ -82,7 +82,6 @@ public class CswFragmentTest {
     public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState() {
         givenBundleStateWithValues(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
-        thenConsentDefinitionsIs(CONSENT_DEFINITIONS);
         thenIsAddedToBackStackIs(IS_ADDED_TO_BACKSTACK);
     }
 
@@ -148,14 +147,12 @@ public class CswFragmentTest {
     }
 
     private void givenArgumentsAre(List<ConsentDefinition> definitions, boolean isAddedToBackStack) {
-        ConsentBundleConfig config = new ConsentBundleConfig(definitions);
-        Bundle configBundle = config.toBundle();
-        configBundle.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
-        fragment.setArguments(configBundle);
+        fragment.setArguments(new Bundle());
+        fragment.getArguments().putBoolean(CswFragment.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
     }
 
     private void givenBundleStateWithValues(List<ConsentDefinition> consentDefinitions, boolean addedToBackStack) {
-        state = new ConsentBundleConfig(consentDefinitions).toBundle();
+        state = new Bundle();
         state.putBoolean(BUNDLE_KEY_ADDTOBACKSTACK, addedToBackStack);
     }
 
@@ -217,10 +214,6 @@ public class CswFragmentTest {
 
     private void thenResourceIdReturnedIs(int expectedResourceId) {
         assertEquals(expectedResourceId, actualResourceId);
-    }
-
-    private void thenConsentDefinitionsIs(List<ConsentDefinition> consentDefinitions) {
-        assertEquals(consentDefinitions, fragment.getConsentDefinitions());
     }
 
     private void thenStateContainsIsAddedToBackStack(boolean expected) {

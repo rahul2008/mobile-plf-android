@@ -78,8 +78,8 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"All",
-      "fileLogEnabled":false,
+      "logLevel":"Info",
+      "fileLogEnabled":true,
       "consoleLogEnabled":true,
       "componentLevelLogEnabled":false,
       "componentIds": [

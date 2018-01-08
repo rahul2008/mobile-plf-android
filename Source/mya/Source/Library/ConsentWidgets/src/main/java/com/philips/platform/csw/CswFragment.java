@@ -15,20 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.util.List;
-
 public class CswFragment extends Fragment implements BackEventListener {
+
+    public static final String BUNDLE_KEY_ADDTOBACKSTACK = "addToBackStack";
+
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
-
-    private ConsentBundleConfig config;
 
     private boolean isAddedToBackStack;
 
@@ -37,8 +34,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
 
         if (getArguments() != null) {
-            config = new ConsentBundleConfig(getArguments());
-            isAddedToBackStack = getArguments().getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, false);
+            isAddedToBackStack = getArguments().getBoolean(BUNDLE_KEY_ADDTOBACKSTACK, false);
         }
 
         mFragmentManager = getmFragmentManager();
@@ -52,8 +48,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
         if (state != null) {
-            config = new ConsentBundleConfig(state);
-            isAddedToBackStack = state.getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK);
+            isAddedToBackStack = state.getBoolean(BUNDLE_KEY_ADDTOBACKSTACK);
         }
     }
 
@@ -61,8 +56,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         if (state != null) {
-            state.putAll(config.toBundle());
-            state.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
+            state.putBoolean(BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
         }
     }
 
@@ -93,9 +87,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     }
 
     private PermissionView buildPermissionView() {
-        PermissionView permissionView = new PermissionView();
-        permissionView.setArguments(config.toBundle());
-        return permissionView;
+        return new PermissionView();
     }
 
     public int getFragmentCount() {
@@ -127,10 +119,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     @Override
     public boolean handleBackEvent() {
         return !(onBackPressed());
-    }
-
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return config.getConsentDefinitions();
     }
 
     public boolean getIsAddedToBackStack() {

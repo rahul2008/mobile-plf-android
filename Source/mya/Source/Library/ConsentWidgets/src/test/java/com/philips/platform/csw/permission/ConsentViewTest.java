@@ -1,12 +1,14 @@
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -16,14 +18,16 @@ import static org.junit.Assert.*;
 public class ConsentViewTest {
 
     private String TYPE_MOMENT = "moment";
+    @Mock
+    private ConsentHandlerInterface mockConsentHandler;
 
     @Before
     public void setUp() throws Exception {
         consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", Collections.singletonList(TYPE_MOMENT), 1, Locale.CANADA);
-        currentConsentRejected = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
-        currentConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
-        oldConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
-        consentView = new ConsentView(consentDefinition);
+        currentConsentRejected = new Consent(new BackendConsent(Locale.ENGLISH, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
+        currentConsentAccepted = new Consent(new BackendConsent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
+        oldConsentAccepted = new Consent(new BackendConsent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
+        consentView = new ConsentView(consentDefinition, mockConsentHandler);
     }
 
     @Test
@@ -63,7 +67,7 @@ public class ConsentViewTest {
     }
 
     private void whenConsentIsVersion(int version) {
-        consentView.storeConsent(new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, version), consentDefinition));
+        consentView.storeConsent(new Consent(new BackendConsent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, version), consentDefinition));
     }
 
     @Test
@@ -105,9 +109,9 @@ public class ConsentViewTest {
     }
 
     private ConsentDefinition consentDefinition;
-    private RequiredConsent currentConsentRejected;
-    private RequiredConsent currentConsentAccepted;
-    private RequiredConsent oldConsentAccepted;
+    private Consent currentConsentRejected;
+    private Consent currentConsentAccepted;
+    private Consent oldConsentAccepted;
     private ConsentView consentView;
 
 }

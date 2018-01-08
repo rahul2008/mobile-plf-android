@@ -3,14 +3,13 @@ package com.philips.platform.mya.settings;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by philips on 11/23/17.
- */
 public class SettingsModelTest {
 
-    SettingsModel settingsModel;
+    private SettingsModel settingsModel;
+
     @Before
     public void setUp(){
         settingsModel = new SettingsModel();
@@ -37,5 +36,18 @@ public class SettingsModelTest {
     @Test
     public void shouldNotNull_ThirdItem(){
         assertNotNull(settingsModel.getThirdItem());
+    }
+
+    @Test
+    public void testSettersAndGetters() {
+        settingsModel.setFirstItem("first_item");
+        settingsModel.setSecondItem("second_item");
+        settingsModel.setThirdItem("third_item");
+        settingsModel.setItemCount(10);
+
+        assertEquals(settingsModel.getFirstItem(),"first_item");
+        assertEquals(settingsModel.getSecondItem(),"second_item");
+        assertEquals(settingsModel.getThirdItem(),"third_item");
+        assertEquals(settingsModel.getItemCount(),10);
     }
 }

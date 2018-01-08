@@ -114,7 +114,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mActivity = getActivity();
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
@@ -207,6 +207,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             }
             trackHandler();
             try {
+                currentFragment = mFragmentManager.getFragments().get(count-1);
                 mFragmentManager.popBackStack();
             } catch (IllegalStateException e) {
                 /**
@@ -329,8 +330,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void replaceWithHomeFragment() {
         try {
             if (null != mFragmentManager) {
+                currentFragment = new HomeFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, currentFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException e) {
@@ -339,6 +341,14 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                             + e.getMessage());
         }
     }
+    public boolean isHomeFragment() {
+        if (currentFragment instanceof HomeFragment) {
+            return true;
+        }
+        return false;
+    }
+
+    Fragment currentFragment;
 
     public void addFragment(Fragment fragment) {
         try {
@@ -347,6 +357,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
                 fragmentTransaction.addToBackStack(fragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
+                currentFragment = fragment;
             }
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

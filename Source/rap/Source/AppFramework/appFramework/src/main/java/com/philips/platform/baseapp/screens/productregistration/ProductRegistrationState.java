@@ -26,10 +26,13 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.philips.cdp.digitalcare.R.string.dcc_Help_Support;
 
 /**
  * This class contains all initialization & Launching details of Product Registration
@@ -108,7 +111,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void onProdRegBack(List<RegisteredProduct> list, UserWithProducts userWithProducts) {
-
+        ((HamburgerActivity) activityContext).updateActionBar(dcc_Help_Support, false);
     }
 
     @Override

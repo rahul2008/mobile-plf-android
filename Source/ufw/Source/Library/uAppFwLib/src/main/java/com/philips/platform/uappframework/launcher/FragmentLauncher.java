@@ -12,14 +12,18 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.io.Serializable;
 
+/**
+ * Needs to be instantiated for launching micro app as Fragment.
+ * @since 1.0.0
+ */
 
-public class FragmentLauncher extends UiLauncher  {
+public class FragmentLauncher extends UiLauncher {
 
-
-    private static final long serialVersionUID = -7617563338988332424L;
+    private static final long serialVersionUID = -8850230596535485531L;
     /**
         * Resource container ID. If you would like to launch uApp using fragment.
     */
+
     protected int mContainerResId;
 
 
@@ -30,11 +34,13 @@ public class FragmentLauncher extends UiLauncher  {
      */
     protected transient FragmentActivity mFragmentActivity = null;
 
+
     /**
      * FragmentLauncher constructor for launching the uApp.
      * @param fragmentActivity Associated fragment Activity
      * @param containerResId The res Id of the container
      * @param actionBarListener instance of ActionBarListener
+     * @since 1.0.0
      */
 
     public FragmentLauncher(FragmentActivity fragmentActivity,
@@ -46,20 +52,26 @@ public class FragmentLauncher extends UiLauncher  {
     }
 
     /**
+     * Get the resource ID of the parent container
      * @return  fragment Container resource ID
+     * @since 1.0.0
      */
     public int getParentContainerResourceID() {
         return mContainerResId;
     }
     /**
+     * Get the Action Bar listener object
      * @return actionBar listener object
+     * @since 1.0.0
      */
     public ActionBarListener getActionbarListener() {
         return mActionBarListener;
     }
 
     /**
+     * Get the associated fragment activity
      * @return associated fragment activity
+     * @since 1.0.0
      */
     public FragmentActivity getFragmentActivity() {
         return mFragmentActivity;

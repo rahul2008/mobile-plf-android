@@ -7,26 +7,25 @@
 
 package com.philips.platform.csw.permission.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.csw.permission.ConsentToggleListener;
-import com.philips.platform.csw.permission.ConsentView;
-import com.philips.platform.csw.permission.HelpClickListener;
-import com.philips.platform.mya.consentwidgets.R;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.csw.permission.ConsentToggleListener;
+import com.philips.platform.csw.permission.ConsentView;
+import com.philips.platform.csw.permission.HelpClickListener;
+import com.philips.platform.mya.consentwidgets.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHolder> {
 
@@ -89,27 +88,27 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
     }
 
-    public void onGetConsentFailed(ConsentNetworkError error) {
+    public void onGetConsentFailed(ConsentError error) {
         for (ConsentView consentView : items) {
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
         notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
 
-    public void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
+    public void onCreateConsentFailed(ConsentDefinition definition, ConsentError error) {
         int position = getIndexOfViewWithDefinition(definition);
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
             notifyItemChanged(position + HEADER_COUNT);
         }
     }
 
-    public void onCreateConsentSuccess(RequiredConsent consent) {
+    public void onCreateConsentSuccess(Consent consent) {
         int position = getIndexOfViewWithDefinition(consent.getDefinition());
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);

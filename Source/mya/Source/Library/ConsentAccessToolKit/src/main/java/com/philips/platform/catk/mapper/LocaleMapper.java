@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.catk.mapper;
 
 import java.util.Locale;
@@ -15,8 +22,8 @@ public class LocaleMapper {
     }
 
     public static String toLanguageString(Locale locale) {
-        if(isMissingCountry(locale)) throw new IllegalStateException("Consent is missing a Locale that specifies a country:" + locale);
-        if(isMissingLanguage(locale)) throw new IllegalStateException("Consent is missing a Locale that specifies a language:" + locale);
+        if(isMissingCountry(locale)) throw new IllegalStateException("BackendConsent is missing a Locale that specifies a country:" + locale);
+        if(isMissingLanguage(locale)) throw new IllegalStateException("BackendConsent is missing a Locale that specifies a language:" + locale);
         return locale.toString().replace('_', '-');
     }
 

@@ -13,6 +13,7 @@ public class CcSettings extends UappSettings {
     /**
      * to set the context that will be used across the micro app
      * @param applicationContext
+     * @since 1.0.0
      */
     public CcSettings(Context applicationContext) {
         super(applicationContext);

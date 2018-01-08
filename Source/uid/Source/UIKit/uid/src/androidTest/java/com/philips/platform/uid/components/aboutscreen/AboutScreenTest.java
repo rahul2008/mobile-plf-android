@@ -9,22 +9,18 @@ package com.philips.platform.uid.components.aboutscreen;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.DrawableMatcher;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.AboutScreen;
-import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -121,7 +117,7 @@ public class AboutScreenTest {
 
     @Test
     public void verifyAboutScreenShieldGravity() {
-        getAboutScreenShield().check(matches(ViewPropertiesMatchers.hasSameGravity(Gravity.CENTER_HORIZONTAL)));
+        getAboutScreenShield().check(matches(ViewPropertiesMatchers.hasSameLinearLayoutGravity(Gravity.CENTER_HORIZONTAL)));
     }
 
     @Test
@@ -143,7 +139,7 @@ public class AboutScreenTest {
 
     @Test
     public void verifyAboutScreenTitleGravity() {
-        getAboutScreenTitle().check(matches(ViewPropertiesMatchers.hasSameGravity(Gravity.CENTER_HORIZONTAL)));
+        getAboutScreenTitle().check(matches(ViewPropertiesMatchers.hasSameLinearLayoutGravity(Gravity.CENTER_HORIZONTAL)));
     }
 
     @Test

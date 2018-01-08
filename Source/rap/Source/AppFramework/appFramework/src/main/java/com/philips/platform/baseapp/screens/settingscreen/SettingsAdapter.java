@@ -25,6 +25,8 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
@@ -360,6 +362,9 @@ public class SettingsAdapter extends BaseAdapter {
                 RALog.d(TAG, " UserRegistration onLogoutSuccess  - ");
                 //    ((AbstractAppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                 //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
+                if(activityContext instanceof HamburgerActivity){
+                    ((HamburgerActivity)activityContext).setUserNameAndLogoutText();
+                }
                 progressDialog.cancel();
                 if (activityContext instanceof IndexSelectionListener) {
                     ((IndexSelectionListener) activityContext).updateSelectionIndex(0);

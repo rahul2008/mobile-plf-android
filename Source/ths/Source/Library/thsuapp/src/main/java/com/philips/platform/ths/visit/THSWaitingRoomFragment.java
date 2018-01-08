@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
@@ -21,7 +22,6 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -31,7 +31,6 @@ import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
 
@@ -49,13 +48,11 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
-    protected long waitingPeriodStartTime;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_waiting_room, container, false);
-        //waitingPeriodStartTime= THSTagUtils.getCurrentTime();
         Bundle bundle = getArguments();
         mVisit = bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
@@ -65,7 +62,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
         mProviderImageView = (CircularImageView) view.findViewById(R.id.details_providerImage);
-
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return view;
     }
 
@@ -73,7 +70,6 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setRetainInstance(true);
         actionBarListener = getActionBarListener();
         doTaggingUponStartWaiting();
         mTHSWaitingRoomPresenter.startVisit();
@@ -81,10 +77,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
     private void doTaggingUponStartWaiting() {
 
-        if(THSManager.getInstance().getThsTagging() == null){
-            if(THSManager.getInstance().getLoggingInterface() != null) {
+        if (THSManager.getInstance().getThsTagging() == null) {
+            if (THSManager.getInstance().getLoggingInterface() != null) {
                 AmwellLog.e("TagInterface", "Tagging interface is null");
-            }else {
+            } else {
                 Log.e(AmwellLog.LOG, "TagInterface and logging interface are null");
             }
             return;
@@ -93,18 +89,18 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
-        THSTagUtils.doTrackActionWithInfo( "totalPrepartationTimeEnd",null,null);
+        THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeEnd", null, null);
 
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitInLineInstantAppointment");
 
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalWaitingTimeInstantAppointment");
-        THSTagUtils.doTrackActionWithInfo( "waitingTimeStartForInstantAppointment",null,null);
+        THSTagUtils.doTrackActionWithInfo("waitingTimeStartForInstantAppointment", null, null);
     }
 
     protected void doTaggingUponStopWaiting() {
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
-        THSTagUtils.doTrackActionWithInfo( "waitingTimeEndForInstantAppointment",null,null);
-  }
+        THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
+    }
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
@@ -127,6 +123,11 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
@@ -146,7 +147,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             // video call does not completed succesfully so sending back user is
             doTaggingUponStopWaiting();
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
-            mTHSWaitingRoomPresenter.showVisitUnSuccess(true,true,false);
+            mTHSWaitingRoomPresenter.showVisitUnSuccess(true, true, false);
         }
     }
 
@@ -195,13 +196,14 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
 
     }
+
     @Override
     public boolean handleBackEvent() {
         showCancelDialog();
         return true;
     }
 
-    private void showCancelDialog(){
+    private void showCancelDialog() {
         THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
         tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
         tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);

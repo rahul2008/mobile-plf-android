@@ -22,6 +22,7 @@ public class CcLaunchInput extends UappLaunchInput {
     /**
      * sets the product model selection type with catalog, sector and ctn list.
      * @param productModelSelectionType
+     * @since 1.0.0
      */
     public void setProductModelSelectionType(ProductModelSelectionType productModelSelectionType) {
         this.productModelSelectionType = productModelSelectionType;
@@ -34,6 +35,7 @@ public class CcLaunchInput extends UappLaunchInput {
     /**
      * sets the listener for consumercare
      * @param consumerCareListener
+     * @since 1.0.0
      */
     public void setConsumerCareListener(CcListener consumerCareListener) {
         this.consumerCareListener = consumerCareListener;
@@ -46,6 +48,7 @@ public class CcLaunchInput extends UappLaunchInput {
     /**
      * sets the live chat url where vertical can customize the url
      * @param liveChatUrl
+     * @since 1.0.0
      */
     public void setLiveChatUrl(String liveChatUrl) {
         this.liveChatUrl = liveChatUrl;

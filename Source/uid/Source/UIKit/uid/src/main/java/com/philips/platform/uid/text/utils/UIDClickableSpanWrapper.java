@@ -25,6 +25,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
          * @param tag tag attached with wrapper.URL in case of {@link URLSpan}
          * @return {@code Boolean.TRUE} to indicate the call has been handled. In this case, the wrapped click action will not be called.
          * If {@code Boolean.FALSE} is returned, wrapped span's click is clicked.
+         * @since 3.0.0
          */
         boolean interceptClick(CharSequence tag);
     }
@@ -36,6 +37,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
      * Initializes the wrapper with another {@link ClickableSpan} with no callback.
      *
      * @param clickableSpan clickablespan
+     *                      @since 3.0.0
      */
     public UIDClickableSpanWrapper(ClickableSpan clickableSpan) {
         this(clickableSpan, null);
@@ -45,6 +47,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
      * Initializes the wrapper with another {@link ClickableSpan} with custom Runnable.
      *
      * @param clickableSpan clickablespan
+     *                      @since 3.0.0
      */
     public UIDClickableSpanWrapper(ClickableSpan clickableSpan, Runnable clickRunnable) {
         super(clickRunnable);
@@ -71,6 +74,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
      * Returns the tag associated with span. Return's url if the wrapped span is a {@link URLSpan}.
      *
      * @return tag, which can be null
+     * @since 3.0.0
      */
     @Override
     public CharSequence getTag() {
@@ -84,6 +88,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
      * Returns wrapped span.
      *
      * @return wrapped span
+     * @since 3.0.0
      */
     public ClickableSpan getWrappedSpan() {
         return wrappedSpan;

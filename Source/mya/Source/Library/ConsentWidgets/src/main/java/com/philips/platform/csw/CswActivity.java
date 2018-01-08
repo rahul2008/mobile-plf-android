@@ -31,18 +31,12 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     final String iconFontAssetName = "PUIIcon.ttf";
 
     private TextView ivBack;
-    private ConsentBundleConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            config = new ConsentBundleConfig(bundle);
-        }
 
         setContentView(R.layout.csw_activity);
 
@@ -58,15 +52,11 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        if (state != null) {
-            config = new ConsentBundleConfig(state);
-        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putAll(config.toBundle());
     }
 
     @Override
@@ -105,7 +95,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(config, this);
+        return new CswLaunchInput(this);
     }
 
     @Override

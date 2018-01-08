@@ -218,7 +218,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
     }
 
-    private void setUserNameAndLogoutText() {
+    public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
         if (!user.isUserSignIn()) {
             hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
@@ -526,6 +526,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                     selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
+                }else {
+                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                    presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
                 break;
         }

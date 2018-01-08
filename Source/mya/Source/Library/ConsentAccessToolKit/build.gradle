@@ -1,150 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'jacoco'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
-jacoco {
-    toolVersion = versions.jacoco
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-def coverageSourceDirs = [
-        projectDir.absolutePath + '/src/main/java'
-]
 
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "ConsentAccessToolKit"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
-group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.mya_consentAccessToolKit)
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -200,17 +61,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-        exclude 'lib/arm64-v8a/librsjni.so'
-        exclude 'lib/arm64-v8a/libRSSupport.so'
-        exclude 'lib/armeabi-v7a/libblasV8.so'
-        exclude 'lib/armeabi-v7a/librsjni.so'
-        exclude 'lib/armeabi-v7a/libRSSupport.so'
-        exclude 'lib/mips/libblasV8.so'
-        exclude 'lib/mips/librsjni.so'
-        exclude 'lib/mips/libRSSupport.so'
-        exclude 'lib/x86/libblasV8.so'
-        exclude 'lib/x86/librsjni.so'
-        exclude 'lib/x86/libRSSupport.so'
     }
 
     lintOptions {
@@ -218,43 +68,30 @@ android {
     }
 }
 
-configurations {
-    //compile.exclude module: 'support-annotations'
-}
-
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 dependencies {
-    //3rd party
-    compile 'com.android.support:support-annotations:26.0.2'
-    compile 'joda-time:joda-time:2.9.7'
-    compile 'com.google.code.gson:gson:2.7'
+    compile deps.support.annotations
+    compile deps.joda_time
+    compile deps.gson
 
-    def daggerVer = 2.11
-    compile "com.google.dagger:dagger:$daggerVer"
-    compile "com.google.dagger:dagger-android-support:$daggerVer"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+    compile deps.dagger.dagger
+    compile deps.dagger.androidsupport
+    annotationProcessor deps.dagger.androidprocessor
+    annotationProcessor deps.dagger.compiler
 
-    // Philips Components
-    def dp = project.ext.has('useprojectdependencies')
-    if (dp) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
+    compile(project(':ConsentHandlerInterface'))
+
+    def suffix = objcdp.getVersionSuffix()
+
+    for (dep in [':registrationApi']) {
+        if (directdependencies) {
+            compile project(path: dep)
+        } else {
+            compile("$group$dep:$platformversion$suffix") { changing = true }
+        }
     }
 
-    // Tests
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile deps.junit
+    testCompile deps.mockito
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.robolectric:shadows-support-v4:3.3.2'
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
@@ -264,65 +101,9 @@ dependencies {
     }
     testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
     testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.6'
+    testCompile deps.powermock_junit
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.6'
+    testCompile deps.powermock_mockito
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
-}
-
-task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: projectDir.absolutePath + '/build/intermediates/classes/debug',
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-tasks.withType(Test) {
-    ignoreFailures = true
 }

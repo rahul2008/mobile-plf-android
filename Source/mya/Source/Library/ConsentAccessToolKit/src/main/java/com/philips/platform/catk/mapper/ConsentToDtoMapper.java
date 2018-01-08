@@ -8,7 +8,7 @@
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentDto;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 
 public class ConsentToDtoMapper {
 
@@ -24,7 +24,7 @@ public class ConsentToDtoMapper {
         this.propositionName = propositionName;
     }
 
-    public CreateConsentDto map(Consent consent) {
+    public CreateConsentDto map(BackendConsent consent) {
         final String language = LocaleMapper.toLanguageString(consent.getLocale());
         return new CreateConsentDto(language, buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
     }

@@ -19,8 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.utils.CswLogger;
@@ -40,8 +39,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
-
-    private ConsentBundleConfig config;
 
     @BindView(R2.id.consentList)
     RecyclerView recyclerView;
@@ -68,9 +65,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
-        if (getArguments() != null) {
-            config = new ConsentBundleConfig(getArguments());
-        }
 
         handleOrientation(view);
         return view;
@@ -91,17 +85,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
-        if (state != null) {
-            config = new ConsentBundleConfig(state);
-        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        if (state != null) {
-            state.putAll(config.toBundle());
-        }
     }
 
     @Override
@@ -118,7 +106,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private PermissionPresenter injectPresenter() {
-        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this, config)).build().presenter();
+        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this)).build().presenter();
     }
 
     @Override
@@ -141,12 +129,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showErrorDialog(ConsentNetworkError error) {
-        CswLogger.e(TAG, error.getMessage());
+    public void showErrorDialog(ConsentError error) {
+        CswLogger.e(TAG, error.getError());
         OkOnErrorListener okListener = new OkOnErrorListener();
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
                 .setTitle(R.string.csw_problem_occurred_error_title)
-                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()))
                 .setPositiveButton(R.string.csw_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);

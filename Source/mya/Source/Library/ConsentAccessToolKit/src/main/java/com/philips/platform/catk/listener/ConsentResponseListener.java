@@ -8,12 +8,12 @@
 package com.philips.platform.catk.listener;
 
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 
 import java.util.List;
 
 public interface ConsentResponseListener {
-    void onResponseSuccessConsent(List<Consent> responseData);
+    void onResponseSuccessConsent(List<BackendConsent> responseData);
 
     void onResponseFailureConsent(ConsentNetworkError error);
 }

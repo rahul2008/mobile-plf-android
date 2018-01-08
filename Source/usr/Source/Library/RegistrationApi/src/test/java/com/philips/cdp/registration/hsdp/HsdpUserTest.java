@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.ForgotPassword;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
@@ -47,7 +48,7 @@ public class HsdpUserTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         RLog.setMockLogger(mockLoggingInterface);
         hsdpUser=new HsdpUser(contextMock);
 

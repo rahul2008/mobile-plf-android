@@ -1,14 +1,19 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
+
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,12 +23,14 @@ public class PermissionModule {
 
     private PermissionInterface permissionInterface;
     private HelpClickListener helpClickListener;
-    private ConsentBundleConfig config;
+    private List<ConsentHandlerMapping> consentHandlerMappings;
 
-    public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener, ConsentBundleConfig config) {
+    public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener) {
         this.permissionInterface = permissionInterface;
         this.helpClickListener = helpClickListener;
-        this.config = config;
+
+        List<ConsentHandlerMapping> configs = CswInterface.getCswComponent().getConsentConfigurations();
+        this.consentHandlerMappings = configs == null ? new ArrayList<ConsentHandlerMapping>() : configs;
     }
 
     @Provides
@@ -37,32 +44,19 @@ public class PermissionModule {
     }
 
     @Provides
-    List<ConsentDefinition> provideConsentDefinitions() {
-        return config.getConsentDefinitions();
+    List<ConsentHandlerMapping> provideConfigurations() {
+        return consentHandlerMappings;
     }
 
     @Provides
-    List<ConsentView> provideConsentViews() {
+    List<ConsentView> provideConsentViews(List<ConsentHandlerMapping> configurations) {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for (final ConsentDefinition definition : config.getConsentDefinitions()) {
-            consentViewList.add(new ConsentView(definition));
+        for (ConsentHandlerMapping configuration : configurations) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
         }
         return consentViewList;
-    }
-
-    @Provides
-    static ConsentAccessToolKit provideConsentAccessToolkit() {
-        return ConsentAccessToolKit.getInstance();
-    }
-
-    @Provides
-    static CreateConsentInteractor provideCreateConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
-        return new CreateConsentInteractor(consentAccessToolKit);
-    }
-
-    @Provides
-    static GetConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit, List<ConsentDefinition> consentDefinitions) {
-        return new GetConsentInteractor(consentAccessToolKit, consentDefinitions);
     }
 
     @Provides

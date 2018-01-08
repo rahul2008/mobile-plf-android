@@ -1,5 +1,10 @@
 package com.philips.platform.datasync.synchronisation;
 
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.consenthandlerinterface.PostConsentCallback;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
@@ -7,20 +12,26 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
-import com.philips.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
+import com.philips.spy.EventingSpy;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPushSynchroniseTest {
@@ -62,6 +73,21 @@ public class DataPushSynchroniseTest {
     @Mock
     SettingsDataSender settingsDataSenderMock;
 
+    @Mock
+    ConsentAccessToolKit consentAccessToolKitMock;
+
+    ConsentInteractorMock getConsentInteractorMock;
+
+    @Mock
+    Moment moment;
+
+    @Mock
+    Consent consent;
+
+    @Captor
+    private ArgumentCaptor<PostConsentCallback> consentCallbackCaptor;
+
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -82,6 +108,8 @@ public class DataPushSynchroniseTest {
         synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.eventing = eventingSpy;
         synchronise.synchronisationManager = synchronisationManagerMock;
+        getConsentInteractorMock = new ConsentInteractorMock(consentAccessToolKitMock);
+        synchronise.consentInteractor = getConsentInteractorMock;
     }
 
     @Test
@@ -121,6 +149,29 @@ public class DataPushSynchroniseTest {
         thenDataSyncIsCompleted();
     }
 
+    @Test
+    public void onEventAsync_checksForMomentConsent() {
+        givenUserIsLoggedIn();
+        givenConfigurableMomentSender();
+        givenMomentToSink(moment);
+        whenSynchronisationIsStarted(EVENT_ID);
+
+        whenCallingOnEventAsync();
+        thenMomentConsentWasChecked();
+    }
+
+    private void thenMomentConsentWasChecked() {
+        assertEquals("moment", getConsentInteractorMock.getStatusForConsentType_consentType);
+    }
+
+    private void givenMomentToSink(Moment moment) {
+        dataToSync.put(Moment.class, Collections.singletonList(moment));
+    }
+
+    private void whenCallingOnEventAsync() {
+        synchronise.onEventAsync(new GetNonSynchronizedDataResponse(EVENT_ID, dataToSync));
+    }
+
     private void givenUserIsLoggedIn() {
         userAccessProviderSpy.isLoggedIn = true;
     }
@@ -151,6 +202,12 @@ public class DataPushSynchroniseTest {
         synchronise.senders = senderArrayList;
     }
 
+    private void givenConfigurableMomentSender() {
+        Set<String> set = new HashSet<>();
+        set.add("moment");
+        DataServicesManager.getInstance().configureSyncDataType(set);
+    }
+
     private void givenNoSenders() {
         synchronise.senders = new ArrayList<>();
     }
@@ -164,7 +221,7 @@ public class DataPushSynchroniseTest {
     }
 
     private void thenDataSyncIsCompleted() {
-        Mockito.verify(synchronisationManagerMock).dataSyncComplete();
+        verify(synchronisationManagerMock).dataSyncComplete();
     }
 
     private void thenAnEventIsRegisteredWithClass(String expectedClass) {
@@ -174,4 +231,6 @@ public class DataPushSynchroniseTest {
     private void thenAnEventIsPostedWithReferenceId(int expectedEventId) {
         assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
     }
+
+    Map<Class, List<?>> dataToSync = new HashMap<>();
 }

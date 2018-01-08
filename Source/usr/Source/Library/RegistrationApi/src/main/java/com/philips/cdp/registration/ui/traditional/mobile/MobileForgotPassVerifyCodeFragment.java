@@ -23,6 +23,7 @@ import com.jakewharton.rxbinding2.widget.*;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
@@ -94,7 +95,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         final String redirectUriKey = "redirectUri";
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
 
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
 
         Bundle bundle = getArguments();
