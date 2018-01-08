@@ -1,7 +1,8 @@
-rootProject.Name 'MyAccount'
 include ':app'
 include 'DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
+include 'MyAccount'
+project(':MyAccount').projectDir = new File('../Library/MyAccount')
 include 'ConsentAccessToolKit'
 project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
 include 'ConsentWidgets'
