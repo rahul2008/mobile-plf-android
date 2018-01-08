@@ -48,8 +48,7 @@ dependencies {
 
     for (dep in [':registrationApi', ':uAppFwLib', ':commlib', ':dataServicesUApp', ':cloudcontroller']) {
         if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
+            compile project(path: dep)
         } else {
             compile("$group$dep:$platformversion$suffix") { changing = true }
         }

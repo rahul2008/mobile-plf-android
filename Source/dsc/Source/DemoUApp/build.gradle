@@ -47,8 +47,7 @@ dependencies {
 
     for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
         if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
+            compile project(path: dep)
         } else {
             compile("$group$dep:$platformversion$suffix") { changing = true }
         }

@@ -8,17 +8,19 @@
 package com.philips.platform.catk.error;
 
 import com.android.volley.NetworkResponse;
-import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.consenthandlerinterface.ConsentError;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class ServerErrorTest {
     @Test
     public void itShouldParseServerCorrectly() throws Exception {
         givenJsonError(CORRECT_JSON_ERROR);
-        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
         thenHasServerError();
         thenIncidentIdIs(INCIDENT_ID);
         thenServerErrorCodeIs(ERROR_CODE);
@@ -28,7 +30,7 @@ public class ServerErrorTest {
     @Test
     public void itShouldCreateEmptyErrorWhenJsonIsEmpty() {
         givenJsonError(EMPTY_JSON_ERROR);
-        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
         thenHasServerError();
         thenHasNoIncidentId();
         thenServerErrorCodeIs(0);
@@ -38,14 +40,14 @@ public class ServerErrorTest {
     @Test
     public void itShouldCreateEmptyErrorWhenJsonIsNull() throws Exception {
         givenNullJsonError();
-        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
         thenHasNoServerError();
     }
 
     @Test
     public void itShouldCreateEmptyErrorWhenInvalidJson() throws Exception {
         givenJsonError(INVALID_JSON_ERROR);
-        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
         thenHasNoServerError();
     }
 
@@ -98,10 +100,10 @@ public class ServerErrorTest {
     private static final String DESCRIPTION_TEXT = "Invalid data. markErrorAndGetPrevious code:1114 response raw body : {responseCode=1114, responseMessage=Invalid Application}";
 
     private static final String CORRECT_JSON_ERROR = "{\n" +
-                                                     "    \"incidentID\": \"" + INCIDENT_ID + "\",\n" +
-                                                     "    \"errorCode\": " + ERROR_CODE + ",\n" +
-                                                     "    \"description\": \"" + DESCRIPTION_TEXT + "\"\n" +
-                                                     "}";
+            "    \"incidentID\": \"" + INCIDENT_ID + "\",\n" +
+            "    \"errorCode\": " + ERROR_CODE + ",\n" +
+            "    \"description\": \"" + DESCRIPTION_TEXT + "\"\n" +
+            "}";
     private static final String EMPTY_JSON_ERROR = "{}";
     private static final String INVALID_JSON_ERROR = "this is invalid json";
 }

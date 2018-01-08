@@ -3,3 +3,9 @@
 build/
 local.properties
 *.iml
+
+Source/mya/Source/Library/\.idea/
+
+Source/mya/Source/Library/MyAccount/\.idea/
+
+Source/mya/Source/Library/MyAccount/gradle/wrapper/

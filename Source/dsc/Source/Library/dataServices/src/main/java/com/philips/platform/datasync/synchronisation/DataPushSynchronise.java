@@ -9,8 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -146,9 +147,16 @@ public class DataPushSynchronise extends EventMonitor {
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
 
 
-        consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentInteractor.ConsentCallback() {
+        consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentCallback() {
+
+
             @Override
-            public void onGetConsentRetrieved(@NonNull Consent consent) {
+            public void onGetConsentFailed(ConsentError error) {
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void onGetConsentRetrieved(Consent consent) {
                 if (consent.isAccepted()) {
                     executor.execute(new Runnable() {
                         @Override
@@ -164,11 +172,6 @@ public class DataPushSynchronise extends EventMonitor {
                     countDownLatch.countDown();
                 }
 
-            }
-
-            @Override
-            public void onGetConsentFailed(ConsentNetworkError error) {
-                countDownLatch.countDown();
             }
         });
     }

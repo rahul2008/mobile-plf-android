@@ -1,7 +1,11 @@
-package com.philips.platform.catk.model;
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
-
-import android.support.annotation.NonNull;
+package com.philips.platform.consenthandlerinterface.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +15,13 @@ public class Consent {
     private ConsentDefinition definition;
     private List<BackendConsent> consents;
 
-    public Consent(BackendConsent consent, @NonNull ConsentDefinition definition) {
+    public Consent(BackendConsent consent, ConsentDefinition definition) {
         this.consents = new ArrayList<>();
         this.consents.add(consent);
         this.definition = definition;
     }
 
-    public Consent(List<BackendConsent> consent, @NonNull ConsentDefinition definition) {
+    public Consent(List<BackendConsent> consent, ConsentDefinition definition) {
         this.consents = consent;
         this.definition = definition;
     }

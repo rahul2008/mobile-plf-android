@@ -13,11 +13,16 @@ import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.LocaleMapper;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.utils.CatkLogger;
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.CheckConsentsCallback;
+import com.philips.platform.consenthandlerinterface.PostConsentCallback;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +35,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 
-public class ConsentInteractor {
+public class ConsentInteractor implements ConsentHandlerInterface {
 
     @NonNull
     private final ConsentAccessToolKit consentAccessToolKit;
@@ -43,12 +48,16 @@ public class ConsentInteractor {
         setupConsentDefinitions(consentAccessToolKit.getConsentDefinitions());
     }
 
-    public void fetchLatestConsents(@NonNull final ConsentListCallback callback) {
-        consentAccessToolKit.getConsentDetails(new GetConsentsResponseListener(callback, consentAccessToolKit));
+    @Override
+    public void checkConsents(@NonNull final CheckConsentsCallback callback) {
+        fetchLatestConsents(callback);
     }
 
-    public void checkConsents(@NonNull final ConsentListCallback callback) {
-        fetchLatestConsents(callback);
+    @Override
+    public void post(ConsentDefinition definition, boolean switchChecked, PostConsentCallback callback) {
+        ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
+        List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
+        consentAccessToolKit.createConsent(backendConsents, new ConsentInteractor.CreateConsentResponseListener(definition, backendConsents, callback));
     }
 
     public void getStatusForConsentType(final String consentType, ConsentCallback callback) {
@@ -58,10 +67,8 @@ public class ConsentInteractor {
         consentAccessToolKit.getStatusForConsentType(consentType, 0, new GetConsentForTypeResponseListener(callback, definitionsByType.get(consentType)));
     }
 
-    public void createConsentStatus(ConsentDefinition definition, ConsentInteractor.CreateConsentCallback createConsentCallback, boolean switchChecked) {
-        ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
-        List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
-        consentAccessToolKit.createConsent(backendConsents, new ConsentInteractor.CreateConsentResponseListener(definition, backendConsents, createConsentCallback));
+    public void fetchLatestConsents(@NonNull final CheckConsentsCallback callback) {
+        consentAccessToolKit.getConsentDetails(new GetConsentsResponseListener(callback, consentAccessToolKit));
     }
 
     private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
@@ -88,24 +95,24 @@ public class ConsentInteractor {
         private final ConsentDefinition definition;
 
         private final List<BackendConsent> backendConsents;
-        private final CreateConsentCallback callback;
+        private final PostConsentCallback callback;
 
-        CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, CreateConsentCallback createConsentCallback) {
+        CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, PostConsentCallback postConsentCallback) {
             this.definition = definition;
             this.backendConsents = backendConsents;
-            this.callback = createConsentCallback;
+            this.callback = postConsentCallback;
         }
 
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create BackendConsent: ", "Success");
-            callback.onCreateConsentSuccess(new Consent(backendConsents, definition));
+            callback.onPostConsentSuccess(new Consent(backendConsents, definition));
         }
 
         @Override
         public void onFailure(ConsentNetworkError error) {
             CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
-            callback.onCreateConsentFailed(definition, error);
+            callback.onPostConsentFailed(definition, new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
 
     }
@@ -132,17 +139,17 @@ public class ConsentInteractor {
 
         @Override
         public void onResponseFailureConsent(ConsentNetworkError error) {
-            callback.onGetConsentFailed(error);
+            callback.onGetConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
 
     }
 
     static class GetConsentsResponseListener implements ConsentResponseListener {
 
-        private ConsentListCallback callback;
+        private CheckConsentsCallback callback;
         private ConsentAccessToolKit consentAccessToolKit;
 
-        GetConsentsResponseListener(@NonNull final ConsentListCallback callback, ConsentAccessToolKit consentAccessToolKit) {
+        GetConsentsResponseListener(@NonNull final CheckConsentsCallback callback, ConsentAccessToolKit consentAccessToolKit) {
             this.callback = callback;
             this.consentAccessToolKit = consentAccessToolKit;
         }
@@ -150,17 +157,17 @@ public class ConsentInteractor {
         @Override
         public void onResponseSuccessConsent(List<BackendConsent> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
-                callback.onGetConsentRetrieved(filterConsentsByDefinitions(responseData));
+                callback.onGetConsentsSuccess(filterConsentsByDefinitions(responseData));
             } else {
                 CatkLogger.d(" BackendConsent : ", "no consent for type found on server");
-                callback.onGetConsentRetrieved(new ArrayList<Consent>());
+                callback.onGetConsentsSuccess(new ArrayList<Consent>());
             }
         }
 
         @Override
         public void onResponseFailureConsent(ConsentNetworkError error) {
             CatkLogger.d(" BackendConsent : ", "response failure:" + error);
-            this.callback.onGetConsentFailed(error);
+            this.callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
 
         private List<Consent> filterConsentsByDefinitions(List<BackendConsent> receivedBackendConsents) {
@@ -210,21 +217,4 @@ public class ConsentInteractor {
 
     }
 
-    public interface CreateConsentCallback {
-        void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error);
-
-        void onCreateConsentSuccess(Consent consent);
-    }
-
-    public interface ConsentCallback {
-        void onGetConsentRetrieved(@NonNull final Consent consent);
-
-        void onGetConsentFailed(ConsentNetworkError error);
-    }
-
-    public interface ConsentListCallback {
-        void onGetConsentRetrieved(@NonNull final List<Consent> consents);
-
-        void onGetConsentFailed(ConsentNetworkError error);
-    }
 }

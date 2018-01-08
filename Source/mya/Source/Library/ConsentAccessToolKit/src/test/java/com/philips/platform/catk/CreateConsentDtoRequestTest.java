@@ -10,13 +10,9 @@ package com.philips.platform.catk;
 import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
-import com.philips.platform.catk.ConsentAccessToolKitManipulator;
-import com.philips.platform.catk.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.CreateConsentDto;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.NetworkAbstractModel;
-import com.philips.platform.catk.NetworkController;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;

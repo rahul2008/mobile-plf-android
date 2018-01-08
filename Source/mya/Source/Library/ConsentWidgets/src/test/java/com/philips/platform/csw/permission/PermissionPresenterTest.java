@@ -2,16 +2,15 @@ package com.philips.platform.csw.permission;
 
 import android.test.mock.MockContext;
 
-import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
@@ -28,22 +27,25 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
-    private ConsentNetworkError givenError;
+    private ConsentError givenError;
     private Consent requiredConsent;
+    private List<ConsentHandlerMapping> givenConsentHandlerMappings = new ArrayList<>();
 
     @Mock
     private PermissionInterface mockPermissionInterface;
     @Mock
-    private ConsentInteractor mockInteractor;
+    private ConsentHandlerInterface mockHandlerInterface;
     @Mock
     private PermissionAdapter mockAdapter;
     @Mock
@@ -54,31 +56,45 @@ public class PermissionPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor, mockAdapter);
+        givenPresenter();
+    }
+
+    @Test
+    public void testShowProgressDialog_withNoConsentConfigurations() throws Exception {
+        mPermissionPresenter.getConsentStatus();
+        verify(mockPermissionInterface, never()).showProgressDialog();
+    }
+
+    @Test
+    public void testGetConsentsIsCalledOnInteractor_withNoConsentConfigurations() throws Exception {
+        mPermissionPresenter.getConsentStatus();
+        verify(mockHandlerInterface, never()).checkConsents(mPermissionPresenter);
     }
 
     @Test
     public void testShowProgressDialog() throws Exception {
+        givenConsentConfigurations();
         mPermissionPresenter.getConsentStatus();
         verify(mockPermissionInterface).showProgressDialog();
     }
 
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
+        givenConsentConfigurations();
         mPermissionPresenter.getConsentStatus();
-        verify(mockInteractor).fetchLatestConsents(mPermissionPresenter);
+        verify(mockHandlerInterface).checkConsents(mPermissionPresenter);
     }
 
     @Test
     public void testHideProgressDialog_onError() throws Exception {
         givenConsentError();
-        mPermissionPresenter.onGetConsentFailed(givenError);
+        mPermissionPresenter.onGetConsentsFailed(givenError);
         verify(mockPermissionInterface).hideProgressDialog();
     }
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
-        mPermissionPresenter.onGetConsentRetrieved(new ArrayList<Consent>());
+        mPermissionPresenter.onGetConsentsSuccess(new ArrayList<Consent>());
         verify(mockPermissionInterface).hideProgressDialog();
     }
 
@@ -135,8 +151,7 @@ public class PermissionPresenterTest {
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
         ConsentAccessToolKitEmulator consentAccessToolKit = new ConsentAccessToolKitEmulator();
-        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentHandlerMappings);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }
@@ -152,7 +167,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenClickStreamConsentView() {
-        ConsentView consentView = new ConsentView(clickStreamConsentDefinition());
+        ConsentView consentView = new ConsentView(clickStreamConsentDefinition(), mockHandlerInterface);
         List<ConsentView> consentViews = new ArrayList<>();
         consentViews.add(consentView);
         when(mockAdapter.getConsentViews()).thenReturn(consentViews);
@@ -164,13 +179,13 @@ public class PermissionPresenterTest {
     }
 
     public void whenCreateConsentSuccess() {
-        mPermissionPresenter.onCreateConsentSuccess(requiredConsent);
+        mPermissionPresenter.onPostConsentSuccess(requiredConsent);
     }
 
     private void whenOnGetConsentRetrieved() {
         ArrayList<Consent> consentArrayList = new ArrayList<>();
         consentArrayList.add(requiredConsent);
-        mPermissionPresenter.onGetConsentRetrieved(consentArrayList);
+        mPermissionPresenter.onGetConsentsSuccess(consentArrayList);
     }
 
     private void thenVerifyEnableTaggingIsInvoked() {
@@ -202,24 +217,35 @@ public class PermissionPresenterTest {
     }
 
     private void givenConsentError() {
-        givenError = new ConsentNetworkError(new VolleyError());
+        givenError = new ConsentError("SOME ERROR", 401);
+    }
+
+    private void givenConsentConfigurations() {
+        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
+        ConsentHandlerMapping configuration = new ConsentHandlerMapping(Arrays.asList(definition), mockHandlerInterface);
+        givenConsentHandlerMappings = Arrays.asList(configuration);
+        givenPresenter();
+    }
+
+    private void givenPresenter() {
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentHandlerMappings, mockAdapter);
     }
 
     private void whenGetConsentFailed() {
-        mPermissionPresenter.onGetConsentFailed(givenError);
+        mPermissionPresenter.onGetConsentsFailed(givenError);
     }
 
     private void whenCreateConsentFailed() {
-        mPermissionPresenter.onCreateConsentFailed(null, givenError);
+        mPermissionPresenter.onPostConsentFailed(null, givenError);
     }
 
     private void whenCreateConsentSucceeds() {
         when(mockRequiredConsent.getType()).thenReturn("");
-        mPermissionPresenter.onCreateConsentSuccess(mockRequiredConsent);
+        mPermissionPresenter.onPostConsentSuccess(mockRequiredConsent);
     }
 
     private void whenTogglingConsentTo(boolean toggled) {
-        mPermissionPresenter.onToggledConsent(mockConsentDefinition, toggled);
+        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled);
     }
 
     private void thenErrorIsShown() {

@@ -8,7 +8,7 @@
 package com.philips.platform.catk.listener;
 
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 
 import java.util.List;
 
