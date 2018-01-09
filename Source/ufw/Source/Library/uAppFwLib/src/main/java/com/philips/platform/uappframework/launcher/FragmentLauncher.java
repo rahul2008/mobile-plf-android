@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.io.Serializable;
-
 /**
  * Needs to be instantiated for launching micro app as Fragment.
  * @since 1.0.0

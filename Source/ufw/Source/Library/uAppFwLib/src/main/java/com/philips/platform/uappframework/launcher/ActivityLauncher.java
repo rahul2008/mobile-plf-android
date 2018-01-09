@@ -10,9 +10,6 @@ import android.os.Bundle;
 
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import java.io.Serializable;
-
-
 /**
  * The purpose of the class if to launch micro-app as activity
  * @since 1.0.0
