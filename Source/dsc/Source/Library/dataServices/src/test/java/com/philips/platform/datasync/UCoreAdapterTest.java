@@ -39,9 +39,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UCoreAdapterTest {
 
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    public static final Class<ConsentsClient> CLIENT_CLASS = ConsentsClient.class;
-    public static final Class<InsightClient> INSIGHT_CLASS = InsightClient.class;
+    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    private static final Class<ConsentsClient> CLIENT_CLASS = ConsentsClient.class;
+    private static final Class<InsightClient> INSIGHT_CLASS = InsightClient.class;
+    private static final String EXPECTED_API_VERSION = "16";
+    private static final String API_VERSION_CUSTOM_HEADER = "api-version";
+    private static final String APP_AGENT_HEADER = "appAgent";
+
     @Mock
     private OkHttpClient okHttpClientMock;
 
@@ -167,7 +171,7 @@ public class UCoreAdapterTest {
         interceptRequest();
 
         verify(requestFacadeMock).addHeader("Content-Type", "application/json");
-        verify(requestFacadeMock).addHeader("api-version", "16");
+        verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
         verify(requestFacadeMock).addHeader("Authorization", "bearer " + ACCESS_TOKEN);
     }
 
@@ -182,8 +186,8 @@ public class UCoreAdapterTest {
         uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
         interceptRequest();
 
-        verify(requestFacadeMock).addHeader(UCoreAdapter.API_VERSION_CUSTOM_HEADER, String.valueOf(UCoreAdapter.API_VERSION));
-        verify(requestFacadeMock).addHeader(eq(UCoreAdapter.APP_AGENT_HEADER), anyString());
+        verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
+        verify(requestFacadeMock).addHeader(eq(APP_AGENT_HEADER), anyString());
     }
 
     @Test
@@ -193,8 +197,8 @@ public class UCoreAdapterTest {
 
         verify(restAdapterBuilderMock).setEndpoint(TEST_BASE_URL);
 
-        verify(requestFacadeMock).addHeader(UCoreAdapter.API_VERSION_CUSTOM_HEADER, String.valueOf(UCoreAdapter.API_VERSION));
-        verify(requestFacadeMock).addHeader(eq(UCoreAdapter.APP_AGENT_HEADER), anyString());
+        verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
+        verify(requestFacadeMock).addHeader(eq(APP_AGENT_HEADER), anyString());
     }
 
     @Test
