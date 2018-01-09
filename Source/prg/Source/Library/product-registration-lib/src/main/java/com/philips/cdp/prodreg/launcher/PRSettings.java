@@ -5,11 +5,14 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * It is used to pass proposition application context to Product Registration component
  */
 public class PRSettings extends UappSettings {
 
+    /**
+     * creates instance of PRSettings with proposition application context
+     * @param applicationContext - Context applicationContext
+     */
     public PRSettings(final Context applicationContext) {
         super(applicationContext);
     }

@@ -10,18 +10,20 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * Update consumer interest handler interface
+ * It is used to update consumer interest
  */
 public interface UpdateConsumerInterestHandler {
 
 	/**
 	 * {@code onUpdateConsumerInterestSuccess} method to on update consumer interest success
+	 * @since 1.0.0
 	 */
 	public void onUpdateConsumerInterestSuccess();
 
 	/**
 	 * {@code onUpdateConsumerInterestFailedWithError}method to on update consumer interest failed with error
 	 * @param error api error
+	 * @since 1.0.0
      */
 	public void onUpdateConsumerInterestFailedWithError( com.janrain.android.capture.CaptureApiError error);
 

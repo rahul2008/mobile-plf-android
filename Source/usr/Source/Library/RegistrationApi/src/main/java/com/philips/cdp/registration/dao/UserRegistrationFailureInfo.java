@@ -32,6 +32,7 @@ public class UserRegistrationFailureInfo {
     /**
      * {@code getErrorDescription } method to get error description
      * @return errorDescription error description
+     * @since 1.0.0
      */
     public String getErrorDescription() {
         if (null != error) {
@@ -49,6 +50,7 @@ public class UserRegistrationFailureInfo {
     /**
      *{@code setErrorDescription}method do set error description
      * @param errorDescription error description
+     * @since 1.0.0
      */
     public void setErrorDescription(String errorDescription) {
         this.errorDescription = errorDescription;
@@ -57,6 +59,7 @@ public class UserRegistrationFailureInfo {
     /**
      * {@code getErrorCode} method to get error code
      * @return errorCode error code
+     * @since 1.0.0
      */
     public int getErrorCode() {
         return errorCode;
@@ -65,6 +68,7 @@ public class UserRegistrationFailureInfo {
     /**
      * {@code setErrorCode } method to set error code
      * @param errorCode error code
+     * @since 1.0.0
      */
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
@@ -74,6 +78,7 @@ public class UserRegistrationFailureInfo {
      * {@code getError}method to get captured api error
      *{@link com.janrain.android.capture.CaptureApiError}
      * @return error
+     * @since 1.0.0
      */
     public CaptureApiError getError() {
         return error;
@@ -83,6 +88,7 @@ public class UserRegistrationFailureInfo {
      * {@code setError} method to set error
      *{@link com.janrain.android.capture.CaptureApiError}
      * @param error error
+     * @since 1.0.0
      */
     public void setError(CaptureApiError error) {
         this.error = error;

@@ -7,14 +7,15 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * It is used to initialize and launch Product Registration
  */
 public class PRInterface implements UappInterface {
 
     /**
+     * API used for initializing Product Registration
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
+     * @since 1.0.0
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
@@ -23,12 +24,16 @@ public class PRInterface implements UappInterface {
                 uappDependencies).getAppInfra());
     }
 
+
     protected PRUiHelper getInstance() {
         return PRUiHelper.getInstance();
     }
 
     /**
-     * @param uiLauncher - Launcher to differentiate activity or fragment
+     * API used for Launching Product Registration as activity or fragment
+     * @param uiLauncher - UiLauncher uiLauncher
+     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
+     * @since 1.0.0
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {

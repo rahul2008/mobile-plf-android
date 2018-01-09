@@ -67,7 +67,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Set a UserRegistrationUIEventListener to provide custom implementations of
      * Terms and conditions, Privacy policy and know about user registration completion.
      *
-     * @param userRegistrationListener
+     * @param userRegistrationListener - UserRegistrationUIEventListener userRegistrationListener
      * @since 1.0.0
      */
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
@@ -76,7 +76,7 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns UserRegistrationUIEventListener instance .
      * @return UserRegistrationUIEventListener
      * @since 1.0.0
      */
@@ -85,7 +85,7 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns RegistrationLaunchMode instance
      * @return RegistrationLaunchMode
      * @since 1.0.0
      */
@@ -93,6 +93,10 @@ public class URLaunchInput extends UappLaunchInput {
         return registrationLaunchMode;
     }
 
+    /**
+     * API sets the end point screen from RegistrationLaunchMode
+     * @param registrationLaunchMode
+     */
     public void setEndPointScreen(RegistrationLaunchMode registrationLaunchMode) {
         this.registrationLaunchMode = registrationLaunchMode;
     }
@@ -101,7 +105,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Used to set custom content on the marketing opt in page and home page.
      * Please see RegistrationContentConfiguration class for more details.
      *
-     * @param registrationContentConfiguration
+     * @param registrationContentConfiguration - RegistrationContentConfiguration registrationContentConfiguration
      * @since 1.0.0
      */
     public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration) {
@@ -109,7 +113,7 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns RegistrationContentConfiguration
      * @return RegistrationContentConfiguration
      * @since 1.0.0
      */
@@ -131,7 +135,7 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns UIFlow .
      * @return UIFlow
      * @since 1.0.0
      */

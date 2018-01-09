@@ -9,16 +9,21 @@
 
 package com.philips.cdp.registration.handlers;
 
+/**
+ * It is used to handle consumer interest
+ */
 public interface AddConsumerInterestHandler {
 
 	/**
 	 * {@codeonAddConsumerInterestSuccess } method to validate on add consumer interest success
+	 * @since 1.0.0
 	 */
 	public void onAddConsumerInterestSuccess();
 
 	/**
-	 * {@code onAddConsumerInterestFailedWithError} mehtod to validate on add consumer interest failed with error
-	 * @param error
+	 * {@code onAddConsumerInterestFailedWithError} method to validate on add consumer interest failed with error
+	 * @param error - int error
+	 * @since 1.0.0
      */
 	public void onAddConsumerInterestFailedWithError(int error);
 

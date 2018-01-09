@@ -12,18 +12,20 @@ package com.philips.cdp.registration.handlers;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
- * Traditional login handler interface
+ * It is used to handle traditional login
  */
 public interface TraditionalLoginHandler {
 
     /**
      * {@code onLoginSuccess}method to on login success
+     * @since 1.0.0
      */
     void onLoginSuccess();
 
     /**
      * {@code onLoginFailedWithError }method to on login failed with error
      * @param userRegistrationFailureInfo user registration failure info
+     * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 

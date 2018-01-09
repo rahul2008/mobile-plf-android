@@ -1,7 +1,4 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
@@ -17,6 +14,10 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+/**
+ * It is used by propositions to initialize and launch IAP .
+ * It also exposes some utility public APIs of IAP .
+ */
 public class IAPInterface implements UappInterface, IAPExposedAPI {
     protected IAPHandler mIAPHandler;
     protected IAPSettings mIAPSettings;
@@ -24,9 +25,9 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     private IAPServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
 
     /**
-     *
-     * @param uappDependencies Object of UappDependencies
-     * @param uappSettings Object of UppSettings
+     * API to initialize IAP
+     * @param uappDependencies - UappDependencies uappDependencies
+     * @param uappSettings - UappSettings uappSettings
      *                     @since 1.0.0
      */
     @Override
@@ -39,9 +40,9 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     *
-     * @param  uiLauncher Object of UiLauncher
-     * @param uappLaunchInput Object of  UappLaunchInput
+     * API to launch IAP
+     * @param  uiLauncher - UiLauncher uiLauncher
+     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
      * @throws RuntimeException
      * @since 1.0.0
      */
@@ -61,8 +62,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     *
-     * @param iapListener
+     * API to fetch product count in cart
+     * @param iapListener - IAPListener iapListener
      * @since 1.0.0
      */
     @Override
@@ -74,8 +75,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     *
-     * @param iapListener
+     * API to fetch complete product list
+     * @param iapListener - IAPListener iapListener
      * @since 1.0.0
      */
     @Override
@@ -87,8 +88,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     *
-     * @param iapListener
+     * API to decide show the cart or not
+     * @param iapListener - IAPListener iapListener
      * @return
      * @since 1.0.0
      */

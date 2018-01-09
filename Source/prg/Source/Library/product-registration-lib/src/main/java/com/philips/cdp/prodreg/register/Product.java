@@ -26,6 +26,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.Serializable;
 
+/**
+ * It is used to represent a Product
+ */
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 4081810711321162900L;
@@ -39,10 +42,10 @@ public class Product implements Serializable {
     private String friendlyName;
 
     /**
-     *
-     * @param productModelNumber
-     * @param sector
-     * @param catalog
+     * Creates instance of Product
+     * @param productModelNumber - String productModelNumber
+     * @param sector - PrxConstants.Sector sector
+     * @param catalog - PrxConstants.Catalog catalog
      * @since 1.0.0
      */
     public Product(String productModelNumber, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
@@ -52,8 +55,8 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @return FreindlyName
+     * API returns the friendlyName
+     * @return FriendlyName
      * @since 1.0.0
      */
     public String getFriendlyName() {
@@ -61,7 +64,7 @@ public class Product implements Serializable {
     }
 
     /**
-     *
+     * API to set friendlyName
      * @param friendlyName
      * @since 1.0.0
      */
@@ -70,9 +73,9 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @param context
-     * @param metadataListener
+     * API to execute product metadata request .
+     * @param context - Context context
+     * @param metadataListener -  MetadataListener metadataListener
      * @since 1.0.0
      */
     public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
@@ -85,11 +88,11 @@ public class Product implements Serializable {
     }
 
     /**
+     *  API to execute product summary request .
      *
-     *
-     * @param context
-     * @param product
-     * @param summaryListener
+     * @param context - Context context
+     * @param product - Product product
+     * @param summaryListener - SummaryListener summaryListener
      * @since 1.0.0
      */
     public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
@@ -102,8 +105,8 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @param product
+     * API to get instance of ProductSummaryRequest from product
+     * @param product - Product product
      * @return ProductSummaryRequest
      * @since 1.0.0
      */
@@ -113,8 +116,8 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @param metadataListener
+     * API to get ResponseListener instance from metadataListener
+     * @param metadataListener - MetadataListener metadataListener
      * @return ResponseListener
      * @since 1.0.0
      */
@@ -135,8 +138,8 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @param summaryListener
+     * API to get ResponseListener instance from summaryListener
+     * @param summaryListener - SummaryListener summaryListener
      * @return ResponseListener
      * @since 1.0.0
      */
@@ -157,7 +160,7 @@ public class Product implements Serializable {
     }
 
     /**
-     *
+     * API gets Product
      * @return Product
      * @since 1.0.0
      */
@@ -166,8 +169,8 @@ public class Product implements Serializable {
     }
 
     /**
-     *
-     * @param context
+     * API gets RequestManager instance
+     * @param context - Context context
      * @return RequestManager
      * @since 1.0.0
      */
@@ -182,7 +185,7 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return Model Number
+     * API returns Model Number
      *
      * @return return model number as string
      * @since 1.0.0
@@ -193,7 +196,7 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return Serial Number
+     * API returns Serial Number
      * @return return serial number as string
      * @since 1.0.0
      */
@@ -203,7 +206,7 @@ public class Product implements Serializable {
     }
 
     /**
-     * API set the serial number
+     * API sets the serial number
      * @param serialNumber serial Number
      *                     @since 1.0.0
      */
@@ -277,7 +280,7 @@ public class Product implements Serializable {
     }
 
     /**
-     * API need to set email confirmations
+     * API sets email confirmations
      * @param shouldSendEmailAfterRegistration shouldSendEmailAfterRegistration
      *                                         @since 1.0.0
      */
@@ -286,7 +289,7 @@ public class Product implements Serializable {
     }
 
     /**
-     * API need to pass CTN to get Metadata
+     * API passes CTN to get Metadata
      * @param ctn ctn
      * @return ctn as string
      * @since 1.0.0

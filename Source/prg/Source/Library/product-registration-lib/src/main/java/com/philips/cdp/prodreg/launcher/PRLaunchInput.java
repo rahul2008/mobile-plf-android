@@ -9,8 +9,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import java.util.ArrayList;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * This class is used to provide input parameters and customizations for Product registration.
+ *
  */
 public class PRLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
@@ -22,8 +22,8 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      *
-     * @param products
-     * @param isAppLaunchFlow
+     * @param products - ArrayList<Product> products
+     * @param isAppLaunchFlow - boolean isAppLaunchFlow
      * @since 1.0.0
      */
     public PRLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
@@ -32,7 +32,7 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns products
      * @return Products
      * @since 1.0.0
      */
@@ -41,7 +41,7 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns APP launch flow or not
      * @return boolean for AppLaunchFlow or not
      * @since 1.0.0
      */
@@ -50,7 +50,7 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns ProdRegUiListener instance
      * @return ProdRegUiListener
      * @since 1.0.0
      */
@@ -59,8 +59,8 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
-     * @param prodRegUiListener
+     * API sets ProdRegUiListener instance
+     * @param prodRegUiListener - ProdRegUiListener prodRegUiListener
      * @since 1.0.0
      */
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
@@ -68,7 +68,7 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
+     * API returns BackgroundImageResourceId
      * @return BackgroundImageResourceId in Integer
      * @since 1.0.0
      */
@@ -77,8 +77,8 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     /**
-     *
-     * @param backgroundImageResourceId
+     * API sets BackgroundImageResourceId
+     * @param backgroundImageResourceId - int backgroundImageResourceId
      * @since 1.0.0
      */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {

@@ -9,19 +9,23 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * Logout handler interface
+ * It is used to handle Logout
  */
 public interface LogoutHandler {
 
     /**
      * {@code onLogoutSuccess} method to validate on on Logout Success
+     *
+     * @since 1.0.0
      */
     void onLogoutSuccess();
 
     /**
      * {@code onLogoutFailure} method to validate on Logout Failure
-     * @param responseCode
-     * @param message
+     * @param responseCode - int responseCode
+     * @param message - String message
+     *
+     * @since 1.0.0
      */
     void onLogoutFailure(int responseCode, String message);
 }

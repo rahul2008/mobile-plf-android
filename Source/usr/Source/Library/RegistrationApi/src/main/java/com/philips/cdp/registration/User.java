@@ -192,7 +192,7 @@ public class User {
      *
      * @param activity           Activity .
      * @param providerName       String  Provider.
-     * @param accessToken        String accesstoken.
+     * @param accessToken        String access token.
      * @param tokenSecret        String token secrete.
      * @param socialLoginHandler SocialProviderLoginHandler callback.
      * @param mergeToken         String merge token .
@@ -226,13 +226,13 @@ public class User {
     /**
      * {@code registerUserInfoForTraditional} method creates a user account.
      *
-     * @param firstName
-     * @param givenName
-     * @param userEmail
-     * @param password
-     * @param olderThanAgeLimit
-     * @param isReceiveMarketingEmail
-     * @param traditionalRegisterHandler
+     * @param firstName - String firstName
+     * @param givenName - String givenName
+     * @param userEmail - String userEmail
+     * @param password  - String password
+     * @param olderThanAgeLimit - boolean olderThanAgeLimit
+     * @param isReceiveMarketingEmail - boolean isReceiveMarketingEmail
+     * @param traditionalRegisterHandler - TraditionalRegistrationHandler traditionalRegisterHandler
      * @since 1.0.0
      */
     public void registerUserInfoForTraditional(String firstName, final String givenName, final String userEmail,
@@ -252,7 +252,7 @@ public class User {
     /**
      * {@code forgotPassword} method retrieves a lost password.
      *
-     * @param emailAddress          String email address
+     * @param emailAddress          String emailAddress
      * @param forgotPasswordHandler ForgotPasswordHandler callback.
      *                              @since 1.0.0
      */
@@ -319,10 +319,10 @@ public class User {
     /**
      * {@code mergeToTraditionalAccount} method merges a traditional account to other existing account
      *
-     * @param emailAddress
-     * @param password
-     * @param mergeToken
-     * @param traditionalLoginHandler
+     * @param emailAddress - String email address
+     * @param password - String password
+     * @param mergeToken - String mergeToken
+     * @param traditionalLoginHandler - TraditionalLoginHandler traditionalLoginHandler
      * @since 1.0.0
      */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
@@ -333,14 +333,14 @@ public class User {
     /**
      * {@code registerUserInfoForSocial} methods creates a new account using social provider.
      *
-     * @param givenName
-     * @param displayName
-     * @param familyName
-     * @param userEmail
-     * @param olderThanAgeLimit
-     * @param isReceiveMarketingEmail
-     * @param socialProviderLoginHandler
-     * @param socialRegistrationToken
+     * @param givenName - String givenName
+     * @param displayName - String displayName
+     * @param familyName - String familyName
+     * @param userEmail - String userEmail
+     * @param olderThanAgeLimit - boolean olderThanAgeLimit
+     * @param isReceiveMarketingEmail - boolean isReceiveMarketingEmail
+     * @param socialProviderLoginHandler - SocialProviderLoginHandler socialProviderLoginHandler
+     * @param socialRegistrationToken - String socialRegistrationToken
      * @since 1.0.0
      */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
@@ -356,7 +356,7 @@ public class User {
 
 
     /**
-     * Get user instance
+     * Get DIUserProfile instance
      *
      * @return DIUserProfile instance or null if not logged in
      * @since 1.0.0
@@ -419,8 +419,9 @@ public class User {
 
     /**
      * Get Email verification status
-     *
-     * @return
+     * Individual methods added for mobile(isEmailVerified()) and email(isEmailVerified()).
+     * This is no more needed and will be removed from 2018.1.0
+     * @return status in boolean
      * @since 1.0.0
      */
     @Deprecated
@@ -556,7 +557,7 @@ public class User {
     }
 
     /**
-     * Update the recive marketing email.
+     * Update the receive marketing email.
      *
      * @param updateReceiveMarketingEmail UpdateUserDetailsHandler call bacl isntance.
      * @param receiveMarketingEmail       true to recieve else flase.
@@ -573,7 +574,7 @@ public class User {
     }
 
     /**
-     * Update Date of bith of user.
+     * Update Date of birth of user.
      *
      * @param updateUserDetailsHandler
      * @param date
@@ -588,7 +589,7 @@ public class User {
 
 
     /**
-     * Update Date of bith of user.
+     * Update Date of birth of user.
      *
      * @param updateUserDetailsHandler
      * @param gender
@@ -601,9 +602,17 @@ public class User {
         updateGender.updateGender(updateUserDetailsHandler, gender);
     }
 
+    /**
+     *
+     * @param addConsumerInterestHandler
+     * @param consumerArray
+     * @since 1.0.0
+     *
+     * This is no more needed and will be removed from 2018.1.0
+     */
 
     @Deprecated
-    public void addConsumerInterest(AddConsumerInterestHandler addConsumerInterestHandler,
+    private void addConsumerInterest(AddConsumerInterestHandler addConsumerInterestHandler,
                                     ConsumerArray consumerArray) {
 
         AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
@@ -689,6 +698,7 @@ public class User {
     }
 
     /**
+     * Returns the access token of the User in String
      *
      * @return access token
      * @since 1.0.0
@@ -792,7 +802,7 @@ public class User {
     }
 
 
-    public String getPassword() {
+    private String getPassword() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
             return null;
@@ -917,7 +927,7 @@ public class User {
     /**
      * {@code getHsdpUUID} method returns the HSDP UUID of a logged in user.
      *
-     * @return String\
+     * @return String
      * @since 1.0.0
      */
     public String getHsdpUUID() {

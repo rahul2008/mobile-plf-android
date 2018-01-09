@@ -15,16 +15,22 @@ package com.philips.cdp.registration.listener;
 public interface UserRegistrationListener {
     /**
      * Callback when user is logged out
+     *
+     * @since 1.0.0
      */
     void onUserLogoutSuccess();
 
     /**
      * Callback when user is failed to log out
+     *
+     * @since 1.0.0
      */
     void onUserLogoutFailure();
 
     /**
      * Callback when logout happned due to invalid access token.
+     *
+     * @since 1.0.0
      */
     void onUserLogoutSuccessWithInvalidAccessToken();
 }

@@ -14,12 +14,14 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import org.json.JSONObject;
 
 /**
- * Social provider login handler interface
+ * It is used to handle social provider login
  */
 public interface SocialProviderLoginHandler {
 
     /**
      * {@code onLoginSuccess} method to on login success
+     *
+     * @since 1.0.0
      */
     void onLoginSuccess();
 
@@ -27,6 +29,8 @@ public interface SocialProviderLoginHandler {
      * {@code userRegistrationFailureInfo} method ton login failed with error
      *
      * @param userRegistrationFailureInfo user registration failure info
+     *
+     * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
@@ -35,6 +39,7 @@ public interface SocialProviderLoginHandler {
      *
      * @param prefilledRecord         pre-filled record json object
      * @param socialRegistrationToken social registration token
+     * @since 1.0.0
      */
     void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
                                        String socialRegistrationToken);
@@ -48,6 +53,8 @@ public interface SocialProviderLoginHandler {
      * @param conflictingIdpNameLocalized conflicting idp name localized
      * @param existingIdpNameLocalized    existing idp name localized
      * @param emailId                     email id
+     *
+     * @since 1.0.0
      */
     void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                          String conflictingIdentityProvider, String conflictingIdpNameLocalized,
@@ -55,6 +62,8 @@ public interface SocialProviderLoginHandler {
 
     /**
      * {@code onContinueSocialProviderLoginSuccess} method to on contiues social provider login success
+     *
+     * @since 1.0.0
      */
     void onContinueSocialProviderLoginSuccess();
 
@@ -62,6 +71,8 @@ public interface SocialProviderLoginHandler {
      * {@code userRegistrationFailureInfo} method to on continue social provider login failure
      *
      * @param userRegistrationFailureInfo user registration failure info
+     *
+     * @since 1.0.0
      */
     void onContinueSocialProviderLoginFailure(
             UserRegistrationFailureInfo userRegistrationFailureInfo);

@@ -11,19 +11,21 @@ package com.philips.cdp.registration.handlers;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
- * Created by 310190722 on 12/23/2015.
- * Social login handler interface
+ *
+ * It is used to handle Social login
  */
 public interface SocialLoginHandler {
 
     /**
      * {@code onLoginSuccess} method to on login success
+     * @since 1.0.0
      */
     void onLoginSuccess();
 
     /**
-     * {@code userRegistrationFailureInfo}mehtod to on login faled with error
-     * @param userRegistrationFailureInfo user registration failure info
+     * {@code userRegistrationFailureInfo}method to on login faled with error
+     * @param userRegistrationFailureInfo - UserRegistrationFailureInfo userRegistrationFailureInfo
+     * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 }
