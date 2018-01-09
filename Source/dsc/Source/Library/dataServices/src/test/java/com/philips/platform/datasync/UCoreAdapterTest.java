@@ -73,17 +73,6 @@ public class UCoreAdapterTest {
     private GsonConverter gsonConverterMock;
 
     @Mock
-    UserRegistrationInterface userRegistrationImplMock;
-
-    @Mock
-    BaseAppDataCreator baseAppDataCreatorMock;
-
-    Eventing mEventing;
-
-//    @Mock
-//    private IcpClientFacade icpClientFacadeMock;
-
-    @Mock
     private Context contextMock;
 
     private UCoreAdapter uCoreAdapter;
@@ -95,13 +84,13 @@ public class UCoreAdapterTest {
     private PackageManager packageManagerMock;
 
     @Mock
-    AppComponent appComponantMock;
+    private AppComponent appComponantMock;
 
     @Mock
-    ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
+    private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
     @Mock
-    ApplicationInfo applicationInfoMock;
+    private ApplicationInfo applicationInfoMock;
 
     @Mock
     private PackageInfo packageInfoMock;
@@ -134,17 +123,9 @@ public class UCoreAdapterTest {
         when(restAdapterMock.create(CLIENT_CLASS)).thenReturn(clientMock);
     }
 
-    public void ShouldCreateClient_WhenGetClientIsCalled() throws Exception {
-        //mEventing = new EventingImpl(new EventBus(), new Handler());
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
-        verify(uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock));
-        // assertThat(client).isSameAs(clientMock);
-    }
-
     @Test
     public void ShouldSetCorrectBaseUrl_WhenGetUGrowClientIsCalled() throws Exception {
         uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
-
         verify(restAdapterBuilderMock).setEndpoint(TEST_BASE_URL);
     }
 
@@ -158,36 +139,18 @@ public class UCoreAdapterTest {
     public void ShouldSetCorrectBaseUrl_WhenGetInsightsClientIsCalled_and_URL_is_Null() throws Exception {
         DataServicesManager.getInstance().mDataServicesCoachingServiceUrl = null;
         uCoreAdapter.getAppFrameworkClient(INSIGHT_CLASS, ACCESS_TOKEN, gsonConverterMock);
-       /* verify(restAdapterBuilderMock).setEndpoint(TEST_INSIGHTS_URL);
-        verify(restAdapterMock).setLogLevel(UCoreAdapter.LOG_LEVEL);*/
-       verifyNoMoreInteractions(restAdapterBuilderMock);
+        verifyNoMoreInteractions(restAdapterBuilderMock);
     }
 
     @Test
     public void ShouldSetHeaders_WhenRequestIsIntercepted() throws Exception {
         when(okClientFactoryMock.create(okHttpClientMock)).thenReturn(okClientMock);
         uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
-
         interceptRequest();
 
         verify(requestFacadeMock).addHeader("Content-Type", "application/json");
         verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
         verify(requestFacadeMock).addHeader("Authorization", "bearer " + ACCESS_TOKEN);
-    }
-
-    protected void interceptRequest() {
-        verify(restAdapterBuilderMock).setRequestInterceptor(requestInterceptorCaptor.capture());
-        RequestInterceptor interceptor = requestInterceptorCaptor.getValue();
-
-        interceptor.intercept(requestFacadeMock);
-    }
-
-    public void ShouldAddVersionAPIHeader_WhenRequestIsIntercepted() throws Exception {
-        uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
-        interceptRequest();
-
-        verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
-        verify(requestFacadeMock).addHeader(eq(APP_AGENT_HEADER), anyString());
     }
 
     @Test
@@ -196,7 +159,6 @@ public class UCoreAdapterTest {
         interceptRequest();
 
         verify(restAdapterBuilderMock).setEndpoint(TEST_BASE_URL);
-
         verify(requestFacadeMock).addHeader(API_VERSION_CUSTOM_HEADER, EXPECTED_API_VERSION);
         verify(requestFacadeMock).addHeader(eq(APP_AGENT_HEADER), anyString());
     }
@@ -222,5 +184,12 @@ public class UCoreAdapterTest {
         when(contextMock.getPackageManager().getApplicationInfo(contextMock.getPackageName(), 0)).thenReturn(applicationInfoMock);
         String agentHeader = uCoreAdapter.getBuildTime();
         assertThat(agentHeader).isNotEmpty();
+    }
+
+    private void interceptRequest() {
+        verify(restAdapterBuilderMock).setRequestInterceptor(requestInterceptorCaptor.capture());
+        RequestInterceptor interceptor = requestInterceptorCaptor.getValue();
+
+        interceptor.intercept(requestFacadeMock);
     }
 }
