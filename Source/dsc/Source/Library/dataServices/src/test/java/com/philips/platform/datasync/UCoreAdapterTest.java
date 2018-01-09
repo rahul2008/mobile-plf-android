@@ -46,6 +46,9 @@ public class UCoreAdapterTest {
     private static final String API_VERSION_CUSTOM_HEADER = "api-version";
     private static final String APP_AGENT_HEADER = "appAgent";
 
+    private static String TEST_BASE_URL = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+    private static String TEST_INSIGHTS_URL = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com";
+
     @Mock
     private OkHttpClient okHttpClientMock;
 
@@ -63,6 +66,7 @@ public class UCoreAdapterTest {
 
     @Mock
     private ConsentsClient clientMock;
+
     @Mock
     private RequestInterceptor.RequestFacade requestFacadeMock;
 
@@ -74,11 +78,7 @@ public class UCoreAdapterTest {
 
     @Mock
     private Context contextMock;
-
     private UCoreAdapter uCoreAdapter;
-    private String TEST_BASE_URL = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
-
-    private String TEST_INSIGHTS_URL = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com";
 
     @Mock
     private PackageManager packageManagerMock;
