@@ -38,6 +38,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.*;
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
+ * @since 1.0.0
  */
 public class User {
 
@@ -95,7 +96,8 @@ public class User {
     /**
      * Constructor
      *
-     * @param context
+     * @param context - application context
+     * @since 1.0.0
      */
     public User(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -107,9 +109,9 @@ public class User {
     /**
      * {@code loginUsingTraditional} method logs in a user with a traditional account.
      *
-     * @param emailAddress            String email id .
-     * @param password                String password
-     * @param traditionalLoginHandler TraditionalLoginHandler listener.
+     * @param emailAddress            email ID of the User
+     * @param password                password of the User
+     * @param traditionalLoginHandler instance of TraditionalLoginHandler
      *                                @since  1.0.0
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
@@ -159,10 +161,10 @@ public class User {
     /**
      * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
      *
-     * @param activity           Activity
-     * @param providerName       String provider name.
-     * @param socialLoginHandler SocialProviderLoginHandler callback.
-     * @param mergeToken         String merge token.
+     * @param activity           activity
+     * @param providerName       social login provider name
+     * @param socialLoginHandler instance of  SocialProviderLoginHandler
+     * @param mergeToken         token generated of two distinct account created by same User
      *                           @since 1.0.0
      */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
@@ -191,11 +193,11 @@ public class User {
      * {@code loginUserUsingSocialNativeProvider} logs in a user via a native social login provider like we chat.
      *
      * @param activity           Activity .
-     * @param providerName       String  Provider.
-     * @param accessToken        String access token.
-     * @param tokenSecret        String token secrete.
-     * @param socialLoginHandler SocialProviderLoginHandler callback.
-     * @param mergeToken         String merge token .
+     * @param providerName       social logIn provider name
+     * @param accessToken        access token social logIn provider
+     * @param tokenSecret        secret token of social logIn provider
+     * @param socialLoginHandler instance of SocialProviderLoginHandler
+     * @param mergeToken         token generated of two distinct account created by same User
      *                           @since 1.0.0
      */
     public void loginUserUsingSocialNativeProvider(final Activity activity,
@@ -226,13 +228,13 @@ public class User {
     /**
      * {@code registerUserInfoForTraditional} method creates a user account.
      *
-     * @param firstName - String firstName
-     * @param givenName - String givenName
-     * @param userEmail - String userEmail
-     * @param password  - String password
-     * @param olderThanAgeLimit - boolean olderThanAgeLimit
-     * @param isReceiveMarketingEmail - boolean isReceiveMarketingEmail
-     * @param traditionalRegisterHandler - TraditionalRegistrationHandler traditionalRegisterHandler
+     * @param firstName  User's first name
+     * @param givenName  User's last name
+     * @param userEmail  User's email id/mobile number
+     * @param password   User's password
+     * @param olderThanAgeLimit is user older than the defined age limit
+     * @param isReceiveMarketingEmail is user opted for ReceiveMarketingEmail
+     * @param traditionalRegisterHandler traditional user register handler
      * @since 1.0.0
      */
     public void registerUserInfoForTraditional(String firstName, final String givenName, final String userEmail,
@@ -252,8 +254,8 @@ public class User {
     /**
      * {@code forgotPassword} method retrieves a lost password.
      *
-     * @param emailAddress          String emailAddress
-     * @param forgotPasswordHandler ForgotPasswordHandler callback.
+     * @param emailAddress          User's email Address
+     * @param forgotPasswordHandler Instance of ForgotPasswordHandler
      *                              @since 1.0.0
      */
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
@@ -271,7 +273,7 @@ public class User {
     /**
      * {@code refreshLoginSession} method refreshes the session of an already logged in user.
      *
-     * @param refreshLoginSessionHandler RefreshLoginSessionHandler callback
+     * @param refreshLoginSessionHandler instance of RefreshLoginSessionHandler
      *                                   @since 1.0.0
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
@@ -283,8 +285,8 @@ public class User {
     /**
      * {@code resendVerificationEmail} method sends a verification mail in case an already sent mail is not received.
      *
-     * @param emailAddress            String email id
-     * @param resendVerificationEmail ResendVerificationEmailHandler callback
+     * @param emailAddress            email Address of User
+     * @param resendVerificationEmail instance of ResendVerificationEmailHandler
      *                                @since 1.0.0
      */
     public void resendVerificationMail(final String emailAddress,
@@ -319,10 +321,10 @@ public class User {
     /**
      * {@code mergeToTraditionalAccount} method merges a traditional account to other existing account
      *
-     * @param emailAddress - String email address
-     * @param password - String password
-     * @param mergeToken - String mergeToken
-     * @param traditionalLoginHandler - TraditionalLoginHandler traditionalLoginHandler
+     * @param emailAddress  email address of User
+     * @param password password of User
+     * @param mergeToken token generated of two distinct account created by same User
+     * @param traditionalLoginHandler instance of TraditionalLoginHandler
      * @since 1.0.0
      */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
@@ -333,14 +335,14 @@ public class User {
     /**
      * {@code registerUserInfoForSocial} methods creates a new account using social provider.
      *
-     * @param givenName - String givenName
-     * @param displayName - String displayName
-     * @param familyName - String familyName
-     * @param userEmail - String userEmail
-     * @param olderThanAgeLimit - boolean olderThanAgeLimit
-     * @param isReceiveMarketingEmail - boolean isReceiveMarketingEmail
-     * @param socialProviderLoginHandler - SocialProviderLoginHandler socialProviderLoginHandler
-     * @param socialRegistrationToken - String socialRegistrationToken
+     * @param givenName given name of User
+     * @param displayName display name of User
+     * @param familyName family name of User
+     * @param userEmail  email address of user
+     * @param olderThanAgeLimit is user older than the defined age limit
+     * @param isReceiveMarketingEmail is User wants to  receive marketing email
+     * @param socialProviderLoginHandler instance of  SocialProviderLoginHandler socialProviderLoginHandler
+     * @param socialRegistrationToken  social provider login registration token
      * @since 1.0.0
      */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
@@ -543,9 +545,9 @@ public class User {
     }
 
     /**
-     * Handle merge flow erorr
+     * Handle merge flow error
      *
-     * @param existingProvider
+     * @param existingProvider existing social logIn provider
      * @return
      * @since 1.0.0
      */
@@ -559,8 +561,9 @@ public class User {
     /**
      * Update the receive marketing email.
      *
-     * @param updateReceiveMarketingEmail UpdateUserDetailsHandler call bacl isntance.
-     * @param receiveMarketingEmail       true to recieve else flase.
+     * @param updateReceiveMarketingEmail instance of UpdateUserDetailsHandler call back
+     * @param receiveMarketingEmail       does User want to receive marketing email or not.
+     *                                    Pass true if User wants to receive or else false .
      *                                    @since 1.0.0
      */
     public void updateReceiveMarketingEmail(
@@ -576,8 +579,8 @@ public class User {
     /**
      * Update Date of birth of user.
      *
-     * @param updateUserDetailsHandler
-     * @param date
+     * @param updateUserDetailsHandler instance of UpdateUserDetailsHandler
+     * @param date date of birth of User
      * @since 1.0.0
      */
     public void updateDateOfBirth(
@@ -591,8 +594,8 @@ public class User {
     /**
      * Update Date of birth of user.
      *
-     * @param updateUserDetailsHandler
-     * @param gender
+     * @param updateUserDetailsHandler instance of UpdateUserDetailsHandler
+     * @param gender instance of Gender
      * @since 1.0.0
      */
     public void updateGender(
@@ -604,8 +607,8 @@ public class User {
 
     /**
      *
-     * @param addConsumerInterestHandler
-     * @param consumerArray
+     * @param addConsumerInterestHandler instance of AddConsumerInterestHandler
+     * @param consumerArray all consumer interests
      * @since 1.0.0
      *
      * This is no more needed and will be removed from 2018.1.0
@@ -675,7 +678,7 @@ public class User {
     /**
      * {@code logout} method logs out a logged in user.
      *
-     * @param logoutHandler
+     * @param logoutHandler instance of LogoutHandler
      * @since 1.0.0
      */
     public void logout(LogoutHandler logoutHandler) {
@@ -716,7 +719,7 @@ public class User {
     /**
      * Refresh User object and align with Server
      *
-     * @param handler Callback mHandler
+     * @param handler instance of RefreshUserHandler
      *                @since 1.0.0
      */
     public void refreshUser(final RefreshUserHandler handler) {
@@ -995,7 +998,7 @@ public class User {
     /**
      * register User Registration Listener
      *
-     * @param userRegistrationListener UserRegistrationListener callback
+     * @param userRegistrationListener instance of UserRegistrationListener
      *                                 @since 1.0.0
      */
     public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
@@ -1005,7 +1008,7 @@ public class User {
     /**
      * remove  User Registration Listener
      *
-     * @param userRegistrationListener UserRegistrationListener callback prevoulsy registered.
+     * @param userRegistrationListener instance of UserRegistrationListener which is  previously registered.
      *                                 @since 1.0.0
      */
     public void unRegisterUserRegistrationListener(UserRegistrationListener

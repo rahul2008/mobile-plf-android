@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 /**
  * It is used to handle social provider login
+ * @since 1.0.0
  */
 public interface SocialProviderLoginHandler {
 
@@ -28,7 +29,8 @@ public interface SocialProviderLoginHandler {
     /**
      * {@code userRegistrationFailureInfo} method ton login failed with error
      *
-     * @param userRegistrationFailureInfo user registration failure info
+     * @param userRegistrationFailureInfo  instance of UserRegistrationFailureInfo
+     *                                     which gives failure information when social login fails
      *
      * @since 1.0.0
      */
@@ -37,8 +39,8 @@ public interface SocialProviderLoginHandler {
     /**
      * {@code onLoginFailedWithTwoStepError} method to on login failed with tow step error
      *
-     * @param prefilledRecord         pre-filled record json object
-     * @param socialRegistrationToken social registration token
+     * @param prefilledRecord          Json object of login detail record
+     * @param socialRegistrationToken  social registration token
      * @since 1.0.0
      */
     void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
@@ -48,7 +50,7 @@ public interface SocialProviderLoginHandler {
      * {@code onLoginFailedWithMergeFlowError} method to On login failed with merge flow error
      *
      * @param mergeToken                  merge token
-     * @param existingProvider            existing provider
+     * @param existingProvider            used social login provider
      * @param conflictingIdentityProvider conflicting identity provider
      * @param conflictingIdpNameLocalized conflicting idp name localized
      * @param existingIdpNameLocalized    existing idp name localized
@@ -61,7 +63,7 @@ public interface SocialProviderLoginHandler {
                                          String existingIdpNameLocalized, String emailId);
 
     /**
-     * {@code onContinueSocialProviderLoginSuccess} method to on contiues social provider login success
+     * {@code onContinueSocialProviderLoginSuccess} method to on continue social provider login success
      *
      * @since 1.0.0
      */
@@ -70,7 +72,7 @@ public interface SocialProviderLoginHandler {
     /**
      * {@code userRegistrationFailureInfo} method to on continue social provider login failure
      *
-     * @param userRegistrationFailureInfo user registration failure info
+     * @param userRegistrationFailureInfo  it gives the registration failure information when social provider login fails to continue
      *
      * @since 1.0.0
      */

@@ -11,6 +11,7 @@ package com.philips.cdp.registration.handlers;
 
 /**
  * It is used to handle refresh user
+ * @since 1.0.0
  */
 public interface RefreshUserHandler {
 
@@ -23,7 +24,7 @@ public interface RefreshUserHandler {
 
 	/**
 	 * {@code onRefreshUserFailed} method to on refresh user failed
-	 * @param error - int error
+	 * @param error  error code when refresh user fails
 	 *
 	 * @since 1.0.0
      */

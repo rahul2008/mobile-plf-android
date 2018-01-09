@@ -11,6 +11,7 @@ package com.philips.cdp.registration.handlers;
 
 /**
  * It is used to update user record
+ * @since 1.0.0
  */
 public interface UpdateUserRecordHandler {
 

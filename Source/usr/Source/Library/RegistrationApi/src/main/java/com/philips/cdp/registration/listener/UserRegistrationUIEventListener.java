@@ -11,12 +11,14 @@ import android.app.Activity;
 
 /**
  * UI Registtaion Event Listener
+ * @since 1.0.0
  */
 public interface UserRegistrationUIEventListener {
     /**
      * When user complete the registion process completed
      *
      * @param activity launching activity as callback
+     *                 @since 1.0.0
      */
     void onUserRegistrationComplete(Activity activity);
 
@@ -24,6 +26,7 @@ public interface UserRegistrationUIEventListener {
      * Privecy policy link clicked callback
      *
      * @param activity launching activity as callback
+     *                 @since 1.0.0
      */
     void onPrivacyPolicyClick(Activity activity);
 
@@ -31,6 +34,7 @@ public interface UserRegistrationUIEventListener {
      * On terms and condition clicked callback.
      *
      * @param activity launching activity as callback
+     *                 @since 1.0.0
      */
     void onTermsAndConditionClick(Activity activity);
 

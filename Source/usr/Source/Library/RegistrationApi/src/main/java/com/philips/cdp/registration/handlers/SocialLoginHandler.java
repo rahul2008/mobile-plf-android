@@ -13,6 +13,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 /**
  *
  * It is used to handle Social login
+ * @since 1.0.0
  */
 public interface SocialLoginHandler {
 
@@ -24,7 +25,7 @@ public interface SocialLoginHandler {
 
     /**
      * {@code userRegistrationFailureInfo}method to on login faled with error
-     * @param userRegistrationFailureInfo - UserRegistrationFailureInfo userRegistrationFailureInfo
+     * @param userRegistrationFailureInfo  gives the failure information when social login fails
      * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);

@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.utils;
 
 /**
  * It is used to determine to display Opt-in screen in a separate screen or with in  account screen .
+ * @since 1.0.0
  */
 public enum UIFlow {
 

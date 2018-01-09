@@ -5,12 +5,13 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 /**
  * It is used to accept AppInfraInterface as a parameter to UR component
+ * @since 1.0.0
  */
 public class URDependancies extends UappDependencies {
 
     /**
      * creates instance of URDependancies with AppInfraInterface object
-     * @param appInfra - AppInfraInterface appInfra
+     * @param appInfra - instance of AppInfraInterface
      *                 @since 1.0.0
      */
     public URDependancies(AppInfraInterface appInfra) {

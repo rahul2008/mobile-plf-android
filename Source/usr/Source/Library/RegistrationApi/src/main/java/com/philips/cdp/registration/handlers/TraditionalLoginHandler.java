@@ -13,6 +13,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
  * It is used to handle traditional login
+ * @since 1.0.0
  */
 public interface TraditionalLoginHandler {
 
@@ -24,7 +25,7 @@ public interface TraditionalLoginHandler {
 
     /**
      * {@code onLoginFailedWithError }method to on login failed with error
-     * @param userRegistrationFailureInfo user registration failure info
+     * @param userRegistrationFailureInfo gives user registration failure information when philips login fails
      * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);

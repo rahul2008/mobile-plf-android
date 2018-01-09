@@ -18,6 +18,7 @@ import com.philips.platform.uid.thememanager.*;
 
 /**
  * It is used to initialize and launch User Registration component
+ * @since 1.0.0
  */
 
 public class URInterface implements UappInterface {
@@ -26,8 +27,8 @@ public class URInterface implements UappInterface {
 
     /**
      * Launches the User registration user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
-     * @param uiLauncher - ActivityLauncher or FragmentLauncher
-     * @param uappLaunchInput - URLaunchInput
+     * @param uiLauncher  pass ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput pass instance of  URLaunchInput
      * @since 1.0.0
      */
     @Override
@@ -41,8 +42,8 @@ public class URInterface implements UappInterface {
 
     /**
      * It is used to launch User Registration component as a fragment
-     * @param fragmentLauncher - FragmentLauncher fragmentLauncher
-     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
+     * @param fragmentLauncher  pass instance of FragmentLauncher
+     * @param uappLaunchInput   pass instance of UappLaunchInput
      *                        @since 1.0.0
      */
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
@@ -99,8 +100,8 @@ public class URInterface implements UappInterface {
 
     /**
      * It is used to launch User Registration component as a activity
-     * @param uiLauncher - ActivityLauncher uiLauncher
-     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
+     * @param uiLauncher pass instance of ActivityLauncher
+     * @param uappLaunchInput pass instance of  UappLaunchInput
      *                        @since 1.0.0
      */
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -154,8 +155,8 @@ public class URInterface implements UappInterface {
 
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before URInterface$init.
-     * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings - With an application context.
+     * @param uappDependencies pass instance of UappDependencies
+     * @param uappSettings pass instance of UappSettings
      *                     @since 1.0.0
      */
     @Override

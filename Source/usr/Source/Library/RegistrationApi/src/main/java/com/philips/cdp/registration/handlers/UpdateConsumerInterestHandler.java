@@ -11,6 +11,7 @@ package com.philips.cdp.registration.handlers;
 
 /**
  * It is used to update consumer interest
+ * @since 1.0.0
  */
 public interface UpdateConsumerInterestHandler {
 
@@ -22,7 +23,7 @@ public interface UpdateConsumerInterestHandler {
 
 	/**
 	 * {@code onUpdateConsumerInterestFailedWithError}method to on update consumer interest failed with error
-	 * @param error api error
+	 * @param error  gives the janrain error
 	 * @since 1.0.0
      */
 	public void onUpdateConsumerInterestFailedWithError( com.janrain.android.capture.CaptureApiError error);

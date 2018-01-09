@@ -13,6 +13,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
  * It is used to handle forgot password
+ * @since 1.0.0
  */
 public interface ForgotPasswordHandler {
 
@@ -24,7 +25,7 @@ public interface ForgotPasswordHandler {
 
     /**
      *{@code onSendForgotPasswordFailedWithError} method to validate on on send forgot password failed with error
-     * @param userRegistrationFailureInfo - UserRegistrationFailureInfo userRegistrationFailureInfo
+     * @param userRegistrationFailureInfo  instance of UserRegistrationFailureInfo
      * @since 1.0.0
      */
     void onSendForgotPasswordFailedWithError(

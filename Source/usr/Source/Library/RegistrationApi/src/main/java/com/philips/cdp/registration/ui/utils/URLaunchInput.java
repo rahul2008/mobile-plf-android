@@ -7,6 +7,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
  * This class is used to provide input parameters and customizations for User registration.
+ * @since 1.0.0
  */
 
 public class URLaunchInput extends UappLaunchInput {
@@ -29,7 +30,7 @@ public class URLaunchInput extends UappLaunchInput {
     /**
      * Enable  add to back stack for current fragment.
      *
-     * @param isAddToBackStack
+     * @param isAddToBackStack pass true to save User Registration screens to back stack or else false
      * @since 1.0.0
      */
     public void enableAddtoBackStack(boolean isAddToBackStack) {
@@ -44,7 +45,7 @@ public class URLaunchInput extends UappLaunchInput {
 
     /**
      * Get Registration function.
-     * @return Registration function  RegistrationFunction
+     * @return RegistrationFunction  instance of RegistrationFunction
      * @since 1.0.0
      */
     public RegistrationFunction getRegistrationFunction() {
@@ -56,7 +57,7 @@ public class URLaunchInput extends UappLaunchInput {
      * RegistrationFunction.Registration - Will display the Create account option on top
      * RegistrationFunction.SignIn - Will display the Sign in option on top.
      *
-     * @param registrationFunction
+     * @param registrationFunction instance of RegistrationFunction
      * @since 1.0.0
      */
     public void setRegistrationFunction(RegistrationFunction registrationFunction) {
@@ -67,7 +68,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Set a UserRegistrationUIEventListener to provide custom implementations of
      * Terms and conditions, Privacy policy and know about user registration completion.
      *
-     * @param userRegistrationListener - UserRegistrationUIEventListener userRegistrationListener
+     * @param userRegistrationListener  instance of UserRegistrationUIEventListener
      * @since 1.0.0
      */
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener

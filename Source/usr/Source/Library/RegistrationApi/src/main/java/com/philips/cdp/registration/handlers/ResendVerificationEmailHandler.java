@@ -13,6 +13,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
  * It is used to handle resend verification
+ * @since 1.0.0
  */
 public interface ResendVerificationEmailHandler {
     /**
@@ -23,7 +24,7 @@ public interface ResendVerificationEmailHandler {
 
     /**
      * {@code onResendVerificationEmailFailedWithError} method to on resend verification email failed with error
-     * @param userRegistrationFailureInfo -  UserRegistrationFailureInfo userRegistrationFailureInfo
+     * @param userRegistrationFailureInfo   gives the failure information when resend verification email fails
      * @since 1.0.0
      */
     void onResendVerificationEmailFailedWithError(

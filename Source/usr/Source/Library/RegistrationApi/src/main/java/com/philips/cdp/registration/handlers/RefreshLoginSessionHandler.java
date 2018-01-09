@@ -11,6 +11,7 @@ package com.philips.cdp.registration.handlers;
 
 /**
  * It is used to handle Refresh login session
+ * @since 1.0.0
  */
 public interface RefreshLoginSessionHandler {
 
@@ -22,14 +23,14 @@ public interface RefreshLoginSessionHandler {
 
 	/**
 	 * {@code onRefreshLoginSessionFailedWithError}method to validate on refresh login session failed with error
-	 * @param error - int error
+	 * @param error  error code in integer when refresh login session fails
 	 * @since 1.0.0
      */
 	void onRefreshLoginSessionFailedWithError(int error);
 
 	/**
-	 *  method to validateon refresh login session in progress
-	 * @param message - String message
+	 * method to validation refresh login session in progress
+	 * @param message  progress message on refresh login session
 	 * @since 1.0.0
      */
 	void onRefreshLoginSessionInProgress(String message);

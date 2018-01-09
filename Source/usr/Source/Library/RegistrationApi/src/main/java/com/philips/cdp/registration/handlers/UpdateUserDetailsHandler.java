@@ -11,6 +11,7 @@ package com.philips.cdp.registration.handlers;
 
 /**
  * It is used to  update user details
+ * @since 1.0.0
  */
 public interface UpdateUserDetailsHandler {
 
@@ -22,7 +23,7 @@ public interface UpdateUserDetailsHandler {
 
 	/**
 	 * {@code onUpdateFailedWithError}method toon update receive marketing email failed with error
-	 * @param error - int error
+	 * @param error  gives error code in integer when updating User fails
 	 * @since 1.0.0
      */
 	public void onUpdateFailedWithError(int error);
