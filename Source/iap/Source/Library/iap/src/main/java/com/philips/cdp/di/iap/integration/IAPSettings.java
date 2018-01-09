@@ -9,7 +9,8 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * It is used to get required inputs from propositions
+ * IAPSettings class is used to initialize basic settings for InAppPurchase. Right now InAppPurchase doesn’t have any settings to be initialized. So only default initialization of IAPSettings is required to be passed while creating IAPInterface object.
+ * @since 1.0.0
  */
 public class IAPSettings extends UappSettings {
     private boolean mUseLocalData;
@@ -27,7 +28,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * It specifies whether It is Hybris flow or not
-     * @return mUseLocalData - boolean seLocalData
+     * @return mUseLocalData - get return true if hybris support is not available else get false
      * @since 1.0.0
      */
     public boolean isUseLocalData() {
@@ -36,7 +37,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * enable or disable Hybris flow.
-     * @param isLocalData
+     * @param isLocalData - pass true if hybris support required else pass false
      * @since 1.0.0
      */
     void setUseLocalData(boolean isLocalData) {
@@ -45,7 +46,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * sets proposition ID
-     * @param proposition - String proposition
+     * @param proposition - pass proposition id for backend
      * @since 1.0.0
      */
     public void setProposition(String proposition) {
@@ -54,7 +55,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * Returns proposition ID
-     * @return proposition ID - String mProposition
+     * @return proposition ID - get proposition id
      * @since 1.0.0
      */
     public String getProposition() {
@@ -63,7 +64,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      *
-     * @return hostport - String mHostPort
+     * @return hostport - get hostPort URL string
      * @since 1.0.0
      */
     public String getHostPort() {
@@ -72,7 +73,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * sets hostPort id
-     * @param hostPort - String hostPort
+     * @param hostPort - pass hostPort URL string
      * @since 1.0.0
      */
     public void setHostPort(String hostPort) {

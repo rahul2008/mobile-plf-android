@@ -6,7 +6,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import java.util.ArrayList;
 
 /**
- * It is used to get parameters from propositions for launching IAP
+ * IAPLaunchInput is responsible for initializing the settings required for launching.
+ * @since 1.0.0
  */
 public class IAPLaunchInput extends UappLaunchInput {
     int mLandingView;
@@ -16,10 +17,10 @@ public class IAPLaunchInput extends UappLaunchInput {
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
 
     /**
-     * It is used to set IAP flow with blacklisted retailers , launch as fragment or activity and landing view ID .
-     * @param pLandingView - int pLandingView
-     * @param pIapFlowInput - IAPFlowInput pIapFlowInput
-     * @param pBlackListedRetailer - ArrayList<String> pBlackListedRetailer
+     * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
+     * @param pLandingView - pass int value from IAPFlows enums
+     * @param pIapFlowInput - pass object of IAPFlowInput
+     * @param pBlackListedRetailer - pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
@@ -29,9 +30,9 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     /**
-     * It is used to set IAP flow to launch as fragment or activity and landing view ID .
-     * @param pLandingView - int pLandingView
-     * @param pIapFlowInput - IAPFlowInput pIapFlowInput
+     * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
+     * @param pLandingView - pass int value from IAPFlows enums
+     * @param pIapFlowInput - pass object of IAPFlowInput
      * @since 1.0.0
      */
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput) {
@@ -42,7 +43,7 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * returns ignored or blacklisted retailers
-     * @return ignoredRetailerList - ArrayList<String> ignoreRetailers
+     * @return ignoredRetailerList - pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
     public ArrayList<String> getIgnoreRetailers() {
@@ -75,7 +76,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     /**
-     * interface to set landing view
+     * This enum is used to set the landing view of IAP
      * @since 1.0.0
      */
     public interface IAPFlows {

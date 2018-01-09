@@ -8,13 +8,14 @@ package com.philips.cdp.di.iap.integration;
 import java.util.ArrayList;
 
 /**
- * It is used to send call backs to propositions
+ * Vertical needs to implement IAPListener to handle visibility of cart icon, updating cart count, on update cart count, on get complete product list, on success and on failure.
+ * @since 1.0.0
  */
 public interface IAPListener {
 
     /**
      * gets the product count in cart
-     * @param count - int count
+     * @param count - count is an integer through which basis user can update the count visibility
      * @since 1.0.0
      */
     void onGetCartCount(int count);
@@ -26,15 +27,15 @@ public interface IAPListener {
     void onUpdateCartCount();
 
     /**
-     * determines whether to show cart or not
-     * @param shouldShow - boolean shouldShow
+     * notifes true for cart icon visibility or false for hide
+     * @param shouldShow - boolean will help to update hte cart icon visibility
      * @since 1.0.0
      */
     void updateCartIconVisibility(boolean shouldShow);
 
     /**
-     * notifies when complete product list is fetched
-     * @param productList - ArrayList<String> productList
+     * notifies true for when fetched complet product form backend service or false if not fetched
+     * @param productList - will get list of CTNs from backend
      * @since 1.0.0
      */
     void onGetCompleteProductList(final ArrayList<String> productList);
@@ -46,8 +47,8 @@ public interface IAPListener {
     void onSuccess();
 
     /**
-     * notifies if cart is enabled or not from service discovery
-     * @param bool - boolean bool
+     * notifies true for backend response or false for local
+     * @param bool - will get true or false
      * @since 1.0.0
      */
     void onSuccess(boolean bool);
