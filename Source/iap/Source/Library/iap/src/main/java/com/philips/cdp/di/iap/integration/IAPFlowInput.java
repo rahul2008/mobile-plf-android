@@ -13,7 +13,7 @@ public class IAPFlowInput {
 
     /**
      * creates instance of IAPFlowInput from product CTN number
-     * @param productCTN - pass one product CTN as string
+     * @param productCTN  pass one product CTN as string
      * @since 1.0.0
      */
     public IAPFlowInput(String productCTN){
@@ -23,7 +23,7 @@ public class IAPFlowInput {
 
     /**
      * creates instance of IAPFlowInput from product  CTN numbers
-     * @param prductCTNs - pass bunch of product CTNs as an array of string
+     * @param prductCTNs  pass bunch of product CTNs as an array of string
      * @since 1.0.0
      */
     public IAPFlowInput(ArrayList<String> prductCTNs) {
@@ -31,8 +31,8 @@ public class IAPFlowInput {
     }
 
     /**
-     *
-     * @return productCTN - return product CTN
+     * returns product CTN number
+     * @return productCTN  return product CTN
      * @since 1.0.0
      */
     public String getProductCTN() {
@@ -40,8 +40,8 @@ public class IAPFlowInput {
     }
 
     /**
-     * returns product CTN numbers
-     * @return productCTNs - retun bunch of product CTNs
+     * returns product array of CTN number
+     * @return productCTNs  returns array of product CTNs
      * @since 1.0.0
      */
     public ArrayList<String> getProductCTNs() {

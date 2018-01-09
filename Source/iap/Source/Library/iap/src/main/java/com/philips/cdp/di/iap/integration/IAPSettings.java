@@ -19,7 +19,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * used to create IAPSettings instance
-     * @param applicationContext
+     * @param applicationContext context of proposition application
      * @since 1.0.0
      */
     public IAPSettings(Context applicationContext) {
@@ -28,7 +28,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * It specifies whether It is Hybris flow or not
-     * @return mUseLocalData - get return true if hybris support is not available else get false
+     * @return mUseLocalData  get return true if hybris support is not available else get false
      * @since 1.0.0
      */
     public boolean isUseLocalData() {
@@ -37,7 +37,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * enable or disable Hybris flow.
-     * @param isLocalData - pass true if hybris support required else pass false
+     * @param isLocalData  pass true if hybris support required else pass false
      * @since 1.0.0
      */
     void setUseLocalData(boolean isLocalData) {
@@ -46,7 +46,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * sets proposition ID
-     * @param proposition - pass proposition id for backend
+     * @param proposition  pass proposition id for backend
      * @since 1.0.0
      */
     public void setProposition(String proposition) {
@@ -55,7 +55,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * Returns proposition ID
-     * @return proposition ID - get proposition id
+     * @return propositionID  ID provided by Hybris backend
      * @since 1.0.0
      */
     public String getProposition() {
@@ -63,8 +63,8 @@ public class IAPSettings extends UappSettings {
     }
 
     /**
-     *
-     * @return hostport - get hostPort URL string
+     * get HostPort ID
+     * @return hostport  get hostPort URL string
      * @since 1.0.0
      */
     public String getHostPort() {
@@ -73,7 +73,7 @@ public class IAPSettings extends UappSettings {
 
     /**
      * sets hostPort id
-     * @param hostPort - pass hostPort URL string
+     * @param hostPort  pass hostPort URL string
      * @since 1.0.0
      */
     public void setHostPort(String hostPort) {

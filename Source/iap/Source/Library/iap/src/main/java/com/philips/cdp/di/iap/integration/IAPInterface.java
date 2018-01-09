@@ -26,8 +26,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * API to initialize IAP
-     * @param uappDependencies - pass instance of UappDependencies
-     * @param uappSettings - pass instance of UappSettings
+     * @param uappDependencies  pass instance of UappDependencies
+     * @param uappSettings  pass instance of UappSettings
      * @since 1.0.0
      */
     @Override
@@ -41,8 +41,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * API to launch IAP
-     * @param uiLauncher - pass instance of UiLauncher
-     * @param uappLaunchInput - pass instance of UappLaunchInput
+     * @param uiLauncher  pass instance of UiLauncher
+     * @param uappLaunchInput  pass instance of UappLaunchInput
      * @throws RuntimeException
      * @since 1.0.0
      */
@@ -63,7 +63,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * IAPInterface getProductCartCount will fetch the cart count
-     * @param iapListener - IAPListener iapListener
+     * @param iapListener  instance of IAPListener
      * @since 1.0.0
      */
     @Override
@@ -76,7 +76,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * IAPInterface fetch complete product ctn list from backend
-     * @param iapListener - IAPListener iapListener
+     * @param iapListener  instance of IAPListener
      * @since 1.0.0
      */
     @Override
@@ -89,7 +89,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * IAPInterface isCartVisible method will inform the uApp for cart visibility. It’s an optional method
-     * @param iapListener - IAPListener iapListener
+     * @param iapListener  instance of IAPListener
      * @return
      * @since 1.0.0
      */

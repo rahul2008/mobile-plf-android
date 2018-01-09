@@ -16,7 +16,7 @@ public class IAPDependencies extends UappDependencies {
 
     /**
      * Create IAPDependencies instance from AppInfraInterface object
-     * @param appInfra - to pass the instance of AppInfraInterface
+     * @param appInfra  to pass the instance of AppInfraInterface
      * @since 1.0.0
      */
     public IAPDependencies(AppInfraInterface appInfra) {

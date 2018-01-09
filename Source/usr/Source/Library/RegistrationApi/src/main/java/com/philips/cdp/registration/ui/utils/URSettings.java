@@ -5,7 +5,7 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * It passes the proposition Application context to UR component
+ * It passes the proposition Application context to USR component
  * @since 1.0.0
  */
 public class URSettings extends UappSettings {

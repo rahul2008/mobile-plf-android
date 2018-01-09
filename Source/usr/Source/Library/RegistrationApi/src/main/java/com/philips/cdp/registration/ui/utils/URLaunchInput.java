@@ -6,7 +6,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
- * This class is used to provide input parameters and customizations for User registration.
+ * This class is used to provide input parameters and customizations for USR.
  * @since 1.0.0
  */
 
@@ -17,7 +17,7 @@ public class URLaunchInput extends UappLaunchInput {
     private RegistrationContentConfiguration registrationContentConfiguration;
 
     /**
-     * Get status of is current fragment need to add to backstack or no.
+     * Get status of is current fragment need to add to back stack or not.
      *
      * @return true if need to add to fragment back stack
      * @since 1.0.0
@@ -28,7 +28,7 @@ public class URLaunchInput extends UappLaunchInput {
 
 
     /**
-     * Enable  add to back stack for current fragment.
+     * Enable add to back stack for current fragment.
      *
      * @param isAddToBackStack pass true to save User Registration screens to back stack or else false
      * @since 1.0.0
@@ -54,8 +54,8 @@ public class URLaunchInput extends UappLaunchInput {
 
     /**
      * RegistrationFunction is used to prioritize  between Create account and Sign in.
-     * RegistrationFunction.Registration - Will display the Create account option on top
-     * RegistrationFunction.SignIn - Will display the Sign in option on top.
+     * RegistrationFunction.Registration  Will display the Create account option on top
+     * RegistrationFunction.SignIn  Will display the Sign in option on top.
      *
      * @param registrationFunction instance of RegistrationFunction
      * @since 1.0.0
@@ -106,7 +106,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Used to set custom content on the marketing opt in page and home page.
      * Please see RegistrationContentConfiguration class for more details.
      *
-     * @param registrationContentConfiguration - RegistrationContentConfiguration registrationContentConfiguration
+     * @param registrationContentConfiguration  RegistrationContentConfiguration registrationContentConfiguration
      * @since 1.0.0
      */
     public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration) {
@@ -128,7 +128,7 @@ public class URLaunchInput extends UappLaunchInput {
      * Used to override the UI flow. Setting this will disable any server side A/B testing.
      * Advised not to use for normal use-cases.
      *
-     * @param uiFlow - Any one of the UIFlow enum values.
+     * @param uiFlow  Any one of the UIFlow enum values.
      *               @since 1.0.0
      */
     public void setUIFlow(UIFlow uiFlow) {

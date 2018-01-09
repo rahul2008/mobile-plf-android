@@ -28,14 +28,14 @@ public interface IAPListener {
 
     /**
      * notifes true for cart icon visibility or false for hide
-     * @param shouldShow - boolean will help to update hte cart icon visibility
+     * @param shouldShow  boolean will help to update hte cart icon visibility
      * @since 1.0.0
      */
     void updateCartIconVisibility(boolean shouldShow);
 
     /**
      * notifies true for when fetched complet product form backend service or false if not fetched
-     * @param productList - will get list of CTNs from backend
+     * @param productList  will get list of CTNs from backend
      * @since 1.0.0
      */
     void onGetCompleteProductList(final ArrayList<String> productList);
@@ -48,14 +48,14 @@ public interface IAPListener {
 
     /**
      * notifies true for backend response or false for local
-     * @param bool - will get true or false
+     * @param bool  will get true or false
      * @since 1.0.0
      */
     void onSuccess(boolean bool);
 
     /**
      * it gives failure responses with error code
-     * @param errorCode - int errorCode
+     * @param errorCode   errorCode when IAP encounters any error
      * @since 1.0.0
      */
     void onFailure(final int errorCode);

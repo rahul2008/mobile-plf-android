@@ -22,7 +22,7 @@ public enum UIFlow {
 
     /**
      * Creates UIFlow instance
-     * @param flow - String flow
+     * @param flow  String flow
      * @since 1.0.0
      */
     UIFlow(final String flow) {
@@ -30,8 +30,8 @@ public enum UIFlow {
     }
 
     /**
-     * returns flow value in string
-     * @return flow - String flow
+     * Returns flow value in string
+     * @return flow  String flow
      * @since 1.0.0
      */
     public String getValue() {

@@ -18,9 +18,9 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
-     * @param pLandingView - pass int value from IAPFlows enums
-     * @param pIapFlowInput - pass object of IAPFlowInput
-     * @param pBlackListedRetailer - pass list of retailer which you want to ignore from Retailer list
+     * @param pLandingView  pass int value from IAPFlows enums
+     * @param pIapFlowInput  pass object of IAPFlowInput
+     * @param pBlackListedRetailer  pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
@@ -31,8 +31,8 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
-     * @param pLandingView - pass int value from IAPFlows enums
-     * @param pIapFlowInput - pass object of IAPFlowInput
+     * @param pLandingView  pass int value from IAPFlows enums
+     * @param pIapFlowInput  pass object of IAPFlowInput
      * @since 1.0.0
      */
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput) {
@@ -43,7 +43,7 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * returns ignored or blacklisted retailers
-     * @return ignoredRetailerList - pass list of retailer which you want to ignore from Retailer list
+     * @return ignoredRetailerList  pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
     public ArrayList<String> getIgnoreRetailers() {
@@ -58,7 +58,7 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * returns IAPListener instance
-     * @return iapListener - IAPListener iapListener
+     * @return iapListener  instance of IAPListener
      * @since 1.0.0
      */
     public IAPListener getIapListener() {
@@ -68,7 +68,7 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     /**
      * sets IAPListener instance
-     * @param iapListener - IAPListener iapListener
+     * @param iapListener  instance of IAPListener
      * @since 1.0.0
      */
     public void setIapListener(IAPListener iapListener) {

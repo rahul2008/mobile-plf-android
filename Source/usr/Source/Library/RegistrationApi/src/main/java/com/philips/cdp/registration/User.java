@@ -36,7 +36,7 @@ import javax.inject.*;
 import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.*;
 
 /**
- * {@code User} class represents information related to a logged in user of User Registration component.
+ * {@code User} class represents information related to a logged in user of USR.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  * @since 1.0.0
  */
@@ -96,7 +96,7 @@ public class User {
     /**
      * Constructor
      *
-     * @param context - application context
+     * @param context  application context
      * @since 1.0.0
      */
     public User(Context context) {
@@ -192,7 +192,7 @@ public class User {
     /**
      * {@code loginUserUsingSocialNativeProvider} logs in a user via a native social login provider like we chat.
      *
-     * @param activity           Activity .
+     * @param activity           activity .
      * @param providerName       social logIn provider name
      * @param accessToken        access token social logIn provider
      * @param tokenSecret        secret token of social logIn provider
