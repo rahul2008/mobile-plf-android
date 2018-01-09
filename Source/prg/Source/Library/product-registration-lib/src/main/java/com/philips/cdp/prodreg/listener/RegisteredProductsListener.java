@@ -11,14 +11,15 @@ import java.util.List;
 
 /**
  * It is used to give back registered products with timeStamp to proposition
+ * @since 1.0.0
  */
 public interface RegisteredProductsListener {
 
     /**
      * It is used to give back registered products with timeStamp to proposition
-     * @param registeredProducts - List<RegisteredProduct> registeredProducts
-     * @param timeStamp - long timeStamp
-     *                  @since 1.0.0
+     * @param registeredProducts -  get list of RegisteredProduct
+     * @param timeStamp - get timeStamp information of registered product
+     * @since 1.0.0
      */
     void getRegisteredProducts(List<RegisteredProduct> registeredProducts, long timeStamp);
 }

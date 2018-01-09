@@ -10,23 +10,22 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
 
 /**
  * It is used to give call back to proposition when Product registration status .
+ * @since 1.0.0
  */
 public interface ProdRegListener {
 
     /**
      * It is used to give call back to proposition when Product registration succeed .
-     * @param registeredProduct - RegisteredProduct registeredProduct
-     * @param userWithProduct - UserWithProducts userWithProduct
-     *
+     * @param registeredProduct - pass instance of RegisteredProduct
+     * @param userWithProduct -  pass instance of UserWithProducts
      * @since 1.0.0
      */
     void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct);
 
     /**
      * It is used to give call back to proposition when Product registration fails .
-     * @param registeredProduct - RegisteredProduct registeredProduct
-     * @param userWithProduct - UserWithProducts userWithProduct
-     *
+     * @param registeredProduct -  pass instance of RegisteredProduct
+     * @param userWithProduct -  pass instance of UserWithProducts
      * @since 1.0.0
      */
     void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct);

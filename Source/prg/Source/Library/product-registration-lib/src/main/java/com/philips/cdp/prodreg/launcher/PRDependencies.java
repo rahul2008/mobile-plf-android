@@ -5,12 +5,13 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 /**
  * It is used to pass AppInfraInterface from proposition to Product Registration component
+ * @since 1.0.0
  */
 public class PRDependencies extends UappDependencies {
 
     /**
-     * creates instance of PRDependencies with AppInfraInterface object
-     * @param appInfra - AppInfraInterface appInfra
+     * Create IAPDependencies instance from AppInfraInterface object
+     * @param appInfra - to pass the instance of AppInfraInterface
      * @since 1.0.0
      */
     public PRDependencies(final AppInfraInterface appInfra) {
