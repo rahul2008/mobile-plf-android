@@ -15,8 +15,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * It is used by propositions to initialize and launch IAP .
- * It also exposes some utility public APIs of IAP .
+ * IAPInterface is the public class for any proposition to consume InAppPurchase micro app. Its the starting initialization point.
+ * @since 1.0.0
  */
 public class IAPInterface implements UappInterface, IAPExposedAPI {
     protected IAPHandler mIAPHandler;
@@ -26,9 +26,9 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * API to initialize IAP
-     * @param uappDependencies - UappDependencies uappDependencies
-     * @param uappSettings - UappSettings uappSettings
-     *                     @since 1.0.0
+     * @param uappDependencies - pass instance of UappDependencies
+     * @param uappSettings - pass instance of UappSettings
+     * @since 1.0.0
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -41,8 +41,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     /**
      * API to launch IAP
-     * @param  uiLauncher - UiLauncher uiLauncher
-     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
+     * @param uiLauncher - pass instance of UiLauncher
+     * @param uappLaunchInput - pass instance of UappLaunchInput
      * @throws RuntimeException
      * @since 1.0.0
      */
@@ -62,7 +62,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     * API to fetch product count in cart
+     * IAPInterface getProductCartCount will fetch the cart count
      * @param iapListener - IAPListener iapListener
      * @since 1.0.0
      */
@@ -75,7 +75,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     * API to fetch complete product list
+     * IAPInterface fetch complete product ctn list from backend
      * @param iapListener - IAPListener iapListener
      * @since 1.0.0
      */
@@ -88,7 +88,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     /**
-     * API to decide show the cart or not
+     * IAPInterface isCartVisible method will inform the uApp for cart visibility. It’s an optional method
      * @param iapListener - IAPListener iapListener
      * @return
      * @since 1.0.0

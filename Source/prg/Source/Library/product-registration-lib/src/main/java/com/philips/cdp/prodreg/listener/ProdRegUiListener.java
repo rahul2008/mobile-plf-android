@@ -13,29 +13,30 @@ import java.util.List;
 
 /**
  * It is used to give call back to proposition when continue or back button is called and also when Product registration fails .
+ * @since 1.0.0
  */
 public interface ProdRegUiListener {
 
     /**
      * API used to give call back to proposition when continue button is clicked
-     * @param registeredProducts - List<RegisteredProduct> registeredProducts
-     * @param userWithProduct - UserWithProducts userWithProduct
-     *                        @since 1.0.0
+     * @param registeredProducts - get list of RegisteredProduct
+     * @param userWithProduct - get instance of UserWithProducts
+     * @since 1.0.0
      */
     void onProdRegContinue(List<RegisteredProduct> registeredProducts, UserWithProducts userWithProduct);
 
     /**
      * API used to give call back to proposition when back button is clicked
-     * @param registeredProducts - List<RegisteredProduct> registeredProducts
-     * @param userWithProduct - UserWithProducts userWithProduct
-     *                        @since 1.0.0
+     * @param registeredProducts - get list of RegisteredProduct
+     * @param userWithProduct - get instance of UserWithProducts
+     * @since 1.0.0
      */
     void onProdRegBack(List<RegisteredProduct> registeredProducts, UserWithProducts userWithProduct);
 
     /**
      * API used to give call back to proposition when Product registration fails .
-     * @param prodRegError - ProdRegError prodRegError
-     *                     @since 1.0.0
+     * @param prodRegError - get error by ProdRegError
+     *  @since 1.0.0
      */
     void onProdRegFailed(ProdRegError prodRegError);
 }

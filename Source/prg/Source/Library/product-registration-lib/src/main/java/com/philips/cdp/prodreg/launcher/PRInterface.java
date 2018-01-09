@@ -8,13 +8,14 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * It is used to initialize and launch Product Registration
+ * @since 1.0.0
  */
 public class PRInterface implements UappInterface {
 
     /**
      * API used for initializing Product Registration
-     * @param uappDependencies - App dependencies
-     * @param uappSettings     - App settings
+     * @param uappDependencies - pass instance of UappDependencies
+     * @param uappSettings - pass instance of UappSettings
      * @since 1.0.0
      */
     @Override
@@ -31,8 +32,8 @@ public class PRInterface implements UappInterface {
 
     /**
      * API used for Launching Product Registration as activity or fragment
-     * @param uiLauncher - UiLauncher uiLauncher
-     * @param uappLaunchInput - UappLaunchInput uappLaunchInput
+     * @param uiLauncher - pass instance of UiLauncher
+     * @param uappLaunchInput - pass instance of UappLaunchInput
      * @since 1.0.0
      */
     @Override

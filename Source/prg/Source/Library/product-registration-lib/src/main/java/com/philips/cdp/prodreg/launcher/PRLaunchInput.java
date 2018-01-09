@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * This class is used to provide input parameters and customizations for Product registration.
- *
+ * @since 1.0.0
  */
 public class PRLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
@@ -22,8 +22,8 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      *
-     * @param products - ArrayList<Product> products
-     * @param isAppLaunchFlow - boolean isAppLaunchFlow
+     * @param products - pass list of products
+     * @param isAppLaunchFlow - pass true then launch as app setup flow and if false then launch as user flow
      * @since 1.0.0
      */
     public PRLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
@@ -33,7 +33,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API returns products
-     * @return Products
+     * @return instance of Products
      * @since 1.0.0
      */
     public ArrayList<Product> getProducts() {
@@ -42,7 +42,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API returns APP launch flow or not
-     * @return boolean for AppLaunchFlow or not
+     * @return true then launch as app setup flow and if false then launch as user flow
      * @since 1.0.0
      */
     public boolean isAppLaunchFlow() {
@@ -51,7 +51,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API returns ProdRegUiListener instance
-     * @return ProdRegUiListener
+     * @return instance of ProdRegUiListener
      * @since 1.0.0
      */
     public ProdRegUiListener getProdRegUiListener() {
@@ -60,7 +60,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API sets ProdRegUiListener instance
-     * @param prodRegUiListener - ProdRegUiListener prodRegUiListener
+     * @param prodRegUiListener - pass instance of ProdRegUiListener
      * @since 1.0.0
      */
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
@@ -78,7 +78,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API sets BackgroundImageResourceId
-     * @param backgroundImageResourceId - int backgroundImageResourceId
+     * @param backgroundImageResourceId - pass resource id of background image
      * @since 1.0.0
      */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {

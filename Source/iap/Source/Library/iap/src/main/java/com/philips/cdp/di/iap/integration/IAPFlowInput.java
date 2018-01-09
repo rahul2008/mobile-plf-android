@@ -3,7 +3,8 @@ package com.philips.cdp.di.iap.integration;
 import java.util.ArrayList;
 
 /**
- * It is used to accept CTNs from propositions
+ * IAPFlowInput initializes the required ctn’s for InAppPurchase to set the flow of micro app.
+ * @since 1.0.0
  */
 public class IAPFlowInput {
     private String productCTN;
@@ -12,7 +13,7 @@ public class IAPFlowInput {
 
     /**
      * creates instance of IAPFlowInput from product CTN number
-     * @param productCTN - String productCTN
+     * @param productCTN - pass one product CTN as string
      * @since 1.0.0
      */
     public IAPFlowInput(String productCTN){
@@ -22,7 +23,7 @@ public class IAPFlowInput {
 
     /**
      * creates instance of IAPFlowInput from product  CTN numbers
-     * @param prductCTNs - ArrayList<String> prductCTNs
+     * @param prductCTNs - pass bunch of product CTNs as an array of string
      * @since 1.0.0
      */
     public IAPFlowInput(ArrayList<String> prductCTNs) {
@@ -31,7 +32,7 @@ public class IAPFlowInput {
 
     /**
      *
-     * @return productCTN - String product CTN number
+     * @return productCTN - return product CTN
      * @since 1.0.0
      */
     public String getProductCTN() {
@@ -40,7 +41,7 @@ public class IAPFlowInput {
 
     /**
      * returns product CTN numbers
-     * @return productCTNs - ArrayList<String> productCTNs
+     * @return productCTNs - retun bunch of product CTNs
      * @since 1.0.0
      */
     public ArrayList<String> getProductCTNs() {

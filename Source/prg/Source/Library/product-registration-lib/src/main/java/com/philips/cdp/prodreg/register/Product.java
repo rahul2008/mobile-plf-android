@@ -28,6 +28,7 @@ import java.io.Serializable;
 
 /**
  * It is used to represent a Product
+ * @since 1.0.0
  */
 public class Product implements Serializable {
 
@@ -43,9 +44,9 @@ public class Product implements Serializable {
 
     /**
      * Creates instance of Product
-     * @param productModelNumber - String productModelNumber
-     * @param sector - PrxConstants.Sector sector
-     * @param catalog - PrxConstants.Catalog catalog
+     * @param productModelNumber - pass correct product model number as string
+     * @param sector - pass sector from enum PrxConstants.Sector
+     * @param catalog - pass sector from catalog PrxConstants.Catalog
      * @since 1.0.0
      */
     public Product(String productModelNumber, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
@@ -56,7 +57,7 @@ public class Product implements Serializable {
 
     /**
      * API returns the friendlyName
-     * @return FriendlyName
+     * @return FriendlyName - return product family name
      * @since 1.0.0
      */
     public String getFriendlyName() {
@@ -65,7 +66,7 @@ public class Product implements Serializable {
 
     /**
      * API to set friendlyName
-     * @param friendlyName
+     * @param friendlyName - pass friendly name for any given product name
      * @since 1.0.0
      */
     public void setFriendlyName(final String friendlyName) {
@@ -74,8 +75,8 @@ public class Product implements Serializable {
 
     /**
      * API to execute product metadata request .
-     * @param context - Context context
-     * @param metadataListener -  MetadataListener metadataListener
+     * @param context - pass application context
+     * @param metadataListener -  pass instance of MetadataListener
      * @since 1.0.0
      */
     public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
@@ -90,9 +91,9 @@ public class Product implements Serializable {
     /**
      *  API to execute product summary request .
      *
-     * @param context - Context context
-     * @param product - Product product
-     * @param summaryListener - SummaryListener summaryListener
+     * @param context - pass application context
+     * @param product - pass instance of Product class
+     * @param summaryListener - pass instance of SummaryListener
      * @since 1.0.0
      */
     public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
@@ -106,8 +107,8 @@ public class Product implements Serializable {
 
     /**
      * API to get instance of ProductSummaryRequest from product
-     * @param product - Product product
-     * @return ProductSummaryRequest
+     * @param product - pass instance of Product class
+     * @return ProductSummaryRequest - It return new instance of ProductSummaryRequest
      * @since 1.0.0
      */
     @NonNull
@@ -117,7 +118,7 @@ public class Product implements Serializable {
 
     /**
      * API to get ResponseListener instance from metadataListener
-     * @param metadataListener - MetadataListener metadataListener
+     * @param metadataListener - pass instance of MetadataListener
      * @return ResponseListener
      * @since 1.0.0
      */
@@ -139,7 +140,7 @@ public class Product implements Serializable {
 
     /**
      * API to get ResponseListener instance from summaryListener
-     * @param summaryListener - SummaryListener summaryListener
+     * @param summaryListener - pass instance of SummaryListener
      * @return ResponseListener
      * @since 1.0.0
      */
@@ -170,8 +171,8 @@ public class Product implements Serializable {
 
     /**
      * API gets RequestManager instance
-     * @param context - Context context
-     * @return RequestManager
+     * @param context - pass instance of application Context
+     * @return RequestManager - return instance of RequestManager
      * @since 1.0.0
      */
     @NonNull
@@ -245,7 +246,7 @@ public class Product implements Serializable {
     /**
      * API set Local
      * @param locale local
-     *               @since 1.0.0
+     * @since 1.0.0
      */
     public void setLocale(String locale) {
         this.locale = locale;
@@ -262,8 +263,8 @@ public class Product implements Serializable {
 
     /**
      * API set Date
-     * @param purchaseDate purchase date
-     *                     @since 1.0.0
+     * @param purchaseDate purchase date as string
+     * @since 1.0.0
      */
 
     public void setPurchaseDate(final String purchaseDate) {
@@ -290,7 +291,7 @@ public class Product implements Serializable {
 
     /**
      * API passes CTN to get Metadata
-     * @param ctn ctn
+     * @param - pass product ctn
      * @return ctn as string
      * @since 1.0.0
      */
