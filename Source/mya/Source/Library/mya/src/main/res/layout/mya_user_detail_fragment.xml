@@ -41,6 +41,7 @@
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/login_details_label"
             style="@style/UIDLabel.Header"
             android:text="@string/MYA_Login_details" />
 

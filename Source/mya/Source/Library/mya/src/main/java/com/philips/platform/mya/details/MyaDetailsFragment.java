@@ -36,7 +36,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private View email_divider;
     private final String DETAILS_BUNDLE = "details_bundle";
     private MyaDetailPresenter myaDetailPresenter;
-    private View emailAddressLayout;
+    private View emailAddressLayout,loginDetailsLabel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
         genderLabel = view.findViewById(R.id.gender_value);
         mobile_number_heading = view.findViewById(R.id.mobile_number_heading);
         email_address_heading = view.findViewById(R.id.email_address_heading);
+        loginDetailsLabel = view.findViewById(R.id.login_details_label);
         emailAddressLayout = view.findViewById(R.id.email_address_layout);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
@@ -117,6 +118,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             email_address_heading.setVisibility(View.GONE);
 //            email_address.setText(getString(R.string.MYA_Add_email_address));
             emailAddressLayout.setVisibility(View.GONE);
+            loginDetailsLabel.setVisibility(View.GONE);
         } else {
             email_address.setText(email);
         }
