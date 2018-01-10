@@ -22,10 +22,8 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -45,9 +43,6 @@ public class RegistrationHelper {
 
     @Inject
     TimeInterface timeInterface;
-
-    @Inject
-    ABTestClientInterface abTestClientInterface;
 
     ThemeConfiguration themeConfiguration;
 
@@ -128,19 +123,6 @@ public class RegistrationHelper {
                 if (networkUtility.isNetworkAvailable()) {
 
                     UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
-                    //AB Testing initialization
-                    abTestClientInterface.updateCache(new ABTestClientInterface.
-                            OnRefreshListener() {
-                        @Override
-                        public void onSuccess() {
-                            RLog.d(RLog.AB_TESTING, "SUCCESS ");
-                        }
-
-                        @Override
-                        public void onError(ERRORVALUES error, String message) {
-                            RLog.d(RLog.AB_TESTING, "ERROR AB : " + message);
-                        }
-                    });
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {
@@ -238,11 +220,11 @@ public class RegistrationHelper {
 
 
     public void setLocale(String languageCode,String countryCode ){
-        RLog.i("Locale", "setLocale language"+ languageCode+" country"+ countryCode);
+        RLog.d("Locale", "setLocale language"+ languageCode+" country"+ countryCode);
         mLocale = new Locale(languageCode, countryCode);
     }
     public synchronized Locale getLocale(Context context) {
-        RLog.i("Locale", "Locale locale  " + mLocale);
+        RLog.d("Locale", "Locale locale  " + mLocale);
         return mLocale;
     }
 

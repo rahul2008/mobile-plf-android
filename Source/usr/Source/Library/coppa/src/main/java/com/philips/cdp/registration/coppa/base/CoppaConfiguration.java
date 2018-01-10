@@ -116,13 +116,13 @@ class CoppaConfiguration {
 
         if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
             coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
-            RLog.i("Consent", "consent sent @ : " + coppaCommunicationSentAt);
+            RLog.d("Consent", "consent sent @ : " + coppaCommunicationSentAt);
         }
 
         if (!jsonObject.isNull(CONSENTS)) {
 
             consents = (JSONArray) Jump.getSignedInUser().opt(CONSENTS);
-            RLog.i("Consent", "consent : " + consents);
+            RLog.d("Consent", "consent : " + consents);
             consent = new Consent();
             for (int i = 0; i < consents.length(); i++) {
                 JSONObject consentObj;

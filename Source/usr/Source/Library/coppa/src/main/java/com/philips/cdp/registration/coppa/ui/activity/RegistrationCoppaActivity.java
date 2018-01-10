@@ -155,7 +155,7 @@ public class RegistrationCoppaActivity extends UIDActivity implements OnClickLis
     @Override
     protected void onDestroy() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister:" +
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister:" +
                 " NetworStateListener,Context");
         super.onDestroy();
     }
