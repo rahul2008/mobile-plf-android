@@ -178,7 +178,9 @@ public class THSVisitHistoryDetailPresenterTest {
     public void downloadReportAWSDKInstantiationException() throws Exception {
         when(thsVisitHistoryDetailFragmentMock.getVisitReport()).thenReturn(visitReportMock);
         when(thsVisitHistoryDetailFragmentMock.getContext()).thenReturn(contextMock);
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getVisitReportAttachment(any(Consumer.class),any(VisitReport.class),any(SDKCallback.class));
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getVisitReportAttachment(any(Consumer.class),
+                any(VisitReport.class),any(SDKCallback.class));
+        when(thsVisitHistoryDetailFragmentMock.isFragmentAttached()).thenReturn(false);
         mThsVisitHistoryDetailPresenter.downloadReport();
         verify(consumerManagerMock).getVisitReportAttachment(any(Consumer.class),any(VisitReport.class),any(SDKCallback.class));
     }
