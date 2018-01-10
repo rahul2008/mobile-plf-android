@@ -12,19 +12,19 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
  *
- * It is used to handle Social login
+ * It is a call back class to proposition for handling Social login
  * @since 1.0.0
  */
 public interface SocialLoginHandler {
 
     /**
-     * {@code onLoginSuccess} method to on login success
+     * {@code onLoginSuccess} method is invoked on login success
      * @since 1.0.0
      */
     void onLoginSuccess();
 
     /**
-     * {@code userRegistrationFailureInfo}method to on login faled with error
+     * {@code userRegistrationFailureInfo} method is invoked on login fails with error
      * @param userRegistrationFailureInfo  gives the failure information when social login fails
      * @since 1.0.0
      */

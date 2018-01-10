@@ -14,7 +14,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import org.json.JSONObject;
 
 /**
- * It is used to handle social provider login
+ * It is a call back class to proposition for handling social provider login
  * @since 1.0.0
  */
 public interface SocialProviderLoginHandler {
@@ -27,7 +27,7 @@ public interface SocialProviderLoginHandler {
     void onLoginSuccess();
 
     /**
-     * {@code userRegistrationFailureInfo} method ton login failed with error
+     * {@code userRegistrationFailureInfo} method is invoked on login failed with error
      *
      * @param userRegistrationFailureInfo  instance of UserRegistrationFailureInfo
      *                                     which gives failure information when social login fails
@@ -37,7 +37,7 @@ public interface SocialProviderLoginHandler {
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
     /**
-     * {@code onLoginFailedWithTwoStepError} method to on login failed with tow step error
+     * {@code onLoginFailedWithTwoStepError} method is invoked on login failed with tow step error
      *
      * @param prefilledRecord          Json object of login detail record
      * @param socialRegistrationToken  social registration token
@@ -47,7 +47,7 @@ public interface SocialProviderLoginHandler {
                                        String socialRegistrationToken);
 
     /**
-     * {@code onLoginFailedWithMergeFlowError} method to On login failed with merge flow error
+     * {@code onLoginFailedWithMergeFlowError} method is invoked on login failed with merge flow error
      *
      * @param mergeToken                  merge token
      * @param existingProvider            used social login provider
@@ -63,14 +63,14 @@ public interface SocialProviderLoginHandler {
                                          String existingIdpNameLocalized, String emailId);
 
     /**
-     * {@code onContinueSocialProviderLoginSuccess} method to on continue social provider login success
+     * {@code onContinueSocialProviderLoginSuccess} method is invoked on continue social provider login success
      *
      * @since 1.0.0
      */
     void onContinueSocialProviderLoginSuccess();
 
     /**
-     * {@code userRegistrationFailureInfo} method to on continue social provider login failure
+     * {@code userRegistrationFailureInfo} method is invoked on continue social provider login failure
      *
      * @param userRegistrationFailureInfo  it gives the registration failure information when social provider login fails to continue
      *

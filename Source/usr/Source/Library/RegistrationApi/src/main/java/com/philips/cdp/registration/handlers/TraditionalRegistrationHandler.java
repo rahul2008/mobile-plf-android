@@ -12,19 +12,19 @@ package com.philips.cdp.registration.handlers;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
- * It is used to handle traditional registration
+ * It is a call back class to proposition for handling traditional registration
  * @since 1.0.0
  */
 public interface TraditionalRegistrationHandler {
 
 	/**
-	 * {@code onRegisterSuccess}method to on register success
+	 * {@code onRegisterSuccess}method is invoked on register success
 	 * @since 1.0.0
 	 */
 	public void onRegisterSuccess();
 
 	/**
-	 *{{@code onRegisterFailedWithFailure} method to on register failed with failure
+	 *{{@code onRegisterFailedWithFailure} method is invoked when register fails with failure information
 	 * @param userRegistrationFailureInfo gives user registration failure information when philips login fails
 	 * @since 1.0.0
      */

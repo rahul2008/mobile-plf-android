@@ -12,18 +12,18 @@ package com.philips.cdp.registration.handlers;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
- * It is used to handle resend verification
+ * It is a call back class to proposition for handling resend verification
  * @since 1.0.0
  */
 public interface ResendVerificationEmailHandler {
     /**
-     *{@code onResendVerificationEmailSuccess} method to on resend verification email success
+     *{@code onResendVerificationEmailSuccess} method is invoked on resend verification email success
      * @since 1.0.0
      */
     void onResendVerificationEmailSuccess();
 
     /**
-     * {@code onResendVerificationEmailFailedWithError} method to on resend verification email failed with error
+     * {@code onResendVerificationEmailFailedWithError} method is invoked on resend verification email fails with error
      * @param userRegistrationFailureInfo   gives the failure information when resend verification email fails
      * @since 1.0.0
      */
