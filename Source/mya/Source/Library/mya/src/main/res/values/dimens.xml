@@ -16,4 +16,5 @@
     <dimen name="MYA_padding">16dp</dimen>
     <dimen name="MYA_item_top_margin">8dp</dimen>
     <dimen name="MYA_dialog_button_margin">8dp</dimen>
+    <dimen name="mya_image_layout">200dp</dimen>
 </resources>

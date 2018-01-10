@@ -73,16 +73,14 @@ public class MyaDetailsFragmentTest {
     @Test
     public void testSetEmail() {
         Label label = myaDetailsFragment.getView().findViewById(R.id.email_address_value);
-        View emailAddressLayout = myaDetailsFragment.getView().findViewById(R.id.email_address_layout);
         View email_arrow = myaDetailsFragment.getView().findViewById(R.id.email_right_arrow);
         View email_address_heading = myaDetailsFragment.getView().findViewById(R.id.email_address_heading);
         myaDetailsFragment.setEmail("some_mail@philips.com");
         assertEquals(label.getText(),"some_mail@philips.com");
-        myaDetailsFragment.setEmail("");
-//        assertEquals(label.getText(),"Add email address");
-        assertTrue(emailAddressLayout.getVisibility() == View.GONE);
-        assertTrue(email_address_heading.getVisibility() == View.GONE);
         assertTrue(email_arrow.getVisibility() == View.VISIBLE);
+        myaDetailsFragment.setEmail("");
+        assertTrue(label.getVisibility() == View.GONE);
+        assertTrue(email_address_heading.getVisibility() == View.GONE);
     }
 
     @Test

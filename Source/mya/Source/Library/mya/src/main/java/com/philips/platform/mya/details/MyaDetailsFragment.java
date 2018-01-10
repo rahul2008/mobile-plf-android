@@ -30,13 +30,12 @@ import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailContract.View {
 
-    private ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
+    private ImageButton email_mobile_arrow, mobile_arrow;
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
     private View email_divider;
     private final String DETAILS_BUNDLE = "details_bundle";
     private MyaDetailPresenter myaDetailPresenter;
-    private View emailAddressLayout,loginDetailsLabel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,15 +69,12 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private void initViews(View view) {
         nameLabel = view.findViewById(R.id.mya_name);
         email_mobile_arrow = view.findViewById(R.id.email_mobile_right_arrow);
-        email_arrow = view.findViewById(R.id.email_right_arrow);
         mobile_arrow = view.findViewById(R.id.mobile_right_arrow);
         email_address = view.findViewById(R.id.email_address_value);
         mobile_number = view.findViewById(R.id.mobile_number_value);
         genderLabel = view.findViewById(R.id.gender_value);
         mobile_number_heading = view.findViewById(R.id.mobile_number_heading);
         email_address_heading = view.findViewById(R.id.email_address_heading);
-        loginDetailsLabel = view.findViewById(R.id.login_details_label);
-        emailAddressLayout = view.findViewById(R.id.email_address_layout);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
         email_divider = view.findViewById(R.id.email_divider);
@@ -117,10 +113,10 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 //            email_arrow.setVisibility(View.VISIBLE);
             email_address_heading.setVisibility(View.GONE);
 //            email_address.setText(getString(R.string.MYA_Add_email_address));
-            emailAddressLayout.setVisibility(View.GONE);
-            loginDetailsLabel.setVisibility(View.GONE);
+            email_address.setVisibility(View.GONE);
         } else {
             email_address.setText(email);
+            email_divider.setVisibility(View.VISIBLE);
         }
     }
 
@@ -152,7 +148,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             mobile_number.setVisibility(View.GONE);
         } else {
             mobile_number.setText(number);
-            email_divider.setVisibility(View.VISIBLE);
         }
     }
 
