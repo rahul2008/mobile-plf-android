@@ -86,7 +86,7 @@ public class MyaDemoApplication extends Application {
         }
 
         boolean abc = RegistrationConfiguration.getInstance().isHsdpFlow();
-        RLog.d("hsdp","hsdp"+abc);
+        RLog.i("hsdp","hsdp"+abc);
     }
 
     private void clearHSDP() {
