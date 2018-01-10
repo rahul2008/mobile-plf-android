@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfra"
 version = objcdp.getVersion(versions.ail_appInfra)
