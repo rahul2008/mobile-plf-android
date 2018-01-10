@@ -31,8 +31,6 @@ public class DialogView {
                     .cloneInContext(popupThemedContext)
                     .inflate(R.layout.csw_dialog_connection, null, false);
 
-
-
             AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity)
                     .setDialogView(view)
                     .setDialogType(DialogConstants.TYPE_DIALOG)

@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
@@ -139,6 +140,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
                 .create();
         okListener.setDialog(alertDialogFragment);
         alertDialogFragment.show(getFragmentManager(), TAG);
+    }
+
+    @Override
+    public void showOfflineErrorDialog() {
+        new DialogView().showDialog(getActivity());
     }
 
     @Override

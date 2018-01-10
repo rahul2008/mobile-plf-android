@@ -1,0 +1,6 @@
+include ':DemoApp'
+include ':DemoUApp'
+include ':mya'
+include ':mya-csw'
+include ':mya-catk'
+include ':mya-chi'
