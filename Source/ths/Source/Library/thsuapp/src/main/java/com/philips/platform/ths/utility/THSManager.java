@@ -468,8 +468,20 @@ public class THSManager {
         }
 
         String randomPassowrd = password.toString();
-       // AmwellLog.e(AmwellLog.LOG,"password -> " + randomPassowrd);
-        return randomPassowrd;
+        //AmwellLog.e(AmwellLog.LOG,"password -> " + randomPassowrd);
+        if(validatePassword(randomPassowrd)){
+            return randomPassowrd;
+        }else {
+            return generatePasswordRandomly();
+        }
+    }
+
+    protected boolean validatePassword(String password){
+        if(password.matches(".*[a-z].*") && password.matches(".*[A-Z].*") && password.matches(".*[0-9].*")){
+            //AmwellLog.e(AmwellLog.LOG,"password Validated -> " + password);
+            return true;
+        }
+        return false;
     }
 
     public void enrollDependent(final Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
