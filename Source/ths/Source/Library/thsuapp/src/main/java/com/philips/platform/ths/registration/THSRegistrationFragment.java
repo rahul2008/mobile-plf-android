@@ -248,7 +248,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 }else {
                     isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
                 }
-                
+
                 if (isLocationValid) {
                     ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
                     ths_edit_location_container.showError();

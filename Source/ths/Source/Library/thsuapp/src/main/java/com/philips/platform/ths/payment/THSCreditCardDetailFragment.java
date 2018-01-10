@@ -58,7 +58,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         mPaymentDetailContinueButton.setOnClickListener(this);
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_payment_detail_container);
         cvvDetail = (Label) view.findViewById(R.id.ths_payment_detail_card_cvc_help);
-        mCVCcodeEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        mCVCcodeEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);  
         cvvDetail.setOnClickListener(this);
         return view;
     }
