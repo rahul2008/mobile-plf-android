@@ -10,8 +10,8 @@ package com.philips.platform.mya;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
+import com.philips.platform.mya.catk.injection.CatkComponent;
+import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -72,7 +72,7 @@ public class MyaInterfaceTest {
     User mockUser;
     @Mock
     private CatkComponent mockCatkComponent;
-    private List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
+    private List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
 
     @Before
     public void setup() {
