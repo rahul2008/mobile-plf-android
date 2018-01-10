@@ -7,11 +7,6 @@
 
 package com.philips.platform.mya.demouapp.fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -26,13 +21,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.R;
@@ -57,6 +51,12 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
@@ -99,28 +99,32 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        initCatk();
-        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
-        MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
-        MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
-        if (checkedId == R.id.radioButton) {
-            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
-                    ((DemoAppActivity) getActivity()).getThemeConfig(),
-                    ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
-            myaInterface.launch(activityLauncher, launchInput);
-        } else {
-            myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
-                @Override
-                public void updateActionBar(@StringRes int i, boolean b) {
-                    ((DemoAppActivity) getActivity()).setTitle(i);
-                }
+        try {
+            initCatk();
+            MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
+            MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
+            MyaInterface myaInterface = new MyaInterface();
+            myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
+            if (checkedId == R.id.radioButton) {
+                ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                        ((DemoAppActivity) getActivity()).getThemeConfig(),
+                        ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                myaInterface.launch(activityLauncher, launchInput);
+            } else {
+                myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
+                    @Override
+                    public void updateActionBar(@StringRes int i, boolean b) {
+                        ((DemoAppActivity) getActivity()).setTitle(i);
+                    }
 
-                @Override
-                public void updateActionBar(String s, boolean b) {
-                    ((DemoAppActivity) getActivity()).setTitle(s);
-                }
-            }), launchInput);
+                    @Override
+                    public void updateActionBar(String s, boolean b) {
+                        ((DemoAppActivity) getActivity()).setTitle(s);
+                    }
+                }), launchInput);
+            }
+        } catch (CatkInputs.InvalidInputException e) {
+            e.printStackTrace();
         }
     }
 
@@ -135,9 +139,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
                 .build());
 
-        List<ConsentConfiguration> consentHandlerMappingList = new ArrayList<>();
-        consentHandlerMappingList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
-        MyaHelper.getInstance().setConfigurations(consentHandlerMappingList);
+        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
+        consentConfigurations.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
+        MyaHelper.getInstance().setConfigurations(consentConfigurations);
     }
 
     private Locale getLocale(AppInfraInterface appInfra) {
@@ -156,11 +160,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         return new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
-                return false;
-            }
-
-            @Override
-            public boolean onLogOut() {
                 return false;
             }
 

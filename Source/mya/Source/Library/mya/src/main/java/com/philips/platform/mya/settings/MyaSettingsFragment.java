@@ -6,8 +6,6 @@
 package com.philips.platform.mya.settings;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -127,11 +125,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         } else if (viewType == R.id.philips_website) {
-            String url = "https://www.Philips.com";
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+           showFragment(new MyaPhilipsLinkFragment());
         }
     }
 
@@ -188,7 +182,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
+                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
                 }
