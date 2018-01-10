@@ -50,6 +50,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
             myaDetailsFragment.setArguments(bundle);
             view.showPassedFragment(myaDetailsFragment);
             return true;
+
         }
         return false;
     }
