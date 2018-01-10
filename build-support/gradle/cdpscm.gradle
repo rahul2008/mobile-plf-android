@@ -3,7 +3,7 @@ apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+    apply from: buildscript.sourceFile.parent+ "/versions.gradle"
 
     repositories {
         maven {
