@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
-        android:visibility="invisible"
+        android:visibility="visibility"
         android:background="@null"
         android:clickable="false"
         android:layout_centerInParent="true"

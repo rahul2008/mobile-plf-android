@@ -111,7 +111,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     @Override
     public void setEmail(String email) {
         if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
-            email_arrow.setVisibility(View.VISIBLE);
+//            email_arrow.setVisibility(View.VISIBLE);
             email_address_heading.setVisibility(View.GONE);
             email_address.setText(getString(R.string.MYA_Add_email_address));
         } else {
