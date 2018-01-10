@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:visibility="invisible"
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
         android:background="@null"
         android:clickable="false"
