@@ -11,7 +11,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class URSettings extends UappSettings {
 
     /**
-     * creates instance of URSettings with application context
+     * Creates instance of URSettings with application context
      * @param applicationContext application context
      * @since 1.0.0
      */

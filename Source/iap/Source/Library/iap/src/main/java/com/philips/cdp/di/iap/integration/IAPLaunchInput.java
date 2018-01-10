@@ -42,7 +42,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     /**
-     * returns ignored or blacklisted retailers
+     * Returns ignored or blacklisted retailers
      * @return ignoredRetailerList  pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
@@ -57,7 +57,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     /**
-     * returns IAPListener instance
+     * Returns IAPListener instance
      * @return iapListener  instance of IAPListener
      * @since 1.0.0
      */
@@ -67,8 +67,8 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     /**
-     * sets IAPListener instance
-     * @param iapListener  instance of IAPListener
+     * Sets IAPListener instance
+     * @param iapListener  instance of IAPListener for callbacks to proposition
      * @since 1.0.0
      */
     public void setIapListener(IAPListener iapListener) {
@@ -80,10 +80,25 @@ public class IAPLaunchInput extends UappLaunchInput {
      * @since 1.0.0
      */
     public interface IAPFlows {
+        /**
+         * To launch product catalog Screen
+         */
         int IAP_PRODUCT_CATALOG_VIEW = 0;
+        /**
+         * To launch shopping cart Screen
+         */
         int IAP_SHOPPING_CART_VIEW = 1;
+        /**
+         * To launch purchase history Screen
+         */
         int IAP_PURCHASE_HISTORY_VIEW = 2;
+        /**
+         * To launch product detail Screen
+         */
         int IAP_PRODUCT_DETAIL_VIEW = 3;
+        /**
+         * To launch buy direct Screen
+         */
         int IAP_BUY_DIRECT_VIEW = 4;
     }
 }

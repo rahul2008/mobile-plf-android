@@ -18,7 +18,7 @@ public class IAPSettings extends UappSettings {
     private String mHostPort;
 
     /**
-     * used to create IAPSettings instance
+     * Used to create IAPSettings instance
      * @param applicationContext context of proposition application
      * @since 1.0.0
      */
@@ -36,7 +36,7 @@ public class IAPSettings extends UappSettings {
     }
 
     /**
-     * enable or disable Hybris flow.
+     * Enable or disable Hybris flow.
      * @param isLocalData  pass true if hybris support required else pass false
      * @since 1.0.0
      */
@@ -45,7 +45,7 @@ public class IAPSettings extends UappSettings {
     }
 
     /**
-     * sets proposition ID
+     * Sets proposition ID
      * @param proposition  pass proposition id for backend
      * @since 1.0.0
      */
@@ -63,8 +63,8 @@ public class IAPSettings extends UappSettings {
     }
 
     /**
-     * get HostPort ID
-     * @return hostport  get hostPort URL string
+     * Get HostPort ID
+     * @return hostPort  get hostPort URL string
      * @since 1.0.0
      */
     public String getHostPort() {
@@ -72,7 +72,7 @@ public class IAPSettings extends UappSettings {
     }
 
     /**
-     * sets hostPort id
+     * Sets hostPort id
      * @param hostPort  pass hostPort URL string
      * @since 1.0.0
      */

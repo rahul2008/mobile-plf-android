@@ -60,7 +60,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API sets ProdRegUiListener instance
-     * @param prodRegUiListener - pass instance of ProdRegUiListener
+     * @param prodRegUiListener pass instance of ProdRegUiListener
      * @since 1.0.0
      */
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
@@ -78,7 +78,7 @@ public class PRLaunchInput extends UappLaunchInput {
 
     /**
      * API sets BackgroundImageResourceId
-     * @param backgroundImageResourceId - pass resource id of background image
+     * @param backgroundImageResourceId pass resource id of background image
      * @since 1.0.0
      */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {
