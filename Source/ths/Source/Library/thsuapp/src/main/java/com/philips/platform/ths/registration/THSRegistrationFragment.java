@@ -67,6 +67,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     protected int mLaunchInput = -1;
     private InputValidationLayout firstNameValidationLayout, lastNameValidationLayout, ths_edit_dob_container, ths_edit_location_container;
     private boolean isLocationValid;
+    private RelativeLayout mLocationCantainer;
+    private Label mStateLabel;
 
     @Nullable
     @Override
@@ -114,6 +116,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mCheckBoxMale = view.findViewById(R.id.ths_checkbox_male);
         mCheckBoxFemale = view.findViewById(R.id.ths_checkbox_female);
         anchorUIPicker = view.findViewById(R.id.ths_label);
+        mLocationCantainer = view.findViewById(R.id.ths_edit_location_container_layout);
+        mStateLabel = view.findViewById(R.id.ths_label);
 
 
         try {
@@ -143,6 +147,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 }
         );
         prePopulateData();
+        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+            mStateLabel.setVisibility(View.GONE);
+            mLocationCantainer.setVisibility(View.GONE);
+        }
     }
 
     private void prePopulateData() {
@@ -234,7 +242,13 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 if (ths_edit_dob_container.isShowingError()) {
                     ths_edit_dob_container.hideError();
                 }
-                isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
+
+                if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+                    isLocationValid = false;
+                }else {
+                    isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
+                }
+
                 if (isLocationValid) {
                     ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
                     ths_edit_location_container.showError();

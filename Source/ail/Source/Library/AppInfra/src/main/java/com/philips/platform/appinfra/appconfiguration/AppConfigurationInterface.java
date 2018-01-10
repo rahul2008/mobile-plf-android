@@ -116,7 +116,7 @@ public interface AppConfigurationInterface extends Serializable {
          *
          * @param errorCode the error code
          */
-        void setErrorCode(AppConfigErrorEnum errorCode) {
+        public void setErrorCode(AppConfigErrorEnum errorCode) {
             this.errorCode = errorCode;
         }
 
