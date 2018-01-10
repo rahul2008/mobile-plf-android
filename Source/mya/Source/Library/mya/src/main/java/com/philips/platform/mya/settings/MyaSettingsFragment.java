@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -76,7 +77,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         Label philipsWebsite = view.findViewById(R.id.philips_website);
-        philipsWebsite.setOnClickListener(this);
+        philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
+            @Override
+            public boolean interceptClick(CharSequence tag) {
+                showFragment(new MyaPhilipsLinkFragment());
+                return true;
+            }
+        });
         logOutButton.setOnClickListener(this);
     }
 
@@ -124,8 +131,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         int viewType = view.getId();
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
-        } else if (viewType == R.id.philips_website) {
-           showFragment(new MyaPhilipsLinkFragment());
         }
     }
 
