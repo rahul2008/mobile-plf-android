@@ -1,12 +1,12 @@
-rootProject.Name 'MyAccount'
+
 include ':app'
 include 'DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
 include 'ConsentAccessToolKit'
-project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
+project(':ConsentAccessToolKit').projectDir = new File('../Library/mya-catk')
 include 'ConsentWidgets'
-project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
+project(':ConsentWidgets').projectDir = new File('../Library/mya-csw')
 include 'ConsentHandlerInterface'
-project(':ConsentHandlerInterface').projectDir = new File('../Library/ConsentHandlerInterface')
+project(':ConsentHandlerInterface').projectDir = new File('../Library/mya-chi')
 include 'MarketingConsentHandler'
-project(':MarketingConsentHandler').projectDir = new File('../Library/MarketingConsentHandler')
+project(':MarketingConsentHandler').projectDir = new File('../Library/mya-mch')

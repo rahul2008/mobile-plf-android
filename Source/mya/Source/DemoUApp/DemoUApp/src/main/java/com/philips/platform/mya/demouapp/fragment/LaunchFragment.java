@@ -26,11 +26,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
@@ -99,7 +100,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         initCatk();
-        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentHandlerMappingList());
+        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
         MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
         MyaInterface myaInterface = new MyaInterface();
         myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
@@ -134,8 +135,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
                 .build());
 
-        List<ConsentHandlerMapping> consentHandlerMappingList = new ArrayList<>();
-        consentHandlerMappingList.add(new ConsentHandlerMapping(consentDefinitions, new ConsentInteractor(kit)));
+        List<ConsentConfiguration> consentHandlerMappingList = new ArrayList<>();
+        consentHandlerMappingList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappingList);
     }
 

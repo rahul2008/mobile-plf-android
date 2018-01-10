@@ -11,20 +11,21 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
-import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.mya.usr.MarketingConsentHandler;
+import com.philips.platform.mya.mch.MarketingConsentHandler;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -53,7 +54,7 @@ public class MyAccountState extends BaseState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaBaseFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
@@ -135,9 +136,9 @@ public class MyAccountState extends BaseState {
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
 
-        List<ConsentHandlerMapping> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentHandlerMapping(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
-        consentHandlerMappings.add(new ConsentHandlerMapping(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+        List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
+        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
@@ -154,6 +155,6 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
 
-        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentHandlerMappingList());
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
     }
 }
