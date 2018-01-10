@@ -29,9 +29,37 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.List;
 
 public class CswInterface implements UappInterface {
+    private static final CswInterface reference = new CswInterface();
+    public static CswInterface get() {
+        return reference;
+    }
 
     private UiLauncher uiLauncher;
     private CswLaunchInput cswLaunchInput;
+    private CswDependencies uappDependencies;
+
+    /**
+     * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
+     *
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
+     */
+    @Override
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        if(!(uappDependencies instanceof CswDependencies)) {
+            throw new IllegalStateException("Illegal state! Must be instance of CswDependencies");
+        }
+
+        CswDependencies ourDeps = (CswDependencies) uappDependencies;
+
+        cswComponent = initDaggerComponents(uappDependencies, uappSettings);
+        this.uappDependencies = (CswDependencies) uappDependencies;
+
+        reference.uappDependencies = ourDeps;
+
+        CswLogger.init();
+        CswLogger.enableLogging();
+    }
 
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -90,19 +118,6 @@ public class CswInterface implements UappInterface {
         }
     }
 
-    /**
-     * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
-     *
-     * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application provideAppContext.
-     */
-    @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        cswComponent = initDaggerComponents(uappDependencies, uappSettings);
-        CswLogger.init();
-        CswLogger.enableLogging();
-    }
-
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
 
         List<ConsentConfiguration> consentConfigurationList = ((CswDependencies) uappDependencies).getConsentConfigurationList();
@@ -118,4 +133,8 @@ public class CswInterface implements UappInterface {
 
     private static CswComponent cswComponent;
 
+
+    public CswDependencies getDependencies() {
+        return uappDependencies;
+    }
 }

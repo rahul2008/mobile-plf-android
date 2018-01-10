@@ -15,8 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -38,10 +39,26 @@ public class CswFragment extends Fragment implements BackEventListener {
         }
 
         mFragmentManager = getmFragmentManager();
-
         inflatePermissionView();
-
+        getRestClient().isInternetReachable();
         return view;
+    }
+
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
+
+    protected DialogView getDialogView() {
+        return new DialogView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(!getRestClient().isInternetReachable()) {
+            getDialogView().showDialog(getActivity());
+        }
     }
 
     @Override

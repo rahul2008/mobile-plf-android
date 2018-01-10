@@ -139,6 +139,15 @@ dependencies {
                 }
     }
 
+    if(dp) {
+        compile project(':uikitLib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
+                {
+                    transitive = true
+                }
+    }
+
     // Tests
     testCompile deps.junit
     testCompile deps.mockito
