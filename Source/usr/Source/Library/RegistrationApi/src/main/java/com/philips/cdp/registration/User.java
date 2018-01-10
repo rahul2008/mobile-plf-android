@@ -421,7 +421,7 @@ public class User {
 
     /**
      * Get Email verification status
-     * Individual methods added for mobile(isEmailVerified()) and email(isEmailVerified()).
+     * @deprecated reason individual methods are added for mobile(isEmailVerified()) and email(isEmailVerified()) verification.
      * This is no more needed and will be removed from 2018.1.0
      * @return status in boolean
      * @since 1.0.0
