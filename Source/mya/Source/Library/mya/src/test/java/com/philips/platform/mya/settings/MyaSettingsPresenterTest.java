@@ -14,10 +14,12 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerMapping;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswLaunchInput;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
@@ -47,6 +51,10 @@ public class MyaSettingsPresenterTest {
         context = mock(Context.class);
         when(view.getContext()).thenReturn(context);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
+        MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
+        myaSettingsPresenter.onViewActive(myaSettingsFragment);
+        myaSettingsPresenter.onViewInactive();
+        assertNull(myaSettingsPresenter.getView());
     }
 
     @Test
@@ -64,7 +72,6 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
         verify(view).showSettingsItems(anyMap());
-
     }
 
     @Test
@@ -106,12 +113,25 @@ public class MyaSettingsPresenterTest {
                 return cswLaunchInput;
             }
 
+            @Override
+            ConsentAccessToolKit getConsentAccessInstance() {
+                return consentAccessToolKit;
+            }
         };
         String key = "Mya_Privacy_Settings";
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
+        myaSettingsPresenter.handleOnClickSettingsItem("Mya_Privacy_Settings", null);
+        verify(view).exitMyAccounts();
     }
 
+    @Test
+    public void shouldNotReturnNullWhenInvoked() {
+        MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentHandlerMapping>());
+        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
+        assertNotNull(myaSettingsPresenter.getCswInterface());
+        assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
+    }
 
 }

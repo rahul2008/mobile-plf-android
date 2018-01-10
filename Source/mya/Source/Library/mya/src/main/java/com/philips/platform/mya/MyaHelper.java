@@ -94,14 +94,6 @@ public class MyaHelper {
     public void setThemeConfiguration(ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
     }
-
-    public MyaLaunchInput getMyaLaunchInput() {
-        return myaLaunchInput;
-    }
-
-    public void setMyaLaunchInput(MyaLaunchInput myaLaunchInput) {
-        this.myaLaunchInput = myaLaunchInput;
-    }
 }
 
 

@@ -50,7 +50,6 @@ public class MyaInterface implements UappInterface {
             return;
         }
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
-        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         if (uiLauncher instanceof ActivityLauncher) {
