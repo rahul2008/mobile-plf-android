@@ -561,7 +561,7 @@ public class User {
     /**
      * Update the receive marketing email.
      *
-     * @param updateReceiveMarketingEmail instance of UpdateUserDetailsHandler call back
+     * @param updateReceiveMarketingEmail instance of UpdateUserDetailsHandler callback
      * @param receiveMarketingEmail       does User want to receive marketing email or not.
      *                                    Pass true if User wants to receive or else false .
      *                                    @since 1.0.0

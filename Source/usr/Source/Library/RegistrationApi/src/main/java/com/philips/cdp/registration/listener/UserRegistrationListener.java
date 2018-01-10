@@ -10,7 +10,7 @@
 package com.philips.cdp.registration.listener;
 
 /**
- * USR Registration callback.
+ * It is a callback class for proposition to notify USR  status.
  */
 public interface UserRegistrationListener {
     /**
@@ -28,7 +28,7 @@ public interface UserRegistrationListener {
     void onUserLogoutFailure();
 
     /**
-     * Callback when logout happned due to invalid access token.
+     * Callback when logout happened due to invalid access token.
      *
      * @since 1.0.0
      */

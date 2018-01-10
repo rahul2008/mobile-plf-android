@@ -14,7 +14,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import org.json.JSONObject;
 
 /**
- * It is a call back class to proposition for handling social provider login
+ * It is a callback class to proposition for handling social provider login
  * @since 1.0.0
  */
 public interface SocialProviderLoginHandler {

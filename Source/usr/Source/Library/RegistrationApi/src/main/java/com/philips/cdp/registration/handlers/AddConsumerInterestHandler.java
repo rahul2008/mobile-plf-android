@@ -10,7 +10,7 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * It is a call back class to proposition for adding consumer interest
+ * It is a callback class to proposition for adding consumer interest
  * @since 1.0.0
  */
 public interface AddConsumerInterestHandler {

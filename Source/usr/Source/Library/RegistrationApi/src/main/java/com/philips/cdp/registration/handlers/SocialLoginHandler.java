@@ -12,7 +12,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
  *
- * It is a call back class to proposition for handling Social login
+ * It is a callback class to proposition for handling Social login
  * @since 1.0.0
  */
 public interface SocialLoginHandler {

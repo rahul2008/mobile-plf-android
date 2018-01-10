@@ -12,7 +12,7 @@ package com.philips.cdp.registration.handlers;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 /**
- * It is a call back class to proposition for handling traditional registration
+ * It is a callback class to proposition for handling traditional registration
  * @since 1.0.0
  */
 public interface TraditionalRegistrationHandler {

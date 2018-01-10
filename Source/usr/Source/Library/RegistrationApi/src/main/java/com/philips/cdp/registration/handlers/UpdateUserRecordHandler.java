@@ -10,7 +10,7 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * It is a call back class to proposition for updating user record
+ * It is a callback class to proposition for updating user record
  * @since 1.0.0
  */
 public interface UpdateUserRecordHandler {

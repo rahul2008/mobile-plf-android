@@ -8,7 +8,7 @@ package com.philips.cdp.prodreg.listener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 
 /**
- * It is used to give call back to proposition with product metadata .
+ * It is used to give callback to proposition with product metadata .
  */
 public interface MetadataListener {
 

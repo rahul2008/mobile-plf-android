@@ -145,7 +145,7 @@ public class UserWithProducts {
     /**
      * API to fetch list of products which are registered locally and remote
      *
-     * @param registeredProductsListener - call back listener to get list of products
+     * @param registeredProductsListener - callback listener to get list of products
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         if (getUser().isUserSignIn()) {
