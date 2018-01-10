@@ -6,7 +6,6 @@
 package com.philips.platform.mya.activity;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,8 +24,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
@@ -109,16 +106,6 @@ public class MyaActivity extends UIDActivity {
                 super.onBackPressed();
             }
         }
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void setLeftImage(int resId) {

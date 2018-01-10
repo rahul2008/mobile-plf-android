@@ -151,7 +151,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         textView.setText(message);
         title_label.setText(title);
         AlertDialogFragment alertDialogFragment = builder.create();
-        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+        alertDialogFragment.show(getChildFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut());
         cancel.setOnClickListener(handleOnClickCancel());
@@ -170,7 +170,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private void dismissDialog() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isDestroyed()) {
-            Fragment prev = getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
+            Fragment prev = getChildFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
             if (prev != null && prev instanceof AlertDialogFragment) {
                 AlertDialogFragment alertDialogFragment = (AlertDialogFragment) prev;
                 alertDialogFragment.dismissAllowingStateLoss();
