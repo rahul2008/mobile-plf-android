@@ -44,7 +44,7 @@ include ':mya'
 include ':mya-csw'
 include ':mya-catk'
 include ':mya-chi'
-include ':MyAccountUApp'
+include ':MyAccountDemoApp'
 include ':ews-android'
 include ':ewsUApp'
 include ':mya-mch'
@@ -94,7 +94,6 @@ project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
 project(':mya-chi').projectDir = new File('./Source/mya/Source/Library/mya-chi')
 project(':mya-mch').projectDir = new File('./Source/mya/Source/Library/mya-mch')
-project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 
@@ -103,6 +102,8 @@ include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
+include(':MyAccountDemoApp')
+project(':MyAccountDemoApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 include ':uidApp'
 project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'
