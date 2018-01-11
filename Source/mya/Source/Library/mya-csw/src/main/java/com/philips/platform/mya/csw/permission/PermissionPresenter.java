@@ -67,14 +67,13 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     @Override
     public void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
-
-        // TODO Check if user has internet connection before actually posting.
         if(isOnline) {
             handler.post(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
         }
         else {
             permissionInterface.showOfflineErrorDialog();
+
         }
     }
 
