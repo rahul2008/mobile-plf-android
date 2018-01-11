@@ -369,7 +369,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             emailString = FieldsValidator.getMobileNumber(usr_createscreen_emailormobile_textfield.getText().toString());
         }
-        RLog.i(RLog.CALLBACK, "create : family name"+usr_createScreen_lastName_textField.getText().toString());
+        RLog.d(RLog.CALLBACK, "create : family name"+usr_createScreen_lastName_textField.getText().toString());
 
         createAccountPresenter.registerUserInfo(user, usr_createScreen_firstName_textField.getText().toString(), usr_createScreen_lastName_textField.getText().toString(), emailString
                 , usr_createScreen_password_textField.getText().toString(), true, usr_createscreen_marketingmails_checkbox.isChecked());

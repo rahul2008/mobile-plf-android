@@ -46,15 +46,15 @@ import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class ConsentAccessToolKitTest {
 
     private static final String COUNTRY_CODE = "IN";
@@ -102,9 +102,7 @@ public class ConsentAccessToolKitTest {
 
     @After
     public void tearDown() throws Exception {
-        consentAccessToolKit.setCatkComponent(null);
-        consentAccessToolKit.setNetworkController(null);
-        listenerMock = null;
+        ConsentAccessToolKit.setInstance(null);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -176,11 +174,38 @@ public class ConsentAccessToolKitTest {
     @Test
     public void getStatusForConsentType_shouldFilterByType() {
         givenInitWasCalled("myApplication", "myProposition");
-        networkControllerMock = new NetworkControllerMock();
-        consentAccessToolKit.setNetworkController(networkControllerMock);
-        networkControllerMock.sendConsentRequest_onSuccessResponse = consentDtos;
+        givenConsentSuccessResponse(consentDtos);
         consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
         assertEquals(consents, consentResponseListener.responseData);
+    }
+
+    @Test
+    public void getStatusForConsentType_returnsAccepted_whenNotInBackendAndStrictModeIsNotSet() {
+        givenStrictConsentCheckIs(null);
+        givenInitWasCalled("myApplication", "myProposition");
+        givenConsentSuccessResponse(Collections.EMPTY_LIST);
+        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        thenConsentStatusIs(ConsentStatus.active);
+        thenConsentVersionIs(Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void getStatusForConsentType_returnsAccepted_whenNotInBackendAndStrictModeIsOff() {
+        givenStrictConsentCheckIs(false);
+        givenInitWasCalled("myApplication", "myProposition");
+        givenConsentSuccessResponse(Collections.EMPTY_LIST);
+        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        thenConsentStatusIs(ConsentStatus.active);
+        thenConsentVersionIs(Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void getStatusForConsentType_returnsNull_whenNotInBackendAndStrictModeIsOn() {
+        givenStrictConsentCheckIs(true);
+        givenInitWasCalled("myApplication", "myProposition");
+        givenConsentSuccessResponse(Collections.EMPTY_LIST);
+        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        assertNull(consentResponseListener.responseData);
     }
 
     @Test
@@ -189,9 +214,28 @@ public class ConsentAccessToolKitTest {
         assertEquals(consentDefinitions, consentAccessToolKit.getConsentDefinitions());
     }
 
+    private void givenStrictConsentCheckIs(final Boolean strictConsentCheckEnabled) {
+        when(mockConfigInterface.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(strictConsentCheckEnabled);
+    }
+
+    private void givenConsentSuccessResponse(final List consentResponse) {
+        networkControllerMock = new NetworkControllerMock();
+        consentAccessToolKit.setNetworkController(networkControllerMock);
+        networkControllerMock.sendConsentRequest_onSuccessResponse = consentResponse;
+    }
+
     private void thenServiceInfoProviderWasCalled() {
         assertNotNull(serviceInfoProvider.responseListener);
         assertNotNull(serviceInfoProvider.serviceDiscovery);
+    }
+
+    private void thenConsentStatusIs(final ConsentStatus expectedStatus) {
+        assertEquals(expectedStatus, consentResponseListener.responseData.get(0).getStatus());
+    }
+
+    private void thenConsentVersionIs(final int expectedVersion) {
+        assertEquals(expectedVersion, consentResponseListener.responseData.get(0).getVersion());
+
     }
 
     private void givenAppNamePropName(String appName, String propName) {

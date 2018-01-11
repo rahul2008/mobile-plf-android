@@ -19,7 +19,7 @@ public class MarketingAccountPresenter implements NetworkStateListener, UpdateUs
     }
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         marketingAccountContract.handleUiState();
     }
 

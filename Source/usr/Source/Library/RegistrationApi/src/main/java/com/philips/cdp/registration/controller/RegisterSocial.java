@@ -129,7 +129,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		if (mSocialProviderLoginHandler != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-			userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR);
+			userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
 			ThreadUtils.postInMainThread(mContext,()->
 			mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 		}

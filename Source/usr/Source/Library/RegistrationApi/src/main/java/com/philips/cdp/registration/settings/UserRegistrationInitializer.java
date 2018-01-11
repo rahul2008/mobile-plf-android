@@ -125,7 +125,7 @@ public class UserRegistrationInitializer {
                 } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
                     mReceivedProviderFlowSuccess = true;
                 }
-                RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
+                RLog.d(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
                 if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
                         && (null != extras)) {
 
@@ -268,11 +268,11 @@ public class UserRegistrationInitializer {
         registerJumpInitializationListener(context);
 
 
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
+        RLog.d(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
 
         String mRegistrationType = RegistrationConfiguration.getInstance()
                 .getRegistrationEnvironment();
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
+        RLog.d(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
 
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);

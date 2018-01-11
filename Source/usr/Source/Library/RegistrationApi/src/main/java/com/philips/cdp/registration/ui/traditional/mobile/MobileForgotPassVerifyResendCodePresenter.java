@@ -144,7 +144,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+        RLog.d("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
 
         mobileVerifyCodeContract.updateToken(token);
     }
@@ -161,7 +161,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements
                         AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
+                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 mobileVerifyCodeContract.showSMSSpecifedError(jsonObject.getString("errorCode").toString());
             }
 

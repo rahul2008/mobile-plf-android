@@ -70,7 +70,7 @@ public class URDemoApplication extends Application {
         }
 
         boolean abc = RegistrationConfiguration.getInstance().isHsdpFlow();
-        RLog.i("hsdp","hsdp"+abc);
+        RLog.d("hsdp","hsdp"+abc);
     }
 
     private void clearHSDP() {

@@ -414,7 +414,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFr mail" + emailUser + "  --  " + mUser.getEmail());
+        RLog.d(RLog.CALLBACK, "AccountActivationFr mail" + emailUser + "  --  " + mUser.getEmail());
         hideProgressDialog();
         enableResendButton();
         emailUser = mUser.getEmail();
