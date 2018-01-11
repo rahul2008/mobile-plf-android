@@ -9,6 +9,7 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
@@ -31,8 +32,33 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
  * @since 2017.5.0
  */
 public class MyaInterface implements UappInterface {
-
+    private static final String TAG = "MyaInterface";
     public static String USER_PLUGIN = "user_plugin";
+    private static final MyaInterface reference = new MyaInterface();
+    public static MyaInterface get() {
+        return reference;
+    }
+
+    private MyaDependencies dependencies;
+
+    /**
+     * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
+     *
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
+     * @since 2017.5.0
+     */
+    @Override
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        if(!(uappDependencies instanceof MyaDependencies)) {
+            Log.e(TAG, "init: DIE!");
+        }
+
+        MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
+        MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
+        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
+        reference.dependencies = myaDependencies;
+    }
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -62,10 +88,6 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
-        return new UserDataModelProvider(myaLaunchInput.getContext());
-    }
-
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(arguments);
@@ -82,18 +104,11 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    /**
-     * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
-     *
-     * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application provideAppContext.
-     * @since 2017.5.0
-     */
-    @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
-        MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
-        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
+    public MyaDependencies getDependencies() {
+        return dependencies;
     }
 
+    protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+        return new UserDataModelProvider(myaLaunchInput.getContext());
+    }
 }

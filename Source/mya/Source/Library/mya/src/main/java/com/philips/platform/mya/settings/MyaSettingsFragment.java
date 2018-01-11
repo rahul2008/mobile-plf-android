@@ -22,6 +22,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -135,9 +136,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-
     @Override
     public void showDialog(String title, String message) {
+        showDialog(title, message, getString(R.string.csw_ok));
+    }
+
+    @Override
+    public void showDialog(String title, String message, String okButton) {
         this.dialogTitle = title;
         this.dialogMessage = message;
         this.isDialogOpen = true;
