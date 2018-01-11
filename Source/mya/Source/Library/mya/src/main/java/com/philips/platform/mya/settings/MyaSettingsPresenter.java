@@ -13,12 +13,12 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.CswDependencies;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.csw.CswDependencies;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -72,10 +72,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
                 return true;
             } else {
-                String title = getContext().getString(R.string.csw_offline_title);
-                String message = getContext().getString(R.string.csw_offline_message);
-                String ok = getContext().getString(R.string.csw_ok);
-                view.showDialog(title, message, ok);
+                String title = getContext().getString(R.string.MYA_offline_title);
+                String message = getContext().getString(R.string.MYA_offline_message);
+                view.showDialog(title, message);
             }
         }
         return false;

@@ -51,7 +51,7 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         if(!(uappDependencies instanceof MyaDependencies)) {
-            Log.e(TAG, "init: DIE!");
+            throw new IllegalArgumentException("uappDependencies must be an instance of MyaDependencies.");
         }
 
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;

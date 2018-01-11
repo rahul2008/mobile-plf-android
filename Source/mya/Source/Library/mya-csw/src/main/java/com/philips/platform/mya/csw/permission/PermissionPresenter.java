@@ -18,9 +18,7 @@ import com.philips.platform.mya.chi.PostConsentCallback;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 
 import java.util.HashMap;
