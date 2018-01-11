@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -11,24 +16,6 @@ version = objcdp.getVersion(versions.mya_myAccount)
 
 
 buildscript {
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
     dependencies {
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
     }
@@ -95,7 +82,6 @@ android {
 }
 
 dependencies {
-    //3rd party
     //3rd party
     compile deps.gson
 
