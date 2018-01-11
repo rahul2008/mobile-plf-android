@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.integration;
 import java.util.ArrayList;
 
 /**
- * IAPFlowInput initializes the required ctn’s for InAppPurchase to set the flow of micro app.
+ * IAPFlowInput initializes the required ctn’s for IAP to set the flow of micro app.
  * @since 1.0.0
  */
 public class IAPFlowInput {
@@ -22,7 +22,7 @@ public class IAPFlowInput {
     }
 
     /**
-     * creates instance of IAPFlowInput from product  CTN numbers
+     * creates instance of IAPFlowInput from list of CTN numbers
      * @param prductCTNs  pass bunch of product CTNs as an array of string
      * @since 1.0.0
      */

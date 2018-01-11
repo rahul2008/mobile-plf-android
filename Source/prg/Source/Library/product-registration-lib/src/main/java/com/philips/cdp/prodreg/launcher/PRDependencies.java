@@ -10,7 +10,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 public class PRDependencies extends UappDependencies {
 
     /**
-     * Create IAPDependencies instance from AppInfraInterface object
+     * Create PRDependencies instance from AppInfraInterface object
      * @param appInfra - to pass the instance of AppInfraInterface
      * @since 1.0.0
      */

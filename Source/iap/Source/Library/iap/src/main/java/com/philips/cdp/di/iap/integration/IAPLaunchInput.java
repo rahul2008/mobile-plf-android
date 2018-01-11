@@ -82,22 +82,27 @@ public class IAPLaunchInput extends UappLaunchInput {
     public interface IAPFlows {
         /**
          * To launch product catalog Screen
+         * @since 1.0.0
          */
         int IAP_PRODUCT_CATALOG_VIEW = 0;
         /**
          * To launch shopping cart Screen
+         * @since 1.0.0
          */
         int IAP_SHOPPING_CART_VIEW = 1;
         /**
          * To launch purchase history Screen
+         * @since 1.0.0
          */
         int IAP_PURCHASE_HISTORY_VIEW = 2;
         /**
          * To launch product detail Screen
+         * @since 1.0.0
          */
         int IAP_PRODUCT_DETAIL_VIEW = 3;
         /**
          * To launch buy direct Screen
+         * @since 1.0.0
          */
         int IAP_BUY_DIRECT_VIEW = 4;
     }
