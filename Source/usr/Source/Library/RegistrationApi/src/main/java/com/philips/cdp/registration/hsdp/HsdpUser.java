@@ -27,7 +27,6 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
@@ -99,7 +98,7 @@ public class HsdpUser {
                     if (dhpResponse.responseCode != null &&
                             dhpResponse.responseCode.equals(SUCCESS_CODE)) {
                         handler.post(() -> {
-                            RLog.i(RLog.HSDP, "onHsdsLogoutSuccess : response :"
+                            RLog.d(RLog.HSDP, "onHsdsLogoutSuccess : response :"
                                     + dhpResponse.rawResponse.toString());
                             ThreadUtils.postInMainThread(mContext,()->
                             logoutHandler.onLogoutSuccess());
@@ -110,7 +109,7 @@ public class HsdpUser {
                                         INVALID_ACCESS_TOKEN_CODE) || dhpResponse.
                                         responseCode.equals(RegConstants.
                                         INVALID_REFRESH_TOKEN_CODE))) {
-                            RLog.i(RLog.HSDP, "onHsdsLogoutFailure : responseCode : "
+                            RLog.d(RLog.HSDP, "onHsdsLogoutFailure : responseCode : "
                                     + dhpResponse.responseCode + " message : "
                                     + dhpResponse.message);
                             ThreadUtils.postInMainThread(mContext,()->
@@ -119,7 +118,7 @@ public class HsdpUser {
                                     dhpResponse.message));
                         } else {
                             handler.post(() -> {
-                                RLog.i(RLog.HSDP, "onHsdsLogoutFailure : responseCode : " +
+                                RLog.d(RLog.HSDP, "onHsdsLogoutFailure : responseCode : " +
                                         dhpResponse.responseCode +
                                         " message : " + dhpResponse.message);
                                 ThreadUtils.postInMainThread(mContext,()->
@@ -198,7 +197,7 @@ public class HsdpUser {
                         }
                     });
                     handler.post(() -> {
-                        RLog.i(RLog.HSDP, "onHsdpRefreshSuccess : response :" +
+                        RLog.d(RLog.HSDP, "onHsdpRefreshSuccess : response :" +
                                 dhpAuthenticationResponse.rawResponse.toString());
                         ThreadUtils.postInMainThread(mContext, refreshHandler::onRefreshLoginSessionSuccess);
                     });
@@ -207,7 +206,7 @@ public class HsdpUser {
                             dhpAuthenticationResponse.responseCode
                                     .equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                         handler.post(() -> {
-                            RLog.i(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext,()->
@@ -216,7 +215,7 @@ public class HsdpUser {
                         });
                     } else {
                         handler.post(() -> {
-                            RLog.i(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext,()->
@@ -245,7 +244,7 @@ public class HsdpUser {
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
-            RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+            RLog.d(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
             dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
                     hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
@@ -355,7 +354,7 @@ public class HsdpUser {
                         @Override
                         public void onFileWriteSuccess() {
                             handler.post(() -> {
-                                RLog.i(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
+                                RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
                                         + rawResponse.toString());
                                 HsdpUser hsdpUser = new HsdpUser(mContext);
                                 if (hsdpUser.getHsdpUserRecord() != null)
@@ -385,7 +384,7 @@ public class HsdpUser {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            RLog.i(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
+                            RLog.d(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
                                     + dhpAuthenticationResponse1.responseCode +
                                     " message : " + dhpAuthenticationResponse1.message);
                             handleSocialConnectionFailed(loginHandler, Integer.parseInt(
@@ -396,7 +395,7 @@ public class HsdpUser {
                     });
                 }} catch(Exception e){
                         handleSocialHsdpFailure(loginHandler,
-                                        RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR,
+                                        RegConstants.HSDP_CONFIGURATION_ERROR,
                                 mContext.getString(R.string.reg_Generic_Network_Error));
                 }
             }).start();

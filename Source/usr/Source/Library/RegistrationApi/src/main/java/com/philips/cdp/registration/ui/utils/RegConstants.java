@@ -135,6 +135,10 @@ public class RegConstants {
 
     public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
 
+    public static final int HSDP_CONFIGURATION_ERROR = 7010;
+
+    public static final int JANRAIN_FLOW_DOWNLOAD_ERROR = 2000;
+
     public static final String IS_SOCIAL_PROVIDER = "IS_SOCIAL_PROVIDER";
 
     public static final String IS_FOR_TERMS_ACCEPATNACE = "IsForTermsAccepatnace";

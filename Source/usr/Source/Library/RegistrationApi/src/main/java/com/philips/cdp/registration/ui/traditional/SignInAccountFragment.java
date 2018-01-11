@@ -66,7 +66,6 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -518,7 +517,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
+        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         hideForgotPasswordSpinner();
 
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
@@ -595,7 +594,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment :onCounterEventReceived is : " + event);
+        RLog.d(RLog.EVENT_LISTENERS, "SignInAccountFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             handleUiState();
         }
@@ -603,7 +602,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
+        RLog.d(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
         handleUiState();
         handleUiState();
         mBtnSignInAccount.setEnabled(isOnline);
@@ -664,7 +663,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : family name"+mUser.getFamilyName());
+        RLog.d(RLog.CALLBACK, "SignInAccountFragment : family name"+mUser.getFamilyName());
 
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             lauchAccountActivationFragment();
@@ -809,7 +808,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+                RLog.d("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
                 MobileForgotPassVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPassVerifyCodeFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(mobileNumberKey, loginValidationEditText.getText().toString());
@@ -823,7 +822,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), mContext);
                 mEtEmail.setErrorMessage(errorMsg);
                 mEtEmail.showError();
-                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
+                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;
             }
 
@@ -867,7 +866,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
-        RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
+        RLog.d("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
         hideForgotPasswordSpinner();
         if (response == null) {
             mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
