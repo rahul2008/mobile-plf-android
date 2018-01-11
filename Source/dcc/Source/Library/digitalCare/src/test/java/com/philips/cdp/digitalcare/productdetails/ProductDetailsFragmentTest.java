@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Created by philips on 9/11/17.
  */
 
+@Ignore
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})

@@ -90,7 +90,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         forgotPasswordContract.handleUiState(isOnline);
     }
 
@@ -107,7 +107,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onCounterEventReceived is : " + event);
+        RLog.d(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             forgotPasswordContract.handleUiStatus();
         }
@@ -130,7 +130,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
-        RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
+        RLog.d("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
         forgotPasswordContract.hideForgotPasswordSpinner();
         if (response == null) {
             forgotPasswordContract.forgotPasswordErrorMessage(
@@ -164,14 +164,14 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+                RLog.d("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
                 constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorMsg);
-                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
+                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;
             }
         } catch (Exception e) {

@@ -24,7 +24,6 @@ import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
@@ -47,7 +46,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
@@ -62,7 +60,6 @@ import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
-import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdatePharmacyCallback;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
@@ -80,7 +77,6 @@ import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -98,16 +94,16 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static junit.framework.Assert.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.linesOf;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -1294,6 +1290,55 @@ public class THSManagerTest {
         final String s = thsManager.generatePasswordRandomly();
         assertNotNull(s);
         assertThat(s).isInstanceOf(String.class);
+    }
+
+    @Test
+    public void validatePasswordWithSmallCapitalAndDigits(){
+        String password = "Aa123";
+        boolean isValid = thsManager.validatePassword(password);
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithCapitalLettersOnly(){
+        String password = "AAA";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithSmallLettersOnly(){
+        String password = "abc";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithDigitsOnly(){
+        String password = "111";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithSmallAndCapitalLetters(){
+        String password = "AAss";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithSmallAndDigits(){
+        String password = "ss12";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void validatePasswordWithCapitalAndDigits(){
+        String password = "12SS";
+        boolean isValid = thsManager.validatePassword(password);
+        assertFalse(isValid);
     }
 
 }

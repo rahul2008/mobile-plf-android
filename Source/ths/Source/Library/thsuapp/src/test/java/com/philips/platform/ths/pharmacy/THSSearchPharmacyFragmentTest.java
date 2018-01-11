@@ -11,6 +11,12 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSVisitContext;
@@ -29,6 +35,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -85,6 +92,21 @@ public class THSSearchPharmacyFragmentTest {
     @Mock
     THSBaseFragment thsBaseFragmentMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+    @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
+    AppConfigurationInterface appConfigurationInterfaceMock;
+
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     THSSearchPharmacyFragment thsSearchPharmacyFragment;
 
     @Mock
@@ -94,6 +116,14 @@ public class THSSearchPharmacyFragmentTest {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
 
 
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);

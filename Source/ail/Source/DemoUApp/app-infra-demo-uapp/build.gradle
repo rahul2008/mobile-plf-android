@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'

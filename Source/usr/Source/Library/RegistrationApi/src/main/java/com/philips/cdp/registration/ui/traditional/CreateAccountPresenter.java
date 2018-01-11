@@ -45,7 +45,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         createAccountContract.handleUiState();
         createAccountContract.updateUiStatus();
     }
@@ -70,7 +70,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onCounterEventReceived : " + event);
+        RLog.d(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onCounterEventReceived : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             createAccountContract.updateUiStatus();
         }
@@ -140,7 +140,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
+        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         createAccountContract.registrtionFail();
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow()) {

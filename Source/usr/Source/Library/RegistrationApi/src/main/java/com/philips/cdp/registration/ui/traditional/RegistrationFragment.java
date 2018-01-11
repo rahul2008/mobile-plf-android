@@ -85,10 +85,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
-        RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
-        RLog.i(RLog.VERSION, "Registration Version :" +
+        RLog.d(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
+        RLog.d(RLog.VERSION, "Registration Version :" +
                 RegistrationHelper.getRegistrationApiVersion());
-        RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
+        RLog.d(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         Bundle bundle = getArguments();
@@ -236,7 +236,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 Fragment preFragment = mFragmentManager.getFragments().get(count - 1);
                 prevPage = getTackingPageName(currentFragment);
                 curPage = getTackingPageName(preFragment);
-                RLog.i("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
+                RLog.d("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
                 trackPage(curPage);
             }
         }

@@ -216,12 +216,6 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-//    // Make us happy
-//    compile('net.sourceforge.cobertura:cobertura:2.1.1') {
-//        exclude group: 'junit'
-//        exclude group: 'org.apache.ant'
-//    }
-
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
