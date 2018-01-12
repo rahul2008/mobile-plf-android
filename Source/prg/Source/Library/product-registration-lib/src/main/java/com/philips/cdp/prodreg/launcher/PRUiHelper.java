@@ -46,6 +46,7 @@ import java.util.ArrayList;
 
 /**
  * Product registration helper class used to invoke product registration
+ * @since 1.0.0
  */
 public class PRUiHelper {
 

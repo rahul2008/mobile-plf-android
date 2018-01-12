@@ -10,18 +10,21 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * Update consumer interest handler interface
+ * It is a callback class to proposition for updating  consumer interest
+ * @since 1.0.0
  */
 public interface UpdateConsumerInterestHandler {
 
 	/**
-	 * {@code onUpdateConsumerInterestSuccess} method to on update consumer interest success
+	 * {@code onUpdateConsumerInterestSuccess} method is invoked on update consumer interest success
+	 * @since 1.0.0
 	 */
 	public void onUpdateConsumerInterestSuccess();
 
 	/**
-	 * {@code onUpdateConsumerInterestFailedWithError}method to on update consumer interest failed with error
-	 * @param error api error
+	 * {@code onUpdateConsumerInterestFailedWithError}method is invoked on update consumer interest failed with error
+	 * @param error  gives the janrain error
+	 * @since 1.0.0
      */
 	public void onUpdateConsumerInterestFailedWithError( com.janrain.android.capture.CaptureApiError error);
 
