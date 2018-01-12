@@ -22,7 +22,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.dialogs.DialogView;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -92,7 +91,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
-                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE), getString(R.string.MYA_ok));
+                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
             } else {
                 dismissDialog();
             }
@@ -127,7 +126,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onClick(View view) {
         int viewType = view.getId();
         if (viewType == R.id.mya_settings_logout_btn) {
-            showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message), getString(R.string.MYA_ok));
+            showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         } else if (viewType == R.id.philips_website) {
             String url = "https://www.Philips.com";
             Intent i = new Intent();
@@ -143,7 +142,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showDialog(String title, String message, String okButton) {
+    public void showDialog(String title, String message) {
         this.dialogTitle = title;
         this.dialogMessage = message;
         this.isDialogOpen = true;

@@ -49,8 +49,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             Context context = view.getContext();
             view.showDialog(
                     context.getString(R.string.MYA_change_country),
-                    context.getString(R.string.MYA_change_country_message),
-                    context.getString(R.string.MYA_ok));
+                    context.getString(R.string.MYA_change_country_message)
+            );
         }
     }
 
