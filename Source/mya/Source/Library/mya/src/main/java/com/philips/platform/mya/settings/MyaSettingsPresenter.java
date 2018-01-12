@@ -47,7 +47,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
         if (key.equals("MYA_Country")) {
             Context context = view.getContext();
-            view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
+            view.showDialog(
+                    context.getString(R.string.MYA_change_country),
+                    context.getString(R.string.MYA_change_country_message),
+                    context.getString(R.string.MYA_ok));
         }
     }
 
@@ -74,7 +77,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             } else {
                 String title = getContext().getString(R.string.MYA_offline_title);
                 String message = getContext().getString(R.string.MYA_offline_message);
-                view.showDialog(title, message);
+                view.showOfflineDialog(title, message);
             }
         }
         return false;

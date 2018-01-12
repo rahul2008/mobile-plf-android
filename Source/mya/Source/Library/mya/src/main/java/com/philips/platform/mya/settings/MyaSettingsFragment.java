@@ -92,7 +92,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
-                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
+                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE), getString(R.string.MYA_ok));
             } else {
                 dismissDialog();
             }
@@ -127,7 +127,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onClick(View view) {
         int viewType = view.getId();
         if (viewType == R.id.mya_settings_logout_btn) {
-            showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
+            showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message), getString(R.string.MYA_ok));
         } else if (viewType == R.id.philips_website) {
             String url = "https://www.Philips.com";
             Intent i = new Intent();
@@ -138,8 +138,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showDialog(String title, String message) {
-        new DialogView().showDialog(getActivity());
+    public void showOfflineDialog(String title, String message) {
+        new DialogView(title, message).showDialog(getActivity());
     }
 
     @Override
