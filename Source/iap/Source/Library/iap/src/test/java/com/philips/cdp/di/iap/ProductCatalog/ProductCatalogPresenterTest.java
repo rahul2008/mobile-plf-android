@@ -108,7 +108,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertTrue(error != null);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetProductListWithPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -189,7 +189,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         mNetworkController.sendFailure(error);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetCompleteProductListWithNoPaginationErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);

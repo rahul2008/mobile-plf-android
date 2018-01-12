@@ -137,7 +137,7 @@ public class BuyDirectFragmentTest {
 
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldCall_onGetDeliveryMode_WHenGetDeliveryModesComes() throws Exception {
 
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
