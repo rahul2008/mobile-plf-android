@@ -23,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -75,7 +74,7 @@ public class UtilityTest {
 
     @Test
     public void shouldFormatAddress() throws Exception {
-        utility.formatAddress(anyString());
+        utility.formatAddress("26 New york");
     }
 
     @Test
@@ -85,7 +84,7 @@ public class UtilityTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowException_WhenGetFormattedDateIsPassedWithWrongFormatString() throws Exception {
-        utility.getFormattedDate(anyString());
+        utility.getFormattedDate("26 New york");
     }
 
 //    @Test(expected = NullPointerException.class)

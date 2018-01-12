@@ -38,7 +38,7 @@ public class ErrorDialogFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = Exception.class)
     public void shouldDisplayAddressSelectionFragment() {
 
         SupportFragmentTestUtil.startFragment(errorDialogFragment);
