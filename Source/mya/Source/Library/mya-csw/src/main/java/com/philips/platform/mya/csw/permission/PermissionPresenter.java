@@ -8,7 +8,9 @@
 package com.philips.platform.mya.csw.permission;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.ConsentError;
@@ -66,7 +68,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Override
     public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
-        boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
+        boolean isOnline = getRestClient().isInternetReachable();
         if(isOnline) {
             handler.post(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
@@ -124,5 +126,10 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         } else {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
         }
+    }
+
+    @VisibleForTesting
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 }

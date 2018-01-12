@@ -148,10 +148,19 @@ public class CswFragmentTest {
         thenConnectivityErrorIsShown();
     }
 
+    @Test
+    public void onResume_dialogStayHiddenIfOffline() {
+        givenAppIsOnline();
+        whenResuming();
+        thenConnectivityErrorIsNotShown();
+    }
 
-
-    private void thenConnectivityErrorIsShown() {
+    private void  thenConnectivityErrorIsShown() {
         Assert.assertTrue(fragment.dialogViewMock.isDialogVisible);
+    }
+
+    private void  thenConnectivityErrorIsNotShown() {
+        Assert.assertFalse(fragment.dialogViewMock.isDialogVisible);
     }
 
     private void whenResuming() {
@@ -159,6 +168,10 @@ public class CswFragmentTest {
     }
 
     private void givenAppIsOffline() {
+        fragment.restInterface.isInternetAvailable = false;
+    }
+
+    private void givenAppIsOnline() {
         fragment.restInterface.isInternetAvailable = true;
     }
 
