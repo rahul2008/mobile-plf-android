@@ -112,7 +112,7 @@ public class URLogout implements URLogoutInterface {
     }
 
     protected void clearDataInDataServiceMicroApp() {
-        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(new DBRequestListener() {
+        getInstance().getUserRegistrationHandler().clearUserData(new DBRequestListener() {
             @Override
             public void onSuccess(List list) {
                 RALog.d(TAG, "UserRegistrationHandler clear data success");
@@ -123,6 +123,10 @@ public class URLogout implements URLogoutInterface {
                 RALog.d(TAG, "UserRegistrationHandler clear data failure");
             }
         });
+    }
+
+    protected DemoAppManager getInstance() {
+        return DemoAppManager.getInstance();
     }
 
     protected void clearDataInDataBase() {

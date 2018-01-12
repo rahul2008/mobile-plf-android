@@ -11,13 +11,11 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -47,7 +45,7 @@ public class MyAccountState extends BaseState {
     }
 
     private Context actContext;
-    FragmentLauncher fragmentLauncher;
+    private FragmentLauncher fragmentLauncher;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -59,11 +57,6 @@ public class MyAccountState extends BaseState {
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
-                return false;
-            }
-
-            @Override
-            public boolean onLogOut() {
                 return false;
             }
 

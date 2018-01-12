@@ -27,7 +27,6 @@ public class CatkComponentMock implements CatkComponent {
     public User getUser_return;
 
     public CatkComponentMock() {
-        getServiceDiscoveryInterface_return = new ServiceDiscoveryInterfaceMock();
     }
 
     @Override

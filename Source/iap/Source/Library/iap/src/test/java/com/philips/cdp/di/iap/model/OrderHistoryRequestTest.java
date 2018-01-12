@@ -57,7 +57,7 @@ public class OrderHistoryRequestTest {
         assertEquals(NetworkURLConstants.PLACE_ORDER_URL, mModel.getUrl());
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void isValidResponse() {
         String validAddress = TestUtils.readFile(OrderHistoryRequestTest.class, "Orders.txt");
         Object response = mModel.parseResponse(validAddress);

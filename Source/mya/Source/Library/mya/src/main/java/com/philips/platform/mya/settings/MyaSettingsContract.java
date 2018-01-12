@@ -9,8 +9,8 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.base.mvp.MyaBaseView;
-import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
+import com.philips.platform.mya.base.MyaBaseView;
+import com.philips.platform.mya.base.MyaPresenterInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
