@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyAccount</string>
+    <string name="MYA_offline_message">de-There seems to be a problem with your internet connection. Please check and try again.</string>
+    <string name="MYA_offline_title">de-Offline</string>
+    <string name="MYA_ok">de-OK</string>
+</resources>
