@@ -31,6 +31,7 @@ import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,7 +75,7 @@ public class MyaSettingsPresenterTest {
         when(context.getString(R.string.MYA_change_country_message)).thenReturn("some message");
         SettingsModel settingsModel = new SettingsModel();
         myaSettingsPresenter.onClickRecyclerItem(key, settingsModel);
-        verify(view).showDialog("some title", "some message");
+        verify(view).showDialog("some title", "some message", anyString());
     }
 
     @Test
