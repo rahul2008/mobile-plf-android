@@ -347,8 +347,13 @@ public class JREngage {
             JREngage.class.wait();
         } catch (InterruptedException e) {
             throwDebugException(new RuntimeException("Unexpected InterruptedException", e));
+        } catch (IllegalMonitorStateException e) {
+            throwDebugException(new RuntimeException("Unexpected IllegalMonitorStateException", e));
+        } catch (Exception e) {
+            throwDebugException(new RuntimeException("Unexpected Exception", e));
         }
-    }
+
+}
 
 /**
  * @name Manage Authenticated Users

@@ -27,6 +27,7 @@ import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +51,7 @@ public class ConsentAccessToolKit {
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
     private List<ConsentDefinition> consentDefinitionList;
+    private Boolean strictConsentCheck;
 
     ConsentAccessToolKit() {
     }
@@ -69,6 +71,13 @@ public class ConsentAccessToolKit {
         extractContextNames(catkInputs);
         this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
+
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
+
+        final Object strictConsentCheck = catkInputs.getAppInfra().getConfigInterface().getPropertyForKey("strictConsentCheck", "mya", configError);
+        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean)strictConsentCheck);
+
     }
 
     private void initLogging() {
@@ -194,12 +203,17 @@ public class ConsentAccessToolKit {
                         return;
                     }
                 }
-                consentListener.onResponseSuccessConsent(null);
+                consentListener.onResponseSuccessConsent(strictConsentCheck ? null : Collections.singletonList(createAlwaysAcceptedBackendConsent(consentType)));
             }
 
             @Override
             public void onResponseFailureConsent(ConsentNetworkError consentError) {
                 consentListener.onResponseFailureConsent(consentError);
+            }
+
+            @NonNull
+            private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
+                return new BackendConsent(null, ConsentStatus.active, consentType, Integer.MAX_VALUE);
             }
         });
     }

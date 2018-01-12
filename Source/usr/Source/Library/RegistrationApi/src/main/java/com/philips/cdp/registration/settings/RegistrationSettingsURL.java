@@ -295,7 +295,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         ServiceDiscoveryService serviceDiscoveyService;
         serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
         if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-            RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+            RLog.d("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
             hsdpConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
         }
     }
