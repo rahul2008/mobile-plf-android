@@ -242,7 +242,7 @@ public class RegistrationConfiguration {
 
         String appName = hsdpConfiguration.getHsdpAppName();
 
-        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        RLog.d("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;

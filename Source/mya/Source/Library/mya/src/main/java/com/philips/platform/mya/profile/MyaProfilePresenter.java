@@ -11,8 +11,9 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
@@ -76,6 +77,12 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
             ArrayList<?> propertyForKey = (ArrayList<?>) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
             TreeMap<String, String> treeMap = new TreeMap<>();
+            MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
+            if (propertyForKey != null && propertyForKey.size() != 0) {
+                myaLocalizationHandler.getLocalisedList(view.getContext(), propertyForKey, treeMap);
+            } else {
+                treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
+            }
             return treeMap;
         } catch (IllegalArgumentException exception) {
             // TODO: Deepthi, use TLA while logging

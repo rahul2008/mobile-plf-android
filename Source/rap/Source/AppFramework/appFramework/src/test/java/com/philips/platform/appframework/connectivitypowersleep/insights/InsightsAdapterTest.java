@@ -83,7 +83,7 @@ public class InsightsAdapterTest {
         insightList = new ArrayList<Insight>();
 
         Insight insight = new MomentInsight();
-        insight.setRuleId("HIGH_DEEP_SLEEP");
+        insight.setTitle("HIGH_DEEP_SLEEP");
 
         insightList.add(insight);
     }

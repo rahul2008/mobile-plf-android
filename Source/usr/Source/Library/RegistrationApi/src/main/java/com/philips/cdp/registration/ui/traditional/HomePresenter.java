@@ -216,7 +216,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
 
     public void handleWeChatCode() {
-        RLog.i("WECHAT", String.format("WeChat Code: ", mWeChatCode));
+        RLog.d("WECHAT", String.format("WeChat Code: ", mWeChatCode));
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, mWeChatCode,
                 new WeChatAuthenticationListener() {
@@ -225,7 +225,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.i("WECHAT body", "token " + token + " openid " + openId);
+                            RLog.d("WECHAT body", "token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
@@ -244,7 +244,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-        RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+        RLog.d("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
                 + prefilledRecord);
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.createSocialAccount(prefilledRecord, socialRegistrationToken);
@@ -390,7 +390,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
+        RLog.d(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
                 " isHomeFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             homeContract.initSuccess();

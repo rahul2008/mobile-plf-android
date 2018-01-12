@@ -14,8 +14,6 @@ public interface MyaListener {
 
     boolean onClickMyaItem(String itemName);
 
-    boolean onLogOut();
-
     DataInterface getDataInterface(DataModelType modelType);
 
     void onError(MyaError myaError);

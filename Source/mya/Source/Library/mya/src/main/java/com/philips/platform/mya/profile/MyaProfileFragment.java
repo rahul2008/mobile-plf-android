@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;

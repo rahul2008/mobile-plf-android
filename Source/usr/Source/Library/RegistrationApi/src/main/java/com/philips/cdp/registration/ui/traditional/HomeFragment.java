@@ -260,7 +260,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             CountrySelectionListener countryChangeListener = new CountrySelectionListener() {
                 @Override
                 public void onSelectCountry(String name, String code) {
-                    RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
+                    RLog.d(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                     homePresenter.changeCountry(name, code.trim().toUpperCase());
                     getRegistrationFragment().onBackPressed();
                 }
@@ -376,7 +376,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
+        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
        // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout2, width);
@@ -450,7 +450,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
                                                     userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +
+        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +
                 userRegistrationFailureInfo.getErrorCode());
         trackPage(AppTaggingPages.HOME);
         hideProgressDialog();

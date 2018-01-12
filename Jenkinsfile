@@ -4,7 +4,6 @@ BranchName = env.BRANCH_NAME
  String cron_string = BRANCH_NAME == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
-def committerName = ""
 
 pipeline {
     agent {
@@ -29,21 +28,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
-                script {
-                    committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
-                    echo "Submitter: " + committerName
-
-                    def causes = currentBuild.rawBuild.getCauses()
-                    for(cause in causes) {
-                        if (cause.class.toString().contains("TimerTriggerCause")) {
-                            echo "This job was caused by job timer trigger"
-                            TRIGGER_BY_TIMER = 'true'
-                        } else {
-                            echo "Nothing to do, not triggered by timer"
-                        }
-                    }
-                }
-                echo "TRIGGER_BY_TIMER : " + TRIGGER_BY_TIMER
+                InitialiseBuild()                
                 checkout scm
                 BuildAndUnitTest()
             }
@@ -145,20 +130,34 @@ pipeline {
     }
     post {
         always{
-            script {
-                currentBuild.description = "Submitter: " + committerName
-            }
             deleteDir()
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
     }
 }
 
+def InitialiseBuild() {
+    committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
+    currentBuild.description = "Submitter: " + committerName + ";Node: ${env.NODE_NAME}"
+    echo currentBuild.description
+
+    def causes = currentBuild.rawBuild.getCauses()
+    for(cause in causes) {
+        if (cause.class.toString().contains("TimerTriggerCause")) {
+            echo "This job was caused by job timer trigger"
+            TRIGGER_BY_TIMER = 'true'
+        } else {
+            echo "Nothing to do, not triggered by timer"
+        }
+    }
+    echo "TRIGGER_BY_TIMER : " + TRIGGER_BY_TIMER
+}
+
 def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease :uid:cC :AppInfra:cC :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :jump:cC :jump:test :hsdp:cC :hsdp:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:testReleaseUnitTest :product-registration-lib:test :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :mya:cC :mya:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :mya-catk:testReleaseUnitTest :mya-csw:testReleaseUnitTest :mya-chi:testReleaseUnitTest :mya-mch:testReleaseUnitTest :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test :ews-android:test :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
+         ./gradlew --refresh-dependencies assembleRelease :uid:cC :AppInfra:cC :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :jump:cC :jump:test :hsdp:cC :hsdp:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:testReleaseUnitTest :product-registration-lib:test :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :mya:cC :mya:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :mya-catk:testReleaseUnitTest :mya-csw:testReleaseUnitTest :mya-chi:testReleaseUnitTest :mya-mch:testReleaseUnitTest :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test :ews-android:test :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
     '''
 }
 

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
@@ -30,7 +30,7 @@ import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailContract.View {
 
-    private ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
+    private ImageButton email_mobile_arrow, mobile_arrow;
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
     private View email_divider;
@@ -69,7 +69,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private void initViews(View view) {
         nameLabel = view.findViewById(R.id.mya_name);
         email_mobile_arrow = view.findViewById(R.id.email_mobile_right_arrow);
-        email_arrow = view.findViewById(R.id.email_right_arrow);
         mobile_arrow = view.findViewById(R.id.mobile_right_arrow);
         email_address = view.findViewById(R.id.email_address_value);
         mobile_number = view.findViewById(R.id.mobile_number_value);
@@ -111,11 +110,13 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     @Override
     public void setEmail(String email) {
         if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
-            email_arrow.setVisibility(View.VISIBLE);
+//            email_arrow.setVisibility(View.VISIBLE);
             email_address_heading.setVisibility(View.GONE);
-            email_address.setText(getString(R.string.MYA_Add_email_address));
+//            email_address.setText(getString(R.string.MYA_Add_email_address));
+            email_address.setVisibility(View.GONE);
         } else {
             email_address.setText(email);
+            email_divider.setVisibility(View.VISIBLE);
         }
     }
 
@@ -147,7 +148,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             mobile_number.setVisibility(View.GONE);
         } else {
             mobile_number.setText(number);
-            email_divider.setVisibility(View.VISIBLE);
         }
     }
 
