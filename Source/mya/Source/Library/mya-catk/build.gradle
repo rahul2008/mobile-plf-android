@@ -23,7 +23,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "ConsentAccessToolKit"
+archivesBaseName = "mya-catk"
 group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.mya_consentAccessToolKit)
 

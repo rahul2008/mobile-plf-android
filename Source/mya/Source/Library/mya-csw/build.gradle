@@ -11,7 +11,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 
-archivesBaseName = "ConsentWidgets"
+archivesBaseName = "mya-csw"
 version = objcdp.getVersion(versions.mya_myAccount)
 
 

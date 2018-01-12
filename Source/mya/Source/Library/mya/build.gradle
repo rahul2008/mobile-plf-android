@@ -24,7 +24,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "MyAccount"
+archivesBaseName = "mya"
 group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.mya_myAccount)
 
