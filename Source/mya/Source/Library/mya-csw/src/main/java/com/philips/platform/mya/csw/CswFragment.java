@@ -8,6 +8,7 @@
 package com.philips.platform.mya.csw;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,14 +43,6 @@ public class CswFragment extends Fragment implements BackEventListener {
         inflatePermissionView();
         getRestClient().isInternetReachable();
         return view;
-    }
-
-    protected RestInterface getRestClient() {
-        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
-    }
-
-    protected DialogView getDialogView() {
-        return new DialogView();
     }
 
     @Override
@@ -150,5 +143,15 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
+    }
+
+    @VisibleForTesting
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
+
+    @VisibleForTesting
+    protected DialogView getDialogView() {
+        return new DialogView();
     }
 }
