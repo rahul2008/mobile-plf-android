@@ -95,8 +95,10 @@ public class CswFragment extends Fragment implements BackEventListener {
     private void inflatePermissionView() {
         try {
             if (null != mFragmentManager) {
+                PermissionView permissionFragment = buildPermissionView();
+
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, buildPermissionView());
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
