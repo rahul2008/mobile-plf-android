@@ -10,22 +10,24 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.injection.CatkComponent;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.mock.CatkComponentMock;
+import com.philips.platform.mya.catk.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.mya.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.catk.BuildConfig;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -57,11 +59,11 @@ import static org.mockito.Mockito.when;
 
 public class ConsentAccessToolKitTest {
 
-    private static final String COUNTRY_CODE = "IN";
-
     private CatkComponentMock catkComponent;
 
     private ConsentAccessToolKit consentAccessToolKit;
+
+    private ServiceDiscoveryInterfaceMock serviceDiscoveryInterface;
 
     @Mock
     private ConsentResponseListener listenerMock;
@@ -90,9 +92,11 @@ public class ConsentAccessToolKitTest {
         ConsentAccessToolKit.setInstance(new ConsentAccessToolKit());
         consentAccessToolKit = ConsentAccessToolKit.getInstance();
         catkComponent = new CatkComponentMock();
+        serviceDiscoveryInterface = new ServiceDiscoveryInterfaceMock();
         catkComponent.getUser_return = user;
+        catkComponent.getServiceDiscoveryInterface_return = serviceDiscoveryInterface;
         AppInfraInfo appInfraInfo = new AppInfraInfo("http://someurl.com");
-        when(user.getCountryCode()).thenReturn(COUNTRY_CODE);
+        when(user.getHsdpUUID()).thenReturn(HSDP_UUID);
         consentAccessToolKit.setCatkComponent(catkComponent);
         serviceInfoProvider = new ServiceInfoProviderMock();
         serviceInfoProvider.retrievedInfo = appInfraInfo;
@@ -164,11 +168,13 @@ public class ConsentAccessToolKitTest {
     @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
+        givenServiceDiscoveryReturnsHomeCountry("US");
         BackendConsent consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
         consentAccessToolKit.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
+        thenAssertConsentDto(HSDP_UUID, "moment", "active","nl-NL", "US","myApplication", "myProposition", 1);
     }
 
     @Test
@@ -224,9 +230,8 @@ public class ConsentAccessToolKitTest {
         networkControllerMock.sendConsentRequest_onSuccessResponse = consentResponse;
     }
 
-    private void thenServiceInfoProviderWasCalled() {
-        assertNotNull(serviceInfoProvider.responseListener);
-        assertNotNull(serviceInfoProvider.serviceDiscovery);
+    private void givenServiceDiscoveryReturnsHomeCountry(String homeCountry) {
+        serviceDiscoveryInterface.getHomeCountry_return = homeCountry;
     }
 
     private void thenConsentStatusIs(final ConsentStatus expectedStatus) {
@@ -257,6 +262,20 @@ public class ConsentAccessToolKitTest {
         consentAccessToolKit.init(validCatkInputs());
     }
 
+    private void thenServiceInfoProviderWasCalled() {
+        assertNotNull(serviceInfoProvider.responseListener);
+        assertNotNull(serviceInfoProvider.serviceDiscovery);
+    }
+
+    private void thenAssertConsentDto(String subject, String type, String status, String locale, String country, String appName, String propName, int version) {
+        CreateConsentDto createConsentDto = new Gson().fromJson(captorNetworkAbstractModel.getValue().requestBody(), CreateConsentDto.class);
+        assertEquals(buildPolicyRule(type, version, country, propName, appName), createConsentDto.getPolicyRule());
+        assertEquals(locale, createConsentDto.getLanguage());
+        assertEquals(status, createConsentDto.getStatus());
+        assertEquals(subject, createConsentDto.getSubject());
+        assertEquals("Consent", createConsentDto.getResourceType());
+    }
+
     @NonNull
     private CatkInputs validCatkInputs() {
         return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).build();
@@ -270,6 +289,7 @@ public class ConsentAccessToolKitTest {
     private NetworkControllerMock networkControllerMock;
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
+    private String HSDP_UUID = "hsdp_user_id";
     private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, "en-GB", buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
     private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, "en-GB", buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);

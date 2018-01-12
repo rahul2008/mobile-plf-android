@@ -168,7 +168,7 @@ public class ConsentAccessToolKit {
 
             @Override
             public void onConfigurationCompletion(@NonNull String cssUrl) {
-                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName,
+                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getServiceDiscoveryInterface().getHomeCountry(), propositionName,
                         applicationName);
                 for (BackendConsent consent : consents) {
                     CreateConsentDto consentDto = mapper.map(consent);

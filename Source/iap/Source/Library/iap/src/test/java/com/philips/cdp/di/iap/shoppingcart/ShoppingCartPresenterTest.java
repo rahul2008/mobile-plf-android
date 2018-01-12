@@ -590,7 +590,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testBuyProductWhenTotalItemnullOrZero() throws JSONException {
 
         mShoppingCartPresenter = new ShoppingCartPresenter();

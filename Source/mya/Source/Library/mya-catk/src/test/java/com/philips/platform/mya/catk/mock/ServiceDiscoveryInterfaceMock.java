@@ -19,6 +19,8 @@ public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface 
 
     public String getServiceLocaleWithCountryPreference_return;
 
+    public String getHomeCountry_return;
+
     @Override
     public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
 
@@ -26,7 +28,7 @@ public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface 
 
     @Override
     public String getHomeCountry() {
-        return null;
+        return getHomeCountry_return;
     }
 
     @Override
