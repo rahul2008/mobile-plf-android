@@ -63,6 +63,7 @@ import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
+import com.philips.AppNameToEnglish;
 
 import net.openid.appauth.AuthorizationService;
 
@@ -258,7 +259,8 @@ public class JRSession implements JRConnectionManagerDelegate {
         mUniqueIdentifier = this.getUniqueIdentifier();
 
         ApplicationInfo ai = AndroidUtils.getApplicationInfo();
-        String appName = getApplicationContext().getPackageManager().getApplicationLabel(ai).toString();
+        AppNameToEnglish appNameEnglish = new AppNameToEnglish();
+        String appName =  appNameEnglish.getApplicationName(getApplicationContext());
         appName += ":" + getApplicationContext().getPackageName();
         mUrlEncodedAppName = AndroidUtils.urlEncode(appName);
         mUrlEncodedLibraryVersion =
@@ -270,7 +272,7 @@ public class JRSession implements JRConnectionManagerDelegate {
                 // any invalid state.
                 throw new Archiver.LoadException("New library version with old serialized state");
             }
-            mUserAgent = getApplicationContext().getPackageManager().getApplicationLabel(ai).toString();
+            mUserAgent = appNameEnglish.getApplicationName(getApplicationContext());
             PackageInfo info = null;
             try {
                 String packageName = getApplicationContext().getPackageName();

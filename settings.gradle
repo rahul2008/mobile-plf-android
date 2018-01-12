@@ -40,12 +40,14 @@ include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
-include ':MyAccount'
-include ':ConsentWidgets'
-include ':ConsentAccessToolKit'
+include ':mya'
+include ':mya-csw'
+include ':mya-catk'
+include ':mya-chi'
 include ':MyAccountUApp'
 include ':ews-android'
 include ':ewsUApp'
+include ':mya-mch'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
@@ -87,9 +89,11 @@ project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
-project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
-project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
-project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
+project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
+project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
+project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
+project(':mya-chi').projectDir = new File('./Source/mya/Source/Library/mya-chi')
+project(':mya-mch').projectDir = new File('./Source/mya/Source/Library/mya-mch')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
@@ -125,3 +129,5 @@ include ':commlib-demoapp'
 project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 include ':bluelib-demoapp'
 project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+include ':dcc-demoapp'
+project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')

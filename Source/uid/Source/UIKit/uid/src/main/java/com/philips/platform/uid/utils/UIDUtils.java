@@ -11,15 +11,16 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
@@ -93,13 +94,35 @@ public final class UIDUtils {
         return 0;
     }
 
+    public static boolean isLayoutRTL(View view) {
+        return ViewCompat.getLayoutDirection(view) == ViewCompat.LAYOUT_DIRECTION_RTL;
+    }
+
     public static int getActionBarHeight(Context context) {
         TypedValue tv = new TypedValue();
         int actionBarHeight = 0;
-        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
         }
         return actionBarHeight;
+    }
+
+    public static PorterDuff.Mode parseTintMode(int value, PorterDuff.Mode defaultMode) {
+        switch (value) {
+            case 3:
+                return PorterDuff.Mode.SRC_OVER;
+            case 5:
+                return PorterDuff.Mode.SRC_IN;
+            case 9:
+                return PorterDuff.Mode.SRC_ATOP;
+            case 14:
+                return PorterDuff.Mode.MULTIPLY;
+            case 15:
+                return PorterDuff.Mode.SCREEN;
+            case 16:
+                return PorterDuff.Mode.ADD;
+            default:
+                return defaultMode;
+        }
     }
 }

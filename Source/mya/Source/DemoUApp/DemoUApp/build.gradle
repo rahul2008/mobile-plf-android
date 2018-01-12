@@ -213,8 +213,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     def dp = project.ext.has('useprojectdependencies')
-    compile(dp ? project(':MyAccount') : project(':MyAccount'))
-    
+    if(dp) {
+        compile(project(':mya'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'mya', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
+
     if(dp) {
         compile project(':uid')
     } else {

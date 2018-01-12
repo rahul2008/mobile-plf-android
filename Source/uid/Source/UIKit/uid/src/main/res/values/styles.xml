@@ -70,6 +70,11 @@
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         -->
+        <item name="uidBottomTabItemStyle">@style/UIDTabItemStyle</item>
+        <item name="uidBottomTabBarStyle">@style/UIDBottomTabLayout</item>
     </style>
 
+    <style name="BaseTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabGravity">fill</item>
+    </style>
 </resources>

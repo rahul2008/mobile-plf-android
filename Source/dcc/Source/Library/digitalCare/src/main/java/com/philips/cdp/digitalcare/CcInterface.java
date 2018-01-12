@@ -35,6 +35,7 @@ public class CcInterface implements UappInterface {
      * initialise the consumer care library
      * @param uappDependencies
      * @param uappSettings
+     * @since 1.0.0
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -50,6 +51,7 @@ public class CcInterface implements UappInterface {
      * launch the support screen through fragment or activity
      * @param uiLauncher
      * @param uappLaunchInput
+     * @since 1.0.0
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {

@@ -1,15 +1,32 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.mya.demouapp.fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.R;
@@ -35,27 +52,15 @@ import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
-/**
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     public int checkedId = R.id.radioButton;
-    List<ConsentDefinition> createConsentDefinitions;
 
     @Nullable
     @Override
@@ -94,38 +99,60 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        initCatk();
-        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
-        MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
-        launchInput.setConsentDefinitions(createConsentDefinitions(Locale.US));
-        MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
-        if (checkedId == R.id.radioButton) {
-            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
-                    ((DemoAppActivity) getActivity()).getThemeConfig(),
-                    ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
-            myaInterface.launch(activityLauncher, launchInput);
-        } else {
-            myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
-                @Override
-                public void updateActionBar(@StringRes int i, boolean b) {
-                    ((DemoAppActivity) getActivity()).setTitle(i);
-                }
+        try {
+            initCatk();
+            MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
+            MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
+            MyaInterface myaInterface = new MyaInterface();
+            myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
+            if (checkedId == R.id.radioButton) {
+                ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                        ((DemoAppActivity) getActivity()).getThemeConfig(),
+                        ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                myaInterface.launch(activityLauncher, launchInput);
+            } else {
+                myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
+                    @Override
+                    public void updateActionBar(@StringRes int i, boolean b) {
+                        ((DemoAppActivity) getActivity()).setTitle(i);
+                    }
 
-                @Override
-                public void updateActionBar(String s, boolean b) {
-                    ((DemoAppActivity) getActivity()).setTitle(s);
-                }
-            }), launchInput);
+                    @Override
+                    public void updateActionBar(String s, boolean b) {
+                        ((DemoAppActivity) getActivity()).setTitle(s);
+                    }
+                }), launchInput);
+            }
+        } catch (CatkInputs.InvalidInputException e) {
+            e.printStackTrace();
         }
     }
 
     private void initCatk() {
+        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(getLocale(MyAccountDemoUAppInterface.getAppInfra()));
+        ConsentAccessToolKit kit = ConsentAccessToolKit.getInstance();
+
         CatkInputs.Builder builder = new CatkInputs.Builder();
-        ConsentAccessToolKit.getInstance().init(builder.setContext(getActivity()
-                                                    .getApplicationContext()).setConsentDefinitions(createConsentDefinitions(Locale.US))
-                                                    .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
-                                                    .build());
+        kit.init(builder.setContext(getActivity()
+                .getApplicationContext())
+                .setConsentDefinitions(consentDefinitions)
+                .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
+                .build());
+
+        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
+        consentConfigurations.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
+        MyaHelper.getInstance().setConfigurations(consentConfigurations);
+    }
+
+    private Locale getLocale(AppInfraInterface appInfra) {
+        Locale locale = Locale.US;
+        if (appInfra != null && appInfra.getInternationalization() != null && appInfra.getInternationalization().getUILocaleString() != null) {
+            String[] localeComponents = appInfra.getInternationalization().getUILocaleString().split("_");
+            if (localeComponents.length == 2) {
+                locale = new Locale(localeComponents[0], localeComponents[1]);
+            }
+        }
+        return locale;
     }
 
     @NonNull
@@ -133,11 +160,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         return new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
-                return false;
-            }
-
-            @Override
-            public boolean onLogOut() {
                 return false;
             }
 

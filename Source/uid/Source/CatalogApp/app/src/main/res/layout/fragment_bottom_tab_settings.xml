@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.BottomTabSettingsFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/bottom_tab_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/BaseLayoutMargins.Dimens"
+                    android:orientation="horizontal">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.TestButtonTexts"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/icon_only" />
+
+                    <com.philips.platform.uid.view.widget.Switch
+                        android:id="@+id/icon_only_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/layout_margin_left_right"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:onCheckedChanged="@{(v, isChecked) -> frag.setIconOnlyEnabled(isChecked)}"/>
+
+                </LinearLayout>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.RecyclerViewHeaderText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/items"/>
+
+
+                <com.philips.platform.uid.view.widget.RadioGroup
+                    android:id="@+id/radioGroupItems"
+                    style="@style/TestRadioGroupStyle"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/four_items"
+                        style="@style/TestRadioButtonStyle"
+                        android:checked="true"
+                        android:text="@string/four_items"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/more_than_five_items"
+                        style="@style/TestRadioButtonStyle"
+                        android:text="@string/more_items"/>
+
+                </com.philips.platform.uid.view.widget.RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/show_sidebar_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/bottom_tab_linear_layout"
+                android:layout_margin="@dimen/layout_margin_left_right" >
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/show_sidebar"
+                    style="@style/UIDExtraWideButton"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:onClick="@{(v) -> frag.showBottomTabBar()}"
+                    android:text="@string/show_bottom_tab_bar"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.SelectedCountryListener;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -34,10 +33,9 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
 
         CountryPickerHolder(View view) {
             super(view);
-            countryName = (Label) view.findViewById(R.id.title);
-            checked = (Label) view.findViewById(R.id.tick);
-            checked.setText(R.string.ic_reg_check);
-            FontLoader.getInstance().setTypeface(checked, "PUIIcon.ttf");
+            countryName = view.findViewById(R.id.title);
+            checked = view.findViewById(R.id.tick);
+            checked.setText(R.string.dls_checkmark_xbold_32);
         }
     }
 

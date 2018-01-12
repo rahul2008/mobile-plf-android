@@ -63,7 +63,7 @@ public class ResetPasswordWebView extends Fragment {
         mWebView.getSettings().setUseWideViewPort(true);
 
         String url = getURL(redirectUriKey);
-        RLog.i("MobileVerifyCodeFragment ", "response val 2 token url "+url);
+        RLog.d("MobileVerifyCodeFragment ", "response val 2 token url "+url);
 
         mWebView.loadUrl(url);
         //mWebView.loadUrl("https://acc.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
@@ -102,7 +102,7 @@ public class ResetPasswordWebView extends Fragment {
 
     private String getURL(String redirectUriKey) {
         Bundle bundle = getArguments();
-        RLog.i("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
+        RLog.d("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
         redirectUri = bundle.getString(redirectUriKey);
 
         String url;

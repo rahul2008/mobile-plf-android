@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+
+
+archivesBaseName = "MarketingConsentHandler"
+version = objcdp.getVersion(versions.mya_marketingConsentHandler)
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    lintOptions {
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            testCoverageEnabled true
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Philips Coco's
+    def dp = project.ext.has('useprojectdependencies')
+    if (dp) {
+        compile project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+    if (dp) {
+        compile(project(':mya-chi'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'mya-chi', version: versions.mya_consentHandlerInterface + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+    testCompile deps.junit
+    testCompile deps.mockito
+}

@@ -35,6 +35,7 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
      * recyclerview.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
      *
      * @param context the context
+     *                @since 3.0.0
      */
     public RecyclerViewSeparatorItemDecoration(@NonNull Context context) {
         this.dividerDrawable = new SeparatorDrawable(context);

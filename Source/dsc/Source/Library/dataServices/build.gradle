@@ -76,74 +76,6 @@ allprojects {
 group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.dsc_dataServices)
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-}
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -228,12 +160,11 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
    if(dp) {
-        compile(project(':ConsentAccessToolKit'))
+        compile(project(':mya-catk'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
         {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
-            transitive true
         }
     }
 
@@ -254,7 +185,7 @@ dependencies {
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'joda-time:joda-time:2.9.9'
+    compile 'joda-time:joda-time:2.9.7'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'javax.inject:javax.inject:1'

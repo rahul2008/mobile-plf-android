@@ -2,4 +2,5 @@
 <resources>
     <dimen name="uid_navigation_bar_icon_maxsize">44dp</dimen>
     <dimen name="uid_navigation_bar_height">48dp</dimen>
+    <dimen name="uid_tab_layout_elevation">7dp</dimen>
 </resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_tab_frame_layout"
+    style="@style/UIDTabItemStyle.Title">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@id/uid_tab_icon"
+            style="@style/UIDTabIcon.Title"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@id/uid_tab_label"
+            style="@style/UIDTabLabel"/>
+
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:id="@id/uid_tab_notification_badge"
+        style="@style/UIDTabNotificationBadge.Title"
+        android:visibility="gone"/>
+
+</FrameLayout>

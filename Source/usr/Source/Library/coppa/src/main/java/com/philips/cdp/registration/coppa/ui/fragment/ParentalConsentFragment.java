@@ -212,7 +212,7 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
 
     @Override
     public void onNetWorkStateReceived(final boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "ParentalConsentFragment :onNetWorkStateReceived state :"
+        RLog.d(RLog.NETWORK_STATE, "ParentalConsentFragment :onNetWorkStateReceived state :"
                 + isOnline);
 
         handleUiState();

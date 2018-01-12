@@ -226,7 +226,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     public Intent createSMSPasswordResetIntent() {
 
-        RLog.i("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
+        RLog.d("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUri + " " + responseToken);
         constructRedirectUri();
         final String redirectUriKey = "redirectUri";

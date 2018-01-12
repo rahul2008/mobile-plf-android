@@ -223,6 +223,7 @@ public class RequestManager {
 		return mContext.getSharedPreferences(SERVICE_DISCOVERY_CACHE_FILE, Context.MODE_PRIVATE);
 	}
 
+	//TODO - need to change api name as it work in opposite way
 	boolean getPropositionEnabled(AppInfra appInfra) {
 		final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
 				.AppConfigurationError();

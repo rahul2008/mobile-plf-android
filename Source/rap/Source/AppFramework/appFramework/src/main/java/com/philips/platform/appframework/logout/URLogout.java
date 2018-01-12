@@ -16,13 +16,14 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.referenceapp.PushNotificationManager;
 
 import java.util.List;
 
 
-public class URLogout implements URLogoutInterface{
+public class URLogout implements URLogoutInterface {
 
     private static final String TAG = URLogout.class.getSimpleName();
 
@@ -40,10 +41,10 @@ public class URLogout implements URLogoutInterface{
     public void performLogout(final Context activityContext, final User user) {
 
         if (!BaseAppUtil.isNetworkAvailable(activityContext.getApplicationContext())) {
-             if (urLogoutListener != null) {
-                 urLogoutListener.onNetworkError(activityContext.getString(R.string.RA_DLS_check_internet_connectivity));
-             }
-             return;
+            if (urLogoutListener != null) {
+                urLogoutListener.onNetworkError(activityContext.getString(R.string.RA_DLS_check_internet_connectivity));
+            }
+            return;
         }
 
         if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
@@ -81,29 +82,9 @@ public class URLogout implements URLogoutInterface{
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultSuccess();
                 }
-                getDataServicesManager().deleteAll(new DBRequestListener() {
-                    @Override
-                    public void onSuccess(List list) {
-                        RALog.d(TAG,"Deleted saved data from database");
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        RALog.d(TAG,"Fetch to delete data from database");
-                    }
-                });
-                if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())) {
-                    getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
-                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
-                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
-                    ((Activity) activityContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SyncScheduler.getInstance().stopSync();
-                        }
-                    });
-
-                }
+                clearDataInDataBase();
+                clearDataInDataServiceMicroApp();
+                stopDataSync(activityContext);
             }
 
             @Override
@@ -111,6 +92,53 @@ public class URLogout implements URLogoutInterface{
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultFailure(i, errorMessage);
                 }
+            }
+        });
+    }
+
+    protected void stopDataSync(Context activityContext) {
+        if (BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())) {
+            ((Activity) activityContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    SyncScheduler.getInstance().stopSync();
+                }
+            });
+        } else {
+            getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
+            ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
+            ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
+        }
+    }
+
+    protected void clearDataInDataServiceMicroApp() {
+        getInstance().getUserRegistrationHandler().clearUserData(new DBRequestListener() {
+            @Override
+            public void onSuccess(List list) {
+                RALog.d(TAG, "UserRegistrationHandler clear data success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                RALog.d(TAG, "UserRegistrationHandler clear data failure");
+            }
+        });
+    }
+
+    protected DemoAppManager getInstance() {
+        return DemoAppManager.getInstance();
+    }
+
+    protected void clearDataInDataBase() {
+        getDataServicesManager().deleteAll(new DBRequestListener() {
+            @Override
+            public void onSuccess(List list) {
+                RALog.d(TAG, "Deleted saved data from database");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                RALog.d(TAG, "Fetch to delete data from database");
             }
         });
     }

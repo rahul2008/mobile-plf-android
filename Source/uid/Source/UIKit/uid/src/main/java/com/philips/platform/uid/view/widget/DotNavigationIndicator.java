@@ -142,6 +142,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Either of setViewpager(pager) or setViewPager(pager, position) must be called so as to draw Dots
      *
      * @param viewPager pager you want to bind to Dot indicator
+     *                  @since 3.0.0
      */
     @Override
     public void setViewPager(@NonNull final ViewPager viewPager) {
@@ -152,7 +153,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Provide the view pager reference you want to bind with and provide a current position to be highlighted
      *
      * @param newViewPager    viewpager to bind to indicator
-     * @param initialPosition with initialPosition selected/highlited
+     * @param initialPosition with initialPosition selected/highlighted
+     *                        @since 3.0.0
      */
     @Override
     public void setViewPager(final ViewPager newViewPager, int initialPosition) {
@@ -190,6 +192,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Enables circular swipe behavior
      *
      * @param circularSwipeEnabled Configures circular swipe property
+     *                             @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setCircularSwipeEnabled(boolean circularSwipeEnabled) {
@@ -225,6 +228,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Sets the current page in viewpager  and highlight the corresponding dot
      *
      * @param position to be shown on pager and corresponding dot to be highlighted
+     *                 @since 3.0.0
      */
     @Override
     public void setCurrentItem(int position) {
@@ -338,6 +342,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     /**
      * This is the method is responsible for showing next item when user clicks/taps on the right side of <br>
      * highlighted dot.
+     * @since 3.0.0
      */
     protected void showNext() {
         if (!isViewPagerInitialized()) {
@@ -355,6 +360,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     /**
      * This is the method is responsible for showing previous item when user clicks/taps on the left side of <br>
      * highlighted dot.
+     * @since 3.0.0
      */
     protected void showPrevious() {
         if (!isViewPagerInitialized()) {
