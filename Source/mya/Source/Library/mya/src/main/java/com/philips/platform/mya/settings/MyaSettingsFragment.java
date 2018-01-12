@@ -6,8 +6,6 @@
 package com.philips.platform.mya.settings;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,7 +19,8 @@ import android.view.ViewGroup;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -78,7 +77,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         Label philipsWebsite = view.findViewById(R.id.philips_website);
-        philipsWebsite.setOnClickListener(this);
+        philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
+            @Override
+            public boolean interceptClick(CharSequence tag) {
+                showFragment(new MyaPhilipsLinkFragment());
+                return true;
+            }
+        });
         logOutButton.setOnClickListener(this);
     }
 
@@ -126,12 +131,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         int viewType = view.getId();
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
-        } else if (viewType == R.id.philips_website) {
-            String url = "https://www.Philips.com";
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
         }
     }
 
@@ -157,7 +156,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         textView.setText(message);
         title_label.setText(title);
         AlertDialogFragment alertDialogFragment = builder.create();
-        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+        alertDialogFragment.show(getChildFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut());
         cancel.setOnClickListener(handleOnClickCancel());
@@ -176,7 +175,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private void dismissDialog() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isDestroyed()) {
-            Fragment prev = getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
+            Fragment prev = getChildFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
             if (prev != null && prev instanceof AlertDialogFragment) {
                 AlertDialogFragment alertDialogFragment = (AlertDialogFragment) prev;
                 alertDialogFragment.dismissAllowingStateLoss();
@@ -188,7 +187,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
+                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
                 }

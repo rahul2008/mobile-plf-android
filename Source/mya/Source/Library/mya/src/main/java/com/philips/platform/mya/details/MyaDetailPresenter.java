@@ -9,7 +9,7 @@ package com.philips.platform.mya.details;
 
 import android.text.TextUtils;
 
-import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -32,7 +32,7 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
             setUserName(userDataModel);
             view.setEmail(userDataModel.getEmail());
             view.setMobileNumber(userDataModel.getMobileNumber());
-            view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
+//            view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
             view.setGender(userDataModel.getGender());
             view.setDateOfBirth(userDataModel.getBirthday());
         }

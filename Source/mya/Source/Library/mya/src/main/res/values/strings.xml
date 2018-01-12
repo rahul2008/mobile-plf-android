@@ -39,7 +39,7 @@
     <string name="MYA_logout_message">You will be logged out of the application. You can login back using login credentials.</string>
     <string name="MYA_Info">Do you want to change your login ID or password? Visit our website.</string>
     <string name="MYA_Not_Available">Not available</string>
-
+    <string name="mya_log_out">logOut</string>
 </resources>
 
 

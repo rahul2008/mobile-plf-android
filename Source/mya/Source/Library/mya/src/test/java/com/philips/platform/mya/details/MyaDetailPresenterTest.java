@@ -47,6 +47,7 @@ public class MyaDetailPresenterTest {
         MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
         myaDetailPresenter.onViewActive(myaDetailsFragment);
         myaDetailPresenter.onViewInactive();
+        assertNull(myaDetailPresenter.getView());
     }
 
     @Test
@@ -67,7 +68,6 @@ public class MyaDetailPresenterTest {
         verify(view).setMobileNumber(userDataModel.getMobileNumber());
         verify(view).setEmail(userDataModel.getEmail());
         verify(view).setDateOfBirth(userDataModel.getBirthday());
-        verify(view).handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
         verify(view).setUserName(userDataModel.getGivenName().concat(" ").concat(userDataModel.getFamilyName()));
         verify(view).setCircleText(String.valueOf(userDataModel.getGivenName().charAt(0)).toUpperCase().concat(String.valueOf(userDataModel.getFamilyName().charAt(0))).toUpperCase());
         userDataModel.setFamilyName(null);
