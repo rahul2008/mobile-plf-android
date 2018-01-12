@@ -20,6 +20,7 @@ import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -47,6 +48,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
         if (key.equals("MYA_Country")) {
+            Context context = getContext();
             view.showDialog(
                     context.getString(R.string.MYA_change_country),
                     context.getString(R.string.MYA_change_country_message)
@@ -67,11 +69,11 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         if (key.equals("Mya_Privacy_Settings")) {
             RestInterface restInterface = getRestClient();
             if(restInterface.isInternetReachable()) {
-                AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
+                MyaDependencies dependencies = MyaInterface.get().getDependencies();
+
                 CswInterface cswInterface = getCswInterface();
-                CswDependencies cswDependencies = new CswDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
                 UappSettings uappSettings = new UappSettings(view.getContext());
-                cswInterface.init(cswDependencies, uappSettings);
+                cswInterface.init(dependencies, uappSettings);
                 cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
                 return true;
             } else {
@@ -147,7 +149,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         }
         return profileList;
     }
-private String getStringResourceByName(String aString) {
+
+    private String getStringResourceByName(String aString) {
         Context context = getContext();
         String packageName = context.getPackageName();
         int resId = context.getResources().getIdentifier(aString, "string", packageName);
@@ -158,12 +161,11 @@ private String getStringResourceByName(String aString) {
         }
     }
 
-    }
-
     private Context getContext() {
         return view.getContext();
     }
 
     protected RestInterface getRestClient() {
         return MyaInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
 }
