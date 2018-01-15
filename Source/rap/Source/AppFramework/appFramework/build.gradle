@@ -275,11 +275,19 @@ dependencies {
     }
 
     if(dp) {
-        compile project(':MyAccount')
+        compile project(':mya')
     } else {
-        compile(group: 'com.philips.cdp', name: 'MyAccount', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'mya', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
         {
             exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        compile project(':mya-mch')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'mya-mch', version: versions.mya_marketingConsentHandler + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
         }
     }

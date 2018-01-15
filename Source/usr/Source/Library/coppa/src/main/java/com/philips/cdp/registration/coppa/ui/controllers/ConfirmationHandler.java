@@ -172,7 +172,7 @@ public class ConfirmationHandler implements RefreshUserHandler {
     @Override
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
-        RLog.i("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
+        RLog.d("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
         mParentalConsentFragment.hideRefreshProgress();
         updateUiBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }

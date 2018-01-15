@@ -19,7 +19,7 @@
     <string name="product_info"> informācija par produktu </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ielāde </string>
-    <string name="please_wait"> Lūdzu, uzgaidiet &amp;#8230; </string>
+    <string name="dcc_please_wait"> Lūdzu, uzgaidiet &amp;#8230; </string>
     <string name="get_directions"> Iegūstiet norādes </string>
     <string name="search"> Meklēšana </string>
     <string name="gps_disabled"> GPS ir atspējots jūsu ierīcē. Vai vēlaties to iespējot? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Parole </string>
     <string name="sign_into_my_philips"> Pierakstīties My Philips </string>
     <string name="forgot_my_password"> Esmu aizmirsis savu paroli &gt;  </string>
-    <string name="create_account">  Izveidot kontu &gt; </string>
+    <string name="dcc_create_account">  Izveidot kontu &gt; </string>
 
     <string name="localtephilips_contactus">Doties uz kontaktinf. lapu</string>
 

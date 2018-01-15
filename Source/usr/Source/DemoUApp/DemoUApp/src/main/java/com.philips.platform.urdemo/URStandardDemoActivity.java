@@ -197,7 +197,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
-                    RLog.i("Restored teest", "" + restoredText);
+                    RLog.d("Restored teest", "" + restoredText);
 
                 }
 

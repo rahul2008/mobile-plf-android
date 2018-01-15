@@ -37,6 +37,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Created by philips on 7/10/17.
  */
+
+@Ignore
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})

@@ -9,8 +9,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import java.util.ArrayList;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * This class is used to provide input parameters and customizations for Product registration.
+ * @since 1.0.0
  */
 public class PRLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
@@ -20,31 +20,67 @@ public class PRLaunchInput extends UappLaunchInput {
     @IdRes
     int backgroundImageResourceId;
 
+    /**
+     *
+     * @param products - pass list of products
+     * @param isAppLaunchFlow - pass true then launch as app setup flow and if false then launch as user flow
+     * @since 1.0.0
+     */
     public PRLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
         this.products = products;
         this.isAppLaunchFlow = isAppLaunchFlow;
     }
 
+    /**
+     * API returns products
+     * @return instance of Products
+     * @since 1.0.0
+     */
     public ArrayList<Product> getProducts() {
         return products;
     }
 
+    /**
+     * API returns APP launch flow or not
+     * @return true then launch as app setup flow and if false then launch as user flow
+     * @since 1.0.0
+     */
     public boolean isAppLaunchFlow() {
         return isAppLaunchFlow;
     }
 
+    /**
+     * API returns ProdRegUiListener instance
+     * @return instance of ProdRegUiListener
+     * @since 1.0.0
+     */
     public ProdRegUiListener getProdRegUiListener() {
         return prodRegUiListener;
     }
 
+    /**
+     * API sets ProdRegUiListener instance
+     * @param prodRegUiListener pass instance of ProdRegUiListener
+     * @since 1.0.0
+     */
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
         this.prodRegUiListener = prodRegUiListener;
     }
 
+    /**
+     * API returns BackgroundImageResourceId
+     * @return BackgroundImageResourceId in Integer
+     * @since 1.0.0
+     */
     public int getBackgroundImageResourceId() {
         return backgroundImageResourceId;
     }
 
+    /**
+     * API sets BackgroundImageResourceId
+     * @param backgroundImageResourceId pass resource id of background image
+     * @since 1.0.0
+     */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {
         this.backgroundImageResourceId = backgroundImageResourceId;
     }

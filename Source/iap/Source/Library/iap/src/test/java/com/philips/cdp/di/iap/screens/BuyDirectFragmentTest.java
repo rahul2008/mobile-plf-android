@@ -6,14 +6,12 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
-import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.controller.BuyDirectController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -22,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -110,7 +107,7 @@ public class BuyDirectFragmentTest {
         buyDirectFragment.onGetUser(messageMock);
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void shouldCall_onSetDeliveryAddress_WhenIAPNetworkErrorComes() throws Exception {
         IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
         iapNetworkError.setmIAPErrorCode(1001);
@@ -130,7 +127,7 @@ public class BuyDirectFragmentTest {
 
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void shouldCall_onGetDeliveryMode_WHenIapNteworkErrorComes() throws Exception {
         IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
         iapNetworkError.setmIAPErrorCode(1001);
@@ -140,23 +137,23 @@ public class BuyDirectFragmentTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
-    public void shouldCall_onGetDeliveryMode_WHenGetDeliveryModesComes() throws Exception {
+//    @Test(expected = NullPointerException.class)
+//    public void shouldCall_onGetDeliveryMode_WHenGetDeliveryModesComes() throws Exception {
+//
+//        buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
+//
+//        List<DeliveryModes> deliveryModesList=new ArrayList<>();
+//        deliveryModesList.add(null);
+//
+//        GetDeliveryModes getDeliveryModes=new GetDeliveryModes();
+//        getDeliveryModes.setDeliveryModes(deliveryModesList);
+//        messageMock.obj=getDeliveryModes;
+//        buyDirectFragment.mContext=contextMock;
+//        buyDirectFragment.onGetDeliveryMode(messageMock);
+//
+//    }
 
-        buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
-
-        List<DeliveryModes> deliveryModesList=new ArrayList<>();
-        deliveryModesList.add(null);
-
-        GetDeliveryModes getDeliveryModes=new GetDeliveryModes();
-        getDeliveryModes.setDeliveryModes(deliveryModesList);
-        messageMock.obj=getDeliveryModes;
-        buyDirectFragment.mContext=contextMock;
-        buyDirectFragment.onGetDeliveryMode(messageMock);
-
-    }
-
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void shouldSetDeliveryMode_WhenNetworkErrorCome() throws Exception {
         IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
         iapNetworkError.setmIAPErrorCode(1001);
@@ -183,7 +180,7 @@ public class BuyDirectFragmentTest {
 
     //IAPNetworkError
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void shouldCall_OnGetPaymentMode_ForIAPNetworkError() throws Exception {
         IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
         iapNetworkError.setmIAPErrorCode(1001);
@@ -212,7 +209,7 @@ public class BuyDirectFragmentTest {
         buyDirectFragment.onGetPaymentMode(messageMock);
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void shouldCall_onSetPaymentMode_ForIapNetworkError() throws Exception {
 
         IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);

@@ -3,7 +3,7 @@ apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+    apply from: buildscript.sourceFile.parent+ "/versions.gradle"
 
     repositories {
         maven {
@@ -23,6 +23,13 @@ buildscript {
         classpath builddeps.cdpSCM
     }
 }
+
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 import com.philips.cdp.cdpSCM
 
@@ -86,7 +93,7 @@ publishing {
                 }
             }
 
-            
+
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {

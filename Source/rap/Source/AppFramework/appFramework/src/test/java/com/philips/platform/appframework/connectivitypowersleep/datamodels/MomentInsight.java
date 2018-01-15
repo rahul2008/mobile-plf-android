@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 
 public class MomentInsight implements Insight {
-    private String ruleId;
+    private String title;
     @Override
     public void setGUId(String s) {
 
@@ -36,7 +36,6 @@ public class MomentInsight implements Insight {
 
     @Override
     public void setRuleId(String s) {
-        this.ruleId = s;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class MomentInsight implements Insight {
 
     @Override
     public void setTitle(String s) {
-
+        title=s;
     }
 
     @Override
@@ -96,7 +95,7 @@ public class MomentInsight implements Insight {
 
     @Override
     public String getRuleId() {
-        return ruleId;
+        return null;
     }
 
     @Override
@@ -121,7 +120,7 @@ public class MomentInsight implements Insight {
 
     @Override
     public String getTitle() {
-        return null;
+        return title;
     }
 
     @Override

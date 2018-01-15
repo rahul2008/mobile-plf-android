@@ -16,7 +16,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -47,9 +48,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "registrationApi"
 
 allprojects {
@@ -73,7 +75,7 @@ allprojects {
     apply plugin: 'com.jfrog.artifactory'
 
     group = 'com.philips.cdp'
-    
+
 }
 
 group = 'com.philips.cdp'
@@ -92,7 +94,7 @@ artifactory {
             publishIvy = false
             publishBuildInfo = true
             publishArtifacts = true
-            publications ('aar')
+            publications('aar')
             properties = ['git.commitid': objcdp.getCommitHashLong()]
         }
     }
@@ -135,7 +137,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -156,7 +158,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 26
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -204,8 +206,6 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-
-    publishNonDefault true
 }
 
 configurations.all {
@@ -215,6 +215,7 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
@@ -222,7 +223,7 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+    if (dp) {
         compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
@@ -232,7 +233,7 @@ dependencies {
 
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 
-    if(dp) {
+    if (dp) {
         compile(project(':uAppFwLib'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
@@ -315,7 +316,7 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest"]) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest"]) {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -336,5 +337,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest"]) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
