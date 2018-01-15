@@ -79,8 +79,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
                 return true;
             } else {
-                String title = getContext().getString(R.string.MYA_offline_title);
-                String message = getContext().getString(R.string.MYA_offline_message);
+                String title = getContext().getString(R.string.MYA_Offline_title);
+                String message = getContext().getString(R.string.MYA_Offline_message);
                 view.showOfflineDialog(title, message);
             }
         }

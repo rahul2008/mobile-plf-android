@@ -16,7 +16,7 @@
         style="@style/Txt.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/MYA_offline_title" />
+        android:text="@string/MYA_Offline_title" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mya_offline_label_message"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_body_labels_margin"
-        android:text="@string/MYA_offline_message" />
+        android:text="@string/MYA_Offline_message" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mya_dialog_offline_button_ok"

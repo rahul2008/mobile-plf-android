@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_main_button_top_margin"
-        android:text="@android:string/ok"
+        android:text="@string/csw_ok"
         app:uidComponentType="Primary" />
 
     <com.philips.platform.uid.view.widget.Button
