@@ -19,7 +19,7 @@
     <string name="product_info"> Інформація про виріб </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Завантаження </string>
-    <string name="please_wait"> Зачекайте &amp;#8230; </string>
+    <string name="dcc_please_wait"> Зачекайте &amp;#8230; </string>
     <string name="get_directions"> Отримати вказівки </string>
     <string name="search"> Пошук </string>
     <string name="gps_disabled"> Функцію GPS вимкнено на Вашому пристрої. Увімкнути її? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Пароль </string>
     <string name="sign_into_my_philips"> Увійти в систему My Philips </string>
     <string name="forgot_my_password"> Я не пам’ятаю пароль &gt;  </string>
-    <string name="create_account">  Створити обліковий запис &gt; </string>
+    <string name="dcc_create_account">  Створити обліковий запис &gt; </string>
 
     <string name="localtephilips_contactus">До сторінки з контактами</string>
 

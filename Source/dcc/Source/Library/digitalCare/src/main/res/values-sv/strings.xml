@@ -19,7 +19,7 @@
     <string name="product_info"> Produktinformation </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Läser in </string>
-    <string name="please_wait"> Var god vänta &amp;#8230; </string>
+    <string name="dcc_please_wait"> Var god vänta &amp;#8230; </string>
     <string name="get_directions"> Hämta vägbeskrivning </string>
     <string name="search"> Sök </string>
     <string name="gps_disabled"> GPS är inaktiverat i enheten. Vill du aktivera det? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Lösenord </string>
     <string name="sign_into_my_philips"> Logga in till My Philips </string>
     <string name="forgot_my_password"> Jag har glömt mitt lösenord &gt;  </string>
-    <string name="create_account">  Skapa konto &gt; </string>
+    <string name="dcc_create_account">  Skapa konto &gt; </string>
 
     <string name="localtephilips_contactus">Gå till kontaktsidan</string>
 

@@ -19,7 +19,7 @@
     <string name="product_info"> 產品資訊 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 正在載入 </string>
-    <string name="please_wait"> 請稍候 &amp;#8230; </string>
+    <string name="dcc_please_wait"> 請稍候 &amp;#8230; </string>
     <string name="get_directions"> 取得路線 </string>
     <string name="search"> 搜尋 </string>
     <string name="gps_disabled"> 您裝置上的 GPS 已停用。是否要啟用？ </string>
@@ -135,7 +135,7 @@
     <string name="password"> 密碼 </string>
     <string name="sign_into_my_philips"> 登入 My Philips </string>
     <string name="forgot_my_password"> 忘記密碼 &gt;  </string>
-    <string name="create_account"> 建立帳戶 &gt; </string>
+    <string name="dcc_create_account"> 建立帳戶 &gt; </string>
 
     <string name="localtephilips_contactus">前往聯絡頁面</string>
 

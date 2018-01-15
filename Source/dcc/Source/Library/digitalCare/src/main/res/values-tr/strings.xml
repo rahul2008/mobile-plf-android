@@ -19,7 +19,7 @@
     <string name="product_info"> ürün bilgileri </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Yükleniyor </string>
-    <string name="please_wait"> Lütfen bekleyin &amp;#8230; </string>
+    <string name="dcc_please_wait"> Lütfen bekleyin &amp;#8230; </string>
     <string name="get_directions"> Yol tarifi alın </string>
     <string name="search"> Ara </string>
     <string name="gps_disabled"> Cihazınızda GPS devre dışı durumda. Etkinleştirmek ister misiniz? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Parola </string>
     <string name="sign_into_my_philips"> My Philips\'te oturum açın </string>
     <string name="forgot_my_password"> Parolamı unuttum &gt;  </string>
-    <string name="create_account">  Hesap oluştur &gt; </string>
+    <string name="dcc_create_account">  Hesap oluştur &gt; </string>
 
     <string name="localtephilips_contactus">İletişim sayfasına git</string>
 

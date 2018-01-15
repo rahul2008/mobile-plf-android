@@ -19,7 +19,7 @@
     <string name="product_info"> מידע על מוצרים </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> טעינה </string>
-    <string name="please_wait"> אנא המתן&amp;#8230; </string>
+    <string name="dcc_please_wait"> אנא המתן&amp;#8230; </string>
     <string name="get_directions"> קבל הנחיות </string>
     <string name="search"> תפריט הבית, חיפוש </string>
     <string name="gps_disabled"> ה-GPS במכשיר שלך מושבת. האם ברצונך להפעיל אותו? </string>
@@ -135,7 +135,7 @@
     <string name="password"> סיסמה </string>
     <string name="sign_into_my_philips"> כניסה ל\'פיליפס שלי\' </string>
     <string name="forgot_my_password"> שכחתי את הסיסמה שלי &gt;  </string>
-    <string name="create_account">  צור חשבון &gt; </string>
+    <string name="dcc_create_account">  צור חשבון &gt; </string>
 
     <string name="localtephilips_contactus">עבור אל דף יצירת הקשר</string>
 

@@ -19,7 +19,7 @@
     <string name="product_info"> informaţii despre produs </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Încărcare </string>
-    <string name="please_wait"> Te rugăm să aştepţi &amp;#8230; </string>
+    <string name="dcc_please_wait"> Te rugăm să aştepţi &amp;#8230; </string>
     <string name="get_directions"> Obţine instrucţiuni </string>
     <string name="search"> Căutare </string>
     <string name="gps_disabled"> Serviciul GPS este dezactivat pe dispozitivul tău. Doreşti să-l activezi? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Parolă </string>
     <string name="sign_into_my_philips"> Conectează-te la My Philips </string>
     <string name="forgot_my_password"> Am uitat parola &gt;  </string>
-    <string name="create_account">  Creare cont &gt; </string>
+    <string name="dcc_create_account">  Creare cont &gt; </string>
 
     <string name="localtephilips_contactus">Navigare la pagina de contact</string>
 
