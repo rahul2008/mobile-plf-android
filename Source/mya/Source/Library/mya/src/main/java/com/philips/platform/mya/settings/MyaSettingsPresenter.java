@@ -69,7 +69,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         if (key.equals("Mya_Privacy_Settings")) {
             RestInterface restInterface = getRestClient();
             if(restInterface.isInternetReachable()) {
-                MyaDependencies dependencies = MyaInterface.get().getDependencies();
+                MyaDependencies myaDeps = MyaInterface.get().getDependencies();
+                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
+
 
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());

@@ -7,8 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.support.annotation.StringRes;
-
 import com.philips.platform.mya.chi.ConsentError;
 
 public interface PermissionInterface {

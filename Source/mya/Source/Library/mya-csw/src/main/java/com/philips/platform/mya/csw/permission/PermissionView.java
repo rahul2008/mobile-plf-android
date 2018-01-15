@@ -144,7 +144,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void showOfflineErrorDialog() {
-        new DialogView().showDialog(getActivity());
+        new DialogView().showDialog(getCswFragment().getActivity());
     }
 
     @Override
