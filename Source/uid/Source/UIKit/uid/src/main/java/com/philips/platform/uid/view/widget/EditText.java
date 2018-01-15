@@ -172,6 +172,9 @@ public class EditText extends AppCompatEditText {
     @Override
     public void setEnabled(final boolean enabled) {
         super.setEnabled(enabled);
+        if (!enabled && hasIconClickHandler() && isPasswordInputType() && isPasswordVisible()) {
+            editTextIconHandler.processIconTouch();
+        }
         updateActionIcon();
     }
 
