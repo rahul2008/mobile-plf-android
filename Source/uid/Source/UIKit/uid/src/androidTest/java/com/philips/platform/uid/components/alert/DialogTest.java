@@ -23,6 +23,7 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -81,6 +82,7 @@ public class DialogTest extends BaseTest {
         getDialogTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinWidth(expectedIconWidth)));
     }
 
+    @Ignore
     @Test
     public void verifyDialogTitleIconEndMargin() {
 
