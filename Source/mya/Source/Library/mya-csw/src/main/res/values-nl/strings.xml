@@ -6,6 +6,6 @@
 <string name="csw_problem_occurred_error_message">nl-There was a problem (error %1$d). Please try again.</string>
 <string name="csw_invalid_access_token_error_message">nl-There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
 <string name="csw_privacy_settings_desc">nl-Control Your Privacy. Read the privacy notice {link to app privacy notice} for more information.</string>
-    <string name="csw_offline_message">nl-There seems to be a problem with your internet connection. Please check and try again.</string>
-    <string name="csw_offline_title">nl-Offline</string>
+<string name="csw_offline_title">nl-You are offline</string>
+<string name="csw_offline_message">nl-Your internet connection does not seem to be working. Please check and try again</string>
 </resources>
