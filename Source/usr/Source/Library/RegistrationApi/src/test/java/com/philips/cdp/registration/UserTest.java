@@ -11,18 +11,13 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.traditional.ForgotPasswordFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.AddSecureEmailPresenter;
-import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
@@ -33,8 +28,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by philips on 11/23/17.
@@ -231,10 +224,10 @@ public class UserTest {
         user.getMobile();
     }
 
-    @Test
-    public void getPassword() throws Exception {
-        user.getPassword();
-    }
+//    @Test
+//    public void getPassword() throws Exception {
+//        user.getPassword();
+//    }
 
     @Test
     public void getGivenName() throws Exception {

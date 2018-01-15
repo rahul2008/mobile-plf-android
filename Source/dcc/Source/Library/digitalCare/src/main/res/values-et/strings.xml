@@ -19,7 +19,7 @@
     <string name="product_info"> tooteteave </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Laadimine </string>
-    <string name="please_wait"> Palun oodake &amp;#8230; </string>
+    <string name="dcc_please_wait"> Palun oodake &amp;#8230; </string>
     <string name="get_directions"> Hankige juhised </string>
     <string name="search"> Otsing </string>
     <string name="gps_disabled"> Teie seadme GPS on välja lülitatud. Kas soovite selle sisse lülitada? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Salasõna </string>
     <string name="sign_into_my_philips"> Logi sisse My Philipsi kontole </string>
     <string name="forgot_my_password"> Ma unustasin salasõna &gt;  </string>
-    <string name="create_account">  Loo konto &gt; </string>
+    <string name="dcc_create_account">  Loo konto &gt; </string>
 
     <string name="localtephilips_contactus">Mine kontaktilehele</string>
     <string name="FAQ_KEY">KKKd</string>

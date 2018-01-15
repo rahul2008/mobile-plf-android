@@ -19,7 +19,7 @@
     <string name="product_info"> 产品信息 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 正在加载 </string>
-    <string name="please_wait"> 请稍候 &amp;#8230; </string>
+    <string name="dcc_please_wait"> 请稍候 &amp;#8230; </string>
     <string name="get_directions"> 获得方向 </string>
     <string name="search"> 搜索 </string>
     <string name="gps_disabled"> 您的设备已禁用 GPS。是否启用？ </string>
@@ -135,7 +135,7 @@
     <string name="password"> 密码 </string>
     <string name="sign_into_my_philips"> 登录我的飞利浦 </string>
     <string name="forgot_my_password"> 我忘记了我的密码 &gt;  </string>
-    <string name="create_account"> 创建帐户 &gt; </string>
+    <string name="dcc_create_account"> 创建帐户 &gt; </string>
 
     <string name="localtephilips_contactus">转至联系信息页</string>
 

@@ -19,7 +19,7 @@
     <string name="product_info"> tuotetiedot </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ladataan </string>
-    <string name="please_wait"> Odota &amp;#8230; </string>
+    <string name="dcc_please_wait"> Odota &amp;#8230; </string>
     <string name="get_directions"> Löydä ohjeita </string>
     <string name="search"> Haku </string>
     <string name="gps_disabled"> GPS ei ole käytössä laitteessasi. Otetaanko käyttöön? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Salasana </string>
     <string name="sign_into_my_philips"> My Philips -kirjautuminen </string>
     <string name="forgot_my_password"> Olen unohtanut salasanani &gt;  </string>
-    <string name="create_account">  Luo tili &gt; </string>
+    <string name="dcc_create_account">  Luo tili &gt; </string>
 
     <string name="localtephilips_contactus">Siirry yhteystietoihin</string>
 
