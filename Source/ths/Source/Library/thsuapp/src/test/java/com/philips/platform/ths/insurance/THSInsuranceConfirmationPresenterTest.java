@@ -85,7 +85,7 @@ public class THSInsuranceConfirmationPresenterTest {
     @Test
     public void getSubscriptionUpdateRequestWithoutVistContext() throws Exception {
         final THSSubscriptionUpdateRequest subscriptionUpdateRequestWithoutVistContext = thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext();
-     //   assert subscriptionUpdateRequestWithoutVistContext!=null;
+        assert subscriptionUpdateRequestWithoutVistContext!=null;
     }
 
     @Test
