@@ -190,11 +190,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 UR, hsdpAppNames, configError);
 
         Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, HSDP_STAGE_SECRET_KEY_CHINA);
         hsdpSecrets.put(DEFAULT, HSDP_STAGING_SECRET_KEY_DEFAULT);
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                 UR, hsdpSecrets, configError);
 
         Map<String, String> hsdpSharedIds = new HashMap<>();
+        hsdpSharedIds.put(CHINA_CODE, HSDP_STAGE_SHARED_KEY_CHINA);
         hsdpSharedIds.put(DEFAULT, HSDP_STAGING_SHARED_KEY_DEFAULT);
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
