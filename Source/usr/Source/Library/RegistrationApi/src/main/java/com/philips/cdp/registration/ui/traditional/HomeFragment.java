@@ -52,7 +52,6 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.view.widget.Label;
 
 import org.json.JSONObject;
@@ -815,6 +814,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void initFailed() {
+        mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
         hideProgressDialog();
     }
 
