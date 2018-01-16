@@ -19,7 +19,7 @@
     <string name="product_info"> thông tin sản phẩm </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Đang nạp </string>
-    <string name="please_wait"> Vui lòng đợi &amp;#8230; </string>
+    <string name="dcc_please_wait"> Vui lòng đợi &amp;#8230; </string>
     <string name="get_directions"> Nhận thông tin dẫn hướng </string>
     <string name="search"> Tìm kiếm </string>
     <string name="gps_disabled"> GPS đã tắt trên thiết bị của bạn. Bạn có muốn bật nó không? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Mật khẩu </string>
     <string name="sign_into_my_philips"> Đăng nhập vào Philips của tôi </string>
     <string name="forgot_my_password"> Tôi quên mật khẩu của mình &gt;  </string>
-    <string name="create_account">  Tạo tài khoản &gt; </string>
+    <string name="dcc_create_account">  Tạo tài khoản &gt; </string>
 
     <string name="localtephilips_contactus">Đến trang liên hệ</string>
 

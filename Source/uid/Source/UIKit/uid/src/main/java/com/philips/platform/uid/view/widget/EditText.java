@@ -20,9 +20,15 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.*;
+import com.philips.platform.uid.utils.ClearEditTextIconHandler;
+import com.philips.platform.uid.utils.EditTextIconHandler;
+import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
+import com.philips.platform.uid.utils.UIDContextWrapper;
+import com.philips.platform.uid.utils.UIDInputTextUtils;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class EditText extends AppCompatEditText {
     private boolean passwordVisible = false;
@@ -115,6 +121,7 @@ public class EditText extends AppCompatEditText {
 
     /**
      * Method to check is the password is visible
+     *
      * @return true if the password is visible
      * @since 3.0.0
      */
@@ -133,7 +140,7 @@ public class EditText extends AppCompatEditText {
 
     private void updateActionIcon() {
         if (hasIconClickHandler()) {
-            if (hasFocus() && isEnabled() && getText() != null && getText().length() > 0) {
+            if ((hasFocus() || isPasswordInputType()) && isEnabled() && getText() != null && getText().length() > 0) {
                 editTextIconHandler.show();
             } else {
                 editTextIconHandler.setIconDisplayed(false);
@@ -145,6 +152,7 @@ public class EditText extends AppCompatEditText {
 
     /**
      * This is extracted as a method to avoid confusion why null check. This field will only be initialized in case icon is needs on right
+     *
      * @since 3.0.0
      */
     private boolean hasIconClickHandler() {
@@ -164,6 +172,9 @@ public class EditText extends AppCompatEditText {
     @Override
     public void setEnabled(final boolean enabled) {
         super.setEnabled(enabled);
+        if (!enabled && hasIconClickHandler() && isPasswordInputType() && isPasswordVisible()) {
+            editTextIconHandler.processIconTouch();
+        }
         updateActionIcon();
     }
 

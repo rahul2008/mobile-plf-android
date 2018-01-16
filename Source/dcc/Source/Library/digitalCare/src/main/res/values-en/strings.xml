@@ -20,7 +20,7 @@
 
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Loading </string>
-    <string name="please_wait"> Please wait &amp;#8230; </string>
+    <string name="dcc_please_wait"> Please wait &amp;#8230; </string>
     <string name="get_directions"> Get directions </string>
     <string name="search"> Search </string>
     <string name="gps_disabled"> GPS is disabled in your device. Would you like to enable it? </string>
@@ -133,7 +133,7 @@
     <string name="password"> Password </string>
     <string name="sign_into_my_philips"> Sign into My Philips </string>
     <string name="forgot_my_password"> I forgot my password &gt;  </string>
-    <string name="create_account">  Create account &gt; </string>
+    <string name="dcc_create_account">  Create account &gt; </string>
 
     <string name="myphilips_CC">MyPhilips account</string>
     <string name="localtephilips_contactus">Go to contact page</string>

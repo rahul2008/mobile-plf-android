@@ -19,7 +19,7 @@
     <string name="product_info"> informácie o výrobku </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Načítavanie </string>
-    <string name="please_wait"> Čakajte, prosím &amp;#8230; </string>
+    <string name="dcc_please_wait"> Čakajte, prosím &amp;#8230; </string>
     <string name="get_directions"> Get directions (Získanie smerových pokynov) </string>
     <string name="search"> Vyhľadávanie </string>
     <string name="gps_disabled"> Funkcia GPS je vo vašom zariadení zakázaná. Chcete ju povoliť? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Heslo </string>
     <string name="sign_into_my_philips"> Prihlásiť sa do konta My Philips </string>
     <string name="forgot_my_password"> Zabudol(-la) som heslo &gt;  </string>
-    <string name="create_account">  Vytvoriť konto &gt; </string>
+    <string name="dcc_create_account">  Vytvoriť konto &gt; </string>
 
     <string name="localtephilips_contactus">Prejsť na stránku s kontaktmi</string>
 

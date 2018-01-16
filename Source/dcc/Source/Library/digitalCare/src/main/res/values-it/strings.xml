@@ -19,7 +19,7 @@
 
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Caricamento </string>
-    <string name="please_wait"> Attendere &amp;#8230; </string>
+    <string name="dcc_please_wait"> Attendere &amp;#8230; </string>
     <string name="get_directions"> Indicazioni stradali </string>
     <string name="search"> Ricerca </string>
     <string name="gps_disabled"> Il GPS risulta disattivato sul dispositivo. Desideri attivarlo? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Password </string>
     <string name="sign_into_my_philips"> Accedi a My Philips </string>
     <string name="forgot_my_password"> Ho dimenticato la mia password &gt;  </string>
-    <string name="create_account"> Crea account &gt; </string>
+    <string name="dcc_create_account"> Crea account &gt; </string>
 
     <string name="localtephilips_contactus">Vai alla pagina dei contatti</string>
 

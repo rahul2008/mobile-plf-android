@@ -19,7 +19,7 @@
     <string name="product_info"> 제품 정보 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 로딩중 </string>
-    <string name="please_wait"> 잠시 기다려 주십시오. &amp;#8230; </string>
+    <string name="dcc_please_wait"> 잠시 기다려 주십시오. &amp;#8230; </string>
     <string name="get_directions"> 길 찾기 </string>
     <string name="search"> 검색 </string>
     <string name="gps_disabled"> 장치의 GPS가 비활성화되어 있습니다. GPS를 활성화하시겠습니까? </string>
@@ -135,7 +135,7 @@
     <string name="password"> 암호 </string>
     <string name="sign_into_my_philips"> My Philips에 로그인 </string>
     <string name="forgot_my_password"> 암호를 잊어버렸습니다 &gt;  </string>
-    <string name="create_account"> 계정 만들기 &gt; </string>
+    <string name="dcc_create_account"> 계정 만들기 &gt; </string>
 
     <string name="localtephilips_contactus">문의 페이지로 이동</string>
 

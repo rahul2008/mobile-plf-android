@@ -20,7 +20,7 @@
 
     <!-- Locate Near You Screen   null -->
     <string name="loading"> تحميل </string>
-    <string name="please_wait"> يُرجى الانتظار &amp;#8230; </string>
+    <string name="dcc_please_wait"> يُرجى الانتظار &amp;#8230; </string>
     <string name="get_directions"> الحصول على الاتجاهات </string>
     <string name="search"> البحث </string>
     <string name="gps_disabled"> إن نظام تحديد الموقع العالمي (GPS) معطّل في جهازك. هل تريد تمكينه؟ </string>
@@ -136,7 +136,7 @@
     <string name="password"> كلمة المرور </string>
     <string name="sign_into_my_philips"> تسجيل الدخول إلى My Philips </string>
     <string name="forgot_my_password"> لقد نسيت كلمة المرور &gt;  </string>
-    <string name="create_account"> إنشاء حساب &gt; </string>
+    <string name="dcc_create_account"> إنشاء حساب &gt; </string>
 
     <string name="localtephilips_contactus">انتقل إلى صفحة الاتصال</string>
 

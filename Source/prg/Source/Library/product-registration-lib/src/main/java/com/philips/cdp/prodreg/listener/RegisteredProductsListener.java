@@ -9,6 +9,17 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
 
+/**
+ * It is used to give back registered products with timeStamp to proposition
+ * @since 1.0.0
+ */
 public interface RegisteredProductsListener {
+
+    /**
+     * It is used to give back registered products with timeStamp to proposition
+     * @param registeredProducts -  get list of RegisteredProduct
+     * @param timeStamp - get timeStamp information of registered product
+     * @since 1.0.0
+     */
     void getRegisteredProducts(List<RegisteredProduct> registeredProducts, long timeStamp);
 }

@@ -19,7 +19,7 @@
     <string name="product_info"> informacije o izdelku </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Nalaganje </string>
-    <string name="please_wait"> Počakajte &amp;#8230; </string>
+    <string name="dcc_please_wait"> Počakajte &amp;#8230; </string>
     <string name="get_directions"> Pridobite navodila </string>
     <string name="search"> Iskanje </string>
     <string name="gps_disabled"> Sistem GPS naprave je onemogočen. Ga želite omogočiti? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Geslo </string>
     <string name="sign_into_my_philips"> Prijavite se v My Philips </string>
     <string name="forgot_my_password"> Pozabil sem geslo &gt;  </string>
-    <string name="create_account">  Ustvari račun &gt; </string>
+    <string name="dcc_create_account">  Ustvari račun &gt; </string>
 
     <string name="localtephilips_contactus">Pojdite na stran za stik</string>
 
