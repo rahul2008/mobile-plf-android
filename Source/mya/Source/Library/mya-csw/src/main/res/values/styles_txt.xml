@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<resources>
+
+  <dimen name="body_text_size">16sp</dimen>
+  <dimen name="helper_text_size">12sp</dimen>
+
+  <dimen name="line_spacing_extra">8dp</dimen>
+
+  <string name="centrale_sans_book" translatable="false">fonts/centralesansbook.ttf</string>
+
+
+  ///////////
+
+  <style name="Txt" parent="@android:style/Widget.TextView">
+    <item name="fontPath">@string/centrale_sans_book</item>
+    <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>
+  </style>
+
+  <style name="Txt.Title">
+    <item name="fontPath">@string/ews_sans_bold</item>
+    <item name="android:textSize">@dimen/ews_title_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+  </style>
+
+  <style name="Txt.Body">
+    <item name="android:textSize">@dimen/body_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+  </style>
+
+  <style name="Txt.Helper">
+    <item name="android:textSize">@dimen/helper_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+  </style>
+
+</resources>

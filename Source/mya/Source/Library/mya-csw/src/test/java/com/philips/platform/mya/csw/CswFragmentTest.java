@@ -7,28 +7,27 @@ import com.philips.platform.mya.csw.mock.ActionBarListenerMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LayoutInflatorMock;
-import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.mya.csw.wrapper.CswFragmentWrapper;
-import com.philips.platform.mya.csw.BuildConfig;
-import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
+@PrepareForTest(CswFragment.class)
 public class CswFragmentTest {
 
     @Before
@@ -140,6 +139,40 @@ public class CswFragmentTest {
         givenUpdateTitleListenerIsSet(actionBarListenerMock);
         whenGetUpdateTitleListener();
         thenUpdateTitleListenerReturnedIs(actionBarListenerMock);
+    }
+
+    @Test
+    public void onResume_showConnectivityErrorIfOffline() {
+        givenAppIsOffline();
+        whenResuming();
+        thenConnectivityErrorIsShown();
+    }
+
+    @Test
+    public void onResume_dialogStayHiddenIfOffline() {
+        givenAppIsOnline();
+        whenResuming();
+        thenConnectivityErrorIsNotShown();
+    }
+
+    private void  thenConnectivityErrorIsShown() {
+        Assert.assertTrue(fragment.dialogViewMock.isDialogVisible);
+    }
+
+    private void  thenConnectivityErrorIsNotShown() {
+        Assert.assertFalse(fragment.dialogViewMock.isDialogVisible);
+    }
+
+    private void whenResuming() {
+        fragment.onResume();
+    }
+
+    private void givenAppIsOffline() {
+        fragment.restInterface.isInternetAvailable = false;
+    }
+
+    private void givenAppIsOnline() {
+        fragment.restInterface.isInternetAvailable = true;
     }
 
     private void givenUpdateTitleListenerIsSet(ActionBarListener actionBarListener) {

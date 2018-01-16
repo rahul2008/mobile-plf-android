@@ -8,6 +8,7 @@
 package com.philips.platform.mya.csw;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,8 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -38,10 +40,18 @@ public class CswFragment extends Fragment implements BackEventListener {
         }
 
         mFragmentManager = getmFragmentManager();
-
         inflatePermissionView();
-
+        getRestClient().isInternetReachable();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(!getRestClient().isInternetReachable()) {
+            getDialogView().showDialog(getActivity());
+        }
     }
 
     @Override
@@ -78,8 +88,10 @@ public class CswFragment extends Fragment implements BackEventListener {
     private void inflatePermissionView() {
         try {
             if (null != mFragmentManager) {
+                PermissionView permissionFragment = buildPermissionView();
+
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, buildPermissionView());
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
@@ -131,5 +143,15 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
+    }
+
+    @VisibleForTesting
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
+
+    @VisibleForTesting
+    protected DialogView getDialogView() {
+        return new DialogView();
     }
 }

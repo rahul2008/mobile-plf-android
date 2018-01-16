@@ -40,11 +40,8 @@
     <string name="MYA_Info">Do you want to change your login ID or password? Visit our website.</string>
     <string name="MYA_Not_Available">Not available</string>
     <string name="mya_log_out">logOut</string>
+    <string name="MYA_Ok">OK</string>
+    <string name="MYA_Offline_title">You are offline</string>
+    <string name="MYA_Offline_message">Your internet connection does not seem to be working. Please check and try again</string>
+
 </resources>
-
-
-
-
-
-
-

@@ -71,7 +71,8 @@ class PermissionViewHolder extends BasePermissionViewHolder {
                 final ConsentHandlerInterface handler = consentView.getHandler();
                 if (consentToggleListener != null && handler != null) {
                     setLoading(consentView);
-                    consentToggleListener.onToggledConsent(consentView.getDefinition(), handler, b);
+                    boolean checkedState = consentToggleListener.onToggledConsent(consentView.getDefinition(), handler, b);
+                    toggle.setChecked(checkedState);
                 }
             }
         });
