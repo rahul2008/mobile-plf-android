@@ -21,7 +21,6 @@ import javax.crypto.SecretKey;
 public class SecureStorageHelperTest extends AppInfraInstrumentation {
 
     private SecureStorageHelper secureStorageHelper;
-    private PriorMarshMellowHandler priorMarshMellowHandler;
 
     @Override
     protected void setUp() throws Exception {
@@ -29,19 +28,18 @@ public class SecureStorageHelperTest extends AppInfraInstrumentation {
         Context context = getInstrumentation().getContext();
         AppInfra mAppInfra = new AppInfra.Builder().build(context);
         secureStorageHelper = new SecureStorageHelper(mAppInfra);
-        priorMarshMellowHandler = new PriorMarshMellowHandler(mAppInfra);
-        assertNotNull(priorMarshMellowHandler.generateAESKey());
+        assertNotNull(secureStorageHelper.generateAESKey());
     }
 
     public void testEncodeDecodeData() throws Exception {
-        SecretKey secretKey = priorMarshMellowHandler.generateAESKey();
+        SecretKey secretKey = secureStorageHelper.generateAESKey();
         String encryptedData = secureStorageHelper.encodeDecodeData(Cipher.ENCRYPT_MODE, secretKey, "somevalue");
         assertNotNull(encryptedData);
         assertEquals("somevalue", secureStorageHelper.encodeDecodeData(Cipher.DECRYPT_MODE, secretKey, encryptedData));
     }
 
     public void testEncodeDecodeBytes() throws Exception {
-        SecretKey secretKey = priorMarshMellowHandler.generateAESKey();
+        SecretKey secretKey = secureStorageHelper.generateAESKey();
         byte[] bytes = "somevalue".getBytes();
         byte[] encryptedData = secureStorageHelper.encodeDecodeData(Cipher.ENCRYPT_MODE, secretKey, bytes);
         assertNotNull(encryptedData);
@@ -61,11 +59,6 @@ public class SecureStorageHelperTest extends AppInfraInstrumentation {
         assertEquals(splitData[1], "data");
         String[] someData = secureStorageHelper.getSplitData("somedatadelimiter");
         assertTrue(someData.length == 1);
-    }
-
-    public void testGetRSAWrappedKey() throws Exception {
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNotNull(priorMarshMellowHandler.getRSAWrappedKey("key_name", "some_file", sse));
     }
 
     public void testCheckProcess() {
