@@ -267,6 +267,7 @@ configurations.all {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -279,11 +280,32 @@ dependencies {
         }
     }
 
+    if(dp) {
+        compile(project(':uid'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        compile(project(':jump'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'jump', version: versions.jump + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
 //    compile(project(':mya-catk'))
+    compile project(path: ':mya')
+    compile project(path: ':UserRegistrationUApp')
 }
 
 task copyToLib(type: Copy) {
