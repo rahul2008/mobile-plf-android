@@ -49,7 +49,6 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.CHINA_CODE;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.DEFAULT;
-import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.DEVELOPMENT_SECRET_KEY_DEFAULT;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.HSDP_STAGE_SECRET_KEY_CHINA;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.HSDP_TEST_SECRET_KEY_DEFAULT;
 import static junit.framework.Assert.assertEquals;
