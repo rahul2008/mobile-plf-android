@@ -53,6 +53,8 @@ public class PermissionPresenterTest {
     private Consent mockRequiredConsent;
     @Mock
     private ConsentDefinition mockConsentDefinition;
+    @Mock
+    private ConsentHandlerInterface mockConsentHandler;
 
     @Before
     public void setUp() throws Exception {
@@ -129,6 +131,24 @@ public class PermissionPresenterTest {
         thenVerifyDisableTaggingIsInvoked();
     }
 
+    @Test
+    public void testShouldOptInWhenOnGetClickStreamConsentRetrieved() {
+        givenCswComponent();
+        givenActiveClickStreamConsent();
+        givenClickStreamConsentView();
+        whenOnGetConsentRetrieved();
+        thenVerifyEnableTaggingIsInvoked();
+    }
+
+    @Test
+    public void testShouldOptOutWhenOnGetClickStreamConsentRetrieved() {
+        givenCswComponent();
+        givenRejectedClickStreamConsent();
+        givenClickStreamConsentView();
+        whenOnGetConsentRetrieved();
+        thenVerifyDisableTaggingIsInvoked();
+    }
+
     private void givenCswComponent() {
         CswInterface cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
@@ -141,20 +161,34 @@ public class PermissionPresenterTest {
 
     private void givenActiveClickStreamConsent() {
         BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
-        ConsentDefinition consentDefinition = new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
-                1, new Locale("en", "US"));
-        requiredConsent = new Consent(consent, consentDefinition);
+        requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
     private void givenRejectedClickStreamConsent() {
         BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
-        ConsentDefinition consentDefinition = new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
+        requiredConsent = new Consent(consent, clickStreamConsentDefinition());
+    }
+
+    private void givenClickStreamConsentView() {
+        ConsentView consentView = new ConsentView(clickStreamConsentDefinition(), mockConsentHandler);
+        List<ConsentView> consentViews = new ArrayList<>();
+        consentViews.add(consentView);
+        when(mockAdapter.getConsentViews()).thenReturn(consentViews);
+    }
+
+    private ConsentDefinition clickStreamConsentDefinition() {
+        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
                 1, new Locale("en", "US"));
-        requiredConsent = new Consent(consent, consentDefinition);
     }
 
     public void whenCreateConsentSuccess() {
         mPermissionPresenter.onPostConsentSuccess(requiredConsent);
+    }
+
+    private void whenOnGetConsentRetrieved() {
+        ArrayList<Consent> consentArrayList = new ArrayList<>();
+        consentArrayList.add(requiredConsent);
+        mPermissionPresenter.onGetConsentsSuccess(consentArrayList);
     }
 
     private void thenVerifyEnableTaggingIsInvoked() {
