@@ -3,13 +3,8 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.myaplugin.uappadaptor;
+package com.philips.platform.uappframework.uappadaptor;
 
-import java.io.Serializable;
-
-
-public interface DataInterface extends Serializable {
-
-   DataModel getData(DataModelType dataModelType);
-
+public interface  DataModel {
+  DataModelType getDataModelType();
 }

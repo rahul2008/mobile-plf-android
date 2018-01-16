@@ -10,9 +10,9 @@ package com.philips.platform.mya.details;
 import android.text.TextUtils;
 
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.uappadaptor.DataModelType;
+import com.philips.platform.uappframework.uappadaptor.UserDataModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,17 +30,17 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
         if (userDataModelProvider != null) {
             UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
             setUserName(userDataModel);
-            view.setEmail(userDataModel.getEmail());
+            view.setEmail(userDataModel.getEmailAddress());
             view.setMobileNumber(userDataModel.getMobileNumber());
 //            view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
             view.setGender(userDataModel.getGender());
-            view.setDateOfBirth(userDataModel.getBirthday());
+            view.setDateOfBirth(userDataModel.getDateOfBirth());
         }
     }
 
     private void setUserName(UserDataModel userDataModel) {
-        String givenName = userDataModel.getGivenName();
-        String familyName = userDataModel.getFamilyName();
+        String givenName = userDataModel.getUserFirstName();
+        String familyName = userDataModel.getUserLastName();
         if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
             view.setUserName(givenName.concat(" ").concat(familyName));
             view.setCircleText(String.valueOf(givenName.charAt(0)).toUpperCase().concat(String.valueOf(familyName.charAt(0))).toUpperCase());

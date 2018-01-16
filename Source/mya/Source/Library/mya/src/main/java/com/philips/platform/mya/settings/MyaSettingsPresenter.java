@@ -54,7 +54,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public void logOut(Bundle bundle) {
         UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
         if (userDataModelProvider != null) {
-            userDataModelProvider.logOut(view.getContext(), getLogoutHandler());
+            //userDataModelProvider.logOut(view.getContext(), getLogoutHandler());
         }
     }
 

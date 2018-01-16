@@ -14,9 +14,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.details.MyaDetailsFragment;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.uappadaptor.DataModelType;
+import com.philips.platform.uappframework.uappadaptor.UserDataModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -69,12 +69,12 @@ public class MyaProfilePresenterTest {
     public void testSetUserName() {
         UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
         UserDataModel userDataModel = new UserDataModel();
-        userDataModel.setGivenName("some_name");
-        userDataModel.setFamilyName("family_name");
+        userDataModel.setUserFirstName("some_name");
+        userDataModel.setUserLastName("family_name");
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaProfilePresenter.setUserName(userDataModelProvider);
-        verify(view).setUserName(userDataModel.getGivenName().concat(" ").concat(userDataModel.getFamilyName()));
-        userDataModel.setFamilyName("");
+        verify(view).setUserName(userDataModel.getUserLastName().concat(" ").concat(userDataModel.getUserLastName()));
+        userDataModel.setUserLastName("");
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaProfilePresenter.setUserName(userDataModelProvider);
     }
