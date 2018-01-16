@@ -113,4 +113,14 @@ Ricevi gratis accessori per il prodotto</string>
 <string name="RA_unknown_device">Dispositivo sconosciuto</string>
 <string name="RA_no_device_found">Nessun dispositivo trovato</string>
 <string name="RA_something_wrong">Si è verificato un problema</string>
+<string name="RA_MYA_Consent_Moment_Text">it-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">it-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">it-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">it-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">it-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">it-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">it-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">it-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">it-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">it-Research and Analytics purpose explanation</string>
 </resources>

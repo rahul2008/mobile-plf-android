@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">I valori dei parametri inseriti o selezionati non sono validi. Selezionare valori dei parametri corretti e riavviare</string>
 <string name="RA_NO_Order_History">Cronologia degli ordini non disponibile</string>
 <string name="RA_PR_Benefit_Text">Estendi la garanzia per altri 24 mesi.
-Ricevi uno sconto del 10\% sui prodotti acquistati nel negozio Philips.
+Ricevi uno sconto del 10% sui prodotti acquistati nel negozio Philips.
 Ricevi gratis accessori per il prodotto</string>
 <string name="RA_PR_Extentende_Warranty">Il tuo periodo di garanzia è stato esteso fino al prossimo anno</string>
 <string name="RA_PR_Email_Text">Abbiamo inviato un\'e-mail con il contratto di estensione della garanzia al tuo indirizzo e-mail</string>
@@ -113,4 +113,14 @@ Ricevi gratis accessori per il prodotto</string>
 <string name="RA_unknown_device">Dispositivo sconosciuto</string>
 <string name="RA_no_device_found">Nessun dispositivo trovato</string>
 <string name="RA_something_wrong">Si è verificato un problema</string>
+<string name="RA_MYA_Consent_Moment_Text">it-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">it-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">it-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">it-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">it-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">it-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">it-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">it-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">it-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">it-Research and Analytics purpose explanation</string>
 </resources>

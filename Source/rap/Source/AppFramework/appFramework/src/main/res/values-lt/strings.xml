@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Įvedėte arba pasirinkote negaliojančias parametrų vertes. Pasirinkite tinkamas parametrų vertes ir paleiskite iš naujo</string>
 <string name="RA_NO_Order_History">Užsakymų istorija nepasiekiama</string>
 <string name="RA_PR_Benefit_Text">Pratęskite garantiją iki 24 mėnesių.
-Gaukite 10 \% nuolaidą „Philips“.
+Gaukite 10 % nuolaidą „Philips“.
 Gaukite produktų priedus nemokamai</string>
 <string name="RA_PR_Extentende_Warranty">Garantijos laikotarpis buvo pratęstas iki kitų metų</string>
 <string name="RA_PR_Email_Text">El. laiškas su pailgintos garantijos sutartimi išsiųstas jūsų el. pašto adresu</string>
@@ -113,4 +113,14 @@ Gaukite produktų priedus nemokamai</string>
 <string name="RA_unknown_device">Nežinomas prietaisas</string>
 <string name="RA_no_device_found">Prietaisas nerastas</string>
 <string name="RA_something_wrong">Įvyko klaida</string>
+<string name="RA_MYA_Consent_Moment_Text">lt-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">lt-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">lt-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">lt-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">lt-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">lt-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">lt-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">lt-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">lt-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">lt-Research and Analytics purpose explanation</string>
 </resources>

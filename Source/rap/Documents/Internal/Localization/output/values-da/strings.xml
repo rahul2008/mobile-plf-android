@@ -113,4 +113,14 @@ Få gratis produkttilbehør</string>
 <string name="RA_unknown_device">Ukendt enhed</string>
 <string name="RA_no_device_found">Ingen enhed fundet</string>
 <string name="RA_something_wrong">Noget gik galt</string>
+<string name="RA_MYA_Consent_Moment_Text">da-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">da-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">da-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">da-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">da-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">da-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">da-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">da-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">da-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">da-Research and Analytics purpose explanation</string>
 </resources>

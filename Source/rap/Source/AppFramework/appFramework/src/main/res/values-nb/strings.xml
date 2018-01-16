@@ -113,4 +113,14 @@ Motta produkttilbehør helt gratis</string>
 <string name="RA_unknown_device">Ukjent enhet</string>
 <string name="RA_no_device_found">Fant ingen enhet</string>
 <string name="RA_something_wrong">Noe gikk galt</string>
+<string name="RA_MYA_Consent_Moment_Text">nb-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">nb-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">nb-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">nb-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">nb-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">nb-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">nb-</string>
+<string name="RA_MYA_Consent_Clickstream_Help">nb-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">nb-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">nb-Research and Analytics purpose explanation</string>
 </resources>
