@@ -284,7 +284,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : group : ");
+                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : RegistrationConfigurationFailed:ServiceDiscovery "+s);
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.FAILURE_SERVICEDISCOVERY + s);
 
