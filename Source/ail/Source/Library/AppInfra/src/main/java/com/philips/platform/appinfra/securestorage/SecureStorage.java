@@ -22,10 +22,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import static com.philips.platform.appinfra.securestorage.SecureStorageHelper.AES_ENCRYPTION_ALGORITHM;
 
 
 /**
@@ -222,13 +219,10 @@ public class SecureStorage implements SecureStorageInterface {
         }
         byte[] encryptedBytes = null;
         try {
-            if (null == encryptCipher) {
-                encryptCipher = getCipher(Cipher.ENCRYPT_MODE, secureStorageError);
-            }
-            encryptedBytes = encryptCipher.doFinal(dataToBeEncrypted); // encrypt data using AES
+            encryptedBytes = secureStorageHelper.encodeDecodeData(Cipher.ENCRYPT_MODE, getSecretKey(secureStorageError), dataToBeEncrypted);
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "EncryptionError");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "EncryptionError");
         }
         return encryptedBytes;
     }
@@ -241,22 +235,17 @@ public class SecureStorage implements SecureStorageInterface {
         }
         byte[] decryptedBytes = null;
         try {
-            if (null == decryptCipher) {
-                decryptCipher = getCipher(Cipher.DECRYPT_MODE, secureStorageError);
-            }
-            decryptedBytes = decryptCipher.doFinal(dataToBeDecrypted); // decrypt data using AES
+            decryptedBytes = secureStorageHelper.encodeDecodeData(Cipher.DECRYPT_MODE, getSecretKey(secureStorageError), dataToBeDecrypted); // decrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "DecryptionError");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "DecryptionError");
         }
         return decryptedBytes;
     }
 
-    Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
-        Cipher cipher = null;
-        Key key;
+    Key getSecretKey(SecureStorageError secureStorageError) {
+        Key key = null;
         try {
-            cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
             SharedPreferences keySharedPreferences = getSharedPreferences();
             if (keySharedPreferences.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null);
@@ -273,13 +262,10 @@ public class SecureStorage implements SecureStorageInterface {
                 key = secureStorageHelper.generateAESKey(); // generate AES key
                 secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
             }
-            final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-            cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "getCipher error", e.getMessage());
         }
-        return cipher;
+        return key;
     }
 
     SharedPreferences getSharedPreferences() {

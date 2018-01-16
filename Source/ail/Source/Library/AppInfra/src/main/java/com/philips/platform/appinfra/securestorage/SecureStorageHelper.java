@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -20,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.security.Key;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -44,6 +46,7 @@ class SecureStorageHelper {
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private Context mContext;
     private AppInfra mAppInfra;
+    private final String deLimiter = "delimiter";
 
     SecureStorageHelper(AppInfra mAppInfra) {
         this.mAppInfra = mAppInfra;
@@ -223,19 +226,74 @@ class SecureStorageHelper {
     String encodeDecodeData(int mode, Key secretKey, String value) throws Exception {
         final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
         final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-        final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-        final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+
         if (mode == Cipher.ENCRYPT_MODE) {
+            byte[] ivBytes = getUniqueIV();
+            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBytes);
             cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
             final byte[] encText = cipher.doFinal(value.getBytes()); // encrypt string value using AES
-            return Base64.encodeToString(encText, Base64.DEFAULT);
+            String encodedEncryptedString = Base64.encodeToString(encText, Base64.DEFAULT);
+            String encodedIV = Base64.encodeToString(cipher.getIV(), Base64.DEFAULT);
+            encodedEncryptedString = encodedEncryptedString.concat(deLimiter);// appending delimiter on encrypted data
+            encodedEncryptedString = encodedEncryptedString.concat(encodedIV);// appending Base 64 encoded IV on encrypted data
+            return encodedEncryptedString;
         } else if (mode == Cipher.DECRYPT_MODE) {
-            cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
-            final byte[] encryptedValueBytes = Base64.decode(value, Base64.DEFAULT);
-            final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
-            return new String(decText);
+            byte[] iv;
+            String[] splitData = getSplitData(value);
+            value = splitData[0];
+            if (splitData.length == 2) {
+                iv = Base64.decode(splitData[1].getBytes(), Base64.DEFAULT);
+            } else {
+                iv = new byte[cipher.getBlockSize()];
+            }
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            final byte[] decodedEncryptedBytes = Base64.decode(value, Base64.DEFAULT);
+            final byte[] decryptedString = cipher.doFinal(decodedEncryptedBytes); // decrypt string value using AES key
+            return new String(decryptedString);
         }
         return null;
     }
 
+    byte[] encodeDecodeData(int mode, Key secretKey, byte[] value) throws Exception {
+        final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+        if (mode == Cipher.ENCRYPT_MODE) {
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] iv = Base64.encode(cipher.getIV(), Base64.DEFAULT);
+            final byte[] encText = Base64.encode(cipher.doFinal(value), Base64.DEFAULT); // encrypt string value using AES
+            return getAppendedByte(encText, iv);
+        } else if (mode == Cipher.DECRYPT_MODE) {
+            byte[] iv;
+            String[] splitData = getSplitData(new String(value));
+            value = splitData[0].getBytes();
+            if (splitData.length == 2) {
+                iv = Base64.decode(splitData[1].getBytes(), Base64.DEFAULT);
+            } else {
+                iv = new byte[cipher.getBlockSize()];
+            }
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            byte[] decodedData = Base64.decode(value, Base64.DEFAULT);
+            return cipher.doFinal(decodedData);// decrypt string value using AES key
+        }
+        return null;
+    }
+
+    @NonNull
+    byte[] getAppendedByte(byte[] encText, byte[] iv) {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(encText.length + deLimiter.length() + iv.length);
+        byteBuffer.put(encText);
+        byteBuffer.put(deLimiter.getBytes());
+        byteBuffer.put(iv);
+        return byteBuffer.array();
+    }
+
+    private byte[] getUniqueIV() {
+        SecureRandom random = new SecureRandom();
+        byte bytes[] = new byte[16];
+        random.nextBytes(bytes);
+        return bytes;
+    }
+
+    String[] getSplitData(String value) {
+        return value.split(deLimiter);
+    }
 }
