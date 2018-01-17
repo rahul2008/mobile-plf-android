@@ -113,4 +113,14 @@
 <string name="RA_unknown_device">Άγνωστη συσκευή</string>
 <string name="RA_no_device_found">Δεν βρέθηκε συσκευή</string>
 <string name="RA_something_wrong">Παρουσιάστηκε κάποιο πρόβλημα</string>
+<string name="RA_MYA_Consent_Moment_Text">el-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">el-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">el-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">el-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">el-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">el-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">el-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">el-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">el-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">el-Research and Analytics purpose explanation</string>
 </resources>

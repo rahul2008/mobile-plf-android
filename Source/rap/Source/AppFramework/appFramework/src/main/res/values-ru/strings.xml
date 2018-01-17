@@ -113,4 +113,14 @@
 <string name="RA_unknown_device">Неизвестное устройство</string>
 <string name="RA_no_device_found">Устройства не найдены</string>
 <string name="RA_something_wrong">Произошла ошибка</string>
+<string name="RA_MYA_Consent_Moment_Text">ru-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">ru-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">ru-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">ru-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">ru-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">ru-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">ru-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">ru-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">ru-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">ru-Research and Analytics purpose explanation</string>
 </resources>

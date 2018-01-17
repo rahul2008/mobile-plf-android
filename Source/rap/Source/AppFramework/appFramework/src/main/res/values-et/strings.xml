@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Olete sisestanud või valinud valed parameetri väärtused. Valige sobivad parameetri väärtused ja käivitage uuesti.</string>
 <string name="RA_NO_Order_History">Tellimuse ajalugu ei ole kättesaadav</string>
 <string name="RA_PR_Benefit_Text">Pikendage garantiid 24 kuuks.
-10\% allahindlus Philipsi poest ostetud toodetele.
+10% allahindlus Philipsi poest ostetud toodetele.
 Saage tasuta tarvikuid tootele</string>
 <string name="RA_PR_Extentende_Warranty">Teie garantiiperiood on pikenenud järgmise aastani</string>
 <string name="RA_PR_Email_Text">Pikendatud garantiilepinguga e-kiri saadeti teie e-posti aadressile.</string>
@@ -113,4 +113,14 @@ Saage tasuta tarvikuid tootele</string>
 <string name="RA_unknown_device">Tundmatu seade</string>
 <string name="RA_no_device_found">Seadet ei leitud</string>
 <string name="RA_something_wrong">Midagi läks valesti</string>
+<string name="RA_MYA_Consent_Moment_Text">et-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">et-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">et-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">et-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">et-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">et-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">et-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">et-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">et-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">et-Research and Analytics purpose explanation</string>
 </resources>

@@ -113,4 +113,14 @@ Recevoir gratuitement des accessoires</string>
 <string name="RA_unknown_device">Périph. inconnu</string>
 <string name="RA_no_device_found">Aucun appareil trouvé</string>
 <string name="RA_something_wrong">Un problème est survenu</string>
+<string name="RA_MYA_Consent_Moment_Text">fa-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">fr-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">fr-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">fa-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">fa-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">fa-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">fa-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">fa-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">fa-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">fa-Research and Analytics purpose explanation</string>
 </resources>

@@ -113,4 +113,14 @@ Získajte bezplatné príslušenstvo</string>
 <string name="RA_unknown_device">Neznáme zariadenie</string>
 <string name="RA_no_device_found">Nenašlo sa žiadne zariadenie</string>
 <string name="RA_something_wrong">Vyskytol sa problém</string>
+<string name="RA_MYA_Consent_Moment_Text">sk-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">sk-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">sk-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">sk-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">sk-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Help">sk-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">sk-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">sk-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">sk-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">sk-Research and Analytics purpose explanation</string>
 </resources>

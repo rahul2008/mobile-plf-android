@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Vous avez entré ou sélectionné des valeurs de paramètre invalides. Veuillez sélectionner des valeurs de paramètre valides et relancez.</string>
 <string name="RA_NO_Order_History">L\'historique de commande n\'est pas disponible.</string>
 <string name="RA_PR_Benefit_Text">Prolongez votre période de garantie à 24 mois.
-Profitez d\'un rabais de 10 \% sur les produits achetés à la boutique Philips.
+Profitez d\'un rabais de 10 % sur les produits achetés à la boutique Philips.
 Recevez des produits et accessoires gratuits.</string>
 <string name="RA_PR_Extentende_Warranty">Votre période de garantie a été prolongée jusqu\'à l\'an prochain</string>
 <string name="RA_PR_Email_Text">Vous recevrez par courriel le contrat relatif à cette période de garantie prolongée</string>
@@ -113,4 +113,14 @@ Recevez des produits et accessoires gratuits.</string>
 <string name="RA_unknown_device">Appareil inconnu</string>
 <string name="RA_no_device_found">Aucun appareil détecté</string>
 <string name="RA_something_wrong">Une erreur s\'est produite</string>
+<string name="RA_MYA_Consent_Moment_Text">fr-CA-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">fr-CA-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">fr-CA-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">fr-CA-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">fr-CA-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">fr-CA-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">fr-CA-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">fr-CA-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">fr-CA-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">fr-CA-Research and Analytics purpose explanation</string>
 </resources>
