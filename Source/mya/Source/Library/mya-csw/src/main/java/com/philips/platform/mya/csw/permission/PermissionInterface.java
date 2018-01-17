@@ -16,4 +16,6 @@ public interface PermissionInterface {
     void hideProgressDialog();
 
     void showErrorDialog(ConsentError error);
+
+    void showOfflineErrorDialog();
 }

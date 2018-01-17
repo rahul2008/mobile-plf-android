@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
@@ -20,6 +20,8 @@ import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -46,7 +48,11 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
         if (key.equals("MYA_Country")) {
-            view.showDialog(view.getContext().getString(R.string.MYA_change_country), view.getContext().getString(R.string.MYA_change_country_message));
+            Context context = getContext();
+            view.showDialog(
+                    context.getString(R.string.MYA_change_country),
+                    context.getString(R.string.MYA_change_country_message)
+            );
         }
     }
 
@@ -61,15 +67,22 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
-            if (fragmentLauncher == null)
-                view.exitMyAccounts();
-            AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-            CswInterface cswInterface = getCswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
-            UappSettings uappSettings = new UappSettings(view.getContext());
-            cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
-            return true;
+            RestInterface restInterface = getRestClient();
+            if(restInterface.isInternetReachable()) {
+                MyaDependencies myaDeps = MyaInterface.get().getDependencies();
+                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
+
+
+                CswInterface cswInterface = getCswInterface();
+                UappSettings uappSettings = new UappSettings(view.getContext());
+                cswInterface.init(dependencies, uappSettings);
+                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
+                return true;
+            } else {
+                String title = getContext().getString(R.string.MYA_Offline_title);
+                String message = getContext().getString(R.string.MYA_Offline_message);
+                view.showOfflineDialog(title, message);
+            }
         }
         return false;
     }
@@ -137,5 +150,24 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
         return profileList;
+    }
+
+    private String getStringResourceByName(String aString) {
+        Context context = getContext();
+        String packageName = context.getPackageName();
+        int resId = context.getResources().getIdentifier(aString, "string", packageName);
+        try {
+            return context.getString(resId);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    private Context getContext() {
+        return view.getContext();
+    }
+
+    protected RestInterface getRestClient() {
+        return MyaInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 }
