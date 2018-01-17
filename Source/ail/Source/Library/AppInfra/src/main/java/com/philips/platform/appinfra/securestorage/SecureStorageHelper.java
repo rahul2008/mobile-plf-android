@@ -257,7 +257,9 @@ class SecureStorageHelper {
     byte[] encodeDecodeData(int mode, Key secretKey, byte[] value) throws Exception {
         final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
         if (mode == Cipher.ENCRYPT_MODE) {
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] ivBytes = getUniqueIV();
+            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBytes);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
             byte[] iv = Base64.encode(cipher.getIV(), Base64.DEFAULT);
             final byte[] encText = Base64.encode(cipher.doFinal(value), Base64.DEFAULT); // encrypt string value using AES
             return getAppendedByte(encText, iv);
