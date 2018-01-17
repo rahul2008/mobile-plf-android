@@ -41,7 +41,7 @@ import javax.security.auth.x500.X500Principal;
 
 class SecureStorageHelper {
 
-    static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
+    private static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private Context mContext;
