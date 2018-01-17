@@ -1,12 +1,10 @@
 rootProject.setName 'MyAccount'
 include ':app'
-include ':MyAccountUApp'
-project(':MyAccountUApp').projectDir = new File('../DemoUApp/DemoUApp')
-include ':MyAccount'
-project(':MyAccount').projectDir = new File('../Library/MyAccount')
-include ':ConsentWidgets'
-project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
-include ':ConsentAccessToolKit'
-project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
-include ':ConsentHandlerInterface'
-project(':ConsentHandlerInterface').projectDir = new File('../Library/ConsentHandlerInterface')
+include ':mya'
+project(':mya').projectDir = new File('../Library/mya')
+include ':mya-csw'
+project(':mya-csw').projectDir = new File('../Library/mya-csw')
+include ':mya-catk'
+project(':mya-catk').projectDir = new File('../Library/mya-catk')
+include ':mya-chi'
+project(':mya-chi').projectDir = new File('../Library/mya-chi')

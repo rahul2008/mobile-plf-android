@@ -19,6 +19,7 @@ interface MyaSettingsContract {
 
     interface View extends MyaBaseView {
         void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap);
+        void showOfflineDialog(String title, String message);
         void showDialog(String title, String message);
         void handleLogOut();
     }

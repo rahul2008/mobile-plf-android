@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.dialogs.DialogView;
 import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -134,6 +135,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
+    @Override
+    public void showOfflineDialog(String title, String message) {
+        new DialogView(title, message).showDialog(getActivity());
+    }
 
     @Override
     public void showDialog(String title, String message) {
