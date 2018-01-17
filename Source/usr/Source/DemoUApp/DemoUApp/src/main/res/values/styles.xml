@@ -18,7 +18,7 @@
 
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <!--<item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>-->
         <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
@@ -44,7 +44,7 @@
     </style>
 
     <style name="ThemeSettingsLabelText">
-        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <!--<item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>-->
         <item name="android:textSize">10sp</item>
         <item name="android:paddingStart">4dp</item>
         <item name="android:paddingTop">4dp</item>
@@ -53,7 +53,7 @@
 
     <style name="RecyclerViewRadioButton">
         <item name="android:layout_height">@dimen/radio_button_height</item>
-        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+       <!-- <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingStart">@dimen/radio_button_text_padding_left_right</item>
         <item name="android:paddingEnd">@dimen/radio_button_text_padding_left_right</item>
