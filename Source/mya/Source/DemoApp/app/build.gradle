@@ -1,13 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,10 +26,11 @@ buildscript {
             }
         }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+//        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -38,11 +44,8 @@ apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "MyAccount" + "App"
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_myAccount)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = "telehealthApp"
 
 allprojects {
     repositories {
@@ -60,12 +63,13 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-
-        flatDir {
-            dirs 'libs'
-        }
+        maven {url "https://clojars.org/repo/"}
+        group = 'com.philips.cdp'
     }
 }
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.ths_telehealth)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -79,7 +83,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications('apk')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -89,8 +93,7 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -100,9 +103,13 @@ publishing {
             version = version
             artifactId archivesBaseName
 
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml {
+            pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -115,46 +122,64 @@ publishing {
         }
     }
 }
+
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
-    }
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.philips.platform.mya.demoapp"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
-        multiDexEnabled true
-        renderscriptTargetApi 25
+        applicationId 'com.philips.platform.thsdemolaunch'
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 8
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        multiDexEnabled true
+
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     signingConfigs {
         release
     }
 
+    dexOptions {
+        preDexLibraries = false
+        jumboMode = false
+    }
     buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
+        def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
+        def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
-            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled = true
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFile file('proguard-rules.pro')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            AWSDK_ENABLE_CERTIFICATE_PINNING = true
+            AWSDK_PINNED_HOSTS = {"*.amwellintegration.com"}
+            AWSDK_PINNED_CERTIFICATES = {"06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"}
         }
     }
 
@@ -162,8 +187,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    println  "  projectDir:   "+ project.projectDir;
-    def propFile = new File("${project.projectDir}/signing.properties")
+    def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -174,41 +198,17 @@ android {
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
             android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
         } else {
-            println 'iap NOPE - signing.properties NOT found'
+            println 'NOPE - signing.properties NOT found'
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'iap signing.properties not found'
+        println 'signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*
     This defined for signing the apk -- end
     */
 
-
-    productFlavors {
-        simulator {
-            applicationId 'com.philips.platform.mya'
-            versionCode 2
-            versionName "0.17.8"
-        }
-        device {
-            applicationId 'com.philips.platform.mya'
-            versionCode 2
-            versionName "0.17.8"
-        }
-    }
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'GradleCompatible'
-        disable 'MissingTranslation'
-        disable 'TypographyFractions', 'TypographyQuotes'
-        absolutePaths false
-        lintConfig file('lint.xml')
-
-    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -220,99 +220,99 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
+
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/libblasV8.so'
+        pickFirst 'lib/x86/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/rxjava.properties'
+
     }
 
-    dataBinding {
-        enabled = true
+    testOptions {
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
+        }
     }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
 
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    compile "com.android.support:customtabs:${versions.support}"
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':uid'))
+        compile(project(':AppInfra'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
             transitive = true
         }
     }
 
     if(dp) {
-        compile(project(':UserRegistrationUApp'))
+        compile(project(':uid'))
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    }
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-   /*     if(dp) {
-        project(':registrationApi')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
             transitive = true
-            exclude group: 'com.android.support', module: 'customtabs'
-            exclude group:  'com.google.dagger'
-         }
+        }
     }
-*/
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    compile(project(':MyAccountUApp'))
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    if(dp) {
+        compile(project(':jump'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'jump', version: versions.jump + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
     }
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.google.dagger'
     }
+//    compile(project(':mya-catk'))
+    compile project(path: ':mya')
+    compile project(path: ':UserRegistrationUApp')
 }
 
-/*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
 }
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}*/
 
 tasks.withType(Test) {
     ignoreFailures = true
 }
-
-apply plugin: 'com.getkeepsafe.dexcount'
-
-

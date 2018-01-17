@@ -7,6 +7,14 @@
 
 package com.philips.platform.mya.demouapp.fragment;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -21,12 +29,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+<<<<<<< HEAD
 import com.philips.platform.mya.MyaHelper;
+=======
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+<<<<<<< HEAD
+=======
+
+import com.philips.platform.mya.MyaHelper;
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.R;
@@ -52,12 +68,15 @@ import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+=======
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     public int checkedId = R.id.radioButton;
@@ -99,6 +118,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+<<<<<<< HEAD
         try {
             initCatk();
             MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
@@ -125,6 +145,30 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         } catch (CatkInputs.InvalidInputException e) {
             e.printStackTrace();
+=======
+        initCatk();
+        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
+        MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
+        MyaInterface myaInterface = new MyaInterface();
+        myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
+        if (checkedId == R.id.radioButton) {
+            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                    ((DemoAppActivity) getActivity()).getThemeConfig(),
+                    ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+            myaInterface.launch(activityLauncher, launchInput);
+        } else {
+            myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
+                @Override
+                public void updateActionBar(@StringRes int i, boolean b) {
+                    ((DemoAppActivity) getActivity()).setTitle(i);
+                }
+
+                @Override
+                public void updateActionBar(String s, boolean b) {
+                    ((DemoAppActivity) getActivity()).setTitle(s);
+                }
+            }), launchInput);
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
         }
     }
 
@@ -139,9 +183,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
                 .build());
 
+<<<<<<< HEAD
         List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
         consentConfigurations.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
         MyaHelper.getInstance().setConfigurations(consentConfigurations);
+=======
+        List<ConsentConfiguration> consentHandlerMappingList = new ArrayList<>();
+        consentHandlerMappingList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
+        MyaHelper.getInstance().setConfigurations(consentHandlerMappingList);
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
     }
 
     private Locale getLocale(AppInfraInterface appInfra) {
@@ -164,6 +214,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
 
             @Override
+<<<<<<< HEAD
+=======
+            public boolean onLogOut() {
+                return false;
+            }
+
+            @Override
+>>>>>>> parent of 37800afd8f... Removed unused DemoUApp in favor of new directory structor.
             public DataInterface getDataInterface(DataModelType modelType) {
                 return LaunchFragment.this.getDataInterface(modelType);
             }

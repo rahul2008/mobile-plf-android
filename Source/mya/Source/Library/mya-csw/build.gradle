@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -6,29 +11,11 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 
-archivesBaseName = "ConsentWidgets"
+archivesBaseName = "mya-csw"
 version = objcdp.getVersion(versions.mya_myAccount)
 
 
 buildscript {
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
     dependencies {
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
     }
@@ -96,7 +83,6 @@ android {
 
 dependencies {
     //3rd party
-    //3rd party
     compile deps.gson
 
     def daggerVer = 2.11
@@ -134,6 +120,15 @@ dependencies {
         compile(project(':mya-chi'))
     } else {
         compile(group: 'com.philips.cdp', name: 'mya-chi', version: versions.mya_consentHandlerInterface + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+                {
+                    transitive = true
+                }
+    }
+
+    if(dp) {
+        compile project(':uikitLib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
                 {
                     transitive = true
                 }

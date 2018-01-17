@@ -1,4 +1,18 @@
 <resources>
+    <!-- Screen -->
+    <dimen name="default_screen_side_margin">16dp</dimen>
+    <dimen name="default_screen_top_margin">24dp</dimen>
+    <dimen name="default_screen_bottom_margin">12dp</dimen>
+    <!-- In between controls (vertical) -->
+    <dimen name="default_body_labels_margin">16dp</dimen>
+    <dimen name="default_body_labels_bottom_margin">14dp</dimen>
+    <dimen name="default_image_top_margin">24dp</dimen>
+    <dimen name="default_main_button_top_margin">20dp</dimen>
+    <dimen name="default_main_helper_top_margin">20dp</dimen>
+    <dimen name="default_main_helper_padding">16dp</dimen>
+    <dimen name="default_main_helper_bottom_padding">14dp</dimen>
+    <dimen name="default_between_button_margin">8dp</dimen>
+
     <dimen name="button_layout_padding">30dp</dimen>
     <dimen name="edge_left_spacing">10dp</dimen>
     <dimen name="component_bottom_spacing">10dp</dimen>

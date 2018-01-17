@@ -2,6 +2,7 @@ package com.philips.platform.mya.csw.permission;
 
 import android.test.mock.MockContext;
 
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.mya.chi.ConsentConfiguration;
@@ -15,6 +16,7 @@ import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
+import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 
 import org.junit.Before;
@@ -42,6 +44,7 @@ public class PermissionPresenterTest {
     private ConsentError givenError;
     private Consent requiredConsent;
     private List<ConsentConfiguration> givenConsentConfigurations = new ArrayList<>();
+    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
     @Mock
     private PermissionInterface mockPermissionInterface;
@@ -231,7 +234,12 @@ public class PermissionPresenterTest {
     }
 
     private void givenPresenter() {
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentConfigurations, mockAdapter);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentConfigurations, mockAdapter){
+            @Override
+            protected RestInterface getRestClient() {
+                return restInterfaceMock;
+            }
+        };
     }
 
     private void whenGetConsentFailed() {
@@ -249,6 +257,14 @@ public class PermissionPresenterTest {
 
     private void whenTogglingConsentTo(boolean toggled) {
         mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled);
+    }
+
+    private void whenAppIsOnline() {
+        restInterfaceMock.isInternetAvailable = true;
+    }
+
+    private void whenAppIsOffline() {
+        restInterfaceMock.isInternetAvailable = false;
     }
 
     private void thenErrorIsShown() {

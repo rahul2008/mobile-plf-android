@@ -52,7 +52,6 @@ ext.builddeps = [
 
 ext.repos = [
         base  : 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
-        google: 'https://maven.google.com'
 ]
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"

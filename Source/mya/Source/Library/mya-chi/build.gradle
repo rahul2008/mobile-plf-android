@@ -11,7 +11,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
-archivesBaseName = "ConsentHandlerInterface"
+archivesBaseName = "mya-chi"
 version = objcdp.getVersion(versions.mya_consentHandlerInterface)
 
 android {

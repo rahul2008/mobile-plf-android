@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.utils.UIDActivity;
@@ -51,10 +51,10 @@ public class MyaDemoActivity extends UIDActivity {
     }
 
     public void launch() {
-        MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
+        MyaInterface myaInterface = new MyaInterface();
         MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
         MyaDependencies uappDependencies = new MyaDependencies(applicationContext.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
-        myAccountDemoUAppInterface.init(uappDependencies, new UappSettings(this));
-        myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
+        myaInterface.init(uappDependencies, new UappSettings(this));
+        myaInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
     }
 }

@@ -4,7 +4,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
-archivesBaseName = "MarketingConsentHandler"
+archivesBaseName = "mya-mch"
 version = objcdp.getVersion(versions.mya_marketingConsentHandler)
 
 android {

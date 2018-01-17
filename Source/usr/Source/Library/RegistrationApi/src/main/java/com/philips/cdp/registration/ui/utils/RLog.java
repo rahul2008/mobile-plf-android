@@ -89,6 +89,8 @@ public class RLog {
 
     private static void validateLoggerInitialization() {
         if (mLoggingInterface == null) {
+            init();
+            if(mLoggingInterface==null)
             throw new RuntimeException("Please initiate AppInfra Logger by calling RLog.init()");
         }
     }
