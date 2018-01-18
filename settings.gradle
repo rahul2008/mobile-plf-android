@@ -107,6 +107,11 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 include ':urdemo'
 project(':urdemo').projectDir = new File('./Source/usr/Source/DemodApp/RegistrationSampleApplicationWithOutArtifactory/app')
 
+//RegistrationSampleApplicationWithArtifactory urdemoWithArtifact
+
+include ':urdemoWithArtifact'
+project(':urdemoWithArtifact').projectDir = new File('./Source/usr/Source/DemodApp/RegistrationSampleApplicationWithArtifactory/app')
+
 
 include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
