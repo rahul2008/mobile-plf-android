@@ -151,6 +151,8 @@ publishing {
 }
 
 android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion versions.minsdk
