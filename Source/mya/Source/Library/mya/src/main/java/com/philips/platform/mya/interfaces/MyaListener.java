@@ -7,8 +7,8 @@ package com.philips.platform.mya.interfaces;
 
 
 import com.philips.platform.mya.error.MyaError;
-import com.philips.platform.uappframework.uappadaptor.DataInterface;
-import com.philips.platform.uappframework.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.DataInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
 public interface MyaListener {
 

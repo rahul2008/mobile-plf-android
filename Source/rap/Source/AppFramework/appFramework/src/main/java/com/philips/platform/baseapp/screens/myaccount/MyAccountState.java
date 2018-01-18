@@ -11,12 +11,12 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -24,19 +24,17 @@ import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.mch.MarketingConsentHandler;
+import com.philips.platform.myaplugin.uappadaptor.DataInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappadaptor.DataInterface;
-import com.philips.platform.uappframework.uappadaptor.DataModelType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-
 
 
 public class MyAccountState extends BaseState {

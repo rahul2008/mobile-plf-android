@@ -3,8 +3,8 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.uappframework.uappadaptor;
+package com.philips.platform.myaplugin.uappadaptor;
 
 public enum DataModelType {
-    USER
+    USER,CONSENT
 }
