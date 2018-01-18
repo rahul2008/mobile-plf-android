@@ -19,15 +19,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +52,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     RecyclerView recyclerView;
 
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
+    private List<ConsentConfiguration> configs;
+    private PermissionAdapter adapter;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -67,8 +76,22 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        configs = CswInterface.getCswComponent().getConsentConfigurations();
+        if(configs == null) {
+            configs = new ArrayList<>();
+        }
+
         handleOrientation(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        List<ConsentView> consentItems = createConsentsList();
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
+        permissionPresenter.getConsentStatus();
     }
 
     @Override
@@ -97,18 +120,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        PermissionPresenter permissionPresenter = injectPresenter();
-        permissionPresenter.getConsentStatus();
+        adapter = new PermissionAdapter(createConsentsList(), this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
-        recyclerView.setAdapter(permissionPresenter.getAdapter());
+        recyclerView.setAdapter(adapter);
     }
 
-    private PermissionPresenter injectPresenter() {
-        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this)).build().presenter();
-    }
+//    private PermissionPresenter injectPresenter() {
+//        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this)).build().presenter();
+//    }
 
     @Override
     public void showProgressDialog() {
@@ -167,5 +189,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         void setDialog(@NonNull DialogFragment dialog) {
             this.dialog = dialog;
         }
+    }
+
+    private List<ConsentView> createConsentsList() {
+        final List<ConsentView> consentViewList = new ArrayList<>();
+        for (ConsentConfiguration configuration : configs) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
+        }
+        return consentViewList;
     }
 }

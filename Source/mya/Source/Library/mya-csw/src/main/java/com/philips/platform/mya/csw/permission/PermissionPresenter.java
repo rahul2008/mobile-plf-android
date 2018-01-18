@@ -106,7 +106,11 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
         if (isOnline) {
-            permissionInterface.showErrorDialog(error);
+            // TODO Go back one extra step to MYA screen (OBE is offline)
+//            permissionInterface.navigateAway();
+        }
+        else {
+            // TODO Show error: Unable to get your consents because you are offline
         }
     }
 
