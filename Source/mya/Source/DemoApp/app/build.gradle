@@ -124,8 +124,11 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
         minSdkVersion 21

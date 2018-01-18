@@ -65,7 +65,7 @@ Ontvang gratis productaccessoires</string>
 <string name="RA_UR_Env_Alert">Configuratie wijzigen</string>
 <string name="RA_UR_Env_Alert_Msg">Configuratie kan alleen worden gewijzigd bij het starten van de app. U dient de app opnieuw te starten om de configuratie te wijzigen</string>
 <string name="RA_Update_Userdata_Error">Er is een fout opgetreden bij het bijwerken van de gebruikersgegevens. Probeer het later opnieuw</string>
-<string name="RA_Product_Registration_Text">Registreer uw product</string>
+<string name="RA_Product_Registration_Text">Product registreren</string>
 <string name="RA_About_App_Version">Versie</string>
 <string name="RA_DebugScreen_Title">Fouten opsporen en testen</string>
 <string name="RA_Setting_Philips_Promo_PartTwo">Promotionele communicatie op basis van mijn voorkeuren en online gedrag</string>
@@ -113,9 +113,14 @@ Ontvang gratis productaccessoires</string>
 <string name="RA_unknown_device">Onbekend apparaat</string>
 <string name="RA_no_device_found">Geen apparaat gevonden</string>
 <string name="RA_something_wrong">Er is iets misgegaan</string>
-
-<string name="RA_MYA_Consent_Moment_Text" translatable="false">nl-NL I allow Philips to store my data in cloud</string>
-<string name="RA_MYA_Consent_Moment_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to store information related to you</string>
-<string name="RA_MYA_Consent_Coaching_Text" translatable="false">nl-NL I allow Philips to use my data for Coaching purposes</string>
-<string name="RA_MYA_Consent_Coaching_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Moment_Text">nl-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">nl-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">nl-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">nl-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">nl-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">nl-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">nl-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">nl-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">nl-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">nl-Research and Analytics purpose explanation</string>
 </resources>

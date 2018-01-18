@@ -1,0 +1,32 @@
+version: '3.4'
+ 
+services:
+   main:
+    image: cdp2/jenkins-master:2.89.2-3
+    environment:
+      JAVA_OPTS: "-Djava.awt.headless=true"
+    ports:
+      - 8080:8080
+      - 50000:50000
+    secrets:
+      - ldap-user
+      - ldap-pass
+      - ssh-user
+      - ssh-key
+    volumes:
+      - type: volume
+        source: jenkins_home_vol
+        target: /var/jenkins_home
+
+volumes:
+  jenkins_home_vol:
+
+secrets:
+  ldap-user:
+    external: true
+  ldap-pass:
+    external: true
+  ssh-user:
+    external: true
+  ssh-key:
+    external: true

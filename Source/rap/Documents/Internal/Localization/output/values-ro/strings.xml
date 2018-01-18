@@ -113,4 +113,14 @@ Primeşte accesorii gratuite pentru produse</string>
 <string name="RA_unknown_device">Dispozitiv necunoscut</string>
 <string name="RA_no_device_found">Niciun dispozitiv găsit</string>
 <string name="RA_something_wrong">A apărut o eroare</string>
+<string name="RA_MYA_Consent_Moment_Text">ro-I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help">ro-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text">ro-I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help">fr-CA-Giving this consent you are allowing Philips to process information related to you</string>
+<string name="RA_MYA_Consent_Binary_Text">fr-CA-I allow Philips to store binary data</string>
+<string name="RA_MYA_Consent_Binary_Help">fr-CA-Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Clickstream_Text">fr-CA-I allow Philips to use my mobile application usage statistics</string>
+<string name="RA_MYA_Consent_Clickstream_Help">fr-CA-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Text">fr-CA-I allow Philips to use my data for Research and Analytics purposes</string>
+<string name="RA_MYA_Consent_ResearchAnalytics_Help">fr-CA-Research and Analytics purpose explanation</string>
 </resources>
