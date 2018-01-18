@@ -104,7 +104,6 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public void onGetConsentsFailed(ConsentError error) {
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(error);
     }
 
     @Override

@@ -105,10 +105,10 @@ public class PermissionPresenterTest {
     }
 
     @Test
-    public void testShouldShowToastWhenGetConsentFails() throws Exception {
+    public void testShouldNotShowErrorWhenGetConsentFails() throws Exception {
         givenConsentError();
         whenGetConsentFailed();
-        thenErrorIsShown();
+        thenErrorIsNotShown();
     }
 
     @Test
@@ -274,6 +274,10 @@ public class PermissionPresenterTest {
 
     private void thenErrorIsShown() {
         verify(mockPermissionInterface).showErrorDialog(givenError);
+    }
+
+    private void thenErrorIsNotShown() {
+        verify(mockPermissionInterface, never()).showErrorDialog(givenError);
     }
 
     private void thenProgressIsShown() {
