@@ -128,14 +128,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.platform.uappdemo"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -173,7 +173,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
     testCompile 'junit:junit:4.12'
     compile project(':uAppFwLibUApp')
 }
