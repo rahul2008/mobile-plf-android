@@ -102,8 +102,12 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
+        boolean isOnline = getRestClient().isInternetReachable();
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
+        if (isOnline) {
+            permissionInterface.showErrorDialog(error);
+        }
     }
 
     @Override
