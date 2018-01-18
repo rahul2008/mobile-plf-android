@@ -121,14 +121,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        versionName "1.5.6"
         resConfigs "en", "nl", "en-rGB", "zh-rCN"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
