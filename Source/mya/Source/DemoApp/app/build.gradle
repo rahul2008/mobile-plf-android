@@ -131,10 +131,10 @@ android {
     }
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 8
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 26
         renderscriptSupportModeEnabled true

@@ -71,8 +71,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             if(restInterface.isInternetReachable()) {
                 MyaDependencies myaDeps = MyaInterface.get().getDependencies();
                 CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
-
-
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());
                 cswInterface.init(dependencies, uappSettings);
@@ -152,22 +150,11 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return profileList;
     }
 
-    private String getStringResourceByName(String aString) {
-        Context context = getContext();
-        String packageName = context.getPackageName();
-        int resId = context.getResources().getIdentifier(aString, "string", packageName);
-        try {
-            return context.getString(resId);
-        } catch (Exception exception) {
-            return null;
-        }
-    }
-
     private Context getContext() {
         return view.getContext();
     }
 
-    protected RestInterface getRestClient() {
+    private RestInterface getRestClient() {
         return MyaInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 }
