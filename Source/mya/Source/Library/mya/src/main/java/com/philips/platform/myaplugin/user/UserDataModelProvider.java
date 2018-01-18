@@ -8,18 +8,16 @@ package com.philips.platform.myaplugin.user;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.uappframework.uappadaptor.DataModel;
-import com.philips.platform.uappframework.uappadaptor.DataModelType;
-import com.philips.platform.uappframework.uappadaptor.UserDataInterface;
-import com.philips.platform.uappframework.uappadaptor.UserDataModel;
-import com.philips.platform.uappframework.uappadaptor.listeners.LogoutListener;
-import com.philips.platform.uappframework.uappadaptor.listeners.UpdateMarketingConsentListener;
-import com.philips.platform.uappframework.uappadaptor.listeners.UserRefreshListener;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.myaplugin.uappadaptor.DataModel;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.uappadaptor.UserInterface;
 
 import java.io.Serializable;
 
 
-public class UserDataModelProvider extends UserDataInterface implements Serializable {
+public class UserDataModelProvider extends UserInterface implements Serializable {
 
     private static final long serialVersionUID = -8976502136083301892L;
     private transient UserDataModel userDataModel;
@@ -48,35 +46,25 @@ public class UserDataModelProvider extends UserDataInterface implements Serializ
     }
 
     @Override
-    public boolean getMarketingOptInConsent(Context context) {
-        return false;
+    public void logOut(Context context, LogoutHandler logoutHandler) {
+        User user = new User(context);
+        user.logout(logoutHandler);
     }
-
-    @Override
-    public void userRefresh(UserRefreshListener userRefreshListener) {
-
-    }
-
-    @Override
-    public void logOut(Context context, LogoutListener logoutListener) {
-
-    }
-
-    @Override
-    public void updateMarketingOptInConsent(UpdateMarketingConsentListener updateMarketingConsentListener) {
-
-    }
-
 
     private void fillUserData() {
         User user = getUser();
-        userDataModel.setUserFirstName(user.getDisplayName());
-        userDataModel.setEmailAddress(user.getEmail());
+        userDataModel.setName(user.getDisplayName());
+        userDataModel.setBirthday(user.getDateOfBirth());
+        userDataModel.setEmail(user.getEmail());
         userDataModel.setAccessToken(user.getDisplayName());
-        userDataModel.setUserLastName(user.getGivenName());
-        userDataModel.setDateOfBirth(user.getDateOfBirth());
+        userDataModel.setGivenName(user.getGivenName());
+        userDataModel.setBirthday(user.getDateOfBirth());
+        userDataModel.setEmailVerified(user.isEmailVerified());
         userDataModel.setMobileNumber(user.getMobile());
+        userDataModel.setMobileVerified(user.isMobileVerified());
         userDataModel.setGender(user.getGender().toString());
+//        userDataModel.setVerified(user.isTermsAndConditionAccepted());
+        userDataModel.setFamilyName(user.getFamilyName());
     }
 
     User getUser() {

@@ -11,9 +11,9 @@ import android.content.Context;
 
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.uappframework.uappadaptor.DataModelType;
-import com.philips.platform.uappframework.uappadaptor.UserDataModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,23 +54,23 @@ public class MyaDetailPresenterTest {
     public void testSetUserDetails() {
         UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
         UserDataModel userDataModel = new UserDataModel();
-        userDataModel.setEmailAddress("some_email");
-        userDataModel.setUserFirstName("some_name");
-        userDataModel.setUserLastName("some_family_name");
+        userDataModel.setEmail("some_email");
+        userDataModel.setGivenName("some_name");
+        userDataModel.setFamilyName("some_family_name");
         userDataModel.setMobileNumber("98278383939");
         userDataModel.setGender("male");
         Date birthday = new Date();
-        userDataModel.setDateOfBirth(birthday);
-        userDataModel.setEmailAddress("some_email");
+        userDataModel.setBirthday(birthday);
+        userDataModel.setEmail("some_email");
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaDetailPresenter.setUserDetails(userDataModelProvider);
         verify(view).setGender(userDataModel.getGender());
         verify(view).setMobileNumber(userDataModel.getMobileNumber());
-        verify(view).setEmail(userDataModel.getEmailAddress());
-        verify(view).setDateOfBirth(userDataModel.getDateOfBirth());
-        verify(view).setUserName(userDataModel.getUserFirstName().concat(" ").concat(userDataModel.getUserLastName()));
-        verify(view).setCircleText(String.valueOf(userDataModel.getUserFirstName().charAt(0)).toUpperCase().concat(String.valueOf(userDataModel.getUserLastName().charAt(0))).toUpperCase());
-        userDataModel.setUserLastName(null);
+        verify(view).setEmail(userDataModel.getEmail());
+        verify(view).setDateOfBirth(userDataModel.getBirthday());
+        verify(view).setUserName(userDataModel.getGivenName().concat(" ").concat(userDataModel.getFamilyName()));
+        verify(view).setCircleText(String.valueOf(userDataModel.getGivenName().charAt(0)).toUpperCase().concat(String.valueOf(userDataModel.getFamilyName().charAt(0))).toUpperCase());
+        userDataModel.setFamilyName(null);
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaDetailPresenter.setUserDetails(userDataModelProvider);
         verify(view).setCircleText("SO");

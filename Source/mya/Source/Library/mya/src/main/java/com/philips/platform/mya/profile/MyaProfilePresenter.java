@@ -15,9 +15,9 @@ import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.uappframework.uappadaptor.DataModelType;
-import com.philips.platform.uappframework.uappadaptor.UserDataModel;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -60,8 +60,8 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     private void setUserModel(UserDataModel userDataModel) {
-        String givenName = userDataModel.getUserFirstName();
-        String familyName = userDataModel.getUserLastName();
+        String givenName = userDataModel.getGivenName();
+        String familyName = userDataModel.getFamilyName();
         if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
             view.setUserName(givenName.concat(" ").concat(familyName));
         } else if (!TextUtils.isEmpty(givenName)) {
