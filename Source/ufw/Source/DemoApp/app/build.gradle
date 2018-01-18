@@ -128,7 +128,8 @@ android {
     signingConfigs {
         release
     }
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.platform.uappdemo"
         minSdkVersion versions.minsdk
