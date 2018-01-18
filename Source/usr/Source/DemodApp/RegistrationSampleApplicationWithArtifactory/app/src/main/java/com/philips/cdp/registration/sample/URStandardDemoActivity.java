@@ -15,9 +15,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -27,7 +30,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
@@ -37,6 +39,7 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -54,7 +57,17 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.utils.UIDActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -62,7 +75,7 @@ import java.util.GregorianCalendar;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class URStandardDemoActivity extends Activity implements OnClickListener,
+public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Context mContext;
@@ -78,6 +91,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
@@ -102,7 +116,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        Switch mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = (com.philips.platform.uid.view.widget.Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         Button mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
@@ -115,7 +129,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
-        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+//        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -198,7 +212,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                     restoredText = Configuration.PRODUCTION.getValue();
                     //  RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
                 } else if (checkedId == R.id.Stagging) {
-                    Toast.makeText(getApplicationContext(), "choice: Stagging",
+                    Toast.makeText(getApplicationContext(), "choice: Staging",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.STAGING.getValue();
                 }
@@ -216,7 +230,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
-                    RLog.d("Restored text",""+restoredText);
+                    RLog.d("Restored teest", "" + restoredText);
 
                 }
 
@@ -288,54 +302,43 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
-        ActivityLauncher activityLauncher;
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
         URInterface urInterface;
         initCountrySelection();
 
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
-            RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            //  RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
-            urLaunchInput = new URLaunchInput();
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setAccountSettings(true);
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
-            urLaunchInput.setUserRegistrationUIEventListener(this);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
-            urInterface = new URInterface();
-            urInterface.launch(activityLauncher, urLaunchInput);
-            final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
-            switch (abTestingUIFlow) {
-                case FLOW_A:
-                    Toast.makeText(mContext, "UI Flow Type A", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    break;
-                case FLOW_B:
-                    Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    break;
-                case FLOW_C:
-                    Toast.makeText(mContext, "UI Flow Type C", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                    break;
-                default:
-                    break;
+            RLog.d(RLog.ONCLICK, "Logout");
+
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+                showLogoutSpinner();
+                mUser.logout(new LogoutHandler() {
+                    @Override
+                    public void onLogoutSuccess() {
+                        hideLogoutSpinner();
+                        Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onLogoutFailure(int responseCode, String message) {
+                        hideLogoutSpinner();
+                        Toast.makeText(mContext, "Code "+ responseCode +"Message"+message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else{
+                mUser.logout(null);
             }
 
         } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
-            urLaunchInput.setAccountSettings(false);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_C);
+            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
@@ -351,10 +354,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                     Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     break;
-                case FLOW_C:
-                    Toast.makeText(mContext, "UI Flow Type C", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                    break;
                 default:
                     break;
             }
@@ -366,9 +365,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setUserRegistrationUIEventListener(this);
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setAccountSettings(false);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 
@@ -389,6 +385,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             }
 
         } else if (i == R.id.btn_update_gender) {
+
             User user1 = new User(mContext);
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
@@ -402,7 +399,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
-
         }
     }
 
@@ -414,8 +410,11 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         if (mRadioGender.getCheckedRadioButtonId() == R.id.Male) {
             gender = Gender.MALE;
-        } else {
+        } else if (mRadioGender.getCheckedRadioButtonId() == R.id.Female) {
             gender = Gender.FEMALE;
+        }else {
+           // gender = Gender.NONE;
+            gender = Gender.MALE;
         }
 
         final User user1 = new User(mContext);
@@ -506,7 +505,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
-                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });
@@ -518,6 +516,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
+        Toast.makeText(this,"User is logged in ",Toast.LENGTH_SHORT).show();
         activity.finish();
     }
 
@@ -597,22 +596,88 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
-        String valueForRegistration = "sample";
+        String valueForRegistrationTitle = "sample";
         String valueForEmailVerification = "sample";
-        String optInTitleText = getResources().getString(R.string.reg_Opt_In_Be_The_First);
-        String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
-        String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
+        String optInTitleText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
+        String optInQuessionaryText = getResources().getString(R.string.reg_DLS_OptIn_Header_Label);
+        String optInDetailDescription = getResources().getString(R.string.reg_DLS_Optin_Body_Line1);
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
+        String optInTitleBarText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
-        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
         registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
         registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
         registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
+        registrationContentConfiguration.enableLastName(true);
+        registrationContentConfiguration.enableContinueWithouAccount(true);
         return registrationContentConfiguration;
 
+    }
+
+
+    private SharedPreferences defaultSharedPreferences;
+    ContentColor contentColor;
+    ColorRange colorRange;
+    NavigationColor navigationColor;
+    private AccentRange accentColorRange;
+    private int themeResourceId = 0;
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    public String getCatalogAppJSONAssetPath() {
+        try {
+            File f = new File(getCacheDir() + "/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
+
+    private void showLogoutSpinner() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this, com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+        }
+        if (!(isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
+    }
+
+
+    private void hideLogoutSpinner() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }
