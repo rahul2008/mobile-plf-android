@@ -117,15 +117,15 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
         applicationId "prxclient.cdp.philips.com.prxsample"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        versionName "3.2.0"
     }
 	
 		signingConfigs {
