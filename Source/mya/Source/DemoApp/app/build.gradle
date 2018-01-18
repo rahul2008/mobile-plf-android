@@ -130,7 +130,7 @@ android {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
     }
     defaultConfig {
-        applicationId 'com.philips.platform.thsdemolaunch'
+        applicationId 'com.philips.platform.mya.demoapp'
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 8

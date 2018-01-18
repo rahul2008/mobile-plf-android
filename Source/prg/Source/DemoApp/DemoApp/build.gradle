@@ -151,14 +151,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.philips.cdp.demo"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 3
-        versionName "2.0.1"
         multiDexEnabled true
         testApplicationId "com.philips.cdp.demo.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
