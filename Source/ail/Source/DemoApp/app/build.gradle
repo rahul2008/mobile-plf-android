@@ -162,7 +162,6 @@ dependencies {
         }
     }
 
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     compile project(':AppInfraUApp')
 }
