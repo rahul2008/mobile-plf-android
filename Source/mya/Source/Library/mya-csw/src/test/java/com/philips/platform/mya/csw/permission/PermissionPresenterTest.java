@@ -204,6 +204,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldShowLoaderWhenTogglingConsent() throws Exception {
+        givenOnline();
         whenTogglingConsentTo(true);
         thenProgressIsShown();
     }
@@ -231,6 +232,10 @@ public class PermissionPresenterTest {
         ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
         givenConsentConfigurations = Arrays.asList(configuration);
         givenPresenter();
+    }
+
+    private void givenOnline() {
+        restInterfaceMock.isInternetAvailable = true;
     }
 
     private void givenPresenter() {
