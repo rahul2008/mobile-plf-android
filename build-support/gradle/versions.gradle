@@ -32,6 +32,7 @@ ext.versions = [
         usr_jump                   : ext.platformversion,
         usr_hsdp                   : ext.platformversion,
         usr_coppa                  : ext.platformversion,
+        theme_settings             : ext.platformversion,
         sdk                        : 26,
         target                     : 26,
         minsdk                     : 21,
@@ -51,7 +52,7 @@ ext.builddeps = [
 ]
 
 ext.repos = [
-        base  : 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
+        base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
 ]
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
@@ -68,7 +69,8 @@ ext.deps = [
                 cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
                 design     : "com.android.support:design:${ext.versions.support}",
                 fragment   : "com.android.support:support-fragment:${ext.versions.support}",
-                supportv4  : "com.android.support:support-v4:${ext.versions.support}"
+                supportv4  : "com.android.support:support-v4:${ext.versions.support}",
+                recyclerview:"com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
         constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
