@@ -32,6 +32,7 @@ import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -101,18 +102,20 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
-        dataServicesManager=getDataServicesManager();
-        connectivityHelper=new ConnectivityHelper();
-        user=new User(getActivity());
-        if(user.isUserSignIn()) {
-            dataServicesManager.registerSynchronisationCompleteListener(this);
-            dataServicesManager.synchronize();
-        }else{
-            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
-            showToast("Please sign in!");
+        if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
+            connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
+            dataServicesManager = getDataServicesManager();
+            connectivityHelper = new ConnectivityHelper();
+            user = new User(getActivity());
+            if (user.isUserSignIn()) {
+                dataServicesManager.registerSynchronisationCompleteListener(this);
+                dataServicesManager.synchronize();
+            } else {
+                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "User not logged in");
+                showToast("Please sign in!");
+            }
+            mBluetoothAdapter = getBluetoothAdapter();
         }
-        mBluetoothAdapter = getBluetoothAdapter();
     }
 
 
@@ -303,6 +306,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onDestroy() {
         RALog.d(TAG, " Connectivity Fragment Destroyed");
+
         connectivityFragmentWeakReference = null;
         user=null;
         super.onDestroy();

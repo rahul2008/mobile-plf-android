@@ -71,6 +71,11 @@ public class AppFrameworkApplication extends Application {
     private CommCentral commCentral = null;
     private RefAppApplianceFactory applianceFactory;
     private MyAccountState myAccountState;
+    private static boolean appDataInitializationStatus;
+
+    public static boolean isAppDataInitialized() {
+        return appDataInitializationStatus;
+    }
 
     public static final String TAG = AppFrameworkApplication.class.getSimpleName();
 
@@ -148,6 +153,7 @@ public class AppFrameworkApplication extends Application {
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
         RALog.d("test", "onCreate end::");
+        appDataInitializationStatus=true;
         callback.onAppStatesInitialization();
     }
 
