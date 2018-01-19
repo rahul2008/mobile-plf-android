@@ -568,5 +568,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         startActivity(intent);
     }
 
-
+    public void onLogoutSuccess() {
+        setUserNameAndLogoutText();
+    }
 }

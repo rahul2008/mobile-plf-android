@@ -92,7 +92,7 @@ public class MyaSettingsPresenterTest {
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         myaSettingsPresenter.logOut(bundle);
         logoutHandler.onLogoutSuccess();
-        verify(view).handleLogOut();
+        verify(view).onLogOutSuccess();
     }
 
     @Test
