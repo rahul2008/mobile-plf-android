@@ -560,13 +560,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         hideProgressBar();
     }
 
-
     private void restartActivity()
     {
         Intent intent = new Intent(this,HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART,true);
         startActivity(intent);
     }
-
-
 }

@@ -96,7 +96,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     LogoutHandler getLogoutHandler() {
         return new LogoutHandler() {
             public void onLogoutSuccess() {
-                view.handleLogOut();
+                view.onLogOutSuccess();
             }
 
             public void onLogoutFailure(int responseCode, String message) {
