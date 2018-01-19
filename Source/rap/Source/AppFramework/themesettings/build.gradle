@@ -1,32 +1,9 @@
 apply plugin: 'com.android.library'
 
 apply from: "../scripts/versions.gradle"
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -39,24 +16,6 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion config.targetSdk
