@@ -74,24 +74,14 @@ dependencies {
     provided deps.support.annotations
 
     if (directdependencies) {
-        compile project(':commlib')
-        compile project(':cloudcontroller')
+        debugCompile project(path: ':commlib', configuration: 'debug')
+        releaseCompile project(path: ':commlib', configuration: 'release')
+        debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller', configuration: 'release')
         compile project(':uAppFwLib')
     } else {
-        if (findProject(':commlib')) {
-            debugCompile project(path: ':commlib', configuration: 'debug')
-            releaseCompile project(path: ':commlib', configuration: 'release')
-        } else {
-            compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        }
-
-        if (findProject(':cloudcontroller')) {
-            debugCompile project(path: ':cloudcontroller', configuration: 'debug')
-            releaseCompile project(path: ':cloudcontroller', configuration: 'release')
-        } else {
-            compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        }
-
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     }
 
