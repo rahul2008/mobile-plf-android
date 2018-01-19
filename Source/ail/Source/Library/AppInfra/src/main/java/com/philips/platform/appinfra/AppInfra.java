@@ -409,7 +409,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                         initializeLogs(ai);
                     }
 
-//                    appConfigurationManager.migrateDynamicData();
+                    appConfigurationManager.migrateDynamicData();
                 }
             }).start();
 

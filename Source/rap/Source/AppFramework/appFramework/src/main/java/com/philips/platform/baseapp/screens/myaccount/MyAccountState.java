@@ -59,7 +59,7 @@ public class MyAccountState extends BaseState {
             @Override
             public boolean onClickMyaItem(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
-                    ((HamburgerActivity) actContext).onLogoutSuccess();
+                    ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 }
                 return false;
             }
