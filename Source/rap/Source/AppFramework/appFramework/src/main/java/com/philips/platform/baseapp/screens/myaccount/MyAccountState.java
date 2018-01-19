@@ -9,6 +9,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.mya.catk.CatkInputs;
@@ -57,6 +58,9 @@ public class MyAccountState extends BaseState {
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
+                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
+                    ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                }
                 return false;
             }
 

@@ -197,7 +197,9 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onDestroy() {
         super.onDestroy();
-        adapter.removeInsightItemClickListener();
+        if(adapter!=null) {
+            adapter.removeInsightItemClickListener();
+        }
     }
 
     @Override
