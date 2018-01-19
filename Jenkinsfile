@@ -157,8 +157,7 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease 
-            :AppInfra:cC 
+        ./gradlew --refresh-dependencies assembleRelease  
             :uAppFwLib:test 
             :securedblibrary:cC 
             :registrationApi:cC 
