@@ -393,7 +393,6 @@ public class MomentFragment extends DSBaseFragment
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        clearUserData();
                         if (getActivity() != null)
                             getActivity().finish();
                     }
@@ -412,7 +411,4 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void clearUserData() {
-        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
-    }
 }
