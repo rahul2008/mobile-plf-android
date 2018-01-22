@@ -1,10 +1,11 @@
 package com.philips.platform.mya.csw.dialogs;
 
-class MockOkayButtonListener implements OkayButtonListener {
-    public boolean okayWasClicked;
+import android.view.View;
+
+class MockOkayButtonListener implements View.OnClickListener {
 
     @Override
-    public void onOkayClicked() {
-        okayWasClicked = true;
+    public void onClick(View view) {
+
     }
 }
