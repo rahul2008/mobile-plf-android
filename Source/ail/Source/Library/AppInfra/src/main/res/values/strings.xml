@@ -9,5 +9,6 @@
         <item>time3.google.com</item>
         <item>time4.google.com</item>
     </string-array>
-
+		  <string name="ail_fullLocale">en_US</string>
+		  <string name="ail_locale">en</string>
 </resources>
