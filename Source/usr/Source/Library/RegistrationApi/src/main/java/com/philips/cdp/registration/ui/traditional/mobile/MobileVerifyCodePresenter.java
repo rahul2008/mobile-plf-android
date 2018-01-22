@@ -1,15 +1,15 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.volley.Request;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.restclient.URRestClientStringRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegChinaConstants;
@@ -21,11 +21,7 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-import static com.philips.cdp.registration.HttpClientService.HTTP_BODY_CONTENT;
-import static com.philips.cdp.registration.HttpClientService.HTTP_RECEIVER;
-import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_REQUEST_CODE;
 import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_RESPONSE;
-import static com.philips.cdp.registration.HttpClientService.HTTP_URL_TO_BE_CALLED;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE_OK;
 
@@ -48,33 +44,45 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
 
 
     public void verifyMobileNumber(String uuid, String otp) {
-        Intent smsActivationIntent = createSMSActivationIntent(uuid, otp);
-        mobileVerifyCodeContract.startService(smsActivationIntent);
-    }
+//        Intent smsActivationIntent = createSMSActivationIntent(uuid, otp);
+//        mobileVerifyCodeContract.startService(smsActivationIntent);
+        // mobileVerifyCodeContract.makeRestCall(uuid,otp);
 
-    private Intent createSMSActivationIntent(String uuid, String otp) {
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(uuid, otp);
-        String url = "https://"+ Jump.getCaptureDomain()+"/access/useVerificationCode";
+        String url = "https://" + Jump.getCaptureDomain() + "/access/useVerificationCode";
 
         String bodyContent = "verification_code=" + verifiedMobileNumber;
- //       RLog.i("MobileVerifyCodeFragment ", "verification_code" + verifiedMobileNumber);
-        Intent httpServiceIntent = getHttpServiceIntent(url, bodyContent, SMS_ACTIVATION_REQUEST_CODE);
-        return httpServiceIntent;
+        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, url, bodyContent, (String response) -> {
+            mobileVerifyCodeContract.onSuccessResponse(response);
+        }, error -> {
+            mobileVerifyCodeContract.onErrorResponse(error);
+        }, null, null, null);
+        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
+
     }
 
+//    private Intent createSMSActivationIntent(String uuid, String otp) {
+//        String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(uuid, otp);
+//        String url = "https://" + Jump.getCaptureDomain() + "/access/useVerificationCode";
+//
+//        String bodyContent = "verification_code=" + verifiedMobileNumber;
+//        //       RLog.i("MobileVerifyCodeFragment ", "verification_code" + verifiedMobileNumber);
+//        Intent httpServiceIntent = getHttpServiceIntent(url, bodyContent, SMS_ACTIVATION_REQUEST_CODE);
+//        return httpServiceIntent;
+//    }
 
 
-    @NonNull
-    private Intent getHttpServiceIntent(String url, String value, int resendOtpRequestCode) {
-        HttpClientServiceReceiver receiver = mobileVerifyCodeContract.getClientServiceRecevier();
-        receiver.setListener(this);
-        Intent httpServiceIntent = mobileVerifyCodeContract.getServiceIntent();
-        httpServiceIntent.putExtra(HTTP_RECEIVER, receiver);
-        httpServiceIntent.putExtra(HTTP_BODY_CONTENT, value);
-        httpServiceIntent.putExtra(HTTP_URL_TO_BE_CALLED, url);
-        httpServiceIntent.putExtra(HTTP_SERVICE_REQUEST_CODE, resendOtpRequestCode);
-        return httpServiceIntent;
-    }
+//    @NonNull
+//    private Intent getHttpServiceIntent(String url, String value, int resendOtpRequestCode) {
+//        HttpClientServiceReceiver receiver = mobileVerifyCodeContract.getClientServiceRecevier();
+//        receiver.setListener(this);
+//        Intent httpServiceIntent = mobileVerifyCodeContract.getServiceIntent();
+//        httpServiceIntent.putExtra(HTTP_RECEIVER, receiver);
+//        httpServiceIntent.putExtra(HTTP_BODY_CONTENT, value);
+//        httpServiceIntent.putExtra(HTTP_URL_TO_BE_CALLED, url);
+//        httpServiceIntent.putExtra(HTTP_SERVICE_REQUEST_CODE, resendOtpRequestCode);
+//        return httpServiceIntent;
+//    }
 
     public void cleanUp() {
         compositeDisposable.clear();
@@ -88,14 +96,14 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
             return;
         }
 
-        if(resultCode == SMS_ACTIVATION_REQUEST_CODE) {
+        if (resultCode == SMS_ACTIVATION_REQUEST_CODE) {
             handleActivation(response);
         }
 
     }
 
 
-    private void handleActivation(String response) {
+    public void handleActivation(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString(SUCCESS_STATE_RESPONSE).equals(SUCCESS_STATE_RESPONSE_OK)) {
@@ -122,12 +130,12 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     }
 
     private boolean isResponseCodeValid(JSONObject jsonObject) throws JSONException {
-        return jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode));
+        return jsonObject.getString("code").equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode));
     }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if(isOnline) {
+        if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
             mobileVerifyCodeContract.netWorkStateOfflineUiHandle();
