@@ -29,4 +29,11 @@ public class InternationalizationTest extends AppInfraInstrumentation {
         assertNotNull(mInternationalizationInterface.getUILocaleString());
     }
 
+    public void testgetCompleteUILocale() {
+        String localeString = mInternationalizationInterface.getCompleteUILocale();
+        assertNotNull(localeString);
+        boolean containsUnderscore = localeString.contains("_");
+        assert(containsUnderscore == true);
+    }
+
 }
