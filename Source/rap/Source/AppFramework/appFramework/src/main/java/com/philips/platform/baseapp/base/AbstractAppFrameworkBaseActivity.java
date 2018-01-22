@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -62,9 +63,15 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         initUIKIT();
         initTheme();
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
-        progressDialog.setCancelable(false);
+        RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
+        if(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized()){
+            BaseAppUtil.restartApp(getApplicationContext());
+            finish();
+        }else{
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
+            progressDialog.setCancelable(false);
+        }
     }
 
     public void initUIKIT() {

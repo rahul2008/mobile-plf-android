@@ -21,7 +21,7 @@ interface MyaSettingsContract {
         void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap);
         void showOfflineDialog(String title, String message);
         void showDialog(String title, String message);
-        void handleLogOut();
+        void onLogOutSuccess();
     }
 
     interface Presenter extends MyaPresenterInterface<View> {

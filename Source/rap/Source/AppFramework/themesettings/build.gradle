@@ -1,72 +1,20 @@
 apply plugin: 'com.android.library'
 
 apply from: "../scripts/versions.gradle"
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
-
+version = objcdp.getVersion(versions.mya_consentAccessToolKit)
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion config.minSdk
-        targetSdkVersion config.targetSdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
-        versionName version
+        versionName version + "(" + objcdp.getCommitHash() + ")"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -93,9 +41,9 @@ android {
 
 dependencies {
 
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    compile deps.support.appcompatv7
 
-    compile "com.android.support:recyclerview-v7:${versionsAndroid.support}"
+    compile deps.support.recyclerview
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -108,7 +56,7 @@ dependencies {
         }
     }
 
-    testCompile "junit:junit:${versionsExternal.junit}"
+    testCompile deps.junit
     testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
     testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
 
