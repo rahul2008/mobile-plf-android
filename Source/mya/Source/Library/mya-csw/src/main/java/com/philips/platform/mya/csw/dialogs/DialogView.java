@@ -18,10 +18,13 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
-public class DialogView {
-    private static final String TAG = "DialogView";
+import java.util.ArrayList;
+import java.util.List;
 
-    private AlertDialog alertDialog;
+public class DialogView {
+
+
+    private List<OkayButtonListener> okayButtonListeners = new ArrayList<>();
 
     public void showDialog(FragmentActivity activity) {
         if (!(activity.isFinishing())) {
@@ -53,10 +56,8 @@ public class DialogView {
         }
     }
 
-    public void hideDialog() {
-        if(alertDialog != null && alertDialog.isShowing()) {
-            alertDialog.hide();
-        }
+    public void addListener(OkayButtonListener listener) {
+        okayButtonListeners.add(listener);
     }
 }
 

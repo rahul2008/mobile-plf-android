@@ -13,8 +13,4 @@ public class DialogViewMock extends DialogView {
         this.isDialogVisible = true;
     }
 
-    @Override
-    public void hideDialog() {
-        this.isDialogVisible = false;
-    }
 }
