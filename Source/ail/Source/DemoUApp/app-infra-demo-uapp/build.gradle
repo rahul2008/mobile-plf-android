@@ -136,6 +136,8 @@ android {
 
     }
 
+    publishNonDefault true
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -155,9 +157,8 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-        compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-        compile 'com.google.code.gson:gson:2.8.1'
-    }
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    compile 'com.google.code.gson:gson:2.8.1'
 }
 
 tasks.withType(Test) {

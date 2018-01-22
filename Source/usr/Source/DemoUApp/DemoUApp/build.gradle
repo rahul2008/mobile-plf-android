@@ -166,6 +166,7 @@ android {
         abortOnError false
     }
 
+    publishNonDefault true
 }
 
 dependencies {

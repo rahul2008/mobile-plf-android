@@ -202,6 +202,8 @@ android {
     apply from: "../scripts/proposition_specific.gradle"
     apply from: "../scripts/flavors.gradle"
     apply from: "../scripts/exclude_files.gradle"
+
+    publishNonDefault true
 }
 
 repositories {

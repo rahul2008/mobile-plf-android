@@ -188,6 +188,8 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
     }
+
+    publishNonDefault true
 }
 
 tasks.withType(Test) {

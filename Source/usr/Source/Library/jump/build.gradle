@@ -167,6 +167,7 @@ android {
 //            proguardFile 'proguard-rules.pro'
         }
     }
+    publishNonDefault true
 }
 
 configurations.all {

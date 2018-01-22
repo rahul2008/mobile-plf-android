@@ -179,6 +179,7 @@ android {
             buildOutputDir = "debug"
         }
     }
+
     publishNonDefault true
 }
 

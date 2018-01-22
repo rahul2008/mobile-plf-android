@@ -46,6 +46,8 @@ android {
             testCoverageEnabled true
         }
     }
+
+    publishNonDefault true
 }
 
 dependencies {

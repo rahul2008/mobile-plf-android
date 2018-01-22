@@ -173,6 +173,8 @@ android {
     /*
     This defined for signing the apk -- end
     */
+
+    publishNonDefault true
 }
 
 configurations.all {

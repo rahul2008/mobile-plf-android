@@ -169,6 +169,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {

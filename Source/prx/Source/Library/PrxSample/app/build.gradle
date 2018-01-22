@@ -128,7 +128,7 @@ android {
         versionCode 1
     }
 	
-		signingConfigs {
+    signingConfigs {
         release
     }
     buildTypes {
@@ -138,11 +138,10 @@ android {
 			signingConfig signingConfigs.release
         }
     }
-	
 
-        lintOptions {
-            abortOnError false
-        }
+    lintOptions {
+        abortOnError false
+    }
 
 	
 		/*
@@ -171,6 +170,8 @@ android {
     /*
     This defined for signing the apk -- end
     */
+
+    publishNonDefault true
 }
 
 

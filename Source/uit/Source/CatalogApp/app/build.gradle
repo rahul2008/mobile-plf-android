@@ -53,6 +53,8 @@ android {
         exclude 'LICENSE.txt'
 
     }
+
+    publishNonDefault true
 }
 
 dependencies {

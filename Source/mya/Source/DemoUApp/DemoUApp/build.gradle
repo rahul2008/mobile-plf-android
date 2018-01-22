@@ -205,6 +205,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {

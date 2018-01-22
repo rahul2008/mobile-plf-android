@@ -224,6 +224,8 @@ android {
         pickFirst 'lib/arm64-v8a/librsjni.so'
         exclude 'META-INF/INDEX.LIST'
     }
+
+    publishNonDefault true
 }
 
 repositories {

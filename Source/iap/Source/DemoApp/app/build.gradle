@@ -227,6 +227,7 @@ android {
         enabled = true
     }
 
+    publishNonDefault true
 }
 
 dependencies {

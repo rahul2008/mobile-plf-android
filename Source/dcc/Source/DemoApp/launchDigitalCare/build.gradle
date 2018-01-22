@@ -207,6 +207,8 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+
+    publishNonDefault true
 }
 
 calabash {

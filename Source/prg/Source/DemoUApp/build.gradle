@@ -185,6 +185,8 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    publishNonDefault true
 }
 
 dependencies {

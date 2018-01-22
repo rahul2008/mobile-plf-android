@@ -166,6 +166,8 @@ android {
         println 'ufw signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
+
+    publishNonDefault true
 }
 
 dependencies {
