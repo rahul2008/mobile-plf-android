@@ -31,9 +31,7 @@ public class InternationalizationTest extends AppInfraInstrumentation {
 
     public void testgetCompleteUILocale() {
         String localeString = mInternationalizationInterface.getCompleteUILocale();
-        assertNotNull(localeString);
-        boolean containsUnderscore = localeString.contains("_");
-        assert(containsUnderscore == true);
+        assertTrue(localeString == null || localeString.contains("_"));
     }
 
 }
