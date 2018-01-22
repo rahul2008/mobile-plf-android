@@ -123,4 +123,5 @@
 <string name="RA_MYA_Consent_Clickstream_Help">ko-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
 <string name="RA_MYA_Consent_ResearchAnalytics_Text">ko-I allow Philips to use my data for Research and Analytics purposes</string>
 <string name="RA_MYA_Consent_ResearchAnalytics_Help">ko-Research and Analytics purpose explanation</string>
+<string name="RA_Setting_Philips_Promo_Description">ko-Marketing consent &amp; what does it mean</string>
 </resources>

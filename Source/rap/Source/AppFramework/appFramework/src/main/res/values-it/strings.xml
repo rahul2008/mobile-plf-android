@@ -123,4 +123,5 @@ Ricevi gratis accessori per il prodotto</string>
 <string name="RA_MYA_Consent_Clickstream_Help">it-Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
 <string name="RA_MYA_Consent_ResearchAnalytics_Text">it-I allow Philips to use my data for Research and Analytics purposes</string>
 <string name="RA_MYA_Consent_ResearchAnalytics_Help">it-Research and Analytics purpose explanation</string>
+<string name="RA_Setting_Philips_Promo_Description">it-Marketing consent &amp; what does it mean</string>
 </resources>

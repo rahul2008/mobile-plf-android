@@ -109,7 +109,7 @@ public class MyAccountState extends BaseState {
 
     List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), "TODO: Marketing help text here", Collections.singletonList("marketing"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context.getString(R.string.RA_Setting_Philips_Promo_Description), Collections.singletonList("marketing"), 1, currentLocale));
         return definitions;
     }
 
