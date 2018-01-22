@@ -12,7 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
 archivesBaseName = "mya-chi"
-version = objcdp.getVersion(versions.mya_consentHandlerInterface)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk

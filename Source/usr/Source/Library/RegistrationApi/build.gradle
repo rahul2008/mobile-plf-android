@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_registrationApi)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -139,7 +139,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -224,21 +224,19 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 
     if (dp) {
-        compile(project(':uAppFwLib'))
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'

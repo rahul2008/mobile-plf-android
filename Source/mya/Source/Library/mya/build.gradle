@@ -26,7 +26,7 @@ buildscript {
 
 archivesBaseName = "mya"
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_myAccount)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -123,22 +123,20 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        compile(project(':uikitLib'))
+
     }
 
     if (dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uikitLib', configuration: 'debug')
+        releaseCompile project(path: ':uikitLib', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if (dp) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
     }

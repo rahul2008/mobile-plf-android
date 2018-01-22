@@ -10,7 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "commlib-ble"
-version = objcdp.getVersion(versions.cml_commlib)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -73,11 +73,12 @@ dependencies {
         releaseCompile project(path: ':bluelib', configuration: 'release')
         debugCompile project(path: ':commlib-api', configuration: 'debug')
         releaseCompile project(path: ':commlib-api', configuration: 'release')
-        compile project(":AppInfra")
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib-api', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'bluelib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'commlib-api', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     testCompile deps.junit

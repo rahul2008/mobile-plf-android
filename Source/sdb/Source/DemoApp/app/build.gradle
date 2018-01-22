@@ -64,7 +64,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.sdb_securedblibrary)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -106,7 +106,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -187,7 +187,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile(project(':securedblibrary'))
+    debugCompile project(path: ':securedblibrary', configuration: 'debug')
+    releaseCompile project(path: ':securedblibrary', configuration: 'release')
     compile 'com.android.support:support-v4:26.0.2'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'

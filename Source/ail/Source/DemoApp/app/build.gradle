@@ -67,7 +67,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.ail_appInfra)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -105,7 +105,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -155,15 +155,15 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':uAppFwLib'))
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    compile project(':AppInfraUApp')
+    debugCompile project(path: ':AppInfraUApp', configuration: 'debug')
+    releaseCompile project(path: ':AppInfraUApp', configuration: 'release')
 }
 
 tasks.withType(Test) {

@@ -53,7 +53,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.uid_uid)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
@@ -115,7 +115,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -224,8 +224,8 @@ dependencies {
     }
     compile "org.greenrobot:eventbus:${eventbusVer}"
 
-
-    compile project(':uid')
+    debugCompile project(path: ':uid', configuration: 'debug')
+    releaseCompile project(path: ':uid', configuration: 'release')
 
     testCompile("junit:junit:${jUnitVer}") {
         exclude module: "com.android.support"

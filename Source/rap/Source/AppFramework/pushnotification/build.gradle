@@ -76,7 +76,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.rap_referenceApp)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -90,6 +90,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
@@ -128,11 +129,11 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
    if(dp) {
-        compile project(':AppInfra')
+       debugCompile project(path: ':AppInfra', configuration: 'debug')
+       releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
     }
 

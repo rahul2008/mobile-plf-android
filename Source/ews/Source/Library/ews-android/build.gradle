@@ -76,7 +76,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.ews_ews)
+version = objcdp.getVersion(platformversion)
 
 //start publishing
 artifactory {
@@ -121,7 +121,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -212,37 +212,19 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':uikitLib')
+        debugCompile project(path: ':uikitLib', configuration: 'debug')
+        releaseCompile project(path: ':uikitLib', configuration: 'release')
+        debugCompile project(path: ':commlib-lan', configuration: 'debug')
+        releaseCompile project(path: ':commlib-lan', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
-            {
-                transitive = true
-            }
-    }
-
-    if(dp) {
-        compile project(':commlib-lan')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':uid')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':uAppFwLib')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'commlib-lan', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     // External

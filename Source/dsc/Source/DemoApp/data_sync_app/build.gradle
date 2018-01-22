@@ -69,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dsc_dataServices)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -111,7 +111,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -242,9 +242,10 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':UserRegistrationUApp')
+        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     //Android Support Libraries
@@ -269,7 +270,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //Module projects
-    compile(project(':dataServicesUApp'))
+    debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
+    releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {

@@ -69,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.ths_telehealth)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -111,7 +111,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -275,40 +275,33 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':AppInfra'))
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':jump', configuration: 'debug')
+        releaseCompile project(path: ':jump', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile(project(':uid'))
-    } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile(project(':jump'))
-    } else {
         compile(group: 'com.philips.cdp', name: 'jump', version: versions.jump + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
-            transitive = true
         }
     }
-
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
-//    compile(project(':mya-catk'))
-    compile project(path: ':mya')
-    compile project(path: ':UserRegistrationUApp')
+
+    debugCompile project(path: ':mya', configuration: 'debug')
+    releaseCompile project(path: ':mya', configuration: 'release')
+    debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+    releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {

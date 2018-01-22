@@ -9,7 +9,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "pluginreferenceboard"
-version = objcdp.getVersion(versions.bll_shinelib)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk

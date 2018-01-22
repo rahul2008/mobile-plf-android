@@ -40,7 +40,7 @@ objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "prxApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.prx_prx)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
@@ -104,7 +104,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -181,14 +181,13 @@ configurations.all {
 }
 
 dependencies {
-    compile(project(':prx'))
+    debugCompile project(path: ':prx', configuration: 'debug')
+    releaseCompile project(path: ':prx', configuration: 'release')
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:26.0.2'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'
     compile ('com.android.support:support-annotations:26.0.2')
-
-
 }
 
 tasks.withType(Test) {
