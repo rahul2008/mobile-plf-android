@@ -129,7 +129,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
         accountActivationPresenter.unRegisterListener();
         getRegistrationFragment().stopCountDownTimer();
         CounterHelper.getInstance()
@@ -280,15 +280,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private void showVerifyAlertDialog() {
-        RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_DLS_Email_Verify_Alert_Title),
-                mContext.getResources().getString(
-                        R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
-                mContext.getResources().getString(
-                        R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
-                mContext.getResources().getString(
-                        R.string.reg_Ok_Btn_Txt)
-                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+        if (this.isVisible()) {
+            RegAlertDialog.showDialog(mContext.getResources().getString(
+                    R.string.reg_DLS_Email_Verify_Alert_Title),
+                    mContext.getResources().getString(
+                            R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
+                    mContext.getResources().getString(
+                            R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
+                    mContext.getResources().getString(
+                            R.string.reg_Ok_Btn_Txt)
+                    , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+        }
     }
 
     @Override
@@ -310,7 +312,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
         if(mEmailId.equals(mUser.getEmail())){
             updateActivationUIState();
         } else{
@@ -326,7 +328,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
 
     private void handleRefreshUserFailed(int error) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             verificationError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             hideActivateSpinner();
