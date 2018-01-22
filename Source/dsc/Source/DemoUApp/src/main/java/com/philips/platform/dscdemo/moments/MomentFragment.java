@@ -48,7 +48,7 @@ public class MomentFragment extends DSBaseFragment
 
     private Context mContext;
 
-    private DataServicesManager mDataServicesManager;
+    protected DataServicesManager mDataServicesManager;
     private User mUser;
 
     private TextView mTvAddMomentType;
@@ -195,7 +195,7 @@ public class MomentFragment extends DSBaseFragment
 
     @Override
     public void onPause() {
-        DataServicesManager.getInstance().unRegisterDBChangeListener();
+        mDataServicesManager.unRegisterDBChangeListener();
         dismissProgressDialog();
         super.onPause();
     }
