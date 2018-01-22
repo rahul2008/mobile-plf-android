@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
@@ -89,9 +91,13 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onResume() {
         super.onResume();
 
-//        List<ConsentView> consentItems = createConsentsList();
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
-        permissionPresenter.getConsentStatus();
+        if(getRestClient().isInternetReachable()) {
+            PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
+            permissionPresenter.getConsentStatus();
+        }
+        else {
+            getParentFragment().getFragmentManager().popBackStack();
+        }
     }
 
     @Override
@@ -107,16 +113,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void onViewStateRestored(Bundle state) {
-        super.onViewStateRestored(state);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -127,10 +123,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
     }
-
-//    private PermissionPresenter injectPresenter() {
-//        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this)).build().presenter();
-//    }
 
     @Override
     public void showProgressDialog() {
@@ -199,5 +191,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             }
         }
         return consentViewList;
+    }
+
+    @VisibleForTesting
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 }

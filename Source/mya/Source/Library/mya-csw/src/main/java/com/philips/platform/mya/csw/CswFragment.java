@@ -41,7 +41,6 @@ public class CswFragment extends Fragment implements BackEventListener {
 
         mFragmentManager = getmFragmentManager();
         inflatePermissionView();
-        getRestClient().isInternetReachable();
         return view;
     }
 
