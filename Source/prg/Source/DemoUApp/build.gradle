@@ -194,8 +194,17 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    debugCompile project(path: ':product-registration-lib', configuration: 'debug')
-    releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+    if(dp) {
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':product-registration-lib', configuration: 'debug')
+        releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
+        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+    }
 
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
         exclude module: "com.android.support"
@@ -227,15 +236,6 @@ dependencies {
     androidTestCompile("com.android.support.test:runner:0.5") {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
-    }
-
-    if(dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
-            exclude group: 'com.android.support'
-        }
     }
 
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
