@@ -17,22 +17,17 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
-public class DialogView {
+public class DialogView implements View.OnClickListener {
 
-    private View view;
-    private AlertDialogFragment alertDialogFragment;
+    protected View view;
+    protected AlertDialogFragment alertDialogFragment;
     private View.OnClickListener okListener;
 
     public DialogView(){
-        okListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialogFragment.dismiss();
-            }
-        };
+        okListener = null;
     }
 
-    public DialogView(View.OnClickListener listener) {
+    public DialogView(final View.OnClickListener listener) {
         okListener = listener;
     }
 
@@ -51,7 +46,7 @@ public class DialogView {
 
     protected void setupOkButton() {
         Button okButton = getOkButton();
-        okButton.setOnClickListener(okListener);
+        okButton.setOnClickListener(this);
     }
 
     protected Button getOkButton() {
@@ -76,5 +71,12 @@ public class DialogView {
                 .inflate(R.layout.csw_dialog_connection, null, false);
     }
 
+    @Override
+    public void onClick(View view) {
+        alertDialogFragment.dismiss();
+        if (okListener != null) {
+            okListener.onClick(view);
+        }
+    }
 }
 
