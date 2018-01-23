@@ -182,17 +182,17 @@ dependencies {
         releaseCompile project(path: ':AppInfra', configuration: 'release')
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:support-v4:26.0.2'
-
-    debugCompile project(path: ':registrationApi', configuration: 'debug')
-    releaseCompile project(path: ':registrationApi', configuration: 'release')
 
     compile("com.jakewharton:butterknife:7.0.1") {
         exclude module: "com.android.support"
