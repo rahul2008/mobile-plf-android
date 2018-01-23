@@ -165,10 +165,6 @@ android {
             debuggable true
             testCoverageEnabled false
         }
-
-        lintOptions {
-            abortOnError false
-        }
     }
 
     publishNonDefault true
