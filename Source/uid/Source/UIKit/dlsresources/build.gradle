@@ -1,9 +1,9 @@
 apply plugin: 'groovy'
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.13'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile "junit:junit:4.12"
+    compile deps.groovy
+    compile deps.gson
+    compile deps.junit
 }
 
 task generateAllThemes(type: JavaExec, group: "DLS theme tasks") {
