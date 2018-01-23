@@ -42,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
     private static final String TAG = "PermissionView";
 
@@ -90,10 +90,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onResume() {
         super.onResume();
-
         if(getRestClient().isInternetReachable()) {
             PermissionPresenter presenter = getPermissionPresenter();
             presenter.getConsentStatus();
+        } else{
+            new DialogView(this).showDialog(getCswFragment().getActivity());
         }
     }
 
@@ -161,6 +162,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onHelpClicked(String helpText) {
         DescriptionView.show(getFragmentManager(), helpText);
+    }
+
+    @Override
+    public void onClick(View view) {
+        getParentFragment().getFragmentManager().popBackStack();
     }
 
     private static class OkOnErrorListener implements View.OnClickListener {

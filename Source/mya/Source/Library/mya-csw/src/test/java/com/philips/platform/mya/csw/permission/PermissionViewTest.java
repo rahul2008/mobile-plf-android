@@ -1,14 +1,17 @@
 package com.philips.platform.mya.csw.permission;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.mock.DialogViewMock;
 import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -17,13 +20,19 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PermissionViewTest {
 
     @Test
-    public void onResumeCalls() {
+    public void onResumeCallsPresenterIfInternetReachable() {
         givenInternetIsReachable();
         whenResuming();
-        Mockito.verify(permissionPresenter).getConsentStatus();
+        verify(permissionPresenter).getConsentStatus();
     }
 
-
+    @Test
+    @Ignore
+    public void onResumeShowsErrorDialogIfInternetUnReachable() {
+        givenInternetIsUnReachable();
+        whenResuming();
+       //verify(dialogView).showDialog((FragmentActivity) any());
+    }
 
     @Before
     public void setup() {
@@ -46,6 +55,12 @@ public class PermissionViewTest {
         restInterfaceMock.isInternetAvailable = true;
     }
 
+
+    private void givenInternetIsUnReachable() {
+        restInterfaceMock.isInternetAvailable = false;
+    }
+
+
     private void whenResuming() {
         permissionView.onResume();
     }
@@ -55,4 +70,7 @@ public class PermissionViewTest {
 
     @Mock
     private PermissionPresenter permissionPresenter;
+
+    @Mock
+    private DialogViewMock dialogView;
 }
