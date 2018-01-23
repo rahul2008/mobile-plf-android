@@ -6,17 +6,22 @@
 
 package com.philips.platform.ths.sdkerrors;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.philips.platform.ths.utility.THSConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
 public class THSSDKUserErrorTest {
     THSSDKUserError mThssdkUserError;
+    @Mock
+    Context context;
 
     @Before
     public void setUp() throws Exception {
@@ -26,7 +31,7 @@ public class THSSDKUserErrorTest {
 
     @Test
     public void getErrorMessage() throws Exception {
-        final String errorMessage = mThssdkUserError.getErrorMessage();
+        final String errorMessage = mThssdkUserError.getErrorMessage(context);
         assertNotNull(errorMessage);
         assert errorMessage == THSConstants.THS_GENERIC_USER_ERROR;
     }
