@@ -51,9 +51,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'https://maven.google.com'
-        }
+
         maven {
             url objcdp.getArtifactoryUrl()
             credentials {
