@@ -185,7 +185,7 @@ dependencies {
    compile(project(':productselection'))
 
     //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
-    compile "com.android.support:appcompat-v7:${versions.support}"
+    compile deps.support.appcompatv7
     compile deps.support.recyclerview
 
    // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'

@@ -167,7 +167,7 @@ android {
 dependencies {
     testCompile deps.junit
 
-    compile "com.android.support:appcompat-v7:${versions.support}"
+    compile deps.support.appcompatv7
     compile deps.support.design
     compile deps.constraintlayout
     compile deps.calligraphy
