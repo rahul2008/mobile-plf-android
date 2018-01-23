@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioButton;
@@ -64,7 +65,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_CONFIRM,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_INSURANCE_CONFIRM,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }

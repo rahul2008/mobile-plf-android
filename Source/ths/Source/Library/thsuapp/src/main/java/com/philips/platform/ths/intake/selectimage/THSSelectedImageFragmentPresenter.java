@@ -11,7 +11,15 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
+
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_DELETE_DOCUMENT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SEARCH_PROVIDER;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_IMAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 
 public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSDeleteDocumentCallback {
@@ -43,6 +51,8 @@ public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSD
         if(null != sdkError){
             if(null != sdkError.getMessage()){
                 thsSelectedImageFragmentViewCallback.showToast(sdkError.getMessage().toString());
+                final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_DELETE_DOCUMENT,sdkError.getMessage().toString());
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
             }
         }
         else {

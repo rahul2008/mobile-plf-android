@@ -22,6 +22,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -100,7 +101,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_VISITS,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SCHEDULE_VISITS,null,null);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -51,7 +52,7 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_NOPP_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_NOPP_PAGE,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("NOPP", true);
         }

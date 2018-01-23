@@ -88,13 +88,13 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             providerVisibility = thsProviderInfo.getVisibility().toString();
             context = holder.isAvailableStatus.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
-                providerAvailabilityString = context.getResources().getString(R.string.provider_available);
+                providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
                 holder.isAvailableStatus.setImageResource(R.mipmap.green_available_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
-                providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+                providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
                 holder.isAvailableStatus.setImageResource(R.mipmap.provider_offline_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
-                providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
+                providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
                 holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
             }
 
@@ -103,7 +103,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         } else {
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = getThsProviderInfo(thsAvailableProvider);
-            holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.provider_available_timeslots));
+            holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_provider_available_timeslots));
             holder.isAvailableStatus.setVisibility(View.GONE);
             holder.notificationBadge.setVisibility(View.VISIBLE);
             holder.notificationBadge.setText("" + thsAvailableProvider.getAvailableAppointmentTimeSlots().size());

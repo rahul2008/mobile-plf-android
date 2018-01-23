@@ -20,7 +20,6 @@ import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -71,7 +70,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
                     if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                         if (sdkError.getSdkError() != null) {
-                            mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_APPOINTMENTS,sdkError.getSdkError()));
+                            mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(),ANALYTICS_FETCH_APPOINTMENTS,sdkError.getSdkError()));
                         } else {
 
                             final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);

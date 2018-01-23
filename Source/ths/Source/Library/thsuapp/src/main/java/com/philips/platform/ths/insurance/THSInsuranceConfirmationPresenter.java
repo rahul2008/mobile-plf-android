@@ -101,7 +101,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
         if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
             mTHSInsuranceConfirmationFragment.hideProgressBar();
             if (null != sdkError) {
-                mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
+                mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(mTHSInsuranceConfirmationFragment.getContext(), ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
             } else {
                 showCostSummary();
             }

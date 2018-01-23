@@ -20,6 +20,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -75,13 +76,13 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
     }
 
     public void showTermsAndConditions(String url) {
         hideProgressBar();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_TERMS_AND_CONDITION,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_TERMS_AND_CONDITION,null,null);
     }
 }

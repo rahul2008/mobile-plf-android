@@ -75,10 +75,10 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             if(var2.getSdkError() != null){
                 if(var2.getSDKErrorReason() != null){
-                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT, var2.getSdkError()));
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(mThsScheduledVisitsFragment.getContext(), ANALYTICS_CANCEL_APPOINTMENT, var2.getSdkError()));
                     return;
                 }else {
-                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(mThsScheduledVisitsFragment.getContext(), ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
                 }
             }else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
