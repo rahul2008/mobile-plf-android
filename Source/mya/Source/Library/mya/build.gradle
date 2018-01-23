@@ -119,6 +119,7 @@ configurations.all {
 
 dependencies {
     //3rd party
+    compile deps.gson
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
