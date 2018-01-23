@@ -169,14 +169,14 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
-
-    debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-    releaseCompile project(path: ':uAppFwLib', configuration: 'release')
 }
 
 tasks.withType(Test) {
