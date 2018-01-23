@@ -1,7 +1,6 @@
 package com.philips.platform.mya.csw.dialogs;
 
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.philips.platform.mya.csw.mock.FragmentActivityMock;
@@ -10,7 +9,6 @@ import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -18,12 +16,8 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(PowerMockRunner.class)
