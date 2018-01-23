@@ -92,11 +92,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onResume();
 
         if(getRestClient().isInternetReachable()) {
-            PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
-            permissionPresenter.getConsentStatus();
-        }
-        else {
-            getParentFragment().getFragmentManager().popBackStack();
+            PermissionPresenter presenter = getPermissionPresenter();
+            presenter.getConsentStatus();
         }
     }
 
@@ -196,5 +193,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @VisibleForTesting
     protected RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
+
+    @VisibleForTesting
+    protected PermissionPresenter getPermissionPresenter() {
+        return new PermissionPresenter(this, configs, adapter);
     }
 }
