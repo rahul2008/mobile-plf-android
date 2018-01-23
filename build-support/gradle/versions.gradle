@@ -90,6 +90,7 @@ ext.deps = [
         groovy             : 'org.codehaus.groovy:groovy-all:2.4.13',
         butterknife        : 'com.jakewharton:butterknife:7.0.1',
         calligraphy        : 'uk.co.chrisjenx:calligraphy:2.3.0',
+        shamanland_fonticon: 'com.shamanland:fonticon:0.1.9',
 
         // Testing
         android_testrunner : 'com.android.support.test:runner:0.5',

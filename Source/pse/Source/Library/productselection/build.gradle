@@ -50,13 +50,12 @@ configurations.all {
 
 dependencies {
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.13.0'
-    compile 'com.google.code.gson:gson:2.8.2'
+    testCompile deps.junit
+    testCompile deps.mockito
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile 'com.shamanland:fonticon:0.1.9'
+    compile deps.shamanland_fonticon
 
     if(dp) {
         compile(project(':uAppFwLib'))
@@ -82,9 +81,9 @@ dependencies {
         }
     }
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.constraintlayout
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
@@ -183,12 +182,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 3
         generatedDensities = []
         versionName version +  "(" + objcdp.getCommitHash() + ")"
