@@ -8,7 +8,7 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 pipeline {
     agent {
         node {
-            label 'android && device'
+            label 'android && device && 003'
         }
     }
     parameters {
