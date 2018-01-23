@@ -163,7 +163,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), ALERT_DIALOG_TAG);
 
-        logout.setOnClickListener(handleOnClickLogOut());
+        logout.setOnClickListener(onClickLogOut());
         cancel.setOnClickListener(handleOnClickCancel());
     }
 
@@ -188,14 +188,16 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener handleOnClickLogOut() {
+    private View.OnClickListener onClickLogOut() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
+               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
-                }
+                }*/
+               //TODO - need to invoke above commented code when introduced call back for log out success
+               presenter.logOut(getArguments());
             }
         };
     }
@@ -225,9 +227,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void handleLogOut() {
+    public void onLogOutSuccess() {
         dismissDialog();
         exitMyAccounts();
+        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
     }
 
     private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
@@ -246,10 +249,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
             }
         };
-    }
-
-    View getDialogView() {
-        return dialogView;
     }
 
     AppConfigurationInterface.AppConfigurationError getError() {

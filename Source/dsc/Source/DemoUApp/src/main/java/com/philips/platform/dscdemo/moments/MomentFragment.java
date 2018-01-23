@@ -145,9 +145,6 @@ public class MomentFragment extends DSBaseFragment
     @Override
     public void onStart() {
         super.onStart();
-        mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.registerSynchronisationCompleteListener(this);
-        mDataServicesManager.synchronize();
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -173,6 +170,14 @@ public class MomentFragment extends DSBaseFragment
         mMomentPresenter.fetchData(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.registerSynchronisationCompleteListener(this);
+        mDataServicesManager.synchronize();
+    }
+
     private void deleteUserDataIfNewUserLoggedIn() {
         if (getLastStoredHsdpId() == null) {
             storeLastHsdpId();
@@ -190,16 +195,11 @@ public class MomentFragment extends DSBaseFragment
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
         dismissProgressDialog();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+        super.onPause();
     }
 
     @Override
@@ -393,7 +393,6 @@ public class MomentFragment extends DSBaseFragment
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        clearUserData();
                         if (getActivity() != null)
                             getActivity().finish();
                     }
@@ -412,7 +411,4 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void clearUserData() {
-        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
-    }
 }

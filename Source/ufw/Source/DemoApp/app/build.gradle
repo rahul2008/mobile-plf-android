@@ -57,9 +57,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'https://maven.google.com'
-        }
+
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -128,14 +126,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.platform.uappdemo"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
