@@ -278,18 +278,19 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
+        debugCompile project(path: ':telehealth', configuration: 'debug')
+        releaseCompile project(path: ':telehealth', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
+        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
-    debugCompile project(path: ':telehealth', configuration: 'debug')
-    releaseCompile project(path: ':telehealth', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {
