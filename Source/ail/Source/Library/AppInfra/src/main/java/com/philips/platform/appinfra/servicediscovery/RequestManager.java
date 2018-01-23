@@ -67,7 +67,7 @@ public class RequestManager {
 			result.setSuccess(false);
 		} catch (ExecutionException e) {
 			final Throwable error = e.getCause();
-			ServiceDiscovery.Error volleyError=null;
+			ServiceDiscovery.Error volleyError;
 			if (error instanceof TimeoutError) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
@@ -135,11 +135,11 @@ public class RequestManager {
 				break;
 		}
 		mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
-		mPrefEditor.commit();
+		mPrefEditor.apply();
 	}
 
 
-	protected AISDResponse getCachedData() {
+	AISDResponse getCachedData() {
 		AISDResponse cachedResponse = null;
 		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
@@ -216,7 +216,7 @@ public class RequestManager {
 		mSharedPreference = getServiceDiscoverySharedPreferences();
 		mPrefEditor = mSharedPreference.edit();
 		mPrefEditor.clear();
-		mPrefEditor.commit();
+		mPrefEditor.apply();
 	}
 
 	private SharedPreferences getServiceDiscoverySharedPreferences() {
