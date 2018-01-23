@@ -233,17 +233,12 @@ dependencies {
     if (dp) {
         debugCompile project(path: ':mya-catk', configuration: 'debug')
         releaseCompile project(path: ':mya-catk', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        {
-            exclude group: 'com.google.code.findbugs', module: 'jsr305'
-        }
-    }
-
-    if (dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        }
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
