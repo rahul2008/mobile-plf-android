@@ -75,7 +75,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             permissionInterface.showProgressDialog();
             return consentGiven;
         } else {
-            permissionInterface.showOfflineErrorDialog();
+            permissionInterface.showOfflineErrorDialog(false);
             return !consentGiven;
         }
     }

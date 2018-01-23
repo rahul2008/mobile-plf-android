@@ -17,5 +17,5 @@ public interface PermissionInterface {
 
     void showErrorDialog(ConsentError error);
 
-    void showOfflineErrorDialog();
+    void showOfflineErrorDialog(boolean goBack);
 }

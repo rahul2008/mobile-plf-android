@@ -94,7 +94,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             PermissionPresenter presenter = getPermissionPresenter();
             presenter.getConsentStatus();
         } else{
-            new DialogView(this).showDialog(getCswFragment().getActivity());
+            showOfflineErrorDialog(true);
         }
     }
 
@@ -155,8 +155,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showOfflineErrorDialog() {
-        new DialogView().showDialog(getCswFragment().getActivity());
+    public void showOfflineErrorDialog(boolean goBack) {
+        DialogView dialogView = new DialogView();
+        if(goBack) {
+            dialogView = new DialogView(this);
+        }
+        dialogView.showDialog(getCswFragment().getActivity());
     }
 
     @Override
