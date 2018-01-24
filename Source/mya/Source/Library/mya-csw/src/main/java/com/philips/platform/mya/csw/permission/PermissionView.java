@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.csw.permission;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -144,14 +145,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void showErrorDialog(ConsentError error) {
         CswLogger.e(TAG, error.getError());
-        OkOnErrorListener okListener = new OkOnErrorListener();
-        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
-                .setTitle(R.string.csw_problem_occurred_error_title)
-                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()))
-                .setPositiveButton(R.string.csw_ok, okListener)
-                .create();
-        okListener.setDialog(alertDialogFragment);
-        alertDialogFragment.show(getFragmentManager(), TAG);
+        new DialogView().showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()));
     }
 
     @Override
@@ -171,23 +165,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onClick(View view) {
         getParentFragment().getFragmentManager().popBackStack();
-    }
-
-    private static class OkOnErrorListener implements View.OnClickListener {
-
-        @Nullable
-        DialogFragment dialog;
-
-        @Override
-        public void onClick(View view) {
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-        }
-
-        void setDialog(@NonNull DialogFragment dialog) {
-            this.dialog = dialog;
-        }
     }
 
     private List<ConsentView> createConsentsList() {
