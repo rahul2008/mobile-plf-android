@@ -95,7 +95,7 @@ ext.deps = [
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         shamanland_fonticon           : 'com.shamanland:fonticon:0.1.9',
         play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',
-        greenrobot                    : 'org.greenrobot:eventbus:3.0.0',
+        greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
         retrofit                      : 'com.squareup.retrofit:retrofit:1.9.0',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         javax_inject                  : 'javax.inject:javax.inject:1',
