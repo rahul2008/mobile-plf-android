@@ -191,12 +191,14 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
-        storePreference(user.getMobile());
-        setDescription();
-        hideProgressSpinner();
-        if(isVerified)
-            getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        if (this.isVisible()) {
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+            storePreference(user.getMobile());
+            setDescription();
+            hideProgressSpinner();
+            if (isVerified)
+                getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        }
     }
 
     @Override

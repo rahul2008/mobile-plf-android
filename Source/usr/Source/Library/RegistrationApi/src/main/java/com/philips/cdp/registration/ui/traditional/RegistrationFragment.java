@@ -119,7 +119,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworkStateListener");
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
@@ -161,7 +161,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworkStateListener,Context");
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworkStateListener,Context");
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();
