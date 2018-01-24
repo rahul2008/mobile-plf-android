@@ -24,8 +24,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -137,12 +137,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
         versionCode 1
         versionName version
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -185,19 +185,19 @@ dependencies {
         }
     }
 
-    compile "com.j256.ormlite:ormlite-core:5.0"
-    compile "com.j256.ormlite:ormlite-android:5.0"
-    compile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+    compile deps.ormlite.core
+    compile deps.ormlite.android
+    compile deps.sqlcipher
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
-    androidTestCompile "org.mockito:mockito-core:1.9.5"
+    }
+    testCompile deps.junit
+    androidTestCompile deps.mockito
     compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile ('com.android.support:support-annotations:26.0.2')
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.support.annotations
 }
 
 tasks.withType(Test) {

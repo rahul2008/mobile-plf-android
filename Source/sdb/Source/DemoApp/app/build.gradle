@@ -22,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -180,15 +180,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
+    }
+    testCompile deps.junit
     compile(project(':securedblibrary'))
     compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile ('com.android.support:support-annotations:26.0.2')
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.support.annotations
     }
 
 tasks.withType(Test) {
