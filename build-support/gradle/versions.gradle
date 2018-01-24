@@ -39,7 +39,8 @@ ext.versions = [
         buildtools                 : "26.0.2",
         support                    : "26.0.2",
         jacoco                     : "0.7.6.201602180812",
-        dagger                     : "2.11"
+        dagger                     : "2.11",
+        renderscriptTargetApi      : 26,
 ]
 
 ext.builddeps = [
@@ -63,57 +64,65 @@ ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
 
 ext.deps = [
-        support            : [
-                annotations: "com.android.support:support-annotations:${ext.versions.support}",
-                appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
-                cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
-                design     : "com.android.support:design:${ext.versions.support}",
-                fragment   : "com.android.support:support-fragment:${ext.versions.support}",
-                supportv4  : "com.android.support:support-v4:${ext.versions.support}",
-                recyclerview:"com.android.support:recyclerview-v7:${ext.versions.support}"
+        support                       : [
+                annotations : "com.android.support:support-annotations:${ext.versions.support}",
+                appcompatv7 : "com.android.support:appcompat-v7:${ext.versions.support}",
+                cardview    : "com.android.support:cardview-v7:${ext.versions.support}",
+                design      : "com.android.support:design:${ext.versions.support}",
+                fragment    : "com.android.support:support-fragment:${ext.versions.support}",
+                supportv4   : "com.android.support:support-v4:${ext.versions.support}",
+                customtabs  : "com.android.support:customtabs:${ext.versions.support}",
+                multidex    : "com.android.support:multidex:1.0.2",
+                recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
-        adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
-        constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
-        dagger             : [
+        adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
+        constraintlayout              : "com.android.support.constraint:constraint-layout:1.0.2",
+        dagger                        : [
                 dagger          : "com.google.dagger:dagger:${ext.versions.dagger}",
                 androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
                 androidprocessor: "com.google.dagger:dagger-android-processor:${ext.versions.dagger}",
                 compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}"
         ],
-        gson               : 'com.google.code.gson:gson:2.8.2',
-        joda_time          : 'joda-time:joda-time:2.9.9',
-        ormlite            : [
+        gson                          : 'com.google.code.gson:gson:2.8.2',
+        joda_time                     : 'joda-time:joda-time:2.9.9',
+        ormlite                       : [
                 core   : "com.j256.ormlite:ormlite-core:5.0",
                 android: "com.j256.ormlite:ormlite-android:5.0"
         ],
-        leakcanary         : 'com.squareup.leakcanary:leakcanary-android:1.5',
-        groovy             : 'org.codehaus.groovy:groovy-all:2.4.13',
-        butterknife        : 'com.jakewharton:butterknife:7.0.1',
-        calligraphy        : 'uk.co.chrisjenx:calligraphy:2.3.0',
-        shamanland_fonticon: 'com.shamanland:fonticon:0.1.9',
-        play_services_maps :  'com.google.android.gms:play-services-maps:11.0.4',
+        leakcanary                    : 'com.squareup.leakcanary:leakcanary-android:1.5',
+        groovy                        : 'org.codehaus.groovy:groovy-all:2.4.13',
+        butterknife                   : 'com.jakewharton:butterknife:7.0.1',
+        calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
+        shamanland_fonticon           : 'com.shamanland:fonticon:0.1.9',
+        play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',
+        greenrobot                    : 'org.greenrobot:eventbus:3.0.0',
+        retrofit                      : 'com.squareup.retrofit:retrofit:1.9.0',
+        okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
+        javax_inject                  : 'javax.inject:javax.inject:1',
+        glassfish_annotation          : 'org.glassfish:javax.annotation:10.0-b28',
+        javax_annotation              : 'javax.annotation:jsr250-api:1.0',
 
         // Testing
-        android_testrunner : 'com.android.support.test:runner:0.5',
-        assertj            : 'com.squareup.assertj:assertj-android:1.1.1',
-        cucumber           : 'info.cukes:cucumber-android:1.2.2',
-        cucumber_junit     : 'info.cukes:cucumber-junit:1.2.2',
-        dexmaker           : 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0',
-        espresso_core      : 'com.android.support.test.espresso:espresso-core:2.2.2',
-        junit              : 'junit:junit:4.12',
-        mockito            : 'org.mockito:mockito-core:2.13.0', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
-        multidex           : 'com.android.support:multidex:1.0.1',
-        powermock_junit    : 'org.powermock:powermock-module-junit4:1.6.6',
-        powermock_mockito  : 'org.powermock:powermock-api-mockito:1.6.6',
-        robolectric        : 'org.robolectric:robolectric:3.6.1',
-        robolectric_shadows: 'org.robolectric:shadows-support-v4:3.3.1',
-        robolectric_shadows_multidex:'org.robolectric:shadows-multidex:3.6.1',
-        stetho             : 'com.facebook.stetho:stetho:1.5.0',
-        android_testrules  : 'com.android.support.test:rules:0.5',
-        android_test_commons:'org.apache.commons:commons-lang3:3.4',
-        opengl             : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
-        powermock_core     : 'org.powermock:powermock-core:1.7.3',
-        powermock_junit_rule: 'org.powermock:powermock-module-junit4-rule:1.7.3',
-        powermock_junit_rule_agent:'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
-        powermock_classloading_xstream:'org.powermock:powermock-classloading-xstream:1.7.3'
+        android_testrunner            : 'com.android.support.test:runner:0.5',
+        assertj                       : 'com.squareup.assertj:assertj-android:1.1.1',
+        cucumber                      : 'info.cukes:cucumber-android:1.2.2',
+        cucumber_junit                : 'info.cukes:cucumber-junit:1.2.2',
+        dexmaker                      : 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0',
+        espresso_core                 : 'com.android.support.test.espresso:espresso-core:2.2.2',
+        junit                         : 'junit:junit:4.12',
+        mockito                       : 'org.mockito:mockito-core:2.13.0', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
+        multidex                      : 'com.android.support:multidex:1.0.1',
+        powermock_junit               : 'org.powermock:powermock-module-junit4:1.6.6',
+        powermock_mockito             : 'org.powermock:powermock-api-mockito:1.6.6',
+        robolectric                   : 'org.robolectric:robolectric:3.6.1',
+        robolectric_shadows           : 'org.robolectric:shadows-support-v4:3.3.1',
+        robolectric_shadows_multidex  : 'org.robolectric:shadows-multidex:3.6.1',
+        stetho                        : 'com.facebook.stetho:stetho:1.5.0',
+        android_testrules             : 'com.android.support.test:rules:0.5',
+        android_test_commons          : 'org.apache.commons:commons-lang3:3.4',
+        opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
+        powermock_core                : 'org.powermock:powermock-core:1.7.3',
+        powermock_junit_rule          : 'org.powermock:powermock-module-junit4-rule:1.7.3',
+        powermock_junit_rule_agent    : 'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
+        powermock_classloading_xstream: 'org.powermock:powermock-classloading-xstream:1.7.3'
 ]

@@ -120,7 +120,7 @@ android {
         applicationId "com.philips.hor_productselection_android"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
         versionCode 3
