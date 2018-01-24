@@ -126,8 +126,6 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
         }
         if (!isConsumed) {
             presenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        } else {
-            super.onBackPressed();
         }
     }
     @Override
