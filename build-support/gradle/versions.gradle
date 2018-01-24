@@ -74,7 +74,7 @@ ext.deps = [
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
         constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
-        volley             : 'com.android.volley:volley:1.0.0',
+        volley             : 'com.android.volley:volley:1.1.0',
         dagger             : [
                 dagger          : "com.google.dagger:dagger:${ext.versions.dagger}",
                 androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
@@ -117,5 +117,6 @@ ext.deps = [
         powermock_junit_rule: 'org.powermock:powermock-module-junit4-rule:1.7.3',
         powermock_junit_rule_agent:'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
         powermock_classloading_xstream:'org.powermock:powermock-classloading-xstream:1.7.3',
-        sqlcipher           : 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+        sqlcipher           : 'net.zetetic:android-database-sqlcipher:3.5.7@aar',
+        glide               : 'com.github.bumptech.glide:glide:3.7.0'
 ]

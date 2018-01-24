@@ -28,7 +28,6 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
 //        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath builddeps.gradle
         classpath(builddeps.cdpSCM)
@@ -308,7 +307,7 @@ dependencies {
     }
 //    compile(project(':mya-catk'))
     compile project(path: ':mya')
-    compile project(path: ':UserRegistrationUApp')
+//    compile project(path: ':UserRegistrationUApp')
 }
 
 task copyToLib(type: Copy) {

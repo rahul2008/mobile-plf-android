@@ -172,7 +172,6 @@ dependencies {
 
     androidTestCompile deps.junit
     androidTestCompile deps.mockito
-    compile 'com.android.support:support-v4:26.0.2'
     compile deps.support.appcompatv7
     compile deps.support.design
     compile deps.support.annotations
