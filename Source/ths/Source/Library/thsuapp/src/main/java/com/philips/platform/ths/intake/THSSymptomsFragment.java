@@ -68,9 +68,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANDROID_CAMERA;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANDROID_GALLERY;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
+
 
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener, THSSymptomsFragmentViewInterface {
@@ -308,7 +311,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         dialog.setCancelable(false);
         dialog.setTitle(getString(R.string.ths_intake_symptoms_add_photo));
         Button cancelDialogButton = (Button) dialog.findViewById(R.id.cancel_dialog);
-        cancelDialogButton.setText(getString(R.string.cancel));
+        cancelDialogButton.setText(getString(R.string.ths_cancel));
         cancelDialogButton.setOnClickListener(this);
         Button selectFromGalleryButton = (Button) dialog.findViewById(R.id.select_from_gallery);
         selectFromGalleryButton.setOnClickListener(this);
@@ -357,6 +360,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ComponentName componentName = intent.resolveActivity(getActivity().getPackageManager());
         if (componentName != null) {
             startActivityForResult(intent, RESULT_LOAD_IMAGE);
+            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_GALLERY,null,null);
         } else {
             showError(getString(R.string.ths_add_photo_no_app_to_handle));
         }
@@ -374,6 +378,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             takePictureIntent
                     .putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_CAMERA,null,null);
         }
     }
 
@@ -429,7 +434,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             Uri compressedImageUri = getImageUri(getActivity(), selectedImage, picturePath);
             String path = getRealPathFromURI(compressedImageUri);
             updateDocumentsToUpload(path, compressedImageUri);
-            tagActions = THSTagUtils.addActions(tagActions, "documentsAdded");
+            tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
             thsSymptomsPresenter.uploadDocuments(compressedImageUri);
 
         } catch (FileNotFoundException e) {
@@ -567,7 +572,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SYMPTOMS_PAGE, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_SYMPTOMS_PAGE, null, null);
 
     }
 

@@ -121,11 +121,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = getActivityPresenter();
-        sharedPreferenceUtility = new SharedPreferenceUtility(this);
-        setContentView(R.layout.af_uikit_hamburger_menu);
-        ButterKnife.bind(this);
-        initializeActivityContents();
+        RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
+        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())){
+            presenter = getActivityPresenter();
+            sharedPreferenceUtility = new SharedPreferenceUtility(this);
+            setContentView(R.layout.af_uikit_hamburger_menu);
+            ButterKnife.bind(this);
+            initializeActivityContents();
+        }
     }
 
     @Override
@@ -306,8 +309,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     protected void removeListeners() {
-        hamburgerMenuAdapter.removeMenuItemClickListener();
-        urLogoutInterface.removeListener();
+        if(hamburgerMenuAdapter!=null) {
+            hamburgerMenuAdapter.removeMenuItemClickListener();
+        }
+        if(urLogoutInterface!=null) {
+            urLogoutInterface.removeListener();
+        }
     }
 
 
@@ -560,13 +567,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         hideProgressBar();
     }
 
-
     private void restartActivity()
     {
         Intent intent = new Intent(this,HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART,true);
         startActivity(intent);
     }
-
-
 }

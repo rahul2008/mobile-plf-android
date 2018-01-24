@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.visit.VisitReport;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -86,7 +87,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRef
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY_LIST,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_VISIT_HISTORY_LIST,null,null);
     }
 
     @Override

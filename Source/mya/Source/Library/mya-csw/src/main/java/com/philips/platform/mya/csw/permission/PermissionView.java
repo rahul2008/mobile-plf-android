@@ -42,8 +42,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
 
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
+
 
     private static final String TAG = "PermissionView";
 
@@ -146,7 +148,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void showErrorDialog(boolean goBack, ConsentError error) {
         CswLogger.e(TAG, error.getError());
         DialogView dialogView = getDialogView(goBack);
-        dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()));
+        String messageError = getMessageErrorBasedOnErrorCode(error.getErrorCode());
+        dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), messageError);
+    }
+
+    private String getMessageErrorBasedOnErrorCode(int errorCode) {
+        return errorCode == CONSENT_ERROR_AUTHENTICATION_FAILURE ? getString(R.string.csw_invalid_access_token_error_message) : getString(R.string.csw_problem_occurred_error_message, errorCode);
     }
 
     @Override

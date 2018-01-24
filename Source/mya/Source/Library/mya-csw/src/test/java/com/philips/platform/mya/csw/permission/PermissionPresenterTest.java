@@ -204,9 +204,16 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldShowLoaderWhenTogglingConsent() throws Exception {
-        givenOnline();
+        whenAppIsOnline();
         whenTogglingConsentTo(true);
         thenProgressIsShown();
+    }
+
+    @Test
+    public void testShouldNotShowLoaderWhenTogglingConsent() throws Exception {
+        whenAppIsOffline();
+        whenTogglingConsentTo(true);
+        thenOfflineErrorIsShown();
     }
 
     @Test
@@ -232,10 +239,6 @@ public class PermissionPresenterTest {
         ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
         givenConsentConfigurations = Arrays.asList(configuration);
         givenPresenter();
-    }
-
-    private void givenOnline() {
-        restInterfaceMock.isInternetAvailable = true;
     }
 
     private void givenPresenter() {
@@ -276,6 +279,10 @@ public class PermissionPresenterTest {
         verify(mockPermissionInterface).showErrorDialog(givenError);
     }
 
+    private void thenOfflineErrorIsShown() {
+        verify(mockPermissionInterface).showOfflineErrorDialog();
+    }
+    
     private void thenErrorIsNotShown() {
         verify(mockPermissionInterface, never()).showErrorDialog(givenError);
     }

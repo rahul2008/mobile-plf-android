@@ -41,16 +41,18 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
-        UIDHelper.setupToolbar(this);
-        url = (String) getIntent().getSerializableExtra(URL_TO_LOAD);
-        serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
-        webView = (WebView) findViewById(R.id.web_view);
-        webViewActions = getWebViewPresenter();
-        if (TextUtils.isEmpty(url)) {
-            webViewActions.loadUrl(serviceId);
-        } else {
-            showWebPage(url);
+        if(!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
+            setContentView(R.layout.activity_web_view);
+            UIDHelper.setupToolbar(this);
+            url = (String) getIntent().getSerializableExtra(URL_TO_LOAD);
+            serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
+            webView = (WebView) findViewById(R.id.web_view);
+            webViewActions = getWebViewPresenter();
+            if (TextUtils.isEmpty(url)) {
+                webViewActions.loadUrl(serviceId);
+            } else {
+                showWebPage(url);
+            }
         }
     }
 

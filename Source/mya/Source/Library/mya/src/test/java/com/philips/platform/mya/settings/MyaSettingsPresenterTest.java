@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
@@ -21,8 +22,12 @@ import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -92,15 +97,21 @@ public class MyaSettingsPresenterTest {
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         myaSettingsPresenter.logOut(bundle);
         logoutHandler.onLogoutSuccess();
-        verify(view).handleLogOut();
+        verify(view).onLogOutSuccess();
     }
 
     @Test
     public void testHandleOnClickSettingsItem() {
+        MyaDependencies mockDependencies = mock(MyaDependencies.class);
+        AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
+        when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
+        RestInterface mockRestClient = mock(RestInterface.class);
+        when(mockRestClient.isInternetReachable()).thenReturn(true);
+        when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final CswInterface cswInterface = mock(CswInterface.class);
         final ConsentAccessToolKit consentAccessToolKit = mock(ConsentAccessToolKit.class);
         final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
-        final CatkInputs catkInputs = mock(CatkInputs.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view) {
             @Override
@@ -122,8 +133,26 @@ public class MyaSettingsPresenterTest {
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
-        myaSettingsPresenter.handleOnClickSettingsItem("Mya_Privacy_Settings", null);
-        verify(view).exitMyAccounts();
+    }
+
+    @Test
+    public void testHandleOnClickSettingsWhenDeviceIsOffline() {
+        MyaDependencies mockDependencies = mock(MyaDependencies.class);
+        AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
+        when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
+        RestInterface mockRestClient = mock(RestInterface.class);
+        when(mockRestClient.isInternetReachable()).thenReturn(false);
+        when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
+        String testTitle = "Test title";
+        when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);
+        String testMessage = "Test message";
+        when(context.getString(R.string.MYA_Offline_message)).thenReturn(testMessage);
+        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
+        myaSettingsPresenter = new MyaSettingsPresenter(view);
+        String key = "Mya_Privacy_Settings";
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
+        verify(view).showOfflineDialog(testTitle, testMessage);
     }
 
     @Test

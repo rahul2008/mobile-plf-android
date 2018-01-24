@@ -18,12 +18,16 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_PHONE_NUMBER_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener,THSFollowUpViewInterface {
@@ -69,7 +73,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mLabelPatientName = (Label) view.findViewById(R.id.ths_follow_up_patient_name);
         String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
         mLabelPatientName.setText(name);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
         return view;
     }
 
@@ -132,6 +136,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void showInlineError() {
         ths_intake_follow_up_phone_number_container.setErrorMessage(R.string.ths_invalid_phone_number);
         ths_intake_follow_up_phone_number_container.showError();
+        doTagging(THS_ANALYTICS_PHONE_NUMBER_VALIDATION,getString(R.string.ths_invalid_phone_number),false);
     }
 
     @Override

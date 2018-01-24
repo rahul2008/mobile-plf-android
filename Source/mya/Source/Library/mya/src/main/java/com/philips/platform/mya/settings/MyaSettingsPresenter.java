@@ -69,10 +69,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         if (key.equals("Mya_Privacy_Settings")) {
             RestInterface restInterface = getRestClient();
             if(restInterface.isInternetReachable()) {
-                MyaDependencies myaDeps = MyaInterface.get().getDependencies();
+                MyaDependencies myaDeps = getDependencies();
                 CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
-
-
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());
                 cswInterface.init(dependencies, uappSettings);
@@ -98,7 +96,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     LogoutHandler getLogoutHandler() {
         return new LogoutHandler() {
             public void onLogoutSuccess() {
-                view.handleLogOut();
+                view.onLogOutSuccess();
             }
 
             public void onLogoutFailure(int responseCode, String message) {
@@ -152,22 +150,16 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return profileList;
     }
 
-    private String getStringResourceByName(String aString) {
-        Context context = getContext();
-        String packageName = context.getPackageName();
-        int resId = context.getResources().getIdentifier(aString, "string", packageName);
-        try {
-            return context.getString(resId);
-        } catch (Exception exception) {
-            return null;
-        }
-    }
-
     private Context getContext() {
         return view.getContext();
     }
 
+    // Visible for testing
     protected RestInterface getRestClient() {
-        return MyaInterface.get().getDependencies().getAppInfra().getRestClient();
+        return getDependencies().getAppInfra().getRestClient();
+    }
+
+    protected MyaDependencies getDependencies() {
+        return MyaInterface.get().getDependencies();
     }
 }

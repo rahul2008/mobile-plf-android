@@ -30,6 +30,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.ths.visit.THSDownloadReportPrivacyNoticeFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -40,7 +41,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
-import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_HIPPA;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY;
 
@@ -163,9 +163,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
                 e.printStackTrace();
             }
             mLabelProviderName.setText(assignedProviderInfo.getFullName());
-
+            mLabelPracticeName.setText(assignedProviderInfo.getSpecialty().getName());
         }
-        mLabelPracticeName.setText(visitReportDetail.getPracticeName());
+
 
         final Long actualStartTime = visitReportDetail.getSchedule().getActualStartTime();
         if (actualStartTime != null) {
@@ -229,12 +229,13 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_VISIT_HISTORY, null, null);
     }
 
     public void showHippsNotice(String url) {
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HIPPA,null,null);
+        //THSTagUtils.doTrackPageWithInfo(THS_HIPPA,null,null);
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+        THSTagUtils.doTrackPageWithInfo(THS_HIPPA,null,null);
     }
 }

@@ -9,6 +9,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.mya.catk.CatkInputs;
@@ -57,6 +58,9 @@ public class MyAccountState extends BaseState {
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
+                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
+                    ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                }
                 return false;
             }
 
@@ -77,10 +81,10 @@ public class MyAccountState extends BaseState {
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 
-    private Locale getLocale(AppFrameworkApplication frameworkApplication) {
+    private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale = Locale.US;
         if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getUILocaleString().split("_");
+            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getCompleteUILocale().split("_");
             // TODO AppInfra should add method `getHsdpLocaleString()`: getUILocaleString mostly returns just 'en', but we need 'en_US' or 'ca_FR' -> right now, falling back to Locale.US
             if (localeComponents.length == 2) {
                 locale = new Locale(localeComponents[0], localeComponents[1]);
@@ -109,7 +113,8 @@ public class MyAccountState extends BaseState {
 
     List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context.getString(R.string.RA_Setting_Philips_Promo_Description), Collections.singletonList("marketing"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
+                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
         return definitions;
     }
 
@@ -117,8 +122,7 @@ public class MyAccountState extends BaseState {
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
-        Locale currentLocale = getLocale(app);
-
+        Locale currentLocale = getCompleteLocale(app);
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())

@@ -7,13 +7,11 @@
 package com.philips.platform.ths.payment;
 
 import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -25,6 +23,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_PAYMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_CVV;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_ZIP;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -76,8 +80,23 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             THSManager.getInstance().validateCreatePaymentRequest(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, errors);
             if (errors.isEmpty()) {
                 THSManager.getInstance().updatePaymentMethod(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, this);
-            } else {
-                mTHSBillingAddressFragment.showError(errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_card_name));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_credit_card_number));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            } else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_CVV_number));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_card_name));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1)) {
+                mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_address1));
                 AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
             }
 
@@ -108,7 +127,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
                 mTHSBillingAddressFragment.popSelfBeforeTransition();
             } else {
                 AmwellLog.i("updatePayment", "failed");
-                mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_PAYMENT, tHSSDKError.getSdkError()));
+                mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBillingAddressFragment.getContext(), ANALYTICS_UPDATE_PAYMENT, tHSSDKError.getSdkError()));
             }
         }
     }

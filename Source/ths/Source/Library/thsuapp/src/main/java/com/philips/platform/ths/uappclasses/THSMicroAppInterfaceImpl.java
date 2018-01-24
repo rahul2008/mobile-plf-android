@@ -3,6 +3,7 @@ package com.philips.platform.ths.uappclasses;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -37,7 +38,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
      * @param uappSettings     - App settings
      */
     @Override
-    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+    public void init(@NonNull final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
     }
