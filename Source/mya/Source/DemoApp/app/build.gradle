@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
 
 
 jacoco {
@@ -125,9 +124,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
-    }
+
     defaultConfig {
         applicationId 'com.philips.platform.mya.demoapp'
         minSdkVersion versions.minsdk

@@ -60,7 +60,7 @@ dependencies {
 
     compile deps.constraintlayout
 
-    compile deps.multidex
+    compile deps.support.multidex
     compile deps.ormlite.core
     compile deps.ormlite.android
 
