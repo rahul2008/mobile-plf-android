@@ -1,5 +1,6 @@
 package com.philips.platform.mya.csw.permission;
 
+import android.content.Context;
 import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -15,6 +16,7 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
@@ -25,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +37,10 @@ import java.util.Locale;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -58,6 +65,8 @@ public class PermissionPresenterTest {
     private ConsentDefinition mockConsentDefinition;
     @Mock
     private ConsentHandlerInterface mockConsentHandler;
+    @Mock
+    private Context mockContext;
 
     @Before
     public void setUp() throws Exception {
@@ -105,17 +114,25 @@ public class PermissionPresenterTest {
     }
 
     @Test
-    public void testShouldNotShowErrorWhenGetConsentFails() throws Exception {
+    public void testShouldShowErrorWhenGetConsentFails() throws Exception {
+        String errorTitle = "test error title";
+        String errorMessage = "test error message";
         givenConsentError();
+        given(mockContext.getString(R.string.csw_problem_occurred_error_title)).willReturn(errorTitle);
+        given(mockContext.getString(R.string.csw_problem_occurred_error_message, givenError.getErrorCode())).willReturn(errorMessage);
         whenGetConsentFailed();
-        thenErrorIsNotShown();
+        thenErrorIsShown(true, errorTitle, errorMessage);
     }
 
     @Test
     public void testShouldShowErrorWhenCreateConsentFails() throws Exception {
+        String errorTitle = "test error title";
+        String errorMessage = "test error message";
         givenConsentError();
+        given(mockContext.getString(R.string.csw_problem_occurred_error_title)).willReturn(errorTitle);
+        given(mockContext.getString(R.string.csw_problem_occurred_error_message, givenError.getErrorCode())).willReturn(errorMessage);
         whenCreateConsentFailed();
-        thenErrorIsShown();
+        thenErrorIsShown(false, errorTitle, errorMessage);
     }
 
     @Test
@@ -211,13 +228,20 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldNotShowLoaderWhenTogglingConsent() throws Exception {
+        String errorTitle = "test offline error title";
+        String errorMessage = "test offline error message";
         whenAppIsOffline();
+        given(mockContext.getString(R.string.csw_offline_title)).willReturn(errorTitle);
+        given(mockContext.getString(R.string.csw_offline_message)).willReturn(errorMessage);
         whenTogglingConsentTo(true);
-        thenOfflineErrorIsShown();
+        thenOfflineErrorIsShown(false, errorTitle, errorMessage);
     }
 
     @Test
     public void testShouldHideLoaderWhenCreateConsentFails() throws Exception {
+        givenConsentError();
+        given(mockContext.getString(R.string.csw_problem_occurred_error_title)).willReturn("title");
+        given(mockContext.getString(R.string.csw_problem_occurred_error_message, givenError.getErrorCode())).willReturn("message");
         whenTogglingConsentTo(true);
         whenCreateConsentFailed();
         thenProgressIsHidden();
@@ -248,6 +272,7 @@ public class PermissionPresenterTest {
                 return restInterfaceMock;
             }
         };
+        mPermissionPresenter.mContext = mockContext;
     }
 
     private void whenGetConsentFailed() {
@@ -275,16 +300,12 @@ public class PermissionPresenterTest {
         restInterfaceMock.isInternetAvailable = false;
     }
 
-    private void thenErrorIsShown() {
-        verify(mockPermissionInterface).showErrorDialog(givenError);
+    private void thenErrorIsShown(boolean goBack, String title, String message) {
+        verify(mockPermissionInterface).showErrorDialog(goBack, title, message);
     }
 
-    private void thenOfflineErrorIsShown() {
-        verify(mockPermissionInterface).showOfflineErrorDialog();
-    }
-    
-    private void thenErrorIsNotShown() {
-        verify(mockPermissionInterface, never()).showErrorDialog(givenError);
+    private void thenOfflineErrorIsShown(boolean goBack, String title, String message) {
+        verify(mockPermissionInterface).showErrorDialog(goBack, title, message);
     }
 
     private void thenProgressIsShown() {

@@ -7,14 +7,11 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +20,6 @@ import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
@@ -33,7 +29,6 @@ import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -42,7 +37,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
 
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
@@ -97,7 +91,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             PermissionPresenter presenter = getPermissionPresenter();
             presenter.getConsentStatus();
         } else{
-            showOfflineErrorDialog(true);
+            showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
 
@@ -145,21 +139,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showErrorDialog(boolean goBack, ConsentError error) {
-        CswLogger.e(TAG, error.getError());
+    public void showErrorDialog(boolean goBack, String title, String message) {
+        CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
-        String messageError = getMessageErrorBasedOnErrorCode(error.getErrorCode());
-        dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), messageError);
-    }
-
-    private String getMessageErrorBasedOnErrorCode(int errorCode) {
-        return errorCode == CONSENT_ERROR_AUTHENTICATION_FAILURE ? getString(R.string.csw_invalid_access_token_error_message) : getString(R.string.csw_problem_occurred_error_message, errorCode);
-    }
-
-    @Override
-    public void showOfflineErrorDialog(boolean goBack) {
-        DialogView dialogView = getDialogView(goBack);
-        dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        dialogView.showDialog(getCswFragment().getActivity(), title, message);
     }
 
     @Override
@@ -189,9 +172,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @VisibleForTesting
     protected PermissionPresenter getPermissionPresenter() {
-        return new PermissionPresenter(this, configs, adapter);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
+        permissionPresenter.mContext = getContext();
+        return permissionPresenter;
     }
-
 
     @NonNull
     private DialogView getDialogView(boolean goBack) {
