@@ -175,7 +175,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     void emailVerified() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
         showActivateSpinner();
-        mBtnActivate.setEnabled(false);
+        activateButtonEnable(false);
         mBtnResend.setEnabled(false);
         mUser.refreshUser(this);
     }
@@ -243,16 +243,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         if (isNetworkAvailable) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mEMailVerifiedError.hideError();
-                mBtnActivate.setEnabled(true);
+                activateButtonEnable(true);
                 mBtnResend.setEnabled(true);
             } else {
-                mBtnActivate.setEnabled(false);
+                activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
                 mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
             mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
-            mBtnActivate.setEnabled(false);
+            activateButtonEnable(false);
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
@@ -262,8 +262,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void updateActivationUIState() {
         hideActivateSpinner();
-        mBtnActivate.setEnabled(true);
-        mBtnResend.setEnabled(true);
         if (mUser.isEmailVerified()) {
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
@@ -277,10 +275,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
                     AppTagingConstants.EMAIL_NOT_VERIFIED);
         }
+        activateButtonEnable(true);
+        mBtnResend.setEnabled(true);
     }
 
     private void showVerifyAlertDialog() {
-        if (this.isVisible()) {
+        if (isVisible()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.reg_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
@@ -300,8 +300,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void activateButtonEnable(boolean enable) {
-        mBtnActivate.setEnabled(enable);
-
+        mBtnActivate.setClickable(enable);
     }
 
     @Override
@@ -312,13 +311,15 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-        if(mEmailId.equals(mUser.getEmail())){
-            updateActivationUIState();
-        } else{
-            mEmailId = mUser.getEmail();
+        if (this.isVisible()) {
+            RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+            if (mEmailId.equals(mUser.getEmail())) {
+                updateActivationUIState();
+            } else {
+                mEmailId = mUser.getEmail();
+            }
+            setDiscription();
         }
-        setDiscription();
     }
 
     @Override
