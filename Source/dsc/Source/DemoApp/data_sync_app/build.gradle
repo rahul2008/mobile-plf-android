@@ -238,7 +238,6 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
@@ -247,30 +246,21 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
-    //Android Support Libraries
     compile deps.support.design
     compile deps.support.annotations
     compile deps.support.appcompatv7
     compile deps.support.customtabs
     compile deps.support.multidex
 
-    //3rd Party
     compile deps.ormlite.core
     compile deps.ormlite.android
 
-    //Debug
     debugCompile deps.stetho
 
-    //Test
     testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.junit
 
-    androidTestCompile(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    //Module projects
     compile(project(':dataServicesUApp'))
 }
 

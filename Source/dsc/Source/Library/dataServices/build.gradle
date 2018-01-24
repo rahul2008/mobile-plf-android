@@ -225,8 +225,6 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
-
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
@@ -247,12 +245,10 @@ dependencies {
                 }
     }
 
-    //Android Support
     compile(deps.support.annotations) {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
-    //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.greenrobot
     compile deps.joda_time
@@ -266,7 +262,6 @@ dependencies {
     provided deps.javax_annotation
     testApt deps.dagger.compiler
 
-    //Test Compile
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.assertj
@@ -275,10 +270,6 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-
-    androidTestCompile(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {

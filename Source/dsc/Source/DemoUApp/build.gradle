@@ -57,8 +57,4 @@ dependencies {
     compile deps.ormlite.android
 
     testCompile deps.junit
-
-    androidTestCompile(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
