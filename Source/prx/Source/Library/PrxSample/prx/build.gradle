@@ -135,12 +135,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion config.minSdk
-        targetSdkVersion config.targetSdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"

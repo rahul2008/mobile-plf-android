@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = versions.jacoco
 }
 
 buildscript {
@@ -30,7 +30,7 @@ buildscript {
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
 //        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath builddeps.gradle
         classpath(builddeps.cdpSCM)
     }
 }
@@ -269,8 +269,8 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.support.appcompatv7
+    compile deps.constraintlayout
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -302,7 +302,7 @@ dependencies {
     }
 
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
