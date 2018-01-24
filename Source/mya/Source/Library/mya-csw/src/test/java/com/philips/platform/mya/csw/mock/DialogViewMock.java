@@ -9,7 +9,7 @@ public class DialogViewMock extends DialogView {
     public boolean isDialogVisible = false;
 
     @Override
-    public void showDialog(FragmentActivity activity) {
+    public void showDialog(FragmentActivity activity, String title, String body) {
         this.isDialogVisible = true;
     }
 

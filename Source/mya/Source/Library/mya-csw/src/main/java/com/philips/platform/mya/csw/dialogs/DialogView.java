@@ -16,6 +16,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 public class DialogView implements View.OnClickListener {
 
@@ -31,13 +32,21 @@ public class DialogView implements View.OnClickListener {
         okListener = listener;
     }
 
-    public void showDialog(FragmentActivity activity) {
+    public void showDialog(FragmentActivity activity, String title, String body) {
         if (!(activity.isFinishing())) {
             setupView(activity);
             setupAlertDialogFragment(activity);
+            setupTitleAndText(title, body);
             setupOkButton();
             showButton(activity);
         }
+    }
+
+    protected void setupTitleAndText(String title, String body) {
+        Label titleLabel = view.findViewById(R.id.mya_csw_label_cancel_setup_title);
+        titleLabel.setText(title);
+        Label bodyLabel = view.findViewById(R.id.mya_csw_verify_device_body);
+        bodyLabel.setText(body);
     }
 
     protected void showButton(FragmentActivity activity) {

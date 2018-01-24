@@ -160,7 +160,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         if(goBack) {
             dialogView = new DialogView(this);
         }
-        dialogView.showDialog(getCswFragment().getActivity());
+        dialogView.showDialog(getCswFragment().getActivity(), "title", "body");
     }
 
     @Override

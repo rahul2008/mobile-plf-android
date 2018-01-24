@@ -60,6 +60,11 @@ public class DialogViewTest {
                 this.alertDialogFragment = mock(AlertDialogFragment.class);
             }
 
+            @Override
+            protected void setupTitleAndText(String title, String body) {
+
+            }
+
         };
     }
 
@@ -81,11 +86,16 @@ public class DialogViewTest {
               this.alertDialogFragment = mock(AlertDialogFragment.class);
           }
 
+          @Override
+          protected void setupTitleAndText(String title, String body) {
+
+          }
+
         };
     }
 
     private void whenShowingDialog() {
-        dialogView.showDialog(fragmentActivity);
+        dialogView.showDialog(fragmentActivity, "title", "body");
     }
 
 

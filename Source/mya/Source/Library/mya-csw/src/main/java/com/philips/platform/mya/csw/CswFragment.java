@@ -49,7 +49,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         super.onResume();
 
         if(!getRestClient().isInternetReachable()) {
-            getDialogView().showDialog(getActivity());
+            getDialogView().showDialog(getActivity(), "title", "body");
         }
     }
 
