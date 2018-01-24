@@ -142,7 +142,7 @@ public class InputValidationLayout extends LinearLayout {
 
         SavedState savedState = new SavedState(superState);
         savedState.isShowingError = isShowingError;
-        savedState.errorMsg = (String) errorLabel.getText();
+        savedState.errorMsg = errorLabel.getText();
         return savedState;
     }
 
@@ -156,7 +156,7 @@ public class InputValidationLayout extends LinearLayout {
         super.onRestoreInstanceState(savedState.getSuperState());
 
         isShowingError = savedState.isShowingError;
-        String errorMsg = savedState.errorMsg;
+        CharSequence errorMsg = savedState.errorMsg;
         errorLabel.setText(errorMsg);
         if (isShowingError) {
             showError();
@@ -313,7 +313,7 @@ public class InputValidationLayout extends LinearLayout {
                 return new SavedState[size];
             }
         };
-        private String errorMsg;
+        private CharSequence errorMsg;
         private boolean isShowingError;
 
         SavedState(Parcelable superState) {
@@ -329,7 +329,7 @@ public class InputValidationLayout extends LinearLayout {
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeString(errorMsg);
+            out.writeString(errorMsg.toString());
             out.writeByte((byte) (this.isShowingError ? 1 : 0));
         }
     }
