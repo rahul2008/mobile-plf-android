@@ -72,7 +72,7 @@ ext.deps = [
                 fragment    : "com.android.support:support-fragment:${ext.versions.support}",
                 supportv4   : "com.android.support:support-v4:${ext.versions.support}",
                 customtabs  : "com.android.support:customtabs:${ext.versions.support}",
-                multidex    : "com.android.support:multidex:1.0.1",
+                multidex    : "com.android.support:multidex:1.0.2",
                 recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
         adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
