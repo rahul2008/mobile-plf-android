@@ -133,7 +133,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void updateText(View view, int textViewId, String text) {
         TextView marketBeTheFirstTextView = (TextView) view.findViewById(textViewId);
         if (text != null && text.length() > 0) {
-            marketBeTheFirstTextView.setText(Html.fromHtml(text));
+            marketBeTheFirstTextView.setText(text);
         }
     }
 
@@ -213,7 +213,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void handleRegistrationSuccess() {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
             if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
