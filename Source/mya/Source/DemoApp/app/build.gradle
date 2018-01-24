@@ -284,13 +284,13 @@ dependencies {
         debugCompile project(path: ':jump', configuration: 'debug')
         releaseCompile project(path: ':jump', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix()) {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix()) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'jump', version: versions.jump + objcdp.getVersionSuffix()) {
+        compile(group: 'com.philips.cdp', name: 'jump', version: platformversion + objcdp.getVersionSuffix()) {
             exclude group: 'com.android.support'
         }
     }
