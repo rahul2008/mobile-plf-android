@@ -11,19 +11,6 @@
         android:src="@mipmap/terms_and_conditions"
         android:scaleType="centerCrop"
         />
-
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/ths_terms_and_conditions_cross"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="24dp"
-        android:textSize="32dp"
-        android:paddingStart="@dimen/ths_fab_margin"
-        fontPath="fonts/iconfont.ttf"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-        android:text="@string/dls_cross_bold" />
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_see_a_provider"
         android:paddingLeft="@dimen/ths_fab_margin"
