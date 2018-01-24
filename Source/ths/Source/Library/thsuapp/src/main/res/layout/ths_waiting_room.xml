@@ -101,6 +101,16 @@
             app:uidIsIndeterminateProgressIndicator="true"
             app:uidLabelPosition="bottom_center" />
     </RelativeLayout>
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_patient_waiting_do_not_leave_text"
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:textSize="@dimen/ths_text_14sp"
+        android:layout_above="@+id/ths_waiting_room_cancel_button"/>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_waiting_room_cancel_button"

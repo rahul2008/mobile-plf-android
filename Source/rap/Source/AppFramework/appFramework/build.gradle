@@ -72,12 +72,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'https://maven.google.com'
-        }
-        maven {
-            url 'https://maven.google.com'
-        }
+
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
     }

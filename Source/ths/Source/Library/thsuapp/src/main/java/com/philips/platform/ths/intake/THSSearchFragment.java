@@ -35,6 +35,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -124,16 +125,16 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
                 case THSConstants.MEDICATION_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PROVIDER_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PHARMACY_SEARCH_CONSTANT:
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_SEARCH,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_SEARCH,null,null);
                     break;
             }
             searchBox.setSearchBoxHint(searchBoxHint);

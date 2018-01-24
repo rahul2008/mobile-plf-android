@@ -19,6 +19,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -54,7 +55,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         updateShippingAddressView(address);
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_shipping_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping_fragment_name, true);
         }
         return view;
     }
@@ -130,6 +131,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_SUMMARY, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_SUMMARY, null, null);
     }
 }

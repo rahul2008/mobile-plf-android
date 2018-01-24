@@ -204,8 +204,16 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldShowLoaderWhenTogglingConsent() throws Exception {
+        whenAppIsOnline();
         whenTogglingConsentTo(true);
         thenProgressIsShown();
+    }
+
+    @Test
+    public void testShouldNotShowLoaderWhenTogglingConsent() throws Exception {
+        whenAppIsOffline();
+        whenTogglingConsentTo(true);
+        thenOfflineErrorIsShown();
     }
 
     @Test
@@ -269,6 +277,10 @@ public class PermissionPresenterTest {
 
     private void thenErrorIsShown() {
         verify(mockPermissionInterface).showErrorDialog(givenError);
+    }
+
+    private void thenOfflineErrorIsShown() {
+        verify(mockPermissionInterface).showOfflineErrorDialog();
     }
 
     private void thenProgressIsShown() {

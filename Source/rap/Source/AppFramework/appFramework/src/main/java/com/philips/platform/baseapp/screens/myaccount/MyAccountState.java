@@ -81,10 +81,10 @@ public class MyAccountState extends BaseState {
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 
-    private Locale getLocale(AppFrameworkApplication frameworkApplication) {
+    private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale = Locale.US;
         if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getUILocaleString().split("_");
+            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getCompleteUILocale().split("_");
             // TODO AppInfra should add method `getHsdpLocaleString()`: getUILocaleString mostly returns just 'en', but we need 'en_US' or 'ca_FR' -> right now, falling back to Locale.US
             if (localeComponents.length == 2) {
                 locale = new Locale(localeComponents[0], localeComponents[1]);
@@ -122,8 +122,7 @@ public class MyAccountState extends BaseState {
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
-        Locale currentLocale = getLocale(app);
-
+        Locale currentLocale = getCompleteLocale(app);
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())

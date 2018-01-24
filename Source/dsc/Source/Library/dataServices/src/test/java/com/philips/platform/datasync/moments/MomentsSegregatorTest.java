@@ -16,6 +16,8 @@ import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,6 +31,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -72,11 +76,14 @@ public class MomentsSegregatorTest {
 
     private List<Moment> momentList = new ArrayList<>();
     private int count;
-    private Moment moment;
+    private Moment moment, moment2;
     private Map<Class, List<?>> dataToSync;
 
     @Before
     public void setUp() throws Exception {
+        // Ensure all moments are created at the same timestamp to be able to compare their creation times.
+        givenDateTimeIsFixed();
+
         initMocks(this);
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         when(ormMomentMock.getSynchronisationData()).thenReturn(ormSynchronisationDataMock);
@@ -88,9 +95,15 @@ public class MomentsSegregatorTest {
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
         moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
+
         SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
         moment.setSynchronisationData(ormSynchronisationData);
         momentList.add(moment);
+    }
+
+    @After
+    public void tearDown() {
+        givenDateTimeIsNotFixed();
     }
 
     @Test
@@ -161,6 +174,19 @@ public class MomentsSegregatorTest {
         thenVerifyDbSavingInterfaceIsCalled();
     }
 
+    @Test
+    public void momentTimeStampMustBeEqualWhenTimeIsFixed() throws InterruptedException {
+        givenDateTimeIsFixed();
+        when2ndMomentIsCreatedAfter5MilliSeconds();
+        thenMomentsHaveSameTimestamp();
+    }
+
+    @Test
+    public void momentTimeStampMustBeEqualWhenTimeIsNotFixed() throws InterruptedException {
+        givenDateTimeIsNotFixed();
+        when2ndMomentIsCreatedAfter5MilliSeconds();
+        thenMomentsDoNotHaveSameTimestamp();
+    }
 
     private void givenMomentsIsDeletedFromBackend() throws SQLException {
         Moment moment2 = momentList.get(0);
@@ -178,7 +204,6 @@ public class MomentsSegregatorTest {
         moment2.setSynchronisationData(ormSynchronisationData2);
         when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
-
 
     private void givenMomentsInDataBase() throws SQLException {
         when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment);
@@ -198,6 +223,14 @@ public class MomentsSegregatorTest {
         when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
 
+    private void givenDateTimeIsFixed() {
+        DateTimeUtils.setCurrentMillisFixed(DateTime.now().getMillis());
+    }
+
+    private void givenDateTimeIsNotFixed() {
+        DateTimeUtils.setCurrentMillisSystem();
+    }
+
     private void whenProcessMomentsReceivedFromBackendIsInvoked() throws SQLException {
         count = momentsSegregator.processMomentsReceivedFromBackend(momentList, dbRequestListener);
     }
@@ -212,6 +245,11 @@ public class MomentsSegregatorTest {
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Moment.class, Arrays.asList(moment));
         this.dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
+    }
+
+    private void when2ndMomentIsCreatedAfter5MilliSeconds() throws InterruptedException {
+        Thread.sleep(5);
+        moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
     }
 
     private void thenVerifyDbFetchingInterfaceIsCalled() throws SQLException {
@@ -230,4 +268,11 @@ public class MomentsSegregatorTest {
         assertEquals(count, this.count);
     }
 
+    private void thenMomentsHaveSameTimestamp() {
+        assertTrue(moment.getDateTime().equals(moment2.getDateTime()));
+    }
+
+    private void thenMomentsDoNotHaveSameTimestamp() {
+        assertFalse(moment.getDateTime().equals(moment2.getDateTime()));
+    }
 }
