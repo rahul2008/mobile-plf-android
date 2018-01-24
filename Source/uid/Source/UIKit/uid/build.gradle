@@ -2,13 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def supportLibraryVer = '26.0.2'
-def minSdkVer = 21
-def compileSdkVer = 26
-def targetSdkVer = 26
-def buildToolsVer = "26.0.2"
-def jUnitVer = 4.12
-
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -137,12 +130,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion compileSdkVer
-    buildToolsVersion buildToolsVer
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion minSdkVer
-        targetSdkVersion targetSdkVer
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version
 
@@ -172,13 +165,12 @@ android {
 }
 
 dependencies {
-    testCompile "junit:junit:${jUnitVer}"
+    testCompile deps.junit
 
-    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
-    compile "com.android.support:design:${supportLibraryVer}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.constraintlayout
+    compile deps.calligraphy
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -192,16 +184,16 @@ dependencies {
     }
 
     //test
-    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
+    androidTestCompile(deps.espresso_core) {
         exclude module: "com.android.support"
     }
-    androidTestCompile("com.android.support.test:runner:0.5") {
+    androidTestCompile(deps.android_testrunner) {
         exclude module: "com.android.support"
     }
-    androidTestCompile("com.android.support.test:rules:0.5") {
+    androidTestCompile(deps.android_testrules) {
         exclude module: "com.android.support"
     }
-    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
+    androidTestCompile deps.android_test_commons
 
 }
 

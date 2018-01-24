@@ -126,13 +126,13 @@ publishing {
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
 
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version
 
@@ -147,7 +147,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:design:26.0.2'
+    compile deps.support.design
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -163,9 +163,9 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
-    compile 'com.android.support:recyclerview-v7:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:support-v4:26.0.2'
+    compile deps.support.recyclerview
+    compile deps.support.appcompatv7
+    compile deps.support.supportv4
 
     compile(dp ? project(':digitalCare') : project(':digitalCare'))
 }
