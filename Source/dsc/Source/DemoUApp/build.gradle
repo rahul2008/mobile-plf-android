@@ -44,7 +44,6 @@ android {
 }
 
 dependencies {
-
     for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
         if (directdependencies) {
             compile project(path: dep)
@@ -59,7 +58,7 @@ dependencies {
 
     testCompile deps.junit
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
