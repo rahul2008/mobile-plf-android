@@ -21,6 +21,7 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 
 import java.util.HashMap;
@@ -102,22 +103,15 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
-        boolean isOnline = getRestClient().isInternetReachable();
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
-        if (isOnline) {
-            // TODO Go back one extra step to MYA screen (OBE is offline)
-//            permissionInterface.navigateAway();
-        }
-        else {
-            // TODO Show error: Unable to get your consents because you are offline
-        }
+        permissionInterface.showErrorDialog(true, error);
     }
 
     @Override
     public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
         adapter.onCreateConsentFailed(definition, error);
-        permissionInterface.showErrorDialog(error);
+        permissionInterface.showErrorDialog(false, error);
         permissionInterface.hideProgressDialog();
     }
 

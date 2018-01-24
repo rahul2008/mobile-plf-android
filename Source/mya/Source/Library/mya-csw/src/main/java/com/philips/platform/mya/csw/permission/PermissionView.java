@@ -143,9 +143,13 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showErrorDialog(ConsentError error) {
+    public void showErrorDialog(boolean goBack, ConsentError error) {
         CswLogger.e(TAG, error.getError());
-        new DialogView().showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()));
+        DialogView dialogView = new DialogView();
+        if(goBack) {
+            dialogView = new DialogView(this);
+        }
+        dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()));
     }
 
     @Override
