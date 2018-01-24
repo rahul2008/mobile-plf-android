@@ -7,9 +7,11 @@
 package com.philips.platform.ths.welcome;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,6 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -35,7 +36,9 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     private Label mLabelSeeHowItWorks;
     private Label mLabelTermsAndConditions;
     private RelativeLayout mRelativeLayoutContainer;
-    private Label ths_terms_and_conditions_cross;
+    private ImageView ths_terms_and_conditions_cross;
+    private Toolbar toolBar;
+    private Drawable navigationIconDrawable;
 
     @Nullable
     @Override
@@ -46,8 +49,6 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         mLabelSeeHowItWorks = (Label) view.findViewById(R.id.ths_video_consults);
         mLabelTermsAndConditions = (Label) view.findViewById(R.id.ths_licence);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.ths_pre_welcome_screen);
-        ths_terms_and_conditions_cross = view.findViewById(R.id.ths_terms_and_conditions_cross);
-        ths_terms_and_conditions_cross.setOnClickListener(this);
         mLabelTermsAndConditions.setOnClickListener(this);
         mLabelSeeHowItWorks.setOnClickListener(this);
         mBtnGoSeeProvider.setOnClickListener(this);
@@ -64,8 +65,6 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         }else if(viewId == R.id.ths_licence){
             createCustomProgressBar(mRelativeLayoutContainer,BIG);
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_licence);
-        }else if(viewId == R.id.ths_terms_and_conditions_cross){
-            exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
         }
     }
 
@@ -76,7 +75,30 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
+        View view = getActivity().findViewById(R.id.uid_toolbar);
+        if(view instanceof Toolbar) {
+            this.toolBar = (Toolbar)view;
+            this.navigationIconDrawable = this.toolBar.getNavigationIcon();
+        }
+
+        setBackArrowButton();
         THSTagUtils.doTrackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
+    }
+
+    private void setBackArrowButton() {
+        if(this.isToolBarContainsNavigationIcon()) {
+            this.toolBar.setNavigationIcon(getResources().getDrawable(R.mipmap.dls_cross_bold, getActivity().getTheme()));
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        restoreBackIcon();
+    }
+
+    private void restoreBackIcon() {
+        this.toolBar.setNavigationIcon(getResources().getDrawable(R.drawable.uid_back_icon, getActivity().getTheme()));
     }
 
     public void showTermsAndConditions(String url) {
@@ -84,5 +106,15 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
         THSTagUtils.doTrackPageWithInfo(THS_TERMS_AND_CONDITION,null,null);
+    }
+
+    private boolean isToolBarContainsNavigationIcon() {
+        return this.toolBar != null && this.navigationIconDrawable != null;
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        return true;
     }
 }
