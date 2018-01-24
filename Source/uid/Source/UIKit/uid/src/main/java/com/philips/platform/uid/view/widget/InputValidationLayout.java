@@ -142,7 +142,7 @@ public class InputValidationLayout extends LinearLayout {
 
         SavedState savedState = new SavedState(superState);
         savedState.isShowingError = isShowingError;
-        savedState.errorMsg = errorLabel.getText();
+        savedState.errorLabelState = errorLabel.onSaveInstanceState();
         return savedState;
     }
 
@@ -156,8 +156,8 @@ public class InputValidationLayout extends LinearLayout {
         super.onRestoreInstanceState(savedState.getSuperState());
 
         isShowingError = savedState.isShowingError;
-        CharSequence errorMsg = savedState.errorMsg;
-        errorLabel.setText(errorMsg);
+        errorLabel.onRestoreInstanceState(savedState.errorLabelState);
+
         if (isShowingError) {
             showError();
         }
@@ -313,7 +313,7 @@ public class InputValidationLayout extends LinearLayout {
                 return new SavedState[size];
             }
         };
-        private CharSequence errorMsg;
+        private Parcelable errorLabelState;
         private boolean isShowingError;
 
         SavedState(Parcelable superState) {
@@ -322,14 +322,14 @@ public class InputValidationLayout extends LinearLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            errorMsg = in.readString();
+            errorLabelState = in.readParcelable(errorLabelState.getClass().getClassLoader());
             isShowingError = in.readByte() != 0;
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeString(errorMsg.toString());
+            out.writeParcelable(errorLabelState, flags);
             out.writeByte((byte) (this.isShowingError ? 1 : 0));
         }
     }
