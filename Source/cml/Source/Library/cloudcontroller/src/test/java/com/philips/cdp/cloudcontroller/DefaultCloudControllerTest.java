@@ -6,6 +6,7 @@
 package com.philips.cdp.cloudcontroller;
 
 import com.philips.icpinterface.DownloadData;
+import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 
@@ -17,6 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.nio.ByteBuffer;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -24,6 +26,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DefaultCloudControllerTest {
 
     private DefaultCloudController sut = new DefaultCloudController();
+
+    @Mock
+    private SignOn signOn;
 
     @Mock
     private DownloadData downloadDataMock;
@@ -61,5 +66,20 @@ public class DefaultCloudControllerTest {
         when(downloadDataMock.getBuffer()).thenReturn(downloadDataBuffer);
 
         sut.onICPCallbackEventOccurred(Commands.DOWNLOAD_DATA, Errors.SUCCESS, downloadDataMock);
+    }
+
+    @Test
+    public void givenSignOnWasCompleted_whenLocaleIsSet_thenLocaleIsForwardedToIcpClient() {
+        sut.setSignOn(signOn);
+
+        sut.setNewLocale("","");
+
+        verify(signOn).setNewLocale("","");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void givenSignOnWasNotCompleted_whenLocaleIsSet_thenIllegalStateExceptionIsThrown() {
+
+        sut.setNewLocale("","");
     }
 }

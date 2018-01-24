@@ -128,7 +128,7 @@
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:text">@string/vitals_skip</item>
+        <item name="android:text">@string/ths_vitals_skip</item>
     </style>
 
     <style name="ths_title_text">

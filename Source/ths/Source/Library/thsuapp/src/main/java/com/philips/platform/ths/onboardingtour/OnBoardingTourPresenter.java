@@ -64,8 +64,8 @@ class OnBoardingTourPresenter implements THSBasePresenter {
     private OnBoardingTourContentModel createOnBoardingTourContentModel1() {
         List<OnBoardingSpanValue> spanValues = new ArrayList<>();
         spanValues.add(new OnBoardingSpanValue(0, 64, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(65, onBoardingTourFragment.getString(R.string.onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one, spanValues, ON_BOARDING_PAGE_1);
+        spanValues.add(new OnBoardingSpanValue(65, onBoardingTourFragment.getString(R.string.ths_onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_one_text, R.mipmap.onboarding_tour_one, spanValues, ON_BOARDING_PAGE_1);
 
     }
 
@@ -75,8 +75,8 @@ class OnBoardingTourPresenter implements THSBasePresenter {
         spanValues.add(new OnBoardingSpanValue(25, 52, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         spanValues.add(new OnBoardingSpanValue(53, 65, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         spanValues.add(new OnBoardingSpanValue(66, 73, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(75, onBoardingTourFragment.getString(R.string.onboarding_two_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        return new OnBoardingTourContentModel(R.string.onboarding_two_text, R.mipmap.onboarding_tour_two, spanValues, ON_BOARDING_PAGE_2);
+        spanValues.add(new OnBoardingSpanValue(75, onBoardingTourFragment.getString(R.string.ths_onboarding_two_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_two_text, R.mipmap.onboarding_tour_two, spanValues, ON_BOARDING_PAGE_2);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel3() {
@@ -84,8 +84,8 @@ class OnBoardingTourPresenter implements THSBasePresenter {
         spanValues.add(new OnBoardingSpanValue(0, 31, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         spanValues.add(new OnBoardingSpanValue(32, 53, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         spanValues.add(new OnBoardingSpanValue(55, 100, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(101, onBoardingTourFragment.getString(R.string.onboarding_three_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.onboarding_three_text, R.mipmap.onboarding_tour_three, spanValues, ON_BOARDING_PAGE_3);
+        spanValues.add(new OnBoardingSpanValue(101, onBoardingTourFragment.getString(R.string.ths_onboarding_three_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_three_text, R.mipmap.onboarding_tour_three, spanValues, ON_BOARDING_PAGE_3);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel4() {
@@ -93,8 +93,8 @@ class OnBoardingTourPresenter implements THSBasePresenter {
         spanValues.add(new OnBoardingSpanValue(0, 28, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         spanValues.add(new OnBoardingSpanValue(29, 35, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         spanValues.add(new OnBoardingSpanValue(36, 43, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(44, onBoardingTourFragment.getString(R.string.onboarding_four_text).length()-1, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.onboarding_four_text, R.mipmap.onboarding_tour_four, spanValues, ON_BOARDING_PAGE_4);
+        spanValues.add(new OnBoardingSpanValue(44, onBoardingTourFragment.getString(R.string.ths_onboarding_four_text).length()-1, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_four_text, R.mipmap.onboarding_tour_four, spanValues, ON_BOARDING_PAGE_4);
     }
 
     private void launchPreWelcomeScreen() {

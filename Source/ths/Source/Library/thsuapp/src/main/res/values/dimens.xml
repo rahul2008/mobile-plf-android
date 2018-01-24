@@ -1,5 +1,6 @@
 <resources>
     <dimen name="ths_fab_margin">16dp</dimen>
+    <dimen name="ths_text_14sp">14sp</dimen>
 
     <dimen name="ths_title_text">20sp</dimen>
     <dimen name="ths_title_text_medium">28sp</dimen>

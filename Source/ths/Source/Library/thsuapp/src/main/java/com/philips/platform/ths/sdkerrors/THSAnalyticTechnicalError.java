@@ -24,7 +24,7 @@ public class THSAnalyticTechnicalError {
     public static final String ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT = "Upload Clinical Attachment";
     public static final String ANALYTICS_ESTIMATED_VISIT_COST = "Estimated Visit Cost";
     public static final String ANALYTICS_SEARCH_PROVIDER = "Provider Search for Authenticated Consumer";
-    public static final String ANALYTICS_START_VISIT = "Starting a Visit";
+    public static final String ANALYTIC_VIDEO_VISIT_FAIL = "Video visit fail";
     public static final String ANALYTICS_ON_DEMAND_SPECIALITIES = "Get On Demand Specialties";
     public static final String ANALYTICS_START_MATCHING = "Start Matchmaking";
     public static final String ANALYTICS_SCHEDULE_APPOINTMENT = "Schedule Appointment";
@@ -54,6 +54,8 @@ public class THSAnalyticTechnicalError {
 
     public static final String ANALYTIC_FETCH_PROVIDER_LIST = "Fetch providerList";
     public static final String ANALYTIC_CONSUMER_EXIST_CHECK = "ConsumerExistCheck";
+    public static final String ANALYTIC_NOPP_FETCH ="NOPP fetch";
+
 
 
 

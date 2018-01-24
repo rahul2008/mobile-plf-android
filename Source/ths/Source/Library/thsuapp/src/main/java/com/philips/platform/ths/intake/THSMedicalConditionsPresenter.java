@@ -13,13 +13,13 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_MEDICAL_CONDITION;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SAVE_MEDICAL_CONDITION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -58,16 +58,20 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     @Override
     public void onResponse(THSConditionsList thsConditions, THSSDKError THSSDKError) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
+            if (null != THSSDKError && null != THSSDKError.getSdkError()) {
+                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(thsBaseFragment.getContext(), ANALYTICS_FETCH_MEDICAL_CONDITION, THSSDKError.getSdkError()));
+            } else {
 
-            final List<Condition> conditions = thsConditions.getConditions();
+                final List<Condition> conditions = thsConditions.getConditions();
 
-            List<THSCondition> THSConditionsList = new ArrayList<>();
-            for (Condition condition : conditions) {
-                THSCondition THSConditions = new THSCondition();
-                THSConditions.setCondition(condition);
-                THSConditionsList.add(THSConditions);
+                List<THSCondition> THSConditionsList = new ArrayList<>();
+                for (Condition condition : conditions) {
+                    THSCondition THSConditions = new THSCondition();
+                    THSConditions.setCondition(condition);
+                    THSConditionsList.add(THSConditions);
+                }
+                ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
             }
-            ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
         }
     }
 
@@ -83,7 +87,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
             if (null != sdkError.getSdkError()) {
-                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICAL_CONDITION,sdkError.getSdkError()));
+                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(thsBaseFragment.getContext(), ANALYTICS_SAVE_MEDICAL_CONDITION,sdkError.getSdkError()));
             } else {
                 if(((THSMedicalConditionsFragment) thsBaseFragment).NumberOfConditionSelected>0) {
                     THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");

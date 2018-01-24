@@ -16,7 +16,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -28,7 +27,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -92,14 +90,6 @@ public class THSPreOnBoardingTourFragmentTest {
         final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_licence);
         viewById.performClick();
         verify(thsPreWelcomePresenter).onEvent(R.id.ths_licence);
-    }
-
-    @Test
-    public void onClickths_terms_and_conditions_cross() throws Exception {
-        final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_terms_and_conditions_cross);
-        viewById.performClick();
-        final THSVisitContext pthVisitContext = THSManager.getInstance().getPthVisitContext();
-        assertNull(pthVisitContext);
     }
 
     @Test
