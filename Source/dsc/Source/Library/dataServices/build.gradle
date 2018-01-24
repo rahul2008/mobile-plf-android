@@ -261,9 +261,9 @@ dependencies {
     compile deps.javax_inject
 
     compile deps.dagger.dagger
-    apt deps.dagger.compiler
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor deps.dagger.compiler
+    provided deps.glassfish_annotation
+    provided deps.javax_annotation
     testApt deps.dagger.compiler
 
     //Test Compile

@@ -72,7 +72,7 @@ ext.deps = [
                 fragment    : "com.android.support:support-fragment:${ext.versions.support}",
                 supportv4   : "com.android.support:support-v4:${ext.versions.support}",
                 customtabs  : "com.android.support:customtabs:${ext.versions.support}",
-                multidex    : "com.android.support:multidex:${ext.versions.support}",
+                multidex    : "com.android.support:multidex:1.0.1",
                 recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
         adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
@@ -99,6 +99,8 @@ ext.deps = [
         retrofit                      : 'com.squareup.retrofit:retrofit:1.9.0',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         javax_inject                  : 'javax.inject:javax.inject:1',
+        glassfish_annotation          : 'org.glassfish:javax.annotation:10.0-b28',
+        javax_annotation              : 'javax.annotation:jsr250-api:1.0',
 
         // Testing
         android_testrunner            : 'com.android.support.test:runner:0.5',
