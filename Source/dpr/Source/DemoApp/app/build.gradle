@@ -4,9 +4,10 @@ apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -22,8 +23,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -105,7 +106,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -120,17 +121,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 6
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
@@ -233,33 +234,29 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+    if (dp) {
         project(':registrationApi')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
         }
     }
 
     //Android Support Libraries
-    compile 'com.android.support:support-annotations:26.0.2'
-    compile 'com.android.support:customtabs:26.0.2'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'joda-time:joda-time:2.9.2'
+    compile deps.support.annotations
+    compile deps.support.customtabs
+    compile deps.support.multidex
+
+    compile deps.joda_time
 
     //Debug
-    debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-
-    //Release
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    debugCompile deps.stetho
 
     //Test
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testCompile deps.mockito
+    testCompile deps.junit
+    testCompile deps.robolectric
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
