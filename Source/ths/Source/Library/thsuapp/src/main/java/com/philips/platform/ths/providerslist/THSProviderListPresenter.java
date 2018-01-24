@@ -70,7 +70,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST, sdkError), true, false);
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER_LIST, sdkError), true, false);
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
@@ -146,7 +146,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             if (null != sdkError.getSdkError()) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
                 if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
                     mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_matchmaking_no_provider_available_text));

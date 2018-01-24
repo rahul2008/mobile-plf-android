@@ -10,9 +10,12 @@ import android.widget.ExpandableListView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.HashMap;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS;
 
 public class THSFaqFragment extends THSBaseFragment {
     public static final String TAG = THSFaqFragment.class.getSimpleName();
@@ -35,7 +38,7 @@ public class THSFaqFragment extends THSBaseFragment {
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_how_it_works), true);
         }
-
+        THSTagUtils.doTrackPageWithInfo(THS_HOW_IT_WORKS,null,null);
         return view;
     }
 

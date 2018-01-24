@@ -24,6 +24,7 @@ import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
@@ -142,7 +143,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER,null,null);
 
     }
 }

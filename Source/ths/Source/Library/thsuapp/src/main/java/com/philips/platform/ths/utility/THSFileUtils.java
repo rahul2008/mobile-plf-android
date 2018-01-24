@@ -10,28 +10,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.UploadAttachment;
-import com.philips.platform.ths.R;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -42,6 +29,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import okhttp3.MediaType;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_VIEW_VISIT_REPORT;
 
 /**
  * Utilities for File handling
@@ -183,6 +172,7 @@ public class THSFileUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             try {
                 context.startActivity(intent);
+                THSTagUtils.doTrackPageWithInfo(THS_VIEW_VISIT_REPORT,null,null);
             } catch (ActivityNotFoundException e) {
             }
         } catch (IOException ioe) {

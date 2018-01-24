@@ -267,7 +267,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                                 alertDialogFragment.dismiss();
                                 launchLocationSettings();
                             }
-                        }).setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                        }).setNegativeButton(R.string.ths_cancel, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 alertDialogFragment.dismiss();

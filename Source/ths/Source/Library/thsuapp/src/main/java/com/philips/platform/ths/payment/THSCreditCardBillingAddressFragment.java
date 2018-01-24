@@ -23,6 +23,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -33,8 +34,11 @@ import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_STATES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_BILLING_ADDRESS;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 
 public class THSCreditCardBillingAddressFragment extends THSBaseFragment implements View.OnClickListener {
@@ -130,8 +134,9 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getContext()).getSupportedCountries();
             stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR,errorTag);
         }
 
         stateSpinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, stateList);
@@ -178,11 +183,17 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
             doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_empty_string), false);
             doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_city_empty_string), false);
             return false;
-        } else if (s.length() < 2 || s.length() > 25) {
+        } else if (s.length() < 2) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_length_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_length_string);
             doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_length_string), false);
             doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_city_length_string), false);
+            return false;
+        }else if (s.length() > 25) {
+            addressValidationLayout.setErrorMessage(R.string.ths_address_validation_length__max_string);
+            cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_length_max_string);
+            doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_length__max_string), false);
+            doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_address_validation_city_length_max_string), false);
             return false;
         } else {
             return true;
@@ -195,7 +206,6 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
         actionBarListener = getActionBarListener();
         Address address = mBundle.getParcelable("address");
         updateAddresIfAvailable(address);
-        //createCustomProgressBar(mProgressbarContainer, MEDIUM);
     }
 
     void updateAddresIfAvailable(Address address) {
@@ -223,7 +233,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_BILLING_ADDRESS, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_BILLING_ADDRESS, null, null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Billing address", true);
         }
