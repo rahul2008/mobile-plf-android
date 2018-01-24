@@ -197,7 +197,7 @@ def BuildAndUnitTest() {
             :dataServicesUApp:testReleaseUnitTest \
             :devicepairingUApp:test \
             :ews-android:test \
-            :referenceApp:testAppFrameworkHamburgerReleaseUnitTest \
+            :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
     '''
 }
 
@@ -205,7 +205,30 @@ def BuildLint() {
     sh '''#!/bin/bash -l
         set -e
         #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-        ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :mya:lint :mya-catk:lint :mya-csw:lint :mya-chi:lint :mya-mch:lint :dataServices:lintRelease :devicepairingUApp:lint :ews-android:lint :ewsUApp:lint :pushnotification:lintRelease :themesettings:lintRelease
+        ./gradlew :IconFont:lint \
+         :AppInfra:lint \
+         :uikitLib:lint \
+         :securedblibrary:lint \
+         :registrationApi:lint \
+         :productselection:lint \
+         :telehealth:lintRelease \
+         :bluelib:lintDebug \
+         :product-registration-lib:lint \
+         :iap:lint \
+         :digitalCare:lint \
+         :cloudcontroller-api:lintDebug \
+         :commlib:lintDebug \
+         :mya:lint \
+         :mya-catk:lint \
+         :mya-csw:lint \
+         :mya-chi:lint \
+         :mya-mch:lint \
+         :dataServices:lintRelease \
+         :devicepairingUApp:lint \
+         :ews-android:lint \
+         :ewsUApp:lint \
+         :pushnotification:lintRelease \
+         :themesettings:lintRelease
         #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
     '''
 }
