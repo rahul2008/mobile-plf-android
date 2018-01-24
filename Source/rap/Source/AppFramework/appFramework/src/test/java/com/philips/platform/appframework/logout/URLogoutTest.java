@@ -128,7 +128,6 @@ public class URLogoutTest {
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -164,7 +163,6 @@ public class URLogoutTest {
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -197,7 +195,6 @@ public class URLogoutTest {
         verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
         verify(urLogoutListener).onLogoutResultSuccess();
     }
 
@@ -223,7 +220,6 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
         verify(urLogoutListener, times(0)).onLogoutResultSuccess();
     }
 

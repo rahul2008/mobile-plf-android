@@ -16,3 +16,4 @@
 #   public *;
 #}
 -keep class com.philips.platform.uid.view.widget.** { *; }
+-keep public class com.philips.platform.uid.utils.CanvasCompat
