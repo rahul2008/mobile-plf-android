@@ -145,19 +145,13 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void showErrorDialog(boolean goBack, ConsentError error) {
         CswLogger.e(TAG, error.getError());
-        DialogView dialogView = new DialogView();
-        if(goBack) {
-            dialogView = new DialogView(this);
-        }
+        DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_problem_occurred_error_title), getString(R.string.csw_problem_occurred_error_message, error.getErrorCode()));
     }
 
     @Override
     public void showOfflineErrorDialog(boolean goBack) {
-        DialogView dialogView = new DialogView();
-        if(goBack) {
-            dialogView = new DialogView(this);
-        }
+        DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getCswFragment().getActivity(), getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
     }
 
@@ -189,5 +183,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @VisibleForTesting
     protected PermissionPresenter getPermissionPresenter() {
         return new PermissionPresenter(this, configs, adapter);
+    }
+
+
+    @NonNull
+    private DialogView getDialogView(boolean goBack) {
+        DialogView dialogView = new DialogView();
+        if(goBack) {
+            dialogView = new DialogView(this);
+        }
+        return dialogView;
     }
 }
