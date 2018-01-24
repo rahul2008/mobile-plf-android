@@ -43,9 +43,9 @@ public class DialogView implements View.OnClickListener {
     }
 
     protected void setupTitleAndText(String title, String body) {
-        Label titleLabel = view.findViewById(R.id.mya_csw_label_cancel_setup_title);
+        Label titleLabel = view.findViewById(R.id.mya_csw_label_error_message_title);
         titleLabel.setText(title);
-        Label bodyLabel = view.findViewById(R.id.mya_csw_verify_device_body);
+        Label bodyLabel = view.findViewById(R.id.mya_csw_label_error_message_body);
         bodyLabel.setText(body);
     }
 
@@ -59,7 +59,7 @@ public class DialogView implements View.OnClickListener {
     }
 
     protected Button getOkButton() {
-        return view.findViewById(R.id.cws_dialog_offline_button_ok);
+        return view.findViewById(R.id.cws_dialog_error_message_button_ok);
     }
 
     protected void setupAlertDialogFragment(FragmentActivity activity) {
