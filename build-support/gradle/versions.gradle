@@ -39,7 +39,7 @@ ext.versions = [
         buildtools                 : "26.0.2",
         support                    : "26.0.2",
         jacoco                     : "0.7.6.201602180812",
-        dagger                     : "2.11",
+        dagger                     : "2.13",
         renderscriptTargetApi      : 26,
 ]
 
