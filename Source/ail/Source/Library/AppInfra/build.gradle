@@ -29,8 +29,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -90,13 +90,13 @@ android {
 dependencies {
     compile deps.adobemobilelib
     compile deps.gson
-    compile 'com.android.volley:volley:1.0.0'
+    compile deps.volley
     compile deps.support.design
     compile deps.support.supportv4
     compile deps.support.annotations
 
     testCompile 'org.mockito:mockito-core:2.8.9'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile deps.robolectric
     testCompile deps.assertj
 
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
