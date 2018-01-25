@@ -72,12 +72,10 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@style/Widget.Design.FloatingActionButton"
             android:contentDescription="@string/cml_clear_appliances"
             android:elevation="4dp"
             android:focusable="true"
             android:src="@android:drawable/ic_menu_delete"
-            tools:backgroundTint="@color/colorAccent"
             tools:elevation="4dp"
             tools:fabSize="auto" />
     </RelativeLayout>
