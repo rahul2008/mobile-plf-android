@@ -21,7 +21,6 @@ import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
@@ -30,6 +29,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
@@ -39,6 +39,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_IMAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickListener {
 
@@ -145,8 +149,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                                     ProviderImageSize.SMALL).placeholder(providerImage.getResources().
                             getDrawable(R.drawable.doctor_placeholder,mContext.getTheme())).build().load();
                 }
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                final String errorTag = THSTagUtils.createErrorTag(ANALYTIC_FETCH_PROVIDER_IMAGE, e.getMessage());
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
             }
         }
 
@@ -160,13 +165,13 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         String providerVisibility = provider.getVisibility().toString();
         Context context = isAvailable.getContext();
         if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_available);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
             details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));

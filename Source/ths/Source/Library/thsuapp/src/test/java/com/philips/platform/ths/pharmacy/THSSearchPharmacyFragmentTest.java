@@ -12,7 +12,6 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -92,6 +91,8 @@ public class THSSearchPharmacyFragmentTest {
     @Mock
     THSBaseFragment thsBaseFragmentMock;
 
+    THSSearchPharmacyFragment thsSearchPharmacyFragment;
+
     @Mock
     AppInfraInterface appInfraInterface;
 
@@ -102,12 +103,7 @@ public class THSSearchPharmacyFragmentTest {
     LoggingInterface loggingInterface;
 
     @Mock
-    AppConfigurationInterface appConfigurationInterfaceMock;
-
-    @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
-
-    THSSearchPharmacyFragment thsSearchPharmacyFragment;
 
     @Mock
     Context applicationContextMock;
@@ -116,14 +112,6 @@ public class THSSearchPharmacyFragmentTest {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
-
-        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
-        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
-        when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
-        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
-        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
-        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
-        THSManager.getInstance().setAppInfra(appInfraInterface);
 
 
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
@@ -134,6 +122,14 @@ public class THSSearchPharmacyFragmentTest {
         thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         thsSearchPharmacyFragment.setActionBarListener(actionBarListenerMock);
         thsSearchPharmacyFragment.setFragmentLauncher(fragmentLauncherMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
 
     }
 

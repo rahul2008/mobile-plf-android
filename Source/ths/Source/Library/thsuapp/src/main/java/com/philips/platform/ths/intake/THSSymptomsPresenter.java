@@ -88,7 +88,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
             } else {
                 updateSymptoms(THSVisitContext);
             }
@@ -138,7 +138,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
                     } else {
                         updateSymptoms(pthVisitContext);
                     }
@@ -172,7 +172,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             if (null != documentRecord && null == sdkError) {
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
                 thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
             }
         }

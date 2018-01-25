@@ -86,7 +86,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             return;
         }
 
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
         THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeEnd", null, null);

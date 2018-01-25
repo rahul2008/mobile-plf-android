@@ -98,7 +98,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
-            RLog.i(LOG_TAG, "Jump initialized, registering");
+            RLog.d(LOG_TAG, "Jump initialized, registering");
             if (mTraditionalRegisterHandler != null) {
                 registerNewUserUsingTraditional();
             }
@@ -107,7 +107,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.i(LOG_TAG, "Jump not initialized, initializing");
+            RLog.d(LOG_TAG, "Jump not initialized, initializing");
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
 
@@ -147,7 +147,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onFlowDownloadSuccess() {
         if (mTraditionalRegisterHandler != null) {
-            RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, registering user");
+            RLog.d(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, registering user");
             registerNewUserUsingTraditional();
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
@@ -155,7 +155,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
+        RLog.d(LOG_TAG, "Jump not initialized, was initialized but failed");
         if (mTraditionalRegisterHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));

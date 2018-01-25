@@ -89,7 +89,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
     }
 
     private void handleRegistrationSuccess() {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             createAccountContract.storeEMail();
         }

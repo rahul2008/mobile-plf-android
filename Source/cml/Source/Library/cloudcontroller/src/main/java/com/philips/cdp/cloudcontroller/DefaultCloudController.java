@@ -141,7 +141,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         } else {
             Log.e(LogConstants.CLOUD_CONTROLLER, "Init failed, command result: " + commandResult);
         }
-        setLocale();
+
+        setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
     }
 
     @VisibleForTesting
@@ -151,6 +152,11 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         mDcsResponseListeners = new CopyOnWriteArraySet<>();
         mDcsEventListenersMap = new HashMap<>();
         mPublishEventListeners = null;
+    }
+
+    @VisibleForTesting
+    void setSignOn(final SignOn signOn) {
+        this.mSignOn = signOn;
     }
 
     @Override
@@ -632,13 +638,12 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             String dcsEvents = mEventSubscription.getData(i);
             String fromEui64 = mEventSubscription.getReplyTo(i);
             String action = mEventSubscription.getAction(i);
-            String conversationId = mEventSubscription.getConversationId(i);
 
             Log.d(LogConstants.ICPCLIENT, "DCS event received from: " + fromEui64 + "    action: " + action);
             Log.d(LogConstants.ICPCLIENT, "DCS event received: " + dcsEvents);
 
             if (notifyListeners) {
-                notifyDCSListener(dcsEvents, fromEui64, action, conversationId);
+                notifyDCSListener(dcsEvents, fromEui64, action, mEventSubscription.getConversationId(i));
             }
         }
     }
@@ -878,13 +883,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         }
     }
 
-    private void setLocale() {
-        if (mKpsConfigurationInfo != null && mSignOn != null) {
-            Log.i(LogConstants.CLOUD_CONTROLLER, "setLocale is called, Country = " + mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
-            mSignOn.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
-        }
-    }
-
     @Override
     public String getAppType() {
         return mKpsConfigurationInfo.getAppType();
@@ -908,5 +906,27 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @Override
     public PairingController getPairingController() {
         return mPairingController;
+    }
+
+    /**
+     * Set the locale that will be used from that point onwards in all requests to device cloud. Usually, this
+     * is used to update the language of push notifications.
+     *
+     * Note: you still have to trigger a request to the device cloud to communicate this change to the back-end!
+     * a candidate to force this would be {@link DefaultCloudController#sendNotificationRegistrationId(String, String)}
+     * again, with the same arguments as before.
+     *
+     * @param countryCode the country code of the locale
+     * @param languageCode the language code of the locale
+     *
+     * @throws IllegalStateException when you call this method before signon was done
+     */
+    public void setNewLocale(String countryCode, String languageCode) {
+        if (mSignOn == null) {
+            throw new IllegalStateException("SignOn failed to initialize, so cannot set locale");
+        }
+
+        Log.i(LogConstants.CLOUD_CONTROLLER, "setNewLocale is called, Country = " + countryCode + "Language = " + languageCode);
+        mSignOn.setNewLocale(countryCode, languageCode);
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
@@ -53,6 +54,6 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_START, null, null);
+        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_START, null, null);
     }
 }

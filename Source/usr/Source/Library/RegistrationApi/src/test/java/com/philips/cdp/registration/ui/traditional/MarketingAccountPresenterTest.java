@@ -62,7 +62,7 @@ public class MarketingAccountPresenterTest {
         marketingAccountPresenter.onUpdateSuccess();
 
         Mockito.verify(marketingAccountContractMock).trackRemarketing();
-        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
+        RLog.d("MarketingAccountFragment", "onUpdateSuccess ");
         Mockito.verify(marketingAccountContractMock).hideRefreshProgress();
         Mockito.verify(marketingAccountContractMock).handleRegistrationSuccess();
     }
