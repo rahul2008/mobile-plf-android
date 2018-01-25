@@ -1,19 +1,18 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.core.devicecache;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.core.util.ObservableCollection;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -25,26 +24,22 @@ public class DeviceCacheTest {
     private DeviceCache<CacheData> deviceCache;
 
     @Mock
+    ScheduledExecutorService scheduledExecutorServiceMock;
+
+    @Mock
     NetworkNode networkNodeMock;
+
     @Mock
     NetworkNode secondNetworkNodeMock;
 
     @Mock
-    ScheduledExecutorService scheduledExecutorServiceMock;
-
-    @Mock
-    ScheduledFuture scheduledFutureMock;
-
-    @Mock
-    DeviceCache.ExpirationCallback expirationCallbackMock;
-
-    @Mock
     CacheData cacheDataMock;
+
     @Mock
     CacheData secondCacheDataMock;
 
     @Mock
-    ObservableCollection.ModificationListener<String> listener;
+    DeviceCacheListener<CacheData> listener;
 
     @Before
     public void setUp() throws Exception {
@@ -52,14 +47,14 @@ public class DeviceCacheTest {
 
         deviceCache = new DeviceCache<>(scheduledExecutorServiceMock);
 
-        when(cacheDataMock.getExpirationPeriodMillis()).thenReturn(5L);
-        when(cacheDataMock.getNetworkNode()).thenReturn(networkNodeMock);
-        when(cacheDataMock.getExpirationCallback()).thenReturn(expirationCallbackMock);
-        when(secondCacheDataMock.getExpirationPeriodMillis()).thenReturn(5L);
-        when(secondCacheDataMock.getNetworkNode()).thenReturn(secondNetworkNodeMock);
-        when(secondCacheDataMock.getExpirationCallback()).thenReturn(expirationCallbackMock);
         when(networkNodeMock.getCppId()).thenReturn("my-cpp-id");
         when(secondNetworkNodeMock.getCppId()).thenReturn("my-cpp-id-other");
+
+        when(cacheDataMock.getExpirationPeriodMillis()).thenReturn(5L);
+        when(cacheDataMock.getNetworkNode()).thenReturn(networkNodeMock);
+
+        when(secondCacheDataMock.getExpirationPeriodMillis()).thenReturn(5L);
+        when(secondCacheDataMock.getNetworkNode()).thenReturn(secondNetworkNodeMock);
     }
 
     @Test
@@ -111,31 +106,32 @@ public class DeviceCacheTest {
         deviceCache.add(cacheDataMock);
         deviceCache.add(secondCacheDataMock);
 
-        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
+        deviceCache.addDeviceCacheListener(listener);
 
         deviceCache.clear();
 
         assertThat(deviceCache.contains(networkNodeMock.getCppId())).isFalse();
         assertThat(deviceCache.contains(secondNetworkNodeMock.getCppId())).isFalse();
 
-        verify(listener).onRemoved(networkNodeMock.getCppId());
+        verify(listener).onRemoved(cacheDataMock);
     }
 
     @Test
     public void whenDeviceAdded_ThenListenerIsNotified() {
-        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
+        deviceCache.addDeviceCacheListener(listener);
 
         deviceCache.add(cacheDataMock);
 
-        verify(listener).onAdded(networkNodeMock.getCppId());
+        verify(listener).onAdded(cacheDataMock);
     }
 
     @Test
     public void whenDeviceRemoved_ThenListenerIsNotified() {
-        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
+        deviceCache.addDeviceCacheListener(listener);
 
+        deviceCache.add(cacheDataMock);
         deviceCache.remove(networkNodeMock.getCppId());
 
-        verify(listener).onRemoved(networkNodeMock.getCppId());
+        verify(listener).onRemoved(cacheDataMock);
     }
 }

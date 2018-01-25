@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core.devicecache;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,7 +19,7 @@ public class CacheData {
     @NonNull
     private final NetworkNode networkNode;
     @NonNull
-    private final DeviceCache.ExpirationCallback expirationCallback;
+    private final ExpirationCallback expirationCallback;
     @NonNull
     private final ScheduledExecutorService executor;
 
@@ -26,7 +27,7 @@ public class CacheData {
     private ScheduledFuture future;
 
     public CacheData(@NonNull final ScheduledExecutorService executor,
-                     @NonNull final DeviceCache.ExpirationCallback expirationCallback,
+                     @NonNull final ExpirationCallback expirationCallback,
                      long expirationPeriodMillis,
                      @NonNull final NetworkNode networkNode) {
         this.executor = executor;
@@ -59,11 +60,6 @@ public class CacheData {
         if (future != null) {
             future.cancel(false);
         }
-    }
-
-    @NonNull
-    public DeviceCache.ExpirationCallback getExpirationCallback() {
-        return this.expirationCallback;
     }
 
     public long getExpirationPeriodMillis() {

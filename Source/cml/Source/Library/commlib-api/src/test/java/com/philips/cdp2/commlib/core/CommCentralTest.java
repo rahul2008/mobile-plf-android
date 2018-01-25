@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -142,5 +142,13 @@ public class CommCentralTest {
 
         CommCentral.getAppIdProvider().setAppId(appId);
         assertEquals("AppId must be equal.", appId, CommCentral.getAppIdProvider().getAppId());
+    }
+
+    @Test
+    public void givenACommCentralInstance_whenClearingDiscoveredAppliances_thenInvokeClearDiscoveredNetworkNodesOnAllProvidedDiscoveryStrategies() {
+        commCentral.clearDiscoveredAppliances();
+
+        verify(someDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
+        verify(anotherDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
     }
 }
