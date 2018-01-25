@@ -86,7 +86,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER,sdkError), true, false);
+                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER,sdkError), true, false);
             } else {
                 THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
                 thsConsumer.setConsumer(viewInterface.getConsumerInfo());
@@ -196,7 +196,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                         @Override
                         public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
                             if (null != sdkError) {
-                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER, sdkError));
+                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER, sdkError));
                             } else {
                                 ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
                                 try {
@@ -205,7 +205,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                 @Override
                                                 public void onResponse(final List<Date> dates, THSSDKError sdkError) {
                                                     if (null != sdkError.getSdkError()) {
-                                                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_APPOINTMENTS, sdkError.getSdkError()));
+                                                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_FETCH_APPOINTMENTS, sdkError.getSdkError()));
                                                     } else {
                                                         if (viewInterface.getPractice() == null) {
                                                             try {
@@ -214,7 +214,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                                     public void onResponse(Practice practice, SDKError practiceSdkError) {
                                                                         if (null != practiceSdkError) {
                                                                             if (null != practiceSdkError.getSDKErrorReason()) {
-                                                                                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PRACTICE,practiceSdkError));
+                                                                                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PRACTICE,practiceSdkError));
                                                                             }
                                                                         } else {
                                                                             launchFragmentBasedOnAvailibity(practice, dates, date);
@@ -363,7 +363,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTICS_START_MATCHING,sdkError));
+                    mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_START_MATCHING,sdkError));
                 }
             } else {
                 showMatchmakingError(true, true);

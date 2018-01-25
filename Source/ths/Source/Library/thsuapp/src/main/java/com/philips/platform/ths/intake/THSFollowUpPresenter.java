@@ -43,7 +43,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
                 updateConsumer(thsFollowUpViewInterfaces.getConsumerPhoneNumber());
             } else {
                 thsFollowUpViewInterfaces.showInlineError();
-                mTHSFollowUpFragment.doTagging(ANALYTIC_UPDATE_CONSUMER_PHONE,mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number),false);
+
             }
 
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
@@ -83,7 +83,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError()) {
                 if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
-                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
+                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(thsFollowUpViewInterfaces.getFragmentActivity(), ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
                 }
         }
         else {

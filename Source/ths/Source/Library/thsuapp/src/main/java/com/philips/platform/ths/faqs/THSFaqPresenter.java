@@ -6,10 +6,14 @@
 
 package com.philips.platform.ths.faqs;
 
+import android.util.Log;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSRestClient;
 
@@ -34,19 +38,24 @@ public class THSFaqPresenter implements THSBasePresenter{
     }
 
     protected void getFaq(){
-        THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_FAQ_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        if(THSManager.getInstance().getAppInfra() == null || THSManager.getInstance().getAppInfra().getServiceDiscovery() == null){
+            Log.e(AmwellLog.LOG,"App infra instance is null");
+            mThsFaqFragment.exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        }else {
+            THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_FAQ_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                mThsFaqFragment.showError("Service discovery failed - >" + s);
-            }
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    mThsFaqFragment.showError("Service discovery failed - >" + s);
+                }
 
-            @Override
-            public void onSuccess(URL url) {
-                mTHSRestClient = new THSRestClient(THSFaqPresenter.this);
-                mTHSRestClient.execute(url.toString());
-            }
-        });
+                @Override
+                public void onSuccess(URL url) {
+                    mTHSRestClient = new THSRestClient(THSFaqPresenter.this);
+                    mTHSRestClient.execute(url.toString());
+                }
+            });
+        }
     }
 
     @Override

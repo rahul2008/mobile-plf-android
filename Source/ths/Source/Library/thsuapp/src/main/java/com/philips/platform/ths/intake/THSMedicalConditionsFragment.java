@@ -23,6 +23,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.Label;
@@ -173,6 +174,6 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONDITION_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_CONDITION_PAGE,null,null);
     }
 }

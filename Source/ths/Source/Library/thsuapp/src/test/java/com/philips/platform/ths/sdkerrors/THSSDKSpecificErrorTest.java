@@ -6,27 +6,32 @@
 
 package com.philips.platform.ths.sdkerrors;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKErrorReason;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
 
 public class THSSDKSpecificErrorTest {
 
     THSSDKSpecificError mThssdkSpecificError;
 
+    @Mock
+    Context context;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mThssdkSpecificError = new THSSDKSpecificError();
+        mThssdkSpecificError.context = context;
     }
 
     @Test
     public void getErrorMessage() throws Exception {
-        final String errorMessage = mThssdkSpecificError.getErrorMessage();
+        final String errorMessage = mThssdkSpecificError.getErrorMessage(context);
         assert errorMessage.equalsIgnoreCase("");
         assert errorMessage.isEmpty();
     }

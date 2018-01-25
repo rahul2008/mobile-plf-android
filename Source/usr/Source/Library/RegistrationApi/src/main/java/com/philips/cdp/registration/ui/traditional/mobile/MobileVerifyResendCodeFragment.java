@@ -187,7 +187,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     private ProgressDialog mProgressDialog;
 
    private void showProgressDialog() {
-        if (!getActivity().isFinishing()) {
+        if (isVisible()) {
             if (mProgressDialog == null) {
                 mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -457,8 +457,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             popupWindow.dismiss();
             popupWindow=null;
         } else {
-            popupWindow.showAtLocation(getActivity().
-                    findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);
+            if(this.isVisible() && popupWindow != null) {
+                popupWindow.showAtLocation(getActivity().
+                        findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);
+            }
         }
     }
 

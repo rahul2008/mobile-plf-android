@@ -10,16 +10,19 @@ import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.List;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_NOPP_FETCH;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
     private THSBaseView uiBaseView;
@@ -46,6 +49,9 @@ class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
         final Spanned text = getSpannedText();
         if (null != text) {
             ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).legalTextsLabel.setText(text);
+        }else{
+            final String errorTag = THSTagUtils.createErrorTag(ANALYTIC_NOPP_FETCH,"Failed to load");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
     }
 

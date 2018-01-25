@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
@@ -83,7 +84,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         addPageChangeListener();
 
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
+        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
         return view;
     }
 
@@ -125,7 +126,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     protected void startAppTagging(int position) {
         String pageTitle = onBoardingTourPagerAdapter.getPageTitle(position);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(pageTitle, null, null);
+        THSTagUtils.doTrackPageWithInfo(pageTitle, null, null);
     }
 
     @Override

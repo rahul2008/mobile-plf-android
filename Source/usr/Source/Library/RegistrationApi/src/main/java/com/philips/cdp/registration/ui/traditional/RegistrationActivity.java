@@ -113,7 +113,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
             initUI();
         }
 
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
     }
 
     @Override
@@ -125,7 +125,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
+        RLog.d("Exception ", " RegistrationActivity protected onSaveInstanceState");
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
                         Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
@@ -172,7 +172,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     @Override
     protected void onDestroy() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
                 "Context");
         super.onDestroy();
     }
