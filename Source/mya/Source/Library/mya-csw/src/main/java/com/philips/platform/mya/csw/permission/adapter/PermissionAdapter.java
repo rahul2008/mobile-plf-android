@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.csw.permission.adapter;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,11 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         if (getItemViewType(position) == TYPE_ITEM) {
             final ConsentView consentItem = items.get(position - HEADER_COUNT);
             ((PermissionViewHolder) holder).setDefinition(consentItem);
+        }
+        else if (getItemViewType(position) == TYPE_HEADER) {
+            String privacyURL = "http://google.com"; // TODO To be set by proposition somehow
+            Uri privacyUri = Uri.parse(privacyURL);
+            ((PermissionHeaderViewHolder)holder).setPrivacyURL(privacyUri);
         }
     }
 

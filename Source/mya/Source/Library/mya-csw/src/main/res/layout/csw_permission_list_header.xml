@@ -11,18 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="@string/csw_privacy_settings_desc"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:textSize="@dimen/button_toggle_text_size" />
-
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/csw_privacy_settings_link"
-        fontPath="fonts/centralesansbook.ttf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Link to privacy notice might go here"
-        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:textSize="@dimen/button_toggle_text_size" />
+        android:textSize="@dimen/button_toggle_text_size"
+        />
 
 </LinearLayout>
