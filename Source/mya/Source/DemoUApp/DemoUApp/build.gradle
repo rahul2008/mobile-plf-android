@@ -71,7 +71,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_myAccount)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -126,7 +126,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -205,6 +205,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -214,22 +216,15 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
-        compile(project(':mya'))
+        debugCompile project(path: ':mya', configuration: 'debug')
+        releaseCompile project(path: ':mya', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    }
-
-    if(dp) {
-        compile project(':uid')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':UserRegistrationUApp'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 }

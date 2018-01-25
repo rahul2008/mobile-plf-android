@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.uid_uid)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -124,7 +124,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -169,6 +169,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -183,12 +185,10 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':IconFont'))
+        debugCompile project(path: ':IconFont', configuration: 'debug')
+        releaseCompile project(path: ':IconFont', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'IconFont', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     //test
