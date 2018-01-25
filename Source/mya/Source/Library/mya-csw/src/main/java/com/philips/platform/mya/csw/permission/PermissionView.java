@@ -7,38 +7,41 @@
 
 package com.philips.platform.mya.csw.permission;
 
+import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
+
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
+import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
-
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, PrivacyNoticeClickListener {
 
     private static final String TAG = "PermissionView";
-
+    private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
@@ -50,8 +53,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        //Update recycle view rows
-        //  applyParams(config, recyclerView, width);
+        // Update recycle view rows
+        // applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -101,11 +104,23 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
         PermissionPresenter permissionPresenter = injectPresenter();
         permissionPresenter.getConsentStatus();
+        PermissionAdapter adapter = permissionPresenter.getAdapter();
+        adapter.setPrivacyNoticeClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
-        recyclerView.setAdapter(permissionPresenter.getAdapter());
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPrivacyNoticeClicked(String url) {
+        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
+        privacyNoticeFragment.setUrl(url);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private PermissionPresenter injectPresenter() {
@@ -146,7 +161,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private String getMessageErrorBasedOnErrorCode(int errorCode) {
-        return errorCode == CONSENT_ERROR_AUTHENTICATION_FAILURE ? getString(R.string.csw_invalid_access_token_error_message) : getString(R.string.csw_problem_occurred_error_message, errorCode);
+        return errorCode == CONSENT_ERROR_AUTHENTICATION_FAILURE ? getString(R.string.csw_invalid_access_token_error_message)
+                                                                 : getString(R.string.csw_problem_occurred_error_message, errorCode);
     }
 
     @Override
