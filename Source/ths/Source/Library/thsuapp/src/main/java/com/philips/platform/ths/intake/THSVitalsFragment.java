@@ -162,8 +162,10 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     private void setContinueButtonState() {
-        if (mThsVitalsPresenter.isTextValid(mSystolic) && mThsVitalsPresenter.isTextValid(mDiastolic)
-                && mThsVitalsPresenter.isTextValid(mWeight) && mThsVitalsPresenter.isTextValid(mTemperature)) {
+        if (!mThsVitalsPresenter.isTextValid(mSystolic) && !mThsVitalsPresenter.isTextValid(mDiastolic)
+                && !mThsVitalsPresenter.isTextValid(mWeight) && !mThsVitalsPresenter.isTextValid(mTemperature)) {
+            mContinue.setEnabled(false);
+        } else if(validateFields()){
             mContinue.setEnabled(true);
         } else {
             mContinue.setEnabled(false);
