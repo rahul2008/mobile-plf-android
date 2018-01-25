@@ -6,6 +6,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp2.commlib_api">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
         <provider
             android:name="com.philips.cdp2.commlib.core.util.ContextProvider"
