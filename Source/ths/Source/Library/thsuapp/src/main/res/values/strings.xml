@@ -355,7 +355,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
     <string name="ths_delete_success_string">Delete success</string>
     <string name="ths_cancel_visit_string">Cancel visit</string>
-    <string name="ths_patient_waiting_do_not_leave_text">Please do not leave this screen while you are waiting, otherwise you might lose your spot.</string>
+    <string name="ths_waiting_room_your_next_in_line">You\'re next in line</string>
+    <string name="ths_waiting_room_patients_waiting">patients waiting</string>
+    <string name="ths_waiting_room_cancelling_waiting">Cancelling Visit</string>
+    <string name="ths_patient_waiting_do_not_leave_text">Please, do not leave this screen or you might lose your spot in the waiting line</string>
 
 
     <!-- Registration validation strings -->

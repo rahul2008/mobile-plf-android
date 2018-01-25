@@ -172,8 +172,10 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
 
     @Override
     public void onUpdateMedicationList(int position) {
-        createCustomProgressBar(mProgressbarContainer, BIG);
-        mPresenter.onEvent(deleteButtonEventID);
+        if (null != mExistingMedication.getMedicationList() && mExistingMedication.getMedicationList().size() == 1) {
+            createCustomProgressBar(mProgressbarContainer, BIG);
+            mPresenter.onEvent(deleteButtonEventID);
+        }
         setContinueButtonState();
     }
 
