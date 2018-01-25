@@ -52,7 +52,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onEvent(int componentID) {
 
         if (componentID == R.id.ths_confirmation_dialog_primary_button) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_cancelling_waiting));
             cancelVisit();
         }
     }
@@ -82,7 +82,10 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
             if (null != patientWaitingCount && patientWaitingCount > 0) {
 
-                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
+            }
+            else if(null != patientWaitingCount && patientWaitingCount == 0){
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
             }
 
 
@@ -133,9 +136,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void updatePatientAheadCount(int count) {
         if(count==0){
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(null);
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
         }else if (count > 0) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " patients waiting");
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " +mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
         }
 
     }

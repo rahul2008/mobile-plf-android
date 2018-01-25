@@ -196,7 +196,7 @@ def BuildAndUnitTest() {
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
             :devicepairingUApp:test \
-            :ews-android:test \
+            :ews-android:testReleaseUnitTest \
             :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
     '''
 }
