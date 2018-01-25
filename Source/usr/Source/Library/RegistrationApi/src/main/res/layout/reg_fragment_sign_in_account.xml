@@ -58,6 +58,7 @@
                     app:uidTextBoxValidationErrorText="inline_error_message">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:nextFocusDown="@+id/usr_loginScreen_password_textField"
                         android:id="@+id/usr_loginScreen_login_textField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
