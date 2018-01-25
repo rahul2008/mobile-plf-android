@@ -41,14 +41,24 @@ class PermissionHeaderViewHolder extends BasePermissionViewHolder {
         headerText = headerText.replace("}", "");
 
         Spannable wordtoSpan = new SpannableString(headerText);
-        wordtoSpan.setSpan(new URLSpan(""), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new LinkSpan(url, privacyNoticeClickListener), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         this.headerTextView.setText(wordtoSpan);
-        this.headerTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                privacyNoticeClickListener.onPrivacyNoticeClicked(url);
-            }
-        });
+    }
+
+    private class LinkSpan extends URLSpan {
+        private PrivacyNoticeClickListener privacyNoticeClickListener;
+        private String url;
+
+        private LinkSpan(String url, PrivacyNoticeClickListener privacyNoticeClickListener) {
+            super(url);
+            this.url = url;
+            this.privacyNoticeClickListener = privacyNoticeClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            privacyNoticeClickListener.onPrivacyNoticeClicked(url);
+        }
     }
 }
