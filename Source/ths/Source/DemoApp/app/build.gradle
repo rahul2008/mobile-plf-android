@@ -5,21 +5,21 @@ apply plugin: 'jacoco'
 
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = "0.7.1.201405082137"
 }
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -30,10 +30,10 @@ buildscript {
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
 //        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        compile 'com.android.support:appcompat-v7:25.3.1'
     }
 }
@@ -53,7 +53,7 @@ archivesBaseName = "telehealthApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -127,12 +127,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 8
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
@@ -269,7 +269,7 @@ configurations.all {
 }
 
 dependencies {
-    compile deps.support.appcompatv7
+    compile 'com.android.support:appcompat-v7:26.0.2'
     
     def dp = project.ext.has('useprojectdependencies')
 
@@ -282,8 +282,8 @@ dependencies {
         }
     }
 
-    androidTestCompile(deps.espresso_core) {
-        exclude group: 'com.android.support', module: deps.annotations
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
  compile(project(':telehealth'))
