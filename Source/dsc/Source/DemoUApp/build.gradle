@@ -58,7 +58,9 @@ dependencies {
     compile deps.ormlite.core
     compile deps.ormlite.android
 
+    // Test Compile
     testCompile deps.junit
+    testCompile "org.mockito:mockito-all:1.10.17"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
