@@ -117,7 +117,7 @@ pipeline {
         stage('LeakCanary E2E Test') {
             when {
 				allOf {
-					not { expression { return params.buildType == 'LeakCanary' } }
+					expression { return params.buildType == 'LeakCanary' }
 					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
 				}
             }
