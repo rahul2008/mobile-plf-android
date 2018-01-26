@@ -37,6 +37,6 @@ public interface InternationalizationInterface extends Serializable {
      * @return the String with the Full Concatenated format which is going to use ail_fullLocale
      * @since 2.2.0
      */
-     String getCompleteUILocale();
+     String getBCP47UILocale();
 
 }
