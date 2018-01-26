@@ -22,6 +22,8 @@ public class DialogView {
 
     private final String title;
     private final String message;
+    private View view;
+    private AlertDialogFragment alertDialogFragment;
 
     public DialogView(String dialogTitle, String dialogMessage) {
         this.title = dialogTitle;
@@ -30,39 +32,53 @@ public class DialogView {
 
     public void showDialog(FragmentActivity activity) {
         if (!(activity.isFinishing())) {
-            // Philips UI theme
-            Context popupThemedContext = UIDHelper.getPopupThemedContext(activity);
-
-            // XML layout for this dialog
-            View view = LayoutInflater
-                    .from(activity)
-                    .cloneInContext(popupThemedContext)
-                    .inflate(R.layout.mya_dialog_connection, null, false);
-
-            // Setting up the actual dialog
-            AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity)
-                    .setDialogView(view)
-                    .setDialogType(DialogConstants.TYPE_DIALOG)
-                    .setDimLayer(DialogConstants.DIM_STRONG)
-                    .setCancelable(false);
-            final AlertDialogFragment alertDialogFragment = builder.create(new AlertDialogFragment());
-
-            // Additional behaviour for XML elements
-            Button okButton = view.findViewById(R.id.mya_dialog_offline_button_ok);
-            okButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialogFragment.dismiss();
-                }
-            });
-            TextView titleView = view.findViewById(R.id.mya_offline_label_title);
-            titleView.setText(this.title);
-            TextView messageView = view.findViewById(R.id.mya_offline_label_message);
-            messageView.setText(this.message);
-
-            // Show the dialog to the user
-            alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+            setupView(activity);
+            initializeAlertDialog(activity);
+            setupOkButton(alertDialogFragment);
+            showButton(activity);
         }
+    }
+
+    private void showButton(FragmentActivity activity) {
+        alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+    }
+
+    private void setupOkButton(final AlertDialogFragment alertDialogFragment) {
+        // Additional behaviour for XML elements
+        Button okButton = view.findViewById(R.id.mya_dialog_offline_button_ok);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogFragment.dismiss();
+            }
+        });
+    }
+
+    private void initializeAlertDialog(FragmentActivity activity) {
+        // Setting up the actual dialog
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity)
+                .setDialogView(view)
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDimLayer(DialogConstants.DIM_STRONG)
+                .setCancelable(false);
+        alertDialogFragment = builder.create(new AlertDialogFragment());
+    }
+
+    private void setupView(FragmentActivity activity) {
+        // Philips UI theme
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(activity);
+
+        // XML layout for this dialog
+        view = LayoutInflater
+                .from(activity)
+                .cloneInContext(popupThemedContext)
+                .inflate(R.layout.mya_dialog_connection, null, false);
+
+
+        TextView titleView = view.findViewById(R.id.mya_offline_label_title);
+        titleView.setText(this.title);
+        TextView messageView = view.findViewById(R.id.mya_offline_label_message);
+        messageView.setText(this.message);
     }
 }
 
