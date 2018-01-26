@@ -7,10 +7,7 @@
 
 package com.philips.platform.mya.csw;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import java.util.List;
 
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
@@ -26,10 +23,14 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import java.util.List;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class CswInterface implements UappInterface {
     private static final CswInterface reference = new CswInterface();
+
     public static CswInterface get() {
         return reference;
     }
@@ -41,12 +42,14 @@ public class CswInterface implements UappInterface {
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
      *
-     * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application provideAppContext.
+     * @param uappDependencies
+     *            - With an AppInfraInterface instance.
+     * @param uappSettings
+     *            - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        if(!(uappDependencies instanceof CswDependencies)) {
+        if (!(uappDependencies instanceof CswDependencies)) {
             throw new IllegalStateException("Illegal state! Must be instance of CswDependencies");
         }
 
@@ -64,8 +67,10 @@ public class CswInterface implements UappInterface {
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
-     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
-     * @param uappLaunchInput - CswLaunchInput
+     * @param uiLauncher
+     *            - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput
+     *            - CswLaunchInput
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -84,11 +89,9 @@ public class CswInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput uappLaunchInput) {
         try {
-            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
-                    getSupportFragmentManager();
+            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             CswFragment cswFragment = new CswFragment();
-            cswFragment.setOnUpdateTitleListener(fragmentLauncher.
-                    getActionbarListener());
+            cswFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
             if (cswFragment.getArguments() == null) {
                 cswFragment.setArguments(new Bundle());
             }
@@ -104,6 +107,7 @@ public class CswInterface implements UappInterface {
                     cswFragment,
                     CswConstants.CSWFRAGMENT);
             fragmentTransaction.commitAllowingStateLoss();
+            reference.cswLaunchInput = uappLaunchInput;
         } catch (IllegalStateException ignore) {
 
         }
@@ -115,6 +119,7 @@ public class CswInterface implements UappInterface {
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
+            reference.cswLaunchInput = uappLaunchInput;
         }
     }
 
@@ -133,8 +138,11 @@ public class CswInterface implements UappInterface {
 
     private static CswComponent cswComponent;
 
-
     public CswDependencies getDependencies() {
         return uappDependencies;
+    }
+
+    public String getPrivacyUrl() {
+        return cswLaunchInput.getPrivacyNoticeUrl();
     }
 }

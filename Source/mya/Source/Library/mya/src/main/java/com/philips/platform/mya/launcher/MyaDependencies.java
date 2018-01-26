@@ -33,4 +33,8 @@ public class MyaDependencies extends UappDependencies {
     public List<ConsentConfiguration> getConsentConfigurationList() {
         return consentConfigurationList;
     }
+
+    public String getPrivacyNoticeURL() {
+        return privacyNoticeURL;
+    }
 }

@@ -14,11 +14,10 @@ import com.philips.platform.uid.view.widget.Label;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.URLSpan;
+import android.text.style.ClickableSpan;
 import android.view.View;
 
 class PermissionHeaderViewHolder extends BasePermissionViewHolder {
-    private static final String TAG = "PrivacyNoticeView";
     private Label headerTextView;
 
     PermissionHeaderViewHolder(View itemView, int parentWidth) {
@@ -40,18 +39,16 @@ class PermissionHeaderViewHolder extends BasePermissionViewHolder {
         headerText = headerText.replace("{", "");
         headerText = headerText.replace("}", "");
 
-        Spannable wordtoSpan = new SpannableString(headerText);
-        wordtoSpan.setSpan(new LinkSpan(url, privacyNoticeClickListener), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        this.headerTextView.setText(wordtoSpan);
+        Spannable privacyNotice = new SpannableString(headerText);
+        privacyNotice.setSpan(new LinkSpan(url, privacyNoticeClickListener), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.headerTextView.setText(privacyNotice);
     }
 
-    private class LinkSpan extends URLSpan {
+    private class LinkSpan extends ClickableSpan {
         private PrivacyNoticeClickListener privacyNoticeClickListener;
         private String url;
 
         private LinkSpan(String url, PrivacyNoticeClickListener privacyNoticeClickListener) {
-            super(url);
             this.url = url;
             this.privacyNoticeClickListener = privacyNoticeClickListener;
         }
