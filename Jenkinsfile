@@ -52,8 +52,10 @@ pipeline {
 
         stage('PSRAbuild') {
             when {
-                expression { return params.buildType == 'PSRA' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					expression { return params.buildType == 'PSRA' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -65,8 +67,10 @@ pipeline {
 
         stage('LeakCanarybuild') {
             when {
-                expression { return params.buildType == 'LeakCanary' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' } 
+				allOf {
+					expression { return params.buildType == 'LeakCanary' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -79,7 +83,7 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -91,8 +95,10 @@ pipeline {
 
         stage('Trigger E2E Test') {
             when {
-                not { expression { return params.buildType == 'LeakCanary' } }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					not { expression { return params.buildType == 'LeakCanary' } }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 script {
@@ -110,8 +116,10 @@ pipeline {
 
         stage('LeakCanary E2E Test') {
             when {
-                expression { return params.buildType == 'LeakCanary' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					not { expression { return params.buildType == 'LeakCanary' } }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 script {
@@ -159,20 +167,20 @@ def BuildAndUnitTest() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies assembleRelease \
             :AppInfra:cC \
-            :uAppFwLib:test \
+            :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \
             :registrationApi:cC \
-            :registrationApi:test \
+            :registrationApi:testReleaseUnitTest \
             :jump:cC \
-            :jump:test \
+            :jump:testReleaseUnitTest \
             :hsdp:cC \
-            :hsdp:test \
+            :hsdp:testReleaseUnitTest \
             :productselection:cC \
             :telehealth:testReleaseUnitTest \
             :bluelib:generateJavadoc \
             :bluelib:testReleaseUnitTest \
-            :product-registration-lib:test \
-            :iap:test \
+            :product-registration-lib:testReleaseUnitTest \
+            :iap:testReleaseUnitTest \
             :digitalCareUApp:cC \
             :digitalCareUApp:testRelease \
             :digitalCare:cC \
@@ -181,7 +189,7 @@ def BuildAndUnitTest() {
             :commlib-ble:generateJavadocPublicApi \
             :commlib-lan:generateJavadocPublicApi \
             :commlib-cloud:generateJavadocPublicApi \
-            :commlib:test \
+            :commlib:testReleaseUnitTest \
             :commlib-testutils:testReleaseUnitTest \
             :commlib-ble:testReleaseUnitTest \
             :commlib-lan:testReleaseUnitTest \
@@ -195,7 +203,7 @@ def BuildAndUnitTest() {
             :mya-mch:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
-            :devicepairingUApp:test \
+            :devicepairingUApp:testReleaseUnitTest \
             :ews-android:testReleaseUnitTest \
             :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
     '''
@@ -308,27 +316,18 @@ def PublishUnitTestsresults() {
     junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml' 
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'ail coverage tests'])
- //   publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'uid Unit Tests'])
-//    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'uid Code Coverage'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test debug'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'sdb coverage debug'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'usr unit test debug'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'usr unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests hsdp'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'pse coverage debug'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ths/Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ths unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-api', reportFiles: 'index.html', reportName: 'bll Bluelib Public API'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-plugin-api', reportFiles: 'index.html', reportName: 'bll Bluelib Plugin API'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Source/ShineLib/shinelib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'bll unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'prg unit test debug']) 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'prg unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/iap/Source/Library/iap/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'iap unit test debug'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/iap/Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'iap unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dcc/Source/Library/digitalCare/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dcc unit test release'])
 
@@ -352,9 +351,7 @@ def PublishUnitTestsresults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-mch/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mch'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-chi'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoApp/app/build/outputs/dexcount/deviceDebugChart', reportFiles: 'index.html', reportName: 'mya DexCount'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test debug'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])  
 }
