@@ -43,7 +43,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
             if (sdkError != null) {
-                mThsVisitHistoryFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_VISIT_HISTORY,sdkError), true, false);
+                mThsVisitHistoryFragment.showError( THSSDKErrorFactory.getErrorType(mThsVisitHistoryFragment.getContext(), ANALYTIC_FETCH_VISIT_HISTORY,sdkError), true, false);
                 return;
             }
             mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);

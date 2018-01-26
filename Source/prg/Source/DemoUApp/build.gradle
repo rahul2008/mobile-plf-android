@@ -82,7 +82,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.prg_productRegistrationLib)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -140,7 +140,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -185,6 +185,8 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -192,7 +194,17 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile(dp ? project(':product-registration-lib') : project(':product-registration-lib'))
+    if(dp) {
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':product-registration-lib', configuration: 'debug')
+        releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
+        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+    }
 
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
         exclude module: "com.android.support"
@@ -224,15 +236,6 @@ dependencies {
     androidTestCompile("com.android.support.test:runner:0.5") {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
-    }
-
-    if(dp) {
-        compile project(':uid')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            exclude group: 'com.android.support'
-            transitive = true
-        }
     }
 
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'

@@ -81,7 +81,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 tagSuccess();
                 thsvItalsUIInterface.launchMedicationFragment();
             } else if (null != sdkError) {
-                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_VITALS, sdkError));
+                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(mPthBaseFragment.getContext(), ANALYTICS_UPDATE_VITALS, sdkError));
             }
         }
     }

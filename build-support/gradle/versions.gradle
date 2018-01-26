@@ -6,32 +6,6 @@
 ext.platformversion = "2017.5.0"
 
 ext.versions = [
-        ail_appInfra               : ext.platformversion,
-        bll_shinelib               : ext.platformversion,
-        cml_commlib                : ext.platformversion,
-        ews_ews                    : ext.platformversion,
-        dcc_digitalCare            : ext.platformversion,
-        dsc_dataServices           : ext.platformversion,
-        dpr_devicePairing          : ext.platformversion,
-        iap_iap                    : ext.platformversion,
-        icf_iconFont               : ext.platformversion,
-        mya_myAccount              : ext.platformversion,
-        mya_consentAccessToolKit   : ext.platformversion,
-        mya_consentHandlerInterface: ext.platformversion,
-        mya_marketingConsentHandler: ext.platformversion,
-        prg_productRegistrationLib : ext.platformversion,
-        prx_prx                    : ext.platformversion,
-        pse_productselection       : ext.platformversion,
-        rap_referenceApp           : ext.platformversion,
-        sdb_securedblibrary        : ext.platformversion,
-        ths_telehealth             : ext.platformversion,
-        uaf_uAppFwLib              : ext.platformversion,
-        uid_uid                    : ext.platformversion,
-        uit_uikitLib               : ext.platformversion,
-        usr_registrationApi        : ext.platformversion,
-        usr_jump                   : ext.platformversion,
-        usr_hsdp                   : ext.platformversion,
-        usr_coppa                  : ext.platformversion,
         sdk                        : 26,
         target                     : 26,
         minsdk                     : 21,
@@ -51,7 +25,7 @@ ext.builddeps = [
 ]
 
 ext.repos = [
-        base  : 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
+        base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
 ]
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
@@ -68,7 +42,8 @@ ext.deps = [
                 cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
                 design     : "com.android.support:design:${ext.versions.support}",
                 fragment   : "com.android.support:support-fragment:${ext.versions.support}",
-                supportv4  : "com.android.support:support-v4:${ext.versions.support}"
+                supportv4  : "com.android.support:support-v4:${ext.versions.support}",
+                recyclerview:"com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
         constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",

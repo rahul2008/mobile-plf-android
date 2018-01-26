@@ -40,7 +40,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="5dip"
             android:textColor="?attr/uidLoginScreenDefaultTextColor"
-            android:text="@string/skip"
+            android:text="@string/ths_skip"
             android:textSize="12sp" />
 
         <com.philips.platform.uid.view.widget.DotNavigationIndicator

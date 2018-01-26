@@ -21,9 +21,7 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'https://maven.google.com'
-        }
+
     }
 
     dependencies {
@@ -61,9 +59,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'https://maven.google.com'
-        }
+
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -74,7 +70,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.uaf_uAppFwLib)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -116,7 +112,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -147,6 +143,8 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -165,15 +163,16 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':uikitLib'))
+        debugCompile project(path: ':uikitLib', configuration: 'debug')
+        releaseCompile project(path: ':uikitLib', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            exclude group: 'com.android.support'	
-            transitive = true
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
         }
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
-
-    compile(dp ? project(':uAppFwLib') : project(':uAppFwLib'))
 }
 
 tasks.withType(Test) {

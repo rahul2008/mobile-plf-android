@@ -58,6 +58,9 @@ allprojects {
     }
 }
 
+group = 'com.philips.cdp'
+version = objcdp.getVersion(platformversion)
+
 android {
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
@@ -89,6 +92,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -100,11 +105,11 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':uid')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
     }
 

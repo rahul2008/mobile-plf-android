@@ -82,7 +82,6 @@ public class URLogout implements URLogoutInterface {
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultSuccess();
                 }
-                clearDataInDataBase();
                 clearDataInDataServiceMicroApp();
                 stopDataSync(activityContext);
             }
@@ -112,34 +111,11 @@ public class URLogout implements URLogoutInterface {
     }
 
     protected void clearDataInDataServiceMicroApp() {
-        getInstance().getUserRegistrationHandler().clearUserData(new DBRequestListener() {
-            @Override
-            public void onSuccess(List list) {
-                RALog.d(TAG, "UserRegistrationHandler clear data success");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                RALog.d(TAG, "UserRegistrationHandler clear data failure");
-            }
-        });
+        getInstance().getUserRegistrationHandler().clearAccessToken();
     }
 
     protected DemoAppManager getInstance() {
         return DemoAppManager.getInstance();
     }
 
-    protected void clearDataInDataBase() {
-        getDataServicesManager().deleteAll(new DBRequestListener() {
-            @Override
-            public void onSuccess(List list) {
-                RALog.d(TAG, "Deleted saved data from database");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                RALog.d(TAG, "Fetch to delete data from database");
-            }
-        });
-    }
 }

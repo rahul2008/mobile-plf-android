@@ -74,7 +74,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         } catch (AWSDKInitializationException e) {
             e.printStackTrace();
         } catch(IllegalArgumentException e){
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.initialization_failed));
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_initialization_failed));
         }
     }
 
@@ -84,7 +84,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (sdkError.getSdkError() != null) {
             if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
                 AmwellLog.e("onInitializationResponse",sdkError.getSdkError().getMessage());
-                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
         }else {
             checkForUserExisitance();
@@ -131,7 +131,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
                 AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.getMessage());
 
-                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
                 return;
             }
             if (aBoolean) {
@@ -242,7 +242,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
            launchWelcomeScreen();
 //            launchOnBoardingScreen();
         } else {
-            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
+            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
 
     }

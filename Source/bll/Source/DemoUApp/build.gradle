@@ -8,8 +8,8 @@ apply plugin: 'jacoco'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "shinelibDemoUApp"
-version = objcdp.getVersion(versions.bll_shinelib)
+archivesBaseName = "bluelib-demouapp"
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -36,15 +36,14 @@ android {
 }
 
 dependencies {
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':uAppFwLib', ':pluginreferenceboard']) {
-        if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
-        } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
-        }
+    if (directdependencies) {
+        debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
+        releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.support.design

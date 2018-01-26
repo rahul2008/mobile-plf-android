@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -70,6 +71,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
@@ -306,7 +308,13 @@ public class THSManager {
             hsdpToken = getUser(context).getHsdpAccessToken();
         }
 
-        String token = hsdpUUID +":" + getAppName() +":"+ hsdpToken;
+        final String appName = getAppName();
+        if(appName == null){
+            THSLoginCallBack.onLoginFailure(new Exception(context.getString(R.string.ths_something_went_wrong)));
+            return;
+        }
+
+        String token = hsdpUUID +":" + appName +":"+ hsdpToken;
 
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
@@ -541,6 +549,12 @@ public class THSManager {
 
         //This is required to be reset in case of logout login case
         updateParentConsumer(context);
+
+        if(getAppInfra() == null || getAppInfra().getServiceDiscovery() == null){
+            Log.e(AmwellLog.LOG, "App infra is null");
+            THSInitializeCallBack.onInitializationFailure(new Exception(context.getString(R.string.ths_something_went_wrong)));
+            return;
+        }
 
         AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
         final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);

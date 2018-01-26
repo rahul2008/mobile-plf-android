@@ -27,6 +27,7 @@ import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
@@ -69,8 +70,10 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
-        mBluetoothAdapter = getBluetoothAdapter();
+        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())) {
+            connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
+            mBluetoothAdapter = getBluetoothAdapter();
+        }
     }
 
     @Override

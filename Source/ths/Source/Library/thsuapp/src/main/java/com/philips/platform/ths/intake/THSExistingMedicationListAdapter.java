@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
@@ -21,11 +20,12 @@ import com.philips.platform.uid.view.widget.Label;
 public class THSExistingMedicationListAdapter extends BaseAdapter {
     private THSMedication mPTHExistingMedication;
     private Context mContext;
+    private THSUpdateMedicationCallback thsUpdateMedicationCallback;
 
 
-    public THSExistingMedicationListAdapter(Context context) {
+    public THSExistingMedicationListAdapter(Context context, THSUpdateMedicationCallback thsUpdateMedicationCallback) {
         this.mContext = context;
-
+        this.thsUpdateMedicationCallback = thsUpdateMedicationCallback;
     }
 
     void setData(THSMedication pTHMedication) {
@@ -116,6 +116,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
                 // delete selected medicine
                 mPTHExistingMedication.getMedicationList().remove(position);
                 notifyDataSetChanged();
+                thsUpdateMedicationCallback.onUpdateMedicationList(position);
             }
         });
 
