@@ -41,7 +41,6 @@ public class CswFragment extends Fragment implements BackEventListener {
 
         mFragmentManager = getmFragmentManager();
         inflatePermissionView();
-        getRestClient().isInternetReachable();
         return view;
     }
 
@@ -50,7 +49,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         super.onResume();
 
         if(!getRestClient().isInternetReachable()) {
-            getDialogView().showDialog(getActivity());
+            getDialogView().showDialog(getActivity(), getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
 
