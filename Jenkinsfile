@@ -52,8 +52,10 @@ pipeline {
 
         stage('PSRAbuild') {
             when {
-                expression { return params.buildType == 'PSRA' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					expression { return params.buildType == 'PSRA' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -65,8 +67,10 @@ pipeline {
 
         stage('LeakCanarybuild') {
             when {
-                expression { return params.buildType == 'LeakCanary' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' } 
+				allOf {
+					expression { return params.buildType == 'LeakCanary' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -79,7 +83,7 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -91,8 +95,10 @@ pipeline {
 
         stage('Trigger E2E Test') {
             when {
-                not { expression { return params.buildType == 'LeakCanary' } }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					not { expression { return params.buildType == 'LeakCanary' } }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 script {
@@ -110,8 +116,10 @@ pipeline {
 
         stage('LeakCanary E2E Test') {
             when {
-                expression { return params.buildType == 'LeakCanary' }
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_.*' }
+				allOf {
+					not { expression { return params.buildType == 'LeakCanary' } }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
             }
             steps {
                 script {
