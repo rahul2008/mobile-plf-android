@@ -24,6 +24,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -38,7 +39,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private ActionBarListener actionBarListener;
     protected THSDependentPresenter mThsDependentPresenter;
     private RelativeLayout mParentContainer;
-    protected Label mLabelParentName,visitForLabel,choose_person,parentInitials;
+    protected Label mLabelParentName, visitForLabel, choose_person, parentInitials;
     private ImageView mImageViewLogo;
     protected int mLaunchInput = -1;
     private RelativeLayout mRelativeLayoutContainer;
@@ -50,19 +51,23 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.activity_main);
 
-        if(getArguments()!=null) {
+        if (getArguments() != null) {
             mLaunchInput = getArguments().getInt(THSConstants.THS_LAUNCH_INPUT);
         }
 
         thsDependentListAdapter = new THSDependentListAdapter(getContext());
-        visitForLabel = (Label)view.findViewById(R.id.ths_visit_for);
+        visitForLabel = (Label) view.findViewById(R.id.ths_visit_for);
         choose_person = (Label) view.findViewById(R.id.choose_person);
-        mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_dependent_list);
+        mPracticeRecyclerView = (RecyclerView) view.findViewById(R.id.ths_recycler_view_dependent_list);
         mParentContainer = (RelativeLayout) view.findViewById(R.id.ths_parent_container);
         mParentContainer.setOnClickListener(this);
 
         mLabelParentName = (Label) view.findViewById(R.id.ths_parent_name);
-        mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer(getContext()).getFirstName());
+        if(null != THSManager.getInstance().getThsParentConsumer(getContext()).getDisplayName()) {
+            mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer(getContext()).getDisplayName());
+        }else {
+            mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer(getContext()).getFirstName());
+        }
         parentInitials = view.findViewById(R.id.ths_parent_initials);
 
         mImageViewLogo = (ImageView) view.findViewById(R.id.ths_parent_logo);
@@ -97,14 +102,14 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SELECT_PATIENT,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SELECT_PATIENT, null, null);
         actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_select_patient),true);
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar(getString(R.string.ths_select_patient), true);
         }
     }
 
-    public void showDependentList(){
+    public void showDependentList() {
         thsDependentListAdapter.setOnItemClickListener(this);
         mPracticeRecyclerView.setAdapter(thsDependentListAdapter);
     }
@@ -117,7 +122,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     @Override
     public void onClick(View view) {
         int resId = view.getId();
-        if(resId == R.id.ths_parent_container){
+        if (resId == R.id.ths_parent_container) {
             final THSConsumer thsConsumer = THSManager.getInstance().getThsParentConsumer(getContext());
             THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsConsumer(getContext()));
             launchRequestedInput(thsConsumer);
@@ -130,30 +135,40 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     }
 
     protected void showProfilePic(THSConsumer thsConsumer) {
-        if(thsConsumer.getProfilePic()!= null){
+        if (thsConsumer.getProfilePic() != null) {
             try {
                 Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
                 b.setDensity(Bitmap.DENSITY_NONE);
-                Drawable d = new BitmapDrawable(getContext().getResources(),b);
+                Drawable d = new BitmapDrawable(getContext().getResources(), b);
                 mImageViewLogo.setImageDrawable(d);
-            }catch (Exception e){
+            } catch (Exception e) {
                 mImageViewLogo.setImageResource(R.mipmap.child_icon);
             }
-        }else {
-                showInitials(thsConsumer);
+        } else {
+            showInitials(thsConsumer);
         }
     }
 
     private void showInitials(THSConsumer thsConsumer) {
-        String firstName = "",lastName = "";
-        if(null != thsConsumer.getFirstName() && !thsConsumer.getFirstName().isEmpty()){
+        String firstName = "", lastName = "", displayName = "";
+        if (null != thsConsumer.getFirstName() && !thsConsumer.getFirstName().isEmpty()) {
             firstName = String.valueOf(thsConsumer.getFirstName().charAt(0));
         }
 
-        if(null != thsConsumer.getLastName() && !thsConsumer.getLastName().isEmpty()){
+        if (null != thsConsumer.getLastName() && !thsConsumer.getLastName().isEmpty()) {
             lastName = String.valueOf(thsConsumer.getLastName().charAt(0));
         }
-        String nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
+
+        if (null != thsConsumer.getDisplayName()) {
+            displayName = String.valueOf(thsConsumer.getDisplayName().charAt(0));
+        }
+        String nameInitials;
+
+        if (displayName.isEmpty()) {
+            nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
+        } else {
+            nameInitials = displayName.toUpperCase();
+        }
         mImageViewLogo.setVisibility(View.GONE);
         parentInitials.setVisibility(View.VISIBLE);
         parentInitials.setText(nameInitials);

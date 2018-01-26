@@ -30,12 +30,11 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
-public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener, THSUpdateMedicationCallback {
     public static final String TAG = THSBaseFragment.class.getSimpleName();
 
     private ActionBarListener actionBarListener;
@@ -48,8 +47,9 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private Button updateMedicationButton;
     private Button mSkipLabel;
     boolean existingMedicineFetched = false; // flag to know if medication is fetched which can be null also
-    protected String tagAction="";
+    protected String tagAction = "";
     private Label mLabelPatientName;
+    public static int deleteButtonEventID = 9009090;
 
 
     @Nullable
@@ -73,7 +73,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         mLabelPatientName.setText(name);
 
         mExistingMedicationListView.addFooterView(footer);
-        mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
+        mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity(), this);
         mExistingMedicationListView.setAdapter(mTHSExistingMedicationListAdapter);
 
         return view;
@@ -105,7 +105,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_MEDICATION_PAGE, null, null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
@@ -119,6 +119,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
             addSearchedMedicineToExistingMedication(mSelectedMedication);
         }
         mTHSExistingMedicationListAdapter.setData(mExistingMedication);
+        setContinueButtonState();
     }
 
 
@@ -131,8 +132,10 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         }
         if (null != mExistingMedication.getMedicationList() && !mExistingMedication.getMedicationList().contains(searchedMedication)) {
             mExistingMedication.getMedicationList().add(searchedMedication);
-            tagAction="step3MedicationsAdded";
+            tagAction = "step3MedicationsAdded";
         }
+
+        setContinueButtonState();
 
     }
 
@@ -151,7 +154,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
             mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
         } else if (id == R.id.ths_intake_medication_skip_step_label) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medications");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "medications");
             mPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
         }
     }
@@ -161,8 +164,27 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (resultCode == RESULT_OK) {
             if (requestCode == MEDICATION_ON_ACTIVITY_RESULT) {
                 mSelectedMedication = data.getExtras().getParcelable("selectedMedication");
+                createCustomProgressBar(mProgressbarContainer, BIG);
+                mPresenter.onEvent(deleteButtonEventID);
             }
         }
     }
 
+    @Override
+    public void onUpdateMedicationList(int position) {
+        if (null != mExistingMedication.getMedicationList() && mExistingMedication.getMedicationList().size() == 1) {
+            createCustomProgressBar(mProgressbarContainer, BIG);
+            mPresenter.onEvent(deleteButtonEventID);
+        }
+        setContinueButtonState();
+    }
+
+    protected void setContinueButtonState() {
+        if (null != mExistingMedication.getMedicationList() && mExistingMedication.getMedicationList().size() <= 0) {
+            mSelectedMedication = null;
+            updateMedicationButton.setEnabled(false);
+        } else {
+            updateMedicationButton.setEnabled(true);
+        }
+    }
 }

@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dsc_dataServices)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -134,7 +134,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -217,6 +217,7 @@ android {
         }
     }
 
+    publishNonDefault true
 }
 
 configurations.all {
@@ -230,21 +231,15 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        compile(project(':mya-catk'))
+        debugCompile project(path: ':mya-catk', configuration: 'debug')
+        releaseCompile project(path: ':mya-catk', configuration: 'release')
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: versions.mya_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    exclude group: 'com.google.code.findbugs', module: 'jsr305'
-                }
-    }
-
-    if (dp) {
-        compile(project(':AppInfra'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        }
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     //Android Support

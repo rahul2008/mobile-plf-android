@@ -87,28 +87,28 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else{
-            RLog.i(LOG_TAG, "Jump initialized, refreshUserSession");
+            RLog.d(LOG_TAG, "Jump initialized, refreshUserSession");
 
             refreshSession();
             return;
 
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.i(LOG_TAG, "Jump not initialized, initializing");
+            RLog.d(LOG_TAG, "Jump not initialized, initializing");
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing forgot password");
+        RLog.d(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing forgot password");
         refreshSession();
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
+        RLog.d(LOG_TAG, "Jump not initialized, was initialized but failed");
         ThreadUtils.postInMainThread(mContext,()->
         mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1));
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();

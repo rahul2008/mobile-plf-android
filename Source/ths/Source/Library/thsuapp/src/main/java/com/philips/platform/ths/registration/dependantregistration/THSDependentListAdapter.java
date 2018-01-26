@@ -50,7 +50,11 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     @Override
     public void onBindViewHolder(THSDependentListAdapter.CustomViewHolder holder, final int position) {
         final THSConsumer thsConsumer = mDependents.get(position);
-        holder.label.setText(thsConsumer.getFirstName());
+        if(null != thsConsumer.getDisplayName()) {
+            holder.label.setText(thsConsumer.getDisplayName());
+        }else {
+            holder.label.setText(thsConsumer.getFirstName());
+        }
         showProfilePic(holder, thsConsumer);
 
         View.OnClickListener listener = new View.OnClickListener() {
@@ -81,15 +85,21 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     }
 
     private void showProfilePicAsInitials(CustomViewHolder holder, THSConsumer thsConsumer) {
-        String firstName = "",lastName = "";
-        if(null != thsConsumer.getFirstName() && !thsConsumer.getFirstName().isEmpty()){
+        String firstName = "", lastName = "", displayName = "";
+        if (null != thsConsumer.getFirstName() && !thsConsumer.getFirstName().isEmpty()) {
             firstName = String.valueOf(thsConsumer.getFirstName().charAt(0));
         }
 
-        if(null != thsConsumer.getLastName() && !thsConsumer.getLastName().isEmpty()){
+        if (null != thsConsumer.getLastName() && !thsConsumer.getLastName().isEmpty()) {
             lastName = String.valueOf(thsConsumer.getLastName().charAt(0));
         }
-        String nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
+        if(null != thsConsumer.getDisplayName()){
+            displayName = String.valueOf(thsConsumer.getDisplayName().charAt(0));
+        }
+        else {
+            displayName = firstName.toUpperCase() + lastName.toUpperCase();
+        }
+        String nameInitials = displayName.toUpperCase();
         holder.logo.setVisibility(View.GONE);
         holder.initials.setVisibility(View.VISIBLE);
         holder.initials.setText(nameInitials);

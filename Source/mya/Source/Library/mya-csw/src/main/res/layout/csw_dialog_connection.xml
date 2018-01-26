@@ -12,14 +12,14 @@
     android:paddingStart="@dimen/default_screen_side_margin">
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/mya_csw_label_cancel_setup_title"
+        android:id="@+id/mya_csw_label_error_message_title"
         style="@style/Txt.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/csw_offline_title" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/mya_csw_verify_device_body"
+        android:id="@+id/mya_csw_label_error_message_body"
         style="@style/Txt.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:text="@string/csw_offline_message" />
 
     <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/cws_dialog_offline_button_ok"
+        android:id="@+id/cws_dialog_error_message_button_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_main_button_top_margin"

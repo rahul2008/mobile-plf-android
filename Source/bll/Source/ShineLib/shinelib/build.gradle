@@ -10,8 +10,8 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "shinelib"
-version = objcdp.getVersion(versions.bll_shinelib)
+archivesBaseName = "bluelib"
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk

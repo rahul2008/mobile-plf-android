@@ -78,7 +78,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.prg_productRegistrationLib)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -136,7 +136,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -204,6 +204,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 configurations.all {
@@ -218,27 +220,17 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':registrationApi'))
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
+        debugCompile project(path: ':prx', configuration: 'debug')
+        releaseCompile project(path: ':prx', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {            
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':prx'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':uid'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'prx', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
     }
 

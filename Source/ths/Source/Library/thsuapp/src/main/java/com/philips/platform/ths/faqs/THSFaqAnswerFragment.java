@@ -16,6 +16,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -54,6 +55,6 @@ public class THSFaqAnswerFragment extends THSBaseFragment{
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HOW_IT_WORKS_DETAIL, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_HOW_IT_WORKS_DETAIL, null, null);
     }
 }

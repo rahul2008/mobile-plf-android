@@ -112,10 +112,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_LIST,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST,null,null);
         THSManager.getInstance().setMatchMakingVisit(false);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.provider_list_title), true);
+            actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.ths_provider_list_title), true);
         }
     }
 
@@ -168,14 +168,14 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             btn_get_started.setVisibility(View.VISIBLE);
             btn_schedule_appointment.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_get_started.setText(getContext().getString(R.string.get_started));
+                btn_get_started.setText(getContext().getString(R.string.ths_get_started));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_one));
             }
         }else {
            btn_schedule_appointment.setVisibility(View.VISIBLE);
            btn_get_started.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_schedule_appointment.setText(getContext().getString(R.string.schedule_appointment));
+                btn_schedule_appointment.setText(getContext().getString(R.string.ths_schedule_an_appointment_button_text));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_two));
             }
         }

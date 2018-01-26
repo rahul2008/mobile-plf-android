@@ -25,10 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pth_intake_follow_up_label"
-                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:layout_marginTop="@dimen/ths_fab_margin"
+                android:visibility="gone"
                 android:textSize="@dimen/ths_small_body_text" />
 
 
@@ -40,6 +40,7 @@
                 android:layout_below="@+id/ths_follow_up_patient_name"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
+                android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:text="@string/ths_vitals_follow_up_step_5_description_text"
                 android:textSize="@dimen/ths_body_text" />
 
@@ -75,7 +76,7 @@
                 android:layout_marginStart="@dimen/ths_fab_margin"
                 android:layout_marginEnd="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+                app:uidTextBoxValidationErrorText="@string/ths_inline_error_message_systolic_value">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/pth_intake_follow_up_phone_number"

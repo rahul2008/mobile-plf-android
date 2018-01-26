@@ -441,7 +441,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
+        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
         hideProgressDialog();
         enableControls(true);
         homePresenter.navigateToScreen();
@@ -497,7 +497,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handleContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
+        RLog.d(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
         homePresenter.trackSocialProviderPage();
         hideProgressDialog();
         enableControls(true);
@@ -508,7 +508,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void showProgressDialog() {
-        if (!(getActivity().isFinishing())) {
+        if (isVisible()) {
             if (mProgressDialog == null) {
                 mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -910,7 +910,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.TECHNICAL_ERROR);
-        RLog.i(RLog.CALLBACK, "HomeFragment error");
+        RLog.d(RLog.CALLBACK, "HomeFragment error");
         enableControls(true);
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
