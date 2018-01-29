@@ -82,22 +82,22 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
                 THSManager.getInstance().updatePaymentMethod(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, this);
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_card_name));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_credit_card_number));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_CVV_number));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_card_name));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1)) {
                 mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getResources().getString(R.string.ths_not_valid_address1));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }
 
 
@@ -126,7 +126,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
                 mTHSBillingAddressFragment.popSelfBeforeTransition();
                 mTHSBillingAddressFragment.popSelfBeforeTransition();
             } else {
-                AmwellLog.i("updatePayment", "failed");
+                AmwellLog.e("updatePayment", "failed");
                 mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBillingAddressFragment.getContext(), ANALYTICS_UPDATE_PAYMENT, tHSSDKError.getSdkError()));
             }
         }
@@ -135,7 +135,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
         if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
-            AmwellLog.i("updatePayment", "failed");
+            AmwellLog.e("updatePayment", throwable.toString());
             mTHSBillingAddressFragment.showError(mTHSBillingAddressFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
@@ -143,7 +143,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
         if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
-            AmwellLog.i("updatePayment", "failed");
+            AmwellLog.e("updatePayment", map.toString());
         }
     }
     //// end  os update payment callback
