@@ -96,7 +96,6 @@ ext.deps = [
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
         groovy                        : 'org.codehaus.groovy:groovy-all:2.4.13',
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         shamanland_fonticon           : 'com.shamanland:fonticon:0.1.9',
         play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',

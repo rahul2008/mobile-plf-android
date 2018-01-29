@@ -95,12 +95,11 @@ dependencies {
     compile deps.support.supportv4
     compile deps.support.annotations
 
-    testCompile 'org.mockito:mockito-core:2.8.9'
+    testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.assertj
 
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile deps.mockito
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito
-    testCompile deps.junit
 }
