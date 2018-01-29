@@ -207,7 +207,7 @@ dependencies {
     }
 
     testCompile deps.junit
-    testCompile deps.mockito
+    testCompile deps.mockito_all
     testCompile deps.robolectric
 
     compile deps.support.annotations

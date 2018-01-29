@@ -93,8 +93,10 @@ ext.deps = [
                 android: "com.j256.ormlite:ormlite-android:5.0"
         ],
         leakcanary                    : 'com.squareup.leakcanary:leakcanary-android:1.5',
+        leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
         groovy                        : 'org.codehaus.groovy:groovy-all:2.4.13',
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         shamanland_fonticon           : 'com.shamanland:fonticon:0.1.9',
         play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',
@@ -106,6 +108,7 @@ ext.deps = [
         javax_annotation              : 'javax.annotation:jsr250-api:1.0',
         sqlcipher           : 'net.zetetic:android-database-sqlcipher:3.5.7@aar',
         glide               : 'com.github.bumptech.glide:glide:3.7.0',
+        json                : 'org.json:json:20171018',
 
         // Testing
         android_testrunner : 'com.android.support.test:runner:0.5',
@@ -127,14 +130,16 @@ ext.deps = [
         opengl             : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         powermock_core     : 'org.powermock:powermock-core:1.7.3',
         powermock_junit_rule: 'org.powermock:powermock-module-junit4-rule:1.7.3',
+        powermock_module_junit4: 'org.powermock:powermock-module-junit4:1.7.3',
         powermock_junit_rule_agent:'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
+        powermock_api_mockito:'org.powermock:powermock-api-mockito:1.7.3',
         powermock_classloading_xstream:'org.powermock:powermock-classloading-xstream:1.7.3',
         maven_ant           : 'org.apache.maven:maven-ant-tasks:2.1.3',
         mockito_all         :'org.mockito:mockito-all:1.10.19',
         espresso_contrib    : 'com.android.support.test.espresso:espresso-contrib:2.0',
         espresso_web       : 'com.android.support.test.espresso:espresso-web:2.2.2',
         play_services_location :   'com.google.android.gms:play-services-location:11.0.4',
-
+        play_services_gcm   : "com.google.android.gms:play-services-gcm:11.0.4",
         butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
         rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.0.1',
         rxbinding                     : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',

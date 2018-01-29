@@ -57,7 +57,7 @@ dependencies {
     }
 
     testCompile deps.junit
-    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
 
 }
