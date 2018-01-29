@@ -23,10 +23,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
     }
 }
 
