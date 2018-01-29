@@ -15,7 +15,6 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -63,7 +62,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         uiView.hideProgressBar();
         if (null != sdkError) {
-            uiView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY,sdkError));
+            uiView.showError(THSSDKErrorFactory.getErrorType(uiView.getFragmentActivity(), ANALYTICS_PHARMACY,sdkError));
         } else {
             uiView.setPharmacyList(pharmacies);
         }

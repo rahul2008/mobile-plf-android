@@ -9,7 +9,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "cloudcontroller"
-version = objcdp.getVersion(versions.cml_commlib)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -47,7 +47,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
+            compile("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 

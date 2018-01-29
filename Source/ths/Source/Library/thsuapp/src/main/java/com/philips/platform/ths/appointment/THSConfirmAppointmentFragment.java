@@ -101,7 +101,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
             }
         }
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
         return view;
     }
 

@@ -488,7 +488,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleContinueSocialProvider() {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+        RLog.d(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();

@@ -265,7 +265,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        RLog.d(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
 
         homeContract.completeSocialLogin();
 

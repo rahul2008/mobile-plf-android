@@ -90,7 +90,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
 
     public void onGetConsentFailed(ConsentError error) {
         for (ConsentView consentView : items) {
-            consentView.setError(true);
+            consentView.setError(false);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }

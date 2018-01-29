@@ -40,6 +40,7 @@ Version {next}
 * CommLib - `ApplianceManager.ApplianceListener` is not generic typed anymore.
 
 ### Defects solved
+* CloudController - \#14442 Added API to allow forcing of locale used by ICPClient (amongst other things, used for push notifications)
 * CommLib - \#72227 Timeout callback not called
 * CommLib - \#73361 XML parser vulnerability during SSDP discovery
 * CommLib - \#85583 Use injectable AppInfra

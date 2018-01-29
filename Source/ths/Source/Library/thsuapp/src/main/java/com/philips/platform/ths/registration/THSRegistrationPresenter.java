@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 
 public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
 
@@ -74,7 +75,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (null!=sdkPasswordError && sdkPasswordError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
 
@@ -113,7 +114,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onValidationFailure(Map<String, ValidationReason> var1) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_validation_failed) + var1.toString());
         }
     }
 
@@ -140,29 +141,29 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if(isFirstName){
             if(nameString.isEmpty() || nameString.length() < 2){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_not_more_two_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_two_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_two_characters),false);
                 return false;
             }else if(!pattern.matcher(nameString).matches()){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_only_alphabets));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_only_alphabets),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_only_alphabets),false);
                 return false;
             }else {
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters),false);
                 return nameString.length() < 25;
             }
         } else {
             if(nameString.isEmpty() || nameString.length() < 2){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_not_more_two_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_two_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_two_characters),false);
                 return false;
             }else if(!pattern.matcher(nameString).matches()){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_only_alphabets));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_only_alphabets),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_only_alphabets),false);
                 return false;
             }else {
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters),false);
                 return nameString.length() < 25;
             }
         }

@@ -26,14 +26,14 @@ public class MarketingAccountPresenter implements NetworkStateListener, UpdateUs
     @Override
     public void onUpdateSuccess() {
         marketingAccountContract.trackRemarketing();
-        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
+        RLog.d("MarketingAccountFragment", "onUpdateSuccess ");
         marketingAccountContract.hideRefreshProgress();
         marketingAccountContract.handleRegistrationSuccess();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-        RLog.i("MarketingAccountFragment", "onUpdateFailedWithError ");
+        RLog.d("MarketingAccountFragment", "onUpdateFailedWithError ");
         marketingAccountContract.hideRefreshProgress();
     }
 

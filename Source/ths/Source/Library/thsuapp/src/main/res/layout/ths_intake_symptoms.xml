@@ -9,7 +9,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/wizard_button"
         style="@style/ths_mobile_wizard"
-        android:text="@string/symptoms" />
+        android:text="@string/ths_symptoms" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"
@@ -39,11 +39,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ths_image_size"
-                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:textSize="@dimen/ths_small_body_text"
                 style="@style/ths_user_name"
+                android:visibility="gone"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -53,9 +53,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+                android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/help_visit" />
+                android:text="@string/ths_help_visit" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/visit_reason"
@@ -66,7 +67,7 @@
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:text="@string/visit_reason"
+                android:text="@string/ths_visit_reason"
                 android:textSize="@dimen/ths_body_text" />
 
             <LinearLayout
@@ -87,7 +88,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:text="@string/additional_comment" />
+                android:text="@string/ths_additional_comment" />
 
             <!-- TODO: Spoorti - Need to check what is text box filled style and change it-->
             <com.philips.platform.uid.view.widget.EditText
@@ -99,7 +100,7 @@
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:enabled="true"
                 android:gravity="top"
-                android:hint="@string/write_here"
+                android:hint="@string/ths_write_here"
                 android:inputType="textMultiLine"
                 android:isScrollContainer="true"
                 android:overScrollMode="always"

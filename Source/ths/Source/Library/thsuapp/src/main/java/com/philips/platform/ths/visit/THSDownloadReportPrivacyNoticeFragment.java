@@ -6,10 +6,7 @@ package com.philips.platform.ths.visit;
  */
 
 ;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -21,12 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.settings.THSVisitHistoryDetailPresenter;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -34,7 +28,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_HIPAA_PRIVACY_NOTICE;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -60,7 +53,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         hippaNoticeLabel = (Label) view.findViewById(R.id.ths_download_report_hippa_notice_link);
 
         Resources resources = getResources();
-        String hippaNoticeString = resources.getString(R.string.hippa_notice);
+        String hippaNoticeString = resources.getString(R.string.ths_hippa_notice);
         String hippaNoticeContainerString = String.format(resources.getString(R.string.ths_download_report_hippa_notice_link_text), hippaNoticeString);
 
         SpannableString hippaLinkSpannableString = new SpannableString(hippaNoticeContainerString);
@@ -81,7 +74,6 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         //hippaNoticeLabel.setHighlightColor(Color.TRANSPARENT);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, THS_ANALYTICS_HIPAA_PRIVACY_NOTICE);
         return view;
     }
 

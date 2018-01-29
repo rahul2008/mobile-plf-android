@@ -35,7 +35,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     private Switch toggle;
     private Label label;
     private Label help;
-    private Label error;
     @Nullable
     private ConsentToggleListener consentToggleListener;
     @NonNull
@@ -49,7 +48,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
         this.toggle = itemView.findViewById(R.id.toggleicon);
         this.label = itemView.findViewById(R.id.consentText);
         this.help = itemView.findViewById(R.id.consentHelp);
-        this.error = itemView.findViewById(R.id.consentError);
         this.consentToggleListener = consentToggleListener;
         this.helpClickListener = helpClickListener;
         this.help.setPaintFlags(this.help.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -61,7 +59,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     void setDefinition(final ConsentView consentView) {
         // Update UI here
         label.setText(consentView.getConsentText());
-        error.setVisibility(consentView.isError() ? View.VISIBLE : View.INVISIBLE);
         toggle.animate().alpha(consentView.isError() ? 0.5f : 1.0f).start();
         toggle.setEnabled(consentView.isEnabled());
         toggle.setChecked(consentView.isChecked());
@@ -92,7 +89,6 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     private void setLoading(ConsentView consentView) {
         consentView.setIsLoading(true);
         consentView.setError(false);
-        error.setVisibility(View.INVISIBLE);
     }
 
     private void linkify(TextView pTvPrivacyPolicy, ClickableSpan span) {

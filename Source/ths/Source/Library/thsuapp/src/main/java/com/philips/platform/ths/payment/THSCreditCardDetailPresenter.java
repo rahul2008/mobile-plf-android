@@ -17,6 +17,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -24,21 +25,22 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.ths.R.string.ths_credit_card_details_whats_this_text;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_DATE_VALIDATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CREDIT_CARD_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CVV_EXPLAINATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_CVV;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD;
 
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
 
     private THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
-    private THSCreatePaymentRequest mThsCreatePaymentRequest;
-    private CreatePaymentRequest mCreatePaymentRequest;
     private PaymentMethod mPaymentMethod;
     private THSCreatePaymentRequest mTHSCreatePaymentRequest;
 
@@ -69,16 +71,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         }
     }
 
-    THSCreatePaymentRequest getNewCreatePaymentRequest() {
-        THSCreatePaymentRequest thsCreatePaymentRequest = null;
-        try {
-            THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
-        } catch (Exception e) {
-            // todo
-        }
-        return thsCreatePaymentRequest;
-    }
-
 
     boolean validateCreditCardDetails(String cardNumber) {
         boolean validationresult = false;
@@ -90,54 +82,53 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         return validationresult;
     }
 
-    boolean validateCVVnumber(String cardNumber, String cvv) {
-        boolean isCVVvalid = false;
-        try {
-            THSManager.getInstance().isSecurityCodeValid(mTHSCreditCardDetailFragment.getFragmentActivity(), cardNumber, cvv);
-        } catch (Exception e) {
-            // todo
-        }
-        return isCVVvalid;
-    }
-
     void saveCreditCardDetail() {
 
 
         String cardHolderName = mTHSCreditCardDetailFragment.mCardHolderNameEditText.getText().toString().trim();
         if (null == cardHolderName || cardHolderName.isEmpty()) {
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_all_fields_mandatory),false);
             return;
         }
 
         String cardNumber = mTHSCreditCardDetailFragment.mCardNumberEditText.getText().toString().trim();
         if (null == cardNumber || cardNumber.isEmpty()) {
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_all_fields_mandatory),false);
             return;
         }
         boolean isCreditcardValid = validateCreditCardDetails(cardNumber);
         if (!isCreditcardValid) {
-            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card_number));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_CREDIT_CARD_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_credit_card_number),false);
             return;
         }
         String expirationMonth = mTHSCreditCardDetailFragment.mCardExpiryMonthEditText.getText().toString().trim();
         if (null == expirationMonth || expirationMonth.isEmpty()) {
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_all_fields_mandatory),false);
             return;
         }
         String expirationYear = mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim();
         if (null == expirationYear || expirationYear.isEmpty()) {
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_all_fields_mandatory),false);
             return;
         }
 
         String CVVcode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
         if (null == CVVcode || CVVcode.isEmpty()) {
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_all_fields_mandatory),false);
             return;
         }
         boolean isCVVvalid = true;// validateCVVnumber(cardNumber, CVVcode); //todo validateCVVnumber always returns false
+        if(CVVcode.length()<3 ){
+            isCVVvalid=false;
+        }
         if (!isCVVvalid) {
-            mTHSCreditCardDetailFragment.showError("Invalid CVV number");
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_CVV_number));
             return;
         } else {
 
@@ -156,27 +147,40 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 bundle.putInt("expirationYear", year);
             } catch (Exception e) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_DATE_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid),false);
                 return;
             }
-            if (month > 12) {
+            if (month > 12 || month <=0 ) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_DATE_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid),false);
                 return;
             }
             Map<String, ValidationReason> errors = new HashMap<>();
             try {
                 mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
                 CreatePaymentRequest createPaymentRequest = mTHSCreatePaymentRequest.getCreatePaymentRequest();
+                createPaymentRequest.setNameOnCard(cardHolderName);
+                createPaymentRequest.setCreditCardNumber(cardNumber);
                 createPaymentRequest.setCreditCardMonth(month);
                 createPaymentRequest.setCreditCardYear(year);
+                createPaymentRequest.setCreditCardSecCode(CVVcode);
                 THSManager.getInstance().validateCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity(), mTHSCreatePaymentRequest, errors);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
-            if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
-                // if expiration date is invalid
+            if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_card_name));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER)) {
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card_number));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
-            } else {
-
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            } else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_CVV_number));
+                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+            } else { // still errors will have ZIP and address error code, so ignoring them as they will be added in next screen
                 bundle.putString("CVVcode", CVVcode);
                 if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
                     bundle.putParcelable("address", mPaymentMethod.getBillingAddress());
@@ -199,7 +203,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
                 mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
             } else if (tHSSDKError.getSdkError() != null) {
-                THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_PAYMENT, tHSSDKError.getSdkError());
+                THSSDKErrorFactory.getErrorType(mTHSCreditCardDetailFragment.getContext(), ANALYTICS_FETCH_PAYMENT, tHSSDKError.getSdkError());
             }
 
         }
@@ -225,7 +229,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         };
 
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCreditCardDetailFragment.getFragmentActivity())
-                .setMessage(showLargeContent ? mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination) : mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination)).
+                .setMessage(showLargeContent ? mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.ths_cvv_explanation) : mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.ths_cvv_explanation)).
                         setPositiveButton(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_matchmaking_ok_button), mTHSCreditCardDetailFragment);
 
         if (isWithTitle) {

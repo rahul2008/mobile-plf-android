@@ -65,7 +65,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dpr_devicePairing)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -107,7 +107,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -221,6 +221,8 @@ android {
         pickFirst 'lib/arm64-v8a/librsjni.so'
         exclude 'META-INF/INDEX.LIST'
     }
+
+    publishNonDefault true
 }
 
 configurations.all {
@@ -234,11 +236,10 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':registrationApi')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     //Android Support Libraries
@@ -264,7 +265,8 @@ dependencies {
     })
 
     //Module projects
-    compile project(':DemoUApp')
+    debugCompile project(path: ':DemoUApp', configuration: 'debug')
+    releaseCompile project(path: ':DemoUApp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {
