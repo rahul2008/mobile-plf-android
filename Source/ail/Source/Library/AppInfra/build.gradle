@@ -98,6 +98,7 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.assertj
+    testCompile deps.junit
 
     androidTestCompile deps.mockito
     androidTestCompile deps.dexmaker_google

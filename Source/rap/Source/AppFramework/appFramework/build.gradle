@@ -39,7 +39,7 @@ buildscript {
         classpath(builddeps.cdpSCM)
         classpath builddeps.androidapt
         classpath builddeps.bintrayplugin
-        classpath "de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6"
+        classpath builddeps.hockeyapp
     }
 }
 
@@ -232,7 +232,6 @@ dependencies {
     compile deps.multidex
     annotationProcessor deps.butterknife_compiler
 
-    compile("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 
     def dp = project.ext.has('useprojectdependencies')
 
