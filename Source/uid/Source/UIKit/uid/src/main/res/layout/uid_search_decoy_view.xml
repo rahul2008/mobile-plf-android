@@ -27,6 +27,8 @@
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.SearchBoxHint"
+        android:textAlignment="viewStart"
+        android:layoutDirection="locale"
         android:id="@id/uid_search_decoy_hint_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

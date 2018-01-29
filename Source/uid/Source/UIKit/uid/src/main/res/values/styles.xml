@@ -64,6 +64,9 @@
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
         <item name="uidRadioButtonStyle">@style/UIDRadioButton</item>
+        <item name="uidNavigationItemStyle">@style/UIDDotNavigationIndicatorItemStyle</item>
+        <item name="uidDotNavigationStyle">@style/UIDDotNavigationStyle</item>
+
         <item name="android:dropDownListViewStyle">@style/UIDDropDownStyle</item>
         <item name="listPopupWindowStyle">@style/UIDListPopupWindow</item>
         <!-- Moved to based temporarily to avoid crash-->
