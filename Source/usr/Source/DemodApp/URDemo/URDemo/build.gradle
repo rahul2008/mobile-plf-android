@@ -22,10 +22,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile deps.support.appcompat-v7
     compile deps.support.design
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.6.6' + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.7.6' + objcdp.getVersionSuffix(), ext: 'aar')
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "9.0.0") {
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar')
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi) {
         exclude group: 'com.android.support'
         transitive = true
     }

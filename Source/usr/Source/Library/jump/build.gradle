@@ -25,11 +25,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'}
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
+    }
 }
 
 def environment = 'production'
