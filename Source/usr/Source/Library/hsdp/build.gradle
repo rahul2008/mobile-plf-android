@@ -115,12 +115,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version
         testApplicationId "com.philips.dhpclient.test"
 
@@ -175,53 +175,51 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.1')
+    compile deps.jackson_annotations
+    compile deps.jackson_core
+    compile deps.jackson_databind
     /*   androidTestCompile project(':dexmaker-mockito-1.4')
        androidTestCompile project(':dexmaker-1.4')
        androidTestCompile project(':dexmaker-dx-1.4')
        androidTestCompile project(':mockito-all-1.10.19')*/
 
 
-    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile deps.junit
   //  androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile deps.dexmaker_google
    // androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:multidex:1.0.2'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    annotationProcessor 'org.immutables:value:2.4.4'
+    compile deps.apache
+    compile deps.support.appcompatv7
+    compile deps.multidex
+    compile deps.butterknife
+    annotationProcessor deps.butterknife_compiler
+    annotationProcessor deps.immutables
 
-    compile 'com.google.dagger:dagger:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
-    androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
-    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
-    testCompile 'com.github.frankiesardo:android-auto-value:0.1'
+    compile deps.dagger.dagger
+    annotationProcessor deps.dagger.compiler
+    annotationProcessor deps.frankiesardo_value_processor
+    androidTestCompile deps.frankiesardo_value
+    testCompile deps.frankiesardo_value
 
-    provided 'javax.annotation:jsr250-api:1.0'
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
+    provided deps.javax_annotation
+    retrolambdaConfig deps.retrolambda
 
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile deps.rxjava2
 
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'org.mockito:mockito-android:2.7.22'
+    testCompile deps.junit
+    testCompile deps.mockito
+    androidTestCompile deps.mockito_android
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.17'
-    testCompile "org.robolectric:robolectric:3.1.1"
+    testCompile deps.junit
+    testCompile deps.mockito_all
+    testCompile deps.robolectric
 
 // Android JUnit Runner
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile deps.android_testrunner
 
 // JUnit4 Rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.android_testrules
     compile(project (':jump'))
 
 }

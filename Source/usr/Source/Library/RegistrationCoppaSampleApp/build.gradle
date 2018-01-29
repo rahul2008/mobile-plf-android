@@ -146,14 +146,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
@@ -240,7 +240,7 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile(project(':coppa'))
-    compile 'com.android.support:multidex:1.0.2'
+    compile deps.support.multidex
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
