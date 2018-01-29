@@ -538,7 +538,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             Phonenumber.PhoneNumber numberProto = phoneUtil.parse(pharmacy.getPhone(), "US");
             selectedPharmacyPhone.setText(getString(R.string.ths_pharmacy_phone_text) + " " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
         } catch (NumberParseException e) {
-            AmwellLog.e("", "NumberParseException was thrown: " + e.toString());
+            AmwellLog.i("", "NumberParseException was thrown: " + e.toString());
         }
         if (null != pharmacy.getEmail()) {
             selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + " " + pharmacy.getEmail());

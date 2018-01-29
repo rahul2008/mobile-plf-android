@@ -286,7 +286,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 result = true;
             }
         } catch (Exception e) {
-            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.toString());
         }
         return result;
     }
