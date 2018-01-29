@@ -32,6 +32,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCallback.PTHGetMedicationCallback, THSMedicationCallback.PTHUpdateMedicationCallback {
     private THSBaseFragment mTHSBaseFragment;
+    private int componentID;
 
 
     public THSMedicationPresenter(THSMedicationFragment tHSMedicationFragment) {
@@ -40,9 +41,12 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     @Override
     public void onEvent(int componentID) {
+        this.componentID = componentID;
         if (componentID == ths_intake_medication_continue_button) {
             updateMedication(((THSMedicationFragment) mTHSBaseFragment).mExistingMedication);
-        } else if (componentID == ths_existing_medicine_footer_relative_layout) {
+        } else if(componentID == THSMedicationFragment.deleteButtonEventID){
+            updateMedication(((THSMedicationFragment) mTHSBaseFragment).mExistingMedication);
+        }else if (componentID == ths_existing_medicine_footer_relative_layout) {
             THSSearchFragment tHSSearchFragment = new THSSearchFragment();
             tHSSearchFragment.setTargetFragment(mTHSBaseFragment, MEDICATION_ON_ACTIVITY_RESULT);
             tHSSearchFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
@@ -91,7 +95,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError && sDKError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_MEDICATION,sDKError));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_FETCH_MEDICATION,sDKError));
             } else {
                 AmwellLog.i("onGetMedicationReceived", "Success");
                 ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(thsMedication);
@@ -118,15 +122,17 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICATION,sDKError));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_SAVE_MEDICATION,sDKError));
             } else {
 
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
                 AmwellLog.i("onUpdateMedication", "success");
                 // addF
-                final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
-                fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-                ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+                if(componentID == ths_intake_medication_continue_button) {
+                    final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
+                    fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+                    mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+                }
             }
         }
     }

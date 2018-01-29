@@ -120,7 +120,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeInstantAppointment");
 
         }
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_VISIT_SUMMARY, null, null);
         //
         return view;
     }
@@ -180,7 +180,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         VisitSummary visitSummary = tHSVisitSummary.getVisitSummary();
         providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
         mTHSVisitSummaryPresenter.mProviderInfo = visitSummary.getAssignedProviderInfo();
-        providerPractice.setText(visitSummary.getAssignedProviderInfo().getPracticeInfo().getName());
+        providerPractice.setText(visitSummary.getAssignedProviderInfo().getSpecialty().getName());
         if (tHSVisitSummary.getVisitSummary().getVisitCost().isFree()) {
             visitCost.setText("$ 0");
         } else {

@@ -21,6 +21,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/lblListHeader"
         style="@style/ths_list_header"
+        fontPath="fonts/centralesansbold.ttf"
         android:layout_width="wrap_content"
         android:text="@string/ths_number_of_visits_scheduled"
         android:layout_height="wrap_content"

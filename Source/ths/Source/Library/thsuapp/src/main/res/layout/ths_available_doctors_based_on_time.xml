@@ -10,7 +10,7 @@
         android:id="@+id/schedule_appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ths_scedule_appointment"
+        android:text="@string/ths_schedule_appointment"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         style="@style/UIDLabel.GridViewHeaderText"
         android:textSize="16sp"
@@ -123,7 +123,7 @@
         android:textSize="@dimen/uid_grid_descrption_size"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+        android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
         android:layout_marginBottom="12dp"
         android:text="@string/ths_select_other_provider"/>
 
@@ -145,7 +145,7 @@
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="@string/ths_scedule_appointment"/>
+        android:text="@string/ths_schedule_appointment"/>
 
 
     <View

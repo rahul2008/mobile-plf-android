@@ -27,6 +27,7 @@ import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.EditText;
@@ -42,7 +43,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_STATES;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnFocusChangeListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
@@ -90,6 +94,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void setView(ViewGroup view) {
         mRelativeLayout = view.findViewById(R.id.registration_form_container);
+        mLocationCantainer = view.findViewById(R.id.ths_edit_location_container_layout);
+        mStateLabel = view.findViewById(R.id.ths_label);
         mContinueButton = view.findViewById(R.id.ths_continue);
         dependantEmailAddress = view.findViewById(R.id.ths_dependant_email_address);
         mContinueButton.setOnClickListener(this);
@@ -116,15 +122,14 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mCheckBoxMale = view.findViewById(R.id.ths_checkbox_male);
         mCheckBoxFemale = view.findViewById(R.id.ths_checkbox_female);
         anchorUIPicker = view.findViewById(R.id.ths_label);
-        mLocationCantainer = view.findViewById(R.id.ths_edit_location_container_layout);
-        mStateLabel = view.findViewById(R.id.ths_label);
 
 
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
             mValidStates = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR,errorTag);
         }
 
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
@@ -147,6 +152,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 }
         );
         prePopulateData();
+
         if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
             mStateLabel.setVisibility(View.GONE);
             mLocationCantainer.setVisibility(View.GONE);
@@ -242,13 +248,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 if (ths_edit_dob_container.isShowingError()) {
                     ths_edit_dob_container.hideError();
                 }
-
                 if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
                     isLocationValid = false;
                 }else {
                     isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
                 }
-
                 if (isLocationValid) {
                     ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
                     ths_edit_location_container.showError();
@@ -291,7 +295,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_DETAILS, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_ADD_DETAILS, null, null);
     }
 
     @Override

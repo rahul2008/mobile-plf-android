@@ -17,7 +17,7 @@
             android:textSize="20sp"
             android:paddingBottom="24dp"
             android:paddingTop="24dp"
-            android:text="Hippa Notice"
+            android:text="Hipaa Notice"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin">
 

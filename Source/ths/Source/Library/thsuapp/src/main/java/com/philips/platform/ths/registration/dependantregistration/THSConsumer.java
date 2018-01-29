@@ -18,6 +18,7 @@ public class THSConsumer {
     private Date dob;
     private String firstName;
     private String lastName;
+    private String displayName;
     private Gender gender;
     private State state;
     private String hsdpUUID;
@@ -162,5 +163,15 @@ public class THSConsumer {
     public void setDependent(boolean dependent) {
         isDependent = dependent;
     }
+
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
 
 }

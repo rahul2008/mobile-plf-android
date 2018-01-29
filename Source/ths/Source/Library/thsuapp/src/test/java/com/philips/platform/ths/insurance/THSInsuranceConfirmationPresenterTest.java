@@ -1,6 +1,6 @@
 package com.philips.platform.ths.insurance;
 
-import android.support.v4.app.FragmentActivity;
+import android.content.Context;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
@@ -14,6 +14,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -37,9 +38,7 @@ public class THSInsuranceConfirmationPresenterTest {
 
 
     THSInsuranceConfirmationPresenter thsInsuranceConfirmationPresenter;
-
-    @Mock
-    THSInsuranceConfirmationFragmentMock tHSInsuranceConfirmationFragment;
+    THSInsuranceConfirmationFragment tHSInsuranceConfirmationFragment;
 
     Method mMethod;
 
@@ -51,13 +50,7 @@ public class THSInsuranceConfirmationPresenterTest {
     Consumer consumerMoxk;
 
     @Mock
-    SubscriptionUpdateRequest thsSubscriptionUpdateRequestMock;
-
-    @Mock
-    THSConsumerWrapper thsConsumerWrapper;
-
-    @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -78,15 +71,25 @@ public class THSInsuranceConfirmationPresenterTest {
     Throwable throwableMock;
 
     @Mock
-    FragmentActivity fragmentActivityMock;
+    Context contextMock;
+
+    @Mock
+    SubscriptionUpdateRequest subscriptionUpdateRequestMock;
+
+    @Mock
+    THSSubscriptionUpdateRequest thsSubscriptionUpdateRequestMock;
+    @Mock
+    THSConsumer thsConsumerMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
-        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMoxk);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        tHSInsuranceConfirmationFragment = new THSInsuranceConfirmationFragmentMock();
         tHSInsuranceConfirmationFragment.setActionBarListener(actionBarListenerMock);
         thsInsuranceConfirmationPresenter = new THSInsuranceConfirmationPresenter(tHSInsuranceConfirmationFragment);
     }
@@ -98,11 +101,9 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void getSubscriptionUpdateRequestWithoutVistContext() throws Exception {
-        when(tHSInsuranceConfirmationFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setThsConsumer(thsConsumerMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
-        when(consumerManagerMock.getNewSubscriptionUpdateRequest(consumerMoxk,false)).thenReturn(thsSubscriptionUpdateRequestMock);
-        assert thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext()!=null;
+        when(awsdkMock.getConsumerManager().getNewSubscriptionUpdateRequest(thsConsumerMock.getConsumer(),false)).thenReturn(subscriptionUpdateRequestMock);
+        Assert.assertNotNull(thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext());
+
     }
 
     @Test
@@ -112,7 +113,7 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void onResponse() throws Exception {
-       // when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
+        // when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
         //when(thsInsuranceConfirmationPresenter.getPaymentMethod()).thenReturn(paymentMethodMock);
         Void avoid = null;
         thsInsuranceConfirmationPresenter.onResponse(avoid,sdkErrorMock);
@@ -126,12 +127,13 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void updateInsurance() throws Exception{
+        when(awsdkMock.getConsumerManager().getNewSubscriptionUpdateRequest(thsConsumerMock.getConsumer(),false)).thenReturn(subscriptionUpdateRequestMock);
         try {
             mMethod = THSInsuranceConfirmationPresenter.class.getDeclaredMethod("updateInsurance",THSSubscriptionUpdateRequest.class);
             mMethod.setAccessible(true);
             mMethod.invoke(thsInsuranceConfirmationPresenter,thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-
+            Assert.fail();
         }
 
     }
