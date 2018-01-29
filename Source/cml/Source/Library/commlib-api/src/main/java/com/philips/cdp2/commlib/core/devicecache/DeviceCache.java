@@ -9,12 +9,15 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ScheduledExecutorService;
+
+import static java.util.Collections.unmodifiableCollection;
 
 public class DeviceCache<T extends CacheData> {
 
@@ -47,12 +50,12 @@ public class DeviceCache<T extends CacheData> {
      * @return the collection of items that are removed from the cache.
      */
     public synchronized Collection<T> clear() {
-        final Collection<T> values = data.values();
+        final Collection<T> cleared = unmodifiableCollection(new ArrayList<>(data.values()));
 
-        for (String ccpId : data.keySet()) {
-            remove(ccpId);
+        for (String key : data.keySet()) {
+            remove(key);
         }
-        return values;
+        return cleared;
     }
 
     public void stopTimers() {

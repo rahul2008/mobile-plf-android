@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.Collection;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static junit.framework.Assert.assertTrue;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeviceCacheTest {
+
     private DeviceCache<CacheData> deviceCache;
 
     @Mock
@@ -114,6 +116,19 @@ public class DeviceCacheTest {
         assertThat(deviceCache.contains(secondNetworkNodeMock.getCppId())).isFalse();
 
         verify(listener).onRemoved(cacheDataMock);
+    }
+
+    @Test
+    public void whenClearingCache_ThenCacheIsEmpty_AndDataIsReturned() {
+        deviceCache.add(cacheDataMock);
+        deviceCache.add(secondCacheDataMock);
+
+        Collection<CacheData> clearedData = deviceCache.clear();
+
+        assertThat(deviceCache.contains(networkNodeMock.getCppId())).isFalse();
+        assertThat(deviceCache.contains(secondNetworkNodeMock.getCppId())).isFalse();
+
+        assertThat(clearedData.size()).isEqualTo(2);
     }
 
     @Test
