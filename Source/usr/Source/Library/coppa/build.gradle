@@ -112,12 +112,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version
         testApplicationId "com.philips.cdp.registration.coppa.test"
@@ -166,28 +166,28 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.dexmaker_google_mockito
+    compile deps.apache
 	
 	def dp = project.ext.has('useprojectdependencies')
     compile(dp ? project(':registrationApi') : project(':RegistrationApi'))
 
 	
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:multidex:1.0.2'
+    compile deps.support.appcompat-v7
+    compile deps.support.multidex
 
-    androidTestCompile 'com.android.support:support-annotations:26.0.2'
+    androidTestCompile deps.support.annotations
 
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile deps.android_testrunner
     // Set this dependency to use JUnit 4 rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.android_testrules
     // Set this dependency to build and run Espresso tests
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile deps.espresso_core
     // Set this dependency to build and run UI Automator tests
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestCompile deps.support.uiautomator
 }
 
 tasks.withType(Test) {

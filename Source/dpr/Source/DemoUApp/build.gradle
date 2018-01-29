@@ -57,7 +57,7 @@ dependencies {
     compile deps.support.fragment
     compile deps.support.appcompatv7
     compile deps.support.design
-    compile deps.support.multidex
+    compile deps.multidex
 
     compile deps.constraintlayout
     compile deps.ormlite.core
