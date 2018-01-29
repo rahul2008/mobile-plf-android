@@ -110,7 +110,8 @@ ext.deps = [
         assertj            : 'com.squareup.assertj:assertj-android:1.1.1',
         cucumber           : 'info.cukes:cucumber-android:1.2.2',
         cucumber_junit     : 'info.cukes:cucumber-junit:1.2.2',
-        dexmaker           : 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0',
+        dexmaker           : 'com.google.dexmaker:dexmaker',
+        dexmaker_mockito   : 'com.google.dexmaker:dexmaker-mockito',
         espresso_core      : 'com.android.support.test.espresso:espresso-core:2.2.2',
         junit              : 'junit:junit:4.12',
         mockito            : 'org.mockito:mockito-core:2.13.0', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
