@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-ext.platformversion = "2017.5.0"
+ext.platformversion = "2017.5.1"
 
 ext.versions = [
         sdk                        : 26,
