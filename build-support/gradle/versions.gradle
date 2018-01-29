@@ -154,4 +154,6 @@ ext.deps = [
         squareup_picasso              : 'com.squareup.picasso:picasso:2.5.2',
         openid_appauth                : 'net.openid:appauth:0.7.0',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
+        retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.6.0',
+        butterknife_gradle            :'com.jakewharton:butterknife-gradle-plugin:8.8.1'
 ]

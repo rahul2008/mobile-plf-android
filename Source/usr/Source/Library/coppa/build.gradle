@@ -21,7 +21,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 
