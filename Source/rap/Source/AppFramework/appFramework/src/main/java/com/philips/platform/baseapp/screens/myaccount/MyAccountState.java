@@ -160,7 +160,11 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList(),
-                (String) appInfra.getConfigInterface().getPropertyForKey("privacyNotice.url", "mya", new AppConfigurationInterface.AppConfigurationError()));
+        String privacyNoticeURL = getConfiguredPrivacyNoticeUrl(appInfra);
+        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList(),privacyNoticeURL);
+    }
+    
+    protected String getConfiguredPrivacyNoticeUrl(AppInfraInterface appInfra) {
+        return (String) appInfra.getConfigInterface().getPropertyForKey("privacyNotice.url", "mya", new AppConfigurationInterface.AppConfigurationError());
     }
 }
