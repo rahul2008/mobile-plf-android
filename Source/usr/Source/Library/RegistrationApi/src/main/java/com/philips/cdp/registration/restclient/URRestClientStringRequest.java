@@ -36,6 +36,7 @@ public class URRestClientStringRequest extends StringRequest {
 
     public URRestClientStringRequest(int method, String url, String body, Response.Listener<String> listener, Response.ErrorListener errorListener, Map<String, String> header, Map<String, String> params, TokenProviderInterface tokenProviderInterface) {
         super(method, url, listener, errorListener, header, params, tokenProviderInterface);
+
         mBody = body;
         mResponseListener = listener;
         mErrorListener = errorListener;
@@ -88,7 +89,6 @@ public class URRestClientStringRequest extends StringRequest {
     @Override
     protected void deliverResponse(String response) {
         RLog.d(TAG, "Response deliverResponse= " + response);
-        // urEventing.post(new MobileVerifyCodeResponseEvent(response));
         postSuccessResponseOnUIThread(response);
     }
 
@@ -104,20 +104,12 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     private void postSuccessResponseOnUIThread(final String jsonObject) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mResponseListener.onResponse(jsonObject);
-            }
-        });
+        mHandler.post(() -> mResponseListener.onResponse(jsonObject));
+        RLog.d(TAG, jsonObject);
     }
 
     private void postErrorResponseOnUIThread(final VolleyError volleyError) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mErrorListener.onErrorResponse(volleyError);
-            }
-        });
+        mHandler.post(() -> mErrorListener.onErrorResponse(volleyError));
+        RLog.d(TAG, volleyError.getMessage());
     }
 }

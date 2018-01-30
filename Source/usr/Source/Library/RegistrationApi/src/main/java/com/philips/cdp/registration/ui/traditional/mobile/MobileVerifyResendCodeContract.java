@@ -1,23 +1,22 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.android.volley.VolleyError;
 
 public interface MobileVerifyResendCodeContract {
 
 
-    HttpClientServiceReceiver getClientServiceRecevier();
-
-    ComponentName startService(Intent intent);
-
-    Intent getServiceIntent();
+//    HttpClientServiceReceiver getClientServiceRecevier();
+//
+//    ComponentName startService(Intent intent);
+//
+//    Intent getServiceIntent();
 
     void enableResendButton();
 
     void enableUpdateButton();
 
     void netWorkStateOnlineUiHandle();
+
     void hideProgressSpinner();
 
     void disableResendButton();
@@ -29,9 +28,13 @@ public interface MobileVerifyResendCodeContract {
     void enableResendButtonAndHideSpinner();
 
     void showSmsResendTechincalError(String errorCodeString);
+
     void showNumberChangeTechincalError(String errorCodeString);
 
 
     void refreshUser();
 
+    void onSuccessResponse(int requestCode, String response);
+
+    void onErrorResponse(VolleyError error);
 }

@@ -54,26 +54,30 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private CheckBox mCheckBox;
     private User mUser;
     private boolean isCountrySelection;
-
+    private Button mBtnRegistrationWithAccountSettings;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        user = new User(this);
+
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         setContentView(R.layout.usr_demoactivity);
 
-        Button mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
+        mBtnRegistrationWithAccountSettings = findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
-        Button mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
+        Button mBtnRegistrationMarketingOptIn = findViewById(R.id.btn_marketing_opt_in);
         mBtnRegistrationMarketingOptIn.setOnClickListener(this);
 
-        Button mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
+        Button mBtnRegistrationWithOutAccountSettings = findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
-        final Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
+        final Button mBtnHsdpRefreshAccessToken = findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
@@ -83,22 +87,22 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = (com.philips.platform.uid.view.widget.Switch) findViewById(R.id.county_selection_switch);
+        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
-        Button mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
+        Button mBtnRefresh = findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
-        Button mBtnUpdateDOB = (Button) findViewById(R.id.btn_update_date_of_birth);
+        Button mBtnUpdateDOB = findViewById(R.id.btn_update_date_of_birth);
         mBtnUpdateDOB.setOnClickListener(this);
-        Button mBtnUpdateGender = (Button) findViewById(R.id.btn_update_gender);
+        Button mBtnUpdateGender = findViewById(R.id.btn_update_gender);
         mBtnUpdateGender.setOnClickListener(this);
-        mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
+        mRadioGender = findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
 //        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
-        mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
-        mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
+        mLlConfiguration = findViewById(R.id.ll_configuartion);
+        mRadioGroup = findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
@@ -125,7 +129,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         }
 
         mLlConfiguration.setVisibility(GONE);
-        Button mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
+        Button mBtnChangeConfiguaration = findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,12 +146,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         });
 
 
-        mCheckBox = (CheckBox) findViewById(R.id.cd_hsdp);
+        mCheckBox = findViewById(R.id.cd_hsdp);
         if (restoredHSDPText != null) {
             mCheckBox.setChecked(true);
         }
 
-        Button mBtnApply = (Button) findViewById(R.id.Apply);
+        Button mBtnApply = findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +207,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
             }
         });
-        Button mBtnCancel = (Button) findViewById(R.id.Cancel);
+        Button mBtnCancel = findViewById(R.id.Cancel);
         mBtnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,6 +243,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
+        if (user.isUserSignIn())
+            mBtnRegistrationWithAccountSettings.setEnabled(true);
+        else
+            mBtnRegistrationWithAccountSettings.setEnabled(false);
     }
 
     @Override
@@ -291,10 +299,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     @Override
                     public void onLogoutFailure(int responseCode, String message) {
                         hideLogoutSpinner();
-                        Toast.makeText(mContext, "Code "+ responseCode +"Message"+message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Code " + responseCode + "Message" + message, Toast.LENGTH_LONG).show();
                     }
                 });
-            }else{
+            } else {
                 mUser.logout(null);
             }
 
@@ -379,7 +387,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             gender = Gender.MALE;
         } else if (mRadioGender.getCheckedRadioButtonId() == R.id.Female) {
             gender = Gender.FEMALE;
-        }else {
+        } else {
             gender = Gender.NONE;
         }
 
@@ -455,7 +463,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void handleRefreshAccessToken() {
 
-        final User user = new User(this);
+
         if (user.isUserSignIn()) {
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
@@ -482,7 +490,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
-        Toast.makeText(this,"User is logged in ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "User is logged in ", Toast.LENGTH_SHORT).show();
         activity.finish();
     }
 

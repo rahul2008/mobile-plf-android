@@ -10,9 +10,7 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.android.volley.VolleyError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -76,9 +73,10 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
-        MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener{
+        MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
-   @BindView(R2.id.btn_reg_resend_update)
+    private String TAG = MobileVerifyResendCodeFragment.class.getSimpleName();
+    @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
 
     @BindView(R2.id.btn_reg_code_received)
@@ -115,7 +113,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
         user = new User(context);
     }
 
@@ -135,7 +133,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         phoneNumberEditText.setText(user.getMobile());
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         disableResendButton();
-        if(!getRegistrationFragment().getCounterState()){
+        if (!getRegistrationFragment().getCounterState()) {
             enableResendButton();
         }
         phoneNumberChange();
@@ -186,14 +184,15 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private ProgressDialog mProgressDialog;
 
-   private void showProgressDialog() {
+    private void showProgressDialog() {
         if (!getActivity().isFinishing()) {
             if (mProgressDialog == null) {
                 mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
                 mProgressDialog.setCancelable(false);
             }
-            mProgressDialog.show();        }
+            mProgressDialog.show();
+        }
     }
 
     private void hideProgressDialog() {
@@ -201,6 +200,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             mProgressDialog.cancel();
         }
     }
+
     @Override
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
@@ -235,7 +235,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private void updateUiStatus() {
         if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
-                resendSMSButton.setEnabled(true);
+            resendSMSButton.setEnabled(true);
         } else {
             resendSMSButton.setEnabled(false);
         }
@@ -254,14 +254,14 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     public void handleUI() {
-       updateUiStatus();
+        updateUiStatus();
     }
 
     @Override
     public void onRefreshUserSuccess() {
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
         EventBus.getDefault().post(new UpdateMobile(user.getMobile()));
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile"+ user.getMobile());
+        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
         mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
 
     }
@@ -271,7 +271,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         hideProgressSpinner();
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
-
 
 
     @Override
@@ -294,6 +293,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         hidePopup();
+        RLog.d(TAG, "verifyClicked ");
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -310,32 +310,33 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
 
-   @OnClick(R2.id.btn_reg_code_received)
+    @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
         hidePopup();
-       getRegistrationFragment().onBackPressed();
+        getRegistrationFragment().onBackPressed();
     }
 
     void hidePopup() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-            popupWindow=null;
+            popupWindow = null;
         }
     }
-    @Override
-    public Intent getServiceIntent() {
-        return new Intent(context, HttpClientService.class);
-    }
 
-    @Override
-    public HttpClientServiceReceiver getClientServiceRecevier() {
-        return new HttpClientServiceReceiver(handler);
-    }
-
-    @Override
-    public ComponentName startService(Intent intent) {
-        return context.startService(intent);
-    }
+//    @Override
+//    public Intent getServiceIntent() {
+//        return new Intent(context, HttpClientService.class);
+//    }
+//
+//    @Override
+//    public HttpClientServiceReceiver getClientServiceRecevier() {
+//        return new HttpClientServiceReceiver(handler);
+//    }
+//
+//    @Override
+//    public ComponentName startService(Intent intent) {
+//        return context.startService(intent);
+//    }
 
     @Override
     public void enableResendButton() {
@@ -343,7 +344,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                 R.string.reg_Resend_SMS_title));
         resendSMSButton.setProgressText(getActivity().getResources().getString(
                 R.string.reg_Resend_SMS_title));
-        if(networkUtility.isNetworkAvailable())
+        if (networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
     }
 
@@ -359,9 +360,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     public void updateResendTime(long timeLeft) {
         if (user.getMobile().equals(phoneNumberEditText.getText().toString())) {
-                    int timeRemaining = (int)(timeLeft / 1000);
+            int timeRemaining = (int) (timeLeft / 1000);
             usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(
-                    ((60 - timeRemaining)*100)/60);
+                    ((60 - timeRemaining) * 100) / 60);
             String timeRemainingAsString = Integer.toString(timeRemaining);
             usr_mobileverification_resendsmstimer_progress.setText(
                     String.format(getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
@@ -377,13 +378,13 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void hideProgressSpinner() {
-            enableResendButton();
-            hideProgressDialog();
+        enableResendButton();
+        hideProgressDialog();
     }
 
     @Override
     public void disableResendButton() {
-            resendSMSButton.setEnabled(false);
+        resendSMSButton.setEnabled(false);
     }
 
     @Override
@@ -430,15 +431,26 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         disableResendButton();
     }
 
+    @Override
+    public void onSuccessResponse(int requestCode, String response) {
+        mobileVerifyResendCodePresenter.handleOnSuccess(requestCode, response);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        hideProgressSpinner();
+        showSmsSendFailedError();
+    }
+
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-        int progress =100;
-        if(event.equals(RegConstants.COUNTER_FINISH)){
+        int progress = 100;
+        if (event.equals(RegConstants.COUNTER_FINISH)) {
             usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(progress);
             usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
-        }else{
+        } else {
             updateResendTime(timeLeft);
         }
     }
@@ -448,14 +460,14 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             View view = getRegistrationFragment().getNotificationContentView(
                     context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
                     user.getMobile().toString());
-            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile"+ user.getMobile());
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setContentView(view);
         }
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
-            popupWindow=null;
+            popupWindow = null;
         } else {
             popupWindow.showAtLocation(getActivity().
                     findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);

@@ -1,17 +1,15 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-
-import com.philips.cdp.registration.*;
+import com.android.volley.VolleyError;
 
 public interface MobileForgotPassVerifyResendCodeContract {
 
 
-    HttpClientServiceReceiver getClientServiceRecevier();
-
-    ComponentName startService(Intent intent);
-
-    Intent getServiceIntent();
+//    HttpClientServiceReceiver getClientServiceRecevier();
+//
+//    ComponentName startService(Intent intent);
+//
+//    Intent getServiceIntent();
 
     void enableResendButton();
 
@@ -36,4 +34,7 @@ public interface MobileForgotPassVerifyResendCodeContract {
 
     void updateToken(String token);
 
+    void onSuccessResponse(String response);
+
+    void onErrorResponse(VolleyError error);
 }

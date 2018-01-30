@@ -268,17 +268,17 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
     }
 
-    public Intent getServiceIntent() {
-        return new Intent(context, HttpClientService.class);
-    }
-
-    public HttpClientServiceReceiver getClientServiceRecevier() {
-        return new HttpClientServiceReceiver(handler);
-    }
-
-    public ComponentName startService(Intent intent) {
-        return context.startService(intent);
-    }
+//    public Intent getServiceIntent() {
+//        return new Intent(context, HttpClientService.class);
+//    }
+//
+//    public HttpClientServiceReceiver getClientServiceRecevier() {
+//        return new HttpClientServiceReceiver(handler);
+//    }
+//
+//    public ComponentName startService(Intent intent) {
+//        return context.startService(intent);
+//    }
 
     public void enableVerifyButton() {
         if ((verificationCodeValidationEditText.getText().length()
