@@ -1,1 +1,1 @@
-include ':app', ':ThsDemoUapp'
+include ':app', ':thsUapp'
