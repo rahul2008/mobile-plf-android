@@ -1,0 +1,53 @@
+
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
+
+    defaultConfig {
+    
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
+
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile 'com.android.support:appcompat-v7:26.0.2'
+   // compile 'com.android.support:design:25.1.1'
+   // compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.6-SNAPSHOT', ext: 'aar')
+
+    //compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5-SNAPSHOT', ext: 'aar')
+
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '2017.5.0-SNAPSHOT.20180128220116', ext: 'aar'){
+        exclude group: 'com.android.support'
+    }
+
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '2017.5.0-SNAPSHOT.20180128220117', ext: 'aar'){
+        exclude group: 'com.android.support'
+    }
+
+    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2017.5.0-SNAPSHOT.20180129093342', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+}
