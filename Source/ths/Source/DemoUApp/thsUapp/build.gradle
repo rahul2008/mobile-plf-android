@@ -1,5 +1,8 @@
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 
 android {
@@ -19,6 +22,42 @@ android {
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]
 
+    }
+}
+
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
     }
 }
 
