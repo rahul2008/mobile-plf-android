@@ -101,8 +101,13 @@ public class DeviceCache<T extends CacheData> {
         return cacheData;
     }
 
-    public void addDeviceCacheListener(final @NonNull DeviceCacheListener<T> listener) {
+    public void addDeviceCacheListener(final @NonNull DeviceCacheListener<T> listener, String forCppId) {
         deviceCacheListeners.add(listener);
+
+        final T cacheData = data.get(forCppId);
+        if (cacheData != null) {
+            notifyCacheDataAdded(cacheData);
+        }
     }
 
     public void removeDeviceCacheListener(final @NonNull DeviceCacheListener<T> listener) {

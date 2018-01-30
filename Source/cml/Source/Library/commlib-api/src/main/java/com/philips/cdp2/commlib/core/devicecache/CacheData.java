@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.core.devicecache;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
@@ -60,6 +61,12 @@ public class CacheData {
         if (future != null) {
             future.cancel(false);
         }
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public ExpirationCallback getExpirationCallback() {
+        return this.expirationCallback;
     }
 
     public long getExpirationPeriodMillis() {

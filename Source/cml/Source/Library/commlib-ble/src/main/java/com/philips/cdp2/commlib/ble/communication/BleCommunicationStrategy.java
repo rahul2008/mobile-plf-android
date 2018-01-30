@@ -69,31 +69,13 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         @Override
         public void onRemoved(BleCacheData cacheData) {
             if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
-                isAvailable = false;
+                if (isAvailable) {
+                    isAvailable = false;
+                    notifyAvailabilityChanged();
+                }
             }
         }
     };
-
-//    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
-//        @Override
-//        public void onRemoved(String cppId) {
-//            isAvailable = false;
-//        }
-//
-//        @Override
-//        public void onAdded(String cppId) {
-//            final BleCacheData cacheData = deviceCache.getCacheData(BleCommunicationStrategy.this.cppId);
-//            cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
-//                @Override
-//                public void onAvailabilityChanged(@NonNull BleCacheData object) {
-//                    if (isAvailable != object.isAvailable()) {
-//                        isAvailable = object.isAvailable();
-//                        notifyAvailabilityChanged();
-//                    }
-//                }
-//            });
-//        }
-//    };
 
     @NonNull
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
@@ -142,9 +124,13 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
 
-        this.isAvailable = deviceCache.contains(cppId);
-        this.deviceCache.addDeviceCacheListener(deviceCacheListener);
-//        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
+        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
+        if (cacheData != null) {
+            this.isAvailable = cacheData.isAvailable();
+            notifyAvailabilityChanged();
+        }
+
+        this.deviceCache.addDeviceCacheListener(deviceCacheListener, cppId);
     }
 
     @Override

@@ -123,7 +123,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
         requestQueue = createRequestQueue();
 
-        deviceCache.addDeviceCacheListener(deviceCacheListener);
+        deviceCache.addDeviceCacheListener(deviceCacheListener, networkNode.getCppId());
         connectivityMonitor.addAvailabilityListener(availabilityListener);
         this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
     }
