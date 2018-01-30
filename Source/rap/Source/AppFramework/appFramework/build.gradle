@@ -321,10 +321,8 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        debugCompile project(path: ':pushnotification', configuration: 'debug')
-        releaseCompile project(path: ':pushnotification', configuration: 'release')
-        debugCompile project(path: ':themesettings', configuration: 'debug')
-        releaseCompile project(path: ':themesettings', configuration: 'release')
+        compile(group: 'com.philips.cdp', name: 'pushnotifications', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'themesettings', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     testCompile "junit:junit:${versionsExternal.junit}"
@@ -342,11 +340,6 @@ dependencies {
     testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
 
     testCompile "org.json:json:${versionsExternal.json}"
-
-//    debugCompile project(path: ':pushnotification', configuration: 'debug')
-//    releaseCompile project(path: ':pushnotification', configuration: 'release')
-//    debugCompile project(path: ':themesettings', configuration: 'debug')
-//    releaseCompile project(path: ':themesettings', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {
