@@ -82,13 +82,13 @@ pipeline {
         }
 
         stage('Publish to artifactory') {
-//            when {
-//                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-//            }
+            when {
+                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+            }
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments :referenceApp:printArtifactoryApkPath
+                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
             }
