@@ -1,0 +1,86 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
+
+    defaultConfig {
+    
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
+
+    }
+}
+
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '2017.5.0-SNAPSHOT.20180128220116', ext: 'aar'){
+        exclude group: 'com.android.support'
+    }
+
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '2017.5.0-SNAPSHOT.20180128220117', ext: 'aar'){
+        exclude group: 'com.android.support'
+    }
+
+    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2017.5.0-SNAPSHOT.20180129093342', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+}
