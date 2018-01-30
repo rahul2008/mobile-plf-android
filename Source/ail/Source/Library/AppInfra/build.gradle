@@ -94,13 +94,14 @@ dependencies {
     compile deps.support.design
     compile deps.support.supportv4
     compile deps.support.annotations
+    compile deps.junit
+    compile deps.mockito
 
-    testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.assertj
     testCompile deps.junit
 
-    androidTestCompile deps.mockito
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito
+
 }
