@@ -12,6 +12,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -163,12 +164,13 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return;
         }
 
-        if (this.deviceCache.contains(networkNode.getCppId())) {
-            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
-            deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
-        } else {
+        final CacheData cacheData = deviceCache.getCacheData(networkNode.getCppId());
+        if (cacheData == null) {
             DICommLog.d(DICommLog.DISCOVERY, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
+        } else {
+            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            cacheData.resetTimer();
         }
 
         notifyNetworkNodeDiscovered(networkNode);
