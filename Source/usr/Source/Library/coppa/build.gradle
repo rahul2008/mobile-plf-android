@@ -137,7 +137,6 @@ android {
         }
         debug {
             debuggable true
-            testCoverageEnabled false
         }
     }
 
