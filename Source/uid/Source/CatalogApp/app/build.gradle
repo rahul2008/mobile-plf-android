@@ -189,7 +189,6 @@ android {
 
         debug {
             signingConfig signingConfigs.debug
-            testCoverageEnabled true
         }
     }
 

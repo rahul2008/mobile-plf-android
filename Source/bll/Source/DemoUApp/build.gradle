@@ -53,5 +53,5 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = "0.7.6.201602180812"
 }
