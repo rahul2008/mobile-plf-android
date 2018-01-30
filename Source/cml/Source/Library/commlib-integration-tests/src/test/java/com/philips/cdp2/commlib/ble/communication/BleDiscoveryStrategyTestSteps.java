@@ -303,4 +303,9 @@ public class BleDiscoveryStrategyTestSteps {
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
     }
+
+    @When("^the list of discovered appliances is cleared$")
+    public void theListOfDiscoveredAppliancesIsCleared() {
+        commCentral.clearDiscoveredAppliances();
+    }
 }
