@@ -83,7 +83,7 @@ public class MyAccountState extends BaseState {
 
     private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale = Locale.US;
-        if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null
+        if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null) {
             String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getBCP47UILocale().split("-");
             // TODO AppInfra should add method `getHsdpLocaleString()`: getUILocaleString mostly returns just 'en', but we need 'en_US' or 'ca_FR' -> right now, falling
             // back to Locale.US
