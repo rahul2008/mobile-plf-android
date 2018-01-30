@@ -54,27 +54,6 @@ allprojects {
             }
             maven {url "https://clojars.org/repo/"}
         }
-      /*  maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/jcenter'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/libs-stage-local-android'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/libs-snapshot-local-android'
-        }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }*/
     }
 }
 task clean(type: Delete) {
