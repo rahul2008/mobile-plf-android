@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
-                InitialiseBuild()                
+                InitialiseBuild()
                 checkout scm
                 BuildAndUnitTest()
             }
@@ -82,14 +82,15 @@ pipeline {
         }
 
         stage('Publish to artifactory') {
-            when {
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-            }
+//            when {
+//                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+//            }
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew saveResDep zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments :referenceApp:printArtifactoryApkPath
                 '''
+                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
             }
         }
 
@@ -288,7 +289,7 @@ def DeployingLeakCanaryArtifacts() {
             cd $BASE_PATH
         fi
     '''
-    sh shellcommand   
+    sh shellcommand
 }
 
 def PublishUnitTestsresults() {
@@ -313,7 +314,7 @@ def PublishUnitTestsresults() {
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
     step([$class: 'JUnitResultArchiver', testResults: 'Source/ews/Source/Library/ews-android/build/test-results/*/*.xml'])
-    junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml' 
+    junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml'
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
@@ -353,7 +354,7 @@ def PublishUnitTestsresults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-chi'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])  
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])
 }
 
 def PublishLintJacocoresults() {
