@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory'
 
 
 android {
@@ -25,10 +26,110 @@ android {
     }
 }
 
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = "thsUapp"
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(platformversion)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
 task zipDocuments(type: Zip) {
     from files(projectDir.toString() + "/../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
+    }
+}
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -71,16 +172,28 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '2017.5.0-SNAPSHOT.20180128220116', ext: 'aar'){
-        exclude group: 'com.android.support'
-    }
+    def dp = project.ext.has('useprojectdependencies')
 
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '2017.5.0-SNAPSHOT.20180128220117', ext: 'aar'){
-        exclude group: 'com.android.support'
-    }
+    if (dp) {
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        debugCompile project(path: ':telehealth', configuration: 'debug')
+        releaseCompile project(path: ':telehealth', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
 
-    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2017.5.0-SNAPSHOT.20180129093342', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive = true
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
+
+        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+
     }
 }
