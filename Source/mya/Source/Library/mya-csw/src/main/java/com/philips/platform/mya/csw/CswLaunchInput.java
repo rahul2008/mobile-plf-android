@@ -7,9 +7,9 @@
 
 package com.philips.platform.mya.csw;
 
-import android.content.Context;
-
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+
+import android.content.Context;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
@@ -19,12 +19,19 @@ public class CswLaunchInput extends UappLaunchInput {
 
     private final Context context;
 
-    public CswLaunchInput(Context context) {
+    private final String privacyNoticeUrl;
+
+    public CswLaunchInput(Context context, String privacyNoticeUrl) {
         this.context = context;
+        this.privacyNoticeUrl = privacyNoticeUrl;
     }
 
     public Context getContext() {
         return context;
+    }
+
+    public String getPrivacyNoticeUrl() {
+        return privacyNoticeUrl;
     }
 
     /**
@@ -36,9 +43,8 @@ public class CswLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
-
     /**
-     * Enable  add to back stack for current fragment.
+     * Enable add to back stack for current fragment.
      *
      * @param isAddToBackStack
      */

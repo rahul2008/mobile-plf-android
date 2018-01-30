@@ -221,8 +221,7 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        compile(project(':AppInfra'))
+    if (dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
         debugCompile project(path: ':uid', configuration: 'debug')

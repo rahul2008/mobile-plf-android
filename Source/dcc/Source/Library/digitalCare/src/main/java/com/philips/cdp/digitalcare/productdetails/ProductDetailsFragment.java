@@ -294,11 +294,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private void createProductDetailsMenu() {
         final ProductDetailsFragment context = this;
 
-        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        if (mViewProductDetailsModel != null && mViewProductDetailsModel.getManualLink() == null) {
-
-        }
-
         RecyclerView recyclerView = mProdButtonsParent;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
@@ -322,11 +317,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private ArrayList<MenuItem> getMenuItems() {
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
         ArrayList<MenuItem> menus = new ArrayList<>();
-        for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
+        if(mViewProductDetailsModel != null){
+            for (int i = 0; i < titles.length(); i++) {
+                if (titles.getText(i).equals(getResources().getString(R.string.dcc_productDownloadManual)) && mViewProductDetailsModel.getManualLink() == null) {
+                    continue;
+                }else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productInformationOnWebsite)) && mViewProductDetailsModel.getProductInfoLink() == null){
+                    continue;
+                }
+                menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
+            }
         }
+        titles.recycle();
         return menus;
     }
 

@@ -14,4 +14,6 @@
     <attr name="uidAboutScreenStyle" format="reference"/>
     <attr name="uidBottomTabItemStyle" format="reference" />
     <attr name="uidBottomTabBarStyle" format="reference" />
+    <attr name="uidDotNavigationStyle" format="reference" />
+    <attr name="uidNavigationItemStyle" format="reference"/>
 </resources>

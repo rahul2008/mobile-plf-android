@@ -41,7 +41,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_about_screen_copyright"
         fontPath="fonts/centralesansbook.ttf"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/uid_about_screen_label_bottom_margin"
         android:textColor="?attr/uidAboutScreenDefaultTextColor"
@@ -66,7 +66,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_about_screen_disclosure"
         fontPath="fonts/centralesansbook.ttf"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/uidAboutScreenDefaultTextColor"
         android:textSize="@dimen/uid_about_screen_label_size" />
