@@ -470,6 +470,24 @@
                 "nextState": "device_pairing"
               }
             ]
+          },
+          {
+            "eventId": "TestThsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoThsLib"
+              }
+            ]
+          },
+          {
+            "eventId": "TestThsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoThsLib"
+              }
+            ]
           }
         ]
       }

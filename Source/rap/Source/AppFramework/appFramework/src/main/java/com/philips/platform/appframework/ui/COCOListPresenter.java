@@ -53,6 +53,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String DEMO_APP_INFRA = "Test App Infra Demo";
     public static final String DEVICE_PAIRING_DEMO_APP = "Test Device Pairing Demo";
     public static final String TEST_DS_EVENT = "TestDataServicesEvent";
+    public static final String TEST_THS_EVENT = "TestThsEvent";
     public static final String TEST_MYA_EVENT = "TestMyAccountServiceEvent";
     public static final String TEST_IAP_EVENT = "TestInAppPurhcaseEvent";
     public static final String TEST_PR_EVENT = "TestProductRegistrationEvent";
