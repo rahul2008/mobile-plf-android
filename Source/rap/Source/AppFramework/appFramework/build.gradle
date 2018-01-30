@@ -321,8 +321,9 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'pushnotifications', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'themesettings', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile project(':pushnotification')
+        compile project(':themesettings')
     }
 
     testCompile "junit:junit:${versionsExternal.junit}"
