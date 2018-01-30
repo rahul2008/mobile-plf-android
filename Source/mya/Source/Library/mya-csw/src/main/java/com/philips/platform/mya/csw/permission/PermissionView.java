@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
@@ -38,11 +40,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener, PrivacyNoticeClickListener {
 
 
     private static final String TAG = "PermissionView";
-
+    private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
@@ -56,8 +58,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        //Update recycle view rows
-        //  applyParams(config, recyclerView, width);
+        // Update recycle view rows
+        // applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -112,12 +114,25 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onActivityCreated(savedInstanceState);
 
         adapter = new PermissionAdapter(createConsentsList(), this);
+        adapter.setPrivacyNoticeClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void onPrivacyNoticeClicked(String url) {
+        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
+        privacyNoticeFragment.setUrl(url);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
 
     @Override
     public void showProgressDialog() {

@@ -1,23 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/csw_relative_layout_header"
         android:layout_width="match_parent"
-        android:elevation="8dp"
         android:layout_height="@dimen/reg_header_height"
-        android:background="?attr/uidNavigationPrimaryBackgroundColor" >
+        android:background="?attr/uidNavigationPrimaryBackgroundColor"
+        android:elevation="8dp">
 
         <com.philips.cdp.registration.ui.customviews.XIconTextView
             android:id="@+id/csw_textview_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:layout_centerVertical="true"
             android:padding="@dimen/reg_header_iv_back_padding"
             android:text="@string/ic_reg_left"
             android:textColor="?attr/uidNavigationPrimaryTextColor"
