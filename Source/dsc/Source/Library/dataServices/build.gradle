@@ -7,7 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.neenbedankt.android-apt'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -176,7 +176,6 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled true
         }
     }
 
