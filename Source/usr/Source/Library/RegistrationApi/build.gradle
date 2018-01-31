@@ -17,14 +17,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -58,7 +58,7 @@ allprojects {
     repositories {
         
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -243,7 +243,7 @@ dependencies {
 
     compile deps.apache
 
-    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
+    compile deps.libphonenumber
 
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife

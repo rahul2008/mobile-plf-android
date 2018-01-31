@@ -10,14 +10,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -48,7 +48,7 @@ archivesBaseName = "jump"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
