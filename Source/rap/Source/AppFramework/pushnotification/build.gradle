@@ -31,12 +31,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
+        classpath builddeps.trickyandroid
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath builddeps.androidapt
+        classpath builddeps.bintrayplugin
     }
 }
 
@@ -122,8 +122,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
-    compile "com.google.android.gms:play-services-gcm:${versionsExternal.gcm}"
+    compile deps.support.appcompatv7
+    compile deps.play_services_gcm
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -136,21 +136,21 @@ dependencies {
         }
     }
 
-    testCompile "junit:junit:${versionsExternal.junit}"
-    testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
-    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
-    testCompile "org.robolectric:shadows-multidex:${versionsExternal.robolectricSupport}"
-    testCompile "org.mockito:mockito-all:${versionsExternal.mockitoAll}"
+    testCompile deps.junit
+    testCompile deps.opengl
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    testCompile deps.robolectric_shadows_multidex
+    testCompile deps.mockito_all
 
-    testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4-rule-agent:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
+    testCompile deps.powermock_core
+    testCompile deps.powermock_module_junit4
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_junit_rule_agent
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_classloading_xstream
 
-    testCompile "org.json:json:${versionsExternal.json}"
+    testCompile deps.json
 }
 
 apply plugin: 'com.google.gms.google-services'

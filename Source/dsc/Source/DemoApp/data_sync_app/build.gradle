@@ -238,12 +238,13 @@ configurations.all {
 }
 
 dependencies {
+    //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+    if(dp) {
         compile project(':UserRegistrationUApp')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     }
 
     compile deps.support.design
@@ -260,7 +261,6 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.junit
-
     compile(project(':dataServicesUApp'))
 }
 

@@ -10,7 +10,7 @@ buildscript {
 		}
     }
     dependencies {
-        classpath builddeps.gradle
+		classpath builddeps.gradle
     }
 }
 

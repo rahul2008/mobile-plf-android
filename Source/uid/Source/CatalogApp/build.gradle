@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath builddeps.buildinfoextractor
-        classpath 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6'
+        classpath builddeps.hockeyapp
 
     }
 }

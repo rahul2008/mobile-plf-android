@@ -23,8 +23,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -122,17 +122,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         //applicationId "com.philips.cdp.sampledigitalcare"
         applicationId "com.philips.cl.di.dev.pa"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         generatedDensities = []
         multiDexEnabled true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
@@ -214,29 +214,29 @@ calabash {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:support-v4:26.0.2'
+    compile deps.support.recyclerview
+    compile deps.support.appcompatv7
+    compile deps.support.supportv4
     /*compile(group: 'com.philips.cdp', name: 'dcc', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive true
             }*/
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    androidTestCompile deps.espresso_contrib, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
-        androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+        androidTestCompile deps.uiautomator
     }
     compile(project(':digitalCareUApp'))
 
-    androidTestCompile "com.android.support:support-annotations:26.0.2"
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.support.annotations
+    androidTestCompile deps.testing_support
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.android_testrules
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

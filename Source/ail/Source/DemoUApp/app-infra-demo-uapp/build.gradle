@@ -24,8 +24,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -138,8 +138,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
+    compile deps.support.appcompatv7
+    compile deps.support.design
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -151,8 +151,8 @@ dependencies {
         }
     }
 
-        compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-        compile 'com.google.code.gson:gson:2.8.1'
+        compile deps.leakcanary
+        compile deps.gson
         compile(dp ? project(':AppInfra') : project(':AppInfra'))
     }
 }

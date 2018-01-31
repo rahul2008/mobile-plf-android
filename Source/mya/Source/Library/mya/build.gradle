@@ -6,7 +6,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco-android'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -17,9 +16,8 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -40,11 +38,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    jacocoAndroidUnitTestReport {
-        csv.enabled false
-        html.enabled true
-        xml.enabled false
-    }
+
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -144,14 +138,13 @@ dependencies {
     }
 
     // Tests
-    testCompile('org.robolectric:robolectric:3.4.2') {
+    testCompile(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.robolectric_shadows
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

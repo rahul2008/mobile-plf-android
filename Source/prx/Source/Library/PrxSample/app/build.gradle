@@ -115,13 +115,13 @@ publishing {
 }
 
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         applicationId "prxclient.cdp.philips.com.prxsample"
-        minSdkVersion config.minSdk
-        targetSdkVersion config.targetSdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
     }
@@ -180,11 +180,10 @@ configurations.all {
 
 dependencies {
     compile(project(':prx'))
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile ('com.android.support:support-annotations:26.0.2')
+    compile deps.glide
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.support.annotations
 
 
 }
