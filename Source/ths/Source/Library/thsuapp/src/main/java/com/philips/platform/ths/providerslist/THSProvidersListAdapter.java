@@ -112,7 +112,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.isAvailble.getLayoutParams();
                 layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.notification_badge);
             }catch (Exception e){
-                AmwellLog.e(THSProvidersListAdapter.TAG,e.getMessage());
+                AmwellLog.i(THSProvidersListAdapter.TAG,e.getMessage());
             }
         }
 
@@ -137,7 +137,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         }
         }
         catch (Exception e){
-            AmwellLog.e(THSProvidersListAdapter.TAG,e.getMessage());
+            AmwellLog.e(THSProvidersListAdapter.TAG,e.toString());
         }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override

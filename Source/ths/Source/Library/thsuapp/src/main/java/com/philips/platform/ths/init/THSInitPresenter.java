@@ -65,15 +65,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         try {
             AmwellLog.i("initializeAwsdk", "Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        } catch (AWSDKInitializationException e) {
-            e.printStackTrace();
-        } catch(IllegalArgumentException e){
+        } catch(Exception e){
+            AmwellLog.e("initializeAwsdk",e.toString());
             mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_initialization_failed));
         }
     }
@@ -83,7 +76,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         if (sdkError.getSdkError() != null) {
             if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
-                AmwellLog.e("onInitializationResponse",sdkError.getSdkError().getMessage());
+                AmwellLog.e("onInitializationResponse",sdkError.getSdkError().toString());
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
         }else {
@@ -100,7 +93,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
                 String errorMesage = mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message);
                 if(null!=var1 && null!=var1.getMessage()){
                     mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,var1.getMessage(),false);//
-                    AmwellLog.e("onInitializationFailure",var1.getMessage());
+                    AmwellLog.e("onInitializationFailure",var1.toString());
                     if(var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)){
                         errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_service_available_only_in_us);
                     }
@@ -116,7 +109,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             THSManager.getInstance().checkConsumerExists(mThsInitFragment.getContext(), this);
             //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            AmwellLog.e("checkForUserExisitance",e.toString());
         }
     }
 
@@ -129,7 +122,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             }
             if (null != sdkError) {
 
-                AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.getMessage());
+                AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.toString());
 
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
                 return;
@@ -148,7 +141,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(),this);
             // THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            AmwellLog.e("authenticateUser",e.toString());
         }
     }
 
@@ -180,7 +173,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
             AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call - " + "UNAUTHORIZED");
             if (checkIfRefreshTokenWasTriedBefore()) {
-                AmwellLog.e("onLoginResponse ", sdkError.getSdkError().getMessage());
+                AmwellLog.e("onLoginResponse ", sdkError.getSdkError().toString());
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
                 return;
             }
