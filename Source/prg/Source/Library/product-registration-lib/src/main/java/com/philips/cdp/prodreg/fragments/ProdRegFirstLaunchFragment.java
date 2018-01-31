@@ -38,6 +38,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private Bundle dependencies;
     private ImageView productImage;
     private TextView benefitsMessage;
+    private Button registerButton;
 
     @Override
     public int getActionbarTitleResId() {
@@ -63,7 +64,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
+        registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
         Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
         productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
         benefitsMessage = (TextView) view.findViewById(R.id.prg_welcomeScreen_benefit_label);
@@ -119,6 +120,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                     final ProdRegCache prodRegCache = new ProdRegCache();
                     new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
                     ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
+                    registerButton.setClickable(false);
                     showFragment(processFragment);
                 } else {
                     clearFragmentStack();
