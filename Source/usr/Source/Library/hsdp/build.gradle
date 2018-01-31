@@ -8,7 +8,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -37,9 +38,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "hsdp"
 
 repositories {
@@ -60,7 +62,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_hsdp)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -74,7 +76,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -84,7 +86,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -100,9 +103,9 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -128,7 +131,6 @@ android {
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-
 
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
@@ -163,13 +165,10 @@ android {
 
         debug {
             debuggable true
-            testCoverageEnabled false
-        }
-
-        lintOptions {
-            abortOnError false
         }
     }
+
+    publishNonDefault true
 }
 
 
@@ -201,6 +200,7 @@ dependencies {
     androidTestCompile deps.frankiesardo_value
     testCompile deps.frankiesardo_value
 
+
     provided deps.javax_annotation
     retrolambdaConfig deps.retrolambda
 
@@ -211,7 +211,6 @@ dependencies {
     testCompile deps.mockito
     androidTestCompile deps.mockito_android
 
-    testCompile deps.junit
     testCompile deps.mockito_all
     testCompile deps.robolectric
 
@@ -222,8 +221,17 @@ dependencies {
     androidTestCompile deps.android_testrules
     compile(project (':jump'))
 
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if (dp) {
+        debugCompile project(path: ':jump', configuration: 'debug')
+        releaseCompile project(path: ':jump', configuration: 'release')
+    } else {
+        compile project(':jump')
+    }
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
