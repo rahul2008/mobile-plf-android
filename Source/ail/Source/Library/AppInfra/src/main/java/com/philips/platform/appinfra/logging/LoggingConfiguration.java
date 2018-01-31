@@ -51,23 +51,23 @@ class LoggingConfiguration {
         this.mComponentVersion = mComponentVersion;
     }
 
-    boolean isComponentLevelLogEnabled(final HashMap<String, Object> loggingProperty) {
+    boolean isComponentLevelLogEnabled(final HashMap<?, ?> loggingProperty) {
         return (null != loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
     }
 
-    boolean isFileLogEnabled(final HashMap<String, Object> loggingProperty) {
+    boolean isFileLogEnabled(final HashMap<?, ?> loggingProperty) {
         return (null != loggingProperty.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY) : false;
     }
 
-    boolean isConsoleLogEnabled(final HashMap<String, Object> loggingProperty) {
+    boolean isConsoleLogEnabled(final HashMap<?, ?> loggingProperty) {
         return (null != loggingProperty.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY) : true;
     }
 
-    String getLogLevel(final HashMap<String, Object> loggingProperty) {
+    String getLogLevel(final HashMap<?, ?> loggingProperty) {
         return (null != loggingProperty.get(LOG_LEVEL_KEY)) ? (String) loggingProperty.get(LOG_LEVEL_KEY) : "All";
     }
 
-    Logger getLoggerBasedOnConfig(final String pComponentId, final HashMap<String, Object> loggingProperty) {
+    Logger getLoggerBasedOnConfig(final String pComponentId, final HashMap<?, ?> loggingProperty) {
 
         // fetching properties from Configuration
         final String logLevel = getLogLevel(loggingProperty);
@@ -105,7 +105,7 @@ class LoggingConfiguration {
         return mJavaLogger;
     }
 
-    private ArrayList<String> getComponentsFromConfig(HashMap<String, Object> loggingProperty) {
+    private ArrayList<String> getComponentsFromConfig(HashMap<?, ?> loggingProperty) {
         ArrayList<String> componentToBeLoggedList = new ArrayList<>();
         final JSONArray jsonArray = (JSONArray) loggingProperty.get(COMPONENT_IDS_KEY);
         if (jsonArray != null) {
