@@ -6,9 +6,9 @@ public interface MobileVerifyResendCodeContract {
 
 
 //    HttpClientServiceReceiver getClientServiceRecevier();
-//
+////
 //    ComponentName startService(Intent intent);
-//
+////
 //    Intent getServiceIntent();
 
     void enableResendButton();

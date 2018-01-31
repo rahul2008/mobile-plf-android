@@ -243,12 +243,6 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                         // forgotPasswordContract.intiateService(verificationUrl);
                         URRequest urRequest = new URRequest(Request.Method.POST, verificationUrl, getBodyContent(), forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest();
-//                        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, verificationUrl, getBodyContent(), (String response) -> {
-//                            forgotPasswordContract.onSuccessResponse(response);
-//                        }, error -> {
-//                            forgotPasswordContract.onErrorResponse(error);
-//                        }, null, null, null);
-//                        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
                     }
 
                     @Override

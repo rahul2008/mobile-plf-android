@@ -17,8 +17,6 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE_OK;
 
@@ -34,7 +32,7 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
 
     private final MobileVerifyCodeContract mobileVerifyCodeContract;
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+//    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MobileVerifyCodePresenter(MobileVerifyCodeContract mobileVerifyCodeContract) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -91,9 +89,9 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
 //        return httpServiceIntent;
 //    }
 
-    public void cleanUp() {
-        compositeDisposable.clear();
-    }
+//    public void cleanUp() {
+//        compositeDisposable.clear();
+//    }
 
 //    @Override
 //    public void onReceiveResult(int resultCode, Bundle resultData) {

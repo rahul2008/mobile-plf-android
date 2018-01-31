@@ -15,17 +15,19 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
 
+import java.net.URL;
+
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
-    public static final String UPDATE_PROFILE_URL = "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native";
+    public static final String  UPDATE_PROFILE_URL = "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native";
     private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final int RESEND_OTP_REQUEST_CODE = 101;
@@ -41,6 +43,9 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
+
     private final MobileVerifyResendCodeContract mobileVerifyCodeContract;
 
 
@@ -52,20 +57,60 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
+
+    public void initServiceDiscovery(String mobileNumber) {
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(VERIFICATION_SMS_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID +" URL is "+ url);
+                RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+                URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(url.toString(), mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                urRequest.makeRequest();
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                RLog.d(TAG, error.name() + "and error message is " + message);
+                mobileVerifyCodeContract.enableResendButton();
+            }
+        });
+    }
+
     public void resendOTPRequest(final String mobileNumber) {
-        mobileVerifyCodeContract.disableResendButton();
 
-        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(VERIFICATION_SMS_CODE_SERVICE_ID).cache();
-
-        final String string = serviceUrl.toString();
-        RLog.d(TAG, "verifyClicked = " + string);
-        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+        initServiceDiscovery(mobileNumber);
+    }
+//    public void resendOTPRequest(final String mobileNumber) {
+//        mobileVerifyCodeContract.disableResendButton();
+//
+//        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(VERIFICATION_SMS_CODE_SERVICE_ID).cache();
+//
+//        final String string = serviceUrl.toString();
+//        RLog.d(TAG, "verifyClicked = " + string);
+//        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, getSmsVerificationUrl(string, mobileNumber), emptyBody.toString(), mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, getSmsVerificationUrl(string, mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
 
-        URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(string, mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-        urRequest.makeRequest();
+//        URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(string, mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+//        urRequest.makeRequest();
+//        compositeDisposable.add(serviceUrl
+//                .subscribeOn(Schedulers.io())
+//                .map(createResendSMSIntent(url, mobileNumber)
+////                .map(mobileVerifyCodeContract::startService)
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeWith(new DisposableSingleObserver<ComponentName>() {
+//                            @Override
+//                            public void onSuccess(ComponentName value) {
+//                                /** NOP */
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                mobileVerifyCodeContract.enableResendButton();
+//                            }
+//                        })));
+
 //        compositeDisposable.add(serviceUrl
 //                .subscribeOn(Schedulers.io())
 //                .map(url -> createResendSMSIntent(url, mobileNumber))
@@ -82,7 +127,14 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 //                        mobileVerifyCodeContract.enableResendButton();
 //                    }
 //                }));
-    }
+//    }
+
+//    void createResendSMSIntent(String verificationSmsCodeURL, String mobileNumber) {
+//        String url = getSmsVerificationUrl(verificationSmsCodeURL, mobileNumber);
+//        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+//        URRequest urRequest = new URRequest(Request.Method.POST, url, emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+//        urRequest.makeRequest();
+//    }
 
 //    private Intent createResendSMSIntent(String verificationSmsCodeURL, String mobileNumber) {
 //        String url = getSmsVerificationUrl(verificationSmsCodeURL, mobileNumber);
@@ -91,7 +143,8 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 //        Intent httpServiceIntent = getHttpServiceIntent(url, emptyBody.toString(), RESEND_OTP_REQUEST_CODE);
 //        return httpServiceIntent;
 //    }
-
+//
+//
 //    @NonNull
 //    private Intent getHttpServiceIntent(String url, String value, int resendOtpRequestCode) {
 //        HttpClientServiceReceiver receiver = mobileVerifyCodeContract.getClientServiceRecevier();
@@ -245,4 +298,5 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         return Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
     }
+
 }

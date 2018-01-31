@@ -34,11 +34,11 @@ public class URRestClientStringRequest extends StringRequest {
     private Handler mHandler;
 
 
-    public URRestClientStringRequest(int method, String url, String body, Response.Listener<String> listener, Response.ErrorListener errorListener, Map<String, String> header, Map<String, String> params, TokenProviderInterface tokenProviderInterface) {
-        super(method, url, listener, errorListener, header, params, tokenProviderInterface);
+    public URRestClientStringRequest(int method, String url, String body, Response.Listener<String> successListener, Response.ErrorListener errorListener, Map<String, String> header, Map<String, String> params, TokenProviderInterface tokenProviderInterface) {
+        super(method, url, successListener, errorListener, header, params, tokenProviderInterface);
 
         mBody = body;
-        mResponseListener = listener;
+        mResponseListener = successListener;
         mErrorListener = errorListener;
         mHandler = new Handler(Looper.getMainLooper());
         this.params = params;
@@ -62,6 +62,7 @@ public class URRestClientStringRequest extends StringRequest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
         params.put("content-type", "application/x-www-form-urlencoded");
+        params.put("Content-Type", "application/json; charset=UTF-8");
 
         return params;
     }
@@ -87,6 +88,16 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     @Override
+    protected VolleyError parseNetworkError(VolleyError volleyError) {
+        if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+            VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+            volleyError = error;
+        }
+
+        return volleyError;
+    }
+
+    @Override
     protected void deliverResponse(String response) {
         RLog.d(TAG, "Response deliverResponse= " + response);
         postSuccessResponseOnUIThread(response);
@@ -94,6 +105,22 @@ public class URRestClientStringRequest extends StringRequest {
 
     @Override
     public void deliverError(VolleyError error) {
+        if (error.networkResponse != null) {
+            RLog.d(TAG, "deliverError Response error= " + error);
+            String body;
+            //get status code here
+            String statusCode = String.valueOf(error.networkResponse.statusCode);
+            RLog.d(TAG, "deliverError Response statusCode= " + statusCode);
+            //get response body and parse with appropriate encoding
+            if (error.networkResponse.data != null) {
+                try {
+                    body = new String(error.networkResponse.data, "UTF-8");
+                    RLog.d(TAG, "deliverError Response body= " + body);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         postErrorResponseOnUIThread(error);
     }
 
@@ -104,12 +131,14 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     private void postSuccessResponseOnUIThread(final String jsonObject) {
-        mHandler.post(() -> mResponseListener.onResponse(jsonObject));
         RLog.d(TAG, jsonObject);
+        mHandler.post(() -> {
+            mResponseListener.onResponse(jsonObject);
+        });
     }
 
     private void postErrorResponseOnUIThread(final VolleyError volleyError) {
+        // RLog.d(TAG, volleyError.getMessage());
         mHandler.post(() -> mErrorListener.onErrorResponse(volleyError));
-        RLog.d(TAG, volleyError.getMessage());
     }
 }

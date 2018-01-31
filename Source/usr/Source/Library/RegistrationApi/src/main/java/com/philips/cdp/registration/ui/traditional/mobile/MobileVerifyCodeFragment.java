@@ -158,7 +158,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
-        mobileVerifyCodePresenter.cleanUp();
+//        mobileVerifyCodePresenter.cleanUp();
     }
 
     @Override
@@ -201,7 +201,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, "MobileActivationFragment : onRefreshUserFailed");
     }
 
     @Override
@@ -315,6 +315,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
+        RLog.d(TAG, "refreshUserOnSmsVerificationSuccess");
         trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_USER_REGISTRATION);
         isVerified = true;
         user.refreshUser(this);

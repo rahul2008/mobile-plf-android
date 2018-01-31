@@ -438,6 +438,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
+
+//        RLog.d(TAG, "VollyError = "+ Arrays.toString(error.networkResponse.data));
         hideProgressSpinner();
         showSmsSendFailedError();
     }
