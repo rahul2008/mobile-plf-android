@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ths_payment_detail_card_owner_name_label"
+        android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:hint="@string/ths_credit_card_details_owners_name"
         android:inputType="text"
         android:maxLines="1" />
@@ -116,7 +117,7 @@
         android:digits="0123456789"
         android:hint="@string/ths_credit_card_details_000"
         android:imeOptions="actionDone"
-        android:inputType="number|none"
+        android:inputType="numberPassword"
         android:maxLength="4" />
 
     <RelativeLayout
