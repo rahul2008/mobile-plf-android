@@ -39,7 +39,7 @@ ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
 ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
 ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
-
+ext.clojars = "https://clojars.org/repo/"
 ext.deps = [
         support                       : [
                 annotations : "com.android.support:support-annotations:${ext.versions.support}",
