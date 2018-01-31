@@ -25,7 +25,7 @@ buildscript {
 
 archivesBaseName = "mya-catk"
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_consentAccessToolKit)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -71,7 +71,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            testCoverageEnabled true
         }
 
     }
@@ -103,6 +102,8 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    publishNonDefault true
 }
 
 configurations {
@@ -129,23 +130,17 @@ dependencies {
     // Philips Components
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        compile(project(':registrationApi'))
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
+        debugCompile project(path: ':mya-chi', configuration: 'debug')
+        releaseCompile project(path: ':mya-chi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
-    }
-
-    if (dp) {
-        compile(project(':mya-chi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: versions.mya_consentHandlerInterface + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        {
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group: 'com.google.dagger'
+        }
+        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     // Tests

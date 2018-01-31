@@ -75,7 +75,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dcc_digitalCare)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -133,7 +133,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -196,7 +196,6 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled true
         }
 
         android.libraryVariants.all { variant ->
@@ -219,6 +218,8 @@ android {
             }
         }
     }
+
+    publishNonDefault true
 }
 
 configurations.all {
@@ -232,21 +233,17 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile(project(':productselection'))
+        debugCompile project(path: ':productselection', configuration: 'debug')
+        releaseCompile project(path: ':productselection', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     if(dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
     
     compile 'com.google.android.gms:play-services-maps:11.0.4'

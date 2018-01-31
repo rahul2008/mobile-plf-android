@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
@@ -49,7 +50,7 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
             createCustomProgressBar(mRealtiveLayoutPracticeContainer,BIG);
             ( mPresenter).fetchPractices();
         }
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PRACTICE_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PRACTICE_PAGE,null,null);
         return view;
     }
 

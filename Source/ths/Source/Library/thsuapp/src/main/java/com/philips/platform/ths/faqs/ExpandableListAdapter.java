@@ -7,13 +7,11 @@
 package com.philips.platform.ths.faqs;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
@@ -115,16 +113,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.ths_faqs_expandable_list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        Label lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
-        TextView lblListHeaderShowAllorShowLess = (TextView) convertView
+        Label lblListHeaderShowAllorShowLess =  convertView
                 .findViewById(R.id.lblshowAll);
         if(isExpanded){
-            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.show_less));
+            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.ths_show_less));
         }else{
-            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.show_all));
+            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.ths_show_all));
         }
-        lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
         return convertView;

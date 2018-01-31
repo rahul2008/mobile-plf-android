@@ -8,7 +8,6 @@ package com.philips.platform.ths.pharmacy;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -68,7 +68,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         actionBarListener = getActionBarListener();
 
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.shipping_address_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_shipping_address_fragment_name, true);
         }
 
         anchorUIPicker = (Label) view.findViewById(R.id.sa_state_text);
@@ -205,9 +205,13 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_empty_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_empty_string);
             return false;
-        } else if (s.length() < 2 || s.length() > 25) {
+        } else if (s.length() < 2) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_length_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_length_string);
+            return false;
+        }else if (s.length() > 25) {
+            addressValidationLayout.setErrorMessage(R.string.ths_address_validation_length__max_string);
+            cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_length_max_string);
             return false;
         } else {
             return true;
@@ -269,7 +273,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SHIPPING_ADDRESS, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_SHIPPING_ADDRESS, null, null);
     }
 
      UIPicker getUiPicker() {

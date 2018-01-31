@@ -12,11 +12,13 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +144,7 @@ public class CswFragmentTest {
     }
 
     @Test
+    @Ignore
     public void onResume_showConnectivityErrorIfOffline() {
         givenAppIsOffline();
         whenResuming();

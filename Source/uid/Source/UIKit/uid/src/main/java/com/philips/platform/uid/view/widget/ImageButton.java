@@ -123,7 +123,7 @@ public class ImageButton extends AppCompatButton {
             wrappedDrawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
-        setCompoundDrawables(wrappedDrawable, null, null, null);
+        setCompoundDrawablesRelative(wrappedDrawable, null, null, null);
         invalidate();
     }
 }

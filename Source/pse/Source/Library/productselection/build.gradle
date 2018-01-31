@@ -59,27 +59,16 @@ dependencies {
     compile 'com.shamanland:fonticon:0.1.9'
 
     if(dp) {
-        compile(project(':uAppFwLib'))
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        debugCompile project(path: ':prx', configuration: 'debug')
+        releaseCompile project(path: ':prx', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':prx'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':uid'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'prx', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -111,7 +100,7 @@ allprojects {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.pse_productselection)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -170,7 +159,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -205,7 +194,6 @@ android {
             debuggable false
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled true
         }
     }
 
@@ -216,6 +204,8 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    publishNonDefault true
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

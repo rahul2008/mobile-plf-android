@@ -79,7 +79,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             if (null != sdkError) {
-                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY, sdkError));
+                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(thsPharmacyListViewListener.getFragmentActivity(), ANALYTICS_PHARMACY, sdkError));
             } else {
                 if (null == pharmacies || pharmacies.size() == 0) {
                     thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));

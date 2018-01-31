@@ -461,7 +461,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
+        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
         enableAll();
@@ -495,7 +495,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleSendForgotSuccess() {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
+        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
@@ -648,7 +648,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK,
+        RLog.d(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
@@ -693,7 +693,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
             } else {
-                RLog.i(RLog.CALLBACK, "SignInAccountFragment : invalid value");
+                RLog.d(RLog.CALLBACK, "SignInAccountFragment : invalid value");
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }

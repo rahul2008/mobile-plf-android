@@ -42,7 +42,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "iapApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.iap_iap)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
@@ -108,7 +108,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -154,7 +154,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
             proguardFile 'proguard-rules.pro'
         }
     }
@@ -227,36 +226,32 @@ android {
         enabled = true
     }
 
+    publishNonDefault true
 }
 
 dependencies {
-    def dp = project.ext.has('useprojectdependencies')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'
 
+    def dp = project.ext.has('useprojectdependencies')
+
     if(dp) {
-        compile project(':uid')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    if(dp) {
-        compile project(':registrationApi')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    compile(project(':iapUApp'))
+    debugCompile project(path: ':iapUApp', configuration: 'debug')
+    releaseCompile project(path: ':iapUApp', configuration: 'release')
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -43,7 +44,7 @@ public class THSCustomerSupportFragment extends THSBaseFragment implements View.
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_customer_support),true);
         }
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CUSTOMER_SUPPORT,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_CUSTOMER_SUPPORT,null,null);
     }
 
     @Override

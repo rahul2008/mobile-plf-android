@@ -1,11 +1,13 @@
 package com.philips.platform.ths.sdkerrors;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.philips.platform.ths.utility.THSConstants;
 
 public class THSSDKServerError implements THSErrorHandlerInterface{
     @Override
-    public String getErrorMessage() {
+    public String getErrorMessage(Context context) {
         return THSConstants.THS_GENERIC_SERVER_ERROR;
     }
 

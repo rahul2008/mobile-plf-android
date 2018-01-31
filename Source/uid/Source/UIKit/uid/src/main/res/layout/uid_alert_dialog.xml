@@ -31,6 +31,7 @@
             <TextView
                 android:id="@id/uid_dialog_title"
                 style="@style/UIDAlertDialogTitleTextStyle"
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -46,6 +47,7 @@
                 android:id="@id/uid_alert_message"
                 style="@style/UIDAlertDialogMessageTextStyle"
                 android:layout_width="match_parent"
+                android:textAlignment="viewStart"
                 android:layout_height="wrap_content"/>
         </com.philips.platform.uid.utils.MaxHeightScrollView>
     </LinearLayout>
