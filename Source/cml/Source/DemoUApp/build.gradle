@@ -9,7 +9,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "commlib-demouapp"
-version = objcdp.getVersion(versions.cml_commlib)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -74,25 +74,16 @@ dependencies {
     provided deps.support.annotations
 
     if (directdependencies) {
-        compile project(':commlib')
-        compile project(':cloudcontroller')
-        compile project(':uAppFwLib')
+        debugCompile project(path: ':commlib', configuration: 'debug')
+        releaseCompile project(path: ':commlib', configuration: 'release')
+        debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        if (findProject(':commlib')) {
-            debugCompile project(path: ':commlib', configuration: 'debug')
-            releaseCompile project(path: ':commlib', configuration: 'release')
-        } else {
-            compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        }
-
-        if (findProject(':cloudcontroller')) {
-            debugCompile project(path: ':cloudcontroller', configuration: 'debug')
-            releaseCompile project(path: ':cloudcontroller', configuration: 'release')
-        } else {
-            compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-        }
-
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.joda_time

@@ -271,6 +271,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void showProdRegLoadingDialog(final String title, String tag) {
+
+        if (alertDialogFragment != null && alertDialogFragment.isVisible()) {
+            return;
+        }
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
 
@@ -286,10 +290,13 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             @Override
             public void onClick(View v) {
                 clearFragmentStack();
+                handleCallBack(true);
+                unRegisterProdRegListener();
             }
         });
         Label close = (Label) view.findViewById(R.id.dialogDescription);
         close.setText(title);
+
     }
 
     public void dismissProdRegLoadingDialog() {

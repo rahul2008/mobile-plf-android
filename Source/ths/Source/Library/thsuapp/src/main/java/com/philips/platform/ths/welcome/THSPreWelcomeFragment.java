@@ -86,7 +86,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     }
 
     private void setBackArrowButton() {
-        if(this.isToolBarContainsNavigationIcon()) {
+        if(this.isToolBarContainsNavigationIcon() && null != toolBar) {
             this.toolBar.setNavigationIcon(getResources().getDrawable(R.mipmap.dls_cross_bold, getActivity().getTheme()));
         }
     }
@@ -98,7 +98,9 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     }
 
     private void restoreBackIcon() {
-        this.toolBar.setNavigationIcon(getResources().getDrawable(R.drawable.uid_back_icon, getActivity().getTheme()));
+        if(null != toolBar) {
+            this.toolBar.setNavigationIcon(getResources().getDrawable(R.drawable.uid_back_icon, getActivity().getTheme()));
+        }
     }
 
     public void showTermsAndConditions(String url) {

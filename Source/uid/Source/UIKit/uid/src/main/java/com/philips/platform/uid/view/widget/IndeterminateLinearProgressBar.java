@@ -21,8 +21,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
+import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * <p>Provides custom implementation for indeterminate linear progress bar.
@@ -198,8 +200,15 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void createAnimationSet() {
         endAnimation();
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartPos(), getLeadingAnimationEndPos());
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
+
+        boolean isRTL = UIDUtils.isLayoutRTL(this);
+        int startPos =  isRTL ? getLeadingAnimationEndPos(): getLeadingAnimationStartPos();
+        int endPos =  isRTL ? getLeadingAnimationStartPos(): getLeadingAnimationEndPos();
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, startPos, endPos);
+
+        int startOffset =  isRTL ? getTrailingAnimationEndOffset(): getTrailingAnimationStartOffset();
+        int endOffset =  isRTL ? getTrailingAnimationStartOffset(): getTrailingAnimationEndOffset();
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, startOffset, endOffset);
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
 

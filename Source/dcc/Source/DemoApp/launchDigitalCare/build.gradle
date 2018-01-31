@@ -67,7 +67,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dcc_digitalCare)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -109,7 +109,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -207,6 +207,8 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+
+    publishNonDefault true
 }
 
 calabash {
@@ -231,7 +233,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         androidTestCompile deps.uiautomator
     }
-    compile(project(':digitalCareUApp'))
+
+    debugCompile project(path: ':digitalCareUApp', configuration: 'debug')
+    releaseCompile project(path: ':digitalCareUApp', configuration: 'release')
 
     androidTestCompile deps.support.annotations
     androidTestCompile deps.testing_support

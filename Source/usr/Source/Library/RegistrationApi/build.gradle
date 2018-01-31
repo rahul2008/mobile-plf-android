@@ -8,7 +8,7 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = versions.jacoco
 }
 
 
@@ -56,7 +56,7 @@ archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
-        
+
         maven {
             url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
@@ -80,7 +80,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_registrationApi)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -140,7 +140,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -194,7 +194,6 @@ android {
         }
 
         debug {
-            testCoverageEnabled true
             minifyEnabled false
             debuggable true
         }
@@ -207,6 +206,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    publishNonDefault true
 }
 
 configurations.all {
@@ -217,30 +217,28 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile project(':jump')
-    compile project(':hsdp')
     compile deps.apache
     compile deps.constraintlayout
 
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        debugCompile project(path: ':jump', configuration: 'debug')
+        releaseCompile project(path: ':jump', configuration: 'release')
+        debugCompile project(path: ':hsdp', configuration: 'debug')
+        releaseCompile project(path: ':hsdp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile project(':jump')
+        compile project(':hsdp')
     }
 
     compile deps.apache
-
-    if (dp) {
-        compile(project(':uAppFwLib'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
-    }
 
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
 

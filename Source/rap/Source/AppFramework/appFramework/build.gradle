@@ -9,7 +9,7 @@ apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting.gradle"
 
 jacoco {
-    toolVersion = "${versionsExternal.jacocoToolVersion}"
+    toolVersion = "0.7.6.201602180812"
 }
 
 buildscript {
@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.rap_referenceApp)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -153,7 +153,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -197,6 +197,8 @@ android {
     apply from: "../scripts/proposition_specific.gradle"
     apply from: "../scripts/flavors.gradle"
     apply from: "../scripts/exclude_files.gradle"
+
+    publishNonDefault true
 }
 
 repositories {
@@ -236,160 +238,90 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':product-registration-lib')
+        debugCompile project(path: ':product-registration-lib', configuration: 'debug')
+        releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+        debugCompile project(path: ':digitalCare', configuration: 'debug')
+        releaseCompile project(path: ':digitalCare', configuration: 'release')
+        debugCompile project(path: ':iap', configuration: 'debug')
+        releaseCompile project(path: ':iap', configuration: 'release')
+        debugCompile project(path: ':dataServices', configuration: 'debug')
+        releaseCompile project(path: ':dataServices', configuration: 'release')
+        debugCompile project(path: ':mya', configuration: 'debug')
+        releaseCompile project(path: ':mya', configuration: 'release')
+        debugCompile project(path: ':mya-mch', configuration: 'debug')
+        releaseCompile project(path: ':mya-mch', configuration: 'release')
+        debugCompile project(path: ':commlib', configuration: 'debug')
+        releaseCompile project(path: ':commlib', configuration: 'release')
+        debugCompile project(path: ':commlib-demouapp', configuration: 'debug')
+        releaseCompile project(path: ':commlib-demouapp', configuration: 'release')
+        debugCompile project(path: ':digitalCareUApp', configuration: 'debug')
+        releaseCompile project(path: ':digitalCareUApp', configuration: 'release')
+        debugCompile project(path: ':uAppFwLibUApp', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLibUApp', configuration: 'release')
+        debugCompile project(path: ':iapUApp', configuration: 'debug')
+        releaseCompile project(path: ':iapUApp', configuration: 'release')
+        debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
+        releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
+        debugCompile project(path: ':product-registration-libUApp', configuration: 'debug')
+        releaseCompile project(path: ':product-registration-libUApp', configuration: 'release')
+        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
+        debugCompile project(path: ':devicepairingUApp', configuration: 'debug')
+        releaseCompile project(path: ':devicepairingUApp', configuration: 'release')
+        debugCompile project(path: ':telehealth', configuration: 'debug')
+        releaseCompile project(path: ':telehealth', configuration: 'release')
+        debugCompile project(path: ':ewsUApp', configuration: 'debug')
+        releaseCompile project(path: ':ewsUApp', configuration: 'release')
+        debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
+        releaseCompile project(path: ':bluelib-demouapp', configuration: 'release')
+        debugCompile project(path: ':pushnotification', configuration: 'debug')
+        releaseCompile project(path: ':pushnotification', configuration: 'release')
+        debugCompile project(path: ':themesettings', configuration: 'debug')
+        releaseCompile project(path: ':themesettings', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':digitalCare')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':iap')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'iap', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':dataServices')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'digitalCare', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'iap', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'dataServices', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':mya')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'mya', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
-        {
+        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':mya-mch')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'mya-mch', version: versions.mya_marketingConsentHandler + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile project(':commlib')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'mya-mch', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':commlib-demouapp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':digitalCareUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':uAppFwLibUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':iapUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'iapUApp', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'iapUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':dataServicesUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':product-registration-libUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':UserRegistrationUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':devicepairingUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: versions.dpr_devicePairing + objcdp.getVersionSuffix(), ext: 'aar') {
+        compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
-    }
-
-    if(dp) {
-        compile project(':telehealth')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar') {
-           transitive = true
-        }
-    }
-
-    if (dp) {
-        compile project(':ewsUApp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'ewsUApp', version: versions.ews_ews + objcdp.getVersionSuffix())
-
-    }
-
-    if(dp) {
-        compile project(':bluelib-demouapp')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
-        {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile project(':pushnotification')
+        compile project(':themesettings')
     }
 
     testCompile deps.junit
@@ -408,9 +340,6 @@ dependencies {
 
     testCompile deps.json
 
-    compile project(':pushnotification')
-
-    compile project(':themesettings')
 }
 
 task copyToLib(type: Copy) {

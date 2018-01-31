@@ -1,20 +1,75 @@
 apply plugin: 'com.android.library'
 
 apply from: "../scripts/versions.gradle"
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
-version = objcdp.getVersion(versions.mya_consentAccessToolKit)
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(platformversion)
+
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -26,7 +81,6 @@ android {
             consumerProguardFiles "proguard-rules.pro"
         }
         debug {
-            testCoverageEnabled true
         }
     }
 
@@ -37,6 +91,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -48,11 +104,11 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':uid')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-            transitive = true
         }
     }
 

@@ -40,7 +40,7 @@ objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "productselectionApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.pse_productselection)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
@@ -101,7 +101,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -173,6 +173,8 @@ android {
     /*
     This defined for signing the apk -- end
     */
+
+    publishNonDefault true
 }
 
 configurations.all {
@@ -181,8 +183,8 @@ configurations.all {
 }
 
 dependencies {
-
-   compile(project(':productselection'))
+    debugCompile project(path: ':productselection', configuration: 'debug')
+    releaseCompile project(path: ':productselection', configuration: 'release')
 
     //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile deps.support.appcompatv7

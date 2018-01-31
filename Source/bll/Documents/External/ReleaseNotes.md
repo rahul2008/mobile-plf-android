@@ -12,6 +12,7 @@ Version {next}
 ### Features not covered
 
 ### Breaking Changes
+* Platform release 2017.5.0 onwards, shinelib is renamed to bluelib.
 * The `ScanRecord` function `getManufacturerSpecificData()` is replaced by `getManufacturerSpecificData(int manufacturerId)`. Previously the first two bytes of the manufacturer where used to check the manufacturer, now this is done internally and the data of a specific manufacturer can be requested. If the data is not found `null` is returned.
 
 ### Defects solved

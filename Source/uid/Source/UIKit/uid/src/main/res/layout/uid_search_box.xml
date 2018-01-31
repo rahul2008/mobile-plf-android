@@ -33,7 +33,7 @@
             android:id="@id/uid_search_src_text"
             android:layout_width="@dimen/uid_searchbox_search_text_offset"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
+            android:textAlignment="viewStart"
             android:layout_marginStart="@dimen/uid_searchbox_button_padding_end"
             android:layout_weight="1"
             android:background="@null"
