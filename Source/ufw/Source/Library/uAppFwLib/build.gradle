@@ -173,7 +173,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled true
             buildOutputDir = "debug"
         }
     }
