@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.PermissionView;
@@ -30,6 +31,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     private ActionBarListener mActionBarListener;
 
     private boolean isAddedToBackStack;
+    private AppInfraInterface appInfra;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onResume() {
         super.onResume();
 
-        if(!getRestClient().isInternetReachable()) {
+        if (!getRestClient().isInternetReachable()) {
             getDialogView().showDialog(getActivity(), getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
@@ -88,13 +90,17 @@ public class CswFragment extends Fragment implements BackEventListener {
         try {
             if (null != mFragmentManager) {
                 PermissionView permissionFragment = buildPermissionView();
-
+                permissionFragment.setAppInfra(appInfra);
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
         }
+    }
+
+    public void setAppInfra(AppInfraInterface appInfra) {
+        this.appInfra = appInfra;
     }
 
     private PermissionView buildPermissionView() {

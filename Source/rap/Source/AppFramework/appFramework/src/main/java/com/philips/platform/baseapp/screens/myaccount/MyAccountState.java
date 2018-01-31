@@ -1,10 +1,8 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
@@ -12,7 +10,6 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.mya.MyaHelper;
@@ -34,9 +31,11 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public class MyAccountState extends BaseState {
     private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
@@ -84,7 +83,7 @@ public class MyAccountState extends BaseState {
     private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale = Locale.US;
         if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null
-            && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
+                && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
             String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getCompleteUILocale().split("_");
             // TODO AppInfra should add method `getHsdpLocaleString()`: getUILocaleString mostly returns just 'en', but we need 'en_US' or 'ca_FR' -> right now, falling
             // back to Locale.US
@@ -99,10 +98,8 @@ public class MyAccountState extends BaseState {
      * <p>
      * Creates a list of ConsentDefinitions</p
      *
-     * @param context
-     *            : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
-     * @param currentLocale
-     *            : locale of the strings
+     * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
@@ -160,11 +157,6 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        String privacyNoticeURL = getConfiguredPrivacyNoticeUrl(appInfra);
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList(),privacyNoticeURL);
-    }
-    
-    protected String getConfiguredPrivacyNoticeUrl(AppInfraInterface appInfra) {
-        return (String) appInfra.getConfigInterface().getPropertyForKey("privacyNotice.url", "mya", new AppConfigurationInterface.AppConfigurationError());
+        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
     }
 }

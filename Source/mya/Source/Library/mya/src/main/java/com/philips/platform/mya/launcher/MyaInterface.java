@@ -7,7 +7,8 @@
 
 package com.philips.platform.mya.launcher;
 
-import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
@@ -22,8 +23,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Intent;
-import android.os.Bundle;
+import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
 /**
  * This class is used to launch myaccount either as fragment or activity.
@@ -44,10 +44,8 @@ public class MyaInterface implements UappInterface {
     /**
      * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
      *
-     * @param uappDependencies
-     *            - With an AppInfraInterface instance.
-     * @param uappSettings
-     *            - With an application provideAppContext.
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
      * @since 2017.5.0
      */
     @Override
@@ -59,17 +57,14 @@ public class MyaInterface implements UappInterface {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
         MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
-        MyaHelper.getInstance().setPrivacyNoticeUrl(myaDependencies.getPrivacyNoticeURL());
         reference.dependencies = myaDependencies;
     }
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
-     * @param uiLauncher
-     *            - ActivityLauncher or FragmentLauncher
-     * @param uappLaunchInput
-     *            - MyaLaunchInput
+     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - MyaLaunchInput
      * @since 2017.5.0
      */
     @Override
