@@ -100,7 +100,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../Documents/External/") {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
