@@ -93,17 +93,6 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenResettingTimers_ThenAllTimersShouldBeReset() {
-        deviceCache.add(cacheDataMock);
-        deviceCache.add(secondCacheDataMock);
-
-        deviceCache.resetTimers();
-
-        verify(cacheDataMock).resetTimer();
-        verify(secondCacheDataMock).resetTimer();
-    }
-
-    @Test
     public void whenClearingCache_ThenDataIsRemoved_AndListenersNotified() {
         deviceCache.add(cacheDataMock);
         deviceCache.add(secondCacheDataMock);

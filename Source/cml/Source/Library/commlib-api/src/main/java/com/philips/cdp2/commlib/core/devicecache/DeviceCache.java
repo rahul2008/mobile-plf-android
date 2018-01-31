@@ -64,12 +64,6 @@ public class DeviceCache<T extends CacheData> {
         }
     }
 
-    public void resetTimers() {
-        for (T cacheData : data.values()) {
-            cacheData.resetTimer();
-        }
-    }
-
     public synchronized void add(T cacheData) {
         if (cacheData.getExpirationPeriodMillis() <= 0L) {
             throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");

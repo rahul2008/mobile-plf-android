@@ -132,16 +132,12 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         isStartRequested = true;
         handleDiscoveryStateChanged();
-
-        deviceCache.resetTimers();
     }
 
     @Override
     public void stop() {
         isStartRequested = false;
         handleDiscoveryStateChanged();
-
-        deviceCache.stopTimers();
     }
 
     @Override
