@@ -271,6 +271,10 @@ dependencies {
         releaseCompile project(path: ':devicepairingUApp', configuration: 'release')
         debugCompile project(path: ':telehealth', configuration: 'debug')
         releaseCompile project(path: ':telehealth', configuration: 'release')
+		
+		debugCompile project(path: ':thsUapp', configuration: 'debug')
+        releaseCompile project(path: ':thsUapp', configuration: 'release')
+
         debugCompile project(path: ':ewsUApp', configuration: 'debug')
         releaseCompile project(path: ':ewsUApp', configuration: 'release')
         debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
@@ -305,6 +309,9 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'iapUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
+		compile(group: 'com.philips.cdp', name: 'thsUapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
         compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
@@ -318,7 +325,6 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile project(':pushnotification')

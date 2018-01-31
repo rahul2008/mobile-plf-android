@@ -24,6 +24,19 @@ android {
         ]
 
     }
+	
+	buildTypes {
+        release {
+            minifyEnabled false           
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+        }
+    }
+	publishNonDefault true
 }
 
 def environment = 'production'
@@ -179,8 +192,8 @@ dependencies {
         releaseCompile project(path: ':AppInfra', configuration: 'release')
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':telehealth', configuration: 'debug')
-        releaseCompile project(path: ':telehealth', configuration: 'release')
+		debugCompile project(path: ':telehealth', configuration: 'debug')
+        releaseCompile project(path: ':telehealth', configuration: 'release')        
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
@@ -196,4 +209,6 @@ dependencies {
         }
 
     }
+	
+	
 }
