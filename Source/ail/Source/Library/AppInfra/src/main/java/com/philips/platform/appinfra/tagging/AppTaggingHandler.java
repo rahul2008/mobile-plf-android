@@ -67,7 +67,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     /*
     * Checks for SSL connection value from Adobe json
     * */
-    protected boolean checkForSslConnection() {
+    boolean checkForSslConnection() {
         boolean sslValue = false;
         final JSONObject jSONObject = getMasterADBMobileConfig();
         try {
@@ -91,7 +91,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     /**
      * Reading from Adobe json
      */
-     protected JSONObject getMasterADBMobileConfig() {
+    JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
@@ -236,7 +236,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
         }
     }
 
-    protected boolean checkForProductionState() {
+    boolean checkForProductionState() {
             if (mAppInfra.getAppIdentity() != null) {
                 try {
                     return !mAppInfra.getAppIdentity().
@@ -369,7 +369,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     }
 
     void setPrevPage(String prevPage) {
-        this.prevPage = prevPage;
+        AppTaggingHandler.prevPage = prevPage;
     }
 
     boolean enableAdobeLogs(){

@@ -36,7 +36,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.x500.X500Principal;
 
-
+@SuppressWarnings("deprecation")
 class SecureStorageHelper {
 
     static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";

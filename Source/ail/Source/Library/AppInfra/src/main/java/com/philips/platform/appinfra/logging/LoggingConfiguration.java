@@ -38,7 +38,7 @@ class LoggingConfiguration {
     final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
     final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
-    private HashMap<String, Object> mLoggingProperties;
+    private HashMap<?, ?> mLoggingProperties;
     private FileHandler mFileHandler;
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
@@ -116,7 +116,7 @@ class LoggingConfiguration {
         return componentToBeLoggedList;
     }
 
-    HashMap<String, Object> getLoggingProperties(final AppInfra mAppInfra) {
+    HashMap<?, ?> getLoggingProperties(final AppInfra mAppInfra) {
         if (null == mLoggingProperties) {
             final String AppInfraLoggingPropertyKey;
             final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
@@ -127,7 +127,7 @@ class LoggingConfiguration {
             }
             final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            mLoggingProperties = (HashMap<String, Object>) appConfigurationInterface.getPropertyForKey(AppInfraLoggingPropertyKey, "appinfra", configError);
+            mLoggingProperties = (HashMap<?, ?>) appConfigurationInterface.getPropertyForKey(AppInfraLoggingPropertyKey, "appinfra", configError);
         }
         return mLoggingProperties;
     }
@@ -287,7 +287,7 @@ class LoggingConfiguration {
         try {
             File directoryCreated = createInternalDirectory();
             final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
-            final HashMap<String, Object> loggingProperty = getLoggingProperties(mAppInfra);
+            final HashMap<?, ?> loggingProperty = getLoggingProperties(mAppInfra);
             if (null == loggingProperty) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
                 return getFileHandlerFromLoggingProperties();
