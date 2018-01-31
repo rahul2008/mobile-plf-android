@@ -196,7 +196,6 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled true
         }
 
         android.libraryVariants.all { variant ->
