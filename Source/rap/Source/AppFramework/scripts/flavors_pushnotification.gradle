@@ -9,7 +9,6 @@ android {
             minifyEnabled false
             debuggable true
             shrinkResources false
-            testCoverageEnabled true
         }
     }
 }
