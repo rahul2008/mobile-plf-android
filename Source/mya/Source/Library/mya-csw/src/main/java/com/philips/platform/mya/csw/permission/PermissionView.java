@@ -24,13 +24,13 @@ import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
+import com.philips.platform.mya.csw.widgets.JustInTimeFragmentWidget;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         unbinder = ButterKnife.bind(this, view);
 
         configs = CswInterface.getCswComponent().getConsentConfigurations();
-        if(configs == null) {
+        if (configs == null) {
             configs = new ArrayList<>();
         }
 
@@ -89,10 +89,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onResume() {
         super.onResume();
-        if(getRestClient().isInternetReachable()) {
+        if (getRestClient().isInternetReachable()) {
             PermissionPresenter presenter = getPermissionPresenter();
             presenter.getConsentStatus();
-        } else{
+        } else {
             showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
@@ -125,10 +125,14 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onPrivacyNoticeClicked(String url) {
-        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-        privacyNoticeFragment.setUrl(url);
+//        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
+//        privacyNoticeFragment.setUrl(url);
+
+        JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
+        justInTimeFragmentWidget.setArguments("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
         fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
@@ -195,7 +199,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @NonNull
     private DialogView getDialogView(boolean goBack) {
         DialogView dialogView = new DialogView();
-        if(goBack) {
+        if (goBack) {
             dialogView = new DialogView(this);
         }
         return dialogView;
