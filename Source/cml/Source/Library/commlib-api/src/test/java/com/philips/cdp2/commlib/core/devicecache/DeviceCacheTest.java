@@ -108,7 +108,7 @@ public class DeviceCacheTest {
         deviceCache.add(cacheDataMock);
         deviceCache.add(secondCacheDataMock);
 
-        deviceCache.addDeviceCacheListener(listener);
+        deviceCache.addDeviceCacheListener(listener, networkNodeMock.getCppId());
 
         deviceCache.clear();
 
@@ -133,7 +133,7 @@ public class DeviceCacheTest {
 
     @Test
     public void whenDeviceAdded_ThenListenerIsNotified() {
-        deviceCache.addDeviceCacheListener(listener);
+        deviceCache.addDeviceCacheListener(listener, networkNodeMock.getCppId());
 
         deviceCache.add(cacheDataMock);
 
@@ -142,7 +142,7 @@ public class DeviceCacheTest {
 
     @Test
     public void whenDeviceRemoved_ThenListenerIsNotified() {
-        deviceCache.addDeviceCacheListener(listener);
+        deviceCache.addDeviceCacheListener(listener, networkNodeMock.getCppId());
 
         deviceCache.add(cacheDataMock);
         deviceCache.remove(networkNodeMock.getCppId());
