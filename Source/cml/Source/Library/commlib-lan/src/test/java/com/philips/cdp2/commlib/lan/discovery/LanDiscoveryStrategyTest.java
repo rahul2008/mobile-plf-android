@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -54,9 +53,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Mock
     private LanDeviceCache deviceCacheMock;
-
-    @Mock
-    private CacheData cacheDataMock;
 
     @Mock
     private ConnectivityMonitor connectivityMonitorMock;
