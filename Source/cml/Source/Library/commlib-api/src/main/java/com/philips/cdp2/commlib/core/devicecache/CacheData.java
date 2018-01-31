@@ -37,7 +37,7 @@ public class CacheData {
         this.expirationPeriodMillis = expirationPeriodMillis;
         this.expirationCallback = expirationCallback;
 
-        resetTimer();
+        startTimer();
     }
 
     @NonNull
@@ -46,8 +46,10 @@ public class CacheData {
     }
 
     public void resetTimer() {
-        stopTimer();
-        startTimer();
+        synchronized (this) {
+            stopTimer();
+            startTimer();
+        }
     }
 
     private void startTimer() {
@@ -84,7 +86,7 @@ public class CacheData {
         return this.expirationCallback;
     }
 
-    public long getExpirationPeriodMillis() {
+    long getExpirationPeriodMillis() {
         return expirationPeriodMillis;
     }
 }

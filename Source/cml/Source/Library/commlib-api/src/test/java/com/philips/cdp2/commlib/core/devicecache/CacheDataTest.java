@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -29,13 +29,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CacheDataTest {
 
     @Mock
-    ScheduledExecutorService executorMock;
+    private ScheduledExecutorService executorMock;
+
     @Mock
-    DeviceCache.ExpirationCallback expirationCallbackMock;
+    private DeviceCache.ExpirationCallback expirationCallbackMock;
+
     @Mock
-    NetworkNode networkNodeMock;
+    private NetworkNode networkNodeMock;
+
     @Mock
-    ScheduledFuture futureMock;
+    private ScheduledFuture futureMock;
 
     @Before
     public void setUp() {
