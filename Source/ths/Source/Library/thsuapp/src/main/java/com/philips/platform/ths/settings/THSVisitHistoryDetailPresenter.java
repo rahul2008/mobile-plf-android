@@ -79,6 +79,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
             if (sdkError != null) {
+                AmwellLog.e("downloadReport",sdkError.toString());
                 mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason().name());
                 return;
             }
