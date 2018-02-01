@@ -43,7 +43,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.uid_uid)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
@@ -105,7 +105,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -179,7 +179,6 @@ android {
 
         debug {
             signingConfig signingConfigs.debug
-            testCoverageEnabled true
         }
     }
 
@@ -198,6 +197,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    publishNonDefault true
 }
 
 dependencies {
@@ -214,8 +214,8 @@ dependencies {
     }
     compile deps.greenrobot
 
-
-    compile project(':uid')
+    debugCompile project(path: ':uid', configuration: 'debug')
+    releaseCompile project(path: ':uid', configuration: 'release')
 
     testCompile(deps.junit) {
         exclude module: "com.android.support"

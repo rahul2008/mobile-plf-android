@@ -7,20 +7,20 @@ apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfra"
-version = objcdp.getVersion(versions.ail_appInfra)
+version = objcdp.getVersion(platformversion)
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -81,7 +81,6 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
         }
     }
     publishNonDefault true
@@ -94,14 +93,15 @@ dependencies {
     compile deps.support.design
     compile deps.support.supportv4
     compile deps.support.annotations
-    compile deps.junit
-    compile deps.mockito
+
 
     testCompile deps.robolectric
     testCompile deps.assertj
-    testCompile deps.junit
+    testCompile deps.mockito
 
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito
+    androidTestCompile deps.mockito
+    androidTestCompile deps.junit
 
 }

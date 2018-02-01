@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,8 +21,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -40,12 +40,12 @@ objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "prxApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.prx_prx)
+version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -102,7 +102,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -126,7 +126,7 @@ android {
         versionCode 1
     }
 	
-		signingConfigs {
+    signingConfigs {
         release
     }
     buildTypes {
@@ -136,11 +136,10 @@ android {
 			signingConfig signingConfigs.release
         }
     }
-	
 
-        lintOptions {
-            abortOnError false
-        }
+    lintOptions {
+        abortOnError false
+    }
 
 	
 		/*
@@ -169,6 +168,8 @@ android {
     /*
     This defined for signing the apk -- end
     */
+
+    publishNonDefault true
 }
 
 
@@ -179,7 +180,8 @@ configurations.all {
 }
 
 dependencies {
-    compile(project(':prx'))
+    debugCompile project(path: ':prx', configuration: 'debug')
+    releaseCompile project(path: ':prx', configuration: 'release')
     compile deps.glide
     compile deps.support.appcompatv7
     compile deps.support.design

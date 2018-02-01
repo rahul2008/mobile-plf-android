@@ -214,12 +214,12 @@ dependencies {
     androidTestCompile deps.espresso_core
     androidTestCompile deps.uiautomator
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+    releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     compile deps.support.appcompatv7
     compile deps.constraintlayout
     compile deps.support.design
     testCompile deps.junit
-    debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
-    releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

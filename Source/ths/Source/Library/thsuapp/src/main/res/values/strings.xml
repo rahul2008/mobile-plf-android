@@ -298,7 +298,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_coupon_code_empty">Enter a valid coupon code to continue</string>
     <string name="ths_cost_summary_coupon_code_invalid">Please enter a valid voucher code</string>
     <string name="ths_cost_summary_coupon_code_already_applied">Coupon code already applied</string>
-    <string name="ths_cost_summary_coupon_code_illegal_exception">The visit already has a coupon code</string>
+    <string name="ths_cost_summary_coupon_code_illegal_exception">the visit already has a coupon code</string>
     <string name="ths_cost_summary_fragment_name">Cost</string>
 
     <!-- Cost summary screen strings -->
@@ -355,7 +355,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
     <string name="ths_delete_success_string">Delete success</string>
     <string name="ths_cancel_visit_string">Cancel visit</string>
-    <string name="ths_patient_waiting_do_not_leave_text">Please do not leave this screen while you are waiting, otherwise you might lose your spot.</string>
+    <string name="ths_waiting_room_your_next_in_line">You\'re next in line</string>
+    <string name="ths_waiting_room_patients_waiting">patients waiting</string>
+    <string name="ths_waiting_room_cancelling_waiting">Cancelling Visit</string>
+    <string name="ths_patient_waiting_do_not_leave_text">Please, do not leave this screen or you might lose your spot in the waiting line</string>
 
 
     <!-- Registration validation strings -->

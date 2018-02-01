@@ -7,15 +7,11 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import com.philips.platform.mya.chi.ConsentError;
-
 public interface PermissionInterface {
 
     void showProgressDialog();
 
     void hideProgressDialog();
 
-    void showErrorDialog(ConsentError error);
-
-    void showOfflineErrorDialog();
+    void showErrorDialog(boolean goBack, String title, String message);
 }

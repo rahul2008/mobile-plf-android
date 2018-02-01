@@ -237,7 +237,6 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile deps.support.multidex
-
     debugCompile project(path: ':registrationApi', configuration: 'debug')
     releaseCompile project(path: ':registrationApi', configuration: 'release')
     compile project(':HockeySDK-3.0.2')

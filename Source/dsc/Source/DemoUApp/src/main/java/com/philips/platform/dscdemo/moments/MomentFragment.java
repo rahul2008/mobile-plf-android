@@ -44,11 +44,11 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
 
-    private DataServicesManager mDataServicesManager;
+    protected DataServicesManager mDataServicesManager;
     private User mUser;
 
     private TextView mTvAddMomentType;
@@ -174,7 +174,6 @@ public class MomentFragment extends DSBaseFragment
     public void onResume() {
         super.onResume();
         mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.registerSynchronisationCompleteListener(this);
         mDataServicesManager.synchronize();
     }
 
@@ -196,8 +195,7 @@ public class MomentFragment extends DSBaseFragment
 
     @Override
     public void onPause() {
-        DataServicesManager.getInstance().unRegisterDBChangeListener();
-        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+        mDataServicesManager.unRegisterDBChangeListener();
         dismissProgressDialog();
         super.onPause();
     }
@@ -272,20 +270,7 @@ public class MomentFragment extends DSBaseFragment
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        if (getActivity() == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMomentList = (ArrayList<? extends Moment>) data;
-                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
-
-                mMomentAdapter.setData(mMomentList);
-                mMomentAdapter.notifyDataSetChanged();
-
-                dismissProgressDialog();
-            }
-        });
+        reloadData(data);
     }
 
     @Override
@@ -344,35 +329,28 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void reloadData() {
-        mDataServicesManager.registerDBChangeListener(this);
-        mMomentPresenter.fetchData(this);
+    private void reloadData(final List<? extends  Moment> data) {
+        if (getActivity() == null) return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                View view = MomentFragment.this.getView();
-                if (view != null) {
-                    view.invalidate();
-                }
+                mMomentList = (ArrayList<? extends Moment>) data;
+                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
+
+                mMomentAdapter.setData(mMomentList);
+                mMomentAdapter.notifyDataSetChanged();
+
+                dismissProgressDialog();
             }
         });
-    }
-
-    @Override
-    public void onSyncComplete() {
-        reloadData();
-    }
-
-    @Override
-    public void onSyncFailed(Exception exception) {
-        reloadData();
     }
 
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
         @Override
         public void onSuccess(List<? extends Integer> data) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
-            reloadData();
+            mMomentPresenter.fetchData(MomentFragment.this);
         }
 
         @Override

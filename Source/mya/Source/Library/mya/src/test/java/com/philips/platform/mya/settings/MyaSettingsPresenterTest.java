@@ -7,33 +7,6 @@
 
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
-import android.os.Bundle;
-
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.R;
-import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
-import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -43,6 +16,31 @@ import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.R;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import android.content.Context;
+import android.os.Bundle;
 
 public class MyaSettingsPresenterTest {
 
@@ -120,7 +118,7 @@ public class MyaSettingsPresenterTest {
             }
 
             @Override
-            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, String privacyNoticeUrl) {
                 return cswLaunchInput;
             }
 
@@ -158,7 +156,7 @@ public class MyaSettingsPresenterTest {
     @Test
     public void shouldNotReturnNullWhenInvoked() {
         MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
+        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext(), "privacyNoticeURL.com"));
         assertNotNull(myaSettingsPresenter.getCswInterface());
         assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
     }

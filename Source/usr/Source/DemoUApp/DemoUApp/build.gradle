@@ -194,15 +194,6 @@ dependencies {
     compile deps.support.appcompatv7
     compile deps.support.supportv4
 
-    compile(dp ? project(':registrationApi') : project(':RegistrationApi'))
-
-    if(dp) {
-        compile(project(':uid'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
 
     compile(deps.butterknife) {
 

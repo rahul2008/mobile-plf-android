@@ -7,14 +7,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -42,11 +42,10 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "dataServicesApp"
 
-
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -69,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dsc_dataServices)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -111,7 +110,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -133,7 +132,7 @@ android {
         targetSdkVersion versions.target
         renderscriptTargetApi versions.renderscriptTargetApi
         versionCode 7
-        versionName "0.1.11"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
@@ -167,7 +166,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
             proguardFile 'proguard-rules.pro'
         }
     }
@@ -224,6 +222,8 @@ android {
         pickFirst 'lib/arm64-v8a/librsjni.so'
         exclude 'META-INF/INDEX.LIST'
     }
+
+    publishNonDefault true
 }
 
 repositories {
@@ -241,10 +241,11 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        compile project(':UserRegistrationUApp')
+    if (dp) {
+        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.support.design
@@ -261,7 +262,9 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.robolectric
     testCompile deps.junit
-    compile(project(':dataServicesUApp'))
+
+    debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
+    releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {

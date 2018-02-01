@@ -12,7 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 
 
 archivesBaseName = "mya-csw"
-version = objcdp.getVersion(versions.mya_myAccount)
+version = objcdp.getVersion(platformversion)
 
 
 buildscript {
@@ -58,7 +58,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            testCoverageEnabled true
         }
 
     }
@@ -79,6 +78,8 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -96,42 +97,23 @@ dependencies {
     // Philips Components
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
+        debugCompile project(path: ':mya-chi', configuration: 'debug')
+        releaseCompile project(path: ':mya-chi', configuration: 'release')
+        debugCompile project(path: ':uikitLib', configuration: 'debug')
+        releaseCompile project(path: ':uikitLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
-    }
-
-    if (dp) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
-    }
-
-
-    if (dp) {
-        compile(project(':mya-chi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: versions.mya_consentHandlerInterface + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
-    }
-
-    if(dp) {
-        compile project(':uikitLib')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
-                {
-                    transitive = true
-                }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        {
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group: 'com.google.dagger'
+        }
+        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     // Tests

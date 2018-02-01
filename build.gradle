@@ -82,4 +82,6 @@ subprojects {
 
 configurations {
     compile
+    debugCompile
+    releaseCompile
 }

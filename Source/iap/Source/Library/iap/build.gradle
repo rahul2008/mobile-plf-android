@@ -6,7 +6,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.iap_iap)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -138,7 +138,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -186,7 +186,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            testCoverageEnabled true
         }
 
     }
@@ -218,6 +217,8 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    publishNonDefault true
 }
 
 configurations {
@@ -233,26 +234,22 @@ apply from: "build.workaround-missing-resource.gradle"
 
 dependencies {
     //3rd party
-    //compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-//    if(dp) {
-//        project(':uit')
-//    } else {
-//        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-//            transitive = true
-//        }
-//    }
-
-
     if(dp) {
-        compile(project(':uid'))
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':registrationApi', configuration: 'debug')
+        releaseCompile project(path: ':registrationApi', configuration: 'release')
+        debugCompile project(path: ':prx', configuration: 'debug')
+        releaseCompile project(path: ':prx', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'prx', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.constraintlayout
@@ -286,8 +283,13 @@ dependencies {
     }
     testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
     testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
+
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2';
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2';
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+
     // Android runner and rules support
     androidTestCompile("com.android.support.test:runner:0.5") {
         exclude module: "com.android.support"

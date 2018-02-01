@@ -8,7 +8,6 @@
 package com.philips.platform.mya.csw;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.platform.mya.csw.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -95,7 +94,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(this);
+        return new CswLaunchInput(this, "");
     }
 
     @Override

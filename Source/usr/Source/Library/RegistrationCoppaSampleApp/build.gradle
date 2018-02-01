@@ -238,9 +238,9 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-    compile deps.support.multidex
     debugCompile project(path: ':coppa', configuration: 'debug')
     releaseCompile project(path: ':coppa', configuration: 'release')
+    compile deps.support.multidex
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

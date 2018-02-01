@@ -56,7 +56,7 @@ archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
-        
+
         maven {
             url repos.releaseexternal
             credentials {
@@ -217,8 +217,6 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile project(':jump')
-    compile project(':hsdp')
     compile deps.apache
     compile deps.constraintlayout
 
@@ -242,7 +240,8 @@ dependencies {
     }
 
     compile deps.apache
-    compile deps.libphonenumber
+
+    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
    // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

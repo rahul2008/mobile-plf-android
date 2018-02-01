@@ -9,11 +9,8 @@ buildscript {
 
     repositories {
         maven {
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -223,6 +220,7 @@ dependencies {
     androidTestCompile deps.android_testrules
     compile(project (':jump'))
     def dp = project.ext.has('useprojectdependencies')
+
 
     if (dp) {
         debugCompile project(path: ':jump', configuration: 'debug')
