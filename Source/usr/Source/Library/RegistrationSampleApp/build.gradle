@@ -236,13 +236,14 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
+    compile deps.support.multidex
+
     debugCompile project(path: ':registrationApi', configuration: 'debug')
     releaseCompile project(path: ':registrationApi', configuration: 'release')
     compile project(':HockeySDK-3.0.2')
     androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile deps.support.multidex
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

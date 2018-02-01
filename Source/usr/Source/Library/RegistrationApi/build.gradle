@@ -6,6 +6,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -34,9 +40,7 @@ buildscript {
         classpath deps.butterknife_gradle
     }
 }
-jacoco {
-    toolVersion = versions.jacoco
-}
+
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
@@ -236,8 +240,9 @@ dependencies {
         compile project(':jump')
         compile project(':hsdp')
     }
-    compile deps.libphonenumber
+
     compile deps.apache
+    compile deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
    // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
