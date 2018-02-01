@@ -178,38 +178,23 @@ dependencies {
     compile deps.jackson_annotations
     compile deps.jackson_core
     compile deps.jackson_databind
-    /*   androidTestCompile project(':dexmaker-mockito-1.4')
-       androidTestCompile project(':dexmaker-1.4')
-       androidTestCompile project(':dexmaker-dx-1.4')
-       androidTestCompile project(':mockito-all-1.10.19')*/
-
-
     androidTestCompile deps.junit
-  //  androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile deps.dexmaker_google
-   // androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile deps.apache
     compile deps.support.appcompatv7
     compile deps.multidex
     annotationProcessor deps.immutables
-
     compile deps.dagger.dagger
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.frankiesardo_value_processor
     androidTestCompile deps.frankiesardo_value
     testCompile deps.frankiesardo_value
-
-
     provided deps.javax_annotation
     retrolambdaConfig deps.retrolambda
-
     compile deps.rxjava2
-
-
     testCompile deps.junit
     testCompile deps.mockito
     androidTestCompile deps.mockito_android
-
     testCompile deps.mockito_all
     testCompile deps.robolectric
 

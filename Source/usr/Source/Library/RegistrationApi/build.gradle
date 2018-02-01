@@ -8,7 +8,7 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 
@@ -240,11 +240,9 @@ dependencies {
     }
 
     compile deps.apache
-
-    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
+    compile deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
-   // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor deps.dagger.compiler
     compile deps.dagger.dagger
     provided deps.javax_annotation
@@ -252,7 +250,6 @@ dependencies {
     compile deps.rxbinding
     retrolambdaConfig deps.retrolambda
     androidTestCompile deps.junit
-   // androidTestCompile 'org.mockito:mockito-core:2.13.1'
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito
     testCompile deps.junit
