@@ -31,7 +31,6 @@ public class CswFragment extends Fragment implements BackEventListener {
     private ActionBarListener mActionBarListener;
 
     private boolean isAddedToBackStack;
-    private AppInfraInterface appInfra;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,17 +89,12 @@ public class CswFragment extends Fragment implements BackEventListener {
         try {
             if (null != mFragmentManager) {
                 PermissionView permissionFragment = buildPermissionView();
-                permissionFragment.setAppInfra(appInfra);
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
         }
-    }
-
-    public void setAppInfra(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
     }
 
     private PermissionView buildPermissionView() {

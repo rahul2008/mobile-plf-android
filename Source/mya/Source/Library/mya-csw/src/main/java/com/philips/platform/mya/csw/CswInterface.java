@@ -87,7 +87,6 @@ public class CswInterface implements UappInterface {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             CswFragment cswFragment = new CswFragment();
-            cswFragment.setAppInfra(uappDependencies.getAppInfra());
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
             if (cswFragment.getArguments() == null) {
                 cswFragment.setArguments(new Bundle());

@@ -56,7 +56,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
     private List<ConsentConfiguration> configs;
     private PermissionAdapter adapter;
-    private AppInfraInterface appInfra;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -125,22 +124,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         recyclerView.setAdapter(adapter);
     }
 
-    public void setAppInfra(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
-
     @Override
     public void onPrivacyNoticeClicked() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-            //           privacyNoticeFragment.setAppInfra(appInfra);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
             fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } else {
-            //permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_offline_title), mContext.getString(R.string.csw_offline_message));
+            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
 
