@@ -12,7 +12,7 @@ import java.util.List;
  * Created by arbin on 11/04/2017.
  */
 
-public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter {
+public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private  List<T> mItems;
     private final int mItemLayoutId;

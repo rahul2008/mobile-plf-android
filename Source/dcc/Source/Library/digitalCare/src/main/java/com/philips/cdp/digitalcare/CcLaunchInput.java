@@ -9,6 +9,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
  * class for getting inputs from vertical apps
  * Created by sampath.kumar on 8/17/2016.
  */
+@SuppressWarnings("serial")
 public class CcLaunchInput extends UappLaunchInput {
 
     private ProductModelSelectionType productModelSelectionType = null;

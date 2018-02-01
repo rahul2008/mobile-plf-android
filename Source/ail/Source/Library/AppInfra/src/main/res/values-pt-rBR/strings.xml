@@ -8,6 +8,6 @@
 
 
 <resources>
-  <string name="ail_fullLocale">pt_BR</string>
+  <string name="ail_fullLocale">pt-BR</string>
   <string name="ail_locale">pt_BR</string>
 </resources>
