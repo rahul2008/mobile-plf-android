@@ -113,7 +113,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
-       //hideKeyboard(getActivity());
+       hideKeyboard(getActivity());
     }
 
     public void showExistingMedicationList(THSMedication pTHMedication) {
