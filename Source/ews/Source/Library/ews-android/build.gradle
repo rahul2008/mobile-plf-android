@@ -4,7 +4,6 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../scripts/versions.gradle'
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
@@ -28,7 +27,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath(builddeps.cdpSCM)
     }
@@ -226,17 +224,14 @@ dependencies {
     }
 
     // External
-    compile "com.google.dagger:dagger:2.9"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-
+    compile deps.dagger.dagger
+    annotationProcessor deps.dagger.compiler
 
     // Test
-
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.10.19"
-    testCompile "org.powermock:powermock-module-junit4:1.6.5"
-    testCompile "org.powermock:powermock-api-mockito:1.6.5"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
-
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_classloading_xstream
 }
