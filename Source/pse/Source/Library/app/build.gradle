@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -45,7 +45,7 @@ version = objcdp.getVersion(platformversion)
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -129,8 +129,8 @@ android {
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
-	
-	signingConfigs {
+
+    signingConfigs {
         release
     }
 
@@ -143,15 +143,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-			signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
-	
-	    /*
-    This defined for signing the apk -- start
-     */
+
+    /*
+This defined for signing the apk -- start
+ */
     def Properties props = new Properties()
-	println  "  projectDir:   "+ project.projectDir;
+    println  "  projectDir:   "+ project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -185,17 +185,13 @@ configurations.all {
 dependencies {
     debugCompile project(path: ':productselection', configuration: 'debug')
     releaseCompile project(path: ':productselection', configuration: 'release')
-
-    //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile deps.support.appcompatv7
     compile deps.support.recyclerview
-
-   // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
     androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

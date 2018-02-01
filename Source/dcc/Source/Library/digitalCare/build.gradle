@@ -10,16 +10,16 @@ jacoco {
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -49,7 +49,7 @@ archivesBaseName = "digitalCare"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -159,7 +159,6 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
         resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
-        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
@@ -189,7 +188,6 @@ android {
         release {
             shrinkResources false
             consumerProguardFiles 'proguard-dcc.pro'
-            //consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-dcc.pro'
         }
 
         debug {
@@ -244,7 +242,7 @@ dependencies {
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
-    
+
     compile deps.play_services_maps
     compile deps.constraintlayout
     testCompile deps.opengl
@@ -258,7 +256,6 @@ dependencies {
     testCompile deps.powermock_junit_rule_agent
     testCompile deps.powermock_mockito
     testCompile deps.powermock_classloading_xstream
-    //compile 'junit:junit:4.12'
 }
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
@@ -317,5 +314,5 @@ task copyToLib(type: Copy) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

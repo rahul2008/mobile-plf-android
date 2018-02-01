@@ -2,7 +2,7 @@
 buildscript {
 	repositories {
 		jcenter()
-		maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+		maven { url repos.jcenter
 			credentials {
 				username = "readonly"
 				password = "123qweasdzxc"
@@ -17,7 +17,7 @@ buildscript {
 allprojects {
 	repositories {
 		jcenter()
-		maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+		maven { url repos.jcenter
 			credentials {
 				username = "readonly"
 				password = "123qweasdzxc"

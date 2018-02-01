@@ -1,21 +1,21 @@
 apply plugin: 'com.android.library'
 
 apply plugin: 'com.jfrog.artifactory'
-//apply from: '../extra/calabash.gradle'
+
 apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -45,7 +45,7 @@ archivesBaseName = "digitalCareUApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -123,8 +123,6 @@ publishing {
     }
 }
 
-
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -176,5 +174,5 @@ dependencies {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

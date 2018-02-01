@@ -1,21 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-//apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -48,7 +47,7 @@ version = objcdp.getVersion(platformversion)
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -234,7 +233,6 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-
 
     compile deps.glide
     androidTestCompile deps.android_test_commons

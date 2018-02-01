@@ -5,16 +5,16 @@ apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -44,7 +44,7 @@ archivesBaseName = "digitalCareApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -72,8 +72,8 @@ version = objcdp.getVersion(platformversion)
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-            repository {
-			repoKey = objcdp.getArtifactoryPublishRepoKey()
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
@@ -81,10 +81,10 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-				publications ('apk')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
-	    }
+        }
     }
     resolve {
         repository {
@@ -126,7 +126,6 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //applicationId "com.philips.cdp.sampledigitalcare"
         applicationId "com.philips.cl.di.dev.pa"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
@@ -154,7 +153,6 @@ android {
         release {
             minifyEnabled true
             proguardFile 'proguard-rules.pro'
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
@@ -219,10 +217,7 @@ dependencies {
     compile deps.support.recyclerview
     compile deps.support.appcompatv7
     compile deps.support.supportv4
-    /*compile(group: 'com.philips.cdp', name: 'dcc', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive true
-            }*/
+
     androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -276,14 +271,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 }
 
-
-/*android {
-    packagingOptions {
-        exclude 'lib/arm64-v8a/librsjni.so'
-        pickFirst 'lib/arm64-v8a/libRSSupport.so'
-    }
-}*/
-
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
