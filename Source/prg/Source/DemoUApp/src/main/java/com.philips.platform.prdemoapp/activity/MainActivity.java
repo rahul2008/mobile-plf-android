@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.prdemoapp.fragment.LaunchFragment;
 import com.philips.platform.prdemoapp.theme.NavigationController;
 import com.philips.platform.prdemoapp.theme.events.AccentColorChangedEvent;
