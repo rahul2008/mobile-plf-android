@@ -13,7 +13,6 @@
 -keep class com.philips.cdp.registration.configuration.RegistrationConfiguration { *; }
 -keep class com.philips.cdp.registration.settings.UserRegistrationInitializer { *; }
 -keep class com.philips.cdp.registration.configuration.URConfigurationConstants { *; }
--keep class com.philips.cdp.registration.app.tagging.AppTagging { *; }
 
 #Interfaces
 -keep interface com.philips.cdp.registration.handlers.UpdateUserDetailsHandler {*;}
