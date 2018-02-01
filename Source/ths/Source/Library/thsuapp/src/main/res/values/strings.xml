@@ -50,7 +50,8 @@
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have scheduled an appointment for</string>
-    <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_remainder">E-mail reminder set</string>
+    <string name="ths_set_remainder_dialog">Set an e-mail reminder</string>
     <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>

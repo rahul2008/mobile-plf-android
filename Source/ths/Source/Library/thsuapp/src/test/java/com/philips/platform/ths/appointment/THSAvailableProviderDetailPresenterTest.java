@@ -216,7 +216,7 @@ public class THSAvailableProviderDetailPresenterTest {
         list.add(dateMock);
         sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onResponse(list,sdkErrorMock);
-        verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
+        //verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }
 
     @Test
