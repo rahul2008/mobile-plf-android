@@ -168,14 +168,14 @@ public class RegistrationCoppaApplication extends Application {
                 break;
         }
 
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+//        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
     }
 
