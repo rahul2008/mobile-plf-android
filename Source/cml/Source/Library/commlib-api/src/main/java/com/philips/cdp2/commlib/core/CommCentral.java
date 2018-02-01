@@ -1,8 +1,7 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
 package com.philips.cdp2.commlib.core;
 
 import android.support.annotation.NonNull;
@@ -119,6 +118,17 @@ public final class CommCentral {
     public void stopDiscovery() {
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
             strategy.stop();
+        }
+    }
+
+    /**
+     * Clear all discovered {@link Appliance}s.
+     * <p>
+     * This can be invoked regardless of discovery being started or not.
+     */
+    public void clearDiscoveredAppliances() {
+        for (DiscoveryStrategy strategy : this.discoveryStrategies) {
+            strategy.clearDiscoveredNetworkNodes();
         }
     }
 

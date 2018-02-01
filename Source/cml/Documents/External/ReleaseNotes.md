@@ -5,6 +5,7 @@ Version {next}
 -------------
 
 ### Functionality Delivered
+* CommLib - \#109703 Added ability to clear appliance list
 * CommLib - \#65109 Removed connection state machine from DiscoveryManager.
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
 * CommLib - \#65428 Persistent NetworkNode Storage.

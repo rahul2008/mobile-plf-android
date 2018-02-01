@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -70,7 +70,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private ExecutorService callbackExecutor = newSingleThreadExecutor();
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
-    private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
 
     public interface DeviceListener {
         void onDeviceAvailable(SSDPDevice device);
@@ -230,21 +229,19 @@ public class SSDPControlPoint implements SSDPDiscovery {
         device.setIpAddress(ipAddress);
         device.setSecure(isSecure);
 
-        if (discoveredDevices.add(device)) {
-            String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
+        String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
 
-            if (notificationSubType == null) {
-                notifyDeviceAvailable(device);
-            } else {
-                switch (notificationSubType) {
-                    case NOTIFICATION_SUBTYPE_ALIVE:
-                    case NOTIFICATION_SUBTYPE_UPDATE:
-                        notifyDeviceAvailable(device);
-                        break;
-                    case NOTIFICATION_SUBTYPE_BYEBYE:
-                        notifyDeviceUnavailable(device);
-                        break;
-                }
+        if (notificationSubType == null) {
+            notifyDeviceAvailable(device);
+        } else {
+            switch (notificationSubType) {
+                case NOTIFICATION_SUBTYPE_ALIVE:
+                case NOTIFICATION_SUBTYPE_UPDATE:
+                    notifyDeviceAvailable(device);
+                    break;
+                case NOTIFICATION_SUBTYPE_BYEBYE:
+                    notifyDeviceUnavailable(device);
+                    break;
             }
         }
     }
