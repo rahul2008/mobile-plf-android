@@ -8,7 +8,7 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 
@@ -240,7 +240,7 @@ dependencies {
     }
 
     compile deps.apache
-    compile 'com.googlecode.libphonenumber:libphonenumber:8.8.2'
+    compile deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
     annotationProcessor deps.dagger.compiler
