@@ -239,10 +239,12 @@ dependencies {
         }
     }
 
-    compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.5', ext: 'aar'){
+    compile(deps.americanwell){
         exclude group: 'com.android.support'
         transitive = true
     }
+
+
 
     compile deps.support.design
 
