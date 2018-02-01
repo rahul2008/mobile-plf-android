@@ -60,7 +60,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.mockito_all
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    }
 }
