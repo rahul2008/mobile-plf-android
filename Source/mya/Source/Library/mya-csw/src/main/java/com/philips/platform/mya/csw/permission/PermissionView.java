@@ -125,9 +125,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onPrivacyNoticeClicked(String url) {
-//        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-//        privacyNoticeFragment.setUrl(url);
-
         JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
         justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
 
