@@ -9,17 +9,15 @@ package com.philips.platform.thsdemolaunch;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
