@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class ContactUsFragment extends DigitalCareBaseFragment implements ContactUsContract,OnClickListener {
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
@@ -64,7 +65,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private ProgressDialog mPostProgress = null;
     private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
@@ -376,15 +376,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         return productInfo;
     }
 
-    @Override
-    public void onPause() {
-        if (mPostProgress != null && mPostProgress.isShowing()) {
-            mPostProgress.dismiss();
-            mPostProgress = null;
-        }
-        super.onPause();
-    }
-
     private void tagServiceRequest(String serviceChannel) {
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SERVICE_REQUEST,
@@ -530,7 +521,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     private void hideSocialView() {
         mLLSocialParent.setVisibility(View.GONE);
-        View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
+        View view = getActivity().findViewById(R.id.dividerContactUsSplit);
         view.setVisibility(View.GONE);
     }
 
