@@ -8,17 +8,7 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven {
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
         maven {
             url repos.releaseexternal
             credentials {
@@ -26,7 +16,13 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-    }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }    }
     dependencies {
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
@@ -223,7 +219,6 @@ dependencies {
     androidTestCompile deps.android_testrules
     compile(project (':jump'))
     def dp = project.ext.has('useprojectdependencies')
-
     if (dp) {
         debugCompile project(path: ':jump', configuration: 'debug')
         releaseCompile project(path: ':jump', configuration: 'release')
