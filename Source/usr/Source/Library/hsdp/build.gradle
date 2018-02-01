@@ -9,6 +9,7 @@ buildscript {
 
     repositories {
         maven {
+
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
@@ -16,7 +17,7 @@ buildscript {
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -46,7 +47,7 @@ archivesBaseName = "hsdp"
 
 repositories {
     maven {
-        url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+        url repos.releaseexternal
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
@@ -190,8 +191,6 @@ dependencies {
     compile deps.apache
     compile deps.support.appcompatv7
     compile deps.multidex
-    compile deps.butterknife
-    annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.immutables
 
     compile deps.dagger.dagger
@@ -199,6 +198,7 @@ dependencies {
     annotationProcessor deps.frankiesardo_value_processor
     androidTestCompile deps.frankiesardo_value
     testCompile deps.frankiesardo_value
+
 
     provided deps.javax_annotation
     retrolambdaConfig deps.retrolambda
@@ -210,7 +210,6 @@ dependencies {
     testCompile deps.mockito
     androidTestCompile deps.mockito_android
 
-    testCompile deps.junit
     testCompile deps.mockito_all
     testCompile deps.robolectric
 
@@ -220,8 +219,8 @@ dependencies {
 // JUnit4 Rules
     androidTestCompile deps.android_testrules
     compile(project (':jump'))
-
     def dp = project.ext.has('useprojectdependencies')
+
 
     if (dp) {
         debugCompile project(path: ':jump', configuration: 'debug')

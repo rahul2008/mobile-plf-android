@@ -78,6 +78,7 @@ ext.deps = [
         greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
         retrofit                      : 'com.squareup.retrofit2:retrofit:2.3.0',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
+        okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
         javax_inject                  : 'javax.inject:javax.inject:1',
         glassfish_annotation          : 'org.glassfish:javax.annotation:10.0-b28',
         javax_annotation              : 'javax.annotation:jsr250-api:1.0',
@@ -137,5 +138,7 @@ ext.deps = [
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.6.0',
         butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.8.1',
-        testing_support               : 'com.android.support.test:testing-support-lib:0.1'
+        testing_support               : 'com.android.support.test:testing-support-lib:0.1',
+        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.2'
+
 ]
