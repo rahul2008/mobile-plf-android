@@ -211,8 +211,6 @@ dependencies {
     compile deps.apache
     //compile 'com.android.support:appcompat-v7:26.0.2'
     compile deps.multidex
-    compile deps.butterknife
-    annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.immutables
 
 

@@ -242,9 +242,7 @@ dependencies {
     }
 
     compile deps.apache
-
     compile deps.libphonenumber
-
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
    // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

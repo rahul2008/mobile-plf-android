@@ -9,6 +9,10 @@ buildscript {
 
     repositories {
         maven {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             url repos.jcenter
             credentials {
                 username = "readonly"
@@ -190,8 +194,6 @@ dependencies {
     compile deps.apache
     compile deps.support.appcompatv7
     compile deps.multidex
-    compile deps.butterknife
-    annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.immutables
 
     compile deps.dagger.dagger
@@ -220,8 +222,6 @@ dependencies {
 // JUnit4 Rules
     androidTestCompile deps.android_testrules
     compile(project (':jump'))
-
-
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
