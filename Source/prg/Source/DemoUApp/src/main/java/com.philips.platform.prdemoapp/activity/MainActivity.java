@@ -107,13 +107,11 @@ public class MainActivity extends UIDActivity {
 
     @Override
     protected void onPause() {
-        mSiteCatListHandler.post(mPauseSiteCatalystRunnable);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        mSiteCatListHandler.post(mResumeSiteCatalystRunnable);
         super.onResume();
     }
 
