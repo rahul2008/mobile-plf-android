@@ -10,7 +10,7 @@ ext.versions = [
         target                     : 26,
         minsdk                     : 21,
         buildtools                 : "26.0.2",
-        support                    : "27.0.2",
+        support                    : "26.0.2",
         jacoco                     : "0.7.6.201602180812",
         dagger                     : "2.13",
         renderscriptTargetApi      : 26,
