@@ -22,14 +22,14 @@ import com.philips.platform.uid.view.widget.Label;
 public class JustInTimeFragmentWidget extends CswBaseFragment {
     private String title;
     private String description;
-    private String okString;
-    private String cancelString;
+    private String okayText;
+    private String cancelText;
 
-    public void setArguments(String title, String description, String okString, String cancelString) {
+    public void setTextResources(String title, String description, String okayText, String cancelText) {
         this.title = title;
         this.description = description;
-        this.okString = okString;
-        this.cancelString = cancelString;
+        this.okayText = okayText;
+        this.cancelText = cancelText;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         descriptionLabel.setText(description);
 
         Button okButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
-        okButton.setText(okString);
+        okButton.setText(okayText);
 
         Button cancelButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
-        cancelButton.setText(cancelString);
+        cancelButton.setText(cancelText);
 
         handleOrientation(justInTimeConsentView);
         return justInTimeConsentView;

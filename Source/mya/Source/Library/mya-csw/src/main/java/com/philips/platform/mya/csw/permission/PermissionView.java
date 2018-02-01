@@ -129,7 +129,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 //        privacyNoticeFragment.setUrl(url);
 
         JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
-        justInTimeFragmentWidget.setArguments("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
+        justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
