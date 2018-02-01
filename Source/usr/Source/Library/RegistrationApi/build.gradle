@@ -8,7 +8,7 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "0.7.6.201602180812"
 }
 
 
@@ -194,7 +194,6 @@ android {
         }
 
         debug {
-            testCoverageEnabled true
             minifyEnabled false
             debuggable true
         }

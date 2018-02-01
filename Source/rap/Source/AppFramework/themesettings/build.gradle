@@ -81,7 +81,6 @@ android {
             consumerProguardFiles "proguard-rules.pro"
         }
         debug {
-            testCoverageEnabled true
         }
     }
 

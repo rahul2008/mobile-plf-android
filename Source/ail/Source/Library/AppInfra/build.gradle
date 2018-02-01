@@ -81,7 +81,6 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
         }
     }
     publishNonDefault true

@@ -10,13 +10,18 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.PostConsentCallback;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
@@ -24,12 +29,6 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
 
@@ -72,7 +71,6 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     }
 
     @Override
-
     public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {

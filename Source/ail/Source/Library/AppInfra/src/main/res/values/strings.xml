@@ -1,7 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
 <resources>
     <string name="library_name" translatable="false">AppInfraLib</string>
     <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
-    <string name="ail_fullLocale">en_US</string>
+    <string name="ail_fullLocale">en-US</string>
     <string name="ail_locale">en</string>
 
     <string-array name="server_pool" translatable="false">

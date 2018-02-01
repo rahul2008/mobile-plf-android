@@ -646,14 +646,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
-
-            if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-                    getHardCodedProductList().length > 1 && (menus.get(i).mText == R.string.Change_Selected_Product) && isProductSelected()) {
-                menus.remove(i);
+            ProductModelSelectionType productModelSelectionType = DigitalCareConfigManager.getInstance().getProductModelSelectionType();
+            if((titles.getResourceId(i, 0) == R.string.Change_Selected_Product) && isProductSelected()){
+                if(productModelSelectionType == null || productModelSelectionType.getHardCodedProductList() == null || productModelSelectionType.getHardCodedProductList().length > 1){
+                    continue;
+                }
             }
-
+            menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
         }
+        titles.recycle();
+        resources.recycle();
         return menus;
     }
 

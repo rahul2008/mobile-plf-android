@@ -8,6 +8,6 @@
 
 
 <resources>
-  <string name="ail_fullLocale">zh_CN</string>
+  <string name="ail_fullLocale">zh-CN</string>
   <string name="ail_locale">zh_CN</string>
 </resources>

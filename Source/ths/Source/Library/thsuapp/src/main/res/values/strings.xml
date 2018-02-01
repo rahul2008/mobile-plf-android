@@ -50,7 +50,8 @@
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have scheduled an appointment for</string>
-    <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_remainder">E-mail reminder set</string>
+    <string name="ths_set_remainder_dialog">Set an e-mail reminder</string>
     <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
@@ -298,7 +299,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_coupon_code_empty">Enter a valid coupon code to continue</string>
     <string name="ths_cost_summary_coupon_code_invalid">Please enter a valid voucher code</string>
     <string name="ths_cost_summary_coupon_code_already_applied">Coupon code already applied</string>
-    <string name="ths_cost_summary_coupon_code_illegal_exception">The visit already has a coupon code</string>
+    <string name="ths_cost_summary_coupon_code_illegal_exception">the visit already has a coupon code</string>
     <string name="ths_cost_summary_fragment_name">Cost</string>
 
     <!-- Cost summary screen strings -->

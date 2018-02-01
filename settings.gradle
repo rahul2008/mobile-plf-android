@@ -13,6 +13,7 @@ include ':jump'
 include ':hsdp'
 include ':iap'
 include ':iapUApp'
+
 include ':digitalCare'
 include ':digitalCareUApp'
 include ':productselection'
@@ -101,6 +102,10 @@ include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
+
+include ':thsUapp'
+project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
+
 include ':uidApp'
 project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':mya-demoapp'

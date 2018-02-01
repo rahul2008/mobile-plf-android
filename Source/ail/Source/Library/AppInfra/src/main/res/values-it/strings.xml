@@ -8,6 +8,6 @@
 
 
 <resources>
-  <string name="ail_fullLocale">it_IT</string>
+  <string name="ail_fullLocale">it-IT</string>
   <string name="ail_locale">it</string>
 </resources>
