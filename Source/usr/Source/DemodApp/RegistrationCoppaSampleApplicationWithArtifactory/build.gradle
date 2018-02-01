@@ -36,10 +36,7 @@ allprojects {
         maven {
             url repos.release
         }
-        maven {
-            url repos.stage
-        }
-        jcenter()
+   
     }
 }
 
