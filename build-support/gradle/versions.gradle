@@ -37,9 +37,12 @@ ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
 ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
 ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
 ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
+ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-local"
 ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
 ext.clojars = "https://clojars.org/repo/"
+ext.sonatype = "https://oss.sonatype.org/content/repositories/snapshots"
+ext.robolectric = "https://mvnrepository.com/artifact/org.robolectric/shadows-core"
 ext.deps = [
         support                       : [
                 annotations : "com.android.support:support-annotations:${ext.versions.support}",

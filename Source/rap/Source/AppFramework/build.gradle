@@ -28,8 +28,8 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
+        maven { url sonatype }
+        maven { url robolectric }
         maven {
             url repos.plugin
             credentials {
