@@ -109,7 +109,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_WELCOME,null,null);
     }
 
     @Override

@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.settings;
 
+import android.util.Log;
+
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitReport;
@@ -14,6 +16,9 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -21,9 +26,9 @@ import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.net.URL;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
 
 public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisitReportAttachmentCallback<FileAttachment,SDKError> {
 
@@ -41,6 +46,10 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     }
 
     private void getHIPPANotice() {
+        if(THSManager.getInstance().getAppInfra() == null || THSManager.getInstance().getAppInfra().getServiceDiscovery() == null){
+            Log.e(AmwellLog.LOG,"App infra instance id null");
+            mThsVisitHistoryDetailFragment.exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        }else {
         THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THSConstants.THS_HIPPA_NOTICE, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
@@ -54,6 +63,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 mThsVisitHistoryDetailFragment.showHippsNotice(url.toString());
             }
         });
+        }
     }
 
     public void downloadReport() {
@@ -61,10 +71,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
             THSManager.getInstance().getVisitReportAttachment(mThsVisitHistoryDetailFragment.getContext(),
                     mThsVisitHistoryDetailFragment.getVisitReport(),this);
         } catch (AWSDKInstantiationException e) {
-            mThsVisitHistoryDetailFragment.hideProgressBar();
-            if(mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-                mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
-            }
+            e.printStackTrace();
         }
     }
 
@@ -72,6 +79,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
             if (sdkError != null) {
+                AmwellLog.e("downloadReport",sdkError.toString());
                 mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason().name());
                 return;
             }
@@ -96,8 +104,12 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 @Override
                 public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
                     if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-                        mThsVisitHistoryDetailFragment.hideProgressBar();
-                        mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                        if(sdkError!=null){
+                            THSSDKErrorFactory.getErrorType(mThsVisitHistoryDetailFragment.getContext(), ANALYTIC_FETCH_SUMMARY, sdkError);
+                        }else {
+                            mThsVisitHistoryDetailFragment.hideProgressBar();
+                            mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                        }
                     }
                 }
 

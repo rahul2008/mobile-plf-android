@@ -127,6 +127,6 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME_BACK,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_WELCOME_BACK,null,null);
     }
 }

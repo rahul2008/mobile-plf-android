@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
@@ -45,17 +44,6 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         // HSDPConfiguration();
         initRegistration(Configuration.STAGING);
         RLog.enableLogging();
-//        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-//        String restoredText = prefs.getString("reg_environment", null);
-//        if (restoredText != null) {
-//            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
-//            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
-//                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
-//            }
-//            initRegistration(RegUtility.getConfiguration(restoredText));
-//        } else {
-
-        //}
     }
 
     public void initRegistration(Configuration configuration) {
@@ -68,11 +56,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
-        initAppIdentity(configuration);
 
-
-//        UappInterface standardRegistrationInterface = new URDemouAppInterface();
-//        standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
         URDependancies urDependancies = new URDependancies(mAppInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
@@ -80,132 +64,8 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
 
         RLog.enableLogging();
 
-        //  mAppInfraInterface.getServiceDiscovery().setHomeCountry("ES");
     }
 
-//    public void initRegistration(Configuration configuration) {
-//        AppConfigurationInterface.AppConfigurationError configError = new
-//                AppConfigurationInterface.AppConfigurationError();
-//        if (mAppInfra == null) {
-//            mAppInfra = new AppInfra.Builder().build(this);
-//        }
-//        mAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-//                        "RegistrationClientID." + Configuration.DEVELOPMENT
-//                , "UserRegistration",
-//                "4rdpm7afu7bny6xnacw32etmt7htfraa",
-//                configError);
-//        mAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-//                        "RegistrationClientID." + Configuration.TESTING
-//                , "UserRegistration",
-//                "4rdpm7afu7bny6xnacw32etmt7htfraa",
-//                configError);
-//        mAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-//                        "RegistrationClientID." + Configuration.EVALUATION
-//                , "UserRegistration",
-//                "4rdpm7afu7bny6xnacw32etmt7htfraa",
-//                configError);
-//        mAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-//                        "RegistrationClientID." + Configuration.STAGING
-//                , "UserRegistration",
-//                "4rdpm7afu7bny6xnacw32etmt7htfraa",
-//                configError);
-//        mAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-//                        "RegistrationClientID." + Configuration.PRODUCTION
-//                , "UserRegistration",
-//                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-//                configError);
-//
-//      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-//        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-//        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-//        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-//        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-//
-//*/
-//        mAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-//                        "MicrositeID",
-//                "UserRegistration",
-//                "77000",
-//                configError);
-//        mAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-//                        "RegistrationEnvironment",
-//                "UserRegistration",
-//                configuration.getValue(),
-//                configError);
-//       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-//        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-//*/
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("Flow." +
-//                        "EmailVerificationRequired",
-//                "UserRegistration",
-//                "" + true,
-//                configError);
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("Flow." +
-//                        "TermsAndConditionsAcceptanceRequired",
-//                "UserRegistration",
-//                "" + true,
-//                configError);
-//       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
-//        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-//*/
-//        String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("Flow." +
-//                        "MinimumAgeLimit",
-//                "UserRegistration",
-//                minAge,
-//                configError);
-//      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-//        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-//        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-//        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-//*/
-//        ArrayList<String> providers = new ArrayList<String>();
-//        providers.add("facebook");
-//        providers.add("googleplus");
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("SigninProviders." +
-//                        "NL",
-//                "UserRegistration",
-//                providers,
-//                configError);
-//
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("SigninProviders." +
-//                        "US",
-//                "UserRegistration",
-//                providers,
-//                configError);
-//
-//        mAppInfra.
-//                getConfigInterface().setPropertyForKey("SigninProviders." +
-//                        "default",
-//                "UserRegistration",
-//                providers,
-//                configError);
-//
-//       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-//        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-//        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-//        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-//        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-//*/
-//
-//
-//        //HSDP configuration
-//        //initHSDP(configuration);
-//
-//        initAppIdentity(configuration);
-//
-//
-//        URDependancies urDependancies = new URDependancies(mAppInfra);
-//        URSettings urSettings = new URSettings(this);
-//        URInterface urInterface = new URInterface();
-//        urInterface.init(urDependancies, urSettings);
-//
-//    }
 
     private void HSDPConfiguration() {
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -394,103 +254,6 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     final String AI = "appinfra";
 
-    private void initAppIdentity(Configuration configuration) {
-        if (mAppInfra == null) {
-            mAppInfra = new AppInfra.Builder().build(this);
-        }
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = mAppInfra.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = mAppInfra.
-                getConfigInterface();
-
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-       /* mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);*/
-
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                AI,
-                "b2c",
-                configError);
-
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                AI,
-                "Production",
-                configError);
-
-
-        switch (configuration) {
-            case EVALUATION:
-                mAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                mAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                mAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                mAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                mAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "TEST",
-                        configError);
-                break;
-        }
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity MicrositeId : " + appIdentityInfo.getMicrositeId());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppName : " + appIdentityInfo.getAppName());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
-    }
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

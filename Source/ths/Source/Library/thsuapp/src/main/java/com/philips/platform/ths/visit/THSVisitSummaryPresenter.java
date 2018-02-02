@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_RATING;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_SUMMARY;
 import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitSuccessful;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -77,7 +78,11 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
-            mTHSVisitSummaryFragment.updateView(tHSVisitSummary);
+            if(tHSSDKError!=null && tHSSDKError.getSdkError()!=null) {
+                THSSDKErrorFactory.getErrorType(mTHSVisitSummaryFragment.getContext(), ANALYTIC_FETCH_SUMMARY, tHSSDKError.getSdkError());
+            }else{
+                mTHSVisitSummaryFragment.updateView(tHSVisitSummary);
+            }
         }
 
     }
@@ -89,7 +94,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onResponse(Void var1, SDKError var2) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             if (null != var2) {
-                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_RATING,var2));
+                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(mTHSVisitSummaryFragment.getContext(), ANALYTICS_RATING,var2));
             }
         }
         AmwellLog.d("Send rating", "success");

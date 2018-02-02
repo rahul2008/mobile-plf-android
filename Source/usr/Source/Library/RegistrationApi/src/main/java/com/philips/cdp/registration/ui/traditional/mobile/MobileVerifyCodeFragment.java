@@ -106,7 +106,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
+        this.context=context;
         user = new User(context);
     }
 
@@ -117,7 +117,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
 
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
@@ -128,10 +128,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void setDescription() {
-        String userId = user.getMobile();
+        String userId =  user.getMobile();
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         reg_verify_mobile_desc1.setText(str);
     }
 
@@ -190,12 +190,14 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
-        storePreference(user.getMobile());
-        setDescription();
-        hideProgressSpinner();
-        if (isVerified)
-            getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        if (this.isVisible()) {
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+            storePreference(user.getMobile());
+            setDescription();
+            hideProgressSpinner();
+            if (isVerified)
+                getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        }
     }
 
     @Override
@@ -243,7 +245,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Subscribe
-    public void onEvent(UpdateMobile event) {
+    public void onEvent(UpdateMobile event){
         user.refreshUser(this);
     }
 
@@ -257,7 +259,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void resendButtonClicked() {
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
-        getRegistrationFragment().addFragment(new MobileVerifyResendCodeFragment());
+        getRegistrationFragment().addFragment( new MobileVerifyResendCodeFragment());
         errorMessage.hideError();
 
     }

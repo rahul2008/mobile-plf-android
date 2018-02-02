@@ -8,7 +8,6 @@ package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -49,16 +48,15 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_payment_detail, container, false);
         mTHSCreditCardDetailPresenter = new THSCreditCardDetailPresenter(this);
-        mCardHolderNameEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext);
-        mCardNumberEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_number_edittext);
-        mCardExpiryMonthEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_expiration_month_edittext);
-        mCardExpiryYearEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_expiration_year_edittext);
-        mCVCcodeEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_cvc_edittext);
-        mPaymentDetailContinueButton = (Button) view.findViewById(R.id.ths_payment_detail_continue_button);
+        mCardHolderNameEditText = view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext);
+        mCardNumberEditText = view.findViewById(R.id.ths_payment_detail_card_number_edittext);
+        mCardExpiryMonthEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_month_edittext);
+        mCardExpiryYearEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_year_edittext);
+        mCVCcodeEditText = view.findViewById(R.id.ths_payment_detail_card_cvc_edittext);
+        mPaymentDetailContinueButton = view.findViewById(R.id.ths_payment_detail_continue_button);
         mPaymentDetailContinueButton.setOnClickListener(this);
-        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_payment_detail_container);
-        cvvDetail = (Label) view.findViewById(R.id.ths_payment_detail_card_cvc_help);
-        mCVCcodeEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);  
+        mProgressbarContainer = view.findViewById(R.id.ths_payment_detail_container);
+        cvvDetail = view.findViewById(R.id.ths_payment_detail_card_cvc_help);
         cvvDetail.setOnClickListener(this);
         return view;
     }
@@ -86,9 +84,9 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PAYMENT_METHOD,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PAYMENT_METHOD,null,null);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar("Payment method", true);
+            actionBarListener.updateActionBar(getString(R.string.ths_credit_card_details_fragment_name), true);
         }
 
     }

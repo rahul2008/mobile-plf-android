@@ -11,11 +11,14 @@ import java.util.Date;
 import java.util.HashMap;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION_RESPONSE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public  class THSTagUtils {
+
+    private static String  mPreviousPageName="previous page name ";
 
     public static String addActions(String action,String NewAction){
         String updatedAction=action;
@@ -80,6 +83,13 @@ public  class THSTagUtils {
         String country= THSManager.getInstance().getCountry();
         map.put("country",country);
         THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+    }
+
+    public static void doTrackPageWithInfo(String string1,String string2,String string3){
+        if(!mPreviousPageName.equalsIgnoreCase(string1)) {
+            THSManager.getInstance().getThsTagging().trackPageWithInfo(string1, string2, string3);
+            mPreviousPageName=string1;
+        }
     }
 
 }

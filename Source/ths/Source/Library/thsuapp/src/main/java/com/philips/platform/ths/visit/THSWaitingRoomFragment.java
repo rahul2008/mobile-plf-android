@@ -79,14 +79,14 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
         if (THSManager.getInstance().getThsTagging() == null) {
             if (THSManager.getInstance().getLoggingInterface() != null) {
-                AmwellLog.e("TagInterface", "Tagging interface is null");
+                AmwellLog.i("TagInterface", "Tagging interface is null");
             } else {
                 Log.e(AmwellLog.LOG, "TagInterface and logging interface are null");
             }
             return;
         }
 
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
         THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeEnd", null, null);

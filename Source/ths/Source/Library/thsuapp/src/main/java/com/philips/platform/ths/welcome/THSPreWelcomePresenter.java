@@ -6,11 +6,15 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.util.Log;
+
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.net.URL;
@@ -45,18 +49,23 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
 
 
     public void getTermsAndConditions(){
-        THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_TERMS_AND_CONDITIONS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        if(THSManager.getInstance().getAppInfra() == null || THSManager.getInstance().getAppInfra().getServiceDiscovery() == null){
+            Log.e(AmwellLog.LOG,"App Infra instance is null");
+            mThsPreWelcomeFragment.exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        }else {
+            THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_TERMS_AND_CONDITIONS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                mThsPreWelcomeFragment.showError("Service discovery failed - >" + s);
-                mThsPreWelcomeFragment.hideProgressBar();
-            }
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    mThsPreWelcomeFragment.showError("Service discovery failed - >" + s);
+                    mThsPreWelcomeFragment.hideProgressBar();
+                }
 
-            @Override
-            public void onSuccess(URL url) {
-                mThsPreWelcomeFragment.showTermsAndConditions(url.toString());
-            }
-        });
+                @Override
+                public void onSuccess(URL url) {
+                    mThsPreWelcomeFragment.showTermsAndConditions(url.toString());
+                }
+            });
+        }
     }
 }

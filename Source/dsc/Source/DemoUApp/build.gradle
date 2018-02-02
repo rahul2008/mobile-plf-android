@@ -6,7 +6,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "dataServicesUApp"
-version = objcdp.getVersion(versions.dsc_dataServices)
+version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -33,7 +33,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            testCoverageEnabled true
         }
     }
 
@@ -47,7 +46,8 @@ dependencies {
 
     for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
         if (directdependencies) {
-            compile project(path: dep)
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
         } else {
             compile("$group$dep:$platformversion$suffix") { changing = true }
         }
@@ -57,7 +57,9 @@ dependencies {
     compile deps.ormlite.core
     compile deps.ormlite.android
 
+    // Test Compile
     testCompile deps.junit
+    testCompile "org.mockito:mockito-all:1.10.17"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

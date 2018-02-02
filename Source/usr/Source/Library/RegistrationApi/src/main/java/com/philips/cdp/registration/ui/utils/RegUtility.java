@@ -21,6 +21,7 @@ import android.widget.*;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.platform.appinfra.abtestclient.*;
 
 import org.json.*;
@@ -391,5 +392,12 @@ public class RegUtility {
 
     public static void showErrorMessage(Activity parentActivity) {
         parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity,parentActivity.getResources().getString(R.string.reg_Generic_Network_Error),Toast.LENGTH_SHORT).show());
+    }
+
+    public static void handleDynamicPermissionChange(Activity registrationActivity) {
+        registrationActivity.finishAffinity();
+        Intent i =  registrationActivity.getBaseContext().getPackageManager().getLaunchIntentForPackage( registrationActivity.getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        registrationActivity.startActivity(i);
     }
 }

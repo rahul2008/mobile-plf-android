@@ -8,6 +8,7 @@ Project           : Consumer Care
 
 package com.philips.cdp.digitalcare.productdetails;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -34,7 +35,7 @@ import java.net.URLConnection;
 
 public class DownloadPDFService extends Service {
 
-    private String mHelpManualFileName, mHelpManualUrl;
+    private String mHelpManualFileName;
     private String TAG = DownloadPDFService.class.getSimpleName();
 
     private int NOTIFICATION_ID = 1;
@@ -75,7 +76,7 @@ public class DownloadPDFService extends Service {
 
         createNotification(getApplicationContext());
         if (null != intent) {
-            mHelpManualUrl = intent.getStringExtra("HELP_MANUAL_PDF_URL");
+            String mHelpManualUrl = intent.getStringExtra("HELP_MANUAL_PDF_URL");
             mHelpManualFileName = intent.getStringExtra("HELP_MANUAL_PDF_FILE_NAME");
             DigiCareLogger.v(TAG, "onStartCommand url: " + mHelpManualUrl + " filename: " + mHelpManualFileName);
 
@@ -86,7 +87,18 @@ public class DownloadPDFService extends Service {
 
     private void createNotification(Context ctx) {
         mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(ctx);
+
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            mNotifyManager.createNotificationChannel(mChannel);
+        }
+
+        mBuilder = new NotificationCompat.Builder(ctx, channelId);
 
         Intent newintent = new Intent();
         newintent.setAction("com.philips.cdp.digitalcare.productdetails.services.OPENPDF");
@@ -139,7 +151,7 @@ public class DownloadPDFService extends Service {
 
                 byte data[] = new byte[1024];
                 long total = 0;
-                int count, progress = 0;
+                int count, progress;
                 while ((count = input.read(data)) > 0) {
                     total += count;
                     output.write(data, 0, count);

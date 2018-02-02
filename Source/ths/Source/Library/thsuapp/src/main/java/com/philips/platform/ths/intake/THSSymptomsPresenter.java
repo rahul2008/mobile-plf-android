@@ -23,6 +23,7 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -66,7 +67,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             thsSymptomsFragmentViewInterface.setContinueButtonState(false);
             THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
         } catch (AWSDKInstantiationException | IOException e) {
-            e.printStackTrace();
+            AmwellLog.e("uploadDocument",e.toString());
         }
 
     }
@@ -88,8 +89,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
+                AmwellLog.e("uploadDocument",thssdkError.getSdkError().toString());
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
             } else {
+                AmwellLog.d("uploadDocument","success");
                 updateSymptoms(THSVisitContext);
             }
         }
@@ -107,6 +110,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onFailure(Throwable throwable) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+            AmwellLog.e("uploadDocument",throwable.toString());
             thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
             thsBaseView.hideProgressBar();
         }
@@ -138,7 +142,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
                     } else {
                         updateSymptoms(pthVisitContext);
                     }
@@ -172,7 +176,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             if (null != documentRecord && null == sdkError) {
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
                 thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
             }
         }

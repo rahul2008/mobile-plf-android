@@ -170,13 +170,14 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby1 = new THSConsumer();
         baby1.setFirstName("checkbaby1");
         baby1.setLastName("Hosur");
+        baby1.setDisplayName("Heyyyyyy");
         baby1.setHsdpToken(user.getHsdpAccessToken());
         baby1.setGender(Gender.MALE);
         baby1.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016,8,24);
         baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID("baby1");
+        baby1.setHsdpUUID("baby1+ggggg");
         baby1.setDependent(true);
         baby1.setBloodPressureSystolic("120");
         baby1.setBloodPressureDiastolic("80");
@@ -189,6 +190,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby2 = new THSConsumer();
         baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
+        baby2.setDisplayName("Hiiiiiiii");
         baby2.setHsdpToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
         baby2.setGender(Gender.FEMALE);
         baby2.setEmail(user.getEmail());
@@ -207,6 +209,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby3 = new THSConsumer();
         baby3.setFirstName("baby3");
         baby3.setLastName("Hosur");
+        baby3.setDisplayName("Wassup");
         baby3.setHsdpToken(user.getHsdpAccessToken());
         baby3.setGender(Gender.MALE);
         baby3.setEmail(user.getEmail());
@@ -229,6 +232,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setGender(Gender.MALE);
         thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
+        thsConsumer.setDisplayName("Spoorti hihi");
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
         thsConsumer.setBloodPressureSystolic("120");

@@ -383,7 +383,7 @@ public class Label extends AppCompatTextView {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(((SavedState) state).getSuperState());
         if (savedState.spanVisitedArray != null && getText() != null) {
-            UIDClickableSpan[] spans = ((Spannable) getText()).getSpans(0, getText().length(), UIDClickableSpan.class);
+            UIDClickableSpan[] spans = Spannable.Factory.getInstance().newSpannable(getText()).getSpans(0, getText().length(), UIDClickableSpan.class);
             int index = 0;
             for (UIDClickableSpan span : spans) {
                 span.setVisited(savedState.spanVisitedArray[index++]);

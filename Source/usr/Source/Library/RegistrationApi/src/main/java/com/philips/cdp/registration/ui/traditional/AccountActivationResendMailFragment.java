@@ -140,7 +140,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -164,7 +164,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
         accountActivationResendMailPresenter.unRegisterListener();
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworkStateListener");
         super.onDestroy();
         CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK,
                 this);
@@ -257,7 +257,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     private ProgressDialog mProgressDialog;
 
     private void showProgressDialog() {
-        if (!getActivity().isFinishing()) {
+        if (this.isVisible()) {
             if (mProgressDialog == null) {
                 mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -293,7 +293,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void handleResendVerificationEmailSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         resendVerificationEmailSuccessTrackAction();
         getRegistrationFragment().startCountDownTimer();
         updateResendUIState();
@@ -339,7 +339,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void handleResendVerificationEmailFailedWithError(
             UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,
                 AppTagingConstants.JANRAIN);
@@ -445,7 +445,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-     //   RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
+     //   RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
@@ -471,8 +471,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            popupWindow.showAtLocation(getActivity().
-                    findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
+            if(this.isVisible() && popupWindow != null) {
+                popupWindow.showAtLocation(getActivity().
+                        findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
+            }
         }
     }
 
@@ -542,9 +544,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend update enable");
 
         mResendEmail.setText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setProgressText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setEnabled(true);
 
     }

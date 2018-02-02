@@ -26,7 +26,6 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -114,16 +113,16 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                 } else {
                     mTHSBaseFragment.hideProgressBar();
                     AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
-                    String missingFields = "";
+                    /*String missingFields = "";
                     Iterator<Map.Entry<String, ValidationReason>> it = errors.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
                         String[] array = pair.getKey().toString().split("\\.");
                         missingFields = missingFields + array[array.length - 1] + "\n";
                         it.remove(); // avoids a ConcurrentModificationException
-                    }
-                    mTHSBaseFragment.doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, missingFields + mTHSBaseFragment.getString(R.string.ths_insurance_fields_required), false);
-                    mTHSBaseFragment.showError(missingFields + "\n" + mTHSBaseFragment.getString(R.string.ths_insurance_fields_required));
+                    }*/
+                    mTHSBaseFragment.doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, mTHSBaseFragment.getString(R.string.ths_insurance_fields_required), false);
+                    mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_insurance_fields_required));
                     mTHSBaseFragment.hideProgressBar();
                 }
             }
@@ -169,8 +168,10 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION, tHSSDKError.getSdkError()), true, false);
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_FETCH_HEALTH_SUBSCRIPTION, tHSSDKError.getSdkError()), true, false);
+                AmwellLog.e("fetchInsurance", tHSSDKError.getSdkError().getMessage());
             } else {
+                AmwellLog.i("fetchInsurance", "success");
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
                 Subscription subscription = tHSSubscription.getSubscription();
                 if (null != subscription) {
@@ -230,6 +231,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             mTHSBaseFragment.showError(throwable.getMessage());
+            AmwellLog.e("fetchInsurance", throwable.getMessage());
         }
     }
     ////////// end of getExistingSubscription call back
@@ -254,7 +256,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN, sdkError);
+                    THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_UPDATE_HEALTH_PLAN, sdkError);
                     AmwellLog.e("updateInsurance", "onResponse: " + sdkError.getSDKErrorReason().toString());
                     showInsuranceNotVerifiedDialog();
                 }

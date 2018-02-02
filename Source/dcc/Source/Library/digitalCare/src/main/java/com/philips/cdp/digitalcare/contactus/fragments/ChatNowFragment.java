@@ -1,4 +1,4 @@
-/**
+/*
  * ChatNowFragment will help to inflate chat webpage on the screen.
  *
  * @author : Ritesh.jha@philips.com
@@ -23,23 +23,20 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-
-import com.philips.cdp.digitalcare.util.Utils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -85,7 +82,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Map<String, String> contextData = new HashMap<String, String>();
+        Map<String, String> contextData = new HashMap<>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
         contextData.put(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW, getPreviousName());
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
@@ -128,8 +125,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     }
 
     private void initView(View view) {
-        mWebView = (WebView) view.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) view
+        mWebView = view.findViewById(R.id.webView);
+        mProgressBar = view
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
     }
@@ -138,8 +135,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        String title = getResources().getString(R.string.chat_now);
-        return title;
+        return getResources().getString(R.string.chat_now);
     }
 
     @Override
@@ -331,10 +327,17 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
         webView.setWebViewClient(new WebViewClient() {
 
+            @TargetApi(Build.VERSION_CODES.N)
             @Override
-            public boolean shouldOverrideUrlLoading(WebView v, String pageUrl) {
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return true;
+            }
 
-                v.loadUrl(pageUrl);
+            @SuppressWarnings("deprecation")
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
                 return true;
             }
 
@@ -363,6 +366,4 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
         return webView.getUrl();
     }
-
-
 }

@@ -52,6 +52,7 @@ import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -110,7 +111,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         setUpAnimations();
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
         }
         if (null != location && !isSearched) {
             createCustomProgressBar(pharmacy_list_fragment_container, BIG);
@@ -537,7 +538,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             Phonenumber.PhoneNumber numberProto = phoneUtil.parse(pharmacy.getPhone(), "US");
             selectedPharmacyPhone.setText(getString(R.string.ths_pharmacy_phone_text) + " " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
         } catch (NumberParseException e) {
-            AmwellLog.e("", "NumberParseException was thrown: " + e.toString());
+            AmwellLog.i("", "NumberParseException was thrown: " + e.toString());
         }
         if (null != pharmacy.getEmail()) {
             selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + " " + pharmacy.getEmail());
@@ -550,7 +551,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public boolean handleBackEvent() {
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
         }
         if (pharmacy_segment_control_one.isSelected()) {
             if (null != pharmacyRetailList && pharmacyRetailList.size() > 0) {
@@ -616,6 +617,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_MAP,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_MAP,null,null);
     }
 }

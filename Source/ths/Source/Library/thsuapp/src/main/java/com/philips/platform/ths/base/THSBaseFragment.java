@@ -69,8 +69,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         hideKeypad(getActivity());
 
         if(THSManager.getInstance().getAppInfra() == null){
-            Log.i("***","something went wrong");
-           exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+            Log.e(AmwellLog.LOG,"App Infra instance is null");
+            exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
         }
 
        /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -286,7 +286,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 result = true;
             }
         } catch (Exception e) {
-            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.toString());
         }
         return result;
     }

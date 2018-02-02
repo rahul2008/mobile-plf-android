@@ -193,7 +193,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroy");
         forgotPasswordPresenter.unRegisterListener();
 
-        RLog.i(RLog.EVENT_LISTENERS,
+        RLog.d(RLog.EVENT_LISTENERS,
                 "ResetPasswordFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
@@ -272,7 +272,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void handleSendForgotPasswordSuccess() {
-        RLog.i(RLog.CALLBACK, "ResetPasswordFragment : onSendForgotPasswordSuccess");
+        RLog.d(RLog.CALLBACK, "ResetPasswordFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         showLogoutAlert();
@@ -314,7 +314,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
+        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
                 userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {

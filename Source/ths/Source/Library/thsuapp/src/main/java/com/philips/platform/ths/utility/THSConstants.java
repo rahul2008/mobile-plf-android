@@ -139,7 +139,10 @@ public class THSConstants {
     public static final String ON_BOARDING_PAGE_2 = "TH_99_02 Onboarding";
     public static final String ON_BOARDING_PAGE_3 = "TH_99_03 Onboarding";
     public static final String ON_BOARDING_PAGE_4 = "TH_99_04 Onboarding";
-    public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Costumer Support";
+    public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Customer Support";
+    public static final String THS_VIEW_VISIT_REPORT = "TH_10_05 View PDF";
+    public static final String THS_ANDROID_CAMERA = "TH_11_01 Camera screen";
+    public static final String THS_ANDROID_GALLERY = "TH_11_02 Photo Library";
 
     // end of tags
 
@@ -151,7 +154,14 @@ public class THSConstants {
     public static final String THS_EARLY_FOR_APPOINTMENT = "THS_EARLY_FOR_APPOINTMENT";
     public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";
 
+    public static final String THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD = "createPaymentRequest.nameOnCard";
+    public static final String THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER = "createPaymentRequest.creditCardNumber";
     public static final String THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE = "createPaymentRequest.creditCardYear";
+    public static final String THS_PAYMENT_METHOD_INVALID_CVV = "createPaymentRequest.creditCardSecCode";
+    public static final String THS_PAYMENT_METHOD_INVALID_ZIP = "createPaymentRequest.creditCardZip";
+    public static final String THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1 ="createPaymentRequest.address1";
+
+
     public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
     // end of tagging constants
 
@@ -200,4 +210,14 @@ public class THSConstants {
 
     //service discovery error
     public static final String THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE = "ServiceDiscovery cannot find the locale";
+
+    public static final String THS_ANALYTICS_ENROLLMENT_MISSING="Enrollment Input missing";
+    public static final String THS_ANALYTICS_TEMPERATURE_VALIDATION="Temperature validation";
+    public static final String THS_ANALYTICS_WEIGHT_VALIDATION="Weight validation";
+    public static final String THS_ANALYTICS_SYSTOLIC_VALIDATION="Systolic validation";
+    public static final String THS_ANALYTICS_PHONE_NUMBER_VALIDATION = "Phone Number validation";
+    public static final String THS_ANALYTICS_CREDIT_CARD_VALIDATION = "Invalid Card Number";
+    public static final String THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION = "Payment Information";
+    public static final String THS_ANALYTICS_DATE_VALIDATION = "invalid Date";
+    public static final String THS_ANALYTICS_PROMOCODE_VALIDATION ="Apply promocode";
 }
