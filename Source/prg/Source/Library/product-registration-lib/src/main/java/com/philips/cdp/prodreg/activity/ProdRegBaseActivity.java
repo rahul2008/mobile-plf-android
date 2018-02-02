@@ -8,6 +8,7 @@
  */
 package com.philips.cdp.prodreg.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -49,7 +51,7 @@ public class ProdRegBaseActivity extends UIDActivity {
 
         @Override
         public void run() {
-            AppTagging.pauseCollectingLifecycleData();
+            ProdRegTagging.getInstance().pauseCollectingLifecycleData();
         }
     };
 
@@ -57,7 +59,7 @@ public class ProdRegBaseActivity extends UIDActivity {
 
         @Override
         public void run() {
-            AppTagging.collectLifecycleData(ProdRegBaseActivity.this);
+            ProdRegTagging.getInstance().collectLifecycleData(ProdRegBaseActivity.this);
         }
     };
 
@@ -139,6 +141,7 @@ public class ProdRegBaseActivity extends UIDActivity {
         }
     }
 
+    @SuppressLint("NewApi")
     private void animateThisScreen() {
         Bundle bundleExtras = getIntent().getExtras();
         int startAnimation = bundleExtras.getInt(ProdRegConstants.START_ANIMATION_ID);
