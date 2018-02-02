@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,10 +28,12 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.mya.csw.widgets.JustInTimeFragmentWidget;
+import com.philips.platform.mya.csw.widgets.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -42,8 +45,7 @@ import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener, PrivacyNoticeClickListener {
 
-
-    private static final String TAG = "PermissionView";
+    public static final String TAG = "PermissionView";
     private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
@@ -55,6 +57,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
     private List<ConsentConfiguration> configs;
     private PermissionAdapter adapter;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -74,6 +77,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        fragmentManager = getFragmentManager();
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
@@ -127,10 +131,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onPrivacyNoticeClicked(String url) {
         JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
         justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
+        justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
+            @Override
+            public void onConsentGiven() {
+                openPrivacyNotice();
+            }
+        });
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
-        fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -171,16 +180,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         getParentFragment().getFragmentManager().popBackStack();
     }
 
-    private List<ConsentView> createConsentsList() {
-        final List<ConsentView> consentViewList = new ArrayList<>();
-        for (ConsentConfiguration configuration : configs) {
-            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
-            }
-        }
-        return consentViewList;
-    }
-
     @VisibleForTesting
     protected RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
@@ -200,5 +199,28 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             dialogView = new DialogView(this);
         }
         return dialogView;
+    }
+
+    private List<ConsentView> createConsentsList() {
+        final List<ConsentView> consentViewList = new ArrayList<>();
+        for (ConsentConfiguration configuration : configs) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
+        }
+        return consentViewList;
+    }
+
+    private void openPrivacyNotice() {
+        boolean isOnline = getRestClient().isInternetReachable();
+        if (isOnline) {
+            PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
+            fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } else {
+            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
     }
 }

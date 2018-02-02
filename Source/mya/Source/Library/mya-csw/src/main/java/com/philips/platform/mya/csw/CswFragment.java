@@ -90,6 +90,7 @@ public class CswFragment extends Fragment implements BackEventListener {
                 PermissionView permissionFragment = buildPermissionView();
 
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(PermissionView.TAG);
                 fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
