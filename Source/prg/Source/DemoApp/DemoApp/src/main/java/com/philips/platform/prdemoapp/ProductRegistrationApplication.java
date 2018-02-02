@@ -7,7 +7,6 @@ import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -53,7 +52,6 @@ public class ProductRegistrationApplication extends Application {
     public void initRegistration(Configuration configuration) {
 
 
-        initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
@@ -69,89 +67,4 @@ public class ProductRegistrationApplication extends Application {
         PRUiHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
     }
 
-    private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = mAppInfraInterface.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = mAppInfraInterface.
-                getConfigInterface();
-
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                AI,
-                "b2c",
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                AI,
-                "Production",
-                configError);
-
-        switch (configuration) {
-            case EVALUATION:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "TEST",
-                        configError);
-                break;
-        }
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-    }
 }

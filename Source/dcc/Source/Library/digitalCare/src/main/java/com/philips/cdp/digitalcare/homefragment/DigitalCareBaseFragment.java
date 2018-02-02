@@ -1,4 +1,4 @@
-/**
+/*
  * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
  *
  * @author: ritesh.jha@philips.com
@@ -9,6 +9,7 @@
 
 package com.philips.cdp.digitalcare.homefragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -30,13 +31,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -46,15 +45,10 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
-import java.util.Locale;
-
 
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener, BackEventListener {
@@ -69,7 +63,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
     private FragmentActivity mFragmentActivityContext = null;
-    private FragmentActivity mActivityContext = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -86,19 +79,21 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     protected void setWebSettingForWebview(String url, WebView webView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         webView.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-            webView.getSettings().setAllowFileAccessFromFileURLs(true);
-            webView.getSettings().setDomStorageEnabled(true);
-            webView.getSettings().setBuiltInZoomControls(true);
-        }
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+
 
         webView.setWebViewClient(new WebViewClient() {
+            @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return false;
+                view.loadUrl(request.getUrl().toString());
+                return true;
             }
 
+            @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -238,11 +233,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean isConnectionAvailable() {
-        if (isInternetAvailable)
-            return true;
-        else {
-            return isConnectionAlertDisplayed();
-        }
+        return isInternetAvailable || isConnectionAlertDisplayed();
     }
 
     protected boolean isConnectionAlertDisplayed() {
@@ -325,9 +316,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	 */
 
     private void enableActionBarLeftArrow() {
-        mBackToHome = (ImageView) mFragmentActivityContext
+        mBackToHome = mFragmentActivityContext
                 .findViewById(R.id.back_to_home_img);
-        mHomeIcon = (ImageView) mFragmentActivityContext
+        mHomeIcon = mFragmentActivityContext
                 .findViewById(R.id.home_icon);
         if (mHomeIcon != null) mHomeIcon.setVisibility(View.GONE);
         if (mBackToHome != null) {
@@ -418,11 +409,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                              int startAnimation, int endAnimation) {
         mFragmentLauncher = fragmentLauncher;
         mContainerId = fragmentLauncher.getParentContainerResourceID();
-        mActivityContext = fragmentLauncher.getFragmentActivity();
+        FragmentActivity mActivityContext = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
 
-        String startAnim = null;
-        String endAnim = null;
+        String startAnim;
+        String endAnim;
 
         if ((startAnimation != 0) && (endAnimation != 0)) {
             startAnim = mActivityContext.getResources().getResourceName(startAnimation);
@@ -486,7 +477,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         if (mContainerId == 0) {
             TextView actionBarTitle =
 
-                    ((TextView) getActivity().findViewById(
+                    (getActivity().findViewById(
                             R.id.uid_toolbar_title));
             actionBarTitle.setText(getActionbarTitle());
         } else {
