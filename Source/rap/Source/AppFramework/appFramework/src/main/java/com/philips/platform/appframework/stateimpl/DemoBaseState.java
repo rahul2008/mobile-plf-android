@@ -12,10 +12,6 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-/**
- * Created by philips on 9/14/17.
- */
-
 public abstract class DemoBaseState extends BaseState {
 
     public DemoBaseState(String stateID) {
