@@ -11,6 +11,7 @@ import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.thsdemolaunch.FirstActivity;
+import com.philips.platform.thsdemolaunch.MainActivity;
 import com.philips.platform.thsdemolaunch.THSAppInfraInstance;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -64,7 +65,7 @@ public class DemoMicroAppApplicationuAppInterface implements UappInterface {
         }*/
 
        if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, FirstActivity.class);
+            Intent intent = new Intent(context, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } 

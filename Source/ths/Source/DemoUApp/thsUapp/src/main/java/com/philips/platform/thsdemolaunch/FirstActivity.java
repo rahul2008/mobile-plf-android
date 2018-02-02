@@ -134,14 +134,7 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        /*FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
-            super.onBackPressed();
-        }*/
-        this.finish();
+        this.finishAffinity();
     }
 
 }
