@@ -146,7 +146,6 @@ public class DemoApplication extends Application {
         editor.putString("reg_environment", configuration.getValue());
         editor.apply();
 
-        initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(gAppInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
@@ -154,90 +153,6 @@ public class DemoApplication extends Application {
 
     }
 
-    private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = gAppInfra.getAppIdentity();
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                AI,
-                "b2c",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                AI,
-                "Production",
-                configError);
-
-
-        switch (configuration) {
-            case EVALUATION:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "TEST",
-                        configError);
-                break;
-        }
-
-//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-//        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-    }
 
 
     public void initHSDP() {

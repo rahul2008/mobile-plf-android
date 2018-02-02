@@ -124,7 +124,6 @@ public class RegistrationApplication extends Application {
         //HSDP configuration
         //initHSDP(configuration);
 
-        initAppIdentity(configuration);
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
@@ -238,101 +237,6 @@ public class RegistrationApplication extends Application {
             case TESTING:
                 break;
         }
-    }
-    private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = mAppInfraInterface.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = mAppInfraInterface.
-                getConfigInterface();
-
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                "appinfra",
-                "77000",
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                "appinfra",
-                "b2c",
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                "appinfra",
-                "Production",
-                configError);
-
-
-        switch (configuration) {
-            case EVALUATION:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        "appinfra",
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        "appinfra",
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        "appinfra",
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        "appinfra",
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                mAppInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        "appinfra",
-                        "TEST",
-                        configError);
-                break;
-        }
-
-//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-//        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-//
-//
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity MicrositeId : " + appIdentityInfo.getMicrositeId());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppName : " + appIdentityInfo.getAppName());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
-//        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
 }
 
