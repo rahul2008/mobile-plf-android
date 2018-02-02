@@ -8,13 +8,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.util.Arrays;
 
 //This class is tightly coupled with package name .Don't modify package or refactor

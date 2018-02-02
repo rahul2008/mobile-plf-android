@@ -180,6 +180,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
     androidTestCompile 'junit:junit:4.12'
+    compile('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0')
+
    // androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
 //    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
