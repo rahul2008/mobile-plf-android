@@ -544,9 +544,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend update enable");
 
         mResendEmail.setText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setProgressText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setEnabled(true);
 
     }

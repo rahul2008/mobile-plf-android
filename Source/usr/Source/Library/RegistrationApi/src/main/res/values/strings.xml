@@ -269,6 +269,7 @@
 <string name="reg_Update_MobileNumber_Verification_SMS_Sent">Verification SMS sent</string>
 <string name="reg_Update_MobileNumber_Verification_SMS_Description">It may take some time for the SMS with the verification code to arrive.</string>
 <string name="reg_Update_MobileNumber_Button_Text">Update PhoneNumber</string>
+<string name="reg_Update_Email_Button_Text">Update Email</string>
 <string name="reg_Verify_SMS_Title">Please enter your code</string>
 <string name="reg_Verify_SMS_Reset_Password_Description">We have sent an SMS with a code to %s, please enter this code to reset your password.</string>
 <string name="reg_Verify_SMS_Did_Not_Receive_SMS">I did not receive an SMS</string>
