@@ -45,7 +45,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "telehealthApp"
+archivesBaseName = "myaApp"
 
 allprojects {
     repositories {

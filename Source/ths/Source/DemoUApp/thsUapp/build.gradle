@@ -6,39 +6,6 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 
 
-android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
-    defaultConfig {
-    
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
-        ]
-
-    }
-	
-	buildTypes {
-        release {
-            minifyEnabled false           
-        }
-
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-        }
-    }
-	publishNonDefault true
-}
-
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
@@ -119,6 +86,42 @@ task zipDocuments(type: Zip) {
     }
 }
 
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        multiDexEnabled true
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionCode 1
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
+
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+        }
+    }
+    publishNonDefault true
+}
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -177,13 +180,13 @@ publishing {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.constraintlayout
+    testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
