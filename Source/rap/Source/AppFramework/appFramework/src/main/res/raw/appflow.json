@@ -470,6 +470,15 @@
                 "nextState": "device_pairing"
               }
             ]
+          },
+          {
+            "eventId": "TestThsDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservicesdemo"
+              }
+            ]
           }
         ]
       }
