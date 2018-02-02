@@ -12,14 +12,12 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
@@ -28,7 +26,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
@@ -128,11 +125,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onPrivacyNoticeClicked() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
-            fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
+            PermissionHelper.getInstance().getUserRegistrationUIEventListener().onPrivacyNoticeClicked();
         } else {
             showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }

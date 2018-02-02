@@ -279,6 +279,20 @@
         ]
       },
       {
+        "state": "my_account",
+        "events": [
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "support",
         "events": [
           {

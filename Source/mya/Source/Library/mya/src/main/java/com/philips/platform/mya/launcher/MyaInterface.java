@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
+import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -78,6 +79,9 @@ public class MyaInterface implements UappInterface {
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
+        PermissionHelper.getInstance().setUserRegistrationUIEventListener(myaLaunchInput.
+                getMyAccountUIEventListener());
+
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
