@@ -7,7 +7,6 @@ import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -145,13 +144,13 @@ public class ProductRegistrationApplication extends Application {
                 break;
         }
 
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+//        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
     }
 }

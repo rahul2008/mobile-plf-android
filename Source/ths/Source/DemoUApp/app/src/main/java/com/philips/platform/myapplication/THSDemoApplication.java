@@ -9,7 +9,6 @@ package com.philips.platform.myapplication;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -249,14 +248,14 @@ public class THSDemoApplication extends Application {
                 break;
         }
 
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-       // appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+//       // appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
     }
 

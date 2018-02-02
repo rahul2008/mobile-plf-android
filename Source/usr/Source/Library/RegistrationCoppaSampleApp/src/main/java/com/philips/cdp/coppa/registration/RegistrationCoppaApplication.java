@@ -12,7 +12,6 @@ import com.philips.cdp.registration.coppa.utils.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.*;
-import com.philips.platform.appinfra.appidentity.*;
 
 import java.util.*;
 
@@ -168,14 +167,14 @@ public class RegistrationCoppaApplication extends Application {
                 break;
         }
 
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+//        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+//        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+//        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+//        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+//        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+//        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+//        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+//        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
     }
 
