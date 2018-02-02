@@ -24,6 +24,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private String description;
     private String okayText;
     private String cancelText;
+    private JustInTimeWidgetHandler completionListener;
 
     public void setTextResources(String title, String description, String okayText, String cancelText) {
         this.title = title;
@@ -39,11 +40,8 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
         descriptionLabel.setText(description);
 
-        Button okButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
-        okButton.setText(okayText);
-
-        Button cancelButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
-        cancelButton.setText(cancelText);
+        initializeGiveConsentButton(justInTimeConsentView);
+        initializeConsentRejectButton(justInTimeConsentView);
 
         handleOrientation(justInTimeConsentView);
         return justInTimeConsentView;
@@ -57,7 +55,6 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        //
     }
 
     @Override
@@ -68,5 +65,41 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     @Override
     public int getTitleResourceId() {
         return R.string.csw_privacy_settings;
+    }
+
+    public void setCompletionListener(JustInTimeWidgetHandler completionListener) {
+        this.completionListener = completionListener;
+    }
+
+    private void initializeConsentRejectButton(View justInTimeConsentView) {
+        Button rejectConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
+        rejectConsentButton.setText(cancelText);
+        rejectConsentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onConsentRejectedButtonClicked();
+            }
+        });
+    }
+
+    private void initializeGiveConsentButton(View justInTimeConsentView) {
+        Button giveConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
+        giveConsentButton.setText(okayText);
+        giveConsentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onConsentGivenButtonClicked();
+            }
+        });
+    }
+
+    private void onConsentGivenButtonClicked() {
+        if (completionListener != null) {
+            completionListener.onConsentGiven();
+        }
+    }
+
+    private void onConsentRejectedButtonClicked() {
+        getFragmentManager().popBackStack();
     }
 }
