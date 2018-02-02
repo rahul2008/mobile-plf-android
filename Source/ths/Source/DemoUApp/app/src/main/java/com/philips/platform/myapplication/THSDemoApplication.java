@@ -9,7 +9,6 @@ package com.philips.platform.myapplication;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -167,7 +166,6 @@ public class THSDemoApplication extends Application {
         editor.putString("reg_environment", configuration.getValue());
         editor.apply();
 
-        initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(appInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
@@ -175,90 +173,6 @@ public class THSDemoApplication extends Application {
 
     }
 
-    private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = appInfra.getAppIdentity();
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        appInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);
-
-        appInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                AI,
-                "b2c",
-                configError);
-
-        appInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                AI,
-                "Production",
-                configError);
-
-
-        switch (configuration) {
-            case EVALUATION:
-                appInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                appInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                appInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                appInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                appInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "TEST",
-                        configError);
-                break;
-        }
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-       // appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-    }
 
 
     public void initHSDP() {
