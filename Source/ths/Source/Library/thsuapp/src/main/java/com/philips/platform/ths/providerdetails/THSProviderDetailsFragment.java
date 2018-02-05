@@ -81,6 +81,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
 
         if (THSManager.getInstance().isMatchMakingVisit()) { // if provider is not yet selected
+            mThsProviderDetailsDisplayHelper.setDODVisibility(true);
             providerDetailsPresenter.doMatchMaking();
         } else { // if provider is already selected
             dodProviderFoundMessage.setVisibility(View.GONE);
@@ -101,7 +102,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
                     thsProviderInfo.setTHSProviderInfo(mProvider);
                     setTHSProviderEntity(thsProviderInfo);
                 }else {
-                    showError("Provider not supplied");
+                    showError(getString(R.string.ths_matchmaking_provider_not_supplied));
                 }
             }
             onRefresh();
@@ -267,6 +268,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         } else {
             return super.handleBackEvent();
         }
+    }
+
+    protected void displayDODView(boolean show){
+        mThsProviderDetailsDisplayHelper.setDODVisibility(show);
     }
 }
 
