@@ -145,6 +145,7 @@ ext.deps = [
         butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.8.1',
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7',
-        androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner'
+        androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner',
+        rubygems                     : 'rubygems:roo:2.0.0'
 
 ]

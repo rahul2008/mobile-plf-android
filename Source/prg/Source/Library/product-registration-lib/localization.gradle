@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'com.github.jruby-gradle.base'
 
 dependencies{
-    jrubyExec 'rubygems:roo:2.0.0'
+    jrubyExec rubygems
 }
 
 task runLocalizationScript(type: JRubyExec) {
