@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.ui.traditional.countrySelection;
+package com.philips.cdp.registration.ui.traditional.countryselection;
 
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +20,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
 
     private SelectedCountryListener mSelectedCountryListener;
 
-    private int selected_position = 1; //
+    private int selectedPosition = 1; //
 
     private Handler handler = new Handler();
 
@@ -91,7 +91,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
             CountryPickerHolder holder=(CountryPickerHolder)viewHolder;
             Country country = countries.get(position-HEADER_COUNT); //As we added header in 0th position
             holder.countryName.setText(country.getName());
-            if (position == this.selected_position) {
+            if (position == this.selectedPosition) {
                 holder.checked.setVisibility(View.VISIBLE);
             } else {
                 holder.checked.setVisibility(View.GONE);
@@ -111,7 +111,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
     }
 
     private void setSelectedPosition(int posistion) {
-        selected_position = posistion;
+        selectedPosition = posistion;
         notifyDataSetChanged();
     }
 }

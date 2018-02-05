@@ -15,7 +15,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.CountrySelectionListener;
-import com.philips.cdp.registration.ui.traditional.countrySelection.CountrySelectionAdapter;
+import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 

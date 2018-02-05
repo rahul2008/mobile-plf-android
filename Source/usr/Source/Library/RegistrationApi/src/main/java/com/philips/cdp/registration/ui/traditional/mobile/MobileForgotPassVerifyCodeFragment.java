@@ -81,6 +81,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private String redirectUri;
 
+    final String mobileNumberKey = "mobileNumber";
+    final String responseTokenKey = "token";
+    static final String reDirectUriKey = "redirectUri";
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -90,9 +94,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        final String mobileNumberKey = "mobileNumber";
-        final String responseTokenKey = "token";
-        final String redirectUriKey = "redirectUri";
+
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -102,7 +104,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         if(bundle!=null) {
             mobileNumber = bundle.getString(mobileNumberKey);
             responseToken = bundle.getString(responseTokenKey);
-            redirectUri = bundle.getString(redirectUriKey);
+            redirectUri = bundle.getString(reDirectUriKey);
             verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
         }
 
@@ -319,12 +321,5 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         verificationCodeValidationEditText.setEnabled(true);
         enableVerifyButton();
     }
-
-//
-//    public void storePreference(String emailOrMobileNumber) {
-//        RegPreferenceUtility.storePreference(
-//                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
-//    }
-
 
 }
