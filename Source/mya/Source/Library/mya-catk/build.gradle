@@ -25,7 +25,7 @@ buildscript {
 
 archivesBaseName = "mya-catk"
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
@@ -135,12 +135,11 @@ dependencies {
         debugCompile project(path: ':mya-chi', configuration: 'debug')
         releaseCompile project(path: ':mya-chi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        {
+        compile philipsdeps.registrationApi {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya-chi
     }
 
     // Tests

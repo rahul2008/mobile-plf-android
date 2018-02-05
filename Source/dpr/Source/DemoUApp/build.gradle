@@ -6,7 +6,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "devicepairingUApp"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
@@ -44,14 +44,12 @@ android {
 
 dependencies {
 
-    def suffix = objcdp.getVersionSuffix()
-
     for (dep in [':registrationApi', ':uAppFwLib', ':commlib', ':dataServicesUApp', ':cloudcontroller']) {
         if (directdependencies) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            compile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 

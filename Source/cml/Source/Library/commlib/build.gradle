@@ -43,14 +43,12 @@ android {
 dependencies {
     provided deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
     for (dep in [':commlib-ble', ':commlib-cloud', ':commlib-lan']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            compile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 
@@ -58,7 +56,7 @@ dependencies {
         if (findProject(dep)) {
             testCompile project(path: dep, configuration: 'debug')
         } else {
-            testCompile("$group$dep:$platformversion$suffix") { changing = true }
+            testCompile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 

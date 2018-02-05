@@ -71,7 +71,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -222,8 +222,8 @@ dependencies {
         debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
         releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya
+        compile philipsdeps.uid
+        compile philipsdeps.UserRegistrationUApp
     }
 }

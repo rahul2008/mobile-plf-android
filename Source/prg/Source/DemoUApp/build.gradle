@@ -82,7 +82,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -200,10 +200,10 @@ dependencies {
         debugCompile project(path: ':product-registration-lib', configuration: 'debug')
         releaseCompile project(path: ':product-registration-lib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.uid {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.product-registration-lib
     }
 
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {

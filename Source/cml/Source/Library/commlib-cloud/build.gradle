@@ -10,7 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "commlib-cloud"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
@@ -67,14 +67,12 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     provided deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
     for (dep in [':commlib-api', ':cloudcontroller-api']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            compile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 
@@ -82,7 +80,7 @@ dependencies {
         if (findProject(dep)) {
             testCompile project(path: dep, configuration: 'debug')
         } else {
-            testCompile("$group$dep:$platformversion$suffix") { changing = true }
+            testCompile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 

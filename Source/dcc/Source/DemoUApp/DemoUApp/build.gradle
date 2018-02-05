@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -157,14 +157,14 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uAppFwLib
     }
 
     if(dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.AppInfra
     }
 
     compile 'com.android.support:recyclerview-v7:26.0.2'

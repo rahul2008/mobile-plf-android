@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -231,8 +231,8 @@ dependencies {
         debugCompile project(path: ':hsdp', configuration: 'debug')
         releaseCompile project(path: ':hsdp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uid
+        compile philipsdeps.uAppFwLib
         compile project(':jump')
         compile project(':hsdp')
     }
