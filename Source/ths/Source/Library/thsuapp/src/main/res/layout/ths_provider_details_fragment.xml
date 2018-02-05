@@ -13,15 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone">
+        >
+        <RelativeLayout
+            android:id="@+id/ths_match_making_ProgressBarWithLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_match_making_ProgressBar_message_label_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
+            android:layout_below="@+id/ths_match_making_ProgressBarWithLabel"
+            android:text="@string/ths_matchmaking_progressbar_message_parent_text"
+            android:gravity="center_horizontal" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_match_making_ProgressBar_message_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-
-            android:layout_marginTop="130dp"
+            android:layout_below="@+id/ths_match_making_ProgressBar_message_label_top"
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:text="@string/ths_matchmaking_progressbar_message_child_text"
             android:gravity="center_horizontal" />
     </RelativeLayout>
 
