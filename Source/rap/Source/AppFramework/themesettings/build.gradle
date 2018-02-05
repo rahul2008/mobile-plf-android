@@ -49,12 +49,15 @@ allprojects {
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
+            url objcdp.getArtifactoryUrl()
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
+
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
     }
 }
 
@@ -107,9 +110,7 @@ dependencies {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
-            exclude group: 'com.android.support'
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     testCompile "junit:junit:${versionsExternal.junit}"
