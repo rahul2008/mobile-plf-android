@@ -27,6 +27,8 @@ ext.builddeps = [
         mobilej           :'de.mobilej.unmock:UnMockPlugin:0.6.2',
         bintrayplugin     :'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2',
         hockeyapp         : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
+        jruby_gradle      : 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+
 ]
 
 ext.repos = [
@@ -142,6 +144,7 @@ ext.deps = [
         retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.6.0',
         butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.8.1',
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
-        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7'
+        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7',
+        androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner'
 
 ]
