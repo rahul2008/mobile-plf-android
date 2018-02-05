@@ -80,6 +80,7 @@ ext.deps = [
         play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',
         greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
         retrofit                      : 'com.squareup.retrofit2:retrofit:2.3.0',
+        retrofit1                     : 'com.squareup.retrofit:retrofit:1.9.0',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
         javax_inject                  : 'javax.inject:javax.inject:1',

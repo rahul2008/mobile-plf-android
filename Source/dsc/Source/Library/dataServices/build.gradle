@@ -246,7 +246,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.greenrobot
     compile deps.joda_time
-    compile deps.retrofit
+    compile deps.retrofit1
     compile deps.okhttp
     compile deps.javax_inject
 
