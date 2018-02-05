@@ -79,6 +79,9 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
         } else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ENG_USER_ALREADY_ACTIVE.name())) {
             errorMessage = context.getString(R.string.ths_consumer_already_active);
             return true;
+        } else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_INVALID.name())) {
+            errorMessage = context.getString(R.string.ths_invalid_parameter);
+            return true;
         } else {
             return false;
         }
