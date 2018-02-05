@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,13 +23,12 @@ import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -78,7 +76,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         unbinder = ButterKnife.bind(this, view);
 
         configs = CswInterface.getCswComponent().getConsentConfigurations();
-        if(configs == null) {
+        if (configs == null) {
             configs = new ArrayList<>();
         }
 
@@ -89,10 +87,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onResume() {
         super.onResume();
-        if(getRestClient().isInternetReachable()) {
+        if (getRestClient().isInternetReachable()) {
             PermissionPresenter presenter = getPermissionPresenter();
             presenter.getConsentStatus();
-        } else{
+        } else {
             showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
@@ -124,15 +122,14 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void onPrivacyNoticeClicked(String url) {
-        PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-        privacyNoticeFragment.setUrl(url);
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
-        fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+    public void onPrivacyNoticeClicked() {
+        boolean isOnline = getRestClient().isInternetReachable();
+        if (isOnline) {
+            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
+        } else {
+            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
     }
-
 
     @Override
     public void showProgressDialog() {
@@ -195,7 +192,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @NonNull
     private DialogView getDialogView(boolean goBack) {
         DialogView dialogView = new DialogView();
-        if(goBack) {
+        if (goBack) {
             dialogView = new DialogView(this);
         }
         return dialogView;

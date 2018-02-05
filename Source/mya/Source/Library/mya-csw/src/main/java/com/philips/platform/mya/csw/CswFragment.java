@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.PermissionView;
@@ -48,7 +49,7 @@ public class CswFragment extends Fragment implements BackEventListener {
     public void onResume() {
         super.onResume();
 
-        if(!getRestClient().isInternetReachable()) {
+        if (!getRestClient().isInternetReachable()) {
             getDialogView().showDialog(getActivity(), getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
@@ -88,7 +89,6 @@ public class CswFragment extends Fragment implements BackEventListener {
         try {
             if (null != mFragmentManager) {
                 PermissionView permissionFragment = buildPermissionView();
-
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.csw_frame_layout_view_container, permissionFragment);
                 fragmentTransaction.commitAllowingStateLoss();

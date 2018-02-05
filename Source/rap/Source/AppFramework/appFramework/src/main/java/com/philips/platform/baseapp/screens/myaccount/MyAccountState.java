@@ -1,26 +1,32 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -31,15 +37,19 @@ import com.philips.platform.mya.mch.MarketingConsentHandler;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
-public class MyAccountState extends BaseState {
-    private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
+public class MyAccountState extends BaseState implements MyAccountUIEventListener {
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -47,6 +57,7 @@ public class MyAccountState extends BaseState {
 
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
+    private static final String PRIVACY_NOTICE = "PrivacyNotice";
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -76,6 +87,7 @@ public class MyAccountState extends BaseState {
             }
         });
         launchInput.addToBackStack(true);
+        launchInput.setMyAccountUIEventListener(this);
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
@@ -96,10 +108,8 @@ public class MyAccountState extends BaseState {
      * <p>
      * Creates a list of ConsentDefinitions</p
      *
-     * @param context
-     *            : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
-     * @param currentLocale
-     *            : locale of the strings
+     * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
@@ -157,11 +167,36 @@ public class MyAccountState extends BaseState {
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        String privacyNoticeURL = getConfiguredPrivacyNoticeUrl(appInfra);
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList(),privacyNoticeURL);
+        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
     }
-    
-    protected String getConfiguredPrivacyNoticeUrl(AppInfraInterface appInfra) {
-        return (String) appInfra.getConfigInterface().getPropertyForKey("privacyNotice.url", "mya", new AppConfigurationInterface.AppConfigurationError());
+
+    @Override
+    public void onPrivacyNoticeClicked() {
+        launchWebView(Constants.PRIVACY);
+    }
+
+    public void launchWebView(String serviceId) {
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseState baseState = null;
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), PRIVACY_NOTICE);
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+        if (null != baseState) {
+            WebViewStateData webViewStateData = new WebViewStateData();
+            webViewStateData.setServiceId(serviceId);
+            baseState.setUiStateData(webViewStateData);
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+        }
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getFragmentActivity().getApplication();
+    }
+
+    public FragmentActivity getFragmentActivity() {
+        return fragmentLauncher.getFragmentActivity();
     }
 }
