@@ -26,6 +26,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
  *
  * Created by sampath.kumar on 8/16/2016.
  */
+@SuppressWarnings("serial")
 public class CcInterface implements UappInterface {
 
 
@@ -107,7 +108,7 @@ public class CcInterface implements UappInterface {
 
 
             // TODO: Use actionbar listener provided by uAPp and remove local copy.
-
+            @SuppressWarnings("serial")
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, containerViewId, new ActionBarListener() {
                 @Override

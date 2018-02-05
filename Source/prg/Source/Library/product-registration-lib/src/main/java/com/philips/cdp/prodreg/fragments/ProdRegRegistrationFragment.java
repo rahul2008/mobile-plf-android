@@ -5,16 +5,18 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
-import android.app.*;
-import android.content.DialogInterface;
-import android.graphics.*;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.*;
-import android.text.style.*;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -33,12 +34,11 @@ import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.register.*;
+import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -455,7 +455,7 @@ String imageURL;
                 }
                 minDate = summaryData.getSop();
                 int width = getResources().getDisplayMetrics().widthPixels;
-                productImageView.getLayoutParams().height = (int) ((width));
+                productImageView.getLayoutParams().height = width;
 
                 imageURL = summaryData.getImageURL();
                 imageLoader.get(imageURL, ImageLoader.getImageListener(productImageView,
@@ -463,8 +463,10 @@ String imageURL;
                 productImageView.requestLayout();
                 field_serial.addTextChangedListener(getWatcher());
             }
-        }catch (Exception e){
-            ProdRegLogger.i("Exception ***", "" + e.getMessage());
+            registerButton.setClickable(true);
+        } catch (Exception e) {
+            ProdRegLogger.e(TAG, e.getMessage());
+            handleBackEvent();
         }
     }
 

@@ -7,12 +7,16 @@
 package com.philips.platform.ths.intake;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -109,6 +113,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
+       hideKeyboard(getActivity());
     }
 
     public void showExistingMedicationList(THSMedication pTHMedication) {
@@ -185,6 +190,14 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
             updateMedicationButton.setEnabled(false);
         } else {
             updateMedicationButton.setEnabled(true);
+        }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        View v = activity.getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
 }

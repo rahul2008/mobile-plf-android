@@ -9,7 +9,7 @@ apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting.gradle"
 
 jacoco {
-    toolVersion = "${versionsExternal.jacocoToolVersion}"
+    toolVersion = "0.7.6.201602180812"
 }
 
 buildscript {

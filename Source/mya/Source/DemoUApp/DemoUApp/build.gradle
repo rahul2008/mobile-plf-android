@@ -164,7 +164,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
         }
     }
     packagingOptions {

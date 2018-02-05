@@ -149,6 +149,7 @@
         android:layout_marginBottom="@dimen/pr_marginbottom"
         android:layout_marginTop="@dimen/pr_margintop"
         android:textAllCaps="false"
+        android:clickable="false"
         app:uidIsIndeterminateProgressIndicator="true"
         app:uidProgressIndicatorButtonProgressText="@string/PRG_Registering_Products_Lbltxt"
         app:uidProgressIndicatorButtonText="@string/PPR_Register_Btntxt"/>
