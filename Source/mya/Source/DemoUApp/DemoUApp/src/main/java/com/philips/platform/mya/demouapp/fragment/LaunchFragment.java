@@ -36,8 +36,8 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 <<<<<<< HEAD
 =======
 

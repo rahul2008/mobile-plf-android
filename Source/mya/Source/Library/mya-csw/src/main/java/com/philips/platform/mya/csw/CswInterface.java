@@ -9,7 +9,7 @@ package com.philips.platform.mya.csw;
 
 import java.util.List;
 
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
 import com.philips.platform.mya.csw.injection.CswModule;

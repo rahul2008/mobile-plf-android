@@ -30,7 +30,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;

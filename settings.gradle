@@ -44,7 +44,7 @@ include ':telehealth'
 include ':mya'
 include ':mya-csw'
 include ':mya-catk'
-include ':mya-chi'
+include ':pif'
 include ':ews-android'
 include ':ewsUApp'
 include ':mya-mch'
@@ -92,7 +92,7 @@ project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuap
 project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
 project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
-project(':mya-chi').projectDir = new File('./Source/mya/Source/Library/mya-chi')
+project(':pif').projectDir = new File('./Source/pif')
 project(':mya-mch').projectDir = new File('./Source/mya/Source/Library/mya-mch')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')

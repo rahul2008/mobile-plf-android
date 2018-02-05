@@ -6,5 +6,5 @@ include ':mya-csw'
 project(':mya-csw').projectDir = new File('../Library/mya-csw')
 include ':mya-catk'
 project(':mya-catk').projectDir = new File('../Library/mya-catk')
-include ':mya-chi'
-project(':mya-chi').projectDir = new File('../Library/mya-chi')
+include ':pif'
+project(':pif').projectDir = new File('../Library/pif')

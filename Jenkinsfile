@@ -200,7 +200,7 @@ def BuildAndUnitTest() {
             :mya:testRelease \
             :mya-catk:testReleaseUnitTest \
             :mya-csw:testReleaseUnitTest \
-            :mya-chi:testReleaseUnitTest \
+            :pif:testReleaseUnitTest \
             :mya-mch:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
@@ -230,7 +230,7 @@ def BuildLint() {
          :mya:lint \
          :mya-catk:lint \
          :mya-csw:lint \
-         :mya-chi:lint \
+         :pif:lint \
          :mya-mch:lint \
          :dataServices:lintRelease \
          :devicepairingUApp:lint \
@@ -351,7 +351,7 @@ def PublishUnitTestsresults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-mch/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mch'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-chi'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/pif/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])
