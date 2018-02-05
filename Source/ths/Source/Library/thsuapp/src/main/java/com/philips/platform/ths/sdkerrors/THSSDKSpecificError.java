@@ -17,7 +17,7 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
     }
 
     @Override
-    public boolean validate(SDKErrorReason sdkErrorReason) {
+    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
         if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ONDEMAND_SPECIALTY_NOT_FOUND.name())){
             errorMessage = context.getString(R.string.ths_on_demand_provider_unavailable);
             return true;
