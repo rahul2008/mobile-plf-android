@@ -29,6 +29,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -78,6 +79,13 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
+        //Handle launch by dynamic permission change
+        if(savedInstanceState !=null) {
+            RegUtility.handleDynamicPermissionChange(this);
+            return;
+        }
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 

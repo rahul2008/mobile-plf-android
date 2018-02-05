@@ -169,7 +169,9 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
                 mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_FETCH_HEALTH_SUBSCRIPTION, tHSSDKError.getSdkError()), true, false);
+                AmwellLog.e("fetchInsurance", tHSSDKError.getSdkError().getMessage());
             } else {
+                AmwellLog.i("fetchInsurance", "success");
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
                 Subscription subscription = tHSSubscription.getSubscription();
                 if (null != subscription) {
@@ -229,6 +231,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             mTHSBaseFragment.showError(throwable.getMessage());
+            AmwellLog.e("fetchInsurance", throwable.getMessage());
         }
     }
     ////////// end of getExistingSubscription call back

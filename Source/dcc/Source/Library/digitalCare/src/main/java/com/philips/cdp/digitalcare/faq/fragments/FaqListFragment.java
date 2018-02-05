@@ -43,7 +43,7 @@ import java.util.List;
 public class FaqListFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = FaqListFragment.class.getSimpleName();
-    private CommonRecyclerViewAdapter mFaqListAdapter;
+    private CommonRecyclerViewAdapter<String> mFaqListAdapter;
     private LinkedHashMap<String, CommonRecyclerViewAdapter> mGroupAdapters;
     private RecyclerView mFaqList = null;
     private LinkedHashMap<String, List<Item>> mSupportData = null;
@@ -107,7 +107,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 title.setText(groupName + "(" + groupSize + ")");
                 questingList.setLayoutManager(new LinearLayoutManager(getContext()));
                 questingList.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-                CommonRecyclerViewAdapter questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
+                CommonRecyclerViewAdapter<Item> questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
                     @Override
                     public void bindData(RecyclerView.ViewHolder holder, Item question) {
                         Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text1);

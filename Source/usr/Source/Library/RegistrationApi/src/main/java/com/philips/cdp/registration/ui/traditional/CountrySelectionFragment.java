@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,6 +49,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     }
 
 
+    @SuppressLint("ValidFragment")
     public CountrySelectionFragment(CountrySelectionListener listener,
                                     ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
         this.listener = listener;

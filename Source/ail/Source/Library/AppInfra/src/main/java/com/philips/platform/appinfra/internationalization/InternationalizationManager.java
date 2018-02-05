@@ -36,7 +36,7 @@ public class InternationalizationManager implements InternationalizationInterfac
     }
 
     @Override
-    public String getCompleteUILocale() {
+    public String getBCP47UILocale() {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get full UI Locale String");
         return context.getResources().getString(R.string.ail_fullLocale);
     }
