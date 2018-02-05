@@ -24,11 +24,11 @@ public class PermissionHelper {
         return permissionHelper;
     }
 
-    public MyAccountUIEventListener getUserRegistrationUIEventListener() {
+    public MyAccountUIEventListener getMyAccountUIEventListener() {
         return myAccountUIEventListener;
     }
 
-    public void setUserRegistrationUIEventListener(MyAccountUIEventListener myAccountUIEventListener) {
+    public void setMyAccountUIEventListener(MyAccountUIEventListener myAccountUIEventListener) {
         this.myAccountUIEventListener = myAccountUIEventListener;
     }
 }

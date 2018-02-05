@@ -57,7 +57,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
-    private static final String TERMS_CONDITIONS_CLICK = "TermsAndConditions";
+    private static final String PRIVATE_NOTICE = "PrivacyNotice";
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -179,7 +179,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), PRIVATE_NOTICE);
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();

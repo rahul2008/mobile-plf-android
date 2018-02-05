@@ -125,7 +125,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onPrivacyNoticeClicked() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            PermissionHelper.getInstance().getUserRegistrationUIEventListener().onPrivacyNoticeClicked();
+            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
         } else {
             showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }

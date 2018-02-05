@@ -79,7 +79,7 @@ public class MyaInterface implements UappInterface {
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
-        PermissionHelper.getInstance().setUserRegistrationUIEventListener(myaLaunchInput.
+        PermissionHelper.getInstance().setMyAccountUIEventListener(myaLaunchInput.
                 getMyAccountUIEventListener());
 
         if (uiLauncher instanceof ActivityLauncher) {
