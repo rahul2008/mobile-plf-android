@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'jacoco'
 
 repositories {
@@ -10,11 +15,11 @@ repositories {
 }
 
 dependencies {
-    compile(group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.6.201602180812')
+    compile(group: 'org.jacoco', name: 'org.jacoco.agent', version: versions.jacoco)
 }
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "connectedDebugAndroidTest") {
