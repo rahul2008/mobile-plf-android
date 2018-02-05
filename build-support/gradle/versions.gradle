@@ -42,7 +42,7 @@ ext.philipsdeps = [
         "commlib-api)"                    : [group: 'com.philips.cdp', name: 'commlib-api', version: platformversionsuffix, changing: true],
         "commlib-demouapp"                : [group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversionsuffix, changing: true],
         "bluelib"                         : [group: 'com.philips.cdp', name: 'bluelib', version: platformversionsuffix, changing: true],
-        "bluelib-demouapp"                : [group: 'com.philips.cdp', name: 'bluelib', version: platformversionsuffix, changing: true],
+        "bluelib-demouapp"                : [group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversionsuffix, changing: true],
         "productselection"                : [group: 'com.philips.cdp', name: 'productselection', version: platformversionsuffix, changing: true],
         "uid"                             : [group: 'com.philips.cdp', name: 'uid', version: platformversionsuffix, changing: true],
         "registrationApi"                 : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
