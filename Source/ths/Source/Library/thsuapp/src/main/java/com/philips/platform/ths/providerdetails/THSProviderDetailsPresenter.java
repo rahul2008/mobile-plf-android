@@ -7,11 +7,7 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -309,29 +305,13 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     }
 
     private void showMatchMakingProgressbar() {
-        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.VISIBLE);
-        ((THSProviderDetailsFragment) mThsBaseFragment).showProgressbar();
-        Resources resources = mThsBaseFragment.getResources();
-        String highlightedChildMatchMakingMessage = resources.getString(R.string.ths_matchmaking_progressbar_meesage_child_text);
-        String parentMatchmakingString = String.format(resources.getString(R.string.ths_matchmaking_progressbar_meesage_parent_text), highlightedChildMatchMakingMessage);
-        SpannableString matchMakingProgrressMessage = new SpannableString(parentMatchmakingString);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-
-            }
-        };
-        int startingIndex = parentMatchmakingString.indexOf(highlightedChildMatchMakingMessage);
-        int endIndex = startingIndex + highlightedChildMatchMakingMessage.length();
-        matchMakingProgrressMessage.setSpan(clickableSpan, startingIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarLabel.setText(matchMakingProgrressMessage.toString());
+        ((THSProviderDetailsFragment) mThsBaseFragment).displayDODView(true);
     }
 
     @Override
     public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.hideProgressBar();
-            ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
+            ((THSProviderDetailsFragment) mThsBaseFragment).displayDODView(false);
             THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
             ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo = provider.getPracticeInfo();
             THSProviderInfo tHSProviderInfo = new THSProviderInfo();
@@ -346,7 +326,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onMatchMakingProviderListExhausted() {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.hideProgressBar();
+            ((THSProviderDetailsFragment) mThsBaseFragment).displayDODView(false);
             showMatchmakingError(true, true);
         }
     }
