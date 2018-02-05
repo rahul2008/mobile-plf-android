@@ -50,7 +50,8 @@
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have scheduled an appointment for</string>
-    <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_remainder">E-mail reminder set</string>
+    <string name="ths_set_remainder_dialog">Set an e-mail reminder</string>
     <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
@@ -280,9 +281,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Match making screen strings -->
-    <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
-    <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
-    <string name="ths_matchmaking_error_text">No provider is available right now</string>
+    <string name="ths_matchmaking_progressbar_message_parent_text">We\'re finding the right \nprovider for your visit</string>
+    <string name="ths_matchmaking_progressbar_message_child_text">This may take few minutes</string>
+    <string name="ths_matchmaking_error_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
+    <string name="ths_matchmaking_provider_not_supplied">Provider not supplied</string>
     <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>

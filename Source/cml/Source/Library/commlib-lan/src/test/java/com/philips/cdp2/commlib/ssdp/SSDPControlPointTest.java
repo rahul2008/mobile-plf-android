@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -88,4 +88,16 @@ public class SSDPControlPointTest {
         verify(deviceListener).onDeviceUnavailable(any(SSDPDevice.class));
     }
 
+    @Test
+    public void whenAnSsdpAliveMessageIsReceived_andAnSsdpByeByeMessageIsReceived_thenAnUnavailableSsdpDeviceShouldBeNotified() {
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_BYEBYE);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        verify(deviceListener).onDeviceUnavailable(any(SSDPDevice.class));
+    }
 }

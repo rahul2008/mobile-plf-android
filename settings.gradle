@@ -36,6 +36,7 @@ include ':commlib-testutils'
 include ':commlib-api'
 include ':commlib-lan'
 include ':commlib-cloud'
+include ':commlib-integration-tests'
 include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
@@ -84,6 +85,7 @@ project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library
 project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
 project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
 project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
+project(':commlib-integration-tests').projectDir = new File('./Source/cml/Source/Library/commlib-integration-tests')
 project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')

@@ -177,12 +177,12 @@ dependencies {
     // Philips Dependencies
     debugCompile project(path: ':ews-android', configuration: 'debug')
     releaseCompile project(path: ':ews-android', configuration: 'release')
-    compile "com.android.support:support-annotations:${versions.support}"
-    compile "com.android.support:animated-vector-drawable:${versions.support}"
-    compile 'com.android.support:multidex:1.0.2'
-    compile "com.android.support:design:${versions.support}"
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    compile 'com.google.dagger:dagger:2.9'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.support.annotations
+    compile deps.support.design
+    compile deps.support.appcompatv7
+    compile deps.support.animated_vector_drawable
+    compile deps.constraintlayout
+    compile deps.multidex
+    compile deps.dagger.dagger
+    annotationProcessor deps.dagger.compiler
 }

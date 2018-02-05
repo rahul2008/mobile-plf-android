@@ -87,14 +87,6 @@ public class RLog {
         return isLoggingEnabled;
     }
 
-    private static void validateLoggerInitialization() {
-        if (mLoggingInterface == null) {
-            init();
-            if(mLoggingInterface==null)
-            throw new RuntimeException("Please initiate AppInfra Logger by calling RLog.init()");
-        }
-    }
-
     /**
      * Logs at debug level
      *
@@ -105,7 +97,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.d(tag, message);
         }
-        validateLoggerInitialization();
+        if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
     }
     /**
@@ -118,7 +110,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.e(tag, message);
         }
-        validateLoggerInitialization();
+        if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
     }
 
@@ -132,7 +124,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.i(tag, message);
         }
-        validateLoggerInitialization();
+        if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
     }
     /**
@@ -145,7 +137,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.v(tag, message);
         }
-        validateLoggerInitialization();
+        if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
     }
 
