@@ -246,8 +246,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_dob">Date of Birth</string>
     <string name="ths_insurance_dob_hint">DD/MM/YYYY</string>
     <string name="ths_insurance_plan_not_listed">My plan is not listed. Skip this</string>
-    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit</string>
-    <string name="ths_insurance_visit_shall_be_cancelled">Your visit shall be cancelled</string>
+    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit?</string>
+    <string name="ths_insurance_visit_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
     <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
     <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
@@ -467,4 +467,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_residency_check_failed">Credit card residency check failed</string>
     <string name="ths_slot_no_longer_available">This appointment slot is no longer available.  Please select a new time</string>
     <string name="ths_consumer_already_active">The consumer is already active in a visit. End the active visit and try again</string>
+    <string name="ths_invalid_parameter">You have entered an incorrect detail. Please try again.</string>
 </resources>
