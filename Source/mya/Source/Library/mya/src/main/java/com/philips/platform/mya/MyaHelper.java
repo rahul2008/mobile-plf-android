@@ -7,15 +7,15 @@
 
 package com.philips.platform.mya;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyaHelper {
 
@@ -24,7 +24,6 @@ public class MyaHelper {
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
     private List<ConsentConfiguration> consentConfigurationList;
-    private String privacyNoticeUrl;
 
     private MyaHelper() {
     }
@@ -52,17 +51,9 @@ public class MyaHelper {
         return consentConfigurationList;
     }
 
-    public String getPrivacyNoticeUrl() {
-        return privacyNoticeUrl;
-    }
-
     public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
         throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
         this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
-    }
-
-    public void setPrivacyNoticeUrl(String privacyNoticeUrl) {
-        this.privacyNoticeUrl = privacyNoticeUrl;
     }
 
     private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
