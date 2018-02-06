@@ -118,7 +118,7 @@ public class MyaSettingsPresenterTest {
             }
 
             @Override
-            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, String privacyNoticeUrl) {
+            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
                 return cswLaunchInput;
             }
 
@@ -156,7 +156,7 @@ public class MyaSettingsPresenterTest {
     @Test
     public void shouldNotReturnNullWhenInvoked() {
         MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext(), "privacyNoticeURL.com"));
+        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
         assertNotNull(myaSettingsPresenter.getCswInterface());
         assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
     }
