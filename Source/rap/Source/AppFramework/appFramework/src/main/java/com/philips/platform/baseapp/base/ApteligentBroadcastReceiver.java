@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.crittercism.app.Crittercism;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.json.JSONException;
@@ -68,7 +69,7 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
                         Example breadcrumbs may include variable values, progress through
                         the code, user actions, or low memory warnings. For an introduction
                      */
-//                    Crittercism.leaveBreadcrumb(jsonObject.toString());
+                    Crittercism.leaveBreadcrumb(jsonObject.toString());
                 }
             }
         }

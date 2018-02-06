@@ -9,14 +9,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -25,8 +25,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -46,7 +46,7 @@ archivesBaseName = "iapUApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -140,8 +140,8 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
 
     /*defaultConfig {
@@ -160,8 +160,8 @@ android {
 
     defaultConfig {
        // applicationId "com.iap.demouapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName version
         multiDexEnabled = true
@@ -227,11 +227,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile(deps.espresso_core, {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
    // compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile deps.junit
+    testCompile 'junit:junit:4.12'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -248,7 +248,5 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.constraintlayout
-
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

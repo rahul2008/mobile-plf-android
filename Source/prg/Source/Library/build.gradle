@@ -2,14 +2,14 @@
 
 buildscript {
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         dependencies {
-            classpath builddeps.gradle
+            classpath 'com.android.tools.build:gradle:2.2.0'
         }
     }
 }
@@ -17,7 +17,7 @@ buildscript {
 allprojects {
 	apply plugin: 'jacoco'
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"

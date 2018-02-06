@@ -7,14 +7,14 @@ buildscript {
 
     repositories {
         maven {
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +23,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -42,10 +42,11 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "dataServicesApp"
 
+
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -123,16 +124,16 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
-        renderscriptTargetApi versions.renderscriptTargetApi
+        minSdkVersion 21
+        targetSdkVersion 26
+        renderscriptTargetApi 26
         versionCode 7
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName "0.1.11"
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
@@ -241,28 +242,35 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+    if(dp) {
         debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
         releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.support.design
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
-    compile deps.support.customtabs
-    compile deps.support.multidex
+    //Android Support Libraries
+    compile 'com.android.support:support-annotations:26.0.2'
+    compile 'com.android.support:customtabs:26.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
 
-    compile deps.ormlite.core
-    compile deps.ormlite.android
+    //3rd Party
+    compile "com.j256.ormlite:ormlite-core:5.0"
+    compile "com.j256.ormlite:ormlite-android:5.0"
 
-    debugCompile deps.stetho
+    //Debug
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
-    testCompile deps.mockito
-    testCompile deps.robolectric
-    testCompile deps.junit
-
+    //Test
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //Module projects
     debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
     releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
 }

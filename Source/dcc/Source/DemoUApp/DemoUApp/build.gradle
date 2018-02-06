@@ -1,21 +1,21 @@
 apply plugin: 'com.android.library'
 
 apply plugin: 'com.jfrog.artifactory'
-
+//apply from: '../extra/calabash.gradle'
 apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
+   
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -24,8 +24,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -45,7 +45,7 @@ archivesBaseName = "digitalCareUApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -123,14 +123,16 @@ publishing {
     }
 }
 
+
+
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
 
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName version
 
@@ -147,7 +149,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.support.design
+    compile 'com.android.support:design:26.0.2'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -165,14 +167,14 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.support.recyclerview
-    compile deps.support.appcompatv7
-    compile deps.support.supportv4
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
 
     debugCompile project(path: ':digitalCare', configuration: 'debug')
     releaseCompile project(path: ':digitalCare', configuration: 'release')
 }
 
 tasks.withType(Test) {
-    ignoreFailures = true
+  ignoreFailures = true
 }

@@ -8,14 +8,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.releaseexternal
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +23,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -44,7 +44,7 @@ archivesBaseName = "RegistrationSampleApp"
 allprojects {
     repositories {
         maven {
-            url repos.releaseexternal
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -145,14 +145,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 25
 
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
@@ -236,13 +236,13 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-    compile deps.support.multidex
+    compile 'com.android.support:multidex:1.0.2'
     debugCompile project(path: ':registrationApi', configuration: 'debug')
     releaseCompile project(path: ':registrationApi', configuration: 'release')
     compile project(':HockeySDK-3.0.2')
-    androidTestCompile(deps.espresso_core, {
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

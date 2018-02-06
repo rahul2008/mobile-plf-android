@@ -10,14 +10,14 @@ buildscript {
 
     repositories {
         maven {
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -26,8 +26,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -48,7 +48,7 @@ archivesBaseName = "MyAccountUApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -210,8 +210,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.appcompatv7
-    testCompile deps.junit
+    compile "com.android.support:appcompat-v7:${versions.support}"
+    testCompile 'junit:junit:4.12'
 
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {

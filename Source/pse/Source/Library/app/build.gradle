@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,8 +21,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -45,7 +45,7 @@ version = objcdp.getVersion(platformversion)
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -114,13 +114,13 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
-        renderscriptTargetApi versions.renderscriptTargetApi
+        minSdkVersion 21
+        targetSdkVersion 26
+        renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
         generatedDensities = []
         versionCode 3
@@ -129,8 +129,8 @@ android {
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
-
-    signingConfigs {
+	
+	signingConfigs {
         release
     }
 
@@ -143,15 +143,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+			signingConfig signingConfigs.release
         }
     }
-
-    /*
-This defined for signing the apk -- start
- */
+	
+	    /*
+    This defined for signing the apk -- start
+     */
     def Properties props = new Properties()
-    println  "  projectDir:   "+ project.projectDir;
+	println  "  projectDir:   "+ project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -185,13 +185,17 @@ configurations.all {
 dependencies {
     debugCompile project(path: ':productselection', configuration: 'debug')
     releaseCompile project(path: ':productselection', configuration: 'release')
-    compile deps.support.appcompatv7
-    compile deps.support.recyclerview
-    androidTestCompile deps.espresso_core, {
+
+    //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+
+   // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 }
 
 tasks.withType(Test) {
-    ignoreFailures = true
+  ignoreFailures = true
 }
