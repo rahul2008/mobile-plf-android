@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -34,8 +35,6 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     RecyclerView countryListView;
 
     private CountrySelectionAdapter countryListAdapter;
-
-    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
     private ArrayList<Country> masterList = new ArrayList<>();
 
@@ -51,10 +50,10 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     @SuppressLint("ValidFragment")
     public CountrySelectionFragment(CountrySelectionListener listener,
-                                    ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
+                                    List<Country> rawMasterList, List<Country> recentList) {
         this.listener = listener;
-        this.masterList = removeDuplicatesFromArrayList(rawMasterList);
-        this.recentList = recentList;
+        this.masterList = removeDuplicatesFromArrayList((ArrayList<Country>) rawMasterList);
+        this.recentList = (ArrayList<Country>) recentList;
     }
 
 
@@ -92,7 +91,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         countryListView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         countryListView.setLayoutManager(mLayoutManager);
-        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         countryListView.addItemDecoration(separatorItemDecoration);
         countryListView.setItemAnimator(new DefaultItemAnimator());
         filtredList = populateList(recentList, masterList);
@@ -112,12 +111,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         countryListAdapter.notifyDataSetChanged();
         countryListView.scrollToPosition(0);
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
+    
     @Override
     public int compare(Country lhs, Country rhs) {
         return lhs.getName().compareTo(rhs.getName());

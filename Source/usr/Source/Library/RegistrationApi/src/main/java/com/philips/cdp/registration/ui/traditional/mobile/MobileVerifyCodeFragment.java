@@ -31,7 +31,6 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -40,7 +39,6 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
@@ -50,10 +48,6 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -61,9 +55,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
@@ -86,7 +77,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     XRegError errorMessage;
 
     @BindView(R2.id.reg_verify_mobile_desc1)
-    Label reg_verify_mobile_desc1;
+    Label regVerifyMobileDesc1;
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
@@ -133,7 +124,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        reg_verify_mobile_desc1.setText(str);
+        regVerifyMobileDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
@@ -164,7 +155,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        //applyParams(config, usrAccountRootLayout, width);
+        //Do not do anything
     }
 
     @Override
@@ -210,15 +201,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onUpdate() {
         handleUI();
-    }
-
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-  
-    private void trackMultipleActionsOnMobileSuccess() {
-        Map<String, String> map = new HashMap<>();
-        map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
-        map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
-        AppTagging.trackMultipleActions(SEND_DATA, map);
     }
 
     @OnClick(R2.id.btn_reg_Verify)

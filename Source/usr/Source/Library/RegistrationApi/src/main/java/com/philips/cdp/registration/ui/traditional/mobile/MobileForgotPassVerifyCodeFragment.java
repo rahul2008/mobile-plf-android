@@ -79,11 +79,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private String responseToken;
 
-    private String redirectUri;
+    private String redirectUriValue;
 
-    final String mobileNumberKey = "mobileNumber";
-    final String responseTokenKey = "token";
-    static final String reDirectUriKey = "redirectUri";
+    static final String MOBILE_NUMBER_KEY = "mobileNumber";
+    static final String RESPONSE_TOKEN_KEY = "token";
+    static final String RE_DIRECT_URI_KEY = "redirectUri";
 
     @Override
     public void onAttach(Context context) {
@@ -102,9 +102,9 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
         Bundle bundle = getArguments();
         if(bundle!=null) {
-            mobileNumber = bundle.getString(mobileNumberKey);
-            responseToken = bundle.getString(responseTokenKey);
-            redirectUri = bundle.getString(reDirectUriKey);
+            mobileNumber = bundle.getString(MOBILE_NUMBER_KEY);
+            responseToken = bundle.getString(RESPONSE_TOKEN_KEY);
+            redirectUriValue = bundle.getString(RE_DIRECT_URI_KEY);
             verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
         }
 
@@ -179,7 +179,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // applyParams(config, usrVerificationRootLayout, width);
+       // Do not do anything
     }
 
     @Override
@@ -210,15 +210,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         handleUI();
     }
 
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-  
-    private void trackMultipleActionsOnMobileSuccess() {
-        Map<String, String> map = new HashMap<>();
-        map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
-        map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
-        AppTagging.trackMultipleActions(SEND_DATA, map);
-    }
-
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
@@ -231,32 +222,32 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public Intent createSMSPasswordResetIntent() {
 
         RLog.d("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
-                + " " + redirectUri + " " + responseToken);
+                + " " + redirectUriValue + " " + responseToken);
         constructRedirectUri();
-        final String redirectUriKey = "redirectUri";
+        final String redirectUriKey = "redirectUriValue";
         ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
         Bundle bundle = new Bundle();
-        bundle.putString(redirectUriKey, redirectUri);
+        bundle.putString(redirectUriKey, redirectUriValue);
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
         return null;
     }
 
     private void constructRedirectUri() {
-        redirectUri = redirectUri + "?code=" + verificationCodeValidationEditText.getText()
+        redirectUriValue = redirectUriValue + "?code=" + verificationCodeValidationEditText.getText()
                 + "&token=" + responseToken;
     }
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
-        final String mobileNumberKey = "mobileNumber";
+        final String lMobileNumberKey = "mobileNumber";
         final String tokenKey = "token";
-        final String redirectUriKey = "redirectUri";
+        final String redirectUriKey = "redirectUriValue";
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
         errorMessage.hideError();
-        addFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey);
+        addFragment(lMobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey);
     }
 
     private void addFragment(String mobileNumberKey, String tokenKey, String redirectUriKey,
