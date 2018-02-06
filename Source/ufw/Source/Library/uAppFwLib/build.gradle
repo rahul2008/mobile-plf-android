@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco-everywhere'
 
 def buildOutputDir
 
@@ -9,14 +10,14 @@ buildscript {
 
     repositories {
         maven {
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -25,10 +26,12 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
 }
 
@@ -48,7 +51,7 @@ archivesBaseName = "uAppFwLib"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -151,12 +154,12 @@ publishing {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -184,7 +187,7 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile deps.junit
+    testCompile 'junit:junit:4.12'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -202,12 +205,12 @@ dependencies {
         }
     }
 
-    testCompile deps.junit
-    testCompile deps.mockito_all
-    testCompile deps.robolectric
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'org.robolectric:robolectric:3.1.1'
 
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
+    compile('com.android.support:support-annotations:26.0.2')
+    compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
 task copyToLib(type: Copy) {
@@ -219,3 +222,5 @@ task copyToLib(type: Copy) {
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
+//apply from: "resolution.gradle"

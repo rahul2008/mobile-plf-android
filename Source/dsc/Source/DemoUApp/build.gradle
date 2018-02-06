@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+
     for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
         if (directdependencies) {
             debugCompile project(path: dep, configuration: 'debug')
@@ -58,9 +59,9 @@ dependencies {
 
     // Test Compile
     testCompile deps.junit
-    testCompile deps.mockito_all
+    testCompile "org.mockito:mockito-all:1.10.17"
 
-    androidTestCompile(deps.espresso_core) {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    })
 }

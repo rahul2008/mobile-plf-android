@@ -13,7 +13,7 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-//import com.crittercism.app.Crittercism;
+import com.crittercism.app.Crittercism;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -106,8 +106,8 @@ public class AppFrameworkApplication extends Application {
         /*
          * Apteligent initialization.
          */
-//        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
-//        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
+        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
+        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
     }
 
     /**

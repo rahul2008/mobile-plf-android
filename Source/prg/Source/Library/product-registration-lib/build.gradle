@@ -12,14 +12,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -27,11 +27,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.androidapt
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
-        classpath builddeps.jruby_gradle
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
     }
 }
 
@@ -149,12 +149,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         multiDexEnabled true
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
@@ -214,7 +214,7 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.support.appcompatv7
+    compile 'com.android.support:appcompat-v7:26.0.2'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -233,9 +233,9 @@ dependencies {
         }
     }
 
-    testCompile deps.junit
-    testCompile deps.mockito_all
-    testCompile deps.robolectric
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile "org.robolectric:robolectric:3.1.1"
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

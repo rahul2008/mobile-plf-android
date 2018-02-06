@@ -40,7 +40,7 @@ public class DigitalCareActivityRTest {
         intent.putExtra(DigitalCareConstants.STOP_ANIMATION_ID, 0);
         intent.putExtra(DigitalCareConstants.SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
 
-        activity = Robolectric.buildActivity(DigitalCareActivity.class, intent).create().get();
+        activity = Robolectric.buildActivity(DigitalCareActivity.class).withIntent(intent).create().get();
 
     }
 

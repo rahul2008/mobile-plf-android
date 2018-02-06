@@ -2,7 +2,7 @@
 
 buildscript {
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -10,10 +10,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.googleservices
-        classpath builddeps.buildinfoextractor
-        classpath builddeps.hockeyapp
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6'
     }
 }
 
@@ -22,16 +22,16 @@ allprojects {
     ext.androidAssertJVer = '1.2.0'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven { url sonatype }
-        maven { url robolectric }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"

@@ -16,7 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.*;
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import com.philips.platform.catalogapp.MainActivity;
@@ -34,19 +34,19 @@ import java.util.List;
 
 public class ThemeSettingsFragment extends BaseFragment {
 
-    @BindView(R.id.colorRangeList)
+    @Bind(R.id.colorRangeList)
     RecyclerView colorRangeListview;
 
-    @BindView(R.id.tonalRangeList)
+    @Bind(R.id.tonalRangeList)
     RecyclerView tonalRangeListview;
 
-    @BindView(R.id.notificationBarList)
+    @Bind(R.id.notificationBarList)
     RecyclerView notificationBarListview;
 
-    @BindView(R.id.accentColorRangeList)
+    @Bind(R.id.accentColorRangeList)
     RecyclerView accentColorRangeList;
 
-    @BindView(R.id.warningText)
+    @Bind(R.id.warningText)
     ViewGroup warningText;
 
     private ThemeColorHelper themeColorHelper;

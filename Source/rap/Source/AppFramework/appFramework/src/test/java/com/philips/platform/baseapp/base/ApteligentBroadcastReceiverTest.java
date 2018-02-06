@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.base;
 
 import android.content.Intent;
 
+import com.crittercism.app.Crittercism;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -20,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.annotation.Config;
 
@@ -35,12 +37,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-//import com.crittercism.app.Crittercism;
-
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
-//@PrepareForTest(Crittercism.class)
+@PrepareForTest(Crittercism.class)
 public class ApteligentBroadcastReceiverTest {
     private ApteligentBroadcastReceiver broadcastReceiver;
     private AppFrameworkApplication mockAppFrameworkApplication;
@@ -53,7 +53,7 @@ public class ApteligentBroadcastReceiverTest {
 
     @Before
     public void setUp() throws Exception {
-//        PowerMockito.mockStatic(Crittercism.class);
+        PowerMockito.mockStatic(Crittercism.class);
         initMocks(this);
 
         intent = new Intent(ACTION_TAGGING_DATA);
@@ -77,7 +77,7 @@ public class ApteligentBroadcastReceiverTest {
 
         // Verify that the following 'leaveBreadcrumb' static mock method was called exactly 1 time
         PowerMockito.verifyStatic(Mockito.times(1));
-//        Crittercism.leaveBreadcrumb("{\"trackPage: \":\"Welcome\"}");
+        Crittercism.leaveBreadcrumb("{\"trackPage: \":\"Welcome\"}");
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ApteligentBroadcastReceiverTest {
 
         // Verify that the 'leaveBreadcrumb' static mock method was never called
         PowerMockito.verifyStatic(Mockito.never());
-//        Crittercism.leaveBreadcrumb("{\"trackPage: \":\"Welcome\"}");
+        Crittercism.leaveBreadcrumb("{\"trackPage: \":\"Welcome\"}");
 
 
         Map<String, Object> contextDataAction = addAnalyticsDataObjectForAction(null);
@@ -99,7 +99,7 @@ public class ApteligentBroadcastReceiverTest {
 
         // Verify that the 'leaveBreadcrumb' static mock method was never called
         PowerMockito.verifyStatic(Mockito.never());
-//        Crittercism.leaveBreadcrumb("{\"trackAction: \":\"Skip\"}");
+        Crittercism.leaveBreadcrumb("{\"trackAction: \":\"Skip\"}");
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ApteligentBroadcastReceiverTest {
 
         // Verify that the following 'leaveBreadcrumb' static mock method was called exactly 1 time
         PowerMockito.verifyStatic(Mockito.times(1));
-//        Crittercism.leaveBreadcrumb("{\"trackAction: \":\"SomeCorrectAction\"}");
+        Crittercism.leaveBreadcrumb("{\"trackAction: \":\"SomeCorrectAction\"}");
     }
 
     @After

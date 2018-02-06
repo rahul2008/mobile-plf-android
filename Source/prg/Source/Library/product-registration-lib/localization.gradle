@@ -6,13 +6,13 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.jruby_gradle
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.17'
     }
 }
 apply plugin: 'com.github.jruby-gradle.base'
 
 dependencies{
-    jrubyExec rubygems
+    jrubyExec 'rubygems:roo:2.0.0'
 }
 
 task runLocalizationScript(type: JRubyExec) {

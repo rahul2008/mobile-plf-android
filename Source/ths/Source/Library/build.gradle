@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         maven {
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -10,16 +10,16 @@ buildscript {
         }
     }
     dependencies {
-        classpath deps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath builddeps.googleservices
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 allprojects {
 
     repositories {
         maven {
-            url repos.jcenter
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
