@@ -21,6 +21,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.URL;
 
@@ -30,6 +31,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYE
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -77,6 +79,7 @@ public class SSDPControlPointTest {
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManagerMock);
         when(wifiManagerMock.createMulticastLock(anyString())).thenReturn(lockMock);
+        when(lockMock.isHeld()).thenReturn(true);
         when(ssdpMessageMock.get(SSDPMessage.LOCATION)).thenReturn(MOCK_LOCATION);
 
         mockStatic(SSDPDevice.class);
@@ -141,28 +144,53 @@ public class SSDPControlPointTest {
     }
 
     @Test
-    public void whenControlPointIsCreated_thenSocketsAreNotOpened() {
+    public void whenControlPointIsCreated_thenSocketsAreNotOpened() throws IOException {
+
+        verify(broadcastSocketMock, never()).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock, never()).joinGroup(any(InetAddress.class));
+    }
+
+    @Test
+    public void whenControlPointIsCreated_thenMulticastLockIsNotAcquired() {
+
+        verify(lockMock, never()).acquire();
+    }
+
+    @Test
+    public void givenControlPointIsCreated_whenStartIsInvoked_thenSocketsAreOpened() throws IOException {
 
         ssdpControlPoint.start();
+
+        verify(broadcastSocketMock).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock).joinGroup(any(InetAddress.class));
     }
 
     @Test
-    public void givenControlPointIsCreated_whenStartIsInvoked_thenSocketsAreOpened() {
+    public void whenStartIsInvoked_thenMulticastLockIsAcquired() {
 
+        ssdpControlPoint.start();
+
+        verify(lockMock).acquire();
     }
 
     @Test
-    public void givenControlPointIsCreated_whenStartIsInvoked_thenMulticastLockIsAcquired() {
+    public void givenControlPointIsStarted_whenStopIsInvoked_thenSocketsAreClosed() throws IOException {
+        ssdpControlPoint.start();
 
-    }
+        ssdpControlPoint.stop();
 
-    @Test
-    public void givenControlPointIsStarted_whenStopIsInvoked_thenSocketsAreClosed() {
-
+        verify(broadcastSocketMock).leaveGroup(any(InetAddress.class));
+        verify(broadcastSocketMock).close();
+        verify(listenSocketMock).leaveGroup(any(InetAddress.class));
+        verify(listenSocketMock).close();
     }
 
     @Test
     public void givenControlPointIsStarted_whenStopIsInvoked_thenMulticastLockIsReleased() {
+        ssdpControlPoint.start();
 
+        ssdpControlPoint.stop();
+
+        verify(lockMock).release();
     }
 }
