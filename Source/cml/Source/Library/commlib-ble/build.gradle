@@ -77,7 +77,7 @@ dependencies {
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
         compile philipsdeps.bluelib
-        compile philipsdeps.commlib-api
+        compile philipsdeps.commlib_api
         compile philipsdeps.AppInfra
     }
 

@@ -235,7 +235,7 @@ dependencies {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile philipsdeps.mya-catk {
+        compile (philipsdeps.mya_catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
         }
         compile philipsdeps.AppInfra

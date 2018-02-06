@@ -237,7 +237,7 @@ dependencies {
         debugCompile project(path: ':product-registration-libUApp', configuration: 'debug')
         releaseCompile project(path: ':product-registration-libUApp', configuration: 'release')
     } else {
-        compile philipsdeps.product-registration-libUApp
+        compile philipsdeps.product_registration_libUApp
     }
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {

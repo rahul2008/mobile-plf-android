@@ -56,7 +56,7 @@ dependencies {
         releaseCompile project(path: ':mya-chi', configuration: 'release')
     } else {
         compile philipsdeps.registrationApi
-        compile philipsdeps.mya-chi
+        compile philipsdeps.mya_chi
     }
 
     testCompile deps.junit

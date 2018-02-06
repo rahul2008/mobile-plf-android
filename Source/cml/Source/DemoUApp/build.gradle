@@ -82,7 +82,7 @@ dependencies {
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
         compile philipsdeps.cloudcontroller
-        compile philipdeps.commlib
+        compile philipsdeps.commlib
         compile philipsdeps.uAppFwLib
     }
 

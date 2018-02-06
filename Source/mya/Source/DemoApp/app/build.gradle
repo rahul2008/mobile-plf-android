@@ -283,13 +283,13 @@ dependencies {
         debugCompile project(path: ':jump', configuration: 'debug')
         releaseCompile project(path: ':jump', configuration: 'release')
     } else {
-        compile philipsdeps.AppInfra {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.uid {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.jump {
+        compile (philipsdeps.jump) {
             exclude group: 'com.android.support'
         }
     }

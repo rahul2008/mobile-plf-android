@@ -134,7 +134,7 @@ dependencies {
        debugCompile project(path: ':AppInfra', configuration: 'debug')
        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile philipsdeps.AppInfra {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
     }

@@ -280,7 +280,7 @@ dependencies {
         debugCompile project(path: ':telehealth', configuration: 'debug')
         releaseCompile project(path: ':telehealth', configuration: 'release')
     } else {
-        compile philipsdeps.AppInfra {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
         compile philipsdeps.telehealth

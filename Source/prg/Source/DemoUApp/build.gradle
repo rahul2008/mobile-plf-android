@@ -200,10 +200,10 @@ dependencies {
         debugCompile project(path: ':product-registration-lib', configuration: 'debug')
         releaseCompile project(path: ':product-registration-lib', configuration: 'release')
     } else {
-        compile philipsdeps.uid {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.product-registration-lib
+        compile philipsdeps.product_registration_lib
     }
 
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {

@@ -228,7 +228,7 @@ dependencies {
     } else {
         compile philipsdeps.registrationApi
         compile philipsdeps.prx
-        compile philipsdeps.uid {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }

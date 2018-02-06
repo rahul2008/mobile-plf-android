@@ -228,13 +228,13 @@ dependencies {
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile philipsdeps.AppInfra {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.uid {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.registrationApi {
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
     }

@@ -280,47 +280,47 @@ dependencies {
         debugCompile project(path: ':themesettings', configuration: 'debug')
         releaseCompile project(path: ':themesettings', configuration: 'release')
     } else {
-        compile philipsdeps.product-registration-lib
+        compile philipsdeps.product_registration_lib
         compile philipsdeps.digitalCare
         compile philipsdeps.iap
-        compile philipsdeps.dataServices {
+        compile (philipsdeps.dataServices) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.mya {
+        compile (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.mya-mch
-        compile philipsdeps.commlib {
+        compile philipsdeps.mya_mch
+        compile (philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.commlib-demouapp {
+        compile (philipsdeps.commlib_demouapp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.digitalCareUApp {
+        compile (philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.uAppFwLibUApp {
+        compile (philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.iapUApp {
+        compile (philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.dataServicesUApp {
+        compile (philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.product-registration-libUApp {
+        compile (philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.UserRegistrationUApp {
+        compile (philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        compile philipsdeps.devicepairingUApp {
+        compile (philipsdeps.devicepairingUApp) {
             exclude group: 'com.android.support'
         }
         compile philipsdeps.telehealth
         compile philipsdeps.ewsUApp
-        compile philipsdeps.bluelib-demouapp
+        compile philipsdeps.bluelib_demouapp
         compile project(':pushnotification')
         compile project(':themesettings')
     }

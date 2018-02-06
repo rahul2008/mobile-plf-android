@@ -139,12 +139,12 @@ dependencies {
     } else {
         compile philipsdeps.uikitLib
         compile philipsdeps.uid
-        compile philipsdeps.registrationApi {
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya_csw
+        compile philipsdeps.mya_chi
+        compile philipsdeps.mya_catk
     }
 
     // Tests

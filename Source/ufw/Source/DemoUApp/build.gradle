@@ -168,7 +168,7 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile philipsdeps.uikitLib {
+        compile (philipsdeps.uikitLib) {
             exclude group: 'com.android.support'
         }
         compile philipsdeps.uAppFwLib

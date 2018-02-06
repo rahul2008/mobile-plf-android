@@ -135,11 +135,11 @@ dependencies {
         debugCompile project(path: ':mya-chi', configuration: 'debug')
         releaseCompile project(path: ':mya-chi', configuration: 'release')
     } else {
-        compile philipsdeps.registrationApi {
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
-        compile philipsdeps.mya-chi
+        compile philipsdeps.mya_chi
     }
 
     // Tests
