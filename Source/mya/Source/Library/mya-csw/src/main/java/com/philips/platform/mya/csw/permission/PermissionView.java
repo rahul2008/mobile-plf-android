@@ -40,6 +40,7 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -135,7 +136,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onPrivacyNoticeClicked(String url) {
         try {
             JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
-            ConsentDefinition consentDefinition = new ConsentDefinition("Dit is mijn consent", "Ik help jou", Arrays.asList("moment", "insight"), 1, Locale.US);
+            ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
             justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
             justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
             justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
