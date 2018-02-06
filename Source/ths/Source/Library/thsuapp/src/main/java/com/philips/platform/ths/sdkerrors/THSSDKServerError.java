@@ -11,7 +11,7 @@ public class THSSDKServerError implements THSErrorHandlerInterface{
         return THSConstants.THS_GENERIC_SERVER_ERROR;
     }
 
-    public boolean validate(SDKErrorReason sdkErrorReason) {
+    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
 
         if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.GENERIC_EXCEPTION.name())){
             return true;

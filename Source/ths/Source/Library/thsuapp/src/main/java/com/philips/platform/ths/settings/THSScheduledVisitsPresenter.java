@@ -23,11 +23,15 @@ import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppointmentsCallback<List<Appointment>, THSSDKError>, THSInitializeCallBack<Void, THSSDKError> {
 
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
+    Appointment mAppointment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mThsScheduledVisitsFragment = thsScheduledVisitsFragment;
@@ -35,7 +39,13 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     @Override
     public void onEvent(int componentID) {
-
+        if (componentID == R.id.ths_confirmation_dialog_primary_button) {
+            cancelAppointment(mAppointment);
+            stopRefreshing();
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
+        } else if (componentID == R.id.ths_confirmation_dialog_secondary_button) {
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT);
+        }
     }
 
     void cancelAppointment(Appointment appointment) {
@@ -94,5 +104,9 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     public void stopRefreshing(){
         mThsScheduledVisitsFragment.stopRefreshing();
+    }
+
+    public void setAppointment(Appointment mAppointment) {
+        this.mAppointment = mAppointment;
     }
 }

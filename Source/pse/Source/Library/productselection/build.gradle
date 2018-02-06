@@ -7,16 +7,16 @@ apply plugin: 'maven'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -25,8 +25,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -50,13 +50,12 @@ configurations.all {
 
 dependencies {
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    compile 'com.google.code.gson:gson:2.8.1'
+    testCompile deps.junit
+    testCompile deps.mockito
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile 'com.shamanland:fonticon:0.1.9'
+    compile deps.shamanland_fonticon
 
     if(dp) {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
@@ -71,9 +70,9 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.constraintlayout
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
@@ -82,7 +81,7 @@ dependencies {
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -172,12 +171,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 3
         generatedDensities = []
         versionName version +  "(" + objcdp.getCommitHash() + ")"
@@ -247,5 +246,5 @@ task copyToLib(type: Copy) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

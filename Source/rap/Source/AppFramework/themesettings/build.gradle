@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,8 +21,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -42,19 +42,22 @@ objcdp.setEnv(platform: 'android', env: environment )
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
+            url objcdp.getArtifactoryUrl()
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
+
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
     }
 }
 
@@ -97,9 +100,9 @@ android {
 
 dependencies {
 
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    compile deps.support.appcompatv7
 
-    compile "com.android.support:recyclerview-v7:${versionsAndroid.support}"
+    compile deps.support.recyclerview
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -107,13 +110,11 @@ dependencies {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
-            exclude group: 'com.android.support'
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    testCompile "junit:junit:${versionsExternal.junit}"
-    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
+    testCompile deps.junit
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
 
 }
