@@ -6,7 +6,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -18,14 +18,14 @@ buildscript {
    
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -34,8 +34,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -56,7 +56,7 @@ archivesBaseName = "iap"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -151,8 +151,8 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     lintOptions {
         abortOnError false
@@ -163,8 +163,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
@@ -252,11 +252,31 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'prx', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
+    compile deps.constraintlayout
+
+    if(dp) {
+        compile(project(':registrationApi'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        compile(project(':prx'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+
     // Tests
-    testCompile 'junit:junit:4.12'
+    testCompile  deps.junit
     testCompile 'org.mockito:mockito-all:1.10.19'
     testCompile 'org.robolectric:shadows-support-v4:3.3.2'
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+    androidTestCompile deps.assertj
     testCompile('org.robolectric:robolectric:3.4.2') {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
@@ -279,16 +299,21 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-
-    // Espresso support
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    // Espressosupport
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
+    androidTestCompile(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+    // add this for intent mocking support
+    // androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+    // add this for webview testing support
+    androidTestCompile deps.espresso_web
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -8,15 +8,12 @@ apply plugin: 'maven-publish'
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
 ]
-def supportLibraryVer = '25.3.1'
-def butterKnifeVer = "7.0.1"
-def eventbusVer = "3.0.0"
-def jUnitVer = 4.12
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -31,11 +28,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.androidapt
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+        classpath builddeps.jruby_gradle
     }
 }
 
@@ -57,7 +54,7 @@ archivesBaseName = "product-registration-libUApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -153,16 +150,16 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version
         multiDexEnabled true  // this line will solve this problem
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner deps.androidJUnitRunner
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]}
@@ -206,37 +203,37 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
+    compile(deps.support.recyclerview) {
         exclude module: "com.android.support"
     }
-    compile("com.android.support:cardview-v7:${supportLibraryVer}") {
+    compile(deps.support.cardview) {
         exclude module: "com.android.support"
     }
-    compile("com.android.support:appcompat-v7:${supportLibraryVer}") {
+    compile(deps.support.appcompatv7) {
         exclude module: "com.android.support"
     }
 
-    compile "com.android.support:design:${supportLibraryVer}"
+    compile deps.support.cardview
 
-    compile("com.jakewharton:butterknife:${butterKnifeVer}") {
+    compile(deps.butterknife) {
         exclude module: "com.android.support"
     }
-    compile "org.greenrobot:eventbus:${eventbusVer}"
+    compile deps.greenrobot
 
 
-    testCompile("junit:junit:${jUnitVer}") {
+    testCompile(deps.junit) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
+    androidTestCompile(deps.espresso_core) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestCompile("com.android.support.test:runner:0.5") {
+    androidTestCompile(deps.android_testrunner) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
+    androidTestCompile deps.android_test_commons
 }

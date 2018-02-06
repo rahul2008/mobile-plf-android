@@ -5,7 +5,7 @@ apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -17,14 +17,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -33,13 +33,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
+        classpath builddeps.trickyandroid
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
+        classpath builddeps.androidapt
+        classpath builddeps.bintrayplugin
+        classpath builddeps.mobilej
     }
 }
 
@@ -59,7 +59,7 @@ archivesBaseName = "telehealth"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -147,17 +147,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
@@ -210,13 +210,13 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.2'
-    testCompile 'junit:junit:4.12'
+    compile deps.support.appcompatv7
+    compile deps.constraintlayout
+    compile deps.support.design
+    testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -239,23 +239,25 @@ dependencies {
         }
     }
 
-    compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.5', ext: 'aar'){
+    compile(deps.americanwell){
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile 'com.android.support:support-fragment:26.0.2'
 
-    testCompile 'org.mockito:mockito-all:1.10.19'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile ('org.robolectric:robolectric:3.4.2'){
+
+    compile deps.support.design
+
+    testCompile deps.mockito_all
+    testCompile deps.assertj
+    testCompile (deps.robolectric){
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile "org.robolectric:shadows-support-v4:3.3.2"
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.google.android.gms:play-services-location:11.0.4'
+    testCompile deps.robolectric_shadows
+    testCompile deps.maven_ant
+    compile deps.play_services_maps
+    compile deps.play_services_location
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 

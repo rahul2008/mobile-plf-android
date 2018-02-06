@@ -3,7 +3,7 @@
 buildscript {
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -11,8 +11,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6'
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.hockeyapp
 
     }
 }
@@ -21,12 +21,12 @@ allprojects {
     apply plugin: 'jacoco'
 
     jacoco {
-        toolVersion = '0.7.6.201602180812'
+        toolVersion = versions.jacoco
     }
 
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -40,20 +40,6 @@ allprojects {
         }
     }
 
-    ext.supportLibraryVer = "25.3.1"
-    ext.butterKnifeVer = "7.0.1"
     ext.mavenAntTaskVer = "2.1.3"
-    ext.mockitoVer = "1.10.19"
-    ext.androidAssertJVer = "1.1.1"
-    ext.minSdkVer = "21"
-    ext.buildSdkVer = "25"
-    ext.targetSdkVer = "25"
-    ext.buildToolsVer = "25.0.2"
-    ext.jUnitVer = 4.12
-    ext.robolectricVer = "3.1.2"
-    ext.powerMockitoVer = "1.6.0"
-    ext.powerMockitoJunitVer = "1.6.4"
     ext.eventbusVer = "3.0.0"
-
 }
-
