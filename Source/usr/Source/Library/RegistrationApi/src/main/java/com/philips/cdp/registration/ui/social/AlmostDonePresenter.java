@@ -104,7 +104,9 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
             almostDoneContract.updateTermsAndConditionView();
         }
 
-        if (!mUser.getReceiveMarketingEmail()) {
+        if (!mUser.getReceiveMarketingEmail() &&
+                ((RegUtility.getUiFlow() != UIFlow.FLOW_B)? true : mUser.isTermsAndConditionAccepted())) {
+
             almostDoneContract.showMarketingOptCheck();
         } else {
             almostDoneContract.hideMarketingOptCheck();
@@ -184,7 +186,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        almostDoneContract.storePreference(mEmail);
+        storeEmailOrMobileInPreference();
         almostDoneContract.handleContinueSocialProvider();
     }
 
