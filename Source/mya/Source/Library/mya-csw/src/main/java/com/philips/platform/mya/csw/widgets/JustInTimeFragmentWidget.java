@@ -9,6 +9,8 @@ package com.philips.platform.mya.csw.widgets;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -39,9 +43,8 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
 
-        Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
-        descriptionLabel.setText(consentDefinition.getText());
-
+        initializeDescriptionLabel(justInTimeConsentView);
+        initializeHelpLabel(justInTimeConsentView);
         initializeGiveConsentButton(justInTimeConsentView);
         initializeConsentRejectButton(justInTimeConsentView);
 
@@ -87,6 +90,23 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
                 onConsentGivenButtonClicked();
             }
         });
+    }
+
+    private void initializeDescriptionLabel(View justInTimeConsentView) {
+        Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
+        descriptionLabel.setText(consentDefinition.getText());
+    }
+
+    private void initializeHelpLabel(View justInTimeConsentView) {
+        Spannable helpLink = new SpannableString(getContext().getString(R.string.mya_Consent_Help_Label));
+        helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
+            @Override
+            public void onClick() {
+
+            }
+        }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
+        descriptionLabel.setText(helpLink);
     }
 
     private void onConsentGivenButtonClicked() {

@@ -33,13 +33,13 @@ import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.mya.csw.widgets.JustInTimeFragmentWidget;
 import com.philips.platform.mya.csw.widgets.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener, PrivacyNoticeClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
     public static final String TAG = "PermissionView";
     private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
@@ -123,7 +123,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onActivityCreated(savedInstanceState);
 
         adapter = new PermissionAdapter(createConsentsList(), this);
-        adapter.setPrivacyNoticeClickListener(this);
+        adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
+            @Override
+            public void onClick() {
+                onPrivacyNoticeClicked();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -132,8 +137,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onPrivacyNoticeClicked(String url) {
+    private void onPrivacyNoticeClicked() {
         JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
         ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
         justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
