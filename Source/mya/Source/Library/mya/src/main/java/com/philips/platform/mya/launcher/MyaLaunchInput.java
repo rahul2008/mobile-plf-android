@@ -9,6 +9,7 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
+import com.philips.platform.mya.MyaTab;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -25,6 +26,7 @@ public class MyaLaunchInput extends UappLaunchInput {
     private boolean isAddToBackStack;
     private MyaListener myaListener;
     private MyAccountUIEventListener myAccountUIEventListener;
+    private MyaTab myaTab;
 
     public MyaLaunchInput() {
     }
@@ -69,5 +71,13 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public MyAccountUIEventListener getMyAccountUIEventListener() {
         return this.myAccountUIEventListener;
+    }
+
+    public MyaTab getMyaTab() {
+        return myaTab;
+    }
+
+    public void setMyaTab(MyaTab myaTab) {
+        this.myaTab = myaTab;
     }
 }

@@ -401,4 +401,7 @@ Receive free product accessories</string>
     <string name="RA_DLS_insights_error" translatable="false">Error loading Insights</string>
     <string name="RA_loading_articles" translatable="false">Loading Article</string>
 
+
+    <string name="hello_blank_fragment" translatable="false">Welcome configurable fragment</string>
+
 </resources>

@@ -33,6 +33,7 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
  */
 public class MyaInterface implements UappInterface {
     private static final String TAG = "MyaInterface";
+    public static final String MYA_LAUNCH_INPUT = "mya_launch_input";
     public static String USER_PLUGIN = "user_plugin";
     private static final MyaInterface reference = new MyaInterface();
 
@@ -87,12 +88,13 @@ public class MyaInterface implements UappInterface {
             MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
             launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, bundle);
+            launchAsFragment((FragmentLauncher) uiLauncher, bundle,myaLaunchInput);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments, MyaLaunchInput myaLaunchInput) {
         MyaTabFragment myaTabFragment = new MyaTabFragment();
+        arguments.putSerializable(MYA_LAUNCH_INPUT,myaLaunchInput);
         myaTabFragment.setArguments(arguments);
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
         myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
@@ -103,6 +105,7 @@ public class MyaInterface implements UappInterface {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
+            myAccountIntent.putExtra(MYA_LAUNCH_INPUT, myaLaunchInput);
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
     }

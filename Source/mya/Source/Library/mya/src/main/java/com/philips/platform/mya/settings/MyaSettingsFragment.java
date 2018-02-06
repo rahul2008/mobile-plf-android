@@ -140,8 +140,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         new DialogView(title, message).showDialog(getActivity());
     }
 
-    @Override
-    public void showDialog(String title, String message) {
+    private void showDialog(String title, String message) {
         this.dialogTitle = title;
         this.dialogMessage = message;
         this.isDialogOpen = true;

@@ -19,6 +19,7 @@ public class MyaPager extends FragmentStatePagerAdapter {
 
     private int tabCount;
     private MyaBaseFragment myaBaseFragment;
+    private Fragment tabConfiguredFragment;
 
     public MyaPager(FragmentManager fm, int tabCount, MyaBaseFragment myaBaseFragment) {
         super(fm);
@@ -41,6 +42,8 @@ public class MyaPager extends FragmentStatePagerAdapter {
                 myaSettingsFragment.setActionbarUpdateListener(myaBaseFragment.getActionbarUpdateListener());
                 myaSettingsFragment.setFragmentLauncher(myaBaseFragment.getFragmentLauncher());
                 return myaSettingsFragment;
+            case 2:
+                return tabConfiguredFragment;
 
             default:
                 return null;
@@ -52,4 +55,7 @@ public class MyaPager extends FragmentStatePagerAdapter {
         return tabCount;
     }
 
+    public void setTabConfiguredFragment(Fragment tabConfiguredFragment) {
+        this.tabConfiguredFragment = tabConfiguredFragment;
+    }
 }
