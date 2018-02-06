@@ -270,7 +270,11 @@ public class SSDPControlPoint implements SSDPDiscovery {
         }
     }
 
-    private void closeSocket(final @NonNull MulticastSocket socket) {
+    private void closeSocket(final MulticastSocket socket) {
+        if (socket == null) {
+            return;
+        }
+
         try {
             socket.leaveGroup(multicastGroupAddress);
             socket.close();
