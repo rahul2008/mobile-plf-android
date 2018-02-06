@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.csw.widgets;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -36,12 +37,12 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private JustInTimeWidgetHandler completionListener;
     private ConsentDefinition consentDefinition;
     private ConsentHandlerInterface consentHandlerInterface;
+    private ProgressDialog progressDialog;
 
     public void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface) {
         this.consentDefinition = consentDefinition;
         this.consentHandlerInterface = consentHandlerInterface;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,36 +115,25 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void onConsentGivenButtonClicked() {
-        postConsent(true, new PostConsentCallback() {
+        postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
-            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-                showErrorDialog(error);
-            }
-
-            @Override
-            public void onPostConsentSuccess(Consent consent) {
+            public void onSuccess() {
                 if (completionListener != null) {
                     completionListener.onConsentGiven();
                 }
             }
-        });
+        }));
     }
 
     private void onConsentRejectedButtonClicked() {
-        postConsent(false, new PostConsentCallback() {
-
+        postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
-            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-                showErrorDialog(error);
-            }
-
-            @Override
-            public void onPostConsentSuccess(Consent consent) {
+            public void onSuccess() {
                 if (completionListener != null) {
                     completionListener.onConsentRejected();
                 }
             }
-        });
+        }));
     }
 
     private void showErrorDialog(ConsentError error) {
@@ -154,7 +144,48 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         dialogView.showDialog(getCswFragment().getActivity(), errorTitle, errorMessage);
     }
 
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
+    }
+
     private void postConsent(boolean status, PostConsentCallback callback) {
+        showProgressDialog();
         consentHandlerInterface.post(consentDefinition, status, callback);
+    }
+
+    class JustInTimePostConsentCallback implements PostConsentCallback {
+
+        private final PostConsentSuccessHandler handler;
+
+        public JustInTimePostConsentCallback(PostConsentSuccessHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+            hideProgressDialog();
+            showErrorDialog(error);
+        }
+
+        @Override
+        public void onPostConsentSuccess(Consent consent) {
+            hideProgressDialog();
+            handler.onSuccess();
+        }
+    }
+
+    interface PostConsentSuccessHandler {
+        void onSuccess();
     }
 }
