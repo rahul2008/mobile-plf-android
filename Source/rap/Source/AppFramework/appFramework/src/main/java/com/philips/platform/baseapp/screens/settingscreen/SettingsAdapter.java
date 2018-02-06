@@ -206,7 +206,12 @@ public class SettingsAdapter extends BaseAdapter {
             }
             viewHolder.value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                    if(!BaseAppUtil.isNetworkAvailable(activityContext)){
+                        Toast.makeText(activityContext,activityContext.getResources().getString(R.string.RA_DLS_no_internet_connectivity),Toast.LENGTH_SHORT).show();
+                        buttonView.setChecked(!isChecked);
+                        return;
+                    }
                     progress = new ProgressDialog(activityContext);
                     progress.setTitle(activityContext.getResources().getString(R.string.RA_Settings_Progress_Title));
                     progress.setMessage(activityContext.getResources().getString(R.string.RA_Settings_Progress_Message));
@@ -226,6 +231,7 @@ public class SettingsAdapter extends BaseAdapter {
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
+                                buttonView.setChecked(isMarketingEnabled);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
 
@@ -244,6 +250,7 @@ public class SettingsAdapter extends BaseAdapter {
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
+                                buttonView.setChecked(isMarketingEnabled);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
                             }

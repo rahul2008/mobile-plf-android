@@ -23,7 +23,6 @@ import android.widget.*;
 import com.janrain.android.*;
 import com.janrain.android.engage.session.*;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.handlers.*;
@@ -236,14 +235,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onResume() {
-        AppTagging.collectLifecycleData(this);
+//        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        AppTagging.pauseCollectingLifecycleData();
+//        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }

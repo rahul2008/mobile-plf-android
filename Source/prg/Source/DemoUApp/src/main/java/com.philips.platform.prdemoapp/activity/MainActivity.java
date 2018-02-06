@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.prdemoapp.fragment.LaunchFragment;
 import com.philips.platform.prdemoapp.theme.NavigationController;
 import com.philips.platform.prdemoapp.theme.events.AccentColorChangedEvent;
@@ -81,22 +80,6 @@ public class MainActivity extends UIDActivity {
                 s.substring(1).toLowerCase();
     }
 
-    private Runnable mPauseSiteCatalystRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            AppTagging.pauseCollectingLifecycleData();
-        }
-    };
-
-    private Runnable mResumeSiteCatalystRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            AppTagging.collectLifecycleData(MainActivity.this);
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -120,19 +103,6 @@ public class MainActivity extends UIDActivity {
 
     }
 
-
-
-    @Override
-    protected void onPause() {
-        mSiteCatListHandler.post(mPauseSiteCatalystRunnable);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        mSiteCatListHandler.post(mResumeSiteCatalystRunnable);
-        super.onResume();
-    }
 
     public void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
