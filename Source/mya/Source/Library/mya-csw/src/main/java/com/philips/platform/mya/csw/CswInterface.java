@@ -7,7 +7,10 @@
 
 package com.philips.platform.mya.csw;
 
-import java.util.List;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
@@ -23,10 +26,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import java.util.List;
 
 public class CswInterface implements UappInterface {
     private static final CswInterface reference = new CswInterface();
@@ -42,10 +42,8 @@ public class CswInterface implements UappInterface {
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
      *
-     * @param uappDependencies
-     *            - With an AppInfraInterface instance.
-     * @param uappSettings
-     *            - With an application provideAppContext.
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -67,10 +65,8 @@ public class CswInterface implements UappInterface {
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
-     * @param uiLauncher
-     *            - ActivityLauncher or FragmentLauncher
-     * @param uappLaunchInput
-     *            - CswLaunchInput
+     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - CswLaunchInput
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -140,9 +136,5 @@ public class CswInterface implements UappInterface {
 
     public CswDependencies getDependencies() {
         return uappDependencies;
-    }
-
-    public String getPrivacyUrl() {
-        return cswLaunchInput.getPrivacyNoticeUrl();
     }
 }

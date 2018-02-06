@@ -9,11 +9,13 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
+import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
+ *
  * @since 2017.5.0
  */
 
@@ -22,6 +24,7 @@ public class MyaLaunchInput extends UappLaunchInput {
     private Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
+    private MyAccountUIEventListener myAccountUIEventListener;
 
     public MyaLaunchInput() {
     }
@@ -58,5 +61,13 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public MyaListener getMyaListener() {
         return myaListener;
+    }
+
+    public void setMyAccountUIEventListener(MyAccountUIEventListener myAccountUIEventListener) {
+        this.myAccountUIEventListener = myAccountUIEventListener;
+    }
+
+    public MyAccountUIEventListener getMyAccountUIEventListener() {
+        return this.myAccountUIEventListener;
     }
 }
