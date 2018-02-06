@@ -137,7 +137,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
         ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
         justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
-        justInTimeFragmentWidget.setTextResources("Receive promotional communications...");
         justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {

@@ -26,7 +26,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 
 public class JustInTimeFragmentWidget extends CswBaseFragment {
-    private String description;
     private JustInTimeWidgetHandler completionListener;
     private ConsentDefinition consentDefinition;
     private ConsentHandlerInterface consentHandlerInterface;
@@ -36,16 +35,13 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         this.consentHandlerInterface = consentHandlerInterface;
     }
 
-    public void setTextResources(String description) {
-        this.description = description;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
 
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
-        descriptionLabel.setText(description);
+        descriptionLabel.setText(consentDefinition.getText());
 
         initializeGiveConsentButton(justInTimeConsentView);
         initializeConsentRejectButton(justInTimeConsentView);
