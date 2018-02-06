@@ -5,7 +5,12 @@
 
 package com.philips.cdp2.commlib.ssdp;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
 
 import org.junit.Before;
@@ -15,6 +20,8 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.IOException;
+import java.net.MulticastSocket;
 import java.net.URL;
 
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
@@ -22,6 +29,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALI
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -44,18 +52,49 @@ public class SSDPControlPointTest {
     @Mock
     private SSDPDevice ssdpDeviceMock;
 
+    @Mock
+    private Context contextMock;
+
+    @Mock
+    private WifiManager wifiManagerMock;
+
+    @Mock
+    private WifiManager.MulticastLock lockMock;
+
+    @Mock
+    private MulticastSocket broadcastSocketMock;
+
+    @Mock
+    private MulticastSocket listenSocketMock;
+
     @Before
     public void setUp() {
         initMocks(this);
 
         DICommLog.disableLogging();
 
+        ContextProvider.setTestingContext(contextMock);
+        when(contextMock.getApplicationContext()).thenReturn(contextMock);
+        when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManagerMock);
+        when(wifiManagerMock.createMulticastLock(anyString())).thenReturn(lockMock);
         when(ssdpMessageMock.get(SSDPMessage.LOCATION)).thenReturn(MOCK_LOCATION);
 
         mockStatic(SSDPDevice.class);
         when(SSDPDevice.createFromUrl(any(URL.class))).thenReturn(ssdpDeviceMock);
 
-        ssdpControlPoint = new SSDPControlPoint();
+        ssdpControlPoint = new SSDPControlPoint() {
+            @NonNull
+            @Override
+            MulticastSocket createBroadcastSocket() throws IOException {
+                return broadcastSocketMock;
+            }
+
+            @NonNull
+            @Override
+            MulticastSocket createListenSocket() throws IOException {
+                return listenSocketMock;
+            }
+        };
     }
 
     @Test
@@ -99,5 +138,31 @@ public class SSDPControlPointTest {
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
         verify(deviceListener).onDeviceUnavailable(any(SSDPDevice.class));
+    }
+
+    @Test
+    public void whenControlPointIsCreated_thenSocketsAreNotOpened() {
+
+        ssdpControlPoint.start();
+    }
+
+    @Test
+    public void givenControlPointIsCreated_whenStartIsInvoked_thenSocketsAreOpened() {
+
+    }
+
+    @Test
+    public void givenControlPointIsCreated_whenStartIsInvoked_thenMulticastLockIsAcquired() {
+
+    }
+
+    @Test
+    public void givenControlPointIsStarted_whenStopIsInvoked_thenSocketsAreClosed() {
+
+    }
+
+    @Test
+    public void givenControlPointIsStarted_whenStopIsInvoked_thenMulticastLockIsReleased() {
+
     }
 }
