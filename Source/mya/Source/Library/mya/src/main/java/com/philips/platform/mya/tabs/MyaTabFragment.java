@@ -50,7 +50,7 @@ public class MyaTabFragment extends MyaBaseFragment {
             }
             addTabs(tabLayout);
             adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
-            adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTab().getFragment());
+            adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
             viewPager.setCurrentItem(tabPosition, true);
@@ -75,8 +75,8 @@ public class MyaTabFragment extends MyaBaseFragment {
     private void addTabs(TabLayout tabLayout) {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_profile)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_settings)));
-        if (myaLaunchInput != null && myaLaunchInput.getMyaTab() != null)
-            tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTab().getTabName()));
+        if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null)
+            tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTabConfig().getTabName()));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
