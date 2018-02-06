@@ -11,4 +11,5 @@ public interface JustInTimeWidgetHandler {
 
     void onConsentGiven();
 
+    void onConsentRejected();
 }

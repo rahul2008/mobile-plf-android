@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
 import com.philips.platform.mya.chi.PostConsentCallback;
@@ -91,22 +90,38 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void onConsentGivenButtonClicked() {
-            consentHandlerInterface.post(consentDefinition, true, new PostConsentCallback() {
-                @Override
-                public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+        postConsent(true, new PostConsentCallback() {
+            @Override
+            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
 
-                }
+            }
 
-                @Override
-                public void onPostConsentSuccess(Consent consent) {
-                    if (completionListener != null) {
-                        completionListener.onConsentGiven();
-                    }
+            @Override
+            public void onPostConsentSuccess(Consent consent) {
+                if (completionListener != null) {
+                    completionListener.onConsentGiven();
                 }
-            });
+            }
+        });
     }
 
     private void onConsentRejectedButtonClicked() {
-        getFragmentManager().popBackStack();
+        postConsent(false, new PostConsentCallback() {
+
+            @Override
+            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+            }
+
+            @Override
+            public void onPostConsentSuccess(Consent consent) {
+                if (completionListener != null) {
+                    completionListener.onConsentRejected();
+                }
+            }
+        });
+    }
+
+    private void postConsent(boolean status, PostConsentCallback callback) {
+        consentHandlerInterface.post(consentDefinition, status, callback);
     }
 }

@@ -142,6 +142,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             public void onConsentGiven() {
                 openPrivacyNotice();
             }
+
+            @Override
+            public void onConsentRejected() {
+
+            }
         });
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
