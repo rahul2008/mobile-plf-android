@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -32,6 +33,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPD
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -42,6 +44,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class SSDPControlPointTest {
 
     private static final String MOCK_LOCATION = "http://1.2.3.4/mock/location";
+    private static final String MOCK_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
+
 
     private SSDPControlPoint ssdpControlPoint;
 
@@ -80,6 +84,7 @@ public class SSDPControlPointTest {
         when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManagerMock);
         when(wifiManagerMock.createMulticastLock(anyString())).thenReturn(lockMock);
         when(lockMock.isHeld()).thenReturn(true);
+        when(ssdpMessageMock.get(SSDPMessage.USN)).thenReturn(MOCK_USN);
         when(ssdpMessageMock.get(SSDPMessage.LOCATION)).thenReturn(MOCK_LOCATION);
 
         mockStatic(SSDPDevice.class);
@@ -193,4 +198,49 @@ public class SSDPControlPointTest {
 
         verify(lockMock).release();
     }
+
+    @Test
+    public void givenDeviceNotDiscovered_whenDeviceDiscoveredFirstTime_thenDescriptionXmlIsRetrieved() throws Exception {
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        PowerMockito.verifyStatic(times(1));
+        SSDPDevice.createFromUrl(any(URL.class));
+    }
+
+//    @Test
+//    public void givenDeviceNotDiscovered_whenDeviceDiscoveredFirstTimeThatIsNotADicommDevice_thenDescriptionXmlIsNotRetrieved() throws Exception {
+//
+//        when(ssdpMessageMock)
+//        ssdpControlPoint.handleMessage(ssdpMessageMock);
+//
+//        PowerMockito.verifyStatic(times(1));
+//        SSDPDevice.createFromUrl(any(URL.class));
+//    }
+
+    @Test
+    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenDescriptionXmlIsNotRetrievedAgain() throws Exception {
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        PowerMockito.verifyStatic(times(1));
+        SSDPDevice.createFromUrl(any(URL.class));
+    }
+
+    @Test
+    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenListenerIsNotifiedTwice() throws Exception {
+        ssdpControlPoint.addDeviceListener(deviceListener);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        verify(deviceListener, times(2)).onDeviceAvailable(any(SSDPDevice.class));
+    }
+
+//    @Test
+//    public void givenDeviceDiscovered_whenDeviceDiscoveredAgainWithHigherBootId_thenDescriptionXmlIsRetrievedAgain() throws Exception {
+//
+//    }
+
 }

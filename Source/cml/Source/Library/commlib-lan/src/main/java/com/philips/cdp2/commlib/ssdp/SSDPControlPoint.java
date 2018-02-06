@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
@@ -58,6 +60,8 @@ import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
  */
 @SuppressWarnings("unused")
 public class SSDPControlPoint implements SSDPDiscovery {
+
+    private Map<String, SSDPDevice> deviceCache = new HashMap<>();
 
     private static final int SEARCH_INTERVAL_SECONDS = 5;
     private static final String SSDP_HOST = "239.255.255.250";
@@ -336,26 +340,16 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     @VisibleForTesting
     void handleMessage(final SSDPMessage message) {
-        final URL descriptionUrl;
-        final String location = message.get(LOCATION);
-
-        try {
-            descriptionUrl = new URL(location);
-        } catch (MalformedURLException e) {
-            DICommLog.e(SSDP, "Invalid description location: " + location);
-            return;
-        }
-
-        final SSDPDevice device = SSDPDevice.createFromUrl(descriptionUrl);
+        final String usn = message.get(SSDPMessage.USN);
+        SSDPDevice device = deviceCache.get(usn);
         if (device == null) {
-            return;
+            device = createDeviceFromSsdpMessage(message);
+            if (device != null) {
+                deviceCache.put(usn, device);
+            }
         }
 
-        final String ipAddress = descriptionUrl.getHost();
-        final boolean isSecure = descriptionUrl.getProtocol().equals("https");
-
-        device.setIpAddress(ipAddress);
-        device.setSecure(isSecure);
+        if (device == null) return;
 
         String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
 
@@ -372,6 +366,32 @@ public class SSDPControlPoint implements SSDPDiscovery {
                     break;
             }
         }
+    }
+
+    @Nullable
+    private SSDPDevice createDeviceFromSsdpMessage(final SSDPMessage message) {
+        final SSDPDevice device;
+        final URL descriptionUrl;
+        final String location = message.get(LOCATION);
+
+        try {
+            descriptionUrl = new URL(location);
+        } catch (MalformedURLException e) {
+            DICommLog.e(SSDP, "Invalid description location: " + location);
+            return null;
+        }
+
+        device = SSDPDevice.createFromUrl(descriptionUrl);
+        if (device == null) {
+            return null;
+        }
+
+        final String ipAddress = descriptionUrl.getHost();
+        final boolean isSecure = descriptionUrl.getProtocol().equals("https");
+
+        device.setIpAddress(ipAddress);
+        device.setSecure(isSecure);
+        return device;
     }
 
     private void notifyDeviceAvailable(SSDPDevice device) {
