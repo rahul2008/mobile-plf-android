@@ -147,6 +147,6 @@ ext.deps = [
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7',
         androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner',
-        rubygems                     : 'rubygems:roo:2.0.0'
-
+        rubygems                      : 'rubygems:roo:2.0.0',
+        wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
 ]
