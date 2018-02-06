@@ -150,10 +150,5 @@ public class MyAccountStateTest {
         public MyaInterface getInterface() {
             return myaInterface;
         }
-
-        @Override
-        protected String getConfiguredPrivacyNoticeUrl(AppInfraInterface appInfra) {
-            return PRIVACY_URL;
-        }
     }
 }

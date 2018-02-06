@@ -53,6 +53,7 @@ public class SecureStorageBulkActivity extends Activity {
                 Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
             } else {
                 bulkTextView.setText(decryptedData);
+                Toast.makeText(this," data matches "+decryptedData.equals(readTxt()),Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.store_bulk_encrypt_btn) {
             SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
@@ -60,7 +61,8 @@ public class SecureStorageBulkActivity extends Activity {
             if (null != sse.getErrorCode()) {
                 Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
             } else {
-                bulkTextView.setText(new String(encryptedData));
+                String text = new String(encryptedData);
+                bulkTextView.setText(text);
             }
 
         } else if (id == R.id.read_bulk_decrypt_btn) {
@@ -69,7 +71,9 @@ public class SecureStorageBulkActivity extends Activity {
             if (null != sse.getErrorCode()) {
                 Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
             } else {
-                bulkTextView.setText(new String(decryptedData));
+                String text = new String(decryptedData);
+                bulkTextView.setText(text);
+                Toast.makeText(this," data matches "+text.equals(readTxt()),Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.scroll_bottom) {
             scrollView.fullScroll(ScrollView.FOCUS_DOWN);
