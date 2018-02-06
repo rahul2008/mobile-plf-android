@@ -6,7 +6,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "dataServicesUApp"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
@@ -49,7 +49,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            compile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 

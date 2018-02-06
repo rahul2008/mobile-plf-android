@@ -10,7 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "commlib-lan"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
@@ -69,21 +69,19 @@ dependencies {
 
     compile deps.gson
 
-    def suffix = objcdp.getVersionSuffix()
-
     for (dep in [':commlib-api']) {
         if (directdependencies) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            compile("$group$dep:$platformversionsuffix") { changing = true }
         }
     }
 
     if (findProject(":commlib-testutils")) {
         testCompile project(path: ':commlib-testutils', configuration: 'debug')
     } else {
-        testCompile("$group:commlib-testutils:$platformversion$suffix") { changing = true }
+        testCompile("$group:commlib-testutils:$platformversionsuffix") { changing = true }
     }
 
     testCompile deps.junit
