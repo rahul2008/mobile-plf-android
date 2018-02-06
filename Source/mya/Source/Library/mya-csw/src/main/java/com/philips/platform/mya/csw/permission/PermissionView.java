@@ -134,24 +134,20 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onPrivacyNoticeClicked(String url) {
-        try {
-            JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
-            ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
-            justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
-            justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
-            justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
-                @Override
-                public void onConsentGiven() {
-                    openPrivacyNotice();
-                }
-            });
+        JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
+        ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
+        justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
+        justInTimeFragmentWidget.setTextResources("Receive promotional communications...");
+        justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
+            @Override
+            public void onConsentGiven() {
+                openPrivacyNotice();
+            }
+        });
 
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (RuntimeException e) {
-            System.out.println("test");
-        }
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
 

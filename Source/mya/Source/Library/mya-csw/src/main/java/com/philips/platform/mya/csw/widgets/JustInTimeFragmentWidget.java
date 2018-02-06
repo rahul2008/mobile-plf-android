@@ -26,10 +26,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 
 public class JustInTimeFragmentWidget extends CswBaseFragment {
-    private String title;
     private String description;
-    private String okayText;
-    private String cancelText;
     private JustInTimeWidgetHandler completionListener;
     private ConsentDefinition consentDefinition;
     private ConsentHandlerInterface consentHandlerInterface;
@@ -39,11 +36,8 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         this.consentHandlerInterface = consentHandlerInterface;
     }
 
-    public void setTextResources(String title, String description, String okayText, String cancelText) {
-        this.title = title;
+    public void setTextResources(String description) {
         this.description = description;
-        this.okayText = okayText;
-        this.cancelText = cancelText;
     }
 
     @Override
@@ -61,12 +55,6 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(title);
-    }
-
-    @Override
     protected void setViewParams(Configuration config, int width) {
     }
 
@@ -77,7 +65,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return R.string.csw_privacy_settings;
+        return R.string.mya_csw_justintime_title;
     }
 
     public void setCompletionListener(JustInTimeWidgetHandler completionListener) {
@@ -86,7 +74,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     private void initializeConsentRejectButton(View justInTimeConsentView) {
         Button rejectConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
-        rejectConsentButton.setText(cancelText);
+        rejectConsentButton.setText(R.string.mya_csw_justintime_reject);
         rejectConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +85,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     private void initializeGiveConsentButton(View justInTimeConsentView) {
         Button giveConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
-        giveConsentButton.setText(okayText);
+        giveConsentButton.setText(R.string.mya_csw_justintime_accept);
         giveConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
