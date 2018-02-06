@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
@@ -37,7 +39,9 @@ import com.philips.platform.mya.csw.widgets.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -129,18 +133,24 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onPrivacyNoticeClicked(String url) {
-        JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
-        justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
-        justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
-            @Override
-            public void onConsentGiven() {
-                openPrivacyNotice();
-            }
-        });
+        try {
+            JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
+            ConsentDefinition consentDefinition = new ConsentDefinition("Dit is mijn consent", "Ik help jou", Arrays.asList("moment", "insight"), 1, Locale.US);
+            justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
+            justInTimeFragmentWidget.setTextResources("Be the first to know", "Receive promotional communications...", "OK, count me in", "Maybe later");
+            justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
+                @Override
+                public void onConsentGiven() {
+                    openPrivacyNotice();
+                }
+            });
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (RuntimeException e) {
+            System.out.println("test");
+        }
     }
 
 

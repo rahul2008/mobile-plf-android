@@ -13,6 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.uid.view.widget.Button;
@@ -25,6 +31,13 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private String okayText;
     private String cancelText;
     private JustInTimeWidgetHandler completionListener;
+    private ConsentDefinition consentDefinition;
+    private ConsentHandlerInterface consentHandlerInterface;
+
+    public void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface) {
+        this.consentDefinition = consentDefinition;
+        this.consentHandlerInterface = consentHandlerInterface;
+    }
 
     public void setTextResources(String title, String description, String okayText, String cancelText) {
         this.title = title;
@@ -94,9 +107,19 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void onConsentGivenButtonClicked() {
-        if (completionListener != null) {
-            completionListener.onConsentGiven();
-        }
+            consentHandlerInterface.post(consentDefinition, true, new PostConsentCallback() {
+                @Override
+                public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+
+                }
+
+                @Override
+                public void onPostConsentSuccess(Consent consent) {
+                    if (completionListener != null) {
+                        completionListener.onConsentGiven();
+                    }
+                }
+            });
     }
 
     private void onConsentRejectedButtonClicked() {
