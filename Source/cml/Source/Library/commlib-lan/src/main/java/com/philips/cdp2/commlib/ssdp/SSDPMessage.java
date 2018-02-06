@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,6 +12,9 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 class SSDPMessage {
+
+    static final String SSDP_HOST = "239.255.255.250";
+    static final int SSDP_PORT = 1900;
 
     static final String SEPARATOR = ": ";
     static final String NEWLINE = "\r\n";
@@ -113,5 +116,16 @@ class SSDPMessage {
         builder.append(NEWLINE);
 
         return builder.toString();
+    }
+}
+
+final class SSDPSearchMessage extends SSDPMessage {
+    SSDPSearchMessage(final @NonNull String searchTarget, int searchIntervalInSeconds) {
+        super(MESSAGE_TYPE_SEARCH);
+
+        getHeaders().put(HOST, SSDP_HOST + ":" + SSDP_PORT);
+        getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
+        getHeaders().put(MAX_WAIT_TIME, String.valueOf(searchIntervalInSeconds));
+        getHeaders().put(SEARCH_TARGET, searchTarget);
     }
 }

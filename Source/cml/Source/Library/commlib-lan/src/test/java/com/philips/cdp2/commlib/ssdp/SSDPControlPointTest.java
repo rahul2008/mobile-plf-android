@@ -200,7 +200,7 @@ public class SSDPControlPointTest {
     }
 
     @Test
-    public void givenDeviceNotDiscovered_whenDeviceDiscoveredFirstTime_thenDescriptionXmlIsRetrieved() throws Exception {
+    public void givenDeviceNotDiscovered_whenDeviceDiscoveredFirstTime_thenDescriptionXmlIsRetrieved() {
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
@@ -208,18 +208,8 @@ public class SSDPControlPointTest {
         SSDPDevice.createFromUrl(any(URL.class));
     }
 
-//    @Test
-//    public void givenDeviceNotDiscovered_whenDeviceDiscoveredFirstTimeThatIsNotADicommDevice_thenDescriptionXmlIsNotRetrieved() throws Exception {
-//
-//        when(ssdpMessageMock)
-//        ssdpControlPoint.handleMessage(ssdpMessageMock);
-//
-//        PowerMockito.verifyStatic(times(1));
-//        SSDPDevice.createFromUrl(any(URL.class));
-//    }
-
     @Test
-    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenDescriptionXmlIsNotRetrievedAgain() throws Exception {
+    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenDescriptionXmlIsNotRetrievedAgain() {
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
@@ -229,7 +219,7 @@ public class SSDPControlPointTest {
     }
 
     @Test
-    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenListenerIsNotifiedTwice() throws Exception {
+    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenListenerIsNotifiedTwice() {
         ssdpControlPoint.addDeviceListener(deviceListener);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
@@ -237,10 +227,5 @@ public class SSDPControlPointTest {
 
         verify(deviceListener, times(2)).onDeviceAvailable(any(SSDPDevice.class));
     }
-
-//    @Test
-//    public void givenDeviceDiscovered_whenDeviceDiscoveredAgainWithHigherBootId_thenDescriptionXmlIsRetrievedAgain() throws Exception {
-//
-//    }
 
 }

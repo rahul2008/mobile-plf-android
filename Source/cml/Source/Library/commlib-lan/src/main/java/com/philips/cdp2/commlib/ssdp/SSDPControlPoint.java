@@ -24,10 +24,9 @@ import java.net.SocketAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
@@ -35,21 +34,18 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MAX_WAIT_TIME;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_SEARCH;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NAMESPACE;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NAMESPACE_DISCOVER;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALIVE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_DICOMM;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
@@ -61,13 +57,16 @@ import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 @SuppressWarnings("unused")
 public class SSDPControlPoint implements SSDPDiscovery {
 
-    private Map<String, SSDPDevice> deviceCache = new HashMap<>();
+    public interface DeviceListener {
 
+        void onDeviceAvailable(SSDPDevice device);
+
+        void onDeviceUnavailable(SSDPDevice device);
+    }
+
+    private final Map<String, SSDPDevice> deviceCache = new ConcurrentHashMap<>();
     private static final int SEARCH_INTERVAL_SECONDS = 5;
-    private static final String SSDP_HOST = "239.255.255.250";
-    private static final int SSDP_PORT = 1900;
 
-    private WifiManager wifi;
     private WifiManager.MulticastLock lock;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
@@ -76,8 +75,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private MulticastSocket broadcastSocket;
     private MulticastSocket listenSocket;
 
-    private ScheduledExecutorService searchExecutor = newSingleThreadScheduledExecutor();
-    private ScheduledFuture searchTaskFuture;
+    private ScheduledExecutorService broadcastExecutor = newSingleThreadScheduledExecutor();
+    private ScheduledFuture broadcastTaskFuture;
 
     private ScheduledExecutorService discoveryExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture discoveryTaskFuture;
@@ -89,12 +88,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
 
-    public interface DeviceListener {
-        void onDeviceAvailable(SSDPDevice device);
-
-        void onDeviceUnavailable(SSDPDevice device);
-    }
-
     private final Runnable searchTask = new Runnable() {
 
         @Override
@@ -104,101 +97,17 @@ public class SSDPControlPoint implements SSDPDiscovery {
             }
 
             try {
-                final SSDPMessage searchMessage = new SSDPMessage(MESSAGE_TYPE_SEARCH);
-                searchMessage.getHeaders().put(HOST, SSDP_HOST + ":" + SSDP_PORT);
-                searchMessage.getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
-                searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(SEARCH_INTERVAL_SECONDS));
-                searchMessage.getHeaders().put(SEARCH_TARGET, SEARCH_TARGET_DICOMM);
-
+                final SSDPMessage searchMessage = new SSDPSearchMessage(SEARCH_TARGET_DICOMM, SEARCH_INTERVAL_SECONDS);
                 final String searchMessageString = searchMessage.toString();
+
                 DICommLog.d(SSDP, searchMessageString);
 
-                final byte[] bytes = searchMessageString.getBytes(StandardCharsets.UTF_8);
+                final byte[] bytes = searchMessageString.getBytes(UTF_8);
                 final DatagramPacket requestPacket = new DatagramPacket(bytes, bytes.length, ssdpAddress);
 
                 broadcastSocket.send(requestPacket);
             } catch (IOException e) {
                 DICommLog.e(SSDP, "Error sending search message: " + e.getMessage());
-            }
-        }
-    };
-
-    private final Runnable discoveryTask = new Runnable() {
-
-        @Override
-        public void run() {
-            byte[] buffer = new byte[1024];
-
-            while (!currentThread().isInterrupted()) {
-                if (broadcastSocket == null || broadcastSocket.isClosed()) {
-                    return;
-                }
-                final DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
-
-                try {
-                    broadcastSocket.receive(responsePacket);
-                } catch (IOException ignored) {
-                    return;
-                }
-                final String response = new String(responsePacket.getData(), StandardCharsets.UTF_8);
-
-                if (response.startsWith(MESSAGE_TYPE_FOUND)) {
-                    int length = responsePacket.getLength();
-                    byte[] payload = new byte[length];
-                    ByteBuffer.wrap(responsePacket.getData(), 0, length).get(payload);
-
-                    final String payloadString = new String(payload, StandardCharsets.UTF_8);
-                    final SSDPMessage message = new SSDPMessage(payloadString);
-
-                    DICommLog.d(SSDP, message.toString());
-
-                    callbackExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            handleMessage(message);
-                        }
-                    });
-                }
-            }
-        }
-    };
-
-    private final Runnable listenTask = new Runnable() {
-
-        @Override
-        public void run() {
-            byte[] buffer = new byte[1024];
-
-            while (!currentThread().isInterrupted()) {
-                if (listenSocket == null || listenSocket.isClosed()) {
-                    return;
-                }
-                final DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
-
-                try {
-                    listenSocket.receive(responsePacket);
-                } catch (IOException ignored) {
-                    return;
-                }
-                final String response = new String(responsePacket.getData(), StandardCharsets.UTF_8);
-
-                if (response.startsWith(MESSAGE_TYPE_NOTIFY)) {
-                    int length = responsePacket.getLength();
-                    byte[] payload = new byte[length];
-                    ByteBuffer.wrap(responsePacket.getData(), 0, length).get(payload);
-
-                    final String payloadString = new String(payload, StandardCharsets.UTF_8);
-                    final SSDPMessage message = new SSDPMessage(payloadString);
-
-                    DICommLog.d(SSDP, message.toString());
-
-                    callbackExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            handleMessage(message);
-                        }
-                    });
-                }
             }
         }
     };
@@ -209,20 +118,23 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     @Override
     public void start() {
-        openSockets();
+        if (acquireMulticastLock()) {
+            openSockets();
 
-        startListening();
-        startDiscovery();
-        startSearch();
+            startListening();
+            startDiscovery();
+            startSearching();
+        }
     }
 
     @Override
     public void stop() {
-        stopSearch();
+        stopSearching();
         stopDiscovery();
         stopListening();
 
         closeSockets();
+        releaseMulticastLock();
     }
 
     @Nullable
@@ -236,17 +148,28 @@ public class SSDPControlPoint implements SSDPDiscovery {
         return inetAddress;
     }
 
-    private void openSockets() {
-        wifi = (WifiManager) ContextProvider.get().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifi == null) {
+    private boolean acquireMulticastLock() {
+        final WifiManager wifiManager = (WifiManager) ContextProvider.get().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiManager == null) {
             DICommLog.e(SSDP, "Error obtaining Wi-Fi system service.");
-            return;
+            return false;
         }
 
-        lock = wifi.createMulticastLock("SSDPControlPointMulticastLock");
+        lock = wifiManager.createMulticastLock("SSDPControlPointMulticastLock");
         lock.setReferenceCounted(true);
         lock.acquire();
 
+        return lock.isHeld();
+    }
+
+    private void releaseMulticastLock() {
+        if (lock != null && lock.isHeld()) {
+            lock.release();
+        }
+    }
+
+    private void openSockets() {
         try {
             broadcastSocket = createBroadcastSocket();
             broadcastSocket.setReuseAddress(true);
@@ -257,17 +180,13 @@ public class SSDPControlPoint implements SSDPDiscovery {
             listenSocket.setReuseAddress(true);
             listenSocket.joinGroup(multicastGroupAddress);
         } catch (IOException e) {
-            throw new IllegalStateException("Error opening sockets: " + e.getMessage());
+            throw new IllegalStateException("Error opening socket(s): " + e.getMessage());
         }
     }
 
     private void closeSockets() {
         closeSocket(broadcastSocket);
         closeSocket(listenSocket);
-
-        if (lock != null && lock.isHeld()) {
-            lock.release();
-        }
     }
 
     private void closeSocket(final MulticastSocket socket) {
@@ -295,11 +214,19 @@ public class SSDPControlPoint implements SSDPDiscovery {
         return new MulticastSocket(ssdpAddress);
     }
 
-    private void startDiscovery() {
-        try {
-            discoveryTaskFuture = discoveryExecutor.schedule(discoveryTask, 0, TimeUnit.SECONDS);
-        } catch (IllegalStateException ignored) {
+    private void startSearching() {
+        broadcastTaskFuture = broadcastExecutor.scheduleAtFixedRate(searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
+    }
+
+    private void stopSearching() {
+        if (broadcastTaskFuture != null) {
+            broadcastTaskFuture.cancel(true);
         }
+    }
+
+    private void startDiscovery() {
+        final Runnable discoveryTask = new MessageTask(broadcastSocket, MESSAGE_TYPE_FOUND);
+        discoveryTaskFuture = discoveryExecutor.schedule(discoveryTask, 0, TimeUnit.SECONDS);
     }
 
     private void stopDiscovery() {
@@ -309,10 +236,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     private void startListening() {
-        try {
-            listenTaskFuture = listenExecutor.schedule(listenTask, 0, TimeUnit.SECONDS);
-        } catch (IllegalStateException ignored) {
-        }
+        final Runnable listenTask = new MessageTask(listenSocket, MESSAGE_TYPE_NOTIFY);
+        listenTaskFuture = listenExecutor.schedule(listenTask, 0, TimeUnit.SECONDS);
     }
 
     private void stopListening() {
@@ -321,39 +246,31 @@ public class SSDPControlPoint implements SSDPDiscovery {
         }
     }
 
-    private void startSearch() {
-        try {
-            searchTaskFuture = searchExecutor.scheduleAtFixedRate(searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
-        } catch (IllegalStateException ignored) {
-        }
+    public void addDeviceListener(final @NonNull DeviceListener listener) {
+        this.deviceListeners.add(listener);
     }
 
-    private void stopSearch() {
-        if (searchTaskFuture != null) {
-            searchTaskFuture.cancel(true);
-        }
-    }
-
-    public boolean addDeviceListener(final @NonNull DeviceListener listener) {
-        return this.deviceListeners.add(listener);
-    }
-
-    public boolean removeDeviceListener(final @NonNull DeviceListener listener) {
-        return this.deviceListeners.remove(listener);
+    public void removeDeviceListener(final @NonNull DeviceListener listener) {
+        this.deviceListeners.remove(listener);
     }
 
     @VisibleForTesting
     void handleMessage(final SSDPMessage message) {
         final String usn = message.get(SSDPMessage.USN);
-        SSDPDevice device = deviceCache.get(usn);
-        if (device == null) {
+
+        final SSDPDevice device;
+
+        if (deviceCache.containsKey(usn)) {
+            device = deviceCache.get(usn);
+        } else {
             device = createDeviceFromSsdpMessage(message);
-            if (device != null) {
+
+            if (device == null) {
+                return;
+            } else {
                 deviceCache.put(usn, device);
             }
         }
-
-        if (device == null) return;
 
         String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
 
@@ -373,7 +290,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     @Nullable
-    private SSDPDevice createDeviceFromSsdpMessage(final SSDPMessage message) {
+    private static SSDPDevice createDeviceFromSsdpMessage(final SSDPMessage message) {
         final SSDPDevice device;
         final URL descriptionUrl;
         final String location = message.get(LOCATION);
@@ -395,6 +312,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
         device.setIpAddress(ipAddress);
         device.setSecure(isSecure);
+
         return device;
     }
 
@@ -407,6 +325,57 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private void notifyDeviceUnavailable(SSDPDevice device) {
         for (DeviceListener listener : deviceListeners) {
             listener.onDeviceUnavailable(device);
+        }
+    }
+
+    private final class MessageTask implements Runnable {
+
+        @NonNull
+        private final MulticastSocket socket;
+
+        @NonNull
+        private final String messageType;
+
+        MessageTask(final @NonNull MulticastSocket socket, final @NonNull String messageType) {
+            this.socket = socket;
+            this.messageType = messageType;
+        }
+
+        @Override
+        public void run() {
+            byte[] buffer = new byte[1024];
+
+            while (!currentThread().isInterrupted()) {
+                if (socket.isClosed()) {
+                    return;
+                }
+                final DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
+
+                try {
+                    socket.receive(responsePacket);
+                } catch (IOException ignored) {
+                    return;
+                }
+                final String response = new String(responsePacket.getData(), UTF_8);
+
+                if (response.startsWith(messageType)) {
+                    int length = responsePacket.getLength();
+                    byte[] payload = new byte[length];
+                    ByteBuffer.wrap(responsePacket.getData(), 0, length).get(payload);
+
+                    final String payloadString = new String(payload, UTF_8);
+                    final SSDPMessage message = new SSDPMessage(payloadString);
+
+                    DICommLog.d(SSDP, message.toString());
+
+                    callbackExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            handleMessage(message);
+                        }
+                    });
+                }
+            }
         }
     }
 }
