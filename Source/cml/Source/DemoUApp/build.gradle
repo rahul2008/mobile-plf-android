@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -69,7 +69,7 @@ dependencies {
     testCompile deps.mockito
 
     compile deps.support.design
-    compile deps.support.cardview
+    compile "com.android.support:cardview-v7:${versions.support}"
 
     provided deps.support.annotations
 
