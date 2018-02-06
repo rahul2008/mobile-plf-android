@@ -16,9 +16,6 @@ class SSDPMessage {
     static final String SEPARATOR = ": ";
     static final String NEWLINE = "\r\n";
 
-    static final String SSDP_HOST = "239.255.255.250";
-    static final int SSDP_PORT = 1900;
-
     private static final int TYPE_SEARCH = 0;
     private static final int TYPE_NOTIFY = 1;
     private static final int TYPE_FOUND = 2;

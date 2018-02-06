@@ -42,8 +42,6 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYE
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_DICOMM;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
@@ -57,6 +55,8 @@ import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 public class SSDPControlPoint implements SSDPDiscovery {
 
     private static final int SEARCH_INTERVAL_SECONDS = 5;
+    private static final String SSDP_HOST = "239.255.255.250";
+    private static final int SSDP_PORT = 1900;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
     private DatagramSocket socket;
