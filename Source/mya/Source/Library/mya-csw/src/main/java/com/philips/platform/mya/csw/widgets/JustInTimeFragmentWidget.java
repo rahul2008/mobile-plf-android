@@ -22,6 +22,7 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -102,7 +103,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-
+                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText());
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
