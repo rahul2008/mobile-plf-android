@@ -246,8 +246,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_dob">Date of Birth</string>
     <string name="ths_insurance_dob_hint">DD/MM/YYYY</string>
     <string name="ths_insurance_plan_not_listed">My plan is not listed. Skip this</string>
-    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit</string>
-    <string name="ths_insurance_visit_shall_be_cancelled">Your visit shall be cancelled</string>
+    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit?</string>
+    <string name="ths_insurance_visit_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
     <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
     <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
@@ -281,9 +281,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Match making screen strings -->
-    <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
-    <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
-    <string name="ths_matchmaking_error_text">No provider is available right now</string>
+    <string name="ths_matchmaking_progressbar_message_parent_text">We\'re finding the right \nprovider for your visit</string>
+    <string name="ths_matchmaking_progressbar_message_child_text">This may take few minutes</string>
+    <string name="ths_matchmaking_error_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
+    <string name="ths_matchmaking_provider_not_supplied">Provider not supplied</string>
     <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
@@ -466,4 +467,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_residency_check_failed">Credit card residency check failed</string>
     <string name="ths_slot_no_longer_available">This appointment slot is no longer available.  Please select a new time</string>
     <string name="ths_consumer_already_active">The consumer is already active in a visit. End the active visit and try again</string>
+    <string name="ths_invalid_parameter">You have entered an incorrect detail. Please try again.</string>
 </resources>

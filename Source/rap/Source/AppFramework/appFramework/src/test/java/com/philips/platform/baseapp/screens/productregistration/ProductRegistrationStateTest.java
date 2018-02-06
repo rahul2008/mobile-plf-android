@@ -59,6 +59,6 @@ public class ProductRegistrationStateTest extends TestCase {
         productRegistrationState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(0,fragmentCount);
+        assertEquals(1,fragmentCount);
     }
 }

@@ -161,7 +161,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     private void postConsent(boolean status, PostConsentCallback callback) {
         showProgressDialog();
-        consentHandlerInterface.post(consentDefinition, status, callback);
+        consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
     }
 
     class JustInTimePostConsentCallback implements PostConsentCallback {

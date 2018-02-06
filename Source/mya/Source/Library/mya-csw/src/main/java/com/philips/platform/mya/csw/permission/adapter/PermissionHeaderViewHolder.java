@@ -11,7 +11,6 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.uid.view.widget.Label;
-
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;

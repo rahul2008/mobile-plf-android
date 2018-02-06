@@ -30,7 +30,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.description.PrivacyNoticeFragment;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
@@ -158,7 +157,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-
     @Override
     public void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
@@ -229,11 +227,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private void openPrivacyNotice() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            PrivacyNoticeFragment privacyNoticeFragment = new PrivacyNoticeFragment();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.csw_frame_layout_view_container, privacyNoticeFragment, PRIVACY_NOTICE_TAG);
-            fragmentTransaction.addToBackStack(PRIVACY_NOTICE_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
+            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
         } else {
             showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
