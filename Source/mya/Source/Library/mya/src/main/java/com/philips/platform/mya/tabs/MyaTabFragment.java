@@ -50,7 +50,8 @@ public class MyaTabFragment extends MyaBaseFragment {
             }
             addTabs(tabLayout);
             adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
-            adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
+            if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null)
+                adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
             viewPager.setCurrentItem(tabPosition, true);

@@ -23,7 +23,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
@@ -89,7 +88,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         });
         launchInput.addToBackStack(true);
         launchInput.setMyAccountUIEventListener(this);
-        launchInput.setMyaTabConfig(new MyaTabConfig("some_name",new TabTestFragment()));
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);

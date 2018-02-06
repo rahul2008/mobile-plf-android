@@ -22,7 +22,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class MyaLaunchInput extends UappLaunchInput {
 
-    private Context context;
+    private transient Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
     private MyAccountUIEventListener myAccountUIEventListener;
