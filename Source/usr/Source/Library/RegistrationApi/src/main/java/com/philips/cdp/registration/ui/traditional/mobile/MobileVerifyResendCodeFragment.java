@@ -10,9 +10,7 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -302,7 +300,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
                 disableResendButton();
                 mobileVerifyResendCodePresenter.updatePhoneNumber(
-                        FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()), context);
+                        FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()));
             } else {
                 errorMessage.setError(getActivity().getResources().getString(
                         R.string.reg_InvalidPhoneNumber_ErrorMsg));
@@ -462,7 +460,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
                     context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
-                    user.getMobile().toString());
+                    user.getMobile());
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile"+ user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -275,7 +275,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void updateAppLocale(String localeString, String countryName) {
         RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + localeString);
-        String localeArr[] = localeString.toString().split("_");
+        String localeArr[] = localeString.split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());

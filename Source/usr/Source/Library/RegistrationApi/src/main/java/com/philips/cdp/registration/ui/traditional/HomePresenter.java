@@ -27,7 +27,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -295,6 +294,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             ArrayList<Country> allCountriesList = new ArrayList<Country>();
             String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
             for (String aRecourseList : recourseList) {
+
                 Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
                 allCountriesList.add(country);
             }

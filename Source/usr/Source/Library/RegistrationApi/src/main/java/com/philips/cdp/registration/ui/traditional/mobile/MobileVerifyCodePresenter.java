@@ -56,7 +56,7 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
 
     }
 
-    protected void getRequest(String url, String bodyContent) {
+    private void getRequest(String url, String bodyContent) {
         URRequest urRequest = new URRequest(Request.Method.POST, url, bodyContent, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest();
     }

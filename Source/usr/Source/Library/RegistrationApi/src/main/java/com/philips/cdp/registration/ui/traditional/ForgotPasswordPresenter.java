@@ -146,7 +146,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
         try {
             JSONObject jsonObject = new JSONObject(response);
-            if ("0".equals(jsonObject.getString("errorCode").toString())) {
+            if ("0".equals(jsonObject.getString("errorCode"))) {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
                 JSONObject json = null;
@@ -165,7 +165,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), context);
+                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorMsg);
                 RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;

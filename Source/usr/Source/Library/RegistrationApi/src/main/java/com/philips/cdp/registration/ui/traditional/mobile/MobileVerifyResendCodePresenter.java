@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -16,7 +15,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
 
@@ -24,12 +22,15 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
-    public static final String  UPDATE_PROFILE_URL = "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native";
     private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
+    public static final String UPDATE_PROFILE_URL = "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native";
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
+    private static final String BASE_URL_CODE_SERVICE_ID = "userreg.janrain.api";
+
     private static final int RESEND_OTP_REQUEST_CODE = 101;
     private static final String ERROR_CODE = "errorCode";
     private static final String OTP_RESEND_SUCCESS = "0";
@@ -58,13 +59,13 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     }
 
 
-    public void initServiceDiscovery(String mobileNumber) {
+    private void initServiceDiscoveryForVerificationCode(String mobileNumber) {
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(VERIFICATION_SMS_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID +" URL is "+ url);
-                RequestBody emptyBody = RequestBody.create(null, new byte[0]);
-                URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(url.toString(), mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
+//                RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+                URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(url.toString(), mobileNumber), null, response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest();
             }
 
@@ -76,9 +77,8 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         });
     }
 
-    public void resendOTPRequest(final String mobileNumber) {
-
-        initServiceDiscovery(mobileNumber);
+    void resendOTPRequest(final String mobileNumber) {
+        initServiceDiscoveryForVerificationCode(mobileNumber);
     }
 //    public void resendOTPRequest(final String mobileNumber) {
 //        mobileVerifyCodeContract.disableResendButton();
@@ -159,6 +159,8 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
     @NonNull
     private String getSmsVerificationUrl(String verificationSmsCodeURL, String mobileNumber) {
+        RLog.d(TAG, verificationSmsCodeURL + "?provider=" +
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber));
         return verificationSmsCodeURL + "?provider=" +
                 "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber);
     }
@@ -248,17 +250,38 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         serviceDiscoveryWrapper = wrapper;
     }
 
-    public void updatePhoneNumber(String mobilenumberURL, Context context) {
-        mobileNumberStr = mobilenumberURL;
+
+//    private void initServiceDiscoveryForUpdateMobilenumber(String mobilenumberURL) {
+//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(BASE_URL_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+//
+//            @Override
+//            public void onSuccess(URL url) {
+//                RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
+//                URRequest urRequest = new URRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com"+"/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+//                urRequest.makeRequest();
+//            }
+//
+//            @Override
+//            public void onError(ERRORVALUES error, String message) {
+//                RLog.d(TAG, error.name() + "and error message is " + message);
+//                mobileVerifyCodeContract.enableUpdateButton();
+//            }
+//        });
+//    }
+
+    void updatePhoneNumber(String mobilenumberURL) {
 //        Intent smsActivationIntent = updatePhoneNumberIntent(mobilenumber,context);
 //        mobileVerifyCodeContract.startService(smsActivationIntent);
 
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
-
-        URRequest urRequest = new URRequest(Request.Method.POST, UPDATE_PROFILE_URL, getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+//        initServiceDiscoveryForUpdateMobilenumber(mobilenumberURL);
+        RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + UPDATE_PROFILE_URL);
+        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(BASE_URL_CODE_SERVICE_ID).cache();
+        URRequest urRequest = new URRequest(Request.Method.POST, serviceUrl + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest();
+
     }
 
 

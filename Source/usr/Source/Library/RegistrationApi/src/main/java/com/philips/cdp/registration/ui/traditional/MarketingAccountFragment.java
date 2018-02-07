@@ -216,7 +216,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
+            if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivateFragment();
             } else {
                 launchMobileVerifyCodeFragment();

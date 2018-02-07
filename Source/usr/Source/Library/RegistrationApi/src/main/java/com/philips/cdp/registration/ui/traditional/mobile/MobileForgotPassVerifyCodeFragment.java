@@ -226,7 +226,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         createSMSPasswordResetIntent();
     }
 
-    public Intent createSMSPasswordResetIntent() {
+    public void createSMSPasswordResetIntent() {
 
         RLog.d("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUri + " " + responseToken);
@@ -237,7 +237,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         bundle.putString(redirectUriKey, redirectUri);
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
-        return null;
     }
 
     private void constructRedirectUri() {

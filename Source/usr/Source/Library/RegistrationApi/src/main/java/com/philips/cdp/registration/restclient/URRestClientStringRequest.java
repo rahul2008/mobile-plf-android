@@ -62,7 +62,7 @@ public class URRestClientStringRequest extends StringRequest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
         params.put("content-type", "application/x-www-form-urlencoded");
-        params.put("Content-Type", "application/json; charset=UTF-8");
+      //  params.put("Content-Type", "application/json; charset=UTF-8");
 
         return params;
     }
