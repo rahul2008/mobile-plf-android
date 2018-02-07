@@ -280,24 +280,17 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         } else {
             tagActions = tagActions.replace(TAG_SYMPTOMS_CHECKED, "");
         }
-        if (!(tagActions.isEmpty())) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
-        }
         if(null!=selectedImagePojoList && selectedImagePojoList.size()>0){
             tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
         }
         if(!additional_comments_edittext.getText().toString().isEmpty()){
             tagActions = THSTagUtils.addActions(tagActions, "commentAdded");
         }
-
         if (!(tagActions.isEmpty())) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
             if(tagActions.contains(TAG_SYMPTOMS_CHECKED))
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
-    }
-
     }
 
     private boolean isOtherTopicValid() {
