@@ -345,7 +345,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent-->
     <string name="ths_visit_for">Who is this visit for?</string>
-    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name.</string>
+    <string name="ths_select_name">Please select the person who needs the consult. For instance, if you are the parent and your child has an ear-ache, select your \'your child\'.</string>
+
     <string name="ths_select_patient">Select patient</string>
     <string name="ths_select_patient_detail_appointment_text">Please select a patient from which you would like to see the scheduled visits.</string>
     <string name="ths_select_patient_detail_visit_text">Please select a patient from which you would like to see the visit history.</string>
