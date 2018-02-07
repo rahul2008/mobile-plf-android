@@ -257,24 +257,7 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'prx', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.constraintlayout
-
-    if(dp) {
-        compile(project(':registrationApi'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
-    if(dp) {
-        compile(project(':prx'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
-    }
-
+    //compile deps.constraintlayout
 
     // Tests
     testCompile  deps.junit
