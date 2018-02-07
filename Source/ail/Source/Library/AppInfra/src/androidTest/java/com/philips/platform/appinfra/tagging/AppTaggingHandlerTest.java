@@ -1,8 +1,6 @@
 package com.philips.platform.appinfra.tagging;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -10,15 +8,11 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -29,43 +23,20 @@ import static org.mockito.Mockito.when;
  */
 public class AppTaggingHandlerTest extends AppInfraInstrumentation {
 
-    AppTaggingInterface mAIAppTaggingInterface;
-    AppTaggingInterface mockAppTaggingInterface;
-    AppConfigurationManager mConfigInterface;
-    AppTagging appTagging;
-    private Context context;
+    private AppTagging appTagging;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    AppTaggingHandler  mAppTaggingHandler;
-    AppTaggingHandler mAppTaggingHandlerMock;
+    private AppTaggingHandler  mAppTaggingHandler;
+    private AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
-    LoggingInterface loggingInterfaceMock;
-    AppIdentityInterface appIdentityInterfaceMock;
-    SecureStorageInterface secureStorageInterfaceMock;
-    InternationalizationInterface internationalizationInterfaceMock;
-
-    private BroadcastReceiver rec = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                if (intent.getAction().equalsIgnoreCase(AppTagging.ACTION_TAGGING_DATA)) {
-                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
-                    assertNotNull(textExtra);
-                }
-            }
-
-        }
-    };
+    private LoggingInterface loggingInterfaceMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
-        assertNotNull(context);
-
+        Context context = getInstrumentation().getContext();
         mAppInfra = new AppInfra.Builder().build(context);
-
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -73,6 +44,7 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
+                    e.getMessage();
                 }
                 return result;
             }
@@ -81,31 +53,19 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
-
-
-        Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
-        assertNotNull(dynAppState.toString());
-
-        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-        assertNotNull(mAIAppTaggingInterface);
-
         mAppTaggingHandler=new AppTaggingHandler(mAppInfra);
-
-        mockAppTaggingInterface = mock(AppTaggingInterface.class);
-
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
         appInfraMock = mock(AppInfra.class);
+        when(appInfraMock.getAppInfraContext()).thenReturn(context);
         appTagging=new AppTagging(appInfraMock) {
             @Override
             AppTaggingHandler getAppTaggingHandler() {
                 return mAppTaggingHandlerMock;
             }
         };
-
+        mAppTaggingHandlerMock.setAppInfra(appInfraMock);
         loggingInterfaceMock = mock(LoggingInterface.class);
-        appIdentityInterfaceMock=mock(AppIdentityInterface.class);
-        secureStorageInterfaceMock=mock(SecureStorageInterface.class);
-        internationalizationInterfaceMock=mock(InternationalizationInterface.class);
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
     }
@@ -124,8 +84,8 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
 
     public void testTrackPageWithInfo_WithoutDictionary() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        appTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
         when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        appTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", "value1", true);
     }
 
@@ -134,21 +94,18 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
                 "PRODUCTION", configError);
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("AppTaggingDemoPage", null, "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", null, true);
     }
 
     public void testTrackPageWithInfoNullValue_WithoutDictionary() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", null,true);
     }
 
     public void testTrackPageWithInfoNullKeyValue_WithoutDictionary() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("AppTaggingDemoPage", null, null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, null,true);
     }
 
@@ -163,7 +120,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
             }
             when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
             appTagging.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
-            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("AppTaggingDemoPage", keyValuePair,true);
         }
     }
@@ -171,28 +127,24 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTrackPageWithInfo_pagename_exceeds_100() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1",true);
     }
 
     public void testTrackPageWithInfoNullKey_pagename_exceeds_100() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, "value1",true);
     }
 
     public void testTrackPageWithInfoNullValue_pagename_exceeds_100() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", null,true);
     }
 
     public void testTrackPageWithInfoNullValueKey_pagename_exceeds_100() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, null,true);
     }
 
@@ -207,7 +159,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
             }
             when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
             appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair);
-            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair,true);
         }
       }
@@ -215,21 +166,17 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testMockTrackActionWithInfo() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", "value1",false);
     }
 
     public void testMockTrackActionWithInfoNullKey() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("AppTaggingDemoPage", null, "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, "value1",false);
     }
 
     public void testMockTrackActionWithInfoNullValue() {
-        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("AppTaggingDemoPage", null, null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, null,false);
     }
 
@@ -247,7 +194,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
             }
             when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
             appTagging.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
-            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("AppTaggingDemoPage", keyValuePair,false);
         }
     }
@@ -255,28 +201,24 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testMockTrackActionWithInfo_eventname_exceeds_255() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1",false);
     }
 
     public void testMockTrackActionWithInfoNullKey_eventname_exceeds_255() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, "value1");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, "value1",false);
     }
 
     public void testMockTrackActionWithInfoNullValue_eventname_exceeds_255() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", null,false);
     }
 
     public void testMockTrackActionWithInfoNullKeyValue_eventname_exceeds_255() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, null);
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, null,false);
     }
 
@@ -291,7 +233,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
             }
             when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
             appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair);
-            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair,false);
         }
     }
@@ -315,7 +256,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTrackSocialSharing() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Bindas");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         final HashMap<String, String> trackMap = new HashMap<>();
         trackMap.put("socialItem", "Bindas");
         trackMap.put("socialType", AppTaggingInterface.SocialMedium.Facebook.toString());
@@ -325,7 +265,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTrackLinkExternal() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackLinkExternal("http://www.philips.co.in/");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("sendData", "exitLinkName","\"http://www.philips.co.in/\"",false);
 
     }
@@ -333,7 +272,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTrackFileDownload() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackFileDownload("Bindas");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).trackWithInfo("sendData", "fileName","Bindas",false);
 
 
@@ -342,7 +280,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTimedActionStart() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackTimedActionStart("Tagging_trackTimedAction");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction");
 
     }
@@ -350,7 +287,6 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
     public void testTrackTimedActionEnd() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackTimedActionEnd("Tagging_trackTimedAction");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
         verify(mAppTaggingHandlerMock).timeActionEnd("Tagging_trackTimedAction");
     }
 

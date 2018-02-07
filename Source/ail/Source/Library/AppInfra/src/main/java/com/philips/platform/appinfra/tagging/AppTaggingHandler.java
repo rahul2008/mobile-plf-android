@@ -55,7 +55,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
  */
  public class AppTaggingHandler {
     private static String prevPage;
-    private final AppInfra mAppInfra;
+    private AppInfra mAppInfra;
     private String mLanguage;
     private String mComponentID;
     private String mComponentVersion;
@@ -105,8 +105,8 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
            /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_TAGGING, "Master ADB Mobile Config Json" +
                     result.toString());*/
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception" +
-                    Log.getStackTraceString(e));
+//            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception" +
+//                    Log.getStackTraceString(e));
         }
         return result;
     }
@@ -401,5 +401,9 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
                 }
             }
             return false;
+    }
+
+    void setAppInfra(AppInfra mAppInfra) {
+        this.mAppInfra = mAppInfra;
     }
 }
