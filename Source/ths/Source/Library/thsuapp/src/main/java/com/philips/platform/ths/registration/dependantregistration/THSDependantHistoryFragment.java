@@ -43,6 +43,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private ImageView mImageViewLogo;
     protected int mLaunchInput = -1;
     private RelativeLayout mRelativeLayoutContainer;
+    static final long serialVersionUID = 141L;
 
     @Nullable
     @Override

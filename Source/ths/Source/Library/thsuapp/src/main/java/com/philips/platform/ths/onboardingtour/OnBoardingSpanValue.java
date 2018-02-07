@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 class OnBoardingSpanValue implements Serializable{
 
+
     private int startIndex;
     private int endIndex;
     private OnBoardingTypeface onBoardingTypeface;
+    static final long serialVersionUID = 1141L;
+
     enum OnBoardingTypeface {
         BOLD,
         BOOK

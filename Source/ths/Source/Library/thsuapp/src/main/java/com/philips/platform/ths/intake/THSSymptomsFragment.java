@@ -107,6 +107,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public static long visitStartTime;
     private Label mLabelPatientName;
     protected static int NumberOfConditionSelected = 0;
+    private final String TAG_SYMPTOMS_CHECKED="SymptomsChecked";
 
     @Nullable
     @Override
@@ -268,7 +269,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected void updateOtherTopic() {
         if (isOtherTopicValid()) {
             mThsVisitContext.setOtherTopic(additional_comments_edittext.getText().toString());
-            tagActions = THSTagUtils.addActions(tagActions, "commentAdded");
 
             THSManager.getInstance().setVisitContext(mThsVisitContext);
         }
@@ -276,13 +276,20 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     protected void addTags() {
         if (NumberOfConditionSelected > 0) {
-            tagActions = THSTagUtils.addActions(tagActions, "SymptomsChecked");
+            tagActions = THSTagUtils.addActions(tagActions, TAG_SYMPTOMS_CHECKED);
         } else {
-            tagActions = tagActions.replace("SymptomsChecked", "");
+            tagActions = tagActions.replace(TAG_SYMPTOMS_CHECKED, "");
+        }
+        if(null!=selectedImagePojoList && selectedImagePojoList.size()>0){
+            tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
+        }
+        if(!additional_comments_edittext.getText().toString().isEmpty()){
+            tagActions = THSTagUtils.addActions(tagActions, "commentAdded");
         }
         if (!(tagActions.isEmpty())) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+            if(tagActions.contains(TAG_SYMPTOMS_CHECKED))
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
     }
 
@@ -434,7 +441,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             Uri compressedImageUri = getImageUri(getActivity(), selectedImage, picturePath);
             String path = getRealPathFromURI(compressedImageUri);
             updateDocumentsToUpload(path, compressedImageUri);
-            tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
             thsSymptomsPresenter.uploadDocuments(compressedImageUri);
 
         } catch (FileNotFoundException e) {
