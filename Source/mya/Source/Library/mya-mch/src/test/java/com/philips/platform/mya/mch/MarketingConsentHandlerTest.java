@@ -128,24 +128,24 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenCheckingConsents() {
-        subject.fetchConsentStates(null, givenCheckConsentCallback);
+        subject.checkConsents(givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenCheckingConsentsThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
-        subject.fetchConsentStates(null, givenCheckConsentCallback);
+        subject.checkConsents(givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenPostingConsentDefinitionSucceeds() {
-        subject.storeConsentState(givenConsentDefinition, givenStatus, givenPostConsentCallback);
+        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateSuccess();
     }
 
     private void whenPostingConsentDefinitionFails(int errorCode) {
-        subject.storeConsentState(givenConsentDefinition, givenStatus, givenPostConsentCallback);
+        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
     }

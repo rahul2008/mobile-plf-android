@@ -9,11 +9,9 @@ package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentCallback;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
 public class ConsentInteractorMock extends ConsentInteractor {
 
@@ -33,10 +31,5 @@ public class ConsentInteractorMock extends ConsentInteractor {
         } else {
             callback.onGetConsentFailed(getStatusForConsentType_returnError);
         }
-    }
-
-    @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
-
     }
 }

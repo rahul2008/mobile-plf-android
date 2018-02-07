@@ -10,6 +10,11 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -24,12 +29,6 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
 
@@ -65,7 +64,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             for (ConsentConfiguration configuration : configurationList) {
                 ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
                 if (handlerInterface != null) {
-                    handlerInterface.fetchConsentStates(configuration.getConsentDefinitionList(), this);
+                    handlerInterface.checkConsents(this);
                 }
             }
         }
@@ -75,7 +74,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            handler.storeConsentState(definition, consentGiven, this);
+            handler.post(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
             return consentGiven;
         } else {

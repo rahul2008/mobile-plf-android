@@ -26,7 +26,7 @@ import com.philips.platform.catalogapp.R;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.ViewHolder> {
@@ -165,13 +165,13 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.colorRangeTittleText)
+        @BindView(R.id.colorRangeTittleText)
         public TextView colorRangeTittleLabel;
 
-        @Bind(R.id.colorRangeSelectedCheckbox)
+        @BindView(R.id.colorRangeSelectedCheckbox)
         public ImageView colorRangeSelectedCheckBox;
 
-        @Bind(R.id.colorRangeItemContainer)
+        @BindView(R.id.colorRangeItemContainer)
         View colorRangeContainer;
 
         public ViewHolder(View view) {

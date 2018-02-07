@@ -75,7 +75,7 @@ public class THSLaunchActivityTest {
 
     @Test
     public void shouldSaveInstanceIsNotnull() throws Exception {
-        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).withIntent(intent).get();
+        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).get();
         THSLaunchActivity spyActivity = Mockito.spy(mThsLaunchActivity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
@@ -85,7 +85,7 @@ public class THSLaunchActivityTest {
 
 
     private void startActivity(Intent intent) {
-        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).withIntent(intent).get();
+        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).get();
         THSLaunchActivity spyActivity = Mockito.spy(mThsLaunchActivity);
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
         spyActivity.onCreate(null);
