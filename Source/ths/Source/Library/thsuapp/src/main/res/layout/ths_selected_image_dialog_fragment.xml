@@ -66,4 +66,15 @@
         android:text="Delete this photo"
         app:uidAccent="true" />
 
+    <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+        android:id="@+id/ths_selected_image_ProgressBarWithLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ths_delete_selected_image_button"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:uidCircularProgressBarSize="middle"
+        app:uidIsIndeterminateProgressIndicator="true"
+        app:uidLabelPosition="bottom_center" />
+
 </RelativeLayout>

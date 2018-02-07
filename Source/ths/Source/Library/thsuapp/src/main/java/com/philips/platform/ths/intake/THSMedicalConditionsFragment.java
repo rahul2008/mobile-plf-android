@@ -46,6 +46,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     private List<CheckBox> checkBoxList;
     protected int NumberOfConditionSelected=0;
     private Label mLabelPatientName;
+    static final long serialVersionUID = 71L;
 
     @Nullable
     @Override
