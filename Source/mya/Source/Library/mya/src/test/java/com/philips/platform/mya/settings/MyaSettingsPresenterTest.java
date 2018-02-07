@@ -7,8 +7,20 @@
 
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
-import android.os.Bundle;
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -27,20 +39,8 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import android.content.Context;
+import android.os.Bundle;
 
 public class MyaSettingsPresenterTest {
 

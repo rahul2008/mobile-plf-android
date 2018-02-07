@@ -3,7 +3,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath builddeps.gradle
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,26 +20,23 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-release'
+            url repos.release
         }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-stage'
-        }
-        jcenter()
+   
     }
 }
 
