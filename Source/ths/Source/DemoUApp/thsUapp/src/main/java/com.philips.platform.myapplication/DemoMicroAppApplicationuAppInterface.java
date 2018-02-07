@@ -43,27 +43,6 @@ public class DemoMicroAppApplicationuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
 
-       /* if(uiLauncher instanceof ActivityLauncher) {
-            Intent fragmentLauncher1 = new Intent(this.context, THSLaunchActivity.class);
-            fragmentLauncher1.putExtra("KEY_ACTIVITY_THEME", ((ActivityLauncher)uiLauncher).getUiKitTheme());
-            if(this.themeConfigurationExists((ActivityLauncher)uiLauncher)) {
-                fragmentLauncher1.putExtras(this.getThemeConfigsIntent((ActivityLauncher)uiLauncher));
-            }
-
-            if(null != ((ActivityLauncher)uiLauncher).getScreenOrientation()) {
-                ActivityLauncher.ActivityOrientation fragmentTransaction = ((ActivityLauncher)uiLauncher).getScreenOrientation();
-                fragmentLauncher1.putExtra("KEY_ORIENTATION", fragmentTransaction);
-            }
-
-            fragmentLauncher1.addFlags(268435456);
-            this.context.startActivity(fragmentLauncher1);
-        } else {
-            FragmentLauncher fragmentLauncher2 = (FragmentLauncher)uiLauncher;
-            FragmentTransaction fragmentTransaction1 = fragmentLauncher2.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-            THSInitFragment thsBaseFragment = new THSInitFragment();
-            this.lauchFirstFragment(thsBaseFragment, fragmentLauncher2, fragmentTransaction1);
-        }*/
-
        if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
