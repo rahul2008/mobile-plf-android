@@ -22,16 +22,17 @@ import com.philips.platform.mya.chi.PostConsentCallback;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-
 
 public class JustInTimeFragmentWidget extends CswBaseFragment {
     private JustInTimeWidgetHandler completionListener;
@@ -58,6 +59,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         initializeConsentRejectButton(justInTimeConsentView);
 
         handleOrientation(justInTimeConsentView);
+        showErrorIfOffline();
         return justInTimeConsentView;
     }
 
@@ -146,11 +148,9 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         }));
     }
 
-    private void showErrorDialog(ConsentError error) {
-        CswLogger.e(getClass().getName(), error.getError());
+    private void showErrorDialog(String errorTitle, String errorMessage) {
+        CswLogger.e(getClass().getName(), errorMessage);
         DialogView dialogView = new DialogView();
-        String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
-        String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
         dialogView.showDialog(getCswFragment().getActivity(), errorTitle, errorMessage);
     }
 
@@ -174,6 +174,13 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
     }
 
+    private void showErrorIfOffline() {
+        boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
+        if (!isOnline) {
+            showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
+    }
+
     class JustInTimePostConsentCallback implements PostConsentCallback {
 
         private final PostConsentSuccessHandler handler;
@@ -185,7 +192,9 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         @Override
         public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
             hideProgressDialog();
-            showErrorDialog(error);
+            String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
+            String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
+            showErrorDialog(errorTitle, errorMessage);
         }
 
         @Override
