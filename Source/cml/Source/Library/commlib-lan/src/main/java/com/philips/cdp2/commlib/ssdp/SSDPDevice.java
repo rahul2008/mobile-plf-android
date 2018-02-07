@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.util.Xml;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +36,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.BOOT_ID;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
@@ -252,7 +251,6 @@ public final class SSDPDevice {
                 }
             }
         }
-
     }
 
     /**
@@ -275,6 +273,16 @@ public final class SSDPDevice {
         return null;
     }
 
+    @Nullable
+    static SSDPDevice createFromSsdpMessage(final @NonNull SSDPMessage message) {
+        final URL descriptionUrl = message.getDescriptionUrl();
+        if (descriptionUrl == null) return null;
+
+        SSDPDevice device = SSDPDevice.createFromUrl(descriptionUrl);
+        if (device != null) device.update(message);
+        return device;
+    }
+
     /**
      * Create an SSDPDiscovery device instance from the supplied XML string.
      *
@@ -286,6 +294,17 @@ public final class SSDPDevice {
         final InputStream in = new ByteArrayInputStream(descriptionXml.getBytes(StandardCharsets.UTF_8));
 
         return PARSER.parseDevice(in);
+    }
+
+    void update(final SSDPMessage message) {
+        final URL descriptionUrl = message.getDescriptionUrl();
+        if (descriptionUrl == null) {
+            return;
+        }
+
+        setIpAddress(descriptionUrl.getHost());
+        setSecure(descriptionUrl.getProtocol().equals("https"));
+        setBootId(message.get(BOOT_ID));
     }
 
     public boolean isSecure() {
@@ -437,7 +456,7 @@ public final class SSDPDevice {
 
                 ((HttpsURLConnection) connection).setSSLSocketFactory(sslContext.getSocketFactory());
                 ((HttpsURLConnection) connection).setHostnameVerifier(hostnameVerifier);
-            } catch(NoSuchAlgorithmException | KeyManagementException e) {
+            } catch (NoSuchAlgorithmException | KeyManagementException e) {
                 DICommLog.e(SSDP, "Error opening description from URL: " + e.getMessage());
             }
         }

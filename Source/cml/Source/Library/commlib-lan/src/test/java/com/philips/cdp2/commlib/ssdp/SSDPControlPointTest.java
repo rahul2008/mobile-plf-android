@@ -24,14 +24,17 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.URL;
 
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.BOOT_ID;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALIVE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.USN;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,9 +46,9 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({SSDPDevice.class})
 public class SSDPControlPointTest {
 
-    private static final String MOCK_LOCATION = "http://1.2.3.4/mock/location";
-    private static final String MOCK_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
-
+    private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
+    private static final String TEST_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
+    private static final String TEST_BOOTID = "1337";
 
     private SSDPControlPoint ssdpControlPoint;
 
@@ -84,11 +87,12 @@ public class SSDPControlPointTest {
         when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManagerMock);
         when(wifiManagerMock.createMulticastLock(anyString())).thenReturn(lockMock);
         when(lockMock.isHeld()).thenReturn(true);
-        when(ssdpMessageMock.get(SSDPMessage.USN)).thenReturn(MOCK_USN);
-        when(ssdpMessageMock.get(SSDPMessage.LOCATION)).thenReturn(MOCK_LOCATION);
+        when(ssdpMessageMock.get(USN)).thenReturn(TEST_USN);
+        when(ssdpMessageMock.get(BOOT_ID)).thenReturn(TEST_BOOTID);
+        when(ssdpMessageMock.get(LOCATION)).thenReturn(TEST_LOCATION);
 
         mockStatic(SSDPDevice.class);
-        when(SSDPDevice.createFromUrl(any(URL.class))).thenReturn(ssdpDeviceMock);
+        when(SSDPDevice.createFromSsdpMessage(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
 
         ssdpControlPoint = new SSDPControlPoint() {
             @NonNull
@@ -205,7 +209,7 @@ public class SSDPControlPointTest {
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
         PowerMockito.verifyStatic(times(1));
-        SSDPDevice.createFromUrl(any(URL.class));
+        SSDPDevice.createFromSsdpMessage(ssdpMessageMock);
     }
 
     @Test
@@ -215,7 +219,7 @@ public class SSDPControlPointTest {
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
         PowerMockito.verifyStatic(times(1));
-        SSDPDevice.createFromUrl(any(URL.class));
+        SSDPDevice.createFromSsdpMessage(any(SSDPMessage.class));
     }
 
     @Test
@@ -228,4 +232,15 @@ public class SSDPControlPointTest {
         verify(deviceListener, times(2)).onDeviceAvailable(any(SSDPDevice.class));
     }
 
+    @Test
+    public void givenDeviceDiscovered_whenSameDeviceDiscoveredAgain_thenDeviceInfoGetsUpdated() throws Exception {
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        SSDPMessage secondMessageMock = mock(SSDPMessage.class);
+        when(secondMessageMock.get(USN)).thenReturn(TEST_USN);
+        ssdpControlPoint.handleMessage(secondMessageMock);
+
+        verify(ssdpDeviceMock).update(secondMessageMock);
+    }
 }

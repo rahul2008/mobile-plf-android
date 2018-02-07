@@ -7,9 +7,15 @@ package com.philips.cdp2.commlib.ssdp;
 
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+
+import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SSDPDeviceTest extends RobolectricTest {
 
@@ -19,6 +25,32 @@ public class SSDPDeviceTest extends RobolectricTest {
     private static final String INVALID_DESCRIPTION = "<?xml version=\"1.0\"?>\n<!DOCTYPE lolz [\n<!ENTITY lol \"lol\">\n<!ENTITY lol2 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n<!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\"> <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\"> <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\"> <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\"> <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\"> <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\"> <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\"> ]>\n<lolz>&lol9;</lolz>";
 
     private static final String TEST_IP_ADDRESS = "1.2.3.4";
+
+    private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
+    private static final String TEST_BOOTID = "1337";
+
+    @Mock
+    private SSDPMessage messageMock;
+
+    //todo: enable if by some magic way we can get powermock and robolectric to play nice
+//    @Mock
+//    private URL urlMock;
+//
+//    @Mock
+//    private URLConnection urlConnectionMock;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+
+        initMocks(this);
+
+        //todo: enable if by some magic way we can get powermock and robolectric to play nice
+//        when(messageMock.getDescriptionUrl()).thenReturn(urlMock);
+//        when(urlMock.openConnection()).thenReturn(urlConnectionMock);
+//        when(urlConnectionMock.getInputStream()).thenReturn(new ByteArrayInputStream(AIR_PURIFIER_DESCRIPTION.getBytes()));
+    }
 
     @Test
     public void testCreateGenericDevice() {
@@ -64,4 +96,32 @@ public class SSDPDeviceTest extends RobolectricTest {
     public void testInvalidDescription() {
         SSDPDevice.createFromXml(INVALID_DESCRIPTION);
     }
+
+    @Test
+    public void givenDeviceIsCreated_whenDeviceIsUpdatedWithNewSsdpMessage_thenAppropriateFieldsAreUpdated() throws Exception {
+        final SSDPDevice device = SSDPDevice.createFromXml(AIR_PURIFIER_DESCRIPTION);
+        assertThat(device.getBootId()).isNotEqualTo(TEST_BOOTID);
+        assertThat(device.getIpAddress()).isNotEqualTo(TEST_IP_ADDRESS);
+
+        when(messageMock.get(SSDPMessage.BOOT_ID)).thenReturn(TEST_BOOTID);
+        when(messageMock.getDescriptionUrl()).thenReturn(new URL(TEST_LOCATION));
+        device.update(messageMock);
+
+        assertThat(device.getBootId()).isEqualTo(TEST_BOOTID);
+        assertThat(device.getIpAddress()).isEqualTo(TEST_IP_ADDRESS);
+    }
+
+    //todo: enable if by some magic way we can get powermock and robolectric to play nice
+//    @Test
+//    public void whenDeviceIsCreatedFromSsdpMessage_thenAllFieldsGetProperlyInitialized() throws Exception {
+//
+//        when(messageMock.get(SSDPMessage.LOCATION)).thenReturn(TEST_LOCATION);
+//        when(messageMock.get(SSDPMessage.BOOT_ID)).thenReturn(TEST_BOOTID);
+//
+//        final SSDPDevice device = SSDPDevice.createFromSsdpMessage(messageMock);
+//
+//        assertThat(device.getBootId()).isEqualTo(TEST_BOOTID);
+//        assertThat(device.getIpAddress()).isEqualTo(TEST_IP_ADDRESS);
+//        assertThat(device.getCppId()).isEqualTo("1c5a6bfffe6c74c0");
+//    }
 }

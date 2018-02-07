@@ -18,10 +18,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.MulticastSocket;
 import java.net.SocketAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Map;
@@ -34,7 +32,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
+import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSsdpMessage;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
@@ -262,8 +260,9 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
         if (deviceCache.containsKey(usn)) {
             device = deviceCache.get(usn);
+            device.update(message);
         } else {
-            device = createDeviceFromSsdpMessage(message);
+            device = createFromSsdpMessage(message);
 
             if (device == null) {
                 return;
@@ -287,33 +286,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
                     break;
             }
         }
-    }
-
-    @Nullable
-    private static SSDPDevice createDeviceFromSsdpMessage(final SSDPMessage message) {
-        final SSDPDevice device;
-        final URL descriptionUrl;
-        final String location = message.get(LOCATION);
-
-        try {
-            descriptionUrl = new URL(location);
-        } catch (MalformedURLException e) {
-            DICommLog.e(SSDP, "Invalid description location: " + location);
-            return null;
-        }
-
-        device = SSDPDevice.createFromUrl(descriptionUrl);
-        if (device == null) {
-            return null;
-        }
-
-        final String ipAddress = descriptionUrl.getHost();
-        final boolean isSecure = descriptionUrl.getProtocol().equals("https");
-
-        device.setIpAddress(ipAddress);
-        device.setSecure(isSecure);
-
-        return device;
     }
 
     private void notifyDeviceAvailable(SSDPDevice device) {

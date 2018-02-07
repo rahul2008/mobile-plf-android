@@ -6,9 +6,16 @@
 package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 
 @SuppressWarnings("unused")
 class SSDPMessage {
@@ -44,6 +51,7 @@ class SSDPMessage {
     static final String NOTIFICATION_TYPE = "NT";
     static final String NOTIFICATION_SUBTYPE = "NTS";
     static final String USER_AGENT = "USER-AGENT";
+    static final String BOOT_ID = "BOOTID.UPNP.ORG";
 
     static final String NAMESPACE_DISCOVER = "\"ssdp:discover\"";
 
@@ -116,6 +124,18 @@ class SSDPMessage {
         builder.append(NEWLINE);
 
         return builder.toString();
+    }
+
+    @Nullable
+    public URL getDescriptionUrl() {
+        final String location = get(LOCATION);
+
+        try {
+            return new URL(location);
+        } catch (MalformedURLException e) {
+            DICommLog.e(SSDP, "Invalid description location: " + location);
+            return null;
+        }
     }
 }
 
