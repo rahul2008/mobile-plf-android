@@ -26,7 +26,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
@@ -59,7 +58,6 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         initializeConsentRejectButton(justInTimeConsentView);
 
         handleOrientation(justInTimeConsentView);
-        showErrorIfOffline();
         return justInTimeConsentView;
     }
 
@@ -170,13 +168,11 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        showProgressDialog();
-        consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
-    }
-
-    private void showErrorIfOffline() {
         boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
-        if (!isOnline) {
+        if (isOnline) {
+            showProgressDialog();
+            consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
+        } else {
             showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
     }
