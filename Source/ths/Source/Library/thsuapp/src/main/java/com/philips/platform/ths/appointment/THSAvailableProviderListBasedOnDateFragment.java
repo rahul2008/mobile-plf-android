@@ -23,7 +23,6 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -34,8 +33,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface {
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
@@ -74,6 +71,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this, this);
         if (null != view) {
             recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
+            recyclerView.setNestedScrollingEnabled(false);
             mLabelNumberOfAvailableDoctors = (Label) view.findViewById(R.id.number_of_available_doctors);
             mLabelDate = (Label) view.findViewById(R.id.calendar_view);
             mLabelDate.setOnClickListener(this);
