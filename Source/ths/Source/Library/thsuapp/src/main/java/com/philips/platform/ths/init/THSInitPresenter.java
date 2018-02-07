@@ -59,7 +59,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION, mThsInitFragment.getString(R.string.ths_user_not_logged_in), false);
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            mThsInitFragment.hideProgressBar();
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in),true,false);
             return;
         }
         try {
