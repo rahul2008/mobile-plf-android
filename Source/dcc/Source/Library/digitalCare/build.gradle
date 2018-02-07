@@ -75,7 +75,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -236,14 +236,14 @@ dependencies {
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.productselection
     }
 
     if(dp) {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uid
     }
     
     compile 'com.google.android.gms:play-services-maps:11.0.4'

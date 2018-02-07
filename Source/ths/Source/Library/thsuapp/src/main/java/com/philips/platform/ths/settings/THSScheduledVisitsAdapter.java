@@ -26,6 +26,7 @@ import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -49,7 +50,6 @@ import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
-    AlertDialogFragment alertDialogFragment;
     final int THIRTYONE = 31;
     final int SIXTEEN = 16;
 
@@ -96,7 +96,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         holder.mCancelVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCancelDialog(appointment,true, true, false);
+                showCancelDialog(appointment);
             }
         });
 
@@ -176,43 +176,11 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         }
     }
 
-    void showCancelDialog(final Appointment appointment, final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
-
-
-        final View.OnClickListener positiveButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
-                presenter.cancelAppointment(appointment);
-                presenter.stopRefreshing();
-                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
-                alertDialogFragment.dismiss();
-            }
-        };
-
-        final View.OnClickListener negativeButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT);
-                alertDialogFragment.dismiss();
-            }
-        };
-
-
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsScheduledVisitsFragment.getFragmentActivity())
-                .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
-                        setPositiveButton(" Yes ", positiveButtonListener).
-                        setNegativeButton(" No  ", negativeButtonListener);
-        if (isWithTitle) {
-            builder.setTitle("Do you really want to cancel your visit");
-            if (showIcon) {
-                builder.setIcon(R.drawable.uid_ic_cross_icon);
-
-            }
-        }
-        alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), CANCEL_VISIT_ALERT_DIALOG_TAG);
-        alertDialogFragment.setPositiveButtonListener(positiveButtonListener);
-        alertDialogFragment.setNegativeButtonListener(negativeButtonListener);
+    void showCancelDialog(final Appointment appointment) {
+        THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+        THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
+        presenter.setAppointment(appointment);
+        tHSConfirmationDialogFragment.setPresenter(presenter);
+        tHSConfirmationDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), THSConfirmationDialogFragment.TAG);
     }
 }

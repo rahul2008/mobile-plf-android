@@ -12,7 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 
 
 archivesBaseName = "mya-csw"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 
 buildscript {
@@ -106,14 +106,13 @@ dependencies {
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        {
+        compile philipsdeps.uid
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya_chi
+        compile philipsdeps.uikitLib
     }
 
     // Tests

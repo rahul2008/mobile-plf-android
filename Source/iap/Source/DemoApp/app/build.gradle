@@ -42,7 +42,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "iapApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 allprojects {
     repositories {
@@ -241,8 +241,8 @@ dependencies {
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uid
+        compile philipsdeps.registrationApi
     }
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -263,39 +263,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
-
-/*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}*/
 
 tasks.withType(Test) {
     ignoreFailures = true

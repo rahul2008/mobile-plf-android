@@ -48,7 +48,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private EditText addressLineOne, addressLineTwo, postalCode, town;
     protected Button updateAddressButton;
     protected THSShippingAddressPresenter thsShippingAddressPresenter;
-
+    static final long serialVersionUID = 81L;
 
 
     protected UIPicker uiPicker;
