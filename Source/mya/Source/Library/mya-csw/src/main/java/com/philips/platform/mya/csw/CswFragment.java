@@ -7,6 +7,12 @@
 
 package com.philips.platform.mya.csw;
 
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.PermissionView;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
+
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
@@ -15,13 +21,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class CswFragment extends Fragment implements BackEventListener {
 
