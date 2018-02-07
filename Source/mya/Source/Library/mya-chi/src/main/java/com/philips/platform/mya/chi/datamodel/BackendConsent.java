@@ -9,32 +9,30 @@ package com.philips.platform.mya.chi.datamodel;
 
 import org.joda.time.DateTime;
 
-import java.util.Locale;
-
 public class BackendConsent {
-    private Locale locale;
+    private String locale;
     private ConsentStatus status;
     private String type;
     private int version;
     private DateTime timestamp;
 
-    public BackendConsent(Locale locale, ConsentStatus status, String type, int version) {
+    public BackendConsent(String locale, ConsentStatus status, String type, int version) {
         this.locale = locale;
         this.status = status;
         this.type = type;
         this.version = version;
     }
 
-    public BackendConsent(Locale locale, ConsentStatus status, String type, int version, DateTime timestamp) {
+    public BackendConsent(String locale, ConsentStatus status, String type, int version, DateTime timestamp) {
         this(locale, status, type, version);
         this.timestamp = timestamp;
     }
 
-    public Locale getLocale() {
+    public String getLocale() {
         return locale;
     }
 
-    public void setLocale(Locale locale) {
+    public void setLocale(String locale) {
         this.locale = locale;
     }
 

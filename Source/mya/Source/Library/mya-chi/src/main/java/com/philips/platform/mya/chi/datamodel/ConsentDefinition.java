@@ -4,26 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.philips.platform.mya.chi.ConsentDefinitionException;
+
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.philips.platform.mya.chi.ConsentDefinitionException;
 
 public class ConsentDefinition implements Parcelable {
     private String text;
     private String helpText;
     private List<String> types;
     private int version;
-    private String locale;
     private List<String> implicitConsents;
 
-    public ConsentDefinition(String text, String helpText, List<String> types, int version, Locale locale) {
-        validate(locale);
+    public ConsentDefinition(String text, String helpText, List<String> types, int version) {
         this.text = text;
         this.helpText = helpText;
         this.types = types;
         this.version = version;
-        this.locale = locale.toLanguageTag();
         this.implicitConsents = new ArrayList<>();
     }
 
@@ -73,14 +70,6 @@ public class ConsentDefinition implements Parcelable {
         this.version = version;
     }
 
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
     public List<String> getImplicitConsents() {
         return implicitConsents;
     }
@@ -100,7 +89,6 @@ public class ConsentDefinition implements Parcelable {
         parcel.writeString(helpText);
         parcel.writeStringList(types);
         parcel.writeInt(version);
-        parcel.writeString(locale);
         parcel.writeStringList(implicitConsents);
     }
 
@@ -110,7 +98,6 @@ public class ConsentDefinition implements Parcelable {
         types = new ArrayList<>();
         in.readStringList(types);
         version = in.readInt();
-        locale = in.readString();
         implicitConsents = new ArrayList<>();
         in.readStringList(implicitConsents);
     }

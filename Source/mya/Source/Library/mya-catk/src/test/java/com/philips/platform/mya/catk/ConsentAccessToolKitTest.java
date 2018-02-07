@@ -7,8 +7,30 @@
 
 package com.philips.platform.mya.catk;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
@@ -29,33 +51,8 @@ import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class ConsentAccessToolKitTest {
 
@@ -220,6 +217,13 @@ public class ConsentAccessToolKitTest {
         assertEquals(consentDefinitions, consentAccessToolKit.getConsentDefinitions());
     }
 
+    @Test
+    public void givenCATKcreated_whenGetAppInfra_thenShouldReturnNonNull() {
+        givenInitWasCalled("appName", "propName");
+
+        assertNotNull(consentAccessToolKit.getAppInfra());
+    }
+
     private void givenStrictConsentCheckIs(final Boolean strictConsentCheckEnabled) {
         when(mockConfigInterface.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(strictConsentCheckEnabled);
     }
@@ -240,7 +244,6 @@ public class ConsentAccessToolKitTest {
 
     private void thenConsentVersionIs(final int expectedVersion) {
         assertEquals(expectedVersion, consentResponseListener.responseData.get(0).getVersion());
-
     }
 
     private void givenAppNamePropName(String appName, String propName) {
@@ -295,8 +298,8 @@ public class ConsentAccessToolKitTest {
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
     private BackendConsent momentConsent = new BackendConsent(new Locale("en", "GB"), ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
-    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1, Locale.US);
-    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1, Locale.US);
+    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1);
+    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1);
     private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
 

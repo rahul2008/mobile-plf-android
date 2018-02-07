@@ -7,9 +7,12 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
@@ -29,9 +32,7 @@ import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 public class ConsentAccessToolKit {
 
@@ -52,6 +53,7 @@ public class ConsentAccessToolKit {
     private ServiceInfoProvider serviceInfoProvider;
     private List<ConsentDefinition> consentDefinitionList;
     private Boolean strictConsentCheck;
+    private AppInfraInterface appInfra;
 
     ConsentAccessToolKit() {
     }
@@ -68,7 +70,8 @@ public class ConsentAccessToolKit {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        extractContextNames(catkInputs);
+        appInfra = catkInputs.getAppInfra();
+        extractContextNames();
         this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
 
@@ -85,8 +88,8 @@ public class ConsentAccessToolKit {
         CatkLogger.enableLogging();
     }
 
-    private void extractContextNames(CatkInputs catkInputs) {
-        AppConfigurationInterface appConfigInterface = catkInputs.getAppInfra().getConfigInterface();
+    private void extractContextNames() {
+        AppConfigurationInterface appConfigInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
         this.applicationName = (String) appConfigInterface.getPropertyForKey("appName", "hsdp", error);
         this.propositionName = (String) appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
@@ -253,5 +256,9 @@ public class ConsentAccessToolKit {
 
     void setNetworkController(NetworkController networkController) {
         controller = networkController;
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return appInfra;
     }
 }

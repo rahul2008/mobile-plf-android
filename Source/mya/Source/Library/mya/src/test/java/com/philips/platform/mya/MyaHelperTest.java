@@ -70,7 +70,7 @@ public class MyaHelperTest {
     }
 
     private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0, Locale.US);
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
     }
 
 }

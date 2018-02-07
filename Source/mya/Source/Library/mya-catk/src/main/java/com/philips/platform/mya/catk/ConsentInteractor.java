@@ -72,7 +72,9 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
-        Locale locale = LocaleMapper.toLocale(definition.getLocale());
+        String locale = consentAccessToolKit.getAppInfra().getInternationalization().getBCP47UILocale();
+
+//        Locale locale = LocaleMapper.toLocale(definition.getLocale());
         List<BackendConsent> backendConsents = new ArrayList<>();
         List<String> types = definition.getTypes();
         for (String type : types) {
