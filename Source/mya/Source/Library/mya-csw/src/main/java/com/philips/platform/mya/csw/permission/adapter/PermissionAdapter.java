@@ -7,27 +7,26 @@
 
 package com.philips.platform.mya.csw.permission.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.permission.ConsentToggleListener;
-import com.philips.platform.mya.csw.permission.ConsentView;
-import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.csw.permission.PrivacyNoticeClickListener;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.ConsentToggleListener;
+import com.philips.platform.mya.csw.permission.ConsentView;
+import com.philips.platform.mya.csw.permission.HelpClickListener;
+import com.philips.platform.mya.csw.permission.PrivacyNoticeClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHolder> {
 
@@ -78,7 +77,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             final ConsentView consentItem = items.get(position - HEADER_COUNT);
             ((PermissionViewHolder) holder).setDefinition(consentItem);
         } else if (getItemViewType(position) == TYPE_HEADER) {
-            ((PermissionHeaderViewHolder) holder).setPrivacyURL(CswInterface.get().getPrivacyUrl(), privacyNoticeClickListener);
+            ((PermissionHeaderViewHolder) holder).setPrivacyNoticeClickListener(privacyNoticeClickListener);
         }
     }
 

@@ -15,8 +15,9 @@ import android.content.IntentFilter;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+
 
 import org.junit.After;
 import org.junit.Before;
