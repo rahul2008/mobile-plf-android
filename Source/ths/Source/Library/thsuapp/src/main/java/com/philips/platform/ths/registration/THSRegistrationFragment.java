@@ -355,4 +355,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
+    }
+
 }

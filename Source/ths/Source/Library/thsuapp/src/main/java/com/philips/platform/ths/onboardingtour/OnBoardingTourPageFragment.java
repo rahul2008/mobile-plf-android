@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -100,5 +101,10 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
             }
         }
         return spannableStringBuilder;
+    }
+
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 }
