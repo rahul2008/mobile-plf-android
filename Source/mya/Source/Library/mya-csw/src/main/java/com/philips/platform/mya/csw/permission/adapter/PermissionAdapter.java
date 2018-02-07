@@ -18,7 +18,7 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.csw.permission.PrivacyNoticeClickListener;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -43,7 +43,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     private ConsentToggleListener consentToggleListener;
 
     @Nullable
-    private PrivacyNoticeClickListener privacyNoticeClickListener;
+    private LinkSpanClickListener privacyNoticeClickListener;
 
     @Inject
     public PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
@@ -55,7 +55,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         this.consentToggleListener = consentToggleListener;
     }
 
-    public void setPrivacyNoticeClickListener(@Nullable PrivacyNoticeClickListener privacyNoticeClickListener) {
+    public void setPrivacyNoticeClickListener(@Nullable LinkSpanClickListener privacyNoticeClickListener) {
         this.privacyNoticeClickListener = privacyNoticeClickListener;
     }
 
@@ -78,7 +78,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             final ConsentView consentItem = items.get(position - HEADER_COUNT);
             ((PermissionViewHolder) holder).setDefinition(consentItem);
         } else if (getItemViewType(position) == TYPE_HEADER) {
-            ((PermissionHeaderViewHolder) holder).setPrivacyNoticeClickListener(privacyNoticeClickListener);
+            ((PermissionHeaderViewHolder) holder).setPrivacyURL(privacyNoticeClickListener);
         }
     }
 
