@@ -1,8 +1,8 @@
 package com.philips.platform.mya.csw.mock;
 
-import com.philips.platform.mya.csw.CswLaunchInput;
-
 import android.content.Context;
+
+import com.philips.platform.mya.csw.CswLaunchInput;
 
 
 public class LaunchInputMock extends CswLaunchInput {
@@ -10,8 +10,8 @@ public class LaunchInputMock extends CswLaunchInput {
     public ContextMock context;
 
     public LaunchInputMock() {
-        super(new ContextMock(), "http://google.com");
-        context = (ContextMock)super.getContext();
+        super(new ContextMock());
+        context = (ContextMock) super.getContext();
     }
 
     @Override

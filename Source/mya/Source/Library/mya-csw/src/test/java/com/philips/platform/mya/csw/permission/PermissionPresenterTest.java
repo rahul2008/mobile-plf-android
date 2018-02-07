@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,9 +37,6 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -83,7 +79,8 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor_withNoConsentConfigurations() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface, never()).checkConsents(mPermissionPresenter);
+        givenConsentConfigurations();
+        verify(mockHandlerInterface, never()).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test
@@ -97,7 +94,7 @@ public class PermissionPresenterTest {
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         givenConsentConfigurations();
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface).checkConsents(mPermissionPresenter);
+        verify(mockHandlerInterface).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test

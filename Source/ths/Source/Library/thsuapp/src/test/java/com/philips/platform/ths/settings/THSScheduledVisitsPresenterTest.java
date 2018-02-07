@@ -26,7 +26,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
-
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -126,8 +126,22 @@ public class THSScheduledVisitsPresenterTest {
     }
 
     @Test
-    public void onEvent() throws Exception {
-        mTHSScheduledVisitsPresenter.onEvent(0);
+    public void onEventConfirm() throws Exception {
+        mTHSScheduledVisitsPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
+        verify(thsScheduledVisitsFragmentMock).stopRefreshing();
+        verify(consumerManagerMock).cancelAppointment(any(Consumer.class),any(Appointment.class),any(SDKCallback.class));
+    }
+
+    @Test
+    public void onEventDontConfirm() throws Exception {
+        mTHSScheduledVisitsPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button);
+        verifyNoMoreInteractions(awsdkMock);
+    }
+
+    @Test
+    public void testSetAppointment(){
+        mTHSScheduledVisitsPresenter.setAppointment(appointmentMock);
+        assert mTHSScheduledVisitsPresenter.mAppointment!=null;
     }
 
     @Test
