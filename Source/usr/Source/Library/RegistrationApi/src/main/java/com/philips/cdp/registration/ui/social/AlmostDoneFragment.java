@@ -418,7 +418,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void handleAcceptTermsTrue() {
         almostDonePresenter.storeEmailOrMobileInPreference();
         trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-        completeRegistration();
+        //completeRegistration();;
+        handleABTestingFlow();
     }
 
     @Override
@@ -504,16 +505,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 if (almostDonePresenter.isEmailVerificationStatus()) {
                     completeRegistration();
                     trackActionStatus(AppTagingConstants.SEND_DATA,
-                            AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                            AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.SUCCESS_USER_REGISTRATION);
                 } else {
                     launchAccountActivateFragment();
                 }
                 break;
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                launchMarketingAccountFragment();
-                trackActionStatus(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                if (!marketingOptCheck.isShown() && !mUser.getReceiveMarketingEmail()) {
+                    launchMarketingAccountFragment();
+                    trackActionStatus(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                } else {
+                    completeRegistration();
+                }
                 break;
             default:
                 break;
