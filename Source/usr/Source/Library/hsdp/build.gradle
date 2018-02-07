@@ -203,7 +203,6 @@ dependencies {
 
 // JUnit4 Rules
     androidTestCompile deps.android_testrules
-    compile(project (':jump'))
     def dp = project.ext.has('useprojectdependencies')
 
 
