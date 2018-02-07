@@ -52,11 +52,11 @@ dependencies {
     if (dp) {
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
+        debugCompile project(path: ':pif-chi', configuration: 'debug')
+        releaseCompile project(path: ':pif-chi', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'pif-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     testCompile deps.junit

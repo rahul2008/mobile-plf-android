@@ -101,18 +101,18 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
+        debugCompile project(path: ':pif-chi', configuration: 'debug')
+        releaseCompile project(path: ':pif-chi', configuration: 'release')
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        {
-            exclude group: 'com.android.support', module: 'customtabs'
-            exclude group: 'com.google.dagger'
-        }
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+                {
+                    exclude group: 'com.android.support', module: 'customtabs'
+                    exclude group: 'com.google.dagger'
+                }
+        compile(group: 'com.philips.cdp', name: 'chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
