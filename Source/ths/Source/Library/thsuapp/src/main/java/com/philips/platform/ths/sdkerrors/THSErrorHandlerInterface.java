@@ -6,5 +6,5 @@ import com.americanwell.sdk.entity.SDKErrorReason;
 
 public interface THSErrorHandlerInterface {
     String getErrorMessage(Context context);
-    boolean validate(SDKErrorReason sdkErrorReason);
+    boolean validate(SDKErrorReason sdkErrorReason, Context context);
 }

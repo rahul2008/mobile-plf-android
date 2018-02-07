@@ -74,7 +74,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());
                 cswInterface.init(dependencies, uappSettings);
-                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext(), MyaHelper.getInstance().getPrivacyNoticeUrl()));
+                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
                 return true;
             } else {
                 String title = getContext().getString(R.string.MYA_Offline_title);
@@ -106,8 +106,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         };
     }
 
-    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, String privacyNoticeUrl) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, privacyNoticeUrl);
+    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
