@@ -149,5 +149,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         }
     }
 
-
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
+    }
 }
