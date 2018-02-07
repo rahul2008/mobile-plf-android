@@ -103,3 +103,10 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile deps.junit
 }
+
+task zipcClogs(type: Zip) {
+
+    from project.projectDir
+    include '/build/reports/androidTests/connected/**'
+    classifier 'logs'
+}

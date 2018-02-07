@@ -338,3 +338,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest"]) {
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
+task zipcClogs(type: Zip) {
+
+    from project.projectDir
+    include '/build/reports/androidTests/connected/**'
+    classifier 'logs'
+}
