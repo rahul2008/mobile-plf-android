@@ -6,8 +6,6 @@
  */
 package com.philips.platform.mya.csw.justintime;
 
-import android.os.Parcelable;
-
 public class JustInTimeTextResources {
     public int acceptTextRes;
     public int rejectTextRes;
