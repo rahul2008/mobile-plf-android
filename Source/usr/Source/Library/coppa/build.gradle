@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.releaseexternal
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,7 +21,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.buildinfoextractor
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 
@@ -41,7 +41,7 @@ archivesBaseName = "coppa"
 
 repositories {
     maven {
-        url repos.releaseexternal
+        url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
@@ -112,12 +112,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName version
         testApplicationId "com.philips.cdp.registration.coppa.test"
@@ -165,11 +165,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile deps.junit
-    androidTestCompile deps.mockito
-    androidTestCompile deps.dexmaker_google
-    androidTestCompile deps.dexmaker_google_mockito
-    compile deps.apache
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 	
 	def dp = project.ext.has('useprojectdependencies')
 
@@ -177,18 +177,18 @@ dependencies {
     releaseCompile project(path: ':registrationApi', configuration: 'release')
 
 	
-    compile deps.support.appcompat-v7
-    compile deps.support.multidex
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:multidex:1.0.2'
 
-    androidTestCompile deps.support.annotations
+    androidTestCompile 'com.android.support:support-annotations:26.0.2'
 
-    androidTestCompile deps.android_testrunner
+    androidTestCompile 'com.android.support.test:runner:0.5'
     // Set this dependency to use JUnit 4 rules
-    androidTestCompile deps.android_testrules
+    androidTestCompile 'com.android.support.test:rules:0.5'
     // Set this dependency to build and run Espresso tests
-    androidTestCompile deps.espresso_core
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     // Set this dependency to build and run UI Automator tests
-    androidTestCompile deps.support.uiautomator
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 
 tasks.withType(Test) {

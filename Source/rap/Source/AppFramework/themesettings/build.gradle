@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -21,8 +21,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -42,7 +42,7 @@ objcdp.setEnv(platform: 'android', env: environment )
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -100,9 +100,9 @@ android {
 
 dependencies {
 
-    compile deps.support.appcompatv7
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
 
-    compile deps.support.recyclerview
+    compile "com.android.support:recyclerview-v7:${versionsAndroid.support}"
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -113,8 +113,8 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    testCompile deps.junit
-    testCompile deps.robolectric
-    testCompile deps.robolectric_shadows
+    testCompile "junit:junit:${versionsExternal.junit}"
+    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
+    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
 
 }

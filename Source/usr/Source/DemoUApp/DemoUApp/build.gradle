@@ -8,14 +8,14 @@ buildscript {
     repositories {
         apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
     
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.releaseexternal
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -24,8 +24,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -45,7 +45,7 @@ archivesBaseName = "UserRegistrationUApp"
 allprojects {
     repositories {
         maven {
-            url repos.releaseexternal
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -126,16 +126,16 @@ publishing {
 
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     dexOptions {
         jumboMode true
     }
 
     defaultConfig {
 
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName version
         multiDexEnabled true
@@ -184,7 +184,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.support.design
+    compile 'com.android.support:design:26.0.2'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -204,15 +204,13 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.support.appcompatv7
-    compile deps.support.supportv4
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
 
-
-    compile(deps.butterknife) {
-
+    compile("com.jakewharton:butterknife:7.0.1") {
         exclude module: "com.android.support"
     }
-    compile deps.greenrobot
+    compile "org.greenrobot:eventbus:3.0.0"
 }
 
 

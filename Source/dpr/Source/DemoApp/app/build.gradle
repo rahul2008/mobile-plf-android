@@ -4,17 +4,16 @@ apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
+   
     repositories {
-        maven {
-            url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -46,7 +45,7 @@ archivesBaseName = "devicepairingApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -106,7 +105,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml {
+            pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -121,17 +120,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 6
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi versions.renderscriptTargetApi
+        renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
@@ -235,7 +234,7 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+    if(dp) {
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
@@ -243,19 +242,24 @@ dependencies {
     }
 
     //Android Support Libraries
-    compile deps.support.annotations
-    compile deps.support.customtabs
-    compile deps.support.multidex
-    compile deps.joda_time
+    compile 'com.android.support:support-annotations:26.0.2'
+    compile 'com.android.support:customtabs:26.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'joda-time:joda-time:2.9.2'
 
     //Debug
-    debugCompile deps.stetho
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+
+    //Release
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     //Test
-    testCompile deps.mockito
-    testCompile deps.junit
-    testCompile deps.robolectric
-    androidTestCompile(deps.espresso_core, {
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 

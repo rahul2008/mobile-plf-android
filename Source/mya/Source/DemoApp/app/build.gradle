@@ -1,24 +1,25 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
 
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = "0.7.6.201602180812"
 }
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -27,7 +28,9 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.gradle
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+//        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -38,11 +41,6 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
@@ -52,7 +50,7 @@ archivesBaseName = "telehealthApp"
 allprojects {
     repositories {
         maven {
-            url repos.plugin
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -65,7 +63,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {url clojars}
+        maven {url "https://clojars.org/repo/"}
         group = 'com.philips.cdp'
     }
 }
@@ -128,7 +126,9 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
     defaultConfig {
         applicationId 'com.philips.platform.mya.demoapp'
         minSdkVersion versions.minsdk
@@ -136,7 +136,7 @@ android {
         versionCode 8
         versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi versions.renderscriptTargetApi
+        renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
@@ -265,12 +265,13 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
 
 }
 
 dependencies {
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -293,7 +294,7 @@ dependencies {
         }
     }
 
-    androidTestCompile(deps.espresso_core) {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }

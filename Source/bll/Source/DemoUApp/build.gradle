@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
@@ -53,5 +53,5 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = versions.jacoco
+    toolVersion = "0.7.6.201602180812"
 }

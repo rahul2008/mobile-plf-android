@@ -4,6 +4,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../scripts/versions.gradle'
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
@@ -27,6 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath(builddeps.cdpSCM)
     }
@@ -38,11 +40,6 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
