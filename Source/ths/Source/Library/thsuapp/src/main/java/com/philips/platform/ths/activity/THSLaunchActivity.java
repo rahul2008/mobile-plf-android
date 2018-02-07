@@ -47,6 +47,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     protected Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
+    static final long serialVersionUID = 1161L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,9 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
         if (fragmentManager.getBackStackEntryCount() == 1) {
+            if (currentFrag != null && currentFrag instanceof BackEventListener){
+                ((BackEventListener) currentFrag).handleBackEvent();
+            }
             finish();
         } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
