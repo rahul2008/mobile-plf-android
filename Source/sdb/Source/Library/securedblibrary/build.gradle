@@ -145,6 +145,7 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
+        multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
       /*  ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
