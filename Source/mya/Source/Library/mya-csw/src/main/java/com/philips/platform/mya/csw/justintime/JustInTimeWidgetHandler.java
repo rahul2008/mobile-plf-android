@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya.csw.widgets;
+package com.philips.platform.mya.csw.justintime;
 
 public interface JustInTimeWidgetHandler {
 

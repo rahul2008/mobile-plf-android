@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,11 +30,12 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.widgets.JustInTimeFragmentWidget;
-import com.philips.platform.mya.csw.widgets.JustInTimeWidgetHandler;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -61,12 +61,9 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
     private List<ConsentConfiguration> configs;
     private PermissionAdapter adapter;
-    private FragmentManager fragmentManager;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        // Update recycle view rows
-        // applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -81,7 +78,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentManager = getFragmentManager();
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
@@ -137,9 +133,13 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private void onPrivacyNoticeClicked() {
-        JustInTimeFragmentWidget justInTimeFragmentWidget = new JustInTimeFragmentWidget();
-        ConsentDefinition consentDefinition = new ConsentDefinition("consentText", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
-        justInTimeFragmentWidget.setDependencies(consentDefinition, new ConsentInteractor(ConsentAccessToolKit.getInstance()));
+        ConsentDefinition consentDefinition = new ConsentDefinition("Receive promotional communications of Philips based on my preferences and online bahavior.", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
+        ConsentInteractor consentHandlerInterface = new ConsentInteractor(ConsentAccessToolKit.getInstance());
+        JustInTimeTextResources textResources = new JustInTimeTextResources();
+        textResources.rejectTextRes = R.string.mya_csw_justintime_reject;
+        textResources.acceptTextRes = R.string.mya_csw_justintime_accept;
+        textResources.titleTextRes = R.string.mya_csw_justintime_title;
+        JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(consentDefinition, consentHandlerInterface, textResources);
         justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
