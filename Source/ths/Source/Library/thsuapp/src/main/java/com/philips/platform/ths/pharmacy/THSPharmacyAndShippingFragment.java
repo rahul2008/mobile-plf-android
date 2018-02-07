@@ -41,6 +41,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private Pharmacy pharmacy;
     private Button continueButton;
     private ActionBarListener actionBarListener;
+    static final long serialVersionUID = 83L;
 
     @Nullable
     @Override

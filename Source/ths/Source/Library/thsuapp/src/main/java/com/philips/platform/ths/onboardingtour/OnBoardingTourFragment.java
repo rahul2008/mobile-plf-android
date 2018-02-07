@@ -46,6 +46,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
+    static final long serialVersionUID = 1131L;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {

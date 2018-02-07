@@ -73,6 +73,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private boolean isLocationValid;
     private RelativeLayout mLocationCantainer;
     private Label mStateLabel;
+    static final long serialVersionUID = 127L;
 
     @Nullable
     @Override

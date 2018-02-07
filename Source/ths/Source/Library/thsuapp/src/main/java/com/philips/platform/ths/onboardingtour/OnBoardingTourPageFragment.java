@@ -37,6 +37,8 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
 
     protected static final String ARG_PAGE_TITLE = "pageTitle";
     protected static final String ARG_PAGE_BG_ID = "pageBgId";
+    static final long serialVersionUID = 1139L;
+
 
     // Store instance variables
     @StringRes private int titleId;

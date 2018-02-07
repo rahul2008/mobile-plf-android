@@ -269,7 +269,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected void updateOtherTopic() {
         if (isOtherTopicValid()) {
             mThsVisitContext.setOtherTopic(additional_comments_edittext.getText().toString());
-            tagActions = THSTagUtils.addActions(tagActions, "commentAdded");
 
             THSManager.getInstance().setVisitContext(mThsVisitContext);
         }
@@ -297,6 +296,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             if(tagActions.contains(TAG_SYMPTOMS_CHECKED))
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
+    }
+
     }
 
     private boolean isOtherTopicValid() {
@@ -447,7 +448,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             Uri compressedImageUri = getImageUri(getActivity(), selectedImage, picturePath);
             String path = getRealPathFromURI(compressedImageUri);
             updateDocumentsToUpload(path, compressedImageUri);
-            tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
             thsSymptomsPresenter.uploadDocuments(compressedImageUri);
 
         } catch (FileNotFoundException e) {
