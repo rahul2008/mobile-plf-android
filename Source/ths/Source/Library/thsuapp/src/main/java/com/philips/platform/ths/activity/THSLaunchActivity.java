@@ -47,6 +47,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     protected Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
+    static final long serialVersionUID = 1161L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

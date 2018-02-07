@@ -43,6 +43,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     protected THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
     protected RemindOptions remindOptions;
+    static final long serialVersionUID = 91L;
 
     @Nullable
     @Override
