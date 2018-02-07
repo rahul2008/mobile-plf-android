@@ -82,13 +82,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_choose_pharmacy_button_text">Choose pharmacy</string>
     <string name="ths_retail_button_text">Retail</string>
     <string name="ths_mail_order_pharmacy_button_text">Mail order</string>
-    <string name="ths_pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
+    <string name="ths_pharmacy_shipping_fragment_name">Pharmacy &amp; Shipping</string>
     <string name="ths_pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="ths_search_pharmacy_fragment_name">Your pharmacy</string>
-    <string name="ths_shipping_address_fragment_name">Ship prescriptions to</string>
+    <string name="ths_shipping_address_fragment_name">Ship prescription to</string>
     <string name="ths_pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
     <string name="ths_pharmacy_search_edittext_hint">Type location or zip code</string>
-    <string name="ths_pharmacy_medications_sent_to_text">Medications will be sent to</string>
+    <string name="ths_pharmacy_medications_sent_to_text">Medications will be shipped to</string>
     <string name="ths_pharmacy_prescriptions_sent_to">Prescriptions will be sent to</string>
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
@@ -231,7 +231,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Insurance fragment strings-->
     <string name="ths_insurance">Insurance</string>
     <string name="ths_not_insurance">No insurance</string>
-    <string name="ths_insurancep_confirmation_situation">To give an accurate cost estimation, we need to know your insurance situation</string>
+    <string name="ths_insurancep_confirmation_situation">To give an accurate cost calculation, we need to know your insurance situation</string>
     <string name="ths_insurance_confirmation_chosse_situation">Choose one of these options:</string>
     <string name="ths_insurance_confirmation_radio_option_yes">I have insurance</string>
     <string name="ths_insurance_confirmation_radio_option_no">I do not have insurance</string>
