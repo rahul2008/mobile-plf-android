@@ -56,11 +56,6 @@ android {
     }
 }
 
-dexOptions {
-    preDexLibraries = false
-    javaMaxHeapSize "4g"
-}
-
 repositories {
     flatDir {
         dirs 'libs'
