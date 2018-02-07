@@ -164,7 +164,6 @@ dependencies {
     }
 
     compile deps.leakcanary
-    compile project(':AppInfraUApp')
     debugCompile project(path: ':AppInfraUApp', configuration: 'debug')
     releaseCompile project(path: ':AppInfraUApp', configuration: 'release')
 }
