@@ -538,7 +538,7 @@ public class DICommPortTest {
 
     private Runnable captureResubscribeHandler() {
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), Mockito.anyInt());
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), Mockito.anyLong());
 
         return runnableCaptor.getValue();
     }

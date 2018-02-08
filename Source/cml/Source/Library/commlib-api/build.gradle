@@ -90,7 +90,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.powermock_junit
-    testCompile deps.powermock_mockito
+    testCompile deps.powermock_api_mockito2
 }
 
 pitest {

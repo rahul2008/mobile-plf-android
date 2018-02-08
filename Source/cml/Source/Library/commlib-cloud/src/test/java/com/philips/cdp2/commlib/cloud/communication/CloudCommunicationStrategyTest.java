@@ -6,8 +6,6 @@
 package com.philips.cdp2.commlib.cloud.communication;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 
@@ -39,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.singleton;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -66,13 +64,7 @@ public class CloudCommunicationStrategyTest {
     private Handler handlerMock;
 
     @Mock
-    ConnectivityManager connectivityManagerMock;
-
-    @Mock
-    ConnectivityMonitor connectivityMonitorMock;
-
-    @Mock
-    private NetworkInfo activeNetworkInfoMock;
+    private ConnectivityMonitor connectivityMonitorMock;
 
     @Mock
     private NetworkNode networkNodeMock;

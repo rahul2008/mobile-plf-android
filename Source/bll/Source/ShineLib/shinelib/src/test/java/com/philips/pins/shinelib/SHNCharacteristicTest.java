@@ -439,7 +439,7 @@ public class SHNCharacteristicTest {
                             shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
                             return null;
                         }
-                    }).when(mockedBTGatt).writeDescriptor(any(BluetoothGattDescriptor.class), any(byte[].class));
+                    }).when(mockedBTGatt).writeDescriptor((BluetoothGattDescriptor) any(), (byte[]) any());
                 }
 
                 @Ignore("Ignore as test class, NestedRunner will execute the tests.")
@@ -594,7 +594,7 @@ public class SHNCharacteristicTest {
                             shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
                             return null;
                         }
-                    }).when(mockedBTGatt).writeDescriptor(any(BluetoothGattDescriptor.class), any(byte[].class));
+                    }).when(mockedBTGatt).writeDescriptor((BluetoothGattDescriptor) any(), (byte[]) any());
                 }
 
                 @Ignore("Ignore as test class, NestedRunner will execute the tests.")

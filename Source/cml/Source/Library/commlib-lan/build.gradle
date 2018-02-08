@@ -89,7 +89,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.assertj
     testCompile deps.mockito
-    testCompile deps.powermock_mockito
+    testCompile deps.powermock_api_mockito2
     testCompile deps.powermock_junit
 }
 

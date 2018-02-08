@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
@@ -30,13 +31,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -114,19 +114,19 @@ public class SHNDeviceAssociationTest {
         mockedUserHandler = new MockedHandler();
 
         // mockedSHNDeviceAssociationListener
-        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed(any(SHNResult.class));
+        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed((SHNResult) any());
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
-        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationSucceeded(any(SHNDevice.class));
+        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationSucceeded((SHNDevice) any());
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociatedDevicesUpdated();
 
         doReturn(SHNResult.SHNOk).when(mockedSHNAssociationProcedure).start();
         doNothing().when(mockedSHNAssociationProcedure).stop();
-        doNothing().when(mockedSHNAssociationProcedure).setShnAssociationProcedureListener(any(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class));
+        doNothing().when(mockedSHNAssociationProcedure).setShnAssociationProcedureListener((SHNAssociationProcedurePlugin.SHNAssociationProcedureListener) any());
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
-        doReturn(mockedSHNAssociationProcedure).when(mockedSHNDeviceDefinitionInfo).createSHNAssociationProcedure(any(SHNCentral.class), any(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class));
+        doReturn(mockedSHNAssociationProcedure).when(mockedSHNDeviceDefinitionInfo).createSHNAssociationProcedure((SHNCentral) any(), (SHNAssociationProcedurePlugin.SHNAssociationProcedureListener) any());
         Set<UUID> primaryServiceUUIDs = new HashSet<>();
         primaryServiceUUIDs.add(mockedPrimaryServiceUUID);
         doReturn(primaryServiceUUIDs).when(mockedSHNDeviceDefinitionInfo).getPrimaryServiceUUIDs();
@@ -139,7 +139,7 @@ public class SHNDeviceAssociationTest {
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
-        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition((String) any(), (SHNDeviceDefinitionInfo) any());
         doNothing().when(mockedSHNCentral).removeDeviceFromDeviceCache(isA(SHNDevice.class));
         SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
@@ -166,7 +166,7 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDevice).setName(anyString());
 
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
-        doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
+        doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(ArgumentMatchers.<SHNDeviceAssociationHelper.AssociatedDeviceInfo>anyList());
 
         PowerMockito.when(persistentStorageFactoryMock.getPersistentStorageCleaner()).thenReturn(persistentStorageCleanerMock);
 

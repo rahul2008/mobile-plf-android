@@ -260,7 +260,7 @@ dependencies {
     testCompile deps.powermock_junit
     testCompile deps.powermock_junit_rule
     testCompile deps.powermock_junit_rule_agent
-    testCompile deps.powermock_mockito
+    testCompile deps.powermock_api_mockito
     testCompile deps.powermock_classloading_xstream
 }
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {

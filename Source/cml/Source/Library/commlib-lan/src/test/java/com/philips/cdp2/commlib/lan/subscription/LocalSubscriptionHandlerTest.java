@@ -70,7 +70,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                Runnable runnable = invocation.getArgumentAt(0, Runnable.class);
+                Runnable runnable = invocation.getArgument(0);
                 runnable.run();
 
                 return null;

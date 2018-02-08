@@ -48,7 +48,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.junit_runners
 
-    testCompile deps.powermock_mockito
+    testCompile deps.powermock_api_mockito2
     testCompile deps.powermock_junit
 
     testCompile deps.assertj
@@ -61,7 +61,6 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile deps.robolectric_utils
 }
 
 task generateJavadocPublicApi(type: Javadoc) {

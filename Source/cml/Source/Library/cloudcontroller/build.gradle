@@ -70,5 +70,5 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     testCompile deps.powermock_junit
-    testCompile deps.powermock_mockito
+    testCompile deps.powermock_api_mockito2
 }
