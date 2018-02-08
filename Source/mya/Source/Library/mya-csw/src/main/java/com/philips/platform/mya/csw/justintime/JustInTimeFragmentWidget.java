@@ -7,15 +7,6 @@
 
 package com.philips.platform.mya.csw.justintime;
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
 import com.philips.platform.mya.chi.PostConsentCallback;
@@ -32,6 +23,15 @@ import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import android.app.ProgressDialog;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class JustInTimeFragmentWidget extends CswBaseFragment {
     private JustInTimeWidgetHandler completionListener;
@@ -149,7 +149,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private void showErrorDialog(String errorTitle, String errorMessage) {
         CswLogger.e(getClass().getName(), errorMessage);
         DialogView dialogView = new DialogView();
-        dialogView.showDialog(getCswFragment().getActivity(), errorTitle, errorMessage);
+        dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
 
     private void showProgressDialog() {

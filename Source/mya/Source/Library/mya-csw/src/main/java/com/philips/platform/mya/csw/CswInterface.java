@@ -83,36 +83,17 @@ public class CswInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, cswLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput uappLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
-            // CswFragment cswFragment = new CswFragment();
-            // cswFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
-            // if (cswFragment.getArguments() == null) {
-            // cswFragment.setArguments(new Bundle());
-            // }
-            // cswFragment.getArguments().putBoolean(CswFragment.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
-            //
-            // FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            //
-            // if (uappLaunchInput.isAddtoBackStack()) {
-            // fragmentTransaction.addToBackStack(CswConstants.CSWFRAGMENT);
-            // }
-            //
-            // fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
-            // cswFragment,
-            // CswConstants.CSWFRAGMENT);
-            // fragmentTransaction.commitAllowingStateLoss();
-            // reference.cswLaunchInput = uappLaunchInput;
-
             PermissionView permissionFragment = new PermissionView();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(PermissionView.TAG);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionView.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
 

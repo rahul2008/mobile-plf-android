@@ -7,17 +7,10 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.catk.ConsentAccessToolKit;
@@ -32,16 +25,23 @@ import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import android.app.ProgressDialog;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +55,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     private Unbinder unbinder;
 
-    @BindView(R2.id.consentList)
+    @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
@@ -117,6 +117,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        adapter = new PermissionAdapter(new ArrayList<ConsentView>(), this);
         adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
@@ -129,11 +130,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
-        recyclerView.setAdapter(adapter);
     }
 
     private void onPrivacyNoticeClicked() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("Receive promotional communications of Philips based on my preferences and online bahavior.", "consentHelpText", Collections.singletonList("moment"), 1, Locale.US);
+        ConsentDefinition consentDefinition = new ConsentDefinition("Receive promotional communications of Philips based on my preferences and online bahavior.", "consentHelpText",
+                Collections.singletonList("moment"), 1, Locale.US);
         ConsentInteractor consentHandlerInterface = new ConsentInteractor(ConsentAccessToolKit.getInstance());
         JustInTimeTextResources textResources = new JustInTimeTextResources();
         textResources.rejectTextRes = R.string.mya_csw_justintime_reject;
@@ -153,7 +154,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         });
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.replace(R.id.permissionView, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -180,7 +181,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void showErrorDialog(boolean goBack, String title, String message) {
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
-        dialogView.showDialog(getCswFragment().getActivity(), title, message);
+        dialogView.showDialog(getActivity(), title, message);
     }
 
     @Override
