@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -55,6 +54,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 public class ConsentAccessToolKitTest {
+
+    private static final String DUTCH_LOCALE = "nl-NL";
+    private static final String ENGLISH_LOCALE = "en-GB";
 
     private CatkComponentMock catkComponent;
 
@@ -166,7 +168,7 @@ public class ConsentAccessToolKitTest {
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
-        BackendConsent consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
+        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
         consentAccessToolKit.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
@@ -293,15 +295,14 @@ public class ConsentAccessToolKitTest {
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
     private String HSDP_UUID = "hsdp_user_id";
-    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, "en-GB", buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
-    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, "en-GB", buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
+    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
+    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
-    private BackendConsent momentConsent = new BackendConsent(new Locale("en", "GB"), ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
+    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
     private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1);
     private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1);
     private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
-
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {
         public List<BackendConsent> responseData;

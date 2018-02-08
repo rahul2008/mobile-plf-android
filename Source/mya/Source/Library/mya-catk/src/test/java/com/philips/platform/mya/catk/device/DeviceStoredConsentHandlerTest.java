@@ -1,7 +1,21 @@
 package com.philips.platform.mya.catk.device;
 
 
-import android.support.annotation.NonNull;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -13,21 +27,7 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
+import android.support.annotation.NonNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeviceStoredConsentHandlerTest {
@@ -58,7 +58,6 @@ public class DeviceStoredConsentHandlerTest {
         MockitoAnnotations.initMocks(this);
         when(consentDefinition.getTypes()).thenReturn(getConsentTypes());
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
-        when(consentDefinition.getLocale()).thenReturn("en-US");
         when(appInfra.getLogging()).thenReturn(loggingInterface);
         handler = new TestDeviceStoredConsentHandler(appInfra);
     }

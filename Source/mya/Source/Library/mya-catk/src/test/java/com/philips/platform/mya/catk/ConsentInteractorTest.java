@@ -48,7 +48,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentInteractorTest {
-
+    private static final String CANADIAN_LOCALE = "en-CA";
     ConsentInteractor subject;
 
     @Mock
@@ -111,9 +111,9 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
-        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, Locale.getDefault()));
+        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0));
         whenFetchLatestConsentsCalled();
-        andResponseIs(new BackendConsent(Locale.CANADA, ConsentStatus.active, "type", 0));
+        andResponseIs(new BackendConsent(CANADIAN_LOCALE, ConsentStatus.active, "type", 0));
 
         thenConsentRetrievedIsReported();
         andConsentListContainsNumberOfItems(1);
@@ -122,8 +122,8 @@ public class ConsentInteractorTest {
     @Test
     public void getStatusForConsentType_filtersByType() {
         givenAccessToolkitWithConsentDefinitions(
-                new ConsentDefinition("text1", "help1", Collections.singletonList("type1"), 0, Locale.US),
-                new ConsentDefinition("text2", "help2", Collections.singletonList("type2"), 0, Locale.US));
+                new ConsentDefinition("text1", "help1", Collections.singletonList("type1"), 0),
+                new ConsentDefinition("text2", "help2", Collections.singletonList("type2"), 0));
         whenGetStatusForConsentType("type2");
         thenCatkdgetStatusForConsentTypeWasCalledWith("type2");
     }
@@ -131,7 +131,7 @@ public class ConsentInteractorTest {
     @Test
     public void itShouldCallCreateConsentOnTheCatk() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentDefinition(Locale.getDefault());
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -139,7 +139,7 @@ public class ConsentInteractorTest {
     @Test(expected = ConsentDefinitionException.class)
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentDefinition(new Locale("nl", ""));
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -147,7 +147,7 @@ public class ConsentInteractorTest {
     @Test(expected = ConsentDefinitionException.class)
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentDefinition(new Locale("", "NL"));
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -156,8 +156,8 @@ public class ConsentInteractorTest {
         subject = new ConsentInteractor(mockCatk);
     }
 
-    private void givenConsentDefinition(Locale locale) {
-        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, locale);
+    private void givenConsentDefinition() {
+        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0);
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
