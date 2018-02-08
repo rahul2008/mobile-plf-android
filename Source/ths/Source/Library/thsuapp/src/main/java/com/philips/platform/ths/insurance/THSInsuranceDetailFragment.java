@@ -72,6 +72,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     /// editable fields
     private THSHealthPlan mTHSHealthPlanList;
     private RelativeLayout mRelativeLayoutInsuranceContainer;
+    static final long serialVersionUID = 171L;
 
     @Nullable
     @Override

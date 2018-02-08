@@ -57,6 +57,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private RelativeLayout mRelativeLayoutContainer;
     private Label seeFirstDoctorLabel;
     private AlertDialogFragment alertDialogFragment;
+    static final long serialVersionUID = 147L;
 
 
     @Nullable

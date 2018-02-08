@@ -49,6 +49,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     private String reminderTimeString;
     private Button ok_got_it;
     private UIDNavigationIconToggler navIconToggler;
+    static final long serialVersionUID = 103L;
 
     @Nullable
     @Override

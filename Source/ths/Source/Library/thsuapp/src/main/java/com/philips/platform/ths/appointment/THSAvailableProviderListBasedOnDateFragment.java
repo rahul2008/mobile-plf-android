@@ -45,6 +45,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private Label mLabelNumberOfAvailableDoctors;
     private Label mLabelDate;
     protected THSAvailableProviderList mThsAvailableProviderList;
+    static final long serialVersionUID = 97L;
 
     @Nullable
     @Override

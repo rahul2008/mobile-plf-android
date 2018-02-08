@@ -12,7 +12,7 @@ public class THSSDKUserError implements THSErrorHandlerInterface{
         return THSConstants.THS_GENERIC_USER_ERROR;
     }
 
-    public boolean validate(SDKErrorReason sdkErrorReason) {
+    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
         if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_MISSING.name())){
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCESS_DENIED.name())){

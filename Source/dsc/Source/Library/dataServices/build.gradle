@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -235,10 +235,10 @@ dependencies {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.mya_catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
         }
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.AppInfra
     }
 
     //Android Support
@@ -249,7 +249,7 @@ dependencies {
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'joda-time:joda-time:2.9.7'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'javax.inject:javax.inject:1'

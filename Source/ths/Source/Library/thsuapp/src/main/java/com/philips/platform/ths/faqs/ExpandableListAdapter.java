@@ -30,7 +30,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<FaqBeanPojo>> listDataChild;
     private THSFaqFragment mTHSFaqFragment;
 
-    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap map) {
+    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap<String, List<FaqBeanPojo>> map) {
         this.mTHSFaqFragment = thsFaqFragment;
         this.context = mTHSFaqFragment.getContext();
 

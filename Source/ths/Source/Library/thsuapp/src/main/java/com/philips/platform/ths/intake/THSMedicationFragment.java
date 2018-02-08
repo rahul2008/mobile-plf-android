@@ -54,7 +54,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     protected String tagAction = "";
     private Label mLabelPatientName;
     public static int deleteButtonEventID = 9009090;
-
+    static final long serialVersionUID = 36L;
 
     @Nullable
     @Override

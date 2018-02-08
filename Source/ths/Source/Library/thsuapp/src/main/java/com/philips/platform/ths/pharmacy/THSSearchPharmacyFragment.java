@@ -36,6 +36,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     private String zipSearchString = null;
     private List<Pharmacy> pharmacies;
     private RelativeLayout linearLayout;
+    static final long serialVersionUID = 42L;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

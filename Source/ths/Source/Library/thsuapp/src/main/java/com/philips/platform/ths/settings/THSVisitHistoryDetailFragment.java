@@ -74,6 +74,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     protected RelativeLayout medicationShippingRelativeLayout;
     private RelativeLayout mLayoutContainer;
     private RelativeLayout mAvailableTimeSlots,ps_pharmacy_list_layout_item;
+    static final long serialVersionUID = 143L;
 
 
     @Nullable
