@@ -67,7 +67,7 @@ public class AppTaggingHandler {
     /*
     * Checks for SSL connection value from Adobe json
     * */
-    boolean checkForSslConnection() {
+    protected boolean checkForSslConnection() {
         boolean sslValue = false;
         final JSONObject jSONObject = getMasterADBMobileConfig();
         try {
@@ -91,7 +91,7 @@ public class AppTaggingHandler {
     /**
      * Reading from Adobe json
      */
-    JSONObject getMasterADBMobileConfig() {
+    protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
@@ -236,7 +236,7 @@ public class AppTaggingHandler {
         }
     }
 
-    boolean checkForProductionState() {
+    protected boolean checkForProductionState() {
         if (mAppInfra.getAppIdentity() != null) {
             try {
                 return !mAppInfra.getAppIdentity().
