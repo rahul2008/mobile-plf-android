@@ -7,18 +7,17 @@
 
 package com.philips.platform.mya.catk.mapper;
 
-import com.philips.platform.mya.catk.dto.CreateConsentDto;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
+import com.philips.platform.mya.catk.dto.CreateConsentDto;
+import com.philips.platform.mya.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 public class ConsentToDtoMapperTest {
+    private static final String DUTCH_LOCALE = "nl-NL";
     private CreateConsentDto result;
     private ConsentToDtoMapper givenMapper;
     private BackendConsent givenConsent;
@@ -29,9 +28,9 @@ public class ConsentToDtoMapperTest {
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
-        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingLanguage = new BackendConsent(new Locale("", "NL"), ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingCountry = new BackendConsent(new Locale("nl", ""), ConsentStatus.active, "moment", 1);
+        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingLanguage = new BackendConsent("-NL", ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingCountry = new BackendConsent("nl-", ConsentStatus.active, "moment", 1);
     }
 
     @Test
