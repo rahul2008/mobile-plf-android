@@ -1,14 +1,17 @@
 package com.philips.cdp.registration.ui.utils;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.*;
 import android.support.v4.app.*;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.injection.*;
+import com.philips.cdp.registration.myaccount.MyaDetailsFragment;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.platform.uappframework.UappInterface;
@@ -34,12 +37,40 @@ public class URInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+                launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+
+            if(isUserSignedIn(RegistrationHelper.getInstance().
+                    getUrSettings().getContext())){
+                launchMyAccountDetails((FragmentLauncher) uiLauncher, uappLaunchInput);
+            }else {
+                launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+            }
+
         }
     }
 
+    private boolean isUserSignedIn(Context mContext){
+        User user = new User(mContext);
+        return user.isUserSignIn();
+    }
+
+    private void launchMyAccountDetails(FragmentLauncher fragmentLauncher, UappLaunchInput uappLaunchInput){
+
+        MyaDetailsFragment  myaDetailsFragment=new MyaDetailsFragment();
+        FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
+                getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
+                myaDetailsFragment,
+                RegConstants.REGISTRATION_FRAGMENT_TAG);
+        if (((URLaunchInput)
+                uappLaunchInput).isAddtoBackStack()) {
+            fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_FRAGMENT_TAG);
+        }
+        fragmentTransaction.commitAllowingStateLoss();
+    }
     /**
      * It is used to launch USR as a fragment
      * @param fragmentLauncher  pass instance of FragmentLauncher
@@ -51,14 +82,10 @@ public class URInterface implements UappInterface {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
-            RegistrationFragment registrationFragment = new RegistrationFragment();
+            MyaDetailsFragment registrationFragment = new MyaDetailsFragment();
             Bundle bundle = new Bundle();
 
-            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
-            if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
-                registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
-            }
-
+            RegistrationLaunchMode registrationLaunchMode =  ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             UIFlow uiFlow =((URLaunchInput) uappLaunchInput).getUIflow();
             RegUtility.setUiFlow(uiFlow);
 
@@ -176,5 +203,4 @@ public class URInterface implements UappInterface {
                     .registrationModule(new RegistrationModule(uappSettings.getContext()))
                     .build();
     }
-
 }
