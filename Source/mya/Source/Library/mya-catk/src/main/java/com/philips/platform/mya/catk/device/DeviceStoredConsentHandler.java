@@ -41,7 +41,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
-        callback.onGetConsentsSuccess(getSuccessConsentForStatus(consentDefinition, processDefinition(consentDefinition)));
+        callback.onGetConsentsSuccess(CatkHelper.getSuccessConsentForStatus(consentDefinition, processDefinition(consentDefinition)));
     }
 
     private ConsentStatus processDefinition(ConsentDefinition consentDefinition) {
@@ -81,10 +81,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         if (storageError.getErrorCode() != null) {
             appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
         }
-    }
-
-    private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status));
     }
 
     private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
