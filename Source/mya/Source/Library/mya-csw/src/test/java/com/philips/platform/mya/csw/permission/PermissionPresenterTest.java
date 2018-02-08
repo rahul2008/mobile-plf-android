@@ -1,7 +1,21 @@
 package com.philips.platform.mya.csw.permission;
 
-import android.content.Context;
-import android.test.mock.MockContext;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.when;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -21,28 +35,14 @@ import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.test.mock.MockContext;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.when;
-
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
+    private static final String AMERICAN_LOCALE = "en-US";
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
@@ -177,12 +177,12 @@ public class PermissionPresenterTest {
     }
 
     private void givenActiveClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
     private void givenRejectedClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.rejected, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
@@ -194,8 +194,7 @@ public class PermissionPresenterTest {
     }
 
     private ConsentDefinition clickStreamConsentDefinition() {
-        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
-                1, new Locale("en", "US"));
+        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"), 1);
     }
 
     public void whenCreateConsentSuccess() {
@@ -256,7 +255,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenConsentConfigurations() {
-        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
+        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0);
         ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
         givenConsentConfigurations = Arrays.asList(configuration);
         givenPresenter();
