@@ -10,11 +10,6 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -29,8 +24,13 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 
-import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 public class PermissionPresenter implements CheckConsentsCallback, ConsentToggleListener, PostConsentCallback {
 
@@ -64,7 +64,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             for (ConsentConfiguration configuration : configurationList) {
                 ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
                 if (handlerInterface != null) {
-                    handlerInterface.checkConsents(this);
+                    handlerInterface.fetchConsentStates(configuration.getConsentDefinitionList(), this);
                 }
             }
         }
@@ -74,7 +74,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            handler.post(definition, consentGiven, this);
+            handler.storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
             return consentGiven;
         } else {
@@ -107,14 +107,14 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public void onGetConsentsFailed(ConsentError error) {
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(true, mContext.getString(R.string.csw_problem_occurred_error_title), getMessageErrorBasedOnErrorCode(error.getErrorCode()));
+        permissionInterface.showErrorDialog(true, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
     }
 
     @Override
     public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
         adapter.onCreateConsentFailed(definition, error);
         permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), getMessageErrorBasedOnErrorCode(error.getErrorCode()));
+        permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
     }
 
     @Override
@@ -126,6 +126,11 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         permissionInterface.hideProgressDialog();
     }
 
+    @VisibleForTesting
+    protected RestInterface getRestClient() {
+        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
+    }
+
     private void updateClickStream(boolean isActive) {
         if (isActive) {
             CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
@@ -134,12 +139,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         }
     }
 
-    @VisibleForTesting
-    protected RestInterface getRestClient() {
-        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
-    }
-
-    private String getMessageErrorBasedOnErrorCode(int errorCode) {
-        return errorCode == CONSENT_ERROR_AUTHENTICATION_FAILURE ? mContext.getString(R.string.csw_invalid_access_token_error_message) : mContext.getString(R.string.csw_problem_occurred_error_message, errorCode);
+    private String toErrorMessage(ConsentError error) {
+        return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(mContext, error.getErrorCode());
     }
 }

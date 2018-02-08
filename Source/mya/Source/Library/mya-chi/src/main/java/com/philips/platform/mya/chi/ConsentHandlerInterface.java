@@ -9,9 +9,13 @@ package com.philips.platform.mya.chi;
 
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
+import java.util.List;
+
 public interface ConsentHandlerInterface {
 
-    void checkConsents(final CheckConsentsCallback callback);
+    void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback);
 
-    void post(final ConsentDefinition definition, boolean status, PostConsentCallback callback);
+    void fetchConsentStates(List<ConsentDefinition> consentDefinitions, final CheckConsentsCallback callback);
+
+    void storeConsentState(final ConsentDefinition definition, boolean status, PostConsentCallback callback);
 }

@@ -53,11 +53,10 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     Visit mVisit;
     private UIDNavigationIconToggler navIconToggler;
 
-    Integer mProviderRating;
-    Integer mVisitRating;
 
     protected Label medicationShippingLabel, prescriptionLabel;
     protected RelativeLayout medicationShippingRelativeLayout,ps_pharmacy_list_layout_item;
+    static final long serialVersionUID = 1127L;
 
 
     @Nullable
