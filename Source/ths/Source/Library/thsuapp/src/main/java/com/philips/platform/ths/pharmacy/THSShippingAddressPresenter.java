@@ -16,6 +16,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_SHIPPING_ADDRESS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_VISIT_HISTORY;
 
 public class THSShippingAddressPresenter implements THSUpdateShippingAddressCallback {
 
@@ -71,6 +73,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
                 }
                 //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
             } else {
+                ((THSShippingAddressFragment)thsBaseView).showError( THSSDKErrorFactory.getErrorType(((THSShippingAddressFragment)thsBaseView).getContext(), ANALYTICS_UPDATE_SHIPPING_ADDRESS,sdkError), false, false);
                 AmwellLog.e("updateShipAddress", sdkError.toString());
             }
         }
