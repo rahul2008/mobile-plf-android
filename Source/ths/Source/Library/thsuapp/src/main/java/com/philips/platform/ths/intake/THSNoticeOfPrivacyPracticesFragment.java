@@ -30,6 +30,7 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
     Label legalTextsLabel;
     THSBasePresenter mTHSNoppPresenter;
     private RelativeLayout mRelativeLayoutNopContainer;
+    static final long serialVersionUID = 157L;
 
 
     @Nullable

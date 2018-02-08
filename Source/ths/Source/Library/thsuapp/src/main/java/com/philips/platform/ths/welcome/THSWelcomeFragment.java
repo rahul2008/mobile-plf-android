@@ -116,13 +116,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onDestroy() {
         super.onDestroy();
         // exit from THS, collect tagging data
-        if(null!=THSManager.getInstance() ) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
-            THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
-            if (THSManager.getInstance().getThsCompletionProtocol() != null) {// added for uGrow request
-                THSManager.getInstance().getThsCompletionProtocol().didExitTHS(Other);
-            }
-            THSManager.getInstance().resetTHSManagerData();
-        }
+        THSTagUtils.doExitToPropositionWithCallBack();
     }
 }
