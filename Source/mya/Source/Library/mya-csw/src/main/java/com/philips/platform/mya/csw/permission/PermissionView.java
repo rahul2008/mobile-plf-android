@@ -28,6 +28,7 @@ import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -38,10 +39,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener, PrivacyNoticeClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
-
-    private static final String TAG = "PermissionView";
+    public static final String TAG = "PermissionView";
     private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
@@ -56,8 +56,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        // Update recycle view rows
-        // applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -112,7 +110,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onActivityCreated(savedInstanceState);
 
         adapter = new PermissionAdapter(createConsentsList(), this);
-        adapter.setPrivacyNoticeClickListener(this);
+        adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
+            @Override
+            public void onClick() {
+                onPrivacyNoticeClicked();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -121,8 +124,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onPrivacyNoticeClicked() {
+    private void onPrivacyNoticeClicked() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
@@ -167,16 +169,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         getParentFragment().getFragmentManager().popBackStack();
     }
 
-    private List<ConsentView> createConsentsList() {
-        final List<ConsentView> consentViewList = new ArrayList<>();
-        for (ConsentConfiguration configuration : configs) {
-            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
-            }
-        }
-        return consentViewList;
-    }
-
     @VisibleForTesting
     protected RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
@@ -196,5 +188,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             dialogView = new DialogView(this);
         }
         return dialogView;
+    }
+
+    private List<ConsentView> createConsentsList() {
+        final List<ConsentView> consentViewList = new ArrayList<>();
+        for (ConsentConfiguration configuration : configs) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
+        }
+        return consentViewList;
     }
 }
