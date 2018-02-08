@@ -36,6 +36,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     private Button confirmationContinueButton;
     boolean isLaunchedFromCostSummary = false;
     private RelativeLayout mProgressbarContainer;
+    static final long serialVersionUID = 42L;
 
     @Nullable
     @Override

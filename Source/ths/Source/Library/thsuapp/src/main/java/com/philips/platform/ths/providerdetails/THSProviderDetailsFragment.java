@@ -59,6 +59,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected Label mProgressBarLabel;
     protected RelativeLayout mProgressBarWithLabelContainer;
     AlertDialogFragment alertDialogFragment;
+    static final long serialVersionUID = 123L;
 
 
     @Override
