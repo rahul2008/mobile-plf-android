@@ -2,8 +2,10 @@ package com.philips.platform.mya.catk.clickstream;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.catk.utils.CatkHelper;
 import com.philips.platform.mya.chi.CheckConsentsCallback;
@@ -47,6 +49,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         for (String type : definition.getTypes()) {
             if (Objects.equals(type, CLICKSTREAM_CONSENT_TYPE)) {
                 appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
+                appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TYPE, String.valueOf(definition.getVersion()), getSecureStorageError());
                 callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
                 return;
             }
@@ -58,11 +61,15 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         AppTaggingInterface.PrivacyStatus privacyStatus = AppTaggingInterface.PrivacyStatus.UNKNOWN;
         for (String type : definition.getTypes()) {
             if (Objects.equals(type, CLICKSTREAM_CONSENT_TYPE)) {
-                privacyStatus = appInfra.getTagging().getPrivacyConsent();
+                privacyStatus = isVersionMismatch(definition) ? AppTaggingInterface.PrivacyStatus.UNKNOWN : appInfra.getTagging().getPrivacyConsent();
                 break;
             }
         }
         return privacyStatus;
+    }
+
+    private boolean isVersionMismatch(ConsentDefinition definition) {
+        return definition.getVersion() > Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TYPE, getSecureStorageError()));
     }
 
     @NonNull
@@ -82,5 +89,11 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         } else {
             return ConsentStatus.inactive;
         }
+    }
+
+    @VisibleForTesting
+    @NonNull
+    SecureStorageInterface.SecureStorageError getSecureStorageError() {
+        return new SecureStorageInterface.SecureStorageError();
     }
 }
