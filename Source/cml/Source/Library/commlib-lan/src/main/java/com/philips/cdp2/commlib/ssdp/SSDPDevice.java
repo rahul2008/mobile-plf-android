@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -78,7 +78,7 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
  * </pre>
  */
 @SuppressWarnings("WeakerAccess, unused")
-public final class SSDPDevice {
+public class SSDPDevice {
 
     private static final DescriptionParser PARSER = new DescriptionParser();
 
@@ -254,15 +254,19 @@ public final class SSDPDevice {
     }
 
     /**
-     * Create an SSDPDiscovery device instance from the supplied URL.
+     * Create an SSDP device instance from the supplied URL.
      * <p>
      * The URL should point to the description XML on the actual device.
      *
      * @param descriptionUrl the description url
-     * @return the SSDPDiscovery device
+     * @return the SSDP device
      */
     @Nullable
-    static SSDPDevice createFromUrl(final @NonNull URL descriptionUrl) {
+    static SSDPDevice createFromUrl(final @Nullable URL descriptionUrl) {
+        if (descriptionUrl == null) {
+            return null;
+        }
+
         try {
             URLConnection conn = getConnectionWithoutSSLValidation(descriptionUrl);
 
@@ -273,21 +277,30 @@ public final class SSDPDevice {
         return null;
     }
 
+    /**
+     * Create an SSDP device instance from a search response message.
+     * <p>
+     * The message should contain the URL to a description XML file.
+     * This is true for a response to an M-SEARCH.
+     *
+     * @param message the SSDP message to create the device instance from
+     * @return the SSDP device
+     */
     @Nullable
-    static SSDPDevice createFromSsdpMessage(final @NonNull SSDPMessage message) {
-        final URL descriptionUrl = message.getDescriptionUrl();
-        if (descriptionUrl == null) return null;
+    static SSDPDevice createFromSearchResponse(final @NonNull SSDPMessage message) {
+        final SSDPDevice device = createFromUrl(message.getDescriptionUrl());
 
-        SSDPDevice device = SSDPDevice.createFromUrl(descriptionUrl);
-        if (device != null) device.update(message);
+        if (device != null) {
+            device.updateFrom(message);
+        }
         return device;
     }
 
     /**
-     * Create an SSDPDiscovery device instance from the supplied XML string.
+     * Create an SSDP device instance from the supplied XML string.
      *
      * @param descriptionXml the description xml string
-     * @return the SSDPDiscovery device
+     * @return the SSDP device
      */
     @Nullable
     static SSDPDevice createFromXml(final @NonNull String descriptionXml) {
@@ -296,7 +309,14 @@ public final class SSDPDevice {
         return PARSER.parseDevice(in);
     }
 
-    void update(final SSDPMessage message) {
+    /**
+     * Update from SSDP message.
+     * <p>
+     * Updates properties of this device with those from supplied message.
+     *
+     * @param message the message to apply the updated values from
+     */
+    void updateFrom(final SSDPMessage message) {
         final URL descriptionUrl = message.getDescriptionUrl();
         if (descriptionUrl == null) {
             return;
@@ -447,7 +467,7 @@ public final class SSDPDevice {
         return builder.toString();
     }
 
-    private static URLConnection getConnectionWithoutSSLValidation(URL url) throws IOException {
+    static URLConnection getConnectionWithoutSSLValidation(final @NonNull URL url) throws IOException {
         URLConnection connection = url.openConnection();
 
         if (connection instanceof HttpsURLConnection) {

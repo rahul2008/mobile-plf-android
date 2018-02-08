@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSearchResponse;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.BOOT_ID;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
@@ -41,6 +41,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({SSDPDevice.class})
@@ -92,7 +93,7 @@ public class SSDPControlPointTest {
         when(ssdpMessageMock.get(LOCATION)).thenReturn(TEST_LOCATION);
 
         mockStatic(SSDPDevice.class);
-        when(SSDPDevice.createFromSsdpMessage(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
+        when(createFromSearchResponse(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
 
         ssdpControlPoint = new SSDPControlPoint() {
             @NonNull
@@ -208,8 +209,8 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        PowerMockito.verifyStatic(times(1));
-        SSDPDevice.createFromSsdpMessage(ssdpMessageMock);
+        verifyStatic(times(1));
+        createFromSearchResponse(ssdpMessageMock);
     }
 
     @Test
@@ -218,8 +219,8 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        PowerMockito.verifyStatic(times(1));
-        SSDPDevice.createFromSsdpMessage(any(SSDPMessage.class));
+        verifyStatic(times(1));
+        createFromSearchResponse(any(SSDPMessage.class));
     }
 
     @Test
@@ -237,10 +238,10 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        SSDPMessage secondMessageMock = mock(SSDPMessage.class);
+        final SSDPMessage secondMessageMock = mock(SSDPMessage.class);
         when(secondMessageMock.get(USN)).thenReturn(TEST_USN);
         ssdpControlPoint.handleMessage(secondMessageMock);
 
-        verify(ssdpDeviceMock).update(secondMessageMock);
+        verify(ssdpDeviceMock).updateFrom(secondMessageMock);
     }
 }

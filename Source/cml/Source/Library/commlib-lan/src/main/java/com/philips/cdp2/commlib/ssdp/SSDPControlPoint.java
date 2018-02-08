@@ -13,6 +13,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
+import com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDPSearchMessage;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -32,7 +33,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
-import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSsdpMessage;
+import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSearchResponse;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
@@ -260,9 +261,9 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
         if (deviceCache.containsKey(usn)) {
             device = deviceCache.get(usn);
-            device.update(message);
+            device.updateFrom(message);
         } else {
-            device = createFromSsdpMessage(message);
+            device = createFromSearchResponse(message);
 
             if (device == null) {
                 return;

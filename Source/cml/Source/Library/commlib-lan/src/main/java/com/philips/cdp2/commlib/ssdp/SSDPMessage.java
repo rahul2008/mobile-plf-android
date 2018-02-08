@@ -18,7 +18,18 @@ import java.util.Map;
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 
 @SuppressWarnings("unused")
-class SSDPMessage {
+public class SSDPMessage {
+
+    static class SSDPSearchMessage extends SSDPMessage {
+        SSDPSearchMessage(final @NonNull String searchTarget, int searchIntervalInSeconds) {
+            super(MESSAGE_TYPE_SEARCH);
+
+            getHeaders().put(HOST, SSDP_HOST + ":" + SSDP_PORT);
+            getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
+            getHeaders().put(MAX_WAIT_TIME, String.valueOf(searchIntervalInSeconds));
+            getHeaders().put(SEARCH_TARGET, searchTarget);
+        }
+    }
 
     static final String SSDP_HOST = "239.255.255.250";
     static final int SSDP_PORT = 1900;
@@ -139,13 +150,3 @@ class SSDPMessage {
     }
 }
 
-final class SSDPSearchMessage extends SSDPMessage {
-    SSDPSearchMessage(final @NonNull String searchTarget, int searchIntervalInSeconds) {
-        super(MESSAGE_TYPE_SEARCH);
-
-        getHeaders().put(HOST, SSDP_HOST + ":" + SSDP_PORT);
-        getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
-        getHeaders().put(MAX_WAIT_TIME, String.valueOf(searchIntervalInSeconds));
-        getHeaders().put(SEARCH_TARGET, searchTarget);
-    }
-}
