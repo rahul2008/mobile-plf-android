@@ -19,6 +19,8 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+
 public class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
@@ -45,33 +47,31 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-        for (String type : definition.getTypes()) {
-            if (type.equals(CLICKSTREAM_CONSENT_TYPE)) {
-                appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
-                appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TYPE, String.valueOf(definition.getVersion()), getSecureStorageError());
-                callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
-                return;
-            }
-        }
-        callback.onPostConsentFailed(definition, getClickStreamError());
+        String clickStreamType = definition.getTypes().get(0);
+        assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
+        appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
+        appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TYPE, String.valueOf(definition.getVersion()), getSecureStorageError());
+        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
     }
 
     private AppTaggingInterface.PrivacyStatus processClickStreamConsentStatus(ConsentDefinition definition) {
         AppTaggingInterface.PrivacyStatus privacyStatus = AppTaggingInterface.PrivacyStatus.UNKNOWN;
-        for (String type : definition.getTypes()) {
-            if (type.equals(CLICKSTREAM_CONSENT_TYPE) && !isVersionMismatch(definition)) {
-                privacyStatus = appInfra.getTagging().getPrivacyConsent();
-                break;
-            }
+
+        String clickStreamType = definition.getTypes().get(0);
+        assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
+
+        if (isSameVersion(definition)) {
+            privacyStatus = appInfra.getTagging().getPrivacyConsent();
         }
+
         if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.UNKNOWN)) {
             appInfra.getTagging().setPrivacyConsent(privacyStatus);
         }
         return privacyStatus;
     }
 
-    private boolean isVersionMismatch(ConsentDefinition definition) {
-        return definition.getVersion() > Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TYPE, getSecureStorageError()));
+    private boolean isSameVersion(ConsentDefinition definition) {
+        return definition.getVersion() == Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TYPE, getSecureStorageError()));
     }
 
     @NonNull
