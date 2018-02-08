@@ -1,6 +1,7 @@
 package com.philips.platform.mya.mch;
 
 import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.PostConsentCallback;
@@ -48,6 +49,8 @@ public class MarketingConsentHandlerTest {
     private ArgumentCaptor<List<Consent>> consentGetCaptor;
     @Captor
     private ArgumentCaptor<ConsentError> errorCaptor;
+    @Mock
+    private AppInfraInterface appInfra;
 
     private MarketingConsentHandler subject;
     private ConsentDefinition givenConsentDefinition;
@@ -115,7 +118,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void givenConsentDefinition() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
         subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfra);
     }
 
