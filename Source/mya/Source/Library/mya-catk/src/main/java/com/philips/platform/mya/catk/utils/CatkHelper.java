@@ -13,8 +13,8 @@ public class CatkHelper {
         return enableDeviceStorage ? ConsentStatus.active : ConsentStatus.rejected;
     }
 
-    public static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus) {
-        final BackendConsent backendConsent = new BackendConsent(new Locale(definition.getLocale()), consentStatus, definition.getTypes().get(0), definition.getVersion());
+    public static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
+        final BackendConsent backendConsent = new BackendConsent(consentLanguage, consentStatus, definition.getTypes().get(0), definition.getVersion());
         return new Consent(backendConsent, definition);
     }
 }

@@ -69,10 +69,12 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+
         List<Consent> consents = new ArrayList<>(consentDefinitions.size());
         for (ConsentDefinition definition : consentDefinitions) {
             ConsentStatus consentStatus = processDefinition(definition);
-            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus));
+            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus, consentLanguage));
         }
         callback.onGetConsentsSuccess(consents);
     }
@@ -84,7 +86,8 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     }
 
     private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status));
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status, consentLanguage));
     }
 
     private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
@@ -109,7 +112,9 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 return;
             }
         }
-        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
+
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status), consentLanguage));
     }
 
     @NonNull
@@ -117,7 +122,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         List<String> definitionString = new ArrayList<>();
         definitionString.add(LIST_POS_STATUS, String.valueOf(status));
         definitionString.add(LIST_POS_VERSION, String.valueOf(definition.getVersion()));
-        definitionString.add(LIST_POS_LOCALE, definition.getLocale());
         definitionString.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
         return definitionString;
     }
