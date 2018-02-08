@@ -74,11 +74,6 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         return definition.getVersion() == Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TYPE, getSecureStorageError()));
     }
 
-    @NonNull
-    private ConsentError getClickStreamError() {
-        return new ConsentError(CLICKSTREAM_CONSENT_ERROR, ConsentError.CONSENT_ERROR);
-    }
-
     private AppTaggingInterface.PrivacyStatus toPrivacyStatus(boolean status) {
         return status ? AppTaggingInterface.PrivacyStatus.OPTIN : AppTaggingInterface.PrivacyStatus.OPTOUT;
     }
