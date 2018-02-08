@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -74,7 +75,7 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
-        verify(view).showSettingsItems(anyMap());
+        verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
 
     @Test

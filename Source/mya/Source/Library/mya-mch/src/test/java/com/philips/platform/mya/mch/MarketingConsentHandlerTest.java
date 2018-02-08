@@ -11,6 +11,7 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -177,7 +178,7 @@ public class MarketingConsentHandlerTest {
 
     private void thenErrorCallbackIsCalled() {
         verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
-        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(anyList());
+        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(ArgumentMatchers.<Consent>anyList());
     }
 
 }
