@@ -18,7 +18,6 @@ import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
@@ -47,7 +46,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         for (String type : definition.getTypes()) {
-            if (Objects.equals(type, CLICKSTREAM_CONSENT_TYPE)) {
+            if (type.equals(CLICKSTREAM_CONSENT_TYPE)) {
                 appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
                 appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TYPE, String.valueOf(definition.getVersion()), getSecureStorageError());
                 callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
@@ -60,10 +59,13 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     private AppTaggingInterface.PrivacyStatus processClickStreamConsentStatus(ConsentDefinition definition) {
         AppTaggingInterface.PrivacyStatus privacyStatus = AppTaggingInterface.PrivacyStatus.UNKNOWN;
         for (String type : definition.getTypes()) {
-            if (Objects.equals(type, CLICKSTREAM_CONSENT_TYPE)) {
-                privacyStatus = isVersionMismatch(definition) ? AppTaggingInterface.PrivacyStatus.UNKNOWN : appInfra.getTagging().getPrivacyConsent();
+            if (type.equals(CLICKSTREAM_CONSENT_TYPE) && !isVersionMismatch(definition)) {
+                privacyStatus = appInfra.getTagging().getPrivacyConsent();
                 break;
             }
+        }
+        if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.UNKNOWN)) {
+            appInfra.getTagging().setPrivacyConsent(privacyStatus);
         }
         return privacyStatus;
     }
@@ -82,13 +84,12 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     }
 
     private ConsentStatus toConsentStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
-        if (privacyStatus == AppTaggingInterface.PrivacyStatus.OPTIN) {
-            return ConsentStatus.active;
-        } else if (privacyStatus == AppTaggingInterface.PrivacyStatus.OPTOUT) {
-            return ConsentStatus.rejected;
-        } else {
-            return ConsentStatus.inactive;
-        }
+        ConsentStatus status = ConsentStatus.inactive;
+        if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTIN))
+            status = ConsentStatus.active;
+        else if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTOUT))
+            status = ConsentStatus.rejected;
+        return status;
     }
 
     @VisibleForTesting
