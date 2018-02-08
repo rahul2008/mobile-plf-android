@@ -116,7 +116,7 @@ public class MarketingConsentHandlerTest {
 
     private void givenConsentDefinition() {
         givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
-        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition));
+        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfra);
     }
 
     private void givenStatusToPost(boolean status) {

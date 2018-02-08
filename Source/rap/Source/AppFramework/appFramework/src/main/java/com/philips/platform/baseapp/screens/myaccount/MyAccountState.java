@@ -1,10 +1,10 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
@@ -43,11 +43,11 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 public class MyAccountState extends BaseState implements MyAccountUIEventListener {
 
@@ -109,49 +109,48 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * Creates a list of ConsentDefinitions</p
      *
      * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
-     * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> createCatkDefinitions(Context context, Locale currentLocale) {
+    List<ConsentDefinition> createCatkDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
-                Collections.singletonList("moment"), 1, currentLocale));
+                Collections.singletonList("moment"), 1));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
-                Collections.singletonList("coaching"), 1, currentLocale));
+                Collections.singletonList("coaching"), 1));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
-                Collections.singletonList("binary"), 1, currentLocale));
+                Collections.singletonList("binary"), 1));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList("clickstream"), 1, currentLocale));
+                Collections.singletonList("clickstream"), 1));
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
-                Arrays.asList("research", "analytics"), 1, currentLocale));
+                Arrays.asList("research", "analytics"), 1));
         return definitions;
     }
 
-    List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
+    List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
+                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1));
         return definitions;
     }
 
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
+        AppInfraInterface appInfra = app.getAppInfra();
 
-        Locale currentLocale = getCompleteLocale(app);
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
-                .setAppInfraInterface(app.getAppInfra())
-                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
+                .setAppInfraInterface(appInfra)
+                .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
         ConsentAccessToolKit.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
+        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions, appInfra)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

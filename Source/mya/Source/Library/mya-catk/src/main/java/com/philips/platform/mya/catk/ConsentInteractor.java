@@ -7,32 +7,30 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.inject.Inject;
 
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.mapper.LocaleMapper;
 import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentCallback;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.PostConsentCallback;
 import com.philips.platform.mya.chi.datamodel.BackendConsent;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
 
 public class ConsentInteractor implements ConsentHandlerInterface {
@@ -74,7 +72,6 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
         String locale = consentAccessToolKit.getAppInfra().getInternationalization().getBCP47UILocale();
 
-//        Locale locale = LocaleMapper.toLocale(definition.getLocale());
         List<BackendConsent> backendConsents = new ArrayList<>();
         List<String> types = definition.getTypes();
         for (String type : types) {

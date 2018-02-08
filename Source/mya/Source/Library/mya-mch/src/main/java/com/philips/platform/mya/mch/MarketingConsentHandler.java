@@ -1,7 +1,13 @@
 package com.philips.platform.mya.mch;
 
+import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
@@ -11,24 +17,16 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
-
-/**
- * Created by Entreco on 19/12/2017.
- */
-
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     private final User user;
     private final List<ConsentDefinition> definitions;
+    private final AppInfraInterface appInfra;
 
-    public MarketingConsentHandler(final User user, final List<ConsentDefinition> definitions) {
+    public MarketingConsentHandler(final User user, final List<ConsentDefinition> definitions, AppInfraInterface appInfra) {
         this.user = user;
         this.definitions = definitions == null ? new ArrayList<ConsentDefinition>() : definitions;
+        this.appInfra = appInfra;
     }
 
     @Override
@@ -37,9 +35,10 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         try {
             final boolean receiveMarketingEmail = user.getReceiveMarketingEmail();
             List<Consent> marketingConsents = new ArrayList<>(definitions.size());
+            final String currentLanguage = appInfra.getInternationalization().getBCP47UILocale();
 
             for (ConsentDefinition definition : definitions) {
-                final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
+                final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail), currentLanguage);
                 marketingConsents.add(marketingConsent);
             }
 
@@ -51,15 +50,17 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void post(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-        user.updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status)), status);
+        final String currentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+
+        user.updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status), currentLanguage), status);
     }
 
     private ConsentStatus toStatus(boolean recevieMarketingEmail) {
         return recevieMarketingEmail ? ConsentStatus.active : ConsentStatus.rejected;
     }
 
-    private static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus) {
-        final BackendConsent backendConsent = new BackendConsent(new Locale(definition.getLocale()), consentStatus, definition.getTypes().get(0), definition.getVersion());
+    private static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
+        final BackendConsent backendConsent = new BackendConsent(consentLanguage, consentStatus, definition.getTypes().get(0), definition.getVersion());
         return new Consent(backendConsent, definition);
     }
 
@@ -68,10 +69,10 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         private final ConsentDefinition definition;
         private final Consent marketingConsent;
 
-        MarketingUpdateCallback(PostConsentCallback callback, ConsentDefinition definition, ConsentStatus consentStatus) {
+        MarketingUpdateCallback(PostConsentCallback callback, ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
             this.callback = callback;
             this.definition = definition;
-            marketingConsent = createConsentFromDefinition(definition, consentStatus);
+            marketingConsent = createConsentFromDefinition(definition, consentStatus, consentLanguage);
         }
 
         @Override

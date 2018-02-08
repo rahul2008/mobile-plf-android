@@ -32,7 +32,7 @@ public class BackendConsent {
         return locale;
     }
 
-    public void setLocale(String locale) {
+    public void setLocale(String  locale) {
         this.locale = locale;
     }
 
