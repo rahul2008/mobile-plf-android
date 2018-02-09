@@ -361,7 +361,7 @@ public class THSManager {
 
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback<Boolean, THSSDKError> thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {
 
-        getAwsdk(context).getConsumerManager().checkConsumerExists(getThsConsumer(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
+        getAwsdk(context).getConsumerManager().checkConsumerExists(new THSHashingFunction().md5(getThsConsumer(context).getHsdpUUID()), new SDKCallback<Boolean, SDKError>() {
 
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
@@ -446,7 +446,7 @@ public class THSManager {
         final ConsumerEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewConsumerEnrollment();
         newConsumerEnrollment.setAcceptedDisclaimer(true);
 
-        newConsumerEnrollment.setSourceId(getThsConsumer(context).getHsdpUUID());
+        newConsumerEnrollment.setSourceId(new THSHashingFunction().md5(getThsConsumer(context).getHsdpUUID()));
         newConsumerEnrollment.setConsumerAuthKey(getThsConsumer(context).getHsdpUUID());
 
         newConsumerEnrollment.setEmail(getThsConsumer(context).getEmail());
@@ -523,9 +523,7 @@ public class THSManager {
     private DependentEnrollment getDependantEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender) throws AWSDKInstantiationException {
         final DependentEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewDependentEnrollment(getThsParentConsumer(context).getConsumer());
 
-        newConsumerEnrollment.setSourceId(getThsConsumer(context).getHsdpUUID());
-
-
+        newConsumerEnrollment.setSourceId(new THSHashingFunction().md5(getThsConsumer(context).getHsdpUUID()));
 
 
         newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
