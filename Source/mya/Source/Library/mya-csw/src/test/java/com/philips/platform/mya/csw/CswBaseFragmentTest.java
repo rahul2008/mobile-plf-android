@@ -4,7 +4,6 @@ import com.philips.platform.mya.csw.mock.ActionBarListenerMock;
 import com.philips.platform.mya.csw.mock.CswFragmentMock;
 import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.mya.csw.wrapper.CswBaseFragmentWrapper;
-import com.philips.platform.mya.csw.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Test;
