@@ -40,6 +40,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private Label nopp_label;
     private Label mLabelPatientName;
     private InputValidationLayout ths_intake_follow_up_phone_number_container;
+    static final long serialVersionUID = 151L;
 
     @Nullable
     @Override

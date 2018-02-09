@@ -15,16 +15,16 @@
     <string name="ths_vitals_follow_up_please_note">Please note that this phone number will also be used in case the connection with the provider gets lost.</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
     <string name="ths_vitals_phone_number_text"> Phone number</string>
-    <string name="ths_help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
-    <string name="ths_visit_reason">What is the reason for your visit?</string>
+    <string name="ths_help_visit">Please help us make this visit more efficient by sharing some details upfront. Otherwise, you can skip this step.</string>
+    <string name="ths_visit_reason">What is the visit about?</string>
     <string name="ths_additional_comment">Additional comment</string>
     <string name="ths_write_here">write here</string>
     <string name="ths_prepare_your_visit">Prepare for your visit</string>
     <string name="ths_button_greaterthan"> &gt;</string>
-    <string name="ths_vitals_want">Do you want to share your vitals?</string>
+    <string name="ths_vitals_want">Please provide vital signs, if possible. Otherwise, you can skip this step.</string>
     <string name="ths_vitals_add_medication_text">Add medication</string>
     <string name="ths_vitals_blood_pressure">Blood pressure </string>
-    <string name="ths_vitals_medication_description_text">Are you currently taking any medication(s)? If so, please add your medications to share with the provider</string>
+    <string name="ths_vitals_medication_description_text">Please tell us about medication use, if applicable. Otherwise, you can skip this step.</string>
     <string name="ths_vitals_blood_pressure_text">(in mm HG)</string>
     <string name="ths_vitals_temp_text">(in \u2109)</string>
     <string name="ths_vitals_medications">Step 3 of 5: Medications</string>
@@ -37,7 +37,7 @@
     <string name="ths_vitals_weight_text">(in lbs)</string>
     <string name="ths_vitals_ponds">Pounds</string>
     <string name="ths_vitals_skip">Skip this step</string>
-    <string name="ths_medical_conditions">Have you been diagnosed with any of these medical conditions?</string>
+    <string name="ths_medical_conditions">Please select any previously diagnosed medical conditions. Skip this step if not applicable.</string>
     <string name="ths_google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
     <string name="ths_select_a_date_and_time">Select a Date and Time</string>
     <string name="ths_inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
@@ -82,13 +82,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_choose_pharmacy_button_text">Choose pharmacy</string>
     <string name="ths_retail_button_text">Retail</string>
     <string name="ths_mail_order_pharmacy_button_text">Mail order</string>
-    <string name="ths_pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
+    <string name="ths_pharmacy_shipping_fragment_name">Pharmacy &amp; Shipping</string>
     <string name="ths_pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="ths_search_pharmacy_fragment_name">Your pharmacy</string>
-    <string name="ths_shipping_address_fragment_name">Ship prescriptions to</string>
+    <string name="ths_shipping_address_fragment_name">Ship prescription to</string>
     <string name="ths_pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
     <string name="ths_pharmacy_search_edittext_hint">Type location or zip code</string>
-    <string name="ths_pharmacy_medications_sent_to_text">Medications will be sent to</string>
+    <string name="ths_pharmacy_medications_sent_to_text">Medications will be shipped to</string>
     <string name="ths_pharmacy_prescriptions_sent_to">Prescriptions will be sent to</string>
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
@@ -231,7 +231,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Insurance fragment strings-->
     <string name="ths_insurance">Insurance</string>
     <string name="ths_not_insurance">No insurance</string>
-    <string name="ths_insurancep_confirmation_situation">To give an accurate cost estimation, we need to know your insurance situation</string>
+    <string name="ths_insurancep_confirmation_situation">To give an accurate cost calculation, we need to know your insurance situation</string>
     <string name="ths_insurance_confirmation_chosse_situation">Choose one of these options:</string>
     <string name="ths_insurance_confirmation_radio_option_yes">I have insurance</string>
     <string name="ths_insurance_confirmation_radio_option_no">I do not have insurance</string>
@@ -345,7 +345,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent-->
     <string name="ths_visit_for">Who is this visit for?</string>
-    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name.</string>
+    <string name="ths_select_name">Please select the person who needs the consult. For instance, if you are the parent and your child has an ear-ache, select your \'your child\'.</string>
+
     <string name="ths_select_patient">Select patient</string>
     <string name="ths_select_patient_detail_appointment_text">Please select a patient from which you would like to see the scheduled visits.</string>
     <string name="ths_select_patient_detail_visit_text">Please select a patient from which you would like to see the visit history.</string>

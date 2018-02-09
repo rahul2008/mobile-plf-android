@@ -103,8 +103,6 @@ dependencies {
         releaseCompile project(path: ':registrationApi', configuration: 'release')
         debugCompile project(path: ':mya-chi', configuration: 'debug')
         releaseCompile project(path: ':mya-chi', configuration: 'release')
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
     } else {
