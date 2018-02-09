@@ -192,7 +192,7 @@
 <string name="reg_Resend_SMS_title">Resend SMS</string>
 <string name="reg_Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
 <string name="reg_Merge_validate_password_mismatch_errortxt">The password is incorrect.</string>
-<string name="reg_Country">Country</string>
+<string name="reg_Country">Region</string>
 <string name="reg_Provider_Not_Supported">Provider not supported.</string>
 <string name="reg_CreateAccount_PhoneNumber">Your phone number</string>
 <string name="reg_Invalid_PhoneNumber_ErrorMsg">I cannot recognize the phone number you entered. Please check.</string>

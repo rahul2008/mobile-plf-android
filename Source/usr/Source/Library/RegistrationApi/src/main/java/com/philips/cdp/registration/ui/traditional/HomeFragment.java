@@ -182,7 +182,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-            if(!getRegistrationFragment().isHomeFragment()) {
+            if (!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -251,7 +251,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handleCountrySelection() {
-        if(!getRegistrationFragment().isHomeFragment()) {
+        if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         if (homePresenter.isNetworkAvailable()) {
@@ -320,8 +320,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
-    private void showSignInAccountFragment(){
-        if(!getRegistrationFragment().isHomeFragment()) {
+
+    private void showSignInAccountFragment() {
+        if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         getRegistrationFragment().addFragment(new SignInAccountFragment());
@@ -329,7 +330,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void showCreateAccountFragment() {
-        if(!getRegistrationFragment().isHomeFragment()) {
+        if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         getRegistrationFragment().addFragment(new CreateAccountFragment());
@@ -375,8 +376,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
-       // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
+        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth" + width);
+        // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout2, width);
         handlePrivacyPolicyAndCountryView(width);
@@ -423,7 +424,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handlePrivacyPolicy() {
-        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
 
             if (!getRegistrationFragment().isHomeFragment()) {
                 return;
@@ -432,7 +433,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
-        }else {
+        } else {
             RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
 
@@ -596,7 +597,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
-        }else {
+        } else {
             RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
     }
@@ -621,8 +622,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country)+":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.reg_Country)+":", text));
+        if (text.equalsIgnoreCase("Chinese Taipei")) {
+            text = new Locale("", "TW").getDisplayCountry();
+        }
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.reg_Country) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
@@ -645,7 +649,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void updateHomeCountry(String selectedCountryCode) {
-        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
+//        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
+        if (selectedCountryCode.equalsIgnoreCase("TW")) {
+            updateCountryText(new Locale("", "TW").getDisplayCountry());
+        } else {
+            updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
+        }
+
         handleSocialProviders(selectedCountryCode);
     }
 
@@ -888,14 +898,16 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             }
         }
     }
-    private int viewLength (TextView text, String newText) {
+
+    private int viewLength(TextView text, String newText) {
         float textWidth = text.getPaint().measureText(newText);
         return Math.round(textWidth);
     }
-   private void handlePrivacyPolicyAndCountryView(int width) {
+
+    private void handlePrivacyPolicyAndCountryView(int width) {
         int length = viewLength(mCountryDisplay, mCountryDisplay.getText().toString()) +
                 viewLength(privacyPolicy, privacyPolicy.getText().toString());
-        if ((width *.9) > length) {
+        if ((width * .9) > length) {
             usr_StartScreen_privacyNotice_country_LinearLayout2.setVisibility(View.GONE);
             usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
 

@@ -54,6 +54,31 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         this.listener = listener;
         this.masterList = removeDuplicatesFromArrayList(rawMasterList);
         this.recentList = recentList;
+
+    }
+
+    private void recentlistUpdate(ArrayList<Country> recentList) {
+        for (int i = 0; i < recentList.size(); i++) {
+            if (recentList.get(0).getCode().equalsIgnoreCase("TW")) {
+                recentList.add(new Country("TW", getString(R.string.reg_Country_TW)));
+                break;
+            } else {
+                recentList.remove(new Country("TW", getString(R.string.reg_Country_TW)));
+            }
+        }
+    }
+
+    private ArrayList<Country> countryChineseTaipei(ArrayList<Country> masterList, Country selectedCountry) {
+        for (int i = 1; i < masterList.size(); i++) {
+            if (masterList.get(i).getCode().equalsIgnoreCase("TW")) {
+                masterList.remove(masterList.get(i));
+                masterList.add(new Country("TW", "Chinese Taipei"));
+            }
+        }
+        if (selectedCountry.getName().equalsIgnoreCase(getString(R.string.reg_Country_TW))) {
+            masterList.remove(new Country("TW", "Chinese Taipei"));
+        }
+        return masterList;
     }
 
 
@@ -94,6 +119,13 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         countryListView.addItemDecoration(separatorItemDecoration);
         countryListView.setItemAnimator(new DefaultItemAnimator());
+        try {
+            recentlistUpdate(recentList);
+            countryChineseTaipei(masterList, recentList.get(0));
+        } catch (Exception e) {
+            RLog.d(RLog.EXCEPTION, e.getMessage());
+        }
+
         filtredList = populateList(recentList, masterList);
         countryListAdapter = new CountrySelectionAdapter(filtredList, this::updateCountryList);
         countryListView.setAdapter(countryListAdapter);
