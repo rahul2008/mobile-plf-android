@@ -12,7 +12,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.junit.After;
 import org.junit.Before;
@@ -135,7 +134,7 @@ public class MyAccountStateTest {
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createCatkDefinitions(mockContext, Locale.forLanguageTag(LANGUAGE_TAG));
+        return myAccountState.createCatkDefinitions(mockContext);
     }
 
     class MyAccountStateMock extends MyAccountState {
