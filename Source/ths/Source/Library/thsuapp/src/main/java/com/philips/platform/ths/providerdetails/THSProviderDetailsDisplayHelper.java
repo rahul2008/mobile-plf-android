@@ -56,12 +56,12 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue;
     protected RatingBar providerRating;
     protected Button detailsButtonOne, detailsButtonTwo, detailsButtonContinue;
-    private RelativeLayout mTimeSlotContainer;
+    private RelativeLayout mTimeSlotContainer,ths_match_making_ProgressBarWithLabel;
     private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container;
+    private RelativeLayout available_provider_details_container,ths_match_making_ProgressBarWithLabel_container,bottomLayout;
     private List<Date> dates;
     private Label details_isAvailableImage_text;
     private FrameLayout details_isAvailableImage_layout;
@@ -81,6 +81,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
 
     private void setViews(View view) {
         available_provider_details_container = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
+        ths_match_making_ProgressBarWithLabel_container = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
+        ths_match_making_ProgressBarWithLabel = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel);
+        bottomLayout = view.findViewById(R.id.bottomLayout);
         available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
@@ -125,6 +128,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
 
     public void updateView(Provider provider, List<Date> dates) {
         available_provider_details_container.setVisibility(View.VISIBLE);
+        setDODProgressVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        bottomLayout.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
@@ -193,6 +199,29 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             mTimeSlotContainer.setVisibility(View.GONE);
             isAvailable.setText(providerAvailabilityString);
         }
+    }
+
+    protected void setDODVisibility(boolean show){
+        if(show) {
+            thsBaseFragment.createCustomProgressBar(ths_match_making_ProgressBarWithLabel, 2);
+            setDODProgressVisibility(View.VISIBLE);
+            setProviderViewVisibility();
+        }else {
+            thsBaseFragment.hideProgressBar();
+            setDODProgressVisibility(View.GONE);
+            setProviderViewVisibility();
+        }
+    }
+
+    private void setDODProgressVisibility(int visible) {
+
+        ths_match_making_ProgressBarWithLabel_container.setVisibility(visible);
+    }
+
+    private void setProviderViewVisibility() {
+        available_provider_details_container.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.GONE);
+        bottomLayout.setVisibility(View.GONE);
     }
 
     /**

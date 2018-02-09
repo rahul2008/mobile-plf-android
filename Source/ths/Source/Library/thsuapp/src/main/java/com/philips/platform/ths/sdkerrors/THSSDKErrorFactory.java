@@ -36,7 +36,7 @@ public class THSSDKErrorFactory {
             }
 
             for (THSErrorHandlerInterface thssdkUserError : errorList) {
-                if (thssdkUserError.validate(sdkErrorReason)) {
+                if (thssdkUserError.validate(sdkErrorReason, context)) {
                     errorMessage = thssdkUserError.getErrorMessage(context);
                     String tagErrormessage=null!=sdkError.getMessage()?sdkError.getMessage():errorMessage;// if getMessage() returns null
                     final String errorTag = THSTagUtils.createErrorTag(module, tagErrormessage);

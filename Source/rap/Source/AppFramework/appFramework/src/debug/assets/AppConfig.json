@@ -105,7 +105,7 @@
   },
   "ReferenceApp": {
     "PushNotification.autoLogout": "true",
-    "PushNotification.polling": "true"
+    "PushNotification.polling": "false"
   },
   "ths": {
     "apiKey": "dc573250"
@@ -121,7 +121,6 @@
     "settings.menuItems": [
       "MYA_Country",
       "Mya_Privacy_Settings"
-    ],
-    "privacyNotice.url": "http://www.marktplaats.nl"
+    ]
   }
 }

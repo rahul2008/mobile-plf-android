@@ -48,7 +48,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private EditText addressLineOne, addressLineTwo, postalCode, town;
     protected Button updateAddressButton;
     protected THSShippingAddressPresenter thsShippingAddressPresenter;
-
+    static final long serialVersionUID = 81L;
 
 
     protected UIPicker uiPicker;
@@ -127,7 +127,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 boolean validateString = validateString(town.getText().toString());
                 if (!validateString) {
                     cityValidationLayout.showError();
-                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, addressValidationLayout.getErrorLabelView().getText().toString(), false);
+                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, cityValidationLayout.getErrorLabelView().getText().toString(), false);
                     return false;
                 }
                 return true;
@@ -141,7 +141,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 boolean validateString = thsShippingAddressPresenter.validateZip(postalCode.getText().toString());
                 if (!validateString) {
                     postCodeValidationLayout.showError();
-                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, addressValidationLayout.getErrorLabelView().getText().toString(), false);
+                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, postCodeValidationLayout.getErrorLabelView().getText().toString(), false);
                     return false;
                 }
                 return true;

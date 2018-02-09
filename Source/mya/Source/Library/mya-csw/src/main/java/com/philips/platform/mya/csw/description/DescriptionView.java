@@ -19,8 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class DescriptionView extends CswBaseFragment implements
-        DescriptionInterface {
+public class DescriptionView extends CswBaseFragment implements DescriptionInterface {
 
     private static final String TAG = "DescriptionView";
     public static final String HELP = "help";
@@ -56,7 +55,7 @@ public class DescriptionView extends CswBaseFragment implements
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.csw_frame_layout_view_container, fragment, TAG);
-        fragmentTransaction.addToBackStack(TAG);
+        fragmentTransaction.addToBackStack(DescriptionView.class.getName());
         fragmentTransaction.commitAllowingStateLoss();
     }
 }

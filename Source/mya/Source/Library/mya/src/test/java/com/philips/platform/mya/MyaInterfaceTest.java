@@ -133,13 +133,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings, PRIVACY_URL), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings, PRIVACY_URL), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }

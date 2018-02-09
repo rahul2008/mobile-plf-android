@@ -27,6 +27,7 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
@@ -156,14 +157,14 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
         Label textView = dialogView.findViewById(R.id.message_label);
         Label title_label = dialogView.findViewById(R.id.title_label);
-        Button logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
+        ProgressBarButton logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
         Button cancel = dialogView.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
         AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), ALERT_DIALOG_TAG);
 
-        logout.setOnClickListener(onClickLogOut());
+        logout.setOnClickListener(onClickLogOut(logout));
         cancel.setOnClickListener(handleOnClickCancel());
     }
 
@@ -188,7 +189,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener onClickLogOut() {
+    private View.OnClickListener onClickLogOut(final ProgressBarButton logout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,6 +198,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                     presenter.logOut(getArguments());
                 }*/
                //TODO - need to invoke above commented code when introduced call back for log out success
+               logout.showProgressIndicator();
                presenter.logOut(getArguments());
             }
         };
