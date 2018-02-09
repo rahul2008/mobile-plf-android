@@ -154,7 +154,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         });
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.permissionView, justInTimeFragmentWidget, PRIVACY_NOTICE_TAG);
+        fragmentTransaction.replace(R.id.permissionView, justInTimeFragmentWidget, justInTimeFragmentWidget.TAG);
+        fragmentTransaction.addToBackStack(justInTimeFragmentWidget.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -186,12 +187,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onHelpClicked(String helpText) {
-        DescriptionView.show(getFragmentManager(), helpText);
+        DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
     }
 
     @Override
     public void onClick(View view) {
-        getParentFragment().getFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
     }
 
     @VisibleForTesting

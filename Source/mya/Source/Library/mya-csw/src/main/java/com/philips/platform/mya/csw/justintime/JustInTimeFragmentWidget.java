@@ -39,6 +39,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private ConsentHandlerInterface consentHandlerInterface;
     private ProgressDialog progressDialog;
     private JustInTimeTextResources textResources;
+    public static final String TAG = "JustInTimeConsent";
 
     public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources) {
         Bundle args = new Bundle();
@@ -117,7 +118,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText());
+                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText(), R.id.justInTimeView);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
