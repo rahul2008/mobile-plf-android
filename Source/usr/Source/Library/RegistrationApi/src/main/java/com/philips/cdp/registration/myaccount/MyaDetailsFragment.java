@@ -9,20 +9,24 @@
 package com.philips.cdp.registration.myaccount;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDetailContract.View {
+public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
 
     private ImageButton email_mobile_arrow, mobile_arrow;
     private Label email_address, mobile_number;
@@ -43,6 +47,21 @@ public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDeta
     private ActionBarListener mActionBarListener;
 
     @Override
+    protected void setViewParams(Configuration config, int width) {
+
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+
+    }
+
+    @Override
+    public int getTitleResourceId() {
+        return R.string.MYA_My_account;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
         initViews(view);
@@ -60,7 +79,7 @@ public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDeta
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        UserDataModelProvider userDataModelProvider= new UserDataModelProvider(getActivity());
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(getActivity());
         userDataModelProvider.fillUserData();
         myaDetailPresenter.setUserDetails(userDataModelProvider);
     }
@@ -79,17 +98,16 @@ public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDeta
         email_divider = view.findViewById(R.id.email_divider);
     }
 
-    @Override
+
     public int getActionbarTitleResId() {
         return R.string.MYA_My_account;
     }
 
-    @Override
+
     public String getActionbarTitle(Context context) {
         return context.getString(R.string.MYA_My_details);
     }
 
-    @Override
     public boolean getBackButtonState() {
         return true;
     }
@@ -139,10 +157,10 @@ public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDeta
     @Override
     public void setMobileNumber(String number) {
         if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
-            mobile_number_heading.setVisibility(View.GONE);
-            mobile_arrow.setVisibility(View.GONE);
-            mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
-            mobile_number.setVisibility(View.GONE);
+             //mobile_number_heading.setVisibility(View.GONE);
+            // mobile_arrow.setVisibility(View.GONE);
+            //mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
+            //mobile_number.setVisibility(View.GONE);
         } else {
             mobile_number.setText(number);
         }
@@ -150,8 +168,14 @@ public class MyaDetailsFragment extends MyAccountBaseFragment implements MyaDeta
 
     @Override
     public void handleArrowVisibility(String email, String mobileNumber) {
-        if (email != null && mobileNumber != null)
-            email_mobile_arrow.setVisibility(View.VISIBLE);
+        //UnComment the below code when u need edit option
+       /* if (email != null && mobileNumber != null)
+            email_mobile_arrow.setVisibility(View.VISIBLE);*/
 
+    }
+
+    @Override
+    public boolean exitMyAccounts() {
+        return false;
     }
 }
