@@ -29,7 +29,6 @@ import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import android.app.ProgressDialog;
@@ -51,7 +50,6 @@ import butterknife.Unbinder;
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
     public static final String TAG = "PermissionView";
-    private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
