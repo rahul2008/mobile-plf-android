@@ -144,23 +144,22 @@ dependencies {
     }
 
     // Tests
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile('org.robolectric:robolectric:3.4-rc2') {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
+    testCompile deps.junit
+    testCompile deps.junit_runners
+
+    testCompile deps.powermock_api_mockito2
+    testCompile deps.powermock_junit
+
+    testCompile deps.assertj
+
+    testCompile(deps.robolectric) {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.6'
-    testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
+    testCompile(deps.robolectric_shadows) {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -7,23 +7,16 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.android.volley.VolleyError;
-import com.philips.platform.mya.catk.error.ConsentNetworkError;
-import com.philips.platform.mya.catk.listener.ConsentResponseListener;
-import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
-import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.mya.chi.ConsentCallback;
-import com.philips.platform.mya.chi.ConsentDefinitionException;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,21 +27,29 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.mya.catk.error.ConsentNetworkError;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.listener.CreateConsentListener;
+import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
+import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
+import com.philips.platform.mya.chi.ConsentCallback;
+import com.philips.platform.mya.chi.ConsentDefinitionException;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import android.support.annotation.NonNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentInteractorTest {
-    private static final String CANADIAN_LOCALE = "en-CA";
+    private static final String CANADIAN_LOCALE = "-CA";
     ConsentInteractor subject;
 
     @Mock
@@ -68,12 +69,19 @@ public class ConsentInteractorTest {
     private ArgumentCaptor<BackendConsent> captorConsent;
     @Mock
     private PostConsentCallback mockPostConsentCallback;
+    @Mock
+    private AppInfraInterface appInfraMock;
+    @Mock
+    private InternationalizationInterface internationalizationMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         CatkLogger.disableLogging();
         CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
+
+        when(mockCatk.getAppInfra()).thenReturn(appInfraMock);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationMock);
     }
 
     @Test
@@ -136,16 +144,18 @@ public class ConsentInteractorTest {
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = ConsentDefinitionException.class)
+    @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
+        when(internationalizationMock.getBCP47UILocale()).thenReturn("en-");
         givenCreateConsentInteractor();
         givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = ConsentDefinitionException.class)
+    @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
+        when(internationalizationMock.getBCP47UILocale()).thenReturn("-US");
         givenCreateConsentInteractor();
         givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
