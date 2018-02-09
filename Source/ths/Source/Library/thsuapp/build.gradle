@@ -223,17 +223,15 @@ dependencies {
     if (dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        /*compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
-        }
+        }*/
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }

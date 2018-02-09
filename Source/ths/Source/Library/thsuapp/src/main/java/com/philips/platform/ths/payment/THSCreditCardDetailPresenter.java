@@ -177,9 +177,11 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_DATE_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid),false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_CVV_number));
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_CVV_number));
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else { // still errors will have ZIP and address error code, so ignoring them as they will be added in next screen
                 bundle.putString("CVVcode", CVVcode);

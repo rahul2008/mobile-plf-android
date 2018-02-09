@@ -6,16 +6,6 @@
         >
 
    		 <activity android:name="com.philips.platform.myapplication.DemoMicroAppApplicationActivity"/>
-        <activity
-            android:name="com.philips.platform.thsdemolaunch.FirstActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.DLS.Purple.Bright" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name="com.philips.platform.thsdemolaunch.MainActivity"
