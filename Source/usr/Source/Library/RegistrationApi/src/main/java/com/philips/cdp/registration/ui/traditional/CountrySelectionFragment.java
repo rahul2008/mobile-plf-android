@@ -68,7 +68,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private ArrayList<Country> countryChineseTaipei(ArrayList<Country> masterList, Country selectedCountry) {
+    private void addCountryChineseTaipeiInMasterList(ArrayList<Country> masterList, Country selectedCountry) {
         for (int i = 1; i < masterList.size(); i++) {
             if (masterList.get(i).getCode().equalsIgnoreCase("TW")) {
                 masterList.remove(masterList.get(i));
@@ -78,7 +78,6 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         if (selectedCountry.getName().equalsIgnoreCase(getString(R.string.reg_Country_TW))) {
             masterList.remove(new Country("TW", "Chinese Taipei"));
         }
-        return masterList;
     }
 
 
@@ -121,7 +120,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         countryListView.setItemAnimator(new DefaultItemAnimator());
         try {
             recentlistUpdate(recentList);
-            countryChineseTaipei(masterList, recentList.get(0));
+            addCountryChineseTaipeiInMasterList(masterList, recentList.get(0));
         } catch (Exception e) {
             RLog.d(RLog.EXCEPTION, e.getMessage());
         }
