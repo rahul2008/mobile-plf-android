@@ -101,8 +101,8 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':pif-chi', configuration: 'debug')
-        releaseCompile project(path: ':pif-chi', configuration: 'release')
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
     } else {

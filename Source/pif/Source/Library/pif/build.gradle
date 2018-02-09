@@ -13,7 +13,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
-archivesBaseName = "pif-chi"
+archivesBaseName = "pif"
 version = objcdp.getVersion(platformversion)
 
 android {
@@ -39,7 +39,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
