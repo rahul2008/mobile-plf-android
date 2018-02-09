@@ -300,7 +300,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
-//            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_B);
@@ -329,7 +329,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MY_ACCOUNT);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
@@ -482,7 +482,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         Toast.makeText(this,"User is logged in ",Toast.LENGTH_SHORT).show();
-        //activity.finish();
+        activity.finish();
     }
 
     @Override
