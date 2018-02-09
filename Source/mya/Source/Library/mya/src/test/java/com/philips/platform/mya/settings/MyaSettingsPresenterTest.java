@@ -23,6 +23,7 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -31,7 +32,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -75,16 +78,6 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(anyMap());
-    }
-
-    @Test
-    public void testOnClickRecyclerItem() {
-        String key = "MYA_Country";
-        when(context.getString(R.string.MYA_change_country)).thenReturn("some title");
-        when(context.getString(R.string.MYA_change_country_message)).thenReturn("some message");
-        SettingsModel settingsModel = new SettingsModel();
-        myaSettingsPresenter.onClickRecyclerItem(key, settingsModel);
-        verify(view).showDialog("some title", "some message");
     }
 
     @Test
@@ -161,4 +154,12 @@ public class MyaSettingsPresenterTest {
         assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
     }
 
+    private Bundle getArguments() {
+        Bundle arguments = new Bundle();
+        MyaLaunchInput value = new MyaLaunchInput(context, null);
+        String[] profileItems = {"profile1","profile2"};
+        value.setProfileConfigurableItems(Arrays.asList(profileItems));
+        arguments.putSerializable(MYA_LAUNCH_INPUT, value);
+        return arguments;
+    }
 }

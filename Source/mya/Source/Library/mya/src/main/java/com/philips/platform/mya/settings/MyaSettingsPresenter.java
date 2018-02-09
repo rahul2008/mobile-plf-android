@@ -124,7 +124,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
         String settingItems = "settings.menuItems";
         List<?> list = null;
-        MyaLaunchInput myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
+        MyaLaunchInput myaLaunchInput = null;
+        if (arguments != null)
+            myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
+
         if (myaLaunchInput != null) {
             list = myaLaunchInput.getSettingsConfigurableItems();
         }
