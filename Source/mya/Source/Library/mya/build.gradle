@@ -193,10 +193,3 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 tasks.withType(Test) {
     ignoreFailures = true
 }
-
-task zipcClogs(type: Zip) {
-
-    from project.projectDir
-    include '/build/reports/androidTests/connected/**'
-    classifier 'logs'
-}

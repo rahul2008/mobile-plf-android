@@ -16,3 +16,10 @@ task zipDocuments(type: Zip) {
         classifier 'docs'
     }
 }
+
+task zipCClog(type: Zip) {
+
+        from project.projectDir
+        include '/build/reports/androidTests/connected/**'
+        classifier 'logs'
+}
