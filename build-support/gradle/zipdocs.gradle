@@ -17,7 +17,7 @@ task zipDocuments(type: Zip) {
     }
 }
 
-task zipCClog(type: Zip) {
+task zipcClogs(type: Zip) {
 
         from project.projectDir
         include '/build/reports/androidTests/connected/**'
