@@ -128,12 +128,12 @@ dependencies {
     }
     testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
     testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.6'
-    testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
+    testCompile deps.powermock_core
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_junit_rule_agent
+    testCompile deps.powermock_api_mockito2
+    testCompile deps.powermock_classloading_xstream
 }
 
 task updateResources(type: Exec) {
