@@ -69,6 +69,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
 
     Button launchAmwell;
     Button logout;
+    Button addDependent;
     User user;
     ProgressBar mProgress;
 
@@ -82,6 +83,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         mFirstLayout = (RelativeLayout) findViewById(R.id.uappFragmentLayout_first);
+        addDependent = (Button) findViewById(R.id.add_dependent);
+        addDependent.setOnClickListener(this);
         mFirstLayout.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
@@ -133,6 +136,9 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
                     mProgress.setVisibility(View.GONE);
                 }
             });
+        }else if(id == R.id.add_dependent){
+            Intent intent = new Intent(MainActivity.this, THSDemoAddDependentActivity.class);
+            startActivity(intent);
         }
     }
 
