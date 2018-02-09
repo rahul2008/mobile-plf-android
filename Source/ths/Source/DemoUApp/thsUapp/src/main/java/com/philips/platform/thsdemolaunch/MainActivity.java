@@ -16,9 +16,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -44,13 +48,15 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
+public class MainActivity extends UIDActivity implements ActionBarListener, View.OnClickListener,UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Purple_Bright;
@@ -59,6 +65,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
     private ThemeConfiguration themeConfiguration;
+    private RelativeLayout mFirstLayout;
+
+    Button launchAmwell;
+    Button logout;
+    User user;
+    ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +81,68 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
+        mFirstLayout = (RelativeLayout) findViewById(R.id.uappFragmentLayout_first);
+        mFirstLayout.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
 
+        user = new User(this);
+        launchAmwell = (Button) findViewById(R.id.launch_amwell);
+        launchAmwell.setOnClickListener(this);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
+        logout = (Button) findViewById(R.id.logout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(!user.isUserSignIn()){
+            logout.setVisibility(View.GONE);
+        }
+
+        logout.setOnClickListener(this);
+
+        if(user.isUserSignIn()){
+            logout.setText("Logout");
+        }else {
+            logout.setText("Login");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.launch_amwell){
+            prepareLaunchAmwell();
+        }if(id == R.id.logout){
+            mProgress.setVisibility(View.VISIBLE);
+            user.logout(new LogoutHandler() {
+                @Override
+                public void onLogoutSuccess() {
+                    logout.setText("Login");
+                    mProgress.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this,"Logout Success!!!",Toast.LENGTH_SHORT).show();
+                    logout.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLogoutFailure(int i, String s) {
+                    Toast.makeText(MainActivity.this,"Logout failed!!!",Toast.LENGTH_SHORT).show();
+                    mProgress.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    private void prepareLaunchAmwell() {
         User user = new User(this);
         if (user != null && !user.isUserSignIn()) {
             startRegistrationFragment();
         } else {
             launchAmwell();
         }
-        // launchAmwell();
     }
 
 
@@ -105,19 +168,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     }
 
 
-    @Override
+   /* @Override
     public void onBackPressed() {
-        this.finish();
-/*
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
-            super.onBackPressed();
-        }*/
-    }
+        finishAffinity();
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -291,8 +345,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     @Override
     public void didExitTHS(THSExitType thsExitType) {
-        AmwellLog.d(this.getClass().getName(), thsExitType.toString());
-        Intent intent = new Intent(this, FirstActivity.class);
-        startActivity(intent);
+
     }
 }

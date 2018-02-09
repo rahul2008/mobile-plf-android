@@ -116,7 +116,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
                 // delete selected medicine
                 mPTHExistingMedication.getMedicationList().remove(position);
                 notifyDataSetChanged();
-                thsUpdateMedicationCallback.onUpdateMedicationList(position);
+               // thsUpdateMedicationCallback.onUpdateMedicationList(position);
             }
         });
 
