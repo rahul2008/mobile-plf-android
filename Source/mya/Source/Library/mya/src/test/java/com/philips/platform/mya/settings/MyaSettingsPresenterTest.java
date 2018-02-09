@@ -73,7 +73,7 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        myaSettingsPresenter.getSettingItems(appInfraInterface, error);
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(anyMap());
     }
 

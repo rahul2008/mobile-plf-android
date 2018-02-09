@@ -13,6 +13,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
@@ -22,14 +23,18 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
@@ -41,8 +46,19 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     @Override
-    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
-        view.showSettingsItems(getSettingsMap(appInfra, error));
+    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error, Bundle arguments) {
+        appInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.landing.myphilips", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                view.setLinkUrl(url.toString());
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+
+            }
+        });
+        view.showSettingsItems(getSettingsMap(appInfra, arguments, error));
     }
 
     @Override
@@ -105,18 +121,24 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return cswLaunchInput;
     }
 
-    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
+    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
         String settingItems = "settings.menuItems";
-        try {
-            ArrayList<?> propertyForKey = (ArrayList<?>) appInfraInterface.getConfigInterface().getPropertyForKey(settingItems, "mya", error);
-            return getLocalisedList(propertyForKey, appInfraInterface);
-        } catch (IllegalArgumentException exception) {
-            exception.getMessage();
+        List<?> list = null;
+        MyaLaunchInput myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
+        if (myaLaunchInput != null) {
+            list = myaLaunchInput.getSettingsConfigurableItems();
         }
-        return null;
+        if (list == null || list.isEmpty()) {
+            try {
+                list = (ArrayList<?>) appInfraInterface.getConfigInterface().getPropertyForKey(settingItems, "mya", error);
+            } catch (IllegalArgumentException exception) {
+                exception.getMessage();
+            }
+        }
+        return getLocalisedList(list, appInfraInterface);
     }
 
-    private LinkedHashMap<String, SettingsModel> getLocalisedList(ArrayList<?> propertyForKey, AppInfraInterface appInfraInterface) {
+    private LinkedHashMap<String, SettingsModel> getLocalisedList(List<?> propertyForKey, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         if (propertyForKey != null && propertyForKey.size() != 0) {
@@ -131,11 +153,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 profileList.put(key, settingsModel);
             }
         } else {
-            SettingsModel countrySettingsModel = new SettingsModel();
-            countrySettingsModel.setItemCount(2);
-            countrySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Country));
-            countrySettingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
-            profileList.put("MYA_Country", countrySettingsModel);
             SettingsModel privacySettingsModel = new SettingsModel();
             privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);

@@ -18,13 +18,10 @@ import android.widget.TextView;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
@@ -72,9 +69,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         } else {
             arguments = savedInstanceState.getBundle(PROFILE_BUNDLE);
         }
-        if(arguments!=null)
-            presenter.setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
-        presenter.getProfileItems(MyaHelper.getInstance().getAppInfra());
+        presenter.processUi(MyaHelper.getInstance().getAppInfra(), arguments);
     }
 
 

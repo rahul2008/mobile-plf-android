@@ -11,7 +11,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.base.MyaBaseView;
 import com.philips.platform.mya.base.MyaPresenterInterface;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.Map;
 
@@ -28,10 +27,8 @@ interface MyaProfileContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getProfileItems(AppInfraInterface appInfra);
-
-        void setUserName(UserDataModelProvider userDataModelProvider);
-
         boolean handleOnClickProfileItem(String profileItem, Bundle bundle);
+
+        void processUi(AppInfraInterface appInfra, Bundle arguments);
     }
 }

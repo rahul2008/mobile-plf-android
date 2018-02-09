@@ -14,6 +14,8 @@ import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.util.List;
+
 /**
  * This class is used to provide input parameters and customizations for myaccount.
  *
@@ -27,6 +29,8 @@ public class MyaLaunchInput extends UappLaunchInput {
     private MyaListener myaListener;
     private MyAccountUIEventListener myAccountUIEventListener;
     private MyaTabConfig myaTabConfig;
+    private List<String> settingsConfigurableItems;
+    private List<String> profileConfigurableItems;
 
     public MyaLaunchInput() {
     }
@@ -79,5 +83,21 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public void setMyaTabConfig(MyaTabConfig myaTabConfig) {
         this.myaTabConfig = myaTabConfig;
+    }
+
+    public List<String> getSettingsConfigurableItems() {
+        return settingsConfigurableItems;
+    }
+
+    public void setSettingsConfigurableItems(List<String> settingsConfigurableItems) {
+        this.settingsConfigurableItems = settingsConfigurableItems;
+    }
+
+    public List<String> getProfileConfigurableItems() {
+        return profileConfigurableItems;
+    }
+
+    public void setProfileConfigurableItems(List<String> profileConfigurableItems) {
+        this.profileConfigurableItems = profileConfigurableItems;
     }
 }

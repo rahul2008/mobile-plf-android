@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +48,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private DefaultItemAnimator defaultItemAnimator;
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     private LinearLayoutManager linearLayoutManager;
-    private View dialogView;
     private AppConfigurationInterface.AppConfigurationError error;
+    private Label philipsWebsite;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
-        Label philipsWebsite = view.findViewById(R.id.philips_website);
+        philipsWebsite = view.findViewById(R.id.philips_website);
         philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
             @Override
             public boolean interceptClick(CharSequence tag) {
@@ -93,7 +95,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
@@ -101,7 +102,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             } else {
                 dismissDialog();
             }
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, savedInstanceState);
+        } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, getArguments());
         }
+
+
     }
 
     @Override
@@ -146,7 +152,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         this.dialogMessage = message;
         this.isDialogOpen = true;
         LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        dialogView = inflater.inflate(R.layout.mya_dialog_layout, null);
+        View dialogView = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(dialogView)
@@ -232,6 +238,14 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         dismissDialog();
         exitMyAccounts();
         MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void setLinkUrl(String url) {
+        philipsWebsite.setText(Html.fromHtml(url));
+        philipsWebsite.setClickable(true);
+        philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
     }
 
     private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
