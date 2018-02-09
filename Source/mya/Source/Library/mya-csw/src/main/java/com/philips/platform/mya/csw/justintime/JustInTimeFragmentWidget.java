@@ -27,6 +27,7 @@ import com.philips.platform.uid.view.widget.Label;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -39,13 +40,14 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     private ConsentHandlerInterface consentHandlerInterface;
     private ProgressDialog progressDialog;
     private JustInTimeTextResources textResources;
+    private @LayoutRes int containerId;
     public static final String TAG = "JustInTimeConsent";
 
-    public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources) {
+    public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
         Bundle args = new Bundle();
         JustInTimeFragmentWidget fragment = new JustInTimeFragmentWidget();
         fragment.setArguments(args);
-        fragment.setDependencies(consentDefinition, consentHandlerInterface, textResources);
+        fragment.setDependencies(consentDefinition, consentHandlerInterface, textResources, containerId);
         return fragment;
     }
 
@@ -80,10 +82,11 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         this.completionListener = completionListener;
     }
 
-    private void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources) {
+    private void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
         this.consentDefinition = consentDefinition;
         this.consentHandlerInterface = consentHandlerInterface;
         this.textResources = textResources;
+        this.containerId = containerId;
     }
 
     private void initializeConsentRejectButton(View justInTimeConsentView) {
@@ -118,7 +121,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText(), R.id.justInTimeView);
+                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText(), containerId);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);

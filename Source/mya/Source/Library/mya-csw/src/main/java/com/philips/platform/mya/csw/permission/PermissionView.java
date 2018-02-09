@@ -139,7 +139,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         textResources.rejectTextRes = R.string.mya_csw_justintime_reject;
         textResources.acceptTextRes = R.string.mya_csw_justintime_accept;
         textResources.titleTextRes = R.string.mya_csw_justintime_title;
-        JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(consentDefinition, consentHandlerInterface, textResources);
+        JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(consentDefinition, consentHandlerInterface, textResources, R.id.permissionView);
         justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
