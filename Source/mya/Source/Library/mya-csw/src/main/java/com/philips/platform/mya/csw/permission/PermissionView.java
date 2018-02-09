@@ -8,13 +8,9 @@
 package com.philips.platform.mya.csw.permission;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
@@ -23,9 +19,6 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
@@ -36,7 +29,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -132,30 +124,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private void onPrivacyNoticeClicked() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("Receive promotional communications of Philips based on my preferences and online bahavior.", "consentHelpText",
-                Collections.singletonList("moment"), 1, Locale.US);
-        ConsentInteractor consentHandlerInterface = new ConsentInteractor(ConsentAccessToolKit.getInstance());
-        JustInTimeTextResources textResources = new JustInTimeTextResources();
-        textResources.rejectTextRes = R.string.mya_csw_justintime_reject;
-        textResources.acceptTextRes = R.string.mya_csw_justintime_accept;
-        textResources.titleTextRes = R.string.mya_csw_justintime_title;
-        JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(consentDefinition, consentHandlerInterface, textResources, R.id.permissionView);
-        justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
-            @Override
-            public void onConsentGiven() {
-                openPrivacyNotice();
-            }
-
-            @Override
-            public void onConsentRejected() {
-
-            }
-        });
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.permissionView, justInTimeFragmentWidget, justInTimeFragmentWidget.TAG);
-        fragmentTransaction.addToBackStack(justInTimeFragmentWidget.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+        boolean isOnline = getRestClient().isInternetReachable();
+        if (isOnline) {
+            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
+        } else {
+            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
     }
 
     @Override
@@ -223,14 +197,5 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             }
         }
         return consentViewList;
-    }
-
-    private void openPrivacyNotice() {
-        boolean isOnline = getRestClient().isInternetReachable();
-        if (isOnline) {
-            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
-        } else {
-            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
-        }
     }
 }
