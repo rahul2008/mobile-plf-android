@@ -7,7 +7,7 @@
 
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentCallback;
@@ -22,8 +22,8 @@ public class ConsentInteractorMock extends ConsentInteractor {
     public ConsentError getStatusForConsentType_returnError;
     public String getStatusForConsentType_consentType;
 
-    public ConsentInteractorMock(ConsentAccessToolKit consentAccessToolKit) {
-        super(consentAccessToolKit);
+    public ConsentInteractorMock(ConsentsClient consentsClient) {
+        super(consentsClient);
     }
 
     @Override

@@ -33,16 +33,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ConsentAccessToolKit {
+public class ConsentsClient {
 
     private static final String PROPOSITION_CONFIG_ERROR = "Missing '%s' -> Please add the following section to AppConfig.json:\n\"hsdp\":\n" +
             "{\n" +
             "    \"appName\": \"<appName>\",\n" +
             "    \"propositionName\": \"<propName>\"\n" +
             "}";
-    private static final String PROPOSITION_INIT_ERROR = "ConsentAccessToolKit is not initialized. Call ConsentAccessToolKit.getInstance().init(catkInputs); before using it";
+    private static final String PROPOSITION_INIT_ERROR = "ConsentsClient is not initialized. Call ConsentsClient.getInstance().init(catkInputs); before using it";
 
-    private static volatile ConsentAccessToolKit sSoleInstance;
+    private static volatile ConsentsClient sSoleInstance;
 
     private NetworkController controller;
     private CatkComponent catkComponent;
@@ -53,12 +53,12 @@ public class ConsentAccessToolKit {
     private List<ConsentDefinition> consentDefinitionList;
     private Boolean strictConsentCheck;
 
-    ConsentAccessToolKit() {
+    ConsentsClient() {
     }
 
-    public static synchronized ConsentAccessToolKit getInstance() {
+    public static synchronized ConsentsClient getInstance() {
         if (sSoleInstance == null) {
-            sSoleInstance = new ConsentAccessToolKit();
+            sSoleInstance = new ConsentsClient();
         }
         return sSoleInstance;
     }
@@ -111,7 +111,7 @@ public class ConsentAccessToolKit {
 
             @Override
             public void onError(String message) {
-                CatkLogger.e("ConsentAccessToolKit", "markErrorAndGetPrevious retrieving cssUrl: " + message);
+                CatkLogger.e("ConsentsClient", "markErrorAndGetPrevious retrieving cssUrl: " + message);
                 listner.onConfigurationError(message);
             }
         };
@@ -240,8 +240,8 @@ public class ConsentAccessToolKit {
         this.serviceInfoProvider = serviceInfoProvider;
     }
 
-    static void setInstance(ConsentAccessToolKit sSoleInstance) {
-        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
+    static void setInstance(ConsentsClient sSoleInstance) {
+        ConsentsClient.sSoleInstance = sSoleInstance;
     }
 
     private void sendRequest(NetworkAbstractModel model) {

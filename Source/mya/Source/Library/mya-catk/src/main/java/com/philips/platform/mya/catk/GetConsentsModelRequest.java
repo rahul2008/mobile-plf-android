@@ -57,7 +57,7 @@ class GetConsentsModelRequest extends NetworkAbstractModel {
     @Override
     public String getUrl() {
         try {
-            return new StringBuilder(url).append(url.endsWith("/") ? "" : "/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID())
+            return new StringBuilder(url).append(url.endsWith("/") ? "" : "/").append(ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpUUID())
                     .append("?applicationName=")
                     .append(URLEncoder.encode(mApplicationName, "UTF-8")).append("&propositionName=").append(URLEncoder.encode(mPropositionName, "UTF-8")).toString();
         } catch (UnsupportedEncodingException e) {
