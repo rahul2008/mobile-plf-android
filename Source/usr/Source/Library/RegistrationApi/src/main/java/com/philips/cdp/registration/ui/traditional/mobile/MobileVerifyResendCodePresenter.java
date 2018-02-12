@@ -15,6 +15,7 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
 
@@ -22,7 +23,6 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
@@ -64,8 +64,8 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             @Override
             public void onSuccess(URL url) {
                 RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
-//                RequestBody emptyBody = RequestBody.create(null, new byte[0]);
-                URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(url.toString(), mobileNumber), null, response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+                URRequest urRequest = new URRequest(Request.Method.POST, getSmsVerificationUrl(url.toString(), mobileNumber), emptyBody.toString(), response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest();
             }
 
@@ -251,23 +251,23 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     }
 
 
-//    private void initServiceDiscoveryForUpdateMobilenumber(String mobilenumberURL) {
-//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(BASE_URL_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-//
-//            @Override
-//            public void onSuccess(URL url) {
-//                RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
-//                URRequest urRequest = new URRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com"+"/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-//                urRequest.makeRequest();
-//            }
-//
-//            @Override
-//            public void onError(ERRORVALUES error, String message) {
-//                RLog.d(TAG, error.name() + "and error message is " + message);
-//                mobileVerifyCodeContract.enableUpdateButton();
-//            }
-//        });
-//    }
+    private void initServiceDiscoveryForUpdateMobilenumber(String mobilenumberURL) {
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(BASE_URL_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+            @Override
+            public void onSuccess(URL url) {
+                RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
+                URRequest urRequest = new URRequest(Request.Method.POST, url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                urRequest.makeRequest();
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                RLog.d(TAG, error.name() + "and error message is " + message);
+                mobileVerifyCodeContract.enableUpdateButton();
+            }
+        });
+    }
 
     void updatePhoneNumber(String mobilenumberURL) {
 //        Intent smsActivationIntent = updatePhoneNumberIntent(mobilenumber,context);
@@ -276,11 +276,11 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, "https://philips-cn-staging.capture.cn.janrain.com/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse, null, null, null);
 //        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
-//        initServiceDiscoveryForUpdateMobilenumber(mobilenumberURL);
-        RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + UPDATE_PROFILE_URL);
-        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(BASE_URL_CODE_SERVICE_ID).cache();
-        URRequest urRequest = new URRequest(Request.Method.POST, serviceUrl + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-        urRequest.makeRequest();
+        initServiceDiscoveryForUpdateMobilenumber(mobilenumberURL);
+//        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(BASE_URL_CODE_SERVICE_ID).cache();
+//        RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + serviceUrl);
+//        URRequest urRequest = new URRequest(Request.Method.POST, ""+serviceUrl , getUpdateMobileNUmberURL(mobilenumberURL), response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+//        urRequest.makeRequest();
 
     }
 
