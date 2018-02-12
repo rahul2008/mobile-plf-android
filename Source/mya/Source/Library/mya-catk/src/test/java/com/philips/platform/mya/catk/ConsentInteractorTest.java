@@ -53,7 +53,7 @@ public class ConsentInteractorTest {
     ConsentInteractor subject;
 
     @Mock
-    private ConsentAccessToolKit mockContentAccessToolkit;
+    private ConsentsClient mockContentAccessToolkit;
     @Mock
     private CheckConsentsCallback mockCheckConsentsCallback;
     @Captor
@@ -63,7 +63,7 @@ public class ConsentInteractorTest {
     @Captor
     private ArgumentCaptor<String> captorString;
     @Mock
-    private ConsentAccessToolKit mockCatk;
+    private ConsentsClient mockCatk;
     private ConsentDefinition givenConsentDefinition;
     @Captor
     private ArgumentCaptor<BackendConsent> captorConsent;

@@ -24,7 +24,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.chi.ConsentConfiguration;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
@@ -144,12 +144,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setAppInfraInterface(appInfra)
                 .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions, appInfra)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
