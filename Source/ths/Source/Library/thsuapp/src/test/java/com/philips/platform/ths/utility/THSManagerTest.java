@@ -397,6 +397,7 @@ public class THSManagerTest {
 
         thsManager.setAwsdk(awsdkMock);
         thsManager.setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getHsdpUUID()).thenReturn("123");
         mConsumer = getConsumer();
         practice = getPractice();
         providerInfo = THSProviderInfo;
