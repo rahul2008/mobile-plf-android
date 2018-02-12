@@ -4,13 +4,6 @@ import com.android.volley.VolleyError;
 
 public interface MobileForgotPassVerifyResendCodeContract {
 
-
-//    HttpClientServiceReceiver getClientServiceRecevier();
-//
-//    ComponentName startService(Intent intent);
-//
-//    Intent getServiceIntent();
-
     void enableResendButton();
 
     void netWorkStateOnlineUiHandle();
@@ -28,7 +21,6 @@ public interface MobileForgotPassVerifyResendCodeContract {
     void trackMultipleActionsOnMobileSuccess();
 
     void trackVerifyActionStatus(String state, String key, String value);
-
 
     void showSMSSpecifedError(String errorId);
 

@@ -37,7 +37,6 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
@@ -158,7 +157,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
-//        mobileVerifyCodePresenter.cleanUp();
     }
 
     @Override
@@ -211,8 +209,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         handleUI();
     }
 
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<>();
         map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
@@ -263,21 +259,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         errorMessage.hideError();
 
     }
-
-//    @Override
-//    public Intent getServiceIntent() {
-//        return new Intent(context, HttpClientService.class);
-//    }
-//
-//    @Override
-//    public HttpClientServiceReceiver getClientServiceRecevier() {
-//        return new HttpClientServiceReceiver(handler);
-//    }
-
-//    @Override
-//    public ComponentName startService(Intent intent) {
-//        return context.startService(intent);
-//    }
 
     @Override
     public void enableVerifyButton() {

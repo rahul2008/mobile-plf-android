@@ -3,7 +3,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.android.volley.Request;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -44,57 +43,9 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     }
 
     public void resendOTPRequest(String serviceUrl, final String mobileNumber) {
-//        URRestClientStringRequest urRestClientStringRequest = new URRestClientStringRequest(Request.Method.POST, serviceUrl, getBodyContent(mobileNumber), (String response) -> {
-//            mobileVerifyCodeContract.onSuccessResponse(response);
-//        }, error -> {
-//            mobileVerifyCodeContract.onErrorResponse(error);
-//        }, null, null, null);
-//        RegistrationConfiguration.getInstance().getComponent().getRestInterface().getRequestQueue().add(urRestClientStringRequest);
-
-        URRequest urRequest = new URRequest(Request.Method.POST, serviceUrl, getBodyContent(mobileNumber), mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
+        URRequest urRequest = new URRequest(serviceUrl, getBodyContent(mobileNumber), null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest();
-
-//        compositeDisposable.add(Single.just(serviceUrl)
-//                .subscribeOn(Schedulers.io())
-//                .map(url -> createResendSMSIntent(url, mobileNumber))
-//                .map(mobileVerifyCodeContract::startService)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new DisposableSingleObserver<ComponentName>() {
-//                    @Override
-//                    public void onSuccess(ComponentName value) {
-//                        /** NOP */
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        mobileVerifyCodeContract.enableResendButton();
-//                    }
-//                }));
     }
-
-//    private Intent createResendSMSIntent(String verificationSmsCodeURL, String mobileNumber) {
-//
-//        final String receiverKey = "receiver";
-//        final String bodyContentKey = "bodyContent";
-//        final String urlKey = "url";
-//
-//        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
-//        RLog.d("Configration : ", " envir :" +
-//                RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-//        String url = verificationSmsCodeURL;
-//
-//        Intent httpServiceIntent = mobileVerifyCodeContract.getServiceIntent();
-//        HttpClientServiceReceiver receiver = mobileVerifyCodeContract.getClientServiceRecevier();
-//        receiver.setListener(this);
-//
-//        String bodyContent = getBodyContent(mobileNumber);
-//        RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
-//
-//        httpServiceIntent.putExtra(receiverKey, receiver);
-//        httpServiceIntent.putExtra(bodyContentKey, bodyContent);
-//        httpServiceIntent.putExtra(urlKey, url);
-//        return httpServiceIntent;
-//    }
 
     @NonNull
     private String getBodyContent(String mobileNumber) {
@@ -123,20 +74,6 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     public void cleanUp() {
         compositeDisposable.clear();
     }
-
-//    @Override
-//    public void onReceiveResult(int resultCode, Bundle resultData) {
-//        String response = resultData.getString("responseStr");
-//
-//        if (response == null) {
-//            mobileVerifyCodeContract.showSmsSendFailedError();
-//            mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-//            return;
-//        } else {
-//            handleResendSMSRespone(response);
-//        }
-//        updateToken(response);
-//    }
 
     void updateToken(String response) {
         JSONObject json = null;

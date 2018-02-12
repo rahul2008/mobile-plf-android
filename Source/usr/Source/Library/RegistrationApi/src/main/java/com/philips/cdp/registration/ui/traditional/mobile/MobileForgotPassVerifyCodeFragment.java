@@ -208,8 +208,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         handleUI();
     }
 
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-  
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<>();
         map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
@@ -269,18 +267,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
     }
 
-//    public Intent getServiceIntent() {
-//        return new Intent(context, HttpClientService.class);
-//    }
-//
-//    public HttpClientServiceReceiver getClientServiceRecevier() {
-//        return new HttpClientServiceReceiver(handler);
-//    }
-//
-//    public ComponentName startService(Intent intent) {
-//        return context.startService(intent);
-//    }
-
     public void enableVerifyButton() {
         if ((verificationCodeValidationEditText.getText().length()
                 >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH)
@@ -318,12 +304,4 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         verificationCodeValidationEditText.setEnabled(true);
         enableVerifyButton();
     }
-
-//
-//    public void storePreference(String emailOrMobileNumber) {
-//        RegPreferenceUtility.storePreference(
-//                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
-//    }
-
-
 }

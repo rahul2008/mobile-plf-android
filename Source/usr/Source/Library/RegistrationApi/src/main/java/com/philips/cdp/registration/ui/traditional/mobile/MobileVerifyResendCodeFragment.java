@@ -322,21 +322,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         }
     }
 
-//    @Override
-//    public Intent getServiceIntent() {
-//        return new Intent(context, HttpClientService.class);
-//    }
-//
-//    @Override
-//    public HttpClientServiceReceiver getClientServiceRecevier() {
-//        return new HttpClientServiceReceiver(handler);
-//    }
-//
-//    @Override
-//    public ComponentName startService(Intent intent) {
-//        return context.startService(intent);
-//    }
-
     @Override
     public void enableResendButton() {
         resendSMSButton.setText(getActivity().getResources().getString(
@@ -437,8 +422,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
-//        RLog.d(TAG, "VollyError = "+ Arrays.toString(error.networkResponse.data));
         hideProgressSpinner();
         showSmsSendFailedError();
     }

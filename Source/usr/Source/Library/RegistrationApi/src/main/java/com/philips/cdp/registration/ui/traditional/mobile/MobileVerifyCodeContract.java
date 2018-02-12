@@ -4,14 +4,6 @@ import com.android.volley.VolleyError;
 
 public interface MobileVerifyCodeContract {
 
-
-    //HttpClientServiceReceiver getClientServiceRecevier();
-
-    //ComponentName startService(Intent intent);
-
-    //Todo : Remove once Rest client is done
-   // Intent getServiceIntent();
-
     void enableVerifyButton();
 
     void disableVerifyButton();

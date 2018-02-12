@@ -339,21 +339,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         getRegistrationFragment().onBackPressed();
     }
 
-//    @Override
-//    public Intent getServiceIntent() {
-//        return new Intent(context, HttpClientService.class);
-//    }
-//
-//    @Override
-//    public HttpClientServiceReceiver getClientServiceRecevier() {
-//        return new HttpClientServiceReceiver(handler);
-//    }
-//
-//    @Override
-//    public ComponentName startService(Intent intent) {
-//        return context.startService(intent);
-//    }
-
     @Override
     public void enableResendButton() {
         if (networkUtility.isNetworkAvailable())

@@ -76,7 +76,6 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     public ForgotPasswordPresenter(
             RegistrationHelper registrationHelper, EventHelper eventHelper, ForgotPasswordContract forgotPasswordContract, Context context) {
-//        User user1 = user;
         this.registrationHelper = registrationHelper;
         this.eventHelper = eventHelper;
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -122,20 +121,6 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     void forgotPasswordRequest(String userId, User user) {
         user.forgotPassword(userId, this);
     }
-
-//    @Override
-//    public void onReceiveResult(int resultCode, Bundle resultData) {
-//        String response = resultData.getString("responseStr");
-//        RLog.d("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
-//        forgotPasswordContract.hideForgotPasswordSpinner();
-//        if (response == null) {
-//            forgotPasswordContract.forgotPasswordErrorMessage(
-//                    context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
-//            return;
-//        } else {
-//            handleResendSMSRespone(response);
-//        }
-//    }
 
     void handleResendSMSRespone(String response) {
 
@@ -186,28 +171,6 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         forgotPasswordContract.addFragment(mobileForgotPasswordVerifyCodeFragment);
     }
 
-//    public Intent createResendSMSIntent(String url) {
-//
-//        final String receiverKey = "receiver";
-//        final String bodyContentKey = "bodyContent";
-//        final String urlKey = "url";
-//
-//        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + userId);
-//        RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-//
-//        Intent httpServiceIntent = new Intent(context, HttpClientService.class);
-//        HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
-//        receiver.setListener(this);
-//
-//        String bodyContent = getBodyContent();
-//
-//        RLog.d("Configration : ", " envirr :" + getClientId() + getRedirectUri());
-//        httpServiceIntent.putExtra(receiverKey, receiver);
-//        httpServiceIntent.putExtra(bodyContentKey, bodyContent);
-//        httpServiceIntent.putExtra(urlKey, url);
-//        return httpServiceIntent;
-//    }
-
     private String getBodyContent() {
         return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(userId) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
@@ -240,8 +203,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        // forgotPasswordContract.intiateService(verificationUrl);
-                        URRequest urRequest = new URRequest(Request.Method.POST, verificationUrl, getBodyContent(), forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
+                        URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest();
                     }
 
@@ -257,14 +219,15 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @NonNull
     private String getBaseUrl(String serviceUrl) {
-        String urlSeprator = "://";
-        URL url = null;
+        String urlSeparator = "://";
+        URL url;
         try {
             url = new URL(serviceUrl);
+            return (url.getProtocol() + urlSeparator + url.getHost());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            RLog.d(TAG, "ForgotPasswordPresenter = " + e.getMessage());
         }
-        return (url.getProtocol() + urlSeprator + url.getHost());
+        return "";
     }
 
     public void clearDisposable() {

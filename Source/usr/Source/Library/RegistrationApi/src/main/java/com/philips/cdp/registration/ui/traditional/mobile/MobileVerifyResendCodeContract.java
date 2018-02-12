@@ -4,13 +4,6 @@ import com.android.volley.VolleyError;
 
 public interface MobileVerifyResendCodeContract {
 
-
-//    HttpClientServiceReceiver getClientServiceRecevier();
-////
-//    ComponentName startService(Intent intent);
-////
-//    Intent getServiceIntent();
-
     void enableResendButton();
 
     void enableUpdateButton();
@@ -30,7 +23,6 @@ public interface MobileVerifyResendCodeContract {
     void showSmsResendTechincalError(String errorCodeString);
 
     void showNumberChangeTechincalError(String errorCodeString);
-
 
     void refreshUser();
 

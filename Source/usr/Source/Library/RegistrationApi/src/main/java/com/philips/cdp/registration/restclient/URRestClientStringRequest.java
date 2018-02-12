@@ -12,36 +12,39 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by philips on 22/01/18.
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
  */
 
 public class URRestClientStringRequest extends StringRequest {
     public static final String TAG = URRestClientStringRequest.class
             .getSimpleName();
     private static int DEFAULT_TIMEOUT_MS = 3000;//30 SECONDS
-    private final String mBody;
+    private String mBody = "";
     private Response.Listener<String> mResponseListener;
     private Response.ErrorListener mErrorListener;
-    private Map<String, String> params;
+    private String mHeaders;
     private Handler mHandler;
 
 
-    public URRestClientStringRequest(int method, String url, String body, Response.Listener<String> successListener, Response.ErrorListener errorListener, Map<String, String> header, Map<String, String> params, TokenProviderInterface tokenProviderInterface) {
-        super(method, url, successListener, errorListener, header, params, tokenProviderInterface);
+    public URRestClientStringRequest(String url, String body, String pHeader, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+        super(Method.POST, url, successListener, errorListener, null, null, null);
 
         mBody = body;
         mResponseListener = successListener;
         mErrorListener = errorListener;
         mHandler = new Handler(Looper.getMainLooper());
-        this.params = params;
+        mHeaders = pHeader;
     }
 
     @Override
@@ -61,15 +64,19 @@ public class URRestClientStringRequest extends StringRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
-        params.put("content-type", "application/x-www-form-urlencoded");
-      //  params.put("Content-Type", "application/json; charset=UTF-8");
+        params.put("Content-type", "application/x-www-form-urlencoded");
+        params.put("Content-Type", mHeaders);
+
 
         return params;
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
-        return mBody.getBytes();
+        if (mBody != null)
+            return mBody.getBytes();
+        else
+            return "".getBytes();
     }
 
     @Override
@@ -90,7 +97,9 @@ public class URRestClientStringRequest extends StringRequest {
     @Override
     protected VolleyError parseNetworkError(VolleyError volleyError) {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-            VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+            final String message = new String(volleyError.networkResponse.data);
+            RLog.e(TAG, "parseNetworkError =" + message);
+            VolleyError error = new VolleyError(message);
             volleyError = error;
         }
 
@@ -125,10 +134,10 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
 
-    public Map<String, String> getParams()
-            throws com.android.volley.AuthFailureError {
-        return params;
-    }
+//    public Map<String, String> getParams()
+//            throws com.android.volley.AuthFailureError {
+//        return params;
+//    }
 
     private void postSuccessResponseOnUIThread(final String jsonObject) {
         RLog.d(TAG, jsonObject);
