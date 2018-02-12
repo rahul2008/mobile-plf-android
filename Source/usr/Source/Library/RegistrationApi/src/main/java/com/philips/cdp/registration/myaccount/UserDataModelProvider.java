@@ -44,7 +44,7 @@ public class UserDataModelProvider extends UserInterface implements Serializable
         userDataModel.setEmailVerified(user.isEmailVerified());
         userDataModel.setMobileNumber(user.getMobile());
         userDataModel.setMobileVerified(user.isMobileVerified());
-        userDataModel.setGender(user.getGender().toString());
+        userDataModel.setGender(user.getGender());
 //        userDataModel.setVerified(user.isTermsAndConditionAccepted());
         userDataModel.setFamilyName(user.getFamilyName());
     }

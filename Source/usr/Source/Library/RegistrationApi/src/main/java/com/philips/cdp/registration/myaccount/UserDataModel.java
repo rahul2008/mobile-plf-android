@@ -5,6 +5,8 @@
  */
 package com.philips.cdp.registration.myaccount;
 
+import com.philips.cdp.registration.ui.utils.Gender;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,7 +17,7 @@ public class UserDataModel implements DataModel, Serializable {
     private String givenName;
     private String name;
     private Date birthday;
-    private String gender;
+    private Gender gender;
     private String accessToken;
     private String email;
     private String mobileNumber;
@@ -49,11 +51,11 @@ public class UserDataModel implements DataModel, Serializable {
         this.birthday = birthday;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

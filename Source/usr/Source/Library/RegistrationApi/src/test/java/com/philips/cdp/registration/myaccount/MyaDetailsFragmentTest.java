@@ -39,16 +39,17 @@ public class MyaDetailsFragmentTest {
     @Mock
     private com.philips.cdp.registration.injection.RegistrationComponent componentMock;
 
-    @Mock
+
     User userMock;
 
-    @Before(expected = NullPointerException.class)
+    @Before
     public void setUp() throws Exception{
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         RegistrationConfiguration.getInstance().setComponent(componentMock);
         myaDetailsFragment = new MyaDetailsFragment();
-        Mockito.when(userMock.getGender()).thenReturn(Gender.FEMALE);
+
+        userMock=new User(mContext);
         myaDetailsFragment.setUser(userMock);
         SupportFragmentTestUtil.startFragment(myaDetailsFragment);
     }
@@ -63,7 +64,7 @@ public class MyaDetailsFragmentTest {
         assertNotNull(myaDetailsFragment.getActionbarTitle(mContext));
     }
 
-   /* @Test
+    @Test
     public void notNullgetBackButtonState() throws Exception {
         assertNotNull(myaDetailsFragment.getBackButtonState());
         testCircleTextData();
@@ -83,7 +84,7 @@ public class MyaDetailsFragmentTest {
         assertEquals(label.getText(),"some_name");
     }
 
-    @Test
+   /* @Test
     public void testSetEmail() {
         Label label = myaDetailsFragment.getView().findViewById(R.id.email_address_value);
         View email_arrow = myaDetailsFragment.getView().findViewById(R.id.email_mobile_right_arrow);
