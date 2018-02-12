@@ -6,13 +6,13 @@
 ext.platformversion = "2018.1.0"
 
 ext.versions = [
-        sdk       : 26,
-        target    : 26,
-        minsdk    : 21,
-        buildtools: "26.0.2",
-        support   : "26.0.2",
-        jacoco    : "0.7.6.201602180812",
-        dagger    : "2.11"
+        sdk                        : 26,
+        target                     : 26,
+        minsdk                     : 21,
+        buildtools                 : "26.0.2",
+        support                    : "26.0.2",
+        jacoco                     : "0.7.6.201602180812",
+        dagger                     : "2.11"
 ]
 
 ext.builddeps = [
@@ -37,13 +37,13 @@ ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
 
 ext.deps = [
         support            : [
-                annotations : "com.android.support:support-annotations:${ext.versions.support}",
-                appcompatv7 : "com.android.support:appcompat-v7:${ext.versions.support}",
-                cardview    : "com.android.support:cardview-v7:${ext.versions.support}",
-                design      : "com.android.support:design:${ext.versions.support}",
-                fragment    : "com.android.support:support-fragment:${ext.versions.support}",
-                supportv4   : "com.android.support:support-v4:${ext.versions.support}",
-                recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}"
+                annotations: "com.android.support:support-annotations:${ext.versions.support}",
+                appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
+                cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
+                design     : "com.android.support:design:${ext.versions.support}",
+                fragment   : "com.android.support:support-fragment:${ext.versions.support}",
+                supportv4  : "com.android.support:support-v4:${ext.versions.support}",
+                recyclerview:"com.android.support:recyclerview-v7:${ext.versions.support}"
         ],
         adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
         constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
