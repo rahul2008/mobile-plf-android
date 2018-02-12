@@ -56,6 +56,8 @@ import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static utility.THSDemoAppConstants.DEPENDENT;
+
 public class MainActivity extends UIDActivity implements ActionBarListener, View.OnClickListener,UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
@@ -66,6 +68,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     private Toolbar toolbar;
     private ThemeConfiguration themeConfiguration;
     private RelativeLayout mFirstLayout;
+    private THSConsumer mThsConsumer;
 
     Button launchAmwell;
     Button logout;
@@ -95,6 +98,14 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         launchAmwell.setOnClickListener(this);
         mProgress = (ProgressBar) findViewById(R.id.progress);
         logout = (Button) findViewById(R.id.logout);
+
+        final Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            mThsConsumer = extras.getParcelable(DEPENDENT);
+            if(mThsConsumer!=null){
+                prepareLaunchAmwell();
+            }
+        }
     }
 
     @Override
@@ -173,12 +184,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         showBackImage(b);
     }
 
-
-   /* @Override
-    public void onBackPressed() {
-        finishAffinity();
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -227,85 +232,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        User user = new User(this);
-
-        THSConsumer baby1 = new THSConsumer();
-        baby1.setFirstName("checkbaby1");
-        baby1.setLastName("Hosur");
-        baby1.setDisplayName("Heyyyyyy");
-        baby1.setHsdpToken(user.getHsdpAccessToken());
-        baby1.setGender(Gender.MALE);
-        baby1.setEmail(user.getEmail());
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2016,8,24);
-        baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID("baby1+ggggg");
-        baby1.setDependent(true);
-        baby1.setBloodPressureSystolic("120");
-        baby1.setBloodPressureDiastolic("80");
-        baby1.setTemperature(90.0);
-        baby1.setWeight(56);
-
-        ArrayList dependants = new ArrayList();
-        dependants.add(baby1);
-
-        THSConsumer baby2 = new THSConsumer();
-        baby2.setFirstName("baby2");
-        baby2.setLastName("Hallur");
-        baby2.setDisplayName("Hiiiiiiii");
-        baby2.setHsdpToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
-        baby2.setGender(Gender.FEMALE);
-        baby2.setEmail(user.getEmail());
-        Calendar calendar2 = Calendar.getInstance();
-        calendar.set(2015, 8, 24);
-        baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID("baby2");
-        baby2.setDependent(true);
-        baby2.setBloodPressureSystolic("120");
-        baby2.setBloodPressureDiastolic("80");
-        baby2.setTemperature(90.0);
-        baby2.setWeight(56);
-        dependants.add(baby2);
-
-
-        THSConsumer baby3 = new THSConsumer();
-        baby3.setFirstName("baby3");
-        baby3.setLastName("Hosur");
-        baby3.setDisplayName("Wassup");
-        baby3.setHsdpToken(user.getHsdpAccessToken());
-        baby3.setGender(Gender.MALE);
-        baby3.setEmail(user.getEmail());
-
-        calendar.set(2016,8,24);
-        baby3.setDob(calendar.getTime());
-        baby3.setHsdpUUID("baby3");
-        baby3.setDependent(true);
-        baby3.setBloodPressureSystolic("120");
-        baby3.setBloodPressureDiastolic("80");
-        baby3.setTemperature(90.0);
-        baby3.setWeight(56);
-        dependants.add(baby3);
-
-
-        THSConsumer thsConsumer = new THSConsumer();
-        thsConsumer.setDob(user.getDateOfBirth());
-        thsConsumer.setEmail(user.getEmail());
-        thsConsumer.setFirstName(user.getGivenName());
-        thsConsumer.setGender(Gender.MALE);
-        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
-        thsConsumer.setLastName(user.getFamilyName());
-        thsConsumer.setDisplayName("Spoorti hihi");
-        thsConsumer.setDependents(dependants);
-        thsConsumer.setHsdpUUID(user.getHsdpUUID());
-        thsConsumer.setBloodPressureSystolic("120");
-        thsConsumer.setBloodPressureDiastolic("80");
-        thsConsumer.setTemperature(90.0);
-        thsConsumer.setWeight(56);
-        thsConsumer.setDependent(false);
-
-
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(THSAppInfraInstance.getInstance().getAppInfraInterface());
-        uappDependencies.setThsConsumer(thsConsumer);
+        uappDependencies.setThsConsumer(mThsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE),R.style.Theme_DLS_GroupBlue_UltraLight, null);
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);

@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/ths_toolbar_layout"
+        android:id="@+id/ths_demo_toolbar_layout"
         android:layout_height="?attr/actionBarSize"
         android:orientation="vertical">
 
@@ -28,8 +28,8 @@
         android:id="@+id/registration_container_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ths_toolbar_layout"
-        android:layout_above="@+id/ths_shadow">
+        android:layout_below="@id/ths_demo_toolbar_layout"
+        android:layout_above="@+id/ths_demo_shadow">
 
         <RelativeLayout
             android:id="@+id/registration_form_container"
@@ -41,7 +41,7 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_detail"
+                android:id="@+id/ths_demo_detail"
                 style="@style/ths_title_text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,53 +51,53 @@
                 android:text="@string/ths_demo_add_dependent" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_more_detail"
+                android:id="@+id/ths_demo_more_detail"
                 style="@style/ths_body_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_detail"
+                android:layout_below="@id/ths_demo_detail"
                 android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
                 android:text="@string/ths_demo_more_details" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_dependant_email_address_title"
+                android:id="@+id/ths_demo_dependant_email_address_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:layout_below="@id/ths_more_detail"
+                android:layout_below="@id/ths_demo_more_detail"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_dependant_email_address_title" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_dependant_email_address"
+                android:id="@+id/ths_demo_dependant_email_address"
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
-                android:layout_below="@id/ths_dependant_email_address_title"
+                android:layout_below="@id/ths_demo_dependant_email_address_title"
                 android:layout_marginBottom="@dimen/ths_fab_margin" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_first_name"
+                android:id="@+id/ths_demo_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_dependant_email_address"
+                android:layout_below="@id/ths_demo_dependant_email_address"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_first_name" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_edit_first_name_container"
+                android:id="@+id/ths_demo_edit_first_name_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_first_name"
+                android:layout_below="@id/ths_demo_first_name"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_edit_first_name"
+                    android:id="@+id/ths_demo_edit_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -108,24 +108,24 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_last_name"
+                android:id="@+id/ths_demo_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_edit_first_name_container"
+                android:layout_below="@id/ths_demo_edit_first_name_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_last_name" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_edit_last_name_container"
+                android:id="@+id/ths_demo_edit_last_name_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_last_name"
+                android:layout_below="@id/ths_demo_last_name"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_edit_last_name"
+                    android:id="@+id/ths_demo_edit_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -135,24 +135,24 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_dob"
+                android:id="@+id/ths_demo_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_edit_last_name_container"
+                android:layout_below="@id/ths_demo_edit_last_name_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_dob" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_edit_dob_container"
+                android:id="@+id/ths_demo_edit_dob_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_dob"
+                android:layout_below="@id/ths_demo_dob"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_edit_dob"
+                    android:id="@+id/ths_demo_edit_dob"
                     style="@style/ths_calendar_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,10 +162,10 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_gender"
+                android:id="@+id/ths_demo_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_edit_dob_container"
+                android:layout_below="@id/ths_demo_edit_dob_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_gender" />
 
@@ -174,28 +174,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
-                android:layout_below="@id/ths_gender">
+                android:layout_below="@id/ths_demo_gender">
 
                 <com.philips.platform.uid.view.widget.RadioButton
-                    android:id="@+id/ths_checkbox_female"
+                    android:id="@+id/ths_demo_checkbox_female"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ths_gender"
+                    android:layout_below="@id/ths_demo_gender"
                     android:enabled="true"
                     android:text="@string/ths_female" />
 
                 <com.philips.platform.uid.view.widget.RadioButton
-                    android:id="@+id/ths_checkbox_male"
+                    android:id="@+id/ths_demo_checkbox_male"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ths_checkbox_female"
+                    android:layout_below="@id/ths_demo_checkbox_female"
                     android:enabled="true"
                     android:text="@string/ths_male" />
             </com.philips.platform.uid.view.widget.RadioGroup>
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_label"
+                android:id="@+id/ths_demo_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/radio_group_single_line"
@@ -205,25 +205,25 @@
                 android:text="@string/ths_demo_vital_information" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_blood_pressure"
+                android:id="@+id/ths_demo_blood_pressure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_label"
+                android:layout_below="@id/ths_demo_label"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_demo_blood_pressure" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_vital_info_container"
+                android:id="@+id/ths_demo_vital_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_blood_pressure"
+                android:layout_below="@id/ths_demo_blood_pressure"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_vital_info_name"
+                    android:id="@+id/ths_demo_vital_info_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -234,16 +234,16 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_diastolic_container"
+                android:id="@+id/ths_demo_diastolic_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_vital_info_container"
+                android:layout_below="@id/ths_demo_vital_info_container"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_diastolic_name"
+                    android:id="@+id/ths_demo_diastolic_name_demo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -254,25 +254,25 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_temperature"
+                android:id="@+id/ths_demo_temperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_diastolic_container"
+                android:layout_below="@id/ths_demo_diastolic_container"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_demo_temperature" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_temperature_container"
+                android:id="@+id/ths_demo_temperature_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_temperature"
+                android:layout_below="@id/ths_demo_temperature"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_vitals_name"
+                    android:id="@+id/ths_demo_temperature_demo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -282,25 +282,25 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_weight"
+                android:id="@+id/ths_demo_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_temperature_container"
+                android:layout_below="@id/ths_demo_temperature_container"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_demo_weight" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ths_weight_container"
+                android:id="@+id/ths_demo_weight_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_weight"
+                android:layout_below="@id/ths_demo_weight"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/ths_weight_name"
+                    android:id="@+id/ths_demo_weight_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
@@ -314,7 +314,7 @@
     </ScrollView>
 
     <RelativeLayout
-        android:id="@+id/ths_shadow"
+        android:id="@+id/ths_demo_shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -324,7 +324,7 @@
         android:paddingTop="@dimen/ths_fab_margin">
 
         <com.philips.platform.uid.view.widget.ProgressBarButton
-            android:id="@+id/ths_continue"
+            android:id="@+id/ths_demo_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:uidIsIndeterminateProgressIndicator="true"

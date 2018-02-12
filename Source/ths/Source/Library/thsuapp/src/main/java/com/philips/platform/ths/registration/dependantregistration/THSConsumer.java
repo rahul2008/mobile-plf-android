@@ -6,6 +6,9 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.cdp.registration.ui.utils.Gender;
@@ -14,7 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
-public class THSConsumer {
+public class THSConsumer implements Parcelable{
     private Date dob;
     private String firstName;
     private String lastName;
@@ -34,6 +37,39 @@ public class THSConsumer {
     private boolean isDependent = false;
 
     private ByteArrayInputStream profilePic;
+
+    public THSConsumer(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        displayName = in.readString();
+        state = in.readParcelable(State.class.getClassLoader());
+        hsdpUUID = in.readString();
+        hsdpToken = in.readString();
+        email = in.readString();
+        bloodPressureSystolic = in.readString();
+        bloodPressureDiastolic = in.readString();
+        temperature = in.readDouble();
+        weight = in.readInt();
+        dependents = in.createTypedArrayList(THSConsumer.CREATOR);
+        consumer = in.readParcelable(Consumer.class.getClassLoader());
+        isDependent = in.readByte() != 0;
+    }
+
+    public static final Creator<THSConsumer> CREATOR = new Creator<THSConsumer>() {
+        @Override
+        public THSConsumer createFromParcel(Parcel in) {
+            return new THSConsumer(in);
+        }
+
+        @Override
+        public THSConsumer[] newArray(int size) {
+            return new THSConsumer[size];
+        }
+    };
+
+    public THSConsumer() {
+
+    }
 
     public Date getDob() {
         return dob;
@@ -174,4 +210,26 @@ public class THSConsumer {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(displayName);
+        dest.writeParcelable(state, flags);
+        dest.writeString(hsdpUUID);
+        dest.writeString(hsdpToken);
+        dest.writeString(email);
+        dest.writeString(bloodPressureSystolic);
+        dest.writeString(bloodPressureDiastolic);
+        dest.writeDouble(temperature);
+        dest.writeInt(weight);
+        dest.writeTypedList(dependents);
+        dest.writeParcelable(consumer, flags);
+        dest.writeByte((byte) (isDependent ? 1 : 0));
+    }
 }
