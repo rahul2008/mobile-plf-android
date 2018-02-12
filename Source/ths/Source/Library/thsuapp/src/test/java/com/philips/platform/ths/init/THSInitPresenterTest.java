@@ -145,6 +145,8 @@ public class THSInitPresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getHsdpUUID()).thenReturn("123");
+
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
