@@ -24,4 +24,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# No rules as of now
+# from dagger.android.DispatchingAndroidInjector
+-dontwarn com.google.errorprone.annotations.*
