@@ -14,6 +14,7 @@ import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,8 +23,9 @@ import java.util.List;
  * @since 2017.5.0
  */
 
-public class MyaLaunchInput extends UappLaunchInput {
+public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
+    private static final long serialVersionUID = 1584414650805244556L;
     private transient Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;

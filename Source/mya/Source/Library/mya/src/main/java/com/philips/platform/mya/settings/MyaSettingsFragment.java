@@ -34,6 +34,8 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
 
+import static com.philips.platform.mya.settings.MyaPhilipsLinkFragment.PHILIPS_LINK;
+
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
 
@@ -84,7 +86,11 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
             @Override
             public boolean interceptClick(CharSequence tag) {
-                showFragment(new MyaPhilipsLinkFragment());
+                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
+                Bundle args = new Bundle();
+                args.putCharSequence(PHILIPS_LINK,tag);
+                fragment.setArguments(args);
+                showFragment(fragment);
                 return true;
             }
         });
@@ -102,7 +108,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             } else {
                 dismissDialog();
             }
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, savedInstanceState);
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, savedInstanceState.getBundle(SETTINGS_BUNDLE));
         } else {
             presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, getArguments());
         }
@@ -243,9 +249,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @SuppressWarnings("deprecation")
     @Override
     public void setLinkUrl(String url) {
-        philipsWebsite.setText(Html.fromHtml(url));
         philipsWebsite.setClickable(true);
         philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
+        philipsWebsite.setText(Html.fromHtml(url));
     }
 
     private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
