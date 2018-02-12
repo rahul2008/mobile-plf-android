@@ -30,6 +30,7 @@ import java.util.List;
 
 public class CswInterface implements UappInterface {
     private static final CswInterface reference = new CswInterface();
+
     public static CswInterface get() {
         return reference;
     }
@@ -46,7 +47,7 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        if(!(uappDependencies instanceof CswDependencies)) {
+        if (!(uappDependencies instanceof CswDependencies)) {
             throw new IllegalStateException("Illegal state! Must be instance of CswDependencies");
         }
 
@@ -84,11 +85,9 @@ public class CswInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput uappLaunchInput) {
         try {
-            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
-                    getSupportFragmentManager();
+            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             CswFragment cswFragment = new CswFragment();
-            cswFragment.setOnUpdateTitleListener(fragmentLauncher.
-                    getActionbarListener());
+            cswFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
             if (cswFragment.getArguments() == null) {
                 cswFragment.setArguments(new Bundle());
             }
@@ -104,6 +103,7 @@ public class CswInterface implements UappInterface {
                     cswFragment,
                     CswConstants.CSWFRAGMENT);
             fragmentTransaction.commitAllowingStateLoss();
+            reference.cswLaunchInput = uappLaunchInput;
         } catch (IllegalStateException ignore) {
 
         }
@@ -115,6 +115,7 @@ public class CswInterface implements UappInterface {
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
+            reference.cswLaunchInput = uappLaunchInput;
         }
     }
 
@@ -132,7 +133,6 @@ public class CswInterface implements UappInterface {
     }
 
     private static CswComponent cswComponent;
-
 
     public CswDependencies getDependencies() {
         return uappDependencies;

@@ -8,6 +8,6 @@
 
 
 <resources>
-  <string name="ail_fullLocale">da_DK</string>
+  <string name="ail_fullLocale">da-DK</string>
   <string name="ail_locale">da</string>
 </resources>

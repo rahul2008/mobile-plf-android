@@ -11,7 +11,7 @@ public class LaunchInputMock extends CswLaunchInput {
 
     public LaunchInputMock() {
         super(new ContextMock());
-        context = (ContextMock)super.getContext();
+        context = (ContextMock) super.getContext();
     }
 
     @Override

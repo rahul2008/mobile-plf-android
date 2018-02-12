@@ -1,20 +1,78 @@
 apply plugin: 'com.android.library'
 
 apply from: "../scripts/versions.gradle"
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
-version = objcdp.getVersion(versions.mya_consentAccessToolKit)
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(platformversion)
+
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -26,7 +84,6 @@ android {
             consumerProguardFiles "proguard-rules.pro"
         }
         debug {
-            testCoverageEnabled true
         }
     }
 
@@ -37,26 +94,26 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
 
-    compile deps.support.appcompatv7
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
 
-    compile deps.support.recyclerview
+    compile "com.android.support:recyclerview-v7:${versionsAndroid.support}"
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        compile project(':uid')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            exclude group: 'com.android.support'
-            transitive = true
-        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    testCompile deps.junit
+    testCompile "junit:junit:${versionsExternal.junit}"
     testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
     testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
 

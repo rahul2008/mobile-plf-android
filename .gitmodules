@@ -6,3 +6,7 @@
 	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/usr-other-user-registration-localization
 	branch = develop
 
+[submodule "plf-common"]
+	path = plf-common
+	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-common
+	branch = develop

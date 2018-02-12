@@ -16,6 +16,8 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -28,15 +30,16 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     private THSBaseView thsBaseView;
 
-    public THSShippingAddressPresenter(THSBaseView thsBaseView){
+    public THSShippingAddressPresenter(THSBaseView thsBaseView) {
         this.thsBaseView = thsBaseView;
     }
+
     String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
     Pattern pattern = Pattern.compile(regex);
 
-    public void updateShippingAddress(Address address){
+    public void updateShippingAddress(Address address) {
         try {
-            THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(),address,this);
+            THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(), address, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -44,34 +47,42 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
-        ((THSBaseFragment)thsBaseView).doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS,THSConstants.THS_GENERIC_USER_ERROR,false);
-        ((THSBaseFragment)thsBaseView).showError(null);
+        ((THSBaseFragment) thsBaseView).doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, THSConstants.THS_GENERIC_USER_ERROR, false);
+        ((THSBaseFragment) thsBaseView).showError(null);
     }
 
-    public boolean validateZip(String zipCode){
+    public boolean validateZip(String zipCode) {
         return pattern.matcher(zipCode).matches();
 
     }
+
     @Override
-    public void onUpdateSuccess(Address address, SDKError sdkErro) {
+    public void onUpdateSuccess(Address address, SDKError sdkError) {
         //TODO: check this immediately
-        if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
-            Consumer consumer = THSManager.getInstance().getPTHConsumer(thsBaseView.getFragmentActivity()).getConsumer();
-            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+        if (null != thsBaseView && null != thsBaseView.getFragmentActivity()) {
+            if (null == sdkError) {
+                AmwellLog.d("updateShipAddress", "success");
+                Consumer consumer = THSManager.getInstance().getPTHConsumer(thsBaseView.getFragmentActivity()).getConsumer();
+                if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                    final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                    thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                } else {
+                    final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                    thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                }
+                //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
             } else {
-                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                ((THSShippingAddressFragment)thsBaseView).showError( THSSDKErrorFactory.getErrorType(((THSShippingAddressFragment)thsBaseView).getContext(), ANALYTICS_UPDATE_SHIPPING_ADDRESS,sdkError), false, false);
+                AmwellLog.e("updateShipAddress", sdkError.toString());
             }
-            //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
         }
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
-        if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
+        if (null != thsBaseView && null != thsBaseView.getFragmentActivity()) {
             ((THSShippingAddressFragment) thsBaseView).showError(((THSShippingAddressFragment) thsBaseView).getString(R.string.ths_se_server_error_toast_message));
+            AmwellLog.e("updateShipAdress", throwable.toString());
         }
     }
 }

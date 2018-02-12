@@ -59,6 +59,8 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     int searchType = 0;
     private Practice practice;
     protected List<Pharmacy> pharmacyList;
+    static final long serialVersionUID = 42L;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
             super.onPrepareOptionsMenu(menu);
             MenuItem searchBoxitem = menu.findItem(R.id.search_pharmacy_menu);
             final View view = new  com.philips.platform.uid.view.widget.SearchBox(getContext());
-            MenuItemCompat.setActionView(searchBoxitem, view);
+            searchBoxitem.setActionView(view);
 
             searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
             searchBox.setQuerySubmitListener(this);

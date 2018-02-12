@@ -9,6 +9,7 @@ package com.philips.platform.ths.payment;
 import android.os.Bundle;
 import android.view.View;
 
+import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -170,16 +171,18 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             }
             if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_card_name));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card_number));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_DATE_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid),false);
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if(errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_CVV_number));
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_CVV_number));
+                AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else { // still errors will have ZIP and address error code, so ignoring them as they will be added in next screen
                 bundle.putString("CVVcode", CVVcode);
                 if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
@@ -202,7 +205,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
                 mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
                 mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
-            } else if (tHSSDKError.getSdkError() != null) {
+            } else if (tHSSDKError.getSdkError() != null && tHSSDKError.getSdkError().getSDKErrorReason()!= SDKErrorReason.CREDIT_CARD_MISSING) {
                 THSSDKErrorFactory.getErrorType(mTHSCreditCardDetailFragment.getContext(), ANALYTICS_FETCH_PAYMENT, tHSSDKError.getSdkError());
             }
 

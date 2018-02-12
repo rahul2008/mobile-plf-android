@@ -36,9 +36,8 @@ public class CswLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
-
     /**
-     * Enable  add to back stack for current fragment.
+     * Enable add to back stack for current fragment.
      *
      * @param isAddToBackStack
      */

@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya;
 
-
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.chi.ConsentConfiguration;
@@ -66,7 +65,8 @@ public class MyaHelper {
                         if (definition != null) {
                             for (String type : definition.getTypes()) {
                                 if (uniqueTypes.contains(type)) {
-                                    throw new CatkInputs.InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                                    throw new CatkInputs.InvalidInputException(
+                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
                                 }
                                 uniqueTypes.add(type);
                             }
@@ -93,5 +93,3 @@ public class MyaHelper {
         this.themeConfiguration = themeConfiguration;
     }
 }
-
-

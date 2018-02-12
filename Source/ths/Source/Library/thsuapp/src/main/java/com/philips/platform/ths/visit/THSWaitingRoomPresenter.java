@@ -52,7 +52,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onEvent(int componentID) {
 
         if (componentID == R.id.ths_confirmation_dialog_primary_button) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_cancelling_waiting));
             cancelVisit();
         }
     }
@@ -82,7 +82,10 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
             if (null != patientWaitingCount && patientWaitingCount > 0) {
 
-                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
+            }
+            else if(null != patientWaitingCount && patientWaitingCount == 0){
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
             }
 
 
@@ -133,9 +136,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void updatePatientAheadCount(int count) {
         if(count==0){
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(null);
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
         }else if (count > 0) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " patients waiting");
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " +mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
         }
 
     }
@@ -192,6 +195,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
+            AmwellLog.e("videoCall",throwable.toString());
             mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
@@ -205,6 +209,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onResponse(Void aVoid, SDKError sdkError) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != sdkError) {
+                AmwellLog.e("videoCall",sdkError.toString());
                 mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(mTHSWaitingRoomFragment.getContext(), ANALYTIC_VIDEO_VISIT_FAIL, sdkError),true, true);
                 return;
             } else {
@@ -221,6 +226,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onFailure(Throwable throwable) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != throwable && null != throwable.getMessage()) {
+                AmwellLog.e("videoCall",throwable.toString());
                 mTHSWaitingRoomFragment.doTagging(ANALYTIC_VIDEO_VISIT_FAIL, throwable.getMessage(), false);
                 mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true, false);
             }

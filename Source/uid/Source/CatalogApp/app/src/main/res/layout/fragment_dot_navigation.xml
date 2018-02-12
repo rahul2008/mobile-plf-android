@@ -19,12 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/pager_indicator"
+            android:layoutDirection="locale"
             android:overScrollMode="never"/>
 
         <com.philips.platform.uid.view.widget.DotNavigationIndicator
             android:id="@+id/pager_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutDirection="locale"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </layout>

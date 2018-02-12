@@ -8,7 +8,6 @@ package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,6 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         mCardExpiryMonthEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_month_edittext);
         mCardExpiryYearEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_year_edittext);
         mCVCcodeEditText = view.findViewById(R.id.ths_payment_detail_card_cvc_edittext);
-        mCVCcodeEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         mPaymentDetailContinueButton = view.findViewById(R.id.ths_payment_detail_continue_button);
         mPaymentDetailContinueButton.setOnClickListener(this);
         mProgressbarContainer = view.findViewById(R.id.ths_payment_detail_container);

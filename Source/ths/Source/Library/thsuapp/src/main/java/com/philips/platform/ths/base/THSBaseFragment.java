@@ -286,7 +286,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 result = true;
             }
         } catch (Exception e) {
-            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.toString());
         }
         return result;
     }
@@ -314,13 +314,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        if(THSManager.getInstance().getThsTagging()!=null) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "exitToPropositon", "toUgrowPage");
-        }
-        if (THSManager.getInstance().getThsCompletionProtocol() != null) {
-            THSManager.getInstance().getThsCompletionProtocol().didExitTHS(tHSExitType);
-        }
-        THSManager.getInstance().resetTHSManagerData();
+        THSTagUtils.doExitToPropositionWithCallBack();
     }
 
     @Override

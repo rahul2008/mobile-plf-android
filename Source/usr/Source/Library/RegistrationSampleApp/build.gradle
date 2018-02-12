@@ -66,7 +66,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile(versions.usr_registrationApi)
+version = objcdp.getVersionFromFile(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -130,7 +130,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -198,7 +198,6 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            testCoverageEnabled false
 //            proguardFile 'proguard-rules.pro'
         }
     }
@@ -238,7 +237,8 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile 'com.android.support:multidex:1.0.2'
-    compile(project(':registrationApi'))
+    debugCompile project(path: ':registrationApi', configuration: 'debug')
+    releaseCompile project(path: ':registrationApi', configuration: 'release')
     compile project(':HockeySDK-3.0.2')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

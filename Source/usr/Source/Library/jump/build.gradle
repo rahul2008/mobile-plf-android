@@ -66,7 +66,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_jump)
+version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -108,7 +108,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -163,10 +163,10 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            testCoverageEnabled false
 //            proguardFile 'proguard-rules.pro'
         }
     }
+    publishNonDefault true
 }
 
 configurations.all {
@@ -180,6 +180,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
     androidTestCompile 'junit:junit:4.12'
+    compile('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0')
+
    // androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
 //    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
@@ -187,9 +189,10 @@ dependencies {
    def dp = project.ext.has('useprojectdependencies')
 
    if(dp) {
-        compile(project(':AppInfra'))
+       debugCompile project(path: ':AppInfra', configuration: 'debug')
+       releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile 'com.squareup.okio:okio:1.13.0'

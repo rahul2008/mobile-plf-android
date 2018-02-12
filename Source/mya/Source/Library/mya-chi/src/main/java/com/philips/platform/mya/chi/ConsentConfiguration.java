@@ -7,12 +7,11 @@
 
 package com.philips.platform.mya.chi;
 
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-
 import java.util.List;
 
-public class ConsentConfiguration {
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
+public class ConsentConfiguration {
     private final List<ConsentDefinition> consentDefinitionList;
     private final ConsentHandlerInterface consentHandlerInterface;
 

@@ -7,6 +7,7 @@
         <item name="android:indeterminate">false</item>
         <item name="uidIsLinearProgressBar">true</item>
         <item name="android:progressDrawable">@drawable/uid_secondary_progress_bar</item>
+        <item name="android:mirrorForRtl">true</item>
     </style>
 
     <style name="UIDProgressBarHorizontalIndeterminate" parent="UIDProgressBarHorizontalDeterminate">

@@ -17,10 +17,11 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     @Nullable
     private ConsentToggleListener consentToggleListener;
 
+    @Nullable
+    private LinkSpanClickListener privacyNoticeClickListener;
+
     @Inject
     public PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
         this.items = new ArrayList<>(definitions);
@@ -48,6 +52,10 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
 
     public void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
         this.consentToggleListener = consentToggleListener;
+    }
+
+    public void setPrivacyNoticeClickListener(@Nullable LinkSpanClickListener privacyNoticeClickListener) {
+        this.privacyNoticeClickListener = privacyNoticeClickListener;
     }
 
     @Override
@@ -68,6 +76,8 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         if (getItemViewType(position) == TYPE_ITEM) {
             final ConsentView consentItem = items.get(position - HEADER_COUNT);
             ((PermissionViewHolder) holder).setDefinition(consentItem);
+        } else if (getItemViewType(position) == TYPE_HEADER) {
+            ((PermissionHeaderViewHolder) holder).setPrivacyURL(privacyNoticeClickListener);
         }
     }
 
@@ -90,7 +100,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
 
     public void onGetConsentFailed(ConsentError error) {
         for (ConsentView consentView : items) {
-            consentView.setError(true);
+            consentView.setError(false);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }

@@ -8,6 +8,6 @@
 
 
 <resources>
-  <string name="ail_fullLocale">sl_SI</string>
+  <string name="ail_fullLocale">sl-SI</string>
   <string name="ail_locale">sl</string>
 </resources>

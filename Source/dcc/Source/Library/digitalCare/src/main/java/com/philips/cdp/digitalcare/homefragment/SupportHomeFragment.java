@@ -1,4 +1,4 @@
-/**
+/*
  * SupportHomeFragment is the first screen of Support app. This class will give
  * all the possible options to navigate within digital support app.
  *
@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
@@ -42,7 +42,6 @@ import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.SubcategoryModel;
-import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
@@ -51,11 +50,6 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
@@ -64,20 +58,21 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
  */
+@SuppressWarnings("serial")
 public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryListener {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
@@ -92,12 +87,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private LinearLayout.LayoutParams mParams = null;
     private boolean mIsFirstScreenLaunch = false;
     private boolean mSupportButtonClickable = true;
-    private View mView = null;
-    private CommonRecyclerViewAdapter mAdapter;
-    private ProductModelSelectionHelper mProductSelectionHelper = null;
-    private PrxWrapper mPrxWrapper = null;
-    private ConsumerProductInfo mProductInfo = null;
-    private String mCtnFromPreference;
+    private CommonRecyclerViewAdapter<MenuItem> mAdapter;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
@@ -144,10 +134,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.v(TAG, "SupportScreen Launched");
-        mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
+        View mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
-        mProductInfo = new ConsumerProductInfo();
+        ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
@@ -170,7 +160,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 }
 
                 DigiCareLogger.v(TAG, "Sending PRX Request");
-                mPrxWrapper = new PrxWrapper(getActivity(), this);
+                PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), this);
                 mPrxWrapper.executeRequests();
             }
         } else {
@@ -189,9 +179,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                             getCatalog().toString());
         }
 
-        mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        String mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
 
-        if (mCtnFromPreference != null && mCtnFromPreference != "")
+        if (!mCtnFromPreference.equals(""))
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().
                     setCtn(mCtnFromPreference);
     }
@@ -214,15 +204,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mOptionParent = (LinearLayout) getActivity().findViewById(
+        mOptionParent = getActivity().findViewById(
                 R.id.optionParent);
-        mOptionContainer = (RecyclerView) getActivity().findViewById(
+        mOptionContainer = getActivity().findViewById(
                 R.id.supportMenuContainer);
         mParams = (LinearLayout.LayoutParams) mOptionParent.getLayoutParams();
 
         if (getActivity() != null) {
-            mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-            mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+            mActionBarMenuIcon = getActivity().findViewById(R.id.home_icon);
+            mActionBarArrow = getActivity().findViewById(R.id.back_to_home_img);
         }
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
@@ -282,16 +272,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     protected boolean isContactNumberCached() {
-        String customerSupportNumber = null;
+        String customerSupportNumber;
         customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
-        return (customerSupportNumber != null && customerSupportNumber != "");
+        return (!customerSupportNumber.equals(""));
     }
 
 
     protected boolean isContactHoursCached() {
-        String contactHours = null;
+        String contactHours;
         contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
-        return (contactHours != null && contactHours != "");
+        return (!contactHours.equals(""));
     }
 
 
@@ -307,7 +297,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (DigitalCareConfigManager.getInstance()
                 .getCcListener() != null) {
             actionTaken = DigitalCareConfigManager.getInstance()
-                    .getCcListener().onMainMenuItemClicked(tag.toString());
+                    .getCcListener().onMainMenuItemClicked(tag);
         }
 
         if (actionTaken) {
@@ -387,7 +377,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private void launchFaqScreen() {
 
         DigiCareLogger.i(TAG, "Requesting the Su");
-        mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
+        PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
                 if (supportModel == null && getActivity() != null) {
@@ -416,7 +406,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
                 getInstance().getUiLauncher();
-        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
@@ -464,7 +453,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (!(getActivity().isFinishing())) {
             mProgressDialog.show();
         }
-        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
@@ -565,8 +553,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     setCtn(summaryModel.getData().getCtn());
             updateMenus(null);
 
-                setDataToModels(productSummaryModel);
-                initialiseServiceDiscoveryRequests();
+            setDataToModels(productSummaryModel);
+            initialiseServiceDiscoveryRequests();
         }
     }
 
@@ -646,14 +634,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
-
-            if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-                    getHardCodedProductList().length > 1 && (menus.get(i).mText == R.string.Change_Selected_Product) && isProductSelected()) {
-                menus.remove(i);
+            ProductModelSelectionType productModelSelectionType = DigitalCareConfigManager.getInstance().getProductModelSelectionType();
+            if((titles.getResourceId(i, 0) == R.string.Change_Selected_Product) && isProductSelected()){
+                if(productModelSelectionType == null || productModelSelectionType.getHardCodedProductList() == null || productModelSelectionType.getHardCodedProductList().length > 1){
+                    continue;
+                }
             }
-
+            menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
         }
+        titles.recycle();
+        resources.recycle();
         return menus;
     }
 
@@ -672,9 +662,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             @Override
             public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
                 View container = holder.itemView.findViewById(R.id.icon_button);
-                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                Label label = container.findViewById(R.id.icon_button_text);
                 label.setText(item.mText);
-                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+                TextView icon = container.findViewById(R.id.icon_button_icon);
                 icon.setText(item.mIcon);
                 container.setTag(getResources().getResourceEntryName(item.mText));
                 container.setOnClickListener(context);
@@ -791,10 +781,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     protected boolean isProductReviewLinkAvailable() {
         ViewProductDetailsModel productData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        if (productData.getProductInfoLink() == null)
-            return false;
-
-        return true;
+        return (productData.getProductInfoLink() == null);
     }
 
     private String getStringKey(int resId) {
@@ -815,7 +802,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         var1.add(DigitalCareConstants.SERVICE_ID_CC_PRX_CATEGORY);
         var1.add(DigitalCareConstants.SERVICE_ID_CC_PRODUCTREVIEWURL);
 
-        HashMap<String, String> hm = new HashMap<String, String>();
+        HashMap<String, String> hm = new HashMap<>();
 
         hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
         hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());

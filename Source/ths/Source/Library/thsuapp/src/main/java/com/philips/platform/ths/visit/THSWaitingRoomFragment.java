@@ -48,6 +48,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
+    static final long serialVersionUID = 1123L;
 
     @Nullable
     @Override
@@ -79,7 +80,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
         if (THSManager.getInstance().getThsTagging() == null) {
             if (THSManager.getInstance().getLoggingInterface() != null) {
-                AmwellLog.e("TagInterface", "Tagging interface is null");
+                AmwellLog.i("TagInterface", "Tagging interface is null");
             } else {
                 Log.e(AmwellLog.LOG, "TagInterface and logging interface are null");
             }

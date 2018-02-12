@@ -17,7 +17,7 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
     }
 
     @Override
-    public boolean validate(SDKErrorReason sdkErrorReason) {
+    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
         if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ONDEMAND_SPECIALTY_NOT_FOUND.name())){
             errorMessage = context.getString(R.string.ths_on_demand_provider_unavailable);
             return true;
@@ -78,6 +78,12 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             return true;
         } else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ENG_USER_ALREADY_ACTIVE.name())) {
             errorMessage = context.getString(R.string.ths_consumer_already_active);
+            return true;
+        } else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_INVALID.name())) {
+            errorMessage = context.getString(R.string.ths_invalid_parameter);
+            return true;
+        }else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_ELIG_EXCEPTION.name())) {
+            errorMessage = context.getString(R.string.ths_insurance_invalid_subscription_info);
             return true;
         } else {
             return false;

@@ -5,9 +5,11 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.Toast;
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -16,7 +18,7 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -26,11 +28,9 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.Toast;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
@@ -51,8 +51,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             Context context = getContext();
             view.showDialog(
                     context.getString(R.string.MYA_change_country),
-                    context.getString(R.string.MYA_change_country_message)
-            );
+                    context.getString(R.string.MYA_change_country_message));
         }
     }
 
@@ -68,7 +67,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
             RestInterface restInterface = getRestClient();
-            if(restInterface.isInternetReachable()) {
+            if (restInterface.isInternetReachable()) {
                 MyaDependencies myaDeps = getDependencies();
                 CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
                 CswInterface cswInterface = getCswInterface();
@@ -85,8 +84,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return false;
     }
 
-    ConsentAccessToolKit getConsentAccessInstance() {
-        return ConsentAccessToolKit.getInstance();
+    ConsentsClient getConsentsClient() {
+        return ConsentsClient.getInstance();
     }
 
     CswInterface getCswInterface() {
@@ -100,7 +99,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             }
 
             public void onLogoutFailure(int responseCode, String message) {
-                //TODO - need to discuss with design team and handle on logout failure
+                // TODO - need to discuss with design team and handle on logout failure
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
             }
         };
@@ -130,7 +129,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             for (int i = 0; i < propertyForKey.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) propertyForKey.get(i);
-                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(),key));
+                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(), key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());

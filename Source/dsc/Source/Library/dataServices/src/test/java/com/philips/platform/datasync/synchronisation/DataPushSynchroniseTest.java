@@ -1,6 +1,6 @@
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.chi.PostConsentCallback;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -74,7 +74,7 @@ public class DataPushSynchroniseTest {
     SettingsDataSender settingsDataSenderMock;
 
     @Mock
-    ConsentAccessToolKit consentAccessToolKitMock;
+    ConsentsClient consentsClient;
 
     ConsentInteractorMock getConsentInteractorMock;
 
@@ -108,7 +108,7 @@ public class DataPushSynchroniseTest {
         synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.eventing = eventingSpy;
         synchronise.synchronisationManager = synchronisationManagerMock;
-        getConsentInteractorMock = new ConsentInteractorMock(consentAccessToolKitMock);
+        getConsentInteractorMock = new ConsentInteractorMock(consentsClient);
         synchronise.consentInteractor = getConsentInteractorMock;
     }
 

@@ -1,8 +1,4 @@
-/*import com.philips.cdp.horizontal.RequestManager;
-import com.philips.cdp.network.listeners.AssetListener;
-import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
-
-/**
+/*
  * ProductDetailsFragment will help to show product details.
  *
  * @author : Ritesh.jha@philips.com
@@ -64,6 +60,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
@@ -101,22 +98,22 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private void initView(View view) {
-        mProdButtonsParent = (RecyclerView) view.findViewById(
+        mProdButtonsParent = view.findViewById(
                 R.id.prodbuttonsParent);
 
-        mProdVideoContainer = (LinearLayout) view.findViewById(
+        mProdVideoContainer = view.findViewById(
                 R.id.videoContainerParent);
 
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
+        mActionBarMenuIcon = view.findViewById(R.id.home_icon);
+        mActionBarArrow = view.findViewById(R.id.back_to_home_img);
 
-        mProductImageTablet = (ImageView) view.findViewById(R.id.productImageTablet);
-        mProductImage = (ImageView) view.findViewById(R.id.productimage);
+        mProductImageTablet = view.findViewById(R.id.productImageTablet);
+        mProductImage = view.findViewById(R.id.productimage);
 
-        mProductTitle = (TextView) view.findViewById(R.id.name);
-        mProductVideoHeader = (TextView) view.findViewById(R.id.productVideoText);
-        mCtn = (TextView) view.findViewById(R.id.variant);
-        mVideoScrollView = (HorizontalScrollView) view.findViewById(R.id.videoScrollView);
+        mProductTitle = view.findViewById(R.id.name);
+        mProductVideoHeader = view.findViewById(R.id.productVideoText);
+        mCtn = view.findViewById(R.id.variant);
+        mVideoScrollView = view.findViewById(R.id.videoScrollView);
     }
 
     @Override
@@ -147,10 +144,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         for (int i = 0; i < mVideoLength.size(); i++) {
             View child = getActivity().getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
-            ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
-            TextView videoPlay = (TextView) child.findViewById(R.id.videoPlay);
-            ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
-            ImageView videoRightArrow = (ImageView) child.findViewById(R.id.videoRightArrow);
+            ImageView videoThumbnail = child.findViewById(R.id.videoContainer);
+            TextView videoPlay = child.findViewById(R.id.videoPlay);
+            ImageView videoLeftArrow = child.findViewById(R.id.videoLeftArrow);
+            ImageView videoRightArrow = child.findViewById(R.id.videoRightArrow);
 
             RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) videoThumbnail
                     .getLayoutParams();
@@ -217,13 +214,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 
     private Bitmap addBlankThumbnail() {
-        int height = 0;
+        int height;
         if (isTablet) {
             height = (getDisplayWidth() / 2) + 13;
         } else {
             height = (getDisplayWidth() / 2) + 46;
         }
-        int width = 0;
+        int width;
 
         try {
             width = getDisplayWidth();
@@ -248,7 +245,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             @Override
             public void onClick(View v) {
 
-                Map<String, String> contextData = new HashMap<String, String>();
+                Map<String, String> contextData = new HashMap<>();
                 contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME, video);
                 DigitalCareConfigManager.getInstance().getTaggingInterface().
                         trackActionWithInfo(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START,
@@ -294,11 +291,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private void createProductDetailsMenu() {
         final ProductDetailsFragment context = this;
 
-        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        if (mViewProductDetailsModel != null && mViewProductDetailsModel.getManualLink() == null) {
-
-        }
-
         RecyclerView recyclerView = mProdButtonsParent;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
@@ -306,9 +298,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             @Override
             public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
                 View container = holder.itemView.findViewById(R.id.icon_button);
-                Label label = (Label) container.findViewById(R.id.icon_button_text1);
+                Label label = container.findViewById(R.id.icon_button_text1);
                 label.setText(item.mText);
-                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon1);
+                TextView icon = container.findViewById(R.id.icon_button_icon1);
                 if(label.getText().equals(getString(R.string.FAQ_KEY)))
                     icon.setText(getString(R.string.dls_navigationright_32));
                 else
@@ -322,11 +314,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private ArrayList<MenuItem> getMenuItems() {
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
         ArrayList<MenuItem> menus = new ArrayList<>();
-        for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
+        if(mViewProductDetailsModel != null){
+            for (int i = 0; i < titles.length(); i++) {
+                if (titles.getText(i).equals(getResources().getString(R.string.dcc_productDownloadManual)) && mViewProductDetailsModel.getManualLink() == null) {
+                    continue;
+                }else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productInformationOnWebsite)) && mViewProductDetailsModel.getProductInfoLink() == null){
+                    continue;
+                }
+                menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
+            }
         }
+        titles.recycle();
         return menus;
     }
 
@@ -369,7 +370,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null) {
                     onUpdateAssetData();
-                } else {
                 }
             }
         });
@@ -403,7 +403,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 R.string.dcc_productDownloadManual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
 
-            if ((mFilePath != null) && (mFilePath != "")) {
+            if ((mFilePath != null) && (!mFilePath.equals(""))) {
                 if (isConnectionAvailable()) {
                     String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
 
@@ -458,8 +458,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public String getActionbarTitle() {
-        String title = getResources().getString(R.string.product_info);
-        return title;
+        return getResources().getString(R.string.product_info);
     }
 
     @Override
@@ -493,7 +492,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     }, 0, 0, null, null,
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
-                            Map<String, String> contextData = new HashMap<String, String>();
+                            Map<String, String> contextData = new HashMap<>();
                             contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
                                     error.getMessage());
                             contextData.put(AnalyticsConstants.ACTION_KEY_URL,

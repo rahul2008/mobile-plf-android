@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="@string/ths_set_remainder" />
+        android:text="@string/ths_set_remainder_dialog" />
 
     <com.philips.platform.uid.view.widget.RadioGroup
         android:id="@+id/ths_reminder_radio_group"

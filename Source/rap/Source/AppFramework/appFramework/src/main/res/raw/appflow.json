@@ -279,6 +279,20 @@
         ]
       },
       {
+        "state": "my_account",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "support",
         "events": [
           {
@@ -468,6 +482,15 @@
               {
                 "condition": [],
                 "nextState": "device_pairing"
+              }
+            ]
+          },
+          {
+            "eventId": "TestThsDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservicesdemo"
               }
             ]
           }
