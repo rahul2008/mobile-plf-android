@@ -38,6 +38,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -174,37 +179,7 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.jackson_annotations
-    compile deps.jackson_core
-    compile deps.jackson_databind
-    androidTestCompile deps.junit
-    androidTestCompile deps.dexmaker_google
-    compile deps.apache
-    compile deps.support.appcompatv7
-    compile deps.multidex
-    annotationProcessor deps.immutables
-    compile deps.dagger.dagger
-    annotationProcessor deps.dagger.compiler
-    annotationProcessor deps.frankiesardo_value_processor
-    androidTestCompile deps.frankiesardo_value
-    testCompile deps.frankiesardo_value
-    provided deps.javax_annotation
-    retrolambdaConfig deps.retrolambda
-    compile deps.rxjava2
-    testCompile deps.junit
-    testCompile deps.mockito
-    androidTestCompile deps.mockito_android
-    testCompile deps.mockito_all
-    testCompile deps.robolectric
-
-// Android JUnit Runner
-    androidTestCompile deps.android_testrunner
-
-// JUnit4 Rules
-    androidTestCompile deps.android_testrules
     def dp = project.ext.has('useprojectdependencies')
-
 
     if (dp) {
         debugCompile project(path: ':jump', configuration: 'debug')
@@ -212,6 +187,39 @@ dependencies {
     } else {
         compile project(':jump')
     }
+
+    provided deps.javax_annotation
+
+    annotationProcessor deps.immutables
+    annotationProcessor deps.dagger.compiler
+    annotationProcessor deps.frankiesardo_value_processor
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile deps.apache
+    compile deps.dagger.dagger
+    compile deps.jackson_annotations
+    compile deps.jackson_core
+    compile deps.jackson_databind
+    compile deps.multidex
+    compile deps.rxjava2
+    compile deps.support.appcompatv7
+
+    testCompile deps.frankiesardo_value
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.robolectric
+
+    // JUnit4 Rules
+    androidTestCompile deps.android_testrules
+    // Android JUnit Runner
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.frankiesardo_value
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito_android
+
+    retrolambdaConfig deps.retrolambda
 }
 
 tasks.withType(Test) {

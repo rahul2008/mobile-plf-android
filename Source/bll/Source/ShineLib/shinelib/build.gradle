@@ -48,7 +48,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.junit_runners
 
-    testCompile deps.powermock_api_mockito2
+    testCompile deps.powermock_api_mockito
     testCompile deps.powermock_junit
 
     testCompile deps.assertj

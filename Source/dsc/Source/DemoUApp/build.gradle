@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
@@ -58,7 +63,8 @@ dependencies {
 
     // Test Compile
     testCompile deps.junit
-    testCompile deps.mockito_all
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
 
     androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'

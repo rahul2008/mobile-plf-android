@@ -203,16 +203,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    // Android/Google
-    compile "com.android.support:support-annotations:${versions.support}"
-    compile "com.android.support:design:${versions.support}"
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    compile "com.android.support:animated-vector-drawable:${versions.support}"
-
     // Philips Dependencies
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+    if (dp) {
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
         debugCompile project(path: ':commlib-lan', configuration: 'debug')
@@ -228,18 +222,22 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    // External
-    compile "com.google.dagger:dagger:2.9"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    // Android/Google
+    compile deps.support.annotations
+    compile deps.support.design
+    compile deps.support.appcompatv7
+    compile deps.support.animvecdraw
 
+    // External
+    compile deps.dagger.dagger
+    annotationProcessor deps.dagger.compiler
 
     // Test
-
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.10.19"
-    testCompile "org.powermock:powermock-module-junit4:1.6.5"
-    testCompile "org.powermock:powermock-api-mockito:1.6.5"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_classloading_xstream
 
 }

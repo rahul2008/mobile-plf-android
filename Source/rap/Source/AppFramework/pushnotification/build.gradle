@@ -144,21 +144,19 @@ dependencies {
         }
     }
 
+    testCompile deps.json
     testCompile deps.junit
+    testCompile deps.mockito
     testCompile deps.opengl
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_classloading_xstream
+    testCompile deps.powermock_core
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_junit_rule_agent
     testCompile deps.robolectric
     testCompile deps.robolectric_shadows
     testCompile deps.robolectric_shadows_multidex
-    testCompile deps.mockito_all
-
-    testCompile deps.powermock_core
-    testCompile deps.powermock_module_junit4
-    testCompile deps.powermock_junit_rule
-    testCompile deps.powermock_junit_rule_agent
-    testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_classloading_xstream
-
-    testCompile deps.json
 }
 
 apply plugin: 'com.google.gms.google-services'

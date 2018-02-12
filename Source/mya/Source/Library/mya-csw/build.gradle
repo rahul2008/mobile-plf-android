@@ -117,18 +117,19 @@ dependencies {
 
     // Tests
     testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric
-    testCompile deps.robolectric_shadows
     testCompile deps.maven_ant
-    testCompile deps.robolectric_utils
-    testCompile 'org.robolectric:robolectric-junit:3.3.2'
+    testCompile deps.maven_ant
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_classloading_xstream
     testCompile deps.powermock_core
     testCompile deps.powermock_junit
     testCompile deps.powermock_junit_rule
     testCompile deps.powermock_junit_rule_agent
-    testCompile deps.powermock_api_mockito2
-    testCompile deps.powermock_classloading_xstream
+    testCompile deps.robolectric
+    testCompile deps.robolectric_junit
+    testCompile deps.robolectric_shadows
+    testCompile deps.robolectric_utils
 }
 
 task updateResources(type: Exec) {

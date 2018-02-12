@@ -56,9 +56,10 @@ apply plugin: 'cdpSCM'
  */
 
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "telehealth"
 
 allprojects {
@@ -97,7 +98,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -107,7 +108,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -137,7 +139,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -159,7 +161,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
@@ -195,7 +197,7 @@ android {
             jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
             }
         }
     }
@@ -214,14 +216,13 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    
+
     androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile deps.support.appcompatv7
     compile deps.constraintlayout
     compile deps.support.design
-    testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -244,25 +245,25 @@ dependencies {
         }
     }
 
-    compile(deps.americanwell){
+    compile(deps.americanwell) {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-
-
     compile deps.support.design
+    compile deps.play_services_maps
+    compile deps.play_services_location
 
-    testCompile deps.mockito_all
+    testCompile deps.junit
+    testCompile deps.mockito
     testCompile deps.assertj
-    testCompile (deps.robolectric){
+    testCompile(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
     testCompile deps.robolectric_shadows
     testCompile deps.maven_ant
-    compile deps.play_services_maps
-    compile deps.play_services_location
+
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 

@@ -4,13 +4,19 @@ apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 //def libVersionNumber = new File("${projectDir}/../../../VERSION_JUMP").text.trim()
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -40,9 +46,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "jump"
 
 allprojects {
@@ -81,7 +88,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -91,7 +98,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -107,7 +115,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -176,61 +184,54 @@ configurations.all {
 }
 
 dependencies {
-    compile deps.support.appcompatv7
-    compile deps.apache
-    compile deps.okhttp
-    compile deps.okhttp_apache
-    compile deps.wechat
-    androidTestCompile deps.junit
-    androidTestCompile deps.dexmaker_google
+    def dp = project.ext.has('useprojectdependencies')
 
-   def dp = project.ext.has('useprojectdependencies')
-
-   if(dp) {
-       debugCompile project(path: ':AppInfra', configuration: 'debug')
-       releaseCompile project(path: ':AppInfra', configuration: 'release')
+    if (dp) {
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    compile deps.squareup_okio
-    //WeChat China
-    compile files('libs/libammsdk.jar')
-
-    compile deps.squareup_picasso
-    compile deps.openid_appauth
-    compile deps.jackson_databind
-    compile deps.apache
-    compile deps.multidex
     annotationProcessor deps.immutables
-    compile deps.dagger.dagger
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.frankiesardo_value_processor
-    androidTestCompile deps.frankiesardo_value
-    testCompile deps.frankiesardo_value
+
     provided deps.javax_annotation
-    retrolambdaConfig deps.retrolambda
 
+    compile deps.apache
+    compile deps.okhttp
+    compile deps.okhttp_apache
+    compile deps.squareup_okio
+    compile deps.support.appcompatv7
+    compile deps.wechat
+
+    //WeChat China
+    compile files('libs/libammsdk.jar')
+    compile deps.apache
+    compile deps.dagger.dagger
+    compile deps.jackson_databind
+    compile deps.multidex
+    compile deps.openid_appauth
     compile deps.rxjava2
+    compile deps.squareup_picasso
 
-
+    testCompile deps.frankiesardo_value
     testCompile deps.junit
     testCompile deps.mockito
-    androidTestCompile deps.mockito_android
-
-    testCompile deps.mockito_all
     testCompile deps.robolectric
 
-// Android JUnit Runner
-    androidTestCompile deps.android_testrunner
-
-// JUnit4 Rules
+    // JUnit4 Rules
     androidTestCompile deps.android_testrules
+    // Android JUnit Runner
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.frankiesardo_value
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito_android
 
-
+    retrolambdaConfig deps.retrolambda
 }
-
-
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
@@ -238,5 +239,5 @@ task copyToLib(type: Copy) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

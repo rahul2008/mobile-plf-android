@@ -38,6 +38,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -203,7 +208,7 @@ dependencies {
     }
 
     testCompile deps.junit
-    testCompile deps.mockito_all
+    testCompile deps.mockito
     testCompile deps.robolectric
 
     compile deps.support.annotations
