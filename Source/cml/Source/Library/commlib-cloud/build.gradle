@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -89,7 +89,6 @@ dependencies {
     compile deps.gson
 
     testCompile deps.junit
-    testCompile deps.mockito
     testCompile deps.powermock_api_mockito2
     testCompile deps.powermock_junit
     testCompile deps.assertj

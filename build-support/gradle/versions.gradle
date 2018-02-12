@@ -120,12 +120,12 @@ ext.deps = [
         maven_ant                     : 'org.apache.maven:maven-ant-tasks:2.1.3',
         mockito                       : 'org.mockito:mockito-core:2.13.0', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
         mockito_old                   : 'org.mockito:mockito-core:1.9.5', //Don't remove this, needed as dexmaker for android test only compatible with mockito < 2.x
-        mockito_all                   : 'org.mockito:mockito-all:1.10.19',
+        mockito_all                   : 'org.mockito:mockito-all:1.10.19', // Deprecated, superseded by the 'mockito-core' package
         mockito_android               : 'org.mockito:mockito-android:2.7.22',
         multidex                      : 'com.android.support:multidex:1.0.1',
         opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         openid_appauth                : 'net.openid:appauth:0.7.0',
-        play_services_gcm             : "com.google.android.gms:play-services-gcm:11.0.4",
+        play_services_gcm             : 'com.google.android.gms:play-services-gcm:11.0.4',
         play_services_location        : 'com.google.android.gms:play-services-location:11.0.4',
         powermock_api_mockito         : 'org.powermock:powermock-api-mockito:1.7.3',
         powermock_api_mockito2        : 'org.powermock:powermock-api-mockito2:1.7.3',

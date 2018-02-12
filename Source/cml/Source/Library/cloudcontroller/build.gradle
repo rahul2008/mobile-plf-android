@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -58,7 +58,6 @@ dependencies {
     }
 
     testCompile deps.junit
-    testCompile deps.mockito
     testCompile deps.assertj
 
     testCompile(deps.robolectric) {
