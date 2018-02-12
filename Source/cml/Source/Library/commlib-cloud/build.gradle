@@ -89,8 +89,7 @@ dependencies {
     compile deps.gson
 
     testCompile deps.junit
-    testCompile deps.powermock_api_mockito2
-    testCompile deps.powermock_junit
+    testCompile deps.mockito
     testCompile deps.assertj
 }
 
