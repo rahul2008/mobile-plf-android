@@ -11,13 +11,15 @@ package com.philips.cdp.registration.myaccount;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -28,13 +30,16 @@ import java.util.Date;
 
 public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
 
-    private ImageButton email_mobile_arrow, mobile_arrow;
     private Label email_address, mobile_number;
-    private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
+    private Label nameLabel, genderLabel, name_value, dob_value, email_address_heading;
     private View email_divider;
     private final String DETAILS_BUNDLE = "details_bundle";
     private MyaDetailPresenter myaDetailPresenter;
+    private User user;
 
+
+    public MyaDetailsFragment() {
+    }
 
     public ActionBarListener getUpdateTitleListener() {
         return mActionBarListener;
@@ -48,12 +53,12 @@ public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaD
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-
+    // Do not do anything
     }
 
     @Override
     protected void handleOrientation(View view) {
-
+    // Do not do anything
     }
 
     @Override
@@ -79,19 +84,28 @@ public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaD
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(getActivity());
+
+        user = getUser();
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(user);
         userDataModelProvider.fillUserData();
         myaDetailPresenter.setUserDetails(userDataModelProvider);
     }
 
+    @NonNull
+    private User getUser() {
+        return new User(getActivity());
+    }
+
+    @VisibleForTesting
+    public void setUser(User user){
+        this.user = user;
+    }
+
     private void initViews(View view) {
         nameLabel = view.findViewById(R.id.mya_name);
-        email_mobile_arrow = view.findViewById(R.id.email_mobile_right_arrow);
-        mobile_arrow = view.findViewById(R.id.mobile_right_arrow);
         email_address = view.findViewById(R.id.email_address_value);
         mobile_number = view.findViewById(R.id.mobile_number_value);
         genderLabel = view.findViewById(R.id.gender_value);
-        mobile_number_heading = view.findViewById(R.id.mobile_number_heading);
         email_address_heading = view.findViewById(R.id.email_address_heading);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
@@ -157,7 +171,7 @@ public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaD
     @Override
     public void setMobileNumber(String number) {
         if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
-             //mobile_number_heading.setVisibility(View.GONE);
+            //mobile_number_heading.setVisibility(View.GONE);
             // mobile_arrow.setVisibility(View.GONE);
             //mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
             //mobile_number.setVisibility(View.GONE);
@@ -168,6 +182,7 @@ public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaD
 
     @Override
     public void handleArrowVisibility(String email, String mobileNumber) {
+        // Do not do anything
         //UnComment the below code when u need edit option
        /* if (email != null && mobileNumber != null)
             email_mobile_arrow.setVisibility(View.VISIBLE);*/
