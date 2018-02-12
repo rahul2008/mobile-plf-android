@@ -24,7 +24,8 @@ import static junit.framework.Assert.assertEquals;
 public class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
-    public static final String CLICKSTREAM_CONSENT_ERROR = "Could not find ClickStream type in Consent definition";
+    @VisibleForTesting
+    static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
     private final AppInfra appInfra;
 
     public ClickStreamConsentHandler(final AppInfra appInfra) {
@@ -50,7 +51,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         String clickStreamType = definition.getTypes().get(0);
         assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
         appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
-        appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TYPE, String.valueOf(definition.getVersion()), getSecureStorageError());
+        appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
         callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
     }
 
@@ -71,7 +72,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     }
 
     private boolean isSameVersion(ConsentDefinition definition) {
-        return definition.getVersion() == Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TYPE, getSecureStorageError()));
+        return definition.getVersion() == Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError()));
     }
 
     private AppTaggingInterface.PrivacyStatus toPrivacyStatus(boolean status) {

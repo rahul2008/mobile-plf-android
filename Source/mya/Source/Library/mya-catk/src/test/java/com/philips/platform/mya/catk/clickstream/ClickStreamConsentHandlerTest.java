@@ -46,8 +46,8 @@ public class ClickStreamConsentHandlerTest {
         clickStreamConsentHandler = new TestClickStreamConsentHandler(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
         when(appInfra.getTagging()).thenReturn(appTaggingInterface);
-        when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_TYPE, "true", secureStorageError)).thenReturn(true);
-        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_TYPE, secureStorageError)).thenReturn(TEST_VERSION);
+        when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
+        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
         when(definition.getLocale()).thenReturn("en-US");
     }
 
