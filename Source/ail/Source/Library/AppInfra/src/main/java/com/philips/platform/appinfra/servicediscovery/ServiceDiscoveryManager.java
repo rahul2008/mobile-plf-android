@@ -27,6 +27,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,6 +40,10 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.SERVICE_DISCOVERY;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.GET_HOME_COUNTRY_INVOKED;
 
 /**
  * This class downloads list of URLs from service discovery server,
@@ -72,6 +77,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private transient ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     String mCountry;
     private String mCountrySourceType;
+    private AppInfraTaggingUtil appInfraTaggingUtil;
     /**
      * Instantiates a new Service discovery manager.
      *
@@ -83,6 +89,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mRequestItemManager = new RequestManager(context, mAppInfra);
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
+        appInfraTaggingUtil = new AppInfraTaggingUtil(aAppInfra.getAppInfraTagger());
     }
 
     private void queueResultListener(final boolean forcerefresh, final AbstractDownloadItemListener listener) {
@@ -388,9 +395,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public String getHomeCountry() {
+        appInfraTaggingUtil.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_INVOKED);
         String country = fetchFromSecureStorage(COUNTRY);
-        country = TextUtils.isEmpty(country) ? null : country;
-        return country;
+        if (TextUtils.isEmpty(country)) {
+            appInfraTaggingUtil.trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
+            return null;
+        } else {
+            appInfraTaggingUtil.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS);
+            return country;
+        }
     }
 
     @Override

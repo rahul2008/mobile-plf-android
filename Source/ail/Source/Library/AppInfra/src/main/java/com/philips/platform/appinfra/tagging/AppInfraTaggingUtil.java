@@ -8,25 +8,25 @@ package com.philips.platform.appinfra.tagging;
 
 import android.text.TextUtils;
 
-import static com.philips.platform.appinfra.tagging.AppTaggingConstants.SuccessMessage;
-import static com.philips.platform.appinfra.tagging.AppTaggingConstants.TechnicalError;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.SUCCESS_MESSAGE;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.TECHNICAL_ERROR;
 
 public class AppInfraTaggingUtil implements AppTaggingAction {
-    private AppTagging appTagging;
+    private AppTaggingInterface appTagging;
 
-    public AppInfraTaggingUtil(AppTagging appTagging) {
+    public AppInfraTaggingUtil(AppTaggingInterface appTagging) {
         this.appTagging = appTagging;
     }
 
     @Override
     public void trackSuccessAction(String category, String message) {
         if (!TextUtils.isEmpty(category) && !TextUtils.isEmpty(message))
-            appTagging.trackActionWithInfo(AppTaggingConstants.SendData, SuccessMessage, category.concat(":").concat(message));
+            appTagging.trackActionWithInfo(AppTaggingConstants.SendData, SUCCESS_MESSAGE, category.concat(":").concat(message));
     }
 
     @Override
     public void trackErrorAction(String category, String message) {
         if (!TextUtils.isEmpty(category) && !TextUtils.isEmpty(message))
-            appTagging.trackActionWithInfo(AppTaggingConstants.SendData, TechnicalError, "AIL:".concat(category).concat(":").concat(message));
+            appTagging.trackActionWithInfo(AppTaggingConstants.SendData, TECHNICAL_ERROR, "AIL:".concat(category).concat(":").concat(message));
     }
 }

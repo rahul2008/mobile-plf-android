@@ -32,12 +32,15 @@ public class AppTaggingConstants {
 
 
     //Actions
-    public static final String TechnicalError = "TechnicalError";
-    public static final String SuccessMessage = "appInfraSuccessMessage";
+    public static final String TECHNICAL_ERROR = "TechnicalError";
+    public static final String SUCCESS_MESSAGE = "appInfraSuccessMessage";
+
 
     ////Technical Errors
 //////Service Discovery
     public static final String TagHomeCountryError = "get GomeCountry Error";
+    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_ERROR =  " error while fetching synchronous getHomeCountry due to secure storage returned empty or null data";
+    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = "get home country  synchronous fetched  successfully";
     public static final String TagSDRefreshError = "SD refresh failed";
     public static final String TagUrlByLanguageError = "getServiceUrlWithLanguagePreference error";
     public static final String TagUrlByCountryError = "getServiceUrlWithCountryPreference error";
@@ -49,9 +52,14 @@ public class AppTaggingConstants {
     public static final String TagOldUrlAfterRefreshFail = "using old url after 24 hour refresh failed";
     public static final String TagNotReachable = "Network not reachable";
 
+
+    // AppInfra Tagging Categories
+    public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
+
+
     ////AppInfra success
 //////Service Discovery
-    public static final String TagHomeCountry = "gethome country synchronous api called";
+    public static final String GET_HOME_COUNTRY_INVOKED = "getHomeCountry synchronous api called";
     public static final String TagSetHomeCountry = "setHomecountry called";
     public static final String TagSDRefresh = "SD refresh called";
     public static final String TagSDShouldNotRefresh = "SD shouldnot refresh";
