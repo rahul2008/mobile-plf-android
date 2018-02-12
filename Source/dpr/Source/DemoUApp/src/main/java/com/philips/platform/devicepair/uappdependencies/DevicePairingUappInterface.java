@@ -17,6 +17,9 @@ import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.chi.ConsentDefinitionRegistry;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -37,7 +40,9 @@ public class DevicePairingUappInterface implements UappInterface {
         DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
         devicePairingUappDependencies = ((DevicePairingUappDependencies) uappDependencies);
 
-        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra()), dsDemoAppuAppSettings);
+        // TODO JIMP: WTF? WEG?
+        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra(), new ConsentInteractor(ConsentsClient.getInstance()),
+                ConsentDefinitionRegistry.get("moment")), dsDemoAppuAppSettings);
 
         User user = new User(mContext);
         if (user.isUserSignIn()) {

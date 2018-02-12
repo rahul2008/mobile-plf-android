@@ -9,6 +9,10 @@
             android:name="com.philips.platform.dscdemo.activity.DSLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+        <activity
+            android:name="com.philips.platform.dscdemo.activity.JustInTimeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>

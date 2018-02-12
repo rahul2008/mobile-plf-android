@@ -6,11 +6,18 @@
 package com.philips.platform.dscdemo;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 public class DSDemoAppuAppDependencies extends UappDependencies {
 
-    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra) {
+    public ConsentDefinition momentConsentDefinition;
+    public ConsentHandlerInterface momentConsentHandler;
+
+    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra, final ConsentHandlerInterface momentConsentHandler, final ConsentDefinition momentConsentDefinition) {
         super(appInfra);
+        this.momentConsentHandler = momentConsentHandler;
+        this.momentConsentDefinition = momentConsentDefinition;
     }
 }

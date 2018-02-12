@@ -1,5 +1,6 @@
 package com.philips.platform.mya.chi.datamodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -9,7 +10,8 @@ import android.os.Parcelable;
 
 import com.philips.platform.mya.chi.ConsentDefinitionException;
 
-public class ConsentDefinition implements Parcelable {
+public class ConsentDefinition implements Parcelable, Serializable {
+    private String identifier;
     private String text;
     private String helpText;
     private List<String> types;
@@ -96,6 +98,7 @@ public class ConsentDefinition implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(identifier);
         parcel.writeString(text);
         parcel.writeString(helpText);
         parcel.writeStringList(types);
@@ -105,6 +108,7 @@ public class ConsentDefinition implements Parcelable {
     }
 
     protected ConsentDefinition(Parcel in) {
+        identifier = in.readString();
         text = in.readString();
         helpText = in.readString();
         types = new ArrayList<>();
