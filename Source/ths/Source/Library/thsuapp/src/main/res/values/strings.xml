@@ -112,7 +112,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_address_validation_empty_string">Address line cannot be empty</string>
     <string name="ths_address_validation_length_string">Address should contain at least 2 characters</string>
     <string name="ths_address_validation_length__max_string">Address should contain maximum 25 characters</string>
-    <string name="ths_address_validation_city_empty_string">City cannot be empty</string>
+    <string name="ths_address_validation_city_empty_string">City should contain at least 2 characters</string>
     <string name="ths_address_validation_city_length_string">City should contain at least 2 characters</string>
     <string name="ths_address_validation_city_length_max_string">City should contain maximum 25 characters</string>
     <string name="ths_address_billing_address_string">Billing Address</string>
@@ -219,7 +219,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_available_location_specialists_string">available location specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
     <string name="ths_provider_fetch_error">Provider fetch error</string>
-    <string name="ths_provider_fetch_error_text">No providers are available for selected practice</string>
+    <string name="ths_provider_fetch_error_text">No provider available for practice</string>
 
 
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
@@ -252,6 +252,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
     <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
     <string name="ths_insurance_fields_required">Please enter all details to continue</string>
+    <string name="ths_insurance_invalid_subscription_info">Invalid Subscription Info</string>
 
     <!-- Payment fragment strings-->
     <string name="ths_payment_method">Payment Method</string>
