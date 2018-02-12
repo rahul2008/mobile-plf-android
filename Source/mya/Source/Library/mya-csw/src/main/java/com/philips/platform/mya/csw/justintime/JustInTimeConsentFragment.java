@@ -39,8 +39,9 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     public static JustInTimeConsentFragment newInstance(final int containerId) {
         Bundle args = new Bundle();
-        JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
         args.putInt("containerId", containerId);
+        JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
+        fragment.containerId = containerId;
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,7 +49,9 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        this.containerId = savedInstanceState.getInt("containerId");
+        if (savedInstanceState != null) {
+            this.containerId = savedInstanceState.getInt("containerId");
+        }
         View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
         initializeDescriptionLabel(justInTimeConsentView);
         initializeHelpLabel(justInTimeConsentView);
