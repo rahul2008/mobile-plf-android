@@ -61,7 +61,7 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile deps.robolectric_utils
+    testCompile 'org.robolectric:robolectric-utils:3.3.1'
 }
 
 task generateJavadocPublicApi(type: Javadoc) {
