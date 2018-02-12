@@ -13,11 +13,11 @@ import com.philips.platform.mya.catk.provider.ComponentProvider;
 public class ConsentAccessToolKitManipulator {
 
     public static void setCatkComponent(CatkComponent catkComponent) {
-        ConsentAccessToolKit.getInstance().setCatkComponent(catkComponent);
+        ConsentsClient.getInstance().setCatkComponent(catkComponent);
     }
 
     public static void setComponentProvider(ComponentProvider catkComponent) {
-        ConsentAccessToolKit.getInstance().setComponentProvider(catkComponent);
+        ConsentsClient.getInstance().setComponentProvider(catkComponent);
     }
 
 }

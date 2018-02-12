@@ -14,7 +14,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.NetworkController;
 
 import android.content.Context;
@@ -34,7 +34,7 @@ public interface CatkComponent {
 
     void inject(NetworkController networkController);
 
-    void inject(ConsentAccessToolKit consentAccessToolKit);
+    void inject(ConsentsClient consentsClient);
 
     ServiceDiscoveryInterface getServiceDiscoveryInterface();
 }
