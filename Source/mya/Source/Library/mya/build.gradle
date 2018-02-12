@@ -66,8 +66,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            consumerProguardFiles 'proguard-rules.pro'
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules-mya.pro'
         }
         debug {
             debuggable true
