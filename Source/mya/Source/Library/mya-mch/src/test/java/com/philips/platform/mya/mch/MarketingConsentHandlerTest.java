@@ -1,25 +1,5 @@
 package com.philips.platform.mya.mch;
 
-import com.philips.cdp.registration.User;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -30,10 +10,31 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.mya.chi.CheckConsentsCallback;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+
 /**
  * Created by Entreco on 19/12/2017.
  */
 public class MarketingConsentHandlerTest {
+    private static final String LOCALE_STRING = "en-US";
 
     @Mock
     private CheckConsentsCallback givenCheckConsentCallback;
@@ -50,7 +51,9 @@ public class MarketingConsentHandlerTest {
     @Captor
     private ArgumentCaptor<ConsentError> errorCaptor;
     @Mock
-    private AppInfraInterface appInfra;
+    private AppInfraInterface appInfraMock;
+    @Mock
+    private InternationalizationInterface internationalizationInterfaceMock;
 
     private MarketingConsentHandler subject;
     private ConsentDefinition givenConsentDefinition;
@@ -59,6 +62,9 @@ public class MarketingConsentHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterfaceMock);
+        when(internationalizationInterfaceMock.getBCP47UILocale()).thenReturn(LOCALE_STRING);
     }
 
     @Test
@@ -119,7 +125,7 @@ public class MarketingConsentHandlerTest {
 
     private void givenConsentDefinition() {
         givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
-        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfra);
+        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfraMock);
     }
 
     private void givenStatusToPost(boolean status) {
