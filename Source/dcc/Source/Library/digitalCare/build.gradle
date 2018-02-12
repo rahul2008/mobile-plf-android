@@ -256,7 +256,7 @@ dependencies {
     testCompile deps.robolectric_shadows_multidex
     testCompile deps.robolectric_shadows
     testCompile deps.powermock_core
-    testCompile deps.mockito_all
+    testCompile deps.mockito
     testCompile deps.powermock_junit
     testCompile deps.powermock_junit_rule
     testCompile deps.powermock_junit_rule_agent
