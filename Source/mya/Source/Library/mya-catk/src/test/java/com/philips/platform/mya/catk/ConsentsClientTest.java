@@ -33,13 +33,10 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,11 +54,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-public class ConsentAccessToolKitTest {
+public class ConsentsClientTest {
 
     private CatkComponentMock catkComponent;
 
-    private ConsentAccessToolKit consentAccessToolKit;
+    private ConsentsClient consentsClient;
 
     private ServiceDiscoveryInterfaceMock serviceDiscoveryInterface;
 
@@ -89,77 +86,77 @@ public class ConsentAccessToolKitTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ConsentAccessToolKit.setInstance(new ConsentAccessToolKit());
-        consentAccessToolKit = ConsentAccessToolKit.getInstance();
+        ConsentsClient.setInstance(new ConsentsClient());
+        consentsClient = ConsentsClient.getInstance();
         catkComponent = new CatkComponentMock();
         serviceDiscoveryInterface = new ServiceDiscoveryInterfaceMock();
         catkComponent.getUser_return = user;
         catkComponent.getServiceDiscoveryInterface_return = serviceDiscoveryInterface;
         AppInfraInfo appInfraInfo = new AppInfraInfo("http://someurl.com");
         when(user.getHsdpUUID()).thenReturn(HSDP_UUID);
-        consentAccessToolKit.setCatkComponent(catkComponent);
+        consentsClient.setCatkComponent(catkComponent);
         serviceInfoProvider = new ServiceInfoProviderMock();
         serviceInfoProvider.retrievedInfo = appInfraInfo;
-        consentAccessToolKit.setServiceInfoProvider(serviceInfoProvider);
-        consentAccessToolKit.setNetworkController(mockNetworkController);
+        consentsClient.setServiceInfoProvider(serviceInfoProvider);
+        consentsClient.setNetworkController(mockNetworkController);
     }
 
     @After
     public void tearDown() throws Exception {
-        ConsentAccessToolKit.setInstance(null);
+        ConsentsClient.setInstance(null);
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenApplicationNameIsNull() throws Exception {
         givenAppNamePropName(null, "propName");
-        consentAccessToolKit.init(validCatkInputs());
+        consentsClient.init(validCatkInputs());
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenApplicationNameIsEmpty() throws Exception {
         givenAppNamePropName("", "propName");
-        consentAccessToolKit.init(validCatkInputs());
+        consentsClient.init(validCatkInputs());
     }
 
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenPropositionNameIsNull() throws Exception {
         givenAppNamePropName("appName", null);
-        consentAccessToolKit.init(validCatkInputs());
+        consentsClient.init(validCatkInputs());
     }
 
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenPropositionNameIsEmpty() throws Exception {
         givenAppNamePropName("appName", "");
-        consentAccessToolKit.init(validCatkInputs());
+        consentsClient.init(validCatkInputs());
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenInitIsNotCalledAndTryingToCreateConsent() throws Exception {
         givenAppNamePropName("appName", "");
-        consentAccessToolKit.createConsent(null, null);
+        consentsClient.createConsent(null, null);
         verifyZeroInteractions(mockNetworkController);
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenInitIsNotCalledAndTryingToGetConsentDetails() throws Exception {
         givenAppNamePropName("appName", "");
-        consentAccessToolKit.getConsentDetails(null);
+        consentsClient.getConsentDetails(null);
         verifyZeroInteractions(mockNetworkController);
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenInitIsNotCalledAndTryingToGetConsentStatus() throws Exception {
         givenAppNamePropName("appName", "");
-        consentAccessToolKit.getStatusForConsentType(null, -1, null);
+        consentsClient.getStatusForConsentType(null, -1, null);
         verifyZeroInteractions(mockNetworkController);
     }
 
     @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenGetConsentDetailsMethodISCalled() {
         givenInitWasCalled("appName", "propName");
-        consentAccessToolKit.getConsentDetails(listenerMock);
+        consentsClient.getConsentDetails(listenerMock);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof GetConsentsModelRequest);
         thenServiceInfoProviderWasCalled();
@@ -170,7 +167,7 @@ public class ConsentAccessToolKitTest {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
         BackendConsent consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
-        consentAccessToolKit.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
+        consentsClient.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
@@ -181,7 +178,7 @@ public class ConsentAccessToolKitTest {
     public void getStatusForConsentType_shouldFilterByType() {
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(consentDtos);
-        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
         assertEquals(consents, consentResponseListener.responseData);
     }
 
@@ -190,7 +187,7 @@ public class ConsentAccessToolKitTest {
         givenStrictConsentCheckIs(null);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
         thenConsentStatusIs(ConsentStatus.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
@@ -200,7 +197,7 @@ public class ConsentAccessToolKitTest {
         givenStrictConsentCheckIs(false);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
         thenConsentStatusIs(ConsentStatus.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
@@ -210,14 +207,14 @@ public class ConsentAccessToolKitTest {
         givenStrictConsentCheckIs(true);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentAccessToolKit.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
         assertNull(consentResponseListener.responseData);
     }
 
     @Test
     public void init_setsConsentDefinition() {
         givenInitWasCalled("appName", "propName");
-        assertEquals(consentDefinitions, consentAccessToolKit.getConsentDefinitions());
+        assertEquals(consentDefinitions, consentsClient.getConsentDefinitions());
     }
 
     private void givenStrictConsentCheckIs(final Boolean strictConsentCheckEnabled) {
@@ -226,7 +223,7 @@ public class ConsentAccessToolKitTest {
 
     private void givenConsentSuccessResponse(final List consentResponse) {
         networkControllerMock = new NetworkControllerMock();
-        consentAccessToolKit.setNetworkController(networkControllerMock);
+        consentsClient.setNetworkController(networkControllerMock);
         networkControllerMock.sendConsentRequest_onSuccessResponse = consentResponse;
     }
 
@@ -248,7 +245,7 @@ public class ConsentAccessToolKitTest {
         when(mockConfigInterface.getPropertyForKey(eq("appName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(appName);
         when(mockConfigInterface.getPropertyForKey(eq("propositionName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(propName);
 
-        consentAccessToolKit.setComponentProvider(new ComponentProvider() {
+        consentsClient.setComponentProvider(new ComponentProvider() {
 
             @Override
             public CatkComponent getComponent(CatkInputs catkInputs) {
@@ -259,7 +256,7 @@ public class ConsentAccessToolKitTest {
 
     private void givenInitWasCalled(String appName, String propName) {
         givenAppNamePropName(appName, propName);
-        consentAccessToolKit.init(validCatkInputs());
+        consentsClient.init(validCatkInputs());
     }
 
     private void thenServiceInfoProviderWasCalled() {

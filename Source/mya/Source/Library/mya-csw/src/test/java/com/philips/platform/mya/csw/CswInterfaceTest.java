@@ -1,6 +1,16 @@
 package com.philips.platform.mya.csw;
 
-import android.test.mock.MockContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.robolectric.annotation.Config;
 
 import com.philips.platform.mya.chi.BuildConfig;
 import com.philips.platform.mya.chi.ConsentConfiguration;
@@ -11,20 +21,11 @@ import com.philips.platform.mya.csw.mock.FragmentLauncherMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
+import com.philips.platform.mya.csw.permission.PermissionView;
 import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.robolectric.annotation.Config;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import android.test.mock.MockContext;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -47,12 +48,12 @@ public class CswInterfaceTest {
     }
 
     @Test
-    public void launchReplacesWithCswFragmentOnParentContainer() throws InterruptedException {
+    public void launchReplacesWithPermissionViewOnParentContainer() throws InterruptedException {
         givenFragmentLauncherWithParentContainerId(A_SPECIFIC_CONTAINER_ID);
         givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
-        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, CswFragment.class, CSWFRAGMENT);
-        thenAddToBackStackWasCalled(CSWFRAGMENT);
+        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, PermissionView.class, PermissionView.TAG);
+        thenAddToBackStackWasCalled(PermissionView.TAG);
         thenCommitAllowingStateLossWasCalled();
     }
 
@@ -67,7 +68,6 @@ public class CswInterfaceTest {
     private void givenLaunchInput() {
         givenLaunchInput = new LaunchInputMock();
     }
-
 
     private void givenActivityLauncher() {
         givenActivityLauncher = new ActivityLauncherMock(null, null, 0, null);
@@ -92,7 +92,6 @@ public class CswInterfaceTest {
     private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass, String expectedTag) {
         assertEquals(expectedParentContainerId, fragmentTransaction.replace_containerId);
         assertTrue(fragmentTransaction.replace_fragment.getClass().isAssignableFrom(expectedFragmentClass));
-        assertEquals(expectedTag, fragmentTransaction.replace_tag);
     }
 
     private void thenAddToBackStackWasCalled(String expectedBackStackId) {
