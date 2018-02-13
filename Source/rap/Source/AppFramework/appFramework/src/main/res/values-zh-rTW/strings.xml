@@ -57,13 +57,10 @@
 <string name="RA_Empty_Invalid_Data">資料欄位空白或無效</string>
 <string name="RA_Invalid_Param_Msg">您輸入或選取了無效的參數值。請選擇適當的參數值，然後再次啟動</string>
 <string name="RA_NO_Order_History">訂單歷程記錄無法使用</string>
-<string name="RA_PR_Benefit_Text">保固延長至 24 個月。
+<string name="RA_PR_Benefit_Text">保固延長至 24 個月。 享有飛利浦商店購物 9 折優惠。 收到免費產品配件</string>
   <string name="RA_CSW_JustInTime_Accept">[zh-TW]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[zh-TW]Maybe later
-</string>
+  <string name="RA_CSW_JustInTime_Reject">[zh-TW]Maybe later </string>
   <string name="RA_CSW_JustInTime_Title">[zh-TW]Be the first to know</string>
-享有飛利浦商店購物 9 折優惠。
-收到免費產品配件</string>
 <string name="RA_PR_Extentende_Warranty">您的保固時間已延長到明年</string>
 <string name="RA_PR_Email_Text">延長保固合約已寄至您的電子郵件地址</string>
 <string name="RA_UR_Env_Alert">變更設定</string>

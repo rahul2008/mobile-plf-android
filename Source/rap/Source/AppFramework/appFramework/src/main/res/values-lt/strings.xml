@@ -57,13 +57,10 @@
 <string name="RA_Empty_Invalid_Data">Duomenų laukelis tuščias arba neveikiantis</string>
 <string name="RA_Invalid_Param_Msg">Įvedėte arba pasirinkote negaliojančias parametrų vertes. Pasirinkite tinkamas parametrų vertes ir paleiskite iš naujo</string>
 <string name="RA_NO_Order_History">Užsakymų istorija nepasiekiama</string>
-<string name="RA_PR_Benefit_Text">Pratęskite garantiją iki 24 mėnesių.
+<string name="RA_PR_Benefit_Text">Pratęskite garantiją iki 24 mėnesių.  Gaukite 10 % nuolaidą „Philips“.  Gaukite produktų priedus nemokamai</string>
   <string name="RA_CSW_JustInTime_Accept">[lt]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[lt]Maybe later
-</string>
+  <string name="RA_CSW_JustInTime_Reject">[lt]Maybe later </string>
   <string name="RA_CSW_JustInTime_Title">[lt]Be the first to know</string>
-Gaukite 10 % nuolaidą „Philips“.
-Gaukite produktų priedus nemokamai</string>
 <string name="RA_PR_Extentende_Warranty">Garantijos laikotarpis buvo pratęstas iki kitų metų</string>
 <string name="RA_PR_Email_Text">El. laiškas su pailgintos garantijos sutartimi išsiųstas jūsų el. pašto adresu</string>
 <string name="RA_UR_Env_Alert">Pakeiskite konfigūraciją</string>

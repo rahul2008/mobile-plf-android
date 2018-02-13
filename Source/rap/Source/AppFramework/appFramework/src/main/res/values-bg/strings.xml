@@ -57,13 +57,10 @@
 <string name="RA_Empty_Invalid_Data">Полето за данни е празно или невалидно</string>
 <string name="RA_Invalid_Param_Msg">Въвели сте или сте избрали невалидни стойности на параметъра. Изберете подходящи стойности на параметъра и пуснете отново</string>
 <string name="RA_NO_Order_History">Не е налична хронология на поръчките</string>
-<string name="RA_PR_Benefit_Text">Удължете гаранцията си с 24 месеца.
+<string name="RA_PR_Benefit_Text">Удължете гаранцията си с 24 месеца.  Получете 10% отстъпка във Philips.  Получете безплатни аксесоари за продукти</string>
   <string name="RA_CSW_JustInTime_Accept">[bg]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[bg]Maybe later
-</string>
+  <string name="RA_CSW_JustInTime_Reject">[bg]Maybe later </string>
   <string name="RA_CSW_JustInTime_Title">[bg]Be the first to know</string>
-Получете 10% отстъпка във Philips.
-Получете безплатни аксесоари за продукти</string>
 <string name="RA_PR_Extentende_Warranty">Гаранционният ви период е удължен до следващата година</string>
 <string name="RA_PR_Email_Text">Имейл с договор за удължената гаранция е изпратен на вашия имейл адрес</string>
 <string name="RA_UR_Env_Alert">Промяна на конфигурацията</string>

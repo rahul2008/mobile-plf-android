@@ -57,13 +57,10 @@
 <string name="RA_Empty_Invalid_Data">Veri alanı boş veya geçersiz</string>
 <string name="RA_Invalid_Param_Msg">Geçersiz parametre değerleri girdiniz veya seçtiniz. Lütfen uygun parametre değerlerini seçin ve tekrar başlatın</string>
 <string name="RA_NO_Order_History">Sipariş Geçmişi Kullanılamıyor</string>
-<string name="RA_PR_Benefit_Text">Garanti sürenizi 24 ay uzatın.
+<string name="RA_PR_Benefit_Text">Garanti sürenizi 24 ay uzatın.  Philips mağazalarından %10 indirim kazanın.  Ücretsiz ürün aksesuarları alın</string>
   <string name="RA_CSW_JustInTime_Accept">[tr]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[tr]Maybe later
-</string>
+  <string name="RA_CSW_JustInTime_Reject">[tr]Maybe later </string>
   <string name="RA_CSW_JustInTime_Title">[tr]Be the first to know</string>
-Philips mağazalarından %10 indirim kazanın.
-Ücretsiz ürün aksesuarları alın</string>
 <string name="RA_PR_Extentende_Warranty">Garanti süreniz gelecek yıla kadar uzatıldı</string>
 <string name="RA_PR_Email_Text">Genişletilmiş garanti sözleşmesi, e-posta adresinize gönderildi</string>
 <string name="RA_UR_Env_Alert">Yapılandırmayı değiştir</string>

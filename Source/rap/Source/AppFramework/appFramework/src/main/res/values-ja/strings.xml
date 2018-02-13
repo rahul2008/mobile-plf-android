@@ -57,13 +57,10 @@
 <string name="RA_Empty_Invalid_Data">データフィールドが空か無効</string>
 <string name="RA_Invalid_Param_Msg">無効なパラメーター値が入力または選択されました。適切なパラメーター値を選択してから再起動してください。</string>
 <string name="RA_NO_Order_History">注文履歴を確認できません</string>
-<string name="RA_PR_Benefit_Text">保証を 24 か月延長いたします
+<string name="RA_PR_Benefit_Text">保証を 24 か月延長いたします フィリップス ショップで 10% 割引を適用いたします 製品アクセサリを無料で差し上げます</string>
   <string name="RA_CSW_JustInTime_Accept">[ja]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[ja]Maybe later
-</string>
+  <string name="RA_CSW_JustInTime_Reject">[ja]Maybe later </string>
   <string name="RA_CSW_JustInTime_Title">[ja]Be the first to know</string>
-フィリップス ショップで 10% 割引を適用いたします
-製品アクセサリを無料で差し上げます</string>
 <string name="RA_PR_Extentende_Warranty">保証期間が来年まで延長されました。</string>
 <string name="RA_PR_Email_Text">保証延長契約に関するメールがお客様のメールアドレスに送信されました</string>
 <string name="RA_UR_Env_Alert">設定を変更</string>
