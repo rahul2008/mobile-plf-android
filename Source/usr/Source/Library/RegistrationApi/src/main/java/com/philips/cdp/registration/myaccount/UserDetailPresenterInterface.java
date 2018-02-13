@@ -5,7 +5,7 @@
  */
 package com.philips.cdp.registration.myaccount;
 
-public interface MyaPresenterInterface<ViewT> {
+public interface UserDetailPresenterInterface<ViewT> {
 
     void onViewActive(ViewT view);
 

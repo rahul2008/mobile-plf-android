@@ -6,7 +6,7 @@
 package com.philips.cdp.registration.myaccount;
 
 
-public class MyaBasePresenter<ViewT> implements MyaPresenterInterface<ViewT> {
+public class MyaBasePresenter<ViewT> implements UserDetailPresenterInterface<ViewT> {
 
     protected ViewT view;
 

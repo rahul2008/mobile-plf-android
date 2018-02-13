@@ -28,28 +28,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
+public class UserDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
 
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, name_value, dob_value, email_address_heading;
     private View email_divider;
     private final String DETAILS_BUNDLE = "details_bundle";
-    private MyaDetailPresenter myaDetailPresenter;
+    private UserDetailPresenter myaDetailPresenter;
     private User user;
-
-
-    public MyaDetailsFragment() {
-    }
-
-    public ActionBarListener getUpdateTitleListener() {
-        return mActionBarListener;
-    }
-
-    public void setOnUpdateTitleListener(ActionBarListener listener) {
-        this.mActionBarListener = listener;
-    }
-
-    private ActionBarListener mActionBarListener;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -71,7 +57,7 @@ public class MyaDetailsFragment extends RegistrationBaseFragment implements MyaD
         View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
         initViews(view);
         setRetainInstance(true);
-        myaDetailPresenter = new MyaDetailPresenter(this);
+        myaDetailPresenter = new UserDetailPresenter(this);
         return view;
     }
 

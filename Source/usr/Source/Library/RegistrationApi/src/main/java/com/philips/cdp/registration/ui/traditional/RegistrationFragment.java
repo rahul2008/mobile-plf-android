@@ -33,7 +33,7 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.myaccount.MyaDetailsFragment;
+import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -302,7 +302,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     private void launchMyAccountFragment() {
-        MyaDetailsFragment marketingAccountFragment = new MyaDetailsFragment();
+        UserDetailsFragment marketingAccountFragment = new UserDetailsFragment();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
         fragmentTransaction.commitAllowingStateLoss();

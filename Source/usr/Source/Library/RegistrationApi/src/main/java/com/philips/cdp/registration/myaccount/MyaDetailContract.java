@@ -31,7 +31,7 @@ class MyaDetailContract {
 
     }
 
-    interface Presenter extends MyaPresenterInterface<View> {
+    interface Presenter extends UserDetailPresenterInterface<View> {
         void setUserDetails(UserDataModelProvider userDataModelProvider);
     }
 }

@@ -12,11 +12,11 @@ import android.text.TextUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implements MyaDetailContract.Presenter {
+class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implements MyaDetailContract.Presenter {
 
     private MyaDetailContract.View view;
 
-    MyaDetailPresenter(MyaDetailContract.View view) {
+    UserDetailPresenter(MyaDetailContract.View view) {
         this.view = view;
     }
 
