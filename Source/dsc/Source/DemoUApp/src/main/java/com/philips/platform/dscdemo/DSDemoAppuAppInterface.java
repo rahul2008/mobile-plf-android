@@ -106,7 +106,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
             @Override
             public void onConsentRejected() {
-
+                launch(uiLauncher);
             }
         };
         if (uiLauncher instanceof ActivityLauncher) {

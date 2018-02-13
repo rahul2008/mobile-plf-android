@@ -41,7 +41,6 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
         FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
         String simpleName = justInTimeFragment.getClass().getSimpleName();
         fragmentTransaction.replace(containerId, justInTimeFragment, simpleName);
-        fragmentTransaction.addToBackStack(simpleName);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

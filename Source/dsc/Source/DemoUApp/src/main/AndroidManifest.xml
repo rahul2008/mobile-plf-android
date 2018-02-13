@@ -12,8 +12,8 @@
         <activity
             android:name="com.philips.platform.dscdemo.activity.JustInTimeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
-
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+            android:noHistory="true"/>
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
