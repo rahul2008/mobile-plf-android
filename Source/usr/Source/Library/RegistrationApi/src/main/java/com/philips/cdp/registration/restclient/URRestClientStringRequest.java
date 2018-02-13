@@ -23,7 +23,6 @@ import java.util.Map;
  *  All rights are reserved. Reproduction or dissemination
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
- * /
  */
 
 public class URRestClientStringRequest extends StringRequest {
@@ -126,18 +125,12 @@ public class URRestClientStringRequest extends StringRequest {
                     body = new String(error.networkResponse.data, "UTF-8");
                     RLog.d(TAG, "deliverError Response body= " + body);
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    RLog.d(TAG, " deliverError= " + e.getMessage());
                 }
             }
         }
         postErrorResponseOnUIThread(error);
     }
-
-
-//    public Map<String, String> getParams()
-//            throws com.android.volley.AuthFailureError {
-//        return params;
-//    }
 
     private void postSuccessResponseOnUIThread(final String jsonObject) {
         RLog.d(TAG, jsonObject);
@@ -147,7 +140,6 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     private void postErrorResponseOnUIThread(final VolleyError volleyError) {
-        // RLog.d(TAG, volleyError.getMessage());
         mHandler.post(() -> mErrorListener.onErrorResponse(volleyError));
     }
 }
