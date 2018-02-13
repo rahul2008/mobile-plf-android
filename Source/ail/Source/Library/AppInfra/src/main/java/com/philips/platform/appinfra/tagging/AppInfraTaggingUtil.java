@@ -18,7 +18,6 @@ public class AppInfraTaggingUtil implements AppTaggingAction {
     public static final String NO_NETWORK = "Network not reachable";
 
     ////Technical Errors
-//////Service Discovery
     public static final String GET_HOME_COUNTRY_SYNCHRONOUS_ERROR =  " error while fetching synchronous getHomeCountry due to secure storage returned empty or null data";
     public static final String COUNTRY_CODE_SIM_ERROR = " Error fetching country code from sim";
     public static final String SD_DATA_EXPIRED = " ServiceDiscovery data expired";
@@ -27,7 +26,6 @@ public class AppInfraTaggingUtil implements AppTaggingAction {
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     ////AppInfra success
-//////Service Discovery
     public static final String GET_HOME_COUNTRY_INVOKED = " getHomeCountry synchronous api called";
     public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = " get home country  synchronous fetched  successfully";
     public static final String DOWNLOAD_PLATFORM_SERVICES_INVOKED = " Downloading platform services started";
