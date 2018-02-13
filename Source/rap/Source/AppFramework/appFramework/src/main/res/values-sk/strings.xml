@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Zadali ste alebo vybrali neplatné hodnoty parametrov. Vyberte správne hodnoty parametrov a spustite aplikáciu znova</string>
 <string name="RA_NO_Order_History">História objednávok je nedostupná</string>
 <string name="RA_PR_Benefit_Text">Predĺžte svoju záruku o 24 mesiacov.
+  <string name="RA_CSW_JustInTime_Accept">[sk]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[sk]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[sk]Be the first to know</string>
 Získajte 10 % zľavu na nákup produktov Philips.
 Získajte bezplatné príslušenstvo</string>
 <string name="RA_PR_Extentende_Warranty">Vaša záručná doba bola predĺžená do nasledujúceho roka</string>

@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Vnesli ali izbrali ste neveljavne vrednosti parametrov. Izberite ustrezne vrednosti parametrov in ponovno zaženite.</string>
 <string name="RA_NO_Order_History">Zgodovina naročil ni na voljo.</string>
 <string name="RA_PR_Benefit_Text">Podaljšajte garancijo za 24 mesecev.
+  <string name="RA_CSW_JustInTime_Accept">[sl]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[sl]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[sl]Be the first to know</string>
 Prejmite 10 % popusta v Philipsovi trgovini.
 Prejmite brezplačne dodatke za izdelke.</string>
 <string name="RA_PR_Extentende_Warranty">Vaše garancijsko obdobje je podaljšano do naslednjega leta</string>

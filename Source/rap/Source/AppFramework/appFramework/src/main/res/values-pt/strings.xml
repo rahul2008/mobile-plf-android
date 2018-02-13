@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Introduziu ou seleccionou valores de parâmetro inválidos. Seleccione valores de parâmetro adequados e volte a iniciar</string>
 <string name="RA_NO_Order_History">O histórico de encomendas não está disponível</string>
 <string name="RA_PR_Benefit_Text">Prolongue a sua garantia por mais 24 meses.
+  <string name="RA_CSW_JustInTime_Accept">[pt]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[pt]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[pt]Be the first to know</string>
 Receba um desconto de 10% em produtos Philips.
 Receba acessórios de produtos gratuitos</string>
 <string name="RA_PR_Extentende_Warranty">O seu período de garantia foi prolongado até ao próximo ano</string>

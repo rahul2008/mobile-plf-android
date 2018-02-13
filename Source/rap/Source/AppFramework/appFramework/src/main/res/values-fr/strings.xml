@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Vous avez saisi ou sélectionné des valeurs de paramètre invalides. Veuillez sélectionner des valeurs de paramètre valides puis relancer.</string>
 <string name="RA_NO_Order_History">Historique de commande indisponible</string>
 <string name="RA_PR_Benefit_Text">Étendre votre garantie de 24 mois.
+  <string name="RA_CSW_JustInTime_Accept">[fr]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[fr]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[fr]Be the first to know</string>
 Bénéficier de 10 % de remise sur la boutique Philips.
 Recevoir gratuitement des accessoires</string>
 <string name="RA_PR_Extentende_Warranty">Votre période de garantie a été prolongée jusqu\'à l\'année prochaine</string>

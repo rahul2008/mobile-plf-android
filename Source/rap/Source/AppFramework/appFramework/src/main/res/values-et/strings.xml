@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Olete sisestanud või valinud valed parameetri väärtused. Valige sobivad parameetri väärtused ja käivitage uuesti.</string>
 <string name="RA_NO_Order_History">Tellimuse ajalugu ei ole kättesaadav</string>
 <string name="RA_PR_Benefit_Text">Pikendage garantiid 24 kuuks.
+  <string name="RA_CSW_JustInTime_Accept">[et]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[et]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[et]Be the first to know</string>
 10% allahindlus Philipsi poest ostetud toodetele.
 Saage tasuta tarvikuid tootele</string>
 <string name="RA_PR_Extentende_Warranty">Teie garantiiperiood on pikenenud järgmise aastani</string>

@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">הזנת או בחרת ערכי פרמטרים לא חוקיים; בחר ערכי פרמטרים מתאימים והפעל שוב</string>
 <string name="RA_NO_Order_History">היסטוריית ההזמנות אינה זמינה</string>
 <string name="RA_PR_Benefit_Text">הארך את האחריות שלך ב-24 חודשים;
+  <string name="RA_CSW_JustInTime_Accept">[he]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[he]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[he]Be the first to know</string>
 קבל 10% הנחה בחנות של פיליפס;
 קבל את אבזרי המוצר בחינם</string>
 <string name="RA_PR_Extentende_Warranty">תקופת האחריות שלך הוארכה עד לשנה הבאה</string>

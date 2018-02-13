@@ -58,6 +58,10 @@
 <string name="RA_Invalid_Param_Msg">Εισαγάγατε ή επιλέξατε μη έγκυρες τιμές παραμέτρου. Επιλέξτε τις κατάλληλες τιμές παραμέτρου και ξεκινήστε ξανά</string>
 <string name="RA_NO_Order_History">Μη διαθέσιμο ιστορικό παραγγελίας</string>
 <string name="RA_PR_Benefit_Text">Επεκτείνετε την εγγύησή σας για 24 μήνες.
+  <string name="RA_CSW_JustInTime_Accept">[el]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[el]Maybe later
+</string>
+  <string name="RA_CSW_JustInTime_Title">[el]Be the first to know</string>
 Λάβετε έκπτωση 10% στη Philips.
 Λάβετε δωρεάν αξεσουάρ προϊόντων</string>
 <string name="RA_PR_Extentende_Warranty">Η περίοδος της εγγύησης επεκτάθηκε μέχρι τον επόμενο χρόνο</string>
