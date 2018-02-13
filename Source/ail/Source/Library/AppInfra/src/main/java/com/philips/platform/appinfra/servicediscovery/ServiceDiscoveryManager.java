@@ -353,7 +353,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     + "Appidentity values are null");
         }
          if (url != null)
-             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SERVICE_DISCOVERY.concat(" URL--").concat(url));
+             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SERVICE_DISCOVERY.concat(" ServiceDiscovery URL--").concat(url));
         return url;
     }
 
