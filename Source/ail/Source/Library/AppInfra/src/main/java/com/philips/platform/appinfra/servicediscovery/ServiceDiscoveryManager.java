@@ -53,6 +53,7 @@ import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.MALFORMED_URL;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_DATA_EXPIRED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_LOCAL_CACHE_DATA_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
@@ -683,6 +684,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void refresh(final OnRefreshListener listener) {
+        appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
         refresh(listener, false);
     }
 
