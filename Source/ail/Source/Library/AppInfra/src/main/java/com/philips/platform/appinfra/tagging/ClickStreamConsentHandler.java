@@ -1,23 +1,23 @@
-package com.philips.platform.mya.catk.clickstream;
+package com.philips.platform.appinfra.tagging;
 
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.catk.utils.CatkHelper;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -26,22 +26,22 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
-    private final AppInfra appInfra;
+    private final AppInfraInterface appInfra;
 
-    public ClickStreamConsentHandler(final AppInfra appInfra) {
+    public ClickStreamConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
     @Override
     public void fetchConsentState(ConsentDefinition definition, CheckConsentsCallback callback) {
-        callback.onGetConsentsSuccess(CatkHelper.getSuccessConsentForStatus(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
+        callback.onGetConsentsSuccess(getSuccessConsentForStatus(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
     }
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
         List<Consent> consents = new ArrayList<>(consentDefinitions.size());
         for (ConsentDefinition definition : consentDefinitions) {
-            consents.add(CatkHelper.createConsentFromDefinition(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
+            consents.add(createConsentFromDefinition(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
         }
         callback.onGetConsentsSuccess(consents);
     }
@@ -52,7 +52,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
         appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
         appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
-        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
+        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status)));
     }
 
     private AppTaggingInterface.PrivacyStatus processClickStreamConsentStatus(ConsentDefinition definition) {
@@ -92,5 +92,18 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     @NonNull
     SecureStorageInterface.SecureStorageError getSecureStorageError() {
         return new SecureStorageInterface.SecureStorageError();
+    }
+
+    private Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus) {
+        final BackendConsent backendConsent = new BackendConsent(new Locale(definition.getLocale()), consentStatus, definition.getTypes().get(0), definition.getVersion());
+        return new Consent(backendConsent, definition);
+    }
+
+    private ConsentStatus toStatus(boolean status) {
+        return status ? ConsentStatus.active : ConsentStatus.rejected;
+    }
+
+    private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
+        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status));
     }
 }

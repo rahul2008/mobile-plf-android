@@ -4,6 +4,7 @@ package com.philips.platform.mya.catk.device;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
@@ -37,7 +38,7 @@ public class DeviceStoredConsentHandlerTest {
     private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en-US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "type3";
 
     @Mock
-    AppInfra appInfra;
+    AppInfraInterface appInfra;
 
     @Mock
     SecureStorageInterface storageInterface;
@@ -157,7 +158,7 @@ public class DeviceStoredConsentHandlerTest {
 
     private class TestDeviceStoredConsentHandler extends DeviceStoredConsentHandler {
 
-        TestDeviceStoredConsentHandler(AppInfra appInfra) {
+        TestDeviceStoredConsentHandler(AppInfraInterface appInfra) {
             super(appInfra);
         }
 

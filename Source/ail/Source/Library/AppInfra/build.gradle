@@ -94,6 +94,16 @@ dependencies {
     compile deps.support.supportv4
     compile deps.support.annotations
 
+
+    // Philips Components
+    def dp = project.ext.has('useprojectdependencies')
+    if (dp) {
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+    }
+
     testCompile 'org.mockito:mockito-core:2.8.9'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile deps.assertj
