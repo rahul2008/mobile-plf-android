@@ -318,7 +318,7 @@ dependencies {
         debugCompile project(path: ':pushnotification', configuration: 'debug')
         releaseCompile project(path: ':pushnotification', configuration: 'release')
         leakCanaryCompile project(path: ':pushnotification', configuration: 'debug')
-        releaseCompile project(path: ':pushnotification', configuration: 'release')
+        psraReleaseCompile project(path: ':pushnotification', configuration: 'release')
         debugCompile project(path: ':themesettings', configuration: 'debug')
         psraReleaseCompile project(path: ':themesettings', configuration: 'release')
         leakCanaryCompile project(path: ':themesettings', configuration: 'debug')
