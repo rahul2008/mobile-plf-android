@@ -28,7 +28,7 @@ public class AppTaggingConstants {
     public static final String COMPONENT_VERSION = "componentVersion";
 
     //keys
-    public static final String SendData = "sendData";
+    public static final String SEND_DATA = "sendData";
 
 
     //Actions
@@ -36,11 +36,7 @@ public class AppTaggingConstants {
     public static final String SUCCESS_MESSAGE = "appInfraSuccessMessage";
 
 
-    ////Technical Errors
-//////Service Discovery
-    public static final String TagHomeCountryError = "get GomeCountry Error";
-    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_ERROR =  " error while fetching synchronous getHomeCountry due to secure storage returned empty or null data";
-    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = "get home country  synchronous fetched  successfully";
+
     public static final String TagSDRefreshError = "SD refresh failed";
     public static final String TagUrlByLanguageError = "getServiceUrlWithLanguagePreference error";
     public static final String TagUrlByCountryError = "getServiceUrlWithCountryPreference error";
@@ -48,30 +44,6 @@ public class AppTaggingConstants {
     public static final String TagServicesByLanguageName = "getServicesWithLanguagePreference error";
     public static final String TagServicesByCountryError = "getServicesWithCountryPreference error";
     public static final String TagLocaleByCountryError = "getServiceLocaleWithCountryPreference, error";
-    public static final String TagMalformedUrl = "applyURLParameters, malformed url";
-    public static final String TagOldUrlAfterRefreshFail = "using old url after 24 hour refresh failed";
-    public static final String TagNotReachable = "Network not reachable";
 
-
-    // AppInfra Tagging Categories
-    public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
-
-
-    ////AppInfra success
-//////Service Discovery
-    public static final String GET_HOME_COUNTRY_INVOKED = "getHomeCountry synchronous api called";
-    public static final String TagSetHomeCountry = "setHomecountry called";
-    public static final String TagSDRefresh = "SD refresh called";
-    public static final String TagSDShouldNotRefresh = "SD shouldnot refresh";
-    public static final String TagSDDatafromCache = "SD returning data from cache";
-    public static final String TagSDDataExpired = "SD data expired - 24 hours over";
-    public static final String TagDownloadPlatform = "Downloading platform URLS";
-    public static final String TagDownloadProposition = "Downloading proposition URLS";
-    public static final String TagCountryFromSim = "saveCountryCodefrom sim";
-    public static final String TagCountryFromIP = "countryFetchedFromGEOIP";
-    public static final String TagLocaleCorrection = "localeCorrectionForSDServer";
-    public static final String TagCountryMapping = "country mapping present";
-    public static final String TagDownloadStart = "SD data Download started";
-    public static final String TagDownloadCompleted = "SD download completed with status";
 
 }
