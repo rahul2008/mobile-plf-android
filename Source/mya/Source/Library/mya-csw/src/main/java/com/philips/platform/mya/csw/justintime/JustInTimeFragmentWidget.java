@@ -10,6 +10,7 @@ package com.philips.platform.mya.csw.justintime;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
@@ -32,19 +34,22 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-
 public class JustInTimeFragmentWidget extends CswBaseFragment {
     private JustInTimeWidgetHandler completionListener;
     private ConsentDefinition consentDefinition;
     private ConsentHandlerInterface consentHandlerInterface;
     private ProgressDialog progressDialog;
     private JustInTimeTextResources textResources;
+    private
+    @LayoutRes
+    int containerId;
+    public static final String TAG = "JustInTimeConsent";
 
-    public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources) {
+    public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
         Bundle args = new Bundle();
         JustInTimeFragmentWidget fragment = new JustInTimeFragmentWidget();
         fragment.setArguments(args);
-        fragment.setDependencies(consentDefinition, consentHandlerInterface, textResources);
+        fragment.setDependencies(consentDefinition, consentHandlerInterface, textResources, containerId);
         return fragment;
     }
 
@@ -79,10 +84,11 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         this.completionListener = completionListener;
     }
 
-    private void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources) {
+    private void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
         this.consentDefinition = consentDefinition;
         this.consentHandlerInterface = consentHandlerInterface;
         this.textResources = textResources;
+        this.containerId = containerId;
     }
 
     private void initializeConsentRejectButton(View justInTimeConsentView) {
@@ -117,7 +123,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText());
+                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText(), containerId);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
@@ -146,12 +152,10 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         }));
     }
 
-    private void showErrorDialog(ConsentError error) {
-        CswLogger.e(getClass().getName(), error.getError());
+    private void showErrorDialog(String errorTitle, String errorMessage) {
+        CswLogger.e(getClass().getName(), errorMessage);
         DialogView dialogView = new DialogView();
-        String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
-        String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
-        dialogView.showDialog(getCswFragment().getActivity(), errorTitle, errorMessage);
+        dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
 
     private void showProgressDialog() {
@@ -170,8 +174,13 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        showProgressDialog();
-        consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
+        boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
+        if (isOnline) {
+            showProgressDialog();
+            consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
+        } else {
+            showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
     }
 
     class JustInTimePostConsentCallback implements PostConsentCallback {
@@ -185,7 +194,9 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         @Override
         public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
             hideProgressDialog();
-            showErrorDialog(error);
+            String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
+            String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
+            showErrorDialog(errorTitle, errorMessage);
         }
 
         @Override

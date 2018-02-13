@@ -105,6 +105,8 @@ dependencies {
         releaseCompile project(path: ':pif', configuration: 'release')
         debugCompile project(path: ':uikitLib', configuration: 'debug')
         releaseCompile project(path: ':uikitLib', configuration: 'release')
+        debugCompile project(path: ':mya-catk', configuration: 'debug')
+        releaseCompile project(path: ':mya-catk', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
@@ -114,6 +116,7 @@ dependencies {
                 }
         compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     // Tests

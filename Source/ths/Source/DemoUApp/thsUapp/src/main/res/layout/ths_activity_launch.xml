@@ -52,6 +52,17 @@
                 android:layout_marginRight="16dp"
                 android:layout_below="@+id/launch_amwell" />
 
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/add_dependent"
+                android:text="Add Dependent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@+id/logout"
+                android:layout_marginRight="16dp" />
+
             <com.philips.platform.uid.view.widget.ProgressBar
                 android:id="@+id/progress"
                 android:layout_centerInParent="true"

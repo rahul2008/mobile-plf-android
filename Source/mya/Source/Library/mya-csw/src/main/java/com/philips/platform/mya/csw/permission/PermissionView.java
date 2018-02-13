@@ -7,16 +7,8 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.pif.chi.ConsentConfiguration;
@@ -32,8 +24,16 @@ import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.ProgressDialog;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +42,11 @@ import butterknife.Unbinder;
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
     public static final String TAG = "PermissionView";
-    private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
 
-    @BindView(R2.id.consentList)
+    @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
@@ -109,6 +108,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        adapter = new PermissionAdapter(new ArrayList<ConsentView>(), this);
         adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
@@ -120,7 +120,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
-        recyclerView.setAdapter(adapter);
         recyclerView.setAdapter(adapter);
     }
 
@@ -156,17 +155,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void showErrorDialog(boolean goBack, String title, String message) {
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
-        dialogView.showDialog(getCswFragment().getActivity(), title, message);
+        dialogView.showDialog(getActivity(), title, message);
     }
 
     @Override
     public void onHelpClicked(String helpText) {
-        DescriptionView.show(getFragmentManager(), helpText);
+        DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
     }
 
     @Override
     public void onClick(View view) {
-        getParentFragment().getFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
     }
 
     @VisibleForTesting
