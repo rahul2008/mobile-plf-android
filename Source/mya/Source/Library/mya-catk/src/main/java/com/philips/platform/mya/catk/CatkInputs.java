@@ -10,7 +10,7 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;

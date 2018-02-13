@@ -2,9 +2,9 @@ package com.philips.platform.mya;
 
 
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;

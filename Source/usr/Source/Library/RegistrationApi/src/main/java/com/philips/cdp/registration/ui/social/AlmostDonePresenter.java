@@ -304,7 +304,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     }
 
     public void storeEmailOrMobileInPreference() {
-        if (mEmail != null) {
+        if (FieldsValidator.isValidEmail(mEmail)) {
             almostDoneContract.storePreference(mEmail);
             return;
         }
