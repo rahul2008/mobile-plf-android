@@ -23,7 +23,7 @@ ext.versions = [
 ]
 
 ext.builddeps = [
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.0.0', changing: true],
         buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
         gradle            : 'com.android.tools.build:gradle:2.3.3',
         androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',
