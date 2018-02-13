@@ -5,10 +5,12 @@
  */
 package com.philips.platform.appinfra.tagging;
 
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
 import static com.philips.platform.appinfra.tagging.AppTaggingConstants.SUCCESS_MESSAGE;
@@ -20,26 +22,28 @@ public class AppInfraTaggingUtilTest extends TestCase {
 
     private AppInfraTaggingUtil appInfraTaggingUtil;
     private AppTaggingInterface appTaggingInterface;
+    private LoggingInterface loggingInterface;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         appTaggingInterface = mock(AppTaggingInterface.class);
-        appInfraTaggingUtil = new AppInfraTaggingUtil(appTaggingInterface);
+        loggingInterface = mock(LoggingInterface.class);
+        appInfraTaggingUtil = new AppInfraTaggingUtil(appTaggingInterface, loggingInterface);
     }
 
-    @Test
-    public void trackSuccessAction() throws Exception {
+    public void testSuccessAction() throws Exception {
         String message = " some message";
         appInfraTaggingUtil.trackSuccessAction(AppInfraTaggingUtil.SERVICE_DISCOVERY, message);
         verify(appTaggingInterface).trackActionWithInfo(AppTaggingConstants.SEND_DATA, SUCCESS_MESSAGE,AppInfraTaggingUtil.SERVICE_DISCOVERY.concat(":").concat(message));
+        verify(loggingInterface).log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, AppInfraTaggingUtil.SERVICE_DISCOVERY.concat(":").concat(message));
     }
 
-    @Test
-    public void trackErrorAction() throws Exception {
+    public void testErrorAction() throws Exception {
         String message = " some message";
         appInfraTaggingUtil.trackErrorAction(AppInfraTaggingUtil.SERVICE_DISCOVERY, message);
         verify(appTaggingInterface).trackActionWithInfo(AppTaggingConstants.SEND_DATA, TECHNICAL_ERROR,"AIL:".concat(AppInfraTaggingUtil.SERVICE_DISCOVERY).concat(":").concat(message));
+        verify(loggingInterface).log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "AIL:".concat(AppInfraTaggingUtil.SERVICE_DISCOVERY).concat(":").concat(message));
     }
 
 }

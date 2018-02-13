@@ -106,7 +106,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mRequestItemManager = new RequestManager(context, mAppInfra);
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
-        appInfraTaggingAction = new AppInfraTaggingUtil(aAppInfra.getAppInfraTagger());
+        appInfraTaggingAction = new AppInfraTaggingUtil(aAppInfra.getAppInfraTagger(),aAppInfra.getAppInfraLogInstance());
     }
 
     private void queueResultListener(final boolean forceRefresh, final AbstractDownloadItemListener listener, final SD_REQUEST_TYPE requestType) {
@@ -354,7 +354,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     + "Appidentity values are null");
         }
          if (url != null)
-             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SERVICE_DISCOVERY.concat(" ServiceDiscovery URL--").concat(url));
+             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, (" URL--").concat(url));
         return url;
     }
 
