@@ -6,5 +6,6 @@
     <string name="ths_demo_diastolic">Diastolic</string>
     <string name="ths_demo_temperature">Temperature (in F)</string>
     <string name="ths_demo_weight">Weight (in lbs)</string>
+    <string name="ths_demo_add_continue">Add &amp; launch THS</string>
     <string name="ths_demo_more_details">Please fill in some demo information of the dependent, for example a child. This data will be used while testing the component. Valid inputs are expected as there is no validation of the fields.</string>
 </resources>

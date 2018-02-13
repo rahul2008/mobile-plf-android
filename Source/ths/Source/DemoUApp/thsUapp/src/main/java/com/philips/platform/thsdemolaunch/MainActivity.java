@@ -101,7 +101,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
 
         final Bundle extras = getIntent().getExtras();
         if(extras!=null){
-            mThsConsumer = extras.getParcelable(DEPENDENT);
+            mThsConsumer = (THSConsumer) extras.getSerializable(DEPENDENT);
             if(mThsConsumer!=null){
                 prepareLaunchAmwell();
             }

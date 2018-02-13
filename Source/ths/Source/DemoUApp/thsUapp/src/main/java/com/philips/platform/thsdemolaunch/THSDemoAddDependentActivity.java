@@ -92,11 +92,13 @@ public class THSDemoAddDependentActivity extends UIDActivity implements View.OnC
         if (id == R.id.ths_demo_edit_dob) {
             updateDate();
         }else if(id == R.id.ths_demo_continue){
+            mContinueButton.showProgressIndicator();
             launchAmwellAfterAddingDependent();
         }
     }
 
     private void launchAmwellAfterAddingDependent() {
+        User user = new User(this);
 
         THSConsumer dependent = new THSConsumer();
         dependent.setDob(mDate);
@@ -109,20 +111,21 @@ public class THSDemoAddDependentActivity extends UIDActivity implements View.OnC
             dependent.setGender(com.philips.cdp.registration.ui.utils.Gender.MALE);
         }
         dependent.setBloodPressureSystolic(mSystolic.getText().toString());
-        dependent.setBloodPressureSystolic(mDiastolic.getText().toString());
+        dependent.setBloodPressureDiastolic(mDiastolic.getText().toString());
         dependent.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
         dependent.setWeight(Integer.parseInt(mWeight.getText().toString()));
+        dependent.setDependent(true);
+        dependent.setHsdpUUID(user.getJanrainUUID());
 
         List<THSConsumer> dependants = new ArrayList<>();
         dependants.add(dependent);
 
-        User user = new User(this);
+
         THSConsumer thsConsumer = new THSConsumer();
         thsConsumer.setDob(user.getDateOfBirth());
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setFirstName(user.getGivenName());
         thsConsumer.setGender(com.philips.cdp.registration.ui.utils.Gender.MALE);
-        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDisplayName("Spoorti hihi");
         thsConsumer.setDependents(dependants);
@@ -137,7 +140,7 @@ public class THSDemoAddDependentActivity extends UIDActivity implements View.OnC
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(DEPENDENT,thsConsumer);
         startActivity(intent);
-
+        mContinueButton.hideProgressIndicator();
 
     }
 

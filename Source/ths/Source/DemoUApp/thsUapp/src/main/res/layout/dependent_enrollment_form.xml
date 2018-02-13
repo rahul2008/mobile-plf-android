@@ -248,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:inputType="textEmailAddress"
-                    android:hint="Diasltolic"
+                    android:hint="Diastolic"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -329,6 +329,6 @@
             android:layout_height="wrap_content"
             app:uidIsIndeterminateProgressIndicator="true"
             app:uidProgressIndicatorButtonProgressText="Loading.."
-            app:uidProgressIndicatorButtonText="Continue" />
+            app:uidProgressIndicatorButtonText="@string/ths_demo_add_continue" />
     </RelativeLayout>
 </RelativeLayout>
