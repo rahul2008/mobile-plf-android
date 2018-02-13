@@ -6,9 +6,6 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.cdp.registration.ui.utils.Gender;
