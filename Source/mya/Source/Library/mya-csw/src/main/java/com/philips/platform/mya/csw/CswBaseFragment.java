@@ -7,6 +7,8 @@
 
 package com.philips.platform.mya.csw;
 
+import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -20,12 +22,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
-
 public abstract class CswBaseFragment extends Fragment {
 
     protected int mLeftRightMarginPort;
 
     protected int mLeftRightMarginLand;
+
+    private ActionBarListener mActionBarListener;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -46,8 +49,7 @@ public abstract class CswBaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -63,22 +65,19 @@ public abstract class CswBaseFragment extends Fragment {
     }
 
     private void setCurrentTitle() {
-        CswFragment fragment = getCswFragment();
-        if (fragment != null) {
-            if (fragment.getUpdateTitleListener() != null) {
-                fragment.getUpdateTitleListener().updateActionBar(getTitleResourceId(), (fragment.getFragmentCount() > 0));
-            }
-
-            fragment.setResourceID(getTitleResourceId());
+        if (getUpdateTitleListener() != null) {
+            getUpdateTitleListener().updateActionBar(getTitleResourceId(),
+                    getFragmentManager().getBackStackEntryCount() > 0);
         }
+        setResourceID(getTitleResourceId());
     }
 
-    public CswFragment getCswFragment() {
-        Fragment fragment = overridableGetParentFragment();
-        if (fragment != null && (fragment instanceof CswFragment)) {
-            return (CswFragment) fragment;
-        }
-        return null;
+    public ActionBarListener getUpdateTitleListener() {
+        return mActionBarListener;
+    }
+
+    public void setUpdateTitleListener(ActionBarListener actionBarListener) {
+        mActionBarListener = actionBarListener;
     }
 
     protected void consumeTouch(View view) {
@@ -93,13 +92,18 @@ public abstract class CswBaseFragment extends Fragment {
         });
     }
 
-
     protected void applyParams(Configuration config, View view, int width) {
         if (width < dpToPx((int) getResources().getInteger(com.philips.cdp.registration.R.integer.reg_layout_max_width_648))) {
             applyDefaultMargin(view);
         } else {
             setMaxWidth(view);
         }
+    }
+
+    private int titleResourceID = -99;
+
+    public void setResourceID(int titleResourceId) {
+        titleResourceID = titleResourceId;
     }
 
     private void setMaxWidth(View view) {
@@ -117,7 +121,6 @@ public abstract class CswBaseFragment extends Fragment {
     private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
 
     protected void handleOrientationOnView(final View view) {
         if (null == view) {
