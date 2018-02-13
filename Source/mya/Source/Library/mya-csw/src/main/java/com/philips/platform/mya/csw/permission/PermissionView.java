@@ -7,6 +7,23 @@
 
 package com.philips.platform.mya.csw.permission;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
+import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
+import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,36 +35,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
-import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
-import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener, PrivacyNoticeClickListener {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
-
-    private static final String TAG = "PermissionView";
-    private static final String PRIVACY_NOTICE_TAG = "PrivacyNoticeTag";
+    public static final String TAG = "PermissionView";
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
 
-    @BindView(R2.id.consentList)
+    @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
@@ -56,8 +55,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        // Update recycle view rows
-        // applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -111,18 +108,22 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        adapter = new PermissionAdapter(new ArrayList<ConsentView>(), this);
         adapter = new PermissionAdapter(createConsentsList(), this);
-        adapter.setPrivacyNoticeClickListener(this);
+        adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
+            @Override
+            public void onClick() {
+                onPrivacyNoticeClicked();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
-        recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onPrivacyNoticeClicked() {
+    private void onPrivacyNoticeClicked() {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
@@ -154,27 +155,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void showErrorDialog(boolean goBack, String title, String message) {
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
-        dialogView.showDialog(getCswFragment().getActivity(), title, message);
+        dialogView.showDialog(getActivity(), title, message);
     }
 
     @Override
     public void onHelpClicked(String helpText) {
-        DescriptionView.show(getFragmentManager(), helpText);
+        DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
     }
 
     @Override
     public void onClick(View view) {
-        getParentFragment().getFragmentManager().popBackStack();
-    }
-
-    private List<ConsentView> createConsentsList() {
-        final List<ConsentView> consentViewList = new ArrayList<>();
-        for (ConsentConfiguration configuration : configs) {
-            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
-            }
-        }
-        return consentViewList;
+        getFragmentManager().popBackStack();
     }
 
     @VisibleForTesting
@@ -196,5 +187,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             dialogView = new DialogView(this);
         }
         return dialogView;
+    }
+
+    private List<ConsentView> createConsentsList() {
+        final List<ConsentView> consentViewList = new ArrayList<>();
+        for (ConsentConfiguration configuration : configs) {
+            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+            }
+        }
+        return consentViewList;
     }
 }

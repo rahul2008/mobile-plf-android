@@ -15,15 +15,15 @@ import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.mya.chi.ConsentCallback;
-import com.philips.platform.mya.chi.ConsentDefinitionException;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.ConsentCallback;
+import com.philips.platform.pif.chi.ConsentDefinitionException;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class ConsentInteractorTest {
     ConsentInteractor subject;
 
     @Mock
-    private ConsentAccessToolKit mockContentAccessToolkit;
+    private ConsentsClient mockContentAccessToolkit;
     @Mock
     private CheckConsentsCallback mockCheckConsentsCallback;
     @Captor
@@ -62,7 +62,7 @@ public class ConsentInteractorTest {
     @Captor
     private ArgumentCaptor<String> captorString;
     @Mock
-    private ConsentAccessToolKit mockCatk;
+    private ConsentsClient mockCatk;
     private ConsentDefinition givenConsentDefinition;
     @Captor
     private ArgumentCaptor<BackendConsent> captorConsent;

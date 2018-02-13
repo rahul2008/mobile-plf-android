@@ -25,6 +25,52 @@
 
             </android.support.design.widget.AppBarLayout>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/uappFragmentLayout_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_below="@+id/ths_toolbar_layout" >
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/launch_amwell"
+                android:text="Launch Telehealth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/logout"
+                android:text="Logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_below="@+id/launch_amwell" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/add_dependent"
+                android:text="Add Dependent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@+id/logout"
+                android:layout_marginRight="16dp" />
+
+            <com.philips.platform.uid.view.widget.ProgressBar
+                android:id="@+id/progress"
+                android:layout_centerInParent="true"
+                style="@style/UIDProgressBarCircularIndeterminateBig"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/uappFragmentLayout"
             android:layout_below="@+id/ths_toolbar_layout"

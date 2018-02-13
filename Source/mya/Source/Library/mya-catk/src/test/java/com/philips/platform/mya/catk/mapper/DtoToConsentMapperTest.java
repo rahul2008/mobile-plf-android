@@ -8,8 +8,8 @@
 package com.philips.platform.mya.catk.mapper;
 
 import com.philips.platform.mya.catk.dto.GetConsentDto;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.joda.time.DateTime;
 import org.junit.Before;

@@ -48,6 +48,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
+    static final long serialVersionUID = 1123L;
 
     @Nullable
     @Override

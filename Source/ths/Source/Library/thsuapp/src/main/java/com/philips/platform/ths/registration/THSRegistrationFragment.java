@@ -45,6 +45,7 @@ import java.util.Locale;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_STATES;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
@@ -73,6 +74,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private boolean isLocationValid;
     private RelativeLayout mLocationCantainer;
     private Label mStateLabel;
+    static final long serialVersionUID = 127L;
 
     @Nullable
     @Override
@@ -254,6 +256,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                     isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
                 }
                 if (isLocationValid) {
+                    doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_location_validation_error),false);
                     ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
                     ths_edit_location_container.showError();
                     return false;
@@ -264,6 +267,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                     return true;
                 }
             } else {
+                doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_dob_validation_error),false);
                 ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
                 ths_edit_dob_container.showError();
                 return false;
@@ -353,6 +357,12 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         } else {
             lastNameValidationLayout.hideError();
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 
 }

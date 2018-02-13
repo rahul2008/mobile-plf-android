@@ -19,10 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class DescriptionView extends CswBaseFragment implements
-        DescriptionInterface {
+public class DescriptionView extends CswBaseFragment implements DescriptionInterface {
 
-    private static final String TAG = "DescriptionView";
     public static final String HELP = "help";
 
     @Override
@@ -47,7 +45,7 @@ public class DescriptionView extends CswBaseFragment implements
         return view;
     }
 
-    public static void show(FragmentManager fragmentManager, String helpText) {
+    public static void show(FragmentManager fragmentManager, String helpText, int containerViewId) {
         Bundle args = new Bundle();
         args.putString(HELP, helpText);
 
@@ -55,8 +53,8 @@ public class DescriptionView extends CswBaseFragment implements
         fragment.setArguments(args);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, fragment, TAG);
-        fragmentTransaction.addToBackStack(TAG);
+        fragmentTransaction.replace(containerViewId, fragment, DescriptionView.class.getName());
+        fragmentTransaction.addToBackStack(DescriptionView.class.getName());
         fragmentTransaction.commitAllowingStateLoss();
     }
 }

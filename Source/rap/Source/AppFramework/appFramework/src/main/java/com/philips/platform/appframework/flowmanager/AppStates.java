@@ -41,4 +41,5 @@ public class AppStates {
     public static final String TESTBLUELIB="demoBlueLib";
     public static final String TELEHEALTHSERVICES ="telehealthservices";
     public static final String MY_ACCOUNT="my_account";
+    public static final String TELEHEALTHSERVICESDEMO = "telehealthservicesdemo";
 }
