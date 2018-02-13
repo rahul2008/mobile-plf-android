@@ -10,4 +10,6 @@ public class JustInTimeTextResources {
     public int acceptTextRes;
     public int rejectTextRes;
     public int titleTextRes;
+    public int userBenefitsTitleRes;
+    public int userBenefitsDescriptionRes;
 }
