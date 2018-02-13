@@ -17,7 +17,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -94,8 +94,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return false;
     }
 
-    ConsentAccessToolKit getConsentAccessInstance() {
-        return ConsentAccessToolKit.getInstance();
+    ConsentsClient getConsentsClient() {
+        return ConsentsClient.getInstance();
     }
 
     CswInterface getCswInterface() {

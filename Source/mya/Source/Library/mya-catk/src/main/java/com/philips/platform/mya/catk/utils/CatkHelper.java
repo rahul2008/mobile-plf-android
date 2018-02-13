@@ -1,9 +1,10 @@
 package com.philips.platform.mya.catk.utils;
 
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.Locale;
 

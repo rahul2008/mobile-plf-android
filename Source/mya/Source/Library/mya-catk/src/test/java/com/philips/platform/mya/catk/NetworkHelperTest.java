@@ -31,13 +31,13 @@ public class NetworkHelperTest {
         MockitoAnnotations.initMocks(this);
         ConsentAccessToolKitManipulator.setCatkComponent(catkComponent);
         networkController = new NetworkControllerMock();
-        ConsentAccessToolKit.getInstance().setNetworkController(networkController);
+        ConsentsClient.getInstance().setNetworkController(networkController);
         getConsentsModelRequest = new GetConsentsModelRequest(URL, "applicationName1", "propositionName1", new ModelDataLoadListenerMock());
     }
 
     @After
     public void tearDown() {
-        ConsentAccessToolKit.getInstance().setNetworkController(null);
+        ConsentsClient.getInstance().setNetworkController(null);
     }
 
     @Test

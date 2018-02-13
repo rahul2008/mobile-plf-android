@@ -24,10 +24,8 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -39,6 +37,8 @@ import com.philips.platform.mya.mch.MarketingConsentHandler;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -145,12 +145,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setAppInfraInterface(app.getAppInfra())
                 .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
                 .build();
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentAccessToolKit.getInstance())));
+        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }

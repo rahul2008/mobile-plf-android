@@ -17,14 +17,14 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -101,7 +101,7 @@ public class MyaSettingsPresenterTest {
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final CswInterface cswInterface = mock(CswInterface.class);
-        final ConsentAccessToolKit consentAccessToolKit = mock(ConsentAccessToolKit.class);
+        final ConsentsClient consentsClient = mock(ConsentsClient.class);
         final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view) {
@@ -116,8 +116,8 @@ public class MyaSettingsPresenterTest {
             }
 
             @Override
-            ConsentAccessToolKit getConsentAccessInstance() {
-                return consentAccessToolKit;
+            ConsentsClient getConsentsClient() {
+                return consentsClient;
             }
         };
         String key = "Mya_Privacy_Settings";
@@ -151,7 +151,7 @@ public class MyaSettingsPresenterTest {
         MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
         assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
         assertNotNull(myaSettingsPresenter.getCswInterface());
-        assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
+        assertNotNull(myaSettingsPresenter.getConsentsClient());
     }
 
     private Bundle getArguments() {

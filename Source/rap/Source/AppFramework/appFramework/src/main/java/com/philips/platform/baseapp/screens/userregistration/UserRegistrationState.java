@@ -40,22 +40,20 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.chi.ConsentCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.pif.chi.ConsentCallback;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -262,7 +260,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void updateTaggingBasedOnClickStreamConsent() {
-        final ConsentInteractor interactor = new ConsentInteractor(ConsentAccessToolKit.getInstance());
+        final ConsentInteractor interactor = new ConsentInteractor(ConsentsClient.getInstance());
         interactor.getStatusForConsentType("clickstream", new ConsentCallback() {
 
             @Override

@@ -27,7 +27,7 @@ import org.robolectric.annotation.Config;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;

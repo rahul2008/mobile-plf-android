@@ -5,7 +5,6 @@
 
     <application
         android:name="com.philips.platform.mya.demoapp.MyaDemoApplication"
-        android:allowBackup="true"
         android:icon="@mipmap/pr_source"
         android:label="@string/my_account_app_name"
         android:roundIcon="@mipmap/pr_source"

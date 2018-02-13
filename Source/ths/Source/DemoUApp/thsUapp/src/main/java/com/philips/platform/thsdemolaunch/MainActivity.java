@@ -16,9 +16,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -44,13 +48,17 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
+import static utility.THSDemoAppConstants.DEPENDENT;
+
+public class MainActivity extends UIDActivity implements ActionBarListener, View.OnClickListener,UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Purple_Bright;
@@ -59,6 +67,14 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
     private ThemeConfiguration themeConfiguration;
+    private RelativeLayout mFirstLayout;
+    private THSConsumer mThsConsumer;
+
+    Button launchAmwell;
+    Button logout;
+    Button addDependent;
+    User user;
+    ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +85,81 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
+        mFirstLayout = (RelativeLayout) findViewById(R.id.uappFragmentLayout_first);
+        addDependent = (Button) findViewById(R.id.add_dependent);
+        addDependent.setOnClickListener(this);
+        mFirstLayout.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
 
+        user = new User(this);
+        launchAmwell = (Button) findViewById(R.id.launch_amwell);
+        launchAmwell.setOnClickListener(this);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
+        logout = (Button) findViewById(R.id.logout);
+
+        final Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            mThsConsumer = (THSConsumer) extras.getSerializable(DEPENDENT);
+            if(mThsConsumer!=null){
+                prepareLaunchAmwell();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(!user.isUserSignIn()){
+            logout.setVisibility(View.GONE);
+        }
+
+        logout.setOnClickListener(this);
+
+        if(user.isUserSignIn()){
+            logout.setText("Logout");
+        }else {
+            logout.setText("Login");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.launch_amwell){
+            prepareLaunchAmwell();
+        }if(id == R.id.logout){
+            mProgress.setVisibility(View.VISIBLE);
+            user.logout(new LogoutHandler() {
+                @Override
+                public void onLogoutSuccess() {
+                    logout.setText("Login");
+                    mProgress.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this,"Logout Success!!!",Toast.LENGTH_SHORT).show();
+                    logout.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLogoutFailure(int i, String s) {
+                    Toast.makeText(MainActivity.this,"Logout failed!!!",Toast.LENGTH_SHORT).show();
+                    mProgress.setVisibility(View.GONE);
+                }
+            });
+        }else if(id == R.id.add_dependent){
+            Intent intent = new Intent(MainActivity.this, THSDemoAddDependentActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void prepareLaunchAmwell() {
         User user = new User(this);
         if (user != null && !user.isUserSignIn()) {
             startRegistrationFragment();
         } else {
             launchAmwell();
         }
-        // launchAmwell();
     }
 
 
@@ -102,21 +182,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     public void updateActionBar(String s, boolean b) {
         UIDHelper.setTitle(this, s);
         showBackImage(b);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        this.finish();
-/*
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
-            super.onBackPressed();
-        }*/
     }
 
     @Override
@@ -167,85 +232,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        User user = new User(this);
-
-        THSConsumer baby1 = new THSConsumer();
-        baby1.setFirstName("checkbaby1");
-        baby1.setLastName("Hosur");
-        baby1.setDisplayName("Heyyyyyy");
-        baby1.setHsdpToken(user.getHsdpAccessToken());
-        baby1.setGender(Gender.MALE);
-        baby1.setEmail(user.getEmail());
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2016,8,24);
-        baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID("baby1+ggggg");
-        baby1.setDependent(true);
-        baby1.setBloodPressureSystolic("120");
-        baby1.setBloodPressureDiastolic("80");
-        baby1.setTemperature(90.0);
-        baby1.setWeight(56);
-
-        ArrayList dependants = new ArrayList();
-        dependants.add(baby1);
-
-        THSConsumer baby2 = new THSConsumer();
-        baby2.setFirstName("baby2");
-        baby2.setLastName("Hallur");
-        baby2.setDisplayName("Hiiiiiiii");
-        baby2.setHsdpToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
-        baby2.setGender(Gender.FEMALE);
-        baby2.setEmail(user.getEmail());
-        Calendar calendar2 = Calendar.getInstance();
-        calendar.set(2015, 8, 24);
-        baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID("baby2");
-        baby2.setDependent(true);
-        baby2.setBloodPressureSystolic("120");
-        baby2.setBloodPressureDiastolic("80");
-        baby2.setTemperature(90.0);
-        baby2.setWeight(56);
-        dependants.add(baby2);
-
-
-        THSConsumer baby3 = new THSConsumer();
-        baby3.setFirstName("baby3");
-        baby3.setLastName("Hosur");
-        baby3.setDisplayName("Wassup");
-        baby3.setHsdpToken(user.getHsdpAccessToken());
-        baby3.setGender(Gender.MALE);
-        baby3.setEmail(user.getEmail());
-
-        calendar.set(2016,8,24);
-        baby3.setDob(calendar.getTime());
-        baby3.setHsdpUUID("baby3");
-        baby3.setDependent(true);
-        baby3.setBloodPressureSystolic("120");
-        baby3.setBloodPressureDiastolic("80");
-        baby3.setTemperature(90.0);
-        baby3.setWeight(56);
-        dependants.add(baby3);
-
-
-        THSConsumer thsConsumer = new THSConsumer();
-        thsConsumer.setDob(user.getDateOfBirth());
-        thsConsumer.setEmail(user.getEmail());
-        thsConsumer.setFirstName(user.getGivenName());
-        thsConsumer.setGender(Gender.MALE);
-        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
-        thsConsumer.setLastName(user.getFamilyName());
-        thsConsumer.setDisplayName("Spoorti hihi");
-        thsConsumer.setDependents(dependants);
-        thsConsumer.setHsdpUUID(user.getHsdpUUID());
-        thsConsumer.setBloodPressureSystolic("120");
-        thsConsumer.setBloodPressureDiastolic("80");
-        thsConsumer.setTemperature(90.0);
-        thsConsumer.setWeight(56);
-        thsConsumer.setDependent(false);
-
-
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(THSAppInfraInstance.getInstance().getAppInfraInterface());
-        uappDependencies.setThsConsumer(thsConsumer);
+        uappDependencies.setThsConsumer(mThsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE),R.style.Theme_DLS_GroupBlue_UltraLight, null);
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
@@ -291,8 +279,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     @Override
     public void didExitTHS(THSExitType thsExitType) {
-        AmwellLog.d(this.getClass().getName(), thsExitType.toString());
-        Intent intent = new Intent(this, FirstActivity.class);
-        startActivity(intent);
+
     }
 }
