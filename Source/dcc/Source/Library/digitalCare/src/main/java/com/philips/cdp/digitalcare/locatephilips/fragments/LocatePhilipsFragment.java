@@ -202,11 +202,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         validateAtosResponse(response);
                     }
                 });
-
-                if (!isEulaAccepted()) {
-                    showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
-                    setEulaPreference();
-                }
             }
         }
     };
@@ -422,24 +417,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     }
 
-    protected boolean isEulaAccepted() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-
-        boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
-        editor.commit();
-        return mBoolean;
-    }
-
-    protected void setEulaPreference() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-        editor.putBoolean("acceptEula", true);
-        editor.commit();
-    }
-
     /*
      Android Marshmallow: Android M : Permission has to be requested at runtime.
      */
@@ -467,7 +444,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void initView() {
 
-        requestPermissionAndroidM();
+        if(Utils.isEulaAccepted(getActivity())){
+            requestPermissionAndroidM();
+        }
         mLinearLayout = getActivity().findViewById(
                 R.id.showlayout);
         mListView = getActivity().findViewById(R.id.placelistview);

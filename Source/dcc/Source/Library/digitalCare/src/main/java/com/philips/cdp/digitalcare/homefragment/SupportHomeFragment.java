@@ -17,6 +17,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -58,11 +60,20 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.mya.chi.PostConsentCallback;
+import com.philips.platform.mya.chi.datamodel.Consent;
+import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -337,7 +348,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         disableSupportButtonClickable();
                         launchProductSelectionComponent();
                     } else
-                        showFragment(new LocatePhilipsFragment());
+                        showConsentDialog();
                 }
             }
         } else if (tag.equals(getStringKey(R.string.FAQ_KEY))) {
@@ -372,6 +383,53 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 }
             }
         }
+    }
+
+    private void showConsentDialog(){
+        if(!Utils.isEulaAccepted(getActivity())){
+            ConsentDefinition definition = CcConsentProvider.fetchLocationConsentDefinitionFor(getActivity(), Utils.getLocaleFromAppInfra());
+            DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
+            JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(definition, deviceStoredConsentHandler, getJustInTimeTextResources());
+            justInTimeFragmentWidget.setCompletionListener(getJustInTimeWidgetHandler(deviceStoredConsentHandler, definition));
+            showFragment(justInTimeFragmentWidget);
+        }else {
+            showFragment(new LocatePhilipsFragment());
+        }
+    }
+
+    @NonNull
+    private JustInTimeWidgetHandler getJustInTimeWidgetHandler(final DeviceStoredConsentHandler handler, final ConsentDefinition definition) {
+        final PostConsentCallback postConsentCallback = new PostConsentCallback() {
+            @Override
+            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+                DigiCareLogger.i(TAG, "onPostConsentFailed:" + error.getError());
+            }
+
+            @Override
+            public void onPostConsentSuccess(Consent consent) {
+                DigiCareLogger.i(TAG, "onPostConsentSuccess:" + consent.getType());
+            }
+        };
+        return new JustInTimeWidgetHandler() {
+                @Override
+                public void onConsentGiven() {
+                    handler.storeConsentState(definition, true, postConsentCallback);
+                    Utils.setEulaPreference(getActivity());
+                    showFragment(new LocatePhilipsFragment());
+                }
+
+                @Override
+                public void onConsentRejected() {
+                    handler.storeConsentState(definition, false, postConsentCallback);
+                    showFragment(new LocatePhilipsFragment());
+                }
+            };
+    }
+
+    @NonNull
+    private JustInTimeTextResources getJustInTimeTextResources() {
+        JustInTimeTextResources resources= new JustInTimeTextResources();
+        return resources;
     }
 
     private void launchFaqScreen() {

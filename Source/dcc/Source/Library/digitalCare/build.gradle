@@ -157,7 +157,7 @@ android {
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
         resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
         //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -233,19 +233,18 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
+        debugCompile project(path: ':mya-csw', configuration: 'debug')
+        releaseCompile project(path: ':mya-csw', configuration: 'release')
+        debugCompile project(path: ':mya-catk', configuration: 'debug')
+        releaseCompile project(path: ':mya-catk', configuration: 'release')
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
     } else {
+        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    if(dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-    }
-    
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
