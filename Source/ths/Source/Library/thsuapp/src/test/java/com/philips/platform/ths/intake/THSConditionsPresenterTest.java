@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.app.Activity;
@@ -5,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -23,6 +29,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
@@ -31,30 +38,25 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class THSConditionsPresenterTest {
 
-    THSMedicalConditionsPresenter thsMedicalConditionsPresenter;
+    private THSMedicalConditionsPresenter thsMedicalConditionsPresenter;
 
     @Mock
-    THSMedicalConditionsFragment pTHBaseViewMock;
+    private THSMedicalConditionsFragment pTHBaseViewMock;
 
     @Mock
     AWSDK awsdkMock;
 
     @Mock
-    FragmentActivity fragmentActivityMock;
-
-
+    private FragmentActivity fragmentActivityMock;
 
     @Mock
     Activity mActivity;
@@ -66,37 +68,37 @@ public class THSConditionsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumerWrapper pthConsumerMock;
+    private THSConsumerWrapper pthConsumerMock;
 
     @Mock
-    THSConditionsList thsConditions;
+    private THSConditionsList thsConditions;
 
     @Mock
-    THSSDKError pthsdkError;
+    private THSSDKError pthsdkError;
 
     @Mock
-    Condition condition1Mock;
+    private Condition condition1Mock;
 
     @Mock
-    Condition condition2Mock;
+    private Condition condition2Mock;
 
     @Mock
-    Throwable throwableMock;
+    private Throwable throwableMock;
 
     @Mock
-    AppInfraInterface appInfraInterface;
+    private AppInfraInterface appInfraInterface;
 
     @Mock
-    AppTaggingInterface appTaggingInterface;
+    private AppTaggingInterface appTaggingInterface;
 
     @Mock
-    LoggingInterface loggingInterface;
+    private LoggingInterface loggingInterface;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    private THSConsumer thsConsumerMock;
 
     @Mock
-    ServiceDiscoveryInterface serviceDiscoveryMock;
+    private ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Before
     public void setUp() throws Exception {
@@ -123,15 +125,16 @@ public class THSConditionsPresenterTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void onEventContinueBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
-        verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
+        verify(consumerManagerMock).updateConditions(any(Consumer.class), ArgumentMatchers.<Condition>anyList(), (SDKCallback<Void, SDKError>) any());
     }
 
     @Test
     public void onEventSkipBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.conditions_skip);
-        verify(pTHBaseViewMock, atLeast(1)).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(pTHBaseViewMock, atLeast(1)).addFragment(any(THSFollowUpFragment.class), anyString(), any(Bundle.class), anyBoolean());
     }
 
     @Test
@@ -146,19 +149,19 @@ public class THSConditionsPresenterTest {
         conditions.add(condition2Mock);
         when(thsConditions.getConditions()).thenReturn(conditions);
         thsMedicalConditionsPresenter.onResponse(thsConditions, pthsdkError);
-        verify(pTHBaseViewMock).setConditions(anyList());
+        verify(pTHBaseViewMock).setConditions(ArgumentMatchers.<THSCondition>anyList());
     }
 
     @Test
     public void onFailure() throws Exception {
         when(pTHBaseViewMock.isFragmentAttached()).thenReturn(false);
         thsMedicalConditionsPresenter.onFailure(throwableMock);
-//        verifyNoMoreInteractions(pTHBaseViewMock);
+        //        verifyNoMoreInteractions(pTHBaseViewMock);
     }
 
     @Test
     public void onUpdateConditonResponse() throws Exception {
-        thsMedicalConditionsPresenter.onUpdateConditonResponse(null,pthsdkError);
+        thsMedicalConditionsPresenter.onUpdateConditonResponse(null, pthsdkError);
     }
 
     @Test
@@ -168,10 +171,11 @@ public class THSConditionsPresenterTest {
     }
 
     @Test
-    public void updateConditionsFailsWithException(){
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
+    @SuppressWarnings("unchecked")
+    public void updateConditionsFailsWithException() {
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateConditions(any(Consumer.class), ArgumentMatchers.<Condition>anyList(), (SDKCallback<Void, SDKError>) any());
         thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
-        verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
+        verify(consumerManagerMock).updateConditions(any(Consumer.class), ArgumentMatchers.<Condition>anyList(), (SDKCallback<Void, SDKError>) any());
     }
 
 }

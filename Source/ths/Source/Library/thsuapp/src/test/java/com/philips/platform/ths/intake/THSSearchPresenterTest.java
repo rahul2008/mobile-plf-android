@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.intake;
@@ -19,6 +18,7 @@ import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderType;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -30,6 +30,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -39,18 +40,16 @@ import java.util.Map;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSSearchPresenterTest {
 
-    THSSearchPresenter mTHSSearchPresenter;
+    private THSSearchPresenter mTHSSearchPresenter;
 
     @Mock
-    THSSearchFragment thsSearchFragment;
+    private THSSearchFragment thsSearchFragment;
 
     @Mock
     AWSDK awsdkMock;
@@ -59,49 +58,50 @@ public class THSSearchPresenterTest {
     Provider providerMock;
 
     @Mock
-    Practice practiceMock;
+    private Practice practiceMock;
 
     @Mock
-    Map mapMock;
+    private Map mapMock;
 
     @Mock
     Medication medicationMock;
 
     @Mock
-    THSMedication thsMedicationMock;
+    private THSMedication thsMedicationMock;
 
     @Mock
-    Throwable throwableMock;
+    private Throwable throwableMock;
 
     @Mock
-    SDKError sdkErrorMock;
+    private SDKError sdkErrorMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    private THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
 
     @Mock
-    FragmentActivity fragmentActivityMock;
+    private FragmentActivity fragmentActivityMock;
 
     @Mock
-    PracticeProvidersManager practiceProvidersManager;
+    private PracticeProvidersManager practiceProvidersManager;
 
     @Mock
     ConsumerManager consumerManagerMock;
 
     @Mock
-    THSProviderInfo thsProviderInfoMock;
+    private THSProviderInfo thsProviderInfoMock;
 
     @Mock
     ProviderInfo providerInfoMock;
 
     @Mock
-    Pharmacy pharmacyMock;
+    private Pharmacy pharmacyMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    private THSConsumer thsConsumer;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -126,14 +126,14 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onResponse() throws Exception {
-        mTHSSearchPresenter.onResponse(thsMedicationMock,sdkErrorMock);
+        mTHSSearchPresenter.onResponse(thsMedicationMock, sdkErrorMock);
     }
 
     @Test
     public void onFailure() throws Exception {
         when(thsSearchFragment.isFragmentAttached()).thenReturn(false);
         mTHSSearchPresenter.onFailure(throwableMock);
-//        verifyNoMoreInteractions(thsSearchFragment);
+        //        verifyNoMoreInteractions(thsSearchFragment);
     }
 
     @Test
@@ -143,9 +143,9 @@ public class THSSearchPresenterTest {
 
     @Test
     public void searchProviders() throws Exception {
-        mTHSSearchPresenter.searchProviders("abc",practiceMock);
-        verify(practiceProvidersManager).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), anyString(), anySet(), anySet(), any(State.class), any(Language.class), anyInt(), any(SDKCallback.class));
-       // verify(practiceProvidersManager).findFutureAvailableProviders(any(Consumer.class),any(PracticeInfo.class),anyString(),any(Language.class),any(Date.class),anyInt(),anyInt(),any(SDKCallback.class));
+        mTHSSearchPresenter.searchProviders("abc", practiceMock);
+        verify(practiceProvidersManager).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), anyString(), ArgumentMatchers.<String>anySet(), ArgumentMatchers.<ProviderType>anySet(), any(State.class), any(Language.class), anyInt(), any(SDKCallback.class));
+        // verify(practiceProvidersManager).findFutureAvailableProviders(any(Consumer.class),any(PracticeInfo.class),anyString(),any(Language.class),any(Date.class),anyInt(),anyInt(),any(SDKCallback.class));
     }
 
     @Test
@@ -164,14 +164,14 @@ public class THSSearchPresenterTest {
     public void onProvidersListReceived() throws Exception {
         List list = new ArrayList();
         list.add(thsProviderInfoMock);
-        mTHSSearchPresenter.onProvidersListReceived(list,sdkErrorMock);
+        mTHSSearchPresenter.onProvidersListReceived(list, sdkErrorMock);
     }
 
     @Test
     public void onProvidersListFetchError() throws Exception {
         when(thsSearchFragment.isFragmentAttached()).thenReturn(false);
         mTHSSearchPresenter.onProvidersListFetchError(throwableMock);
-//        verifyNoMoreInteractions(thsSearchFragment);
+        //        verifyNoMoreInteractions(thsSearchFragment);
     }
 
     @Test
@@ -179,7 +179,7 @@ public class THSSearchPresenterTest {
         List list = new ArrayList();
         list.add(pharmacyMock);
         when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
-        mTHSSearchPresenter.onPharmacyListReceived(list,sdkErrorMock);
+        mTHSSearchPresenter.onPharmacyListReceived(list, sdkErrorMock);
     }
 
 }
