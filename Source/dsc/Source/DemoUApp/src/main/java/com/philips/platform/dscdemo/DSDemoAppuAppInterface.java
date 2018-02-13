@@ -5,10 +5,9 @@
 */
 package com.philips.platform.dscdemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
@@ -18,7 +17,6 @@ import com.philips.platform.mya.chi.CheckConsentsCallback;
 import com.philips.platform.mya.chi.ConsentError;
 import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
@@ -91,7 +89,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
     private void launch(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity();
+            launchActivity(DSLaunchActivity.class);
         } else {
             launchAsFragment(uiLauncher);
         }
@@ -109,23 +107,11 @@ public class DSDemoAppuAppInterface implements UappInterface {
                 launch(uiLauncher);
             }
         };
-        if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(mContext, JustInTimeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
-        } else {
-            final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            int containerId = fragmentLauncher.getParentContainerResourceID();
-            JustInTimeConsentFragment justInTimeConsentFragment = JustInTimeConsentFragment.newInstance(containerId);
-            FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-            FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, justInTimeConsentFragment, JustInTimeConsentFragment.class.getName());
-            fragmentTransaction.commitAllowingStateLoss();
-        }
+        launchActivity(JustInTimeActivity.class);
     }
 
-    private void launchAsActivity() {
-        Intent intent = new Intent(mContext, DSLaunchActivity.class);
+    private void launchActivity(final Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(mContext, activityClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
