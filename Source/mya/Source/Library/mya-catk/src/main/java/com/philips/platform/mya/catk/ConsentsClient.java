@@ -51,7 +51,7 @@ public class ConsentsClient {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitionList;
+    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
 
     ConsentsClient() {
