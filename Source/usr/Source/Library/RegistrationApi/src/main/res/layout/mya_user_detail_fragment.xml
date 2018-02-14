@@ -65,6 +65,7 @@
                 android:layout_marginStart="@dimen/MYA_start_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginTop="@dimen/MYA_item_top_margin"
+                android:text="@string/MYA_Not_Available"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:layout_below="@+id/email_address_heading"
                 android:layout_width="match_parent"
@@ -243,7 +244,7 @@
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
             android:text="@string/MYA_Address"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/MYA_top_margin"/>
@@ -252,10 +253,11 @@
             android:id="@+id/MYA_Address_value"
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
+            android:text="@string/MYA_Not_Available"
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             />
     </LinearLayout>
 

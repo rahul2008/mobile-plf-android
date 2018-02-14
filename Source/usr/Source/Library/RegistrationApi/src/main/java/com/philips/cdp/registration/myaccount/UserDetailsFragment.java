@@ -127,8 +127,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     @Override
     public void setEmail(String email) {
         if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
-            email_address_heading.setVisibility(View.GONE);
-            email_address.setVisibility(View.GONE);
+
         } else {
             email_address.setText(email);
             email_divider.setVisibility(View.VISIBLE);
@@ -157,10 +156,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     @Override
     public void setMobileNumber(String number) {
         if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
-            //mobile_number_heading.setVisibility(View.GONE);
-            // mobile_arrow.setVisibility(View.GONE);
-            //mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
-            //mobile_number.setVisibility(View.GONE);
+
         } else {
             mobile_number.setText(number);
         }
@@ -168,10 +164,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public void handleArrowVisibility(String email, String mobileNumber) {
-        // Do not do anything
-        //UnComment the below code when u need edit option
-       /* if (email != null && mobileNumber != null)
-            email_mobile_arrow.setVisibility(View.VISIBLE);*/
 
     }
 
