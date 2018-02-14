@@ -44,7 +44,7 @@ include ':telehealth'
 include ':mya'
 include ':mya-csw'
 include ':mya-catk'
-include ':mya-chi'
+include ':pif'
 include ':ews-android'
 include ':ewsUApp'
 include ':mya-mch'
@@ -82,6 +82,7 @@ project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp
 project(':bluelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
 project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
 project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
+project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
 project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
 project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
 project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
@@ -92,7 +93,7 @@ project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuap
 project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
 project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
-project(':mya-chi').projectDir = new File('./Source/mya/Source/Library/mya-chi')
+project(':pif').projectDir = new File('./Source/pif/Source/Library/pif')
 project(':mya-mch').projectDir = new File('./Source/mya/Source/Library/mya-mch')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')

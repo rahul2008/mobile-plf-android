@@ -9,7 +9,6 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -34,7 +33,6 @@ public class XCheckBox extends LinearLayout {
     private RelativeLayout textLayoutParent;
     private TextView checkBoxText;
     private boolean isChecked = false;
-    private String text;
     private TextView checkBoxTick;
     private OnCheckedChangeListener onCheckedChangeListener;
     private Context  mContext;
@@ -47,25 +45,23 @@ public class XCheckBox extends LinearLayout {
     public XCheckBox(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         mContext =context;
-        final Resources resources = getResources();
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.reg_checkbox, null);
         this.removeAllViews();
         this.addView(parentView);
-        initView(getContext(), resources, attrs);
+        initView(getContext(), attrs);
     }
 
-    private void initView(final Context context, Resources resources, final AttributeSet attrs) {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.reg_baseColor});
+    private void initView(final Context context, final AttributeSet attrs) {
         textLayoutParent = (RelativeLayout) parentView.findViewById(R.id.rl_x_checkbox);
 
         checkBoxText = (TextView) parentView.findViewById(R.id.reg_tv_checkbox);
         checkBoxTick = (TextView) parentView.findViewById(R.id.reg_check);
         FontLoader.getInstance().setTypeface(checkBoxTick, RegConstants.PUIICON_TTF);
-        typedArray = context.obtainStyledAttributes(attrs,
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.Registration_CheckBox, 0, 0);
         isChecked = typedArray.getBoolean(R.styleable.Registration_CheckBox_reg_checked, false);
-        text = typedArray.getString(R.styleable.Registration_CheckBox_reg_textValue);
+        String text = typedArray.getString(R.styleable.Registration_CheckBox_reg_textValue);
         checkBoxText.setText(text);
         typedArray.recycle();
         changeBackGround();
@@ -126,9 +122,6 @@ public class XCheckBox extends LinearLayout {
     }
 
     public boolean isChecked() {
-        if(checkBoxTick.getVisibility() == View.VISIBLE){
-            return true;
-        }
-        return false;
+        return checkBoxTick.getVisibility() == View.VISIBLE;
     }
 }

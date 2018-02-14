@@ -10,7 +10,7 @@ package com.philips.platform.mya.catk.mapper;
 import org.joda.time.DateTime;
 
 import com.philips.platform.mya.catk.dto.GetConsentDto;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
 
 public class DtoToConsentMapper {
     private static int IDX_TYPE = 0;

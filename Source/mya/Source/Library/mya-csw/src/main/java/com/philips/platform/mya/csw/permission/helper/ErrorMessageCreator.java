@@ -11,7 +11,8 @@ import android.content.Context;
 
 import com.philips.platform.mya.csw.R;
 
-import static com.philips.platform.mya.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
+import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE;
+
 
 public class ErrorMessageCreator {
 

@@ -8,7 +8,7 @@
 package com.philips.platform.mya.catk.error;
 
 import com.android.volley.NetworkResponse;
-import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentError;
 
 import org.junit.Test;
 
