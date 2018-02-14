@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
@@ -21,19 +23,23 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.af_user_registration_activity);
+        setContentView(R.layout.csw_just_in_time_activity);
+        Toolbar toolbar = findViewById(R.id.jit_toolbar);
+        mTitle = toolbar.findViewById(R.id.jit_toolbar_title);
         showFragment();
     }
 
     private void showFragment() {
-        int containerId = R.id.frame_container_user_reg;
+        int containerId = R.id.csw_justintime_frame_container;
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, containerId, this);
         JustInTimeConsentFragment justInTimeFragment = JustInTimeConsentFragment.newInstance(containerId);
+        justInTimeFragment.setUpdateTitleListener(this);
         FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
         String simpleName = justInTimeFragment.getClass().getSimpleName();
@@ -51,12 +57,22 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
     }
 
     @Override
-    public void updateActionBar(int resId, boolean enableBackKey) {
+    public void setTitle(int titleId) {
+        mTitle.setText(titleId);
+    }
 
+    @Override
+    public void setTitle(final CharSequence title) {
+        mTitle.setText(title);
+    }
+
+    @Override
+    public void updateActionBar(int resId, boolean enableBackKey) {
+        setTitle(resId);
     }
 
     @Override
     public void updateActionBar(String resString, boolean enableBackKey) {
-
+        setTitle(resString);
     }
 }
