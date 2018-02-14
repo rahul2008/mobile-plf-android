@@ -118,23 +118,23 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         final List<ConsentDefinition> definitions = new ArrayList<>();
         ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
                 Collections.singletonList("moment"), 1, currentLocale);
-        ConsentDefinitionRegistry.register("moment", momentConsentDefinition);
+        ConsentDefinitionRegistry.add(momentConsentDefinition);
         definitions.add(momentConsentDefinition);
         ConsentDefinition coachingConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
                 Collections.singletonList("coaching"), 1, currentLocale);
-        ConsentDefinitionRegistry.register("coaching", coachingConsentDefinition);
+        ConsentDefinitionRegistry.add(coachingConsentDefinition);
         definitions.add(coachingConsentDefinition);
         ConsentDefinition binaryConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
                 Collections.singletonList("binary"), 1, currentLocale);
-        ConsentDefinitionRegistry.register("binary", binaryConsentDefinition);
+        ConsentDefinitionRegistry.add(binaryConsentDefinition);
         definitions.add(binaryConsentDefinition);
         ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
                 Collections.singletonList("clickstream"), 1, currentLocale);
         definitions.add(clickStreamConsentDefinition);
-        ConsentDefinitionRegistry.register("clickstream", clickStreamConsentDefinition);
+        ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
         ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
                 Arrays.asList("research", "analytics"), 1, currentLocale);
-        ConsentDefinitionRegistry.register("research", researchConsentDefinition);
+        ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
         return definitions;
     }

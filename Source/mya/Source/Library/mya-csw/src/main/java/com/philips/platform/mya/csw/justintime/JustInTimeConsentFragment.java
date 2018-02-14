@@ -72,12 +72,12 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return JustInTimeDependencies.textResources.titleTextRes;
+        return JustInTimeConsentDependencies.textResources.titleTextRes;
     }
 
     private void initializeConsentRejectButton(View justInTimeConsentView) {
         Button rejectConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
-        rejectConsentButton.setText(JustInTimeDependencies.textResources.rejectTextRes);
+        rejectConsentButton.setText(JustInTimeConsentDependencies.textResources.rejectTextRes);
         rejectConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +88,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     private void initializeGiveConsentButton(View justInTimeConsentView) {
         Button giveConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
-        giveConsentButton.setText(JustInTimeDependencies.textResources.acceptTextRes);
+        giveConsentButton.setText(JustInTimeConsentDependencies.textResources.acceptTextRes);
         giveConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +99,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     private void initializeDescriptionLabel(View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
-        descriptionLabel.setText(JustInTimeDependencies.consentDefinition.getText());
+        descriptionLabel.setText(JustInTimeConsentDependencies.consentDefinition.getText());
     }
 
     private void initializeHelpLabel(View justInTimeConsentView) {
@@ -107,7 +107,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-            DescriptionView.show(getFragmentManager(), JustInTimeDependencies.consentDefinition.getHelpText(), containerId);
+            DescriptionView.show(getFragmentManager(), JustInTimeConsentDependencies.consentDefinition.getHelpText(), containerId);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
@@ -118,8 +118,8 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (JustInTimeDependencies.completionListener != null) {
-                    JustInTimeDependencies.completionListener.onConsentGiven();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentGiven();
                 }
             }
         }));
@@ -129,8 +129,8 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (JustInTimeDependencies.completionListener != null) {
-                    JustInTimeDependencies.completionListener.onConsentRejected();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentRejected();
                 }
             }
         }));
@@ -158,10 +158,10 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = JustInTimeDependencies.appInfra.getRestClient().isInternetReachable();
+        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             showProgressDialog();
-            JustInTimeDependencies.consentHandlerInterface.storeConsentState(JustInTimeDependencies.consentDefinition, status, callback);
+            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
         } else {
             showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }

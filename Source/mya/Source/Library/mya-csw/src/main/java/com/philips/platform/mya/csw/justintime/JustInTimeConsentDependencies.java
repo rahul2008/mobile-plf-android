@@ -10,7 +10,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.chi.ConsentHandlerInterface;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 
-public class JustInTimeDependencies {
+public class JustInTimeConsentDependencies {
 
     public static ConsentHandlerInterface consentHandlerInterface;
     public static ConsentDefinition consentDefinition;

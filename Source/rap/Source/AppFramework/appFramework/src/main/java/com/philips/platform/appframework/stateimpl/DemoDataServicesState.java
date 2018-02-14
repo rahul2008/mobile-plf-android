@@ -109,7 +109,7 @@ public class DemoDataServicesState extends DemoBaseState
         textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
                 new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.get("moment"), textResources);
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
     }
 
     @NonNull
