@@ -62,7 +62,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
         JustInTimeConsentDependencies.consentHandlerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
     }
 
-    private void launch(UiLauncher uiLauncher) {
+    private void launchUApp(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchActivity(DSLaunchActivity.class);
         } else {
@@ -74,12 +74,12 @@ public class DSDemoAppuAppInterface implements UappInterface {
         JustInTimeConsentDependencies.completionListener = new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
-                launch(uiLauncher);
+                launchUApp(uiLauncher);
             }
 
             @Override
             public void onConsentRejected() {
-                launch(uiLauncher);
+                launchUApp(uiLauncher);
             }
         };
         launchActivity(JustInTimeActivity.class);
@@ -116,7 +116,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
             if (showConsentScreen) {
                 launchJustInTimeConsent(uiLauncher);
             } else {
-                launch(uiLauncher);
+                launchUApp(uiLauncher);
             }
         }
 
