@@ -336,7 +336,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     private void launchRegistrationFragment(boolean isAccountSettings) {
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+        //urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();

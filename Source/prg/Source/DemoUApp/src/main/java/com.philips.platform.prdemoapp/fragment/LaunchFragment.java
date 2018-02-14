@@ -87,8 +87,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
         PRUiHelper.getInstance().getAppInfraInstance().getTagging().setPreviousPage("demoapp:home");
         urLaunchInput = new URLaunchInput();
-       // urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+        //urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        //urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(new UserRegistrationUIEventListener() {
             @Override
