@@ -356,7 +356,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_waiting_room_you_are_waiting_to_see">You are waiting to see</string>
     <string name="ths_visit_not_successful"> Your visit was not successful.</string>
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
-    <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
+    <string name="ths_se_server_error_toast_message">"Something went wrong. Please check your internet connection and try again"</string>
     <string name="ths_delete_success_string">Delete success</string>
     <string name="ths_cancel_visit_string">Cancel visit</string>
     <string name="ths_waiting_room_your_next_in_line">You\'re next in line</string>
