@@ -77,6 +77,7 @@ public class ChatFragmentTest extends MockitoConfiguration{
     }
 
     @Test
+    @PowerMockIgnore({"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
     public void tesChatNow(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         digitalCareBaseFragmentspy=spy(fragment);
