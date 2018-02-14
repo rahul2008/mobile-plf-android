@@ -7,10 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
