@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.tagging;
 
-
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -19,60 +19,72 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 
 public class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
-    private final AppInfraInterface appInfra;
-
-    public ClickStreamConsentHandler(final AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
+    AppInfraInterface appInfraInterface;
 
     @Override
     public void fetchConsentState(ConsentDefinition definition, CheckConsentsCallback callback) {
         callback.onGetConsentsSuccess(getSuccessConsentForStatus(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
     }
 
+    public ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
+        this.appInfraInterface = appInfraInterface;
+    }
+
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
-        List<Consent> consents = new ArrayList<>(consentDefinitions.size());
+        List<Consent> consents = new ArrayList<>();
         for (ConsentDefinition definition : consentDefinitions) {
-            consents.add(createConsentFromDefinition(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
+            if(getClickStreamType(definition) != null){
+                consents.add(createConsentFromDefinition(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
+            }
         }
+        assertFalse(consents.isEmpty());
         callback.onGetConsentsSuccess(consents);
     }
 
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-        String clickStreamType = definition.getTypes().get(0);
-        assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
-        appInfra.getTagging().setPrivacyConsent(toPrivacyStatus(status));
-        appInfra.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
+        assertNotNull(getClickStreamType(definition));
+        appInfraInterface.getTagging().setPrivacyConsent(toPrivacyStatus(status));
+        appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
         callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status)));
     }
 
     private AppTaggingInterface.PrivacyStatus processClickStreamConsentStatus(ConsentDefinition definition) {
         AppTaggingInterface.PrivacyStatus privacyStatus = AppTaggingInterface.PrivacyStatus.UNKNOWN;
+        assertNotNull(getClickStreamType(definition));
 
-        String clickStreamType = definition.getTypes().get(0);
-        assertEquals(CLICKSTREAM_CONSENT_TYPE, clickStreamType);
-
-        if (isSameVersion(definition)) {
-            privacyStatus = appInfra.getTagging().getPrivacyConsent();
+        if (!isVersionMismatch(definition)) {
+            privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
         }
 
         if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.UNKNOWN)) {
-            appInfra.getTagging().setPrivacyConsent(privacyStatus);
+            appInfraInterface.getTagging().setPrivacyConsent(privacyStatus);
         }
         return privacyStatus;
     }
 
-    private boolean isSameVersion(ConsentDefinition definition) {
-        return definition.getVersion() == Integer.valueOf(appInfra.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError()));
+    @Nullable
+    private String getClickStreamType(ConsentDefinition definition) {
+        String clickStreamType = null;
+        for (String type : definition.getTypes()) {
+            if (type.equals(CLICKSTREAM_CONSENT_TYPE)){
+                clickStreamType = type;
+            }
+        }
+        return clickStreamType;
+    }
+
+    private boolean isVersionMismatch(ConsentDefinition definition) {
+        return definition.getVersion() > Integer.valueOf(appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError()));
     }
 
     private AppTaggingInterface.PrivacyStatus toPrivacyStatus(boolean status) {

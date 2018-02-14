@@ -8,6 +8,8 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -216,6 +218,14 @@ public interface AppTaggingInterface extends Serializable {
 	enum PrivacyStatus {
 		OPTIN, OPTOUT, UNKNOWN
 	}
+
+	/**
+	 * Gets Tagging Consent Handler.
+	 *
+	 * @return the consent handler interface
+	 * @since 2018.1.0
+	 */
+	ConsentHandlerInterface getConsentHandler();
 
 	enum SocialMedium {
 		Facebook("facebook"),
