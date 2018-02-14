@@ -22,7 +22,7 @@ import java.util.Locale;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 
-public class ClickStreamConsentHandler implements ConsentHandlerInterface {
+class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     @VisibleForTesting
@@ -34,7 +34,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         callback.onGetConsentsSuccess(getSuccessConsentForStatus(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
     }
 
-    public ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
+    ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
     }
 
