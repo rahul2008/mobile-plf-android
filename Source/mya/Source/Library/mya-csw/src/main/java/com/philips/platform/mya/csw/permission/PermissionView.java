@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.catk.ConsentInteractor;
@@ -23,7 +24,6 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
@@ -132,38 +132,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private void onPrivacyNoticeClicked() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("Receive promotional communications of Philips based on my preferences and online bahavior.", "consentHelpText",
-                Collections.singletonList("moment"), 1, Locale.US);
-        ConsentInteractor consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
-        JustInTimeTextResources textResources = new JustInTimeTextResources();
-        textResources.rejectTextRes = R.string.mya_csw_justintime_reject;
-        textResources.acceptTextRes = R.string.mya_csw_justintime_accept;
-        textResources.titleTextRes = R.string.mya_csw_justintime_title;
-        textResources.userBenefitsTitleRes = R.string.mya_csw_justintime_user_benefits_title;
-        textResources.userBenefitsDescriptionRes = R.string.mya_csw_justintime_user_benefits_description;
-        JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(consentDefinition, consentHandlerInterface, textResources, R.id.permissionView);
-        justInTimeFragmentWidget.setCompletionListener(new JustInTimeWidgetHandler() {
-            @Override
-            public void onConsentGiven() {
-                boolean isOnline = getRestClient().isInternetReachable();
-                if (isOnline) {
-                    PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
-                } else {
-                    showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
-                }
-            }
-
-            @Override
-            public void onConsentRejected() {
-
-            }
-        });
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.permissionView, justInTimeFragmentWidget, justInTimeFragmentWidget.TAG);
-        fragmentTransaction.addToBackStack(justInTimeFragmentWidget.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
-
+        boolean isOnline = getRestClient().isInternetReachable();
+        if (isOnline) {
+            PermissionHelper.getInstance().getMyAccountUIEventListener().onPrivacyNoticeClicked();
+        } else {
+            showErrorDialog(false, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
+        }
     }
 
     @Override
