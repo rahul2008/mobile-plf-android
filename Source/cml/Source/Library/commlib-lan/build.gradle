@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -91,6 +91,8 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_classloading_xstream
 }
 
 pitest {
