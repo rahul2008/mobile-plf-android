@@ -23,6 +23,9 @@
     <string name="dcc_location_consent_definition_help_text">When you allow access to location data, we may collect the geographic location of your mobile device.
         When you make use of the ‘Find Philips near you’ functionality on the Support Page, you are requested to share your location data with Philips. If you use our location features, based on your location data, you will be directed towards a store near you, or to the consumer care contact details for your country.
     </string>
+    <string name="dcc_location_consent_accept"> Yes</string>
+    <string name="dcc_location_consent_reject"> No</string>
+    <string name="dcc_location_consent_title"> Location consent</string>
 
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Loading </string>

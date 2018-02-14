@@ -416,6 +416,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     @NonNull
     private JustInTimeTextResources getJustInTimeTextResources() {
         JustInTimeTextResources resources= new JustInTimeTextResources();
+        resources.titleTextRes = R.string.dcc_location_consent_title;
+        resources.rejectTextRes = R.string.dcc_location_consent_reject;
+        resources.acceptTextRes = R.string.dcc_location_consent_accept;
         return resources;
     }
 
