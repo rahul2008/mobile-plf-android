@@ -42,6 +42,8 @@
   <string name="mya_Settings">[de]Settings</string>
   <string name="mya_change_country">[de]Logout to change country</string>
   <string name="mya_change_country_message">[de]Please logout to change the country you live in. This will lets us tailor the warranty and other information to your location</string>
+  <string name="mya_csw_justintime_accept">[de]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[de]Maybe later</string>
   <string name="mya_csw_justintime_user_benefits_description">[de]\"Special offers, promotions and first hand information about new product releases.\nTailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[de]What do we have to offer?</string>
   <string name="mya_logout_message">[de]You will be logged out of the application. After you log out, you can always login again.</string>
