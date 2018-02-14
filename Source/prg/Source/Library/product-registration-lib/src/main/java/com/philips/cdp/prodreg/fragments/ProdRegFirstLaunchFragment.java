@@ -40,7 +40,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private TextView benefitsMessage;
     private Button registerButton;
 
-
     @Override
     public int getActionbarTitleResId() {
         return R.string.PPR_NavBar_Title;

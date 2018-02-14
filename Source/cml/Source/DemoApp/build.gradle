@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -75,6 +75,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -88,6 +91,8 @@ android {
 }
 
 dependencies {
+    compile(group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.6.201602180812')
+
     debugCompile deps.stetho
     compile deps.support.design
 

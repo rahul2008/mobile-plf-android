@@ -5,7 +5,7 @@ apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [

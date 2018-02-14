@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -11,7 +11,7 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -33,28 +33,40 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTest {
 
+    private static final String CPP_ID = "ADDR";
+
     private BleDiscoveryStrategy strategyUnderTest;
 
     @Mock
+    private
     Handler mockHandler;
+
     @Mock
-    Context mockContext;
+    private Context mockContext;
+
     @Mock
-    BleDeviceCache mockCache;
+    private BleDeviceCache mockCache;
+
     @Mock
-    SHNDeviceScanner mockScanner;
+    private SHNDeviceScanner mockScanner;
+
     @Mock
-    SHNCentral mockCentral;
+    private SHNCentral mockCentral;
+
     @Mock
-    DiscoveryStrategy.DiscoveryListener listener;
+    private DiscoveryListener listener;
+
     @Mock
-    SHNDeviceFoundInfo mockDeviceFoundInfo;
+    private SHNDeviceFoundInfo mockDeviceFoundInfo;
+
     @Mock
     private BleScanRecord mockBleScanRecord;
+
     @Mock
     private SHNDevice mockDevice;
+
     @Mock
-    BleCacheData mockCacheData;
+    private BleCacheData mockCacheData;
 
     private NetworkNode networkNode;
 
@@ -64,16 +76,17 @@ public class BleDiscoveryStrategyTest {
         enableMockedHandler(mockHandler);
 
         networkNode = new NetworkNode();
-        networkNode.setCppId("ADDR");
+        networkNode.setCppId(CPP_ID);
+//        when(networkNodeMock.getCppId()).thenReturn(CPP_ID);
 
         when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
 
         when(mockDeviceFoundInfo.getShnDevice()).thenReturn(mockDevice);
-        when(mockDevice.getAddress()).thenReturn("ADDR");
+        when(mockDevice.getAddress()).thenReturn(CPP_ID);
 
         when(mockDeviceFoundInfo.getBleScanRecord()).thenReturn(mockBleScanRecord);
 
-        when(mockCache.getCacheData("ADDR")).thenReturn(mockCacheData);
+        when(mockCache.getCacheData(CPP_ID)).thenReturn(mockCacheData);
         when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
 
         strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner);
@@ -103,7 +116,7 @@ public class BleDiscoveryStrategyTest {
     public void whenDeviceDiscoveredTwice_ThenItIsReportedTwice() {
         strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains("ADDR")).thenReturn(true);
+        when(mockCache.contains(CPP_ID)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
@@ -114,11 +127,21 @@ public class BleDiscoveryStrategyTest {
     public void whenDeviceDiscoveredTwice_ThenItsCacheTimerMustBeReset_AndItsAvailabilitySetToTrue() {
         strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains("ADDR")).thenReturn(true);
+        when(mockCache.contains(CPP_ID)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(mockCacheData).resetTimer();
         verify(mockCacheData).setAvailable(true);
+    }
+
+    @Test
+    public void givenADeviceIsDiscovered_whenClearDiscoveredNetworkNodesIsInvoked_thenCacheShouldBeCleared() {
+        strategyUnderTest.addDiscoveryListener(listener);
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(mockCache).clear();
     }
 }
