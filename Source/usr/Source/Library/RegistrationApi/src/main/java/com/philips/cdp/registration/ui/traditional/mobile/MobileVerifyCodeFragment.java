@@ -31,6 +31,7 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -48,6 +49,10 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -55,6 +60,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
@@ -203,6 +211,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         handleUI();
     }
 
+    private void trackMultipleActionsOnMobileSuccess() {
+        Map<String, String> map = new HashMap<>();
+        map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
+        map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
+        AppTagging.trackMultipleActions(SEND_DATA, map);
+    }
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
