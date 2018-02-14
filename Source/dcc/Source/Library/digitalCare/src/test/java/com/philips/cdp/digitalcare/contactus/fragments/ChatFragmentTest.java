@@ -31,7 +31,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
 public class ChatFragmentTest extends MockitoConfiguration{
 
     private ChatFragment fragment;
@@ -77,7 +77,6 @@ public class ChatFragmentTest extends MockitoConfiguration{
     }
 
     @Test
-    @PowerMockIgnore({"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
     public void tesChatNow(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         digitalCareBaseFragmentspy=spy(fragment);
