@@ -28,8 +28,7 @@ public class CacheData {
     private ScheduledFuture future;
     private boolean isExpiryNotificationRequired;
 
-    public CacheData(@NonNull final ScheduledExecutorService executor,
-                     @NonNull final ExpirationCallback expirationCallback,
+    public CacheData(@NonNull final ScheduledExecutorService executor, @NonNull final ExpirationCallback expirationCallback,
                      long expirationPeriodMillis,
                      @NonNull final NetworkNode networkNode) {
         this.executor = executor;

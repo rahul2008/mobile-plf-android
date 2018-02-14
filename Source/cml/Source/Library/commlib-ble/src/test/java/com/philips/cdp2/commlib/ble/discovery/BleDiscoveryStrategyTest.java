@@ -77,7 +77,7 @@ public class BleDiscoveryStrategyTest {
 
         networkNode = new NetworkNode();
         networkNode.setCppId(CPP_ID);
-//        when(networkNodeMock.getCppId()).thenReturn(CPP_ID);
+        //        when(networkNodeMock.getCppId()).thenReturn(CPP_ID);
 
         when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
 
