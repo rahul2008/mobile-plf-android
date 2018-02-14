@@ -254,10 +254,11 @@
     <string name="BA_Sync_Settings">Sync Settings</string>
     <string name="RA_Empty_Invalid_Data">Data field is empty or invalid</string>
     <string name="RA_Invalid_Param_Msg">You have entered or selected invalid parameter values. Please select appropiate parameter values  and launch again</string>
+    <string name="RA_PR_Benefit_Text">Extend your warranty for 24 months. Receive 10% discount in the Philips. Receive free product accessories</string>
+  <string name="RA_CSW_JustInTime_Accept">OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">Maybe later</string>
+  <string name="RA_CSW_JustInTime_Title">Be the first to know</string>
     <string name="RA_NO_Order_History">Order History Not Available</string>
-    <string name="RA_PR_Benefit_Text">Extend your warranty for 24 months.
-Receive 10% discount in the Philips.
-Receive free product accessories</string>
     <string name="RA_PR_Extentende_Warranty">Your warranty period has been extended until next year</string>
     <string name="RA_PR_Email_Text">An email with extended warranty contract  has been sent out to your email address</string>
     <string name="RA_UR_Env_Alert">Change configuration</string>
