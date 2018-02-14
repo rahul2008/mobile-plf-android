@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
-import com.philips.platform.mya.chi.BuildConfig;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.mock.ActivityLauncherMock;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.csw.mock.FragmentActivityMock;

@@ -19,7 +19,7 @@ import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.chi.ConsentDefinitionRegistry;
+import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

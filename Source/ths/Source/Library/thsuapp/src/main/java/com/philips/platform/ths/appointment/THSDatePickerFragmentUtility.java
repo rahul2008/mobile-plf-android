@@ -7,6 +7,7 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -22,9 +23,16 @@ public class THSDatePickerFragmentUtility {
     private Calendar calendar;
     private THSBaseFragment mThsBaseFragment;
     private THSDateEnum thsDateEnum;
+    private Context context;
 
     public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment, THSDateEnum thsDateEnum) {
         this.mThsBaseFragment = thsBaseFragment;
+        this.thsDateEnum = thsDateEnum;
+        initDateTimeFields();
+    }
+
+    public THSDatePickerFragmentUtility(Context context, THSDateEnum thsDateEnum) {
+        this.context = context;
         this.thsDateEnum = thsDateEnum;
         initDateTimeFields();
     }
@@ -42,7 +50,12 @@ public class THSDatePickerFragmentUtility {
 
     public void showDatePicker(DatePickerDialog.OnDateSetListener listener) {
         calendar.setTime(date);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getContext(),
+
+        if(mThsBaseFragment!= null) {
+            context = mThsBaseFragment.getContext();
+        }
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                 listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         Date today = new Date();
         Calendar c = Calendar.getInstance();

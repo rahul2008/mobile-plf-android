@@ -7,21 +7,6 @@
 
 package com.philips.platform.mya.csw.justintime;
 
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
-import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
-import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.Label;
-
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -32,10 +17,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
+import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
+
 public class JustInTimeConsentFragment extends CswBaseFragment {
-    private ProgressDialog progressDialog;
-    private @LayoutRes int containerId;
     public static final String TAG = "JustInTimeConsent";
+    private ProgressDialog progressDialog;
+    @LayoutRes
+    private int containerId;
 
     public static JustInTimeConsentFragment newInstance(final int containerId) {
         JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();

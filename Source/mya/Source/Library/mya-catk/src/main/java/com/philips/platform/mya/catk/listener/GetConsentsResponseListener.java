@@ -11,11 +11,11 @@ import android.support.annotation.NonNull;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.HashMap;

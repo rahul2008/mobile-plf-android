@@ -7,8 +7,8 @@
 package com.philips.platform.mya.csw.justintime;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public class JustInTimeConsentDependencies {
 
