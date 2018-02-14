@@ -29,6 +29,7 @@ public class ConsentToDtoMapper {
     }
 
     private String buildPolicyRule(String type, int version) {
-        return new StringBuilder("urn:com.philips.consent:").append(type).append("/").append(country).append("/").append(version).append("/").append(propositionName).append("/").append(applicationName).toString();
+        return new StringBuilder("urn:com.philips.consent:").append(type).append("/").append(country).append("/").append(version).append("/").append(propositionName).append("/")
+                .append(applicationName).toString();
     }
 }

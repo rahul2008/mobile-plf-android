@@ -1,8 +1,10 @@
 package com.philips.platform.mya.catk.device;
 
-
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -16,19 +18,15 @@ import com.philips.platform.mya.chi.datamodel.Consent;
 import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     private final AppInfra appInfra;
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
-    private static final int LIST_POS_LOCALE = 2;
-    private static final int LIST_POS_TIMESTAMP = 3;
+    private static final int LIST_POS_TIMESTAMP = 2;
 
     @VisibleForTesting
     static final String DEVICESTORE_VALUE_DELIMITER = "@#$^";

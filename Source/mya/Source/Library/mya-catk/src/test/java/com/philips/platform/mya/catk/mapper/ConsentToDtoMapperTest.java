@@ -40,18 +40,6 @@ public class ConsentToDtoMapperTest {
         thenConsentIs(new CreateConsentDto("nl-NL", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void itShouldThrowExceptionWhenLocaleIsMissingCountry() {
-        givenConsent(activityTypeWithMissingCountry);
-        whenCallingMapWith();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void itShouldThrowExceptionWhenLocaleIsMissingLanguage() {
-        givenConsent(activityTypeWithMissingLanguage);
-        whenCallingMapWith();
-    }
-
     private void givenConsent(BackendConsent consent) {
         this.givenConsent = consent;
     }
@@ -63,7 +51,6 @@ public class ConsentToDtoMapperTest {
     private void thenConsentIs(CreateConsentDto expectedDto) {
         assertEquals(expectedDto.getLanguage(), result.getLanguage());
         assertEquals(expectedDto.getPolicyRule(), result.getPolicyRule());
-        assertEquals(expectedDto.getResourceType(), result.getResourceType());
         assertEquals(expectedDto.getStatus(), result.getStatus());
         assertEquals(expectedDto.getSubject(), result.getSubject());
     }

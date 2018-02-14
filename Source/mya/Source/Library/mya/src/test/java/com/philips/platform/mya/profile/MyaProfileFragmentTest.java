@@ -46,8 +46,6 @@ public class MyaProfileFragmentTest {
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     @Mock
     private LinearLayoutManager linearLayoutManager;
-    @Mock
-    private MyaProfileAdaptor myaProfileAdaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -59,12 +57,6 @@ public class MyaProfileFragmentTest {
         SupportFragmentTestUtil.startFragment(myaProfileFragment);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
-
-
-    /*@Test(expected = InflateException.class)
-    public void testStartFragment_ShouldNotNul() {
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
-    }*/
 
     @Test
     public void testEquals_getActionbarTitleResId() throws Exception {
@@ -123,24 +115,4 @@ public class MyaProfileFragmentTest {
         assertEquals(myaDetailsFragment.getFragmentLauncher(), fragmentLauncher);
         assertEquals(myaDetailsFragment.getActionbarUpdateListener(), actionBarListener);
     }
-
-  /*  @Test
-    public void ShouldClickOnRecyclerItem() {
-        myaProfileFragment = new MyaProfileFragment();
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
-        TreeMap<String, String> profileList = new TreeMap<>();
-        RecyclerView recyclerView = myaProfileFragment.getView().findViewById(R.id.profile_recycler_view);
-
-        profileList.put("MYA_My_details", "My details");
-        myaProfileFragment.showProfileItems(profileList);
-        View view = recyclerView.getLayoutManager().findViewByPosition(0);
-
-        MyaProfileAdaptor adapter = (MyaProfileAdaptor) recyclerView.getAdapter();
-        adapter.getOnClickListener().onClick(view);
-        assertTrue(true);
-//
-//        listView.performItemClick(itemView, position, adapter.getItemId(position));
-    }*/
-
-
 }
