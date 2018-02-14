@@ -106,14 +106,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
         @Override
         public void onGetConsentsSuccess(List<Consent> consents) {
-            boolean showConsentScreen = false;
-            for (Consent consent : consents) {
-                if (consent != null && "moment".equals(consent.getType()) && consent.getStatus() == ConsentStatus.inactive) {
-                    showConsentScreen = true;
-                    break;
-                }
-            }
-            if (showConsentScreen) {
+            if (isMomentConsentNotGiven(consents)) {
                 launchJustInTimeConsent(uiLauncher);
             } else {
                 launchUApp(uiLauncher);
@@ -123,5 +116,16 @@ public class DSDemoAppuAppInterface implements UappInterface {
         @Override
         public void onGetConsentsFailed(ConsentError error) {
         }
+    }
+
+    private boolean isMomentConsentNotGiven(final List<Consent> consents) {
+        Consent momentConsent = null;
+        for (Consent consent : consents) {
+            if (consent != null && "moment".equals(consent.getType())) {
+                momentConsent = consent;
+                break;
+            }
+        }
+        return momentConsent == null || momentConsent.getStatus() == ConsentStatus.inactive;
     }
 }
