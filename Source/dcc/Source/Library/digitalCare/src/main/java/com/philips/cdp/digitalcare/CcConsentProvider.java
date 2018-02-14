@@ -4,8 +4,8 @@ package com.philips.cdp.digitalcare;
 import android.content.Context;
 
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.cdp.digitalcare.R;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

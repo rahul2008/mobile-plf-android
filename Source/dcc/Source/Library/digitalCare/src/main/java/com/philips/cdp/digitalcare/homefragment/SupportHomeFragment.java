@@ -61,13 +61,13 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
@@ -390,7 +390,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             ConsentDefinition definition = CcConsentProvider.fetchLocationConsentDefinitionFor(getActivity(), Utils.getLocaleFromAppInfra());
             DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
             JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(definition, deviceStoredConsentHandler, getJustInTimeTextResources());
-            justInTimeFragmentWidget.setCompletionListener(getJustInTimeWidgetHandler(deviceStoredConsentHandler, definition));
+            justInTimeFragmentWidget.setCompletionListener(getJustInTimeWidgetHandler());
             showFragment(justInTimeFragmentWidget);
         }else {
             showFragment(new LocatePhilipsFragment());
@@ -398,29 +398,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     @NonNull
-    private JustInTimeWidgetHandler getJustInTimeWidgetHandler(final DeviceStoredConsentHandler handler, final ConsentDefinition definition) {
-        final PostConsentCallback postConsentCallback = new PostConsentCallback() {
-            @Override
-            public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-                DigiCareLogger.i(TAG, "onPostConsentFailed:" + error.getError());
-            }
-
-            @Override
-            public void onPostConsentSuccess(Consent consent) {
-                DigiCareLogger.i(TAG, "onPostConsentSuccess:" + consent.getType());
-            }
-        };
+    private JustInTimeWidgetHandler getJustInTimeWidgetHandler() {
         return new JustInTimeWidgetHandler() {
                 @Override
                 public void onConsentGiven() {
-                    handler.storeConsentState(definition, true, postConsentCallback);
                     Utils.setEulaPreference(getActivity());
                     showFragment(new LocatePhilipsFragment());
                 }
 
                 @Override
                 public void onConsentRejected() {
-                    handler.storeConsentState(definition, false, postConsentCallback);
                     showFragment(new LocatePhilipsFragment());
                 }
             };
