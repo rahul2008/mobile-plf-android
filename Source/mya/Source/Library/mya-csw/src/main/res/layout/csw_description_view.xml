@@ -3,8 +3,8 @@
     android:id="@+id/consentList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:background="?attr/uidContentPrimaryBackgroundColor">
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:padding="16dp">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/description"
