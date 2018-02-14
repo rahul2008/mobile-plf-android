@@ -108,7 +108,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
         public void onGetConsentsSuccess(List<Consent> consents) {
             boolean showConsentScreen = false;
             for (Consent consent : consents) {
-                if (consent != null && "moment".equals(consent.getType()) && consent.getStatus() != ConsentStatus.active) {
+                if (consent != null && "moment".equals(consent.getType()) && consent.getStatus() == ConsentStatus.inactive) {
                     showConsentScreen = true;
                     break;
                 }
