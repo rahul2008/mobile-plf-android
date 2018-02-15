@@ -329,7 +329,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MY_ACCOUNT);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);

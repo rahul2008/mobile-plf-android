@@ -12,7 +12,7 @@ public enum RegistrationLaunchMode {
      * @since 2018.1.0
      */
 
-    MY_ACCOUNT("MyAccount"),
+    USER_DETAILS("UserDetails"),
 
     /**
      * By enabling User accepts to receive philips marketing campaign
@@ -23,7 +23,7 @@ public enum RegistrationLaunchMode {
     /**
      * By enabling User It goes to Registration flow by default .
      * @since 1.0.0
-     * @deprecated : Use either MY_ACCOUNT or MARKETING_OPT
+     * @deprecated : Use either USER_DETAILS or MARKETING_OPT
      */
     DEFAULT("default");
 

@@ -167,6 +167,11 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     @Override
+    public int getRequestTimeOut() {
+        return 30000;
+    }
+
+    @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
         headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
