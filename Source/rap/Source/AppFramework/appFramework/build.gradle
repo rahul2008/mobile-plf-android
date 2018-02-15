@@ -259,6 +259,10 @@ dependencies {
         releaseCompile project(path: ':mya', configuration: 'release')
         leakCanaryCompile project(path: ':mya', configuration: 'debug')
         psraReleaseCompile project(path: ':mya', configuration: 'release')
+        debugCompile project(path: ':mya-mch', configuration: 'debug')
+        releaseCompile project(path: ':mya-mch', configuration: 'release')
+        leakCanaryCompile project(path: ':mya-mch', configuration: 'debug')
+        psraReleaseCompile project(path: ':mya-mch', configuration: 'release')
         debugCompile project(path: ':commlib', configuration: 'debug')
         releaseCompile project(path: ':commlib', configuration: 'release')
         leakCanaryCompile project(path: ':commlib', configuration: 'debug')
@@ -329,6 +333,7 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
+        compile(group: 'com.philips.cdp', name: 'mya-mch', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
