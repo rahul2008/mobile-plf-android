@@ -1,10 +1,5 @@
 package com.philips.platform.mya.csw.permission;
 
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.chi.datamodel.Consent;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -18,12 +13,6 @@ import com.philips.platform.pif.chi.datamodel.Consent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 public class ConsentViewTest {
 
