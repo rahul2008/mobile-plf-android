@@ -20,12 +20,12 @@ import static org.junit.Assert.*;
  */
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public class MyaDetailPresenterTest {
+public class UserDetailPresenterTest {
 
     @Mock
     MyaDetailContract.View  viewMock;
 
-    MyaDetailPresenter myaDetailPresenter;
+    UserDetailPresenter myaDetailPresenter;
 
     @Mock
     UserDataModelProvider userDataModelProviderMock;
@@ -37,7 +37,7 @@ public class MyaDetailPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        myaDetailPresenter = new MyaDetailPresenter(viewMock);
+        myaDetailPresenter = new UserDetailPresenter(viewMock);
     }
 
     @Test

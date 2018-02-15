@@ -31,9 +31,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public class MyaDetailsFragmentTest {
+public class UserDetailsFragmentTest {
 
-    private MyaDetailsFragment myaDetailsFragment;
+    private UserDetailsFragment myaDetailsFragment;
     private FragmentTransactionMock fragmentTransaction = new FragmentTransactionMock();
     private Context mContext;
     @Mock
@@ -47,7 +47,7 @@ public class MyaDetailsFragmentTest {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         RegistrationConfiguration.getInstance().setComponent(componentMock);
-        myaDetailsFragment = new MyaDetailsFragment();
+        myaDetailsFragment = new UserDetailsFragment();
 
         userMock=new User(mContext);
         myaDetailsFragment.setUser(userMock);
@@ -84,20 +84,14 @@ public class MyaDetailsFragmentTest {
         assertEquals(label.getText(),"some_name");
     }
 
-   /* @Test
+    @Test
     public void testSetEmail() {
         Label label = myaDetailsFragment.getView().findViewById(R.id.email_address_value);
-        View email_arrow = myaDetailsFragment.getView().findViewById(R.id.email_mobile_right_arrow);
-        View email_address_heading = myaDetailsFragment.getView().findViewById(R.id.email_address_heading);
         myaDetailsFragment.setEmail("some_mail@philips.com");
         assertEquals(label.getText(),"some_mail@philips.com");
-//        assertTrue(email_arrow.getVisibility() == View.VISIBLE);
-        myaDetailsFragment.setEmail("");
-        assertTrue(label.getVisibility() == View.GONE);
-        assertTrue(email_address_heading.getVisibility() == View.GONE);
     }
 
-    @Test
+   @Test
     public void testSetGender() {
         Label genderLabel = myaDetailsFragment.getView().findViewById(R.id.gender_value);
         myaDetailsFragment.setGender("male");
@@ -108,7 +102,7 @@ public class MyaDetailsFragmentTest {
         assertEquals(genderLabel.getText(), "Not available");
     }
 
-    @Test
+     @Test
     public void testSetDateOfBirth() {
         Date date = new Date();
         Label dob_value = myaDetailsFragment.getView().findViewById(R.id.dob_value);
@@ -118,45 +112,11 @@ public class MyaDetailsFragmentTest {
         assertEquals(dob_value.getText(), "Not available");
     }
 
-    @Test
+   @Test
     public void testSetMobileNumber() {
-        View mobile_number_heading = myaDetailsFragment.getView().findViewById(R.id.mobile_number_heading);
-        View mobile_arrow = myaDetailsFragment.getView().findViewById(R.id.mobile_right_arrow);
         Label mobile_number = myaDetailsFragment.getView().findViewById(R.id.mobile_number_value);
-        View email_divider = myaDetailsFragment.getView().findViewById(R.id.email_mobile_right_arrow);
         myaDetailsFragment.setMobileNumber("91992929929");
         assertEquals(mobile_number.getText(),"91992929929");
-//        assertTrue(email_divider.getVisibility() == View.VISIBLE);
-        myaDetailsFragment.setMobileNumber("");
-        assertTrue(mobile_number_heading.getVisibility() == View.GONE);
-        assertTrue(mobile_arrow.getVisibility() == View.GONE);
-        assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
-        assertTrue(mobile_number.getVisibility() == View.GONE);
-        myaDetailsFragment.setMobileNumber("null");
-        assertTrue(mobile_number_heading.getVisibility() == View.GONE);
-        assertTrue(mobile_arrow.getVisibility() == View.GONE);
-        assertEquals(mobile_number.getText(),mContext.getString(R.string.MYA_Add_mobile_number));
-        assertTrue(mobile_number.getVisibility() == View.GONE);
     }
-
-    @Test
-    public void testHandleArrowVisibility() {
-        View email_mobile_arrow = myaDetailsFragment.getView().findViewById(R.id.email_mobile_right_arrow);
-        myaDetailsFragment.handleArrowVisibility("some_mail@philips.com", "91992929929");
-        assertTrue(email_mobile_arrow.getVisibility() == View.VISIBLE);
-    }
-
-
-    @Test
-    public void ShouldonSaveInstanceState() {
-        Bundle savedBundle = new Bundle();
-        Bundle argumentBundle = new Bundle();
-        argumentBundle.putInt("some_key", 100);
-        myaDetailsFragment.setArguments(argumentBundle);
-        myaDetailsFragment.onSaveInstanceState(savedBundle);
-        Bundle profile_bundle = savedBundle.getBundle("details_bundle");
-        assertTrue(profile_bundle.equals(argumentBundle));
-        assertEquals(profile_bundle.getInt("some_key"), 100);
-    }*/
 
 }
