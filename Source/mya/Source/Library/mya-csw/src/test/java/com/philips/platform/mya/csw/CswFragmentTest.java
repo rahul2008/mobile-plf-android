@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 @PrepareForTest(CswFragment.class)
+@Ignore
 public class CswFragmentTest {
 
     @Before

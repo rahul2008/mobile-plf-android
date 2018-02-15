@@ -11,12 +11,10 @@ import com.philips.platform.mya.csw.mock.FragmentLauncherMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
-import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
@@ -26,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(CustomRobolectricRunner.class)
+
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CswInterfaceTest {
 
