@@ -13,13 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaPager;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.UIDHelper;
-
-import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 
 public class MyaTabFragment extends MyaBaseFragment {
 
@@ -39,12 +38,9 @@ public class MyaTabFragment extends MyaBaseFragment {
             viewPager = view.findViewById(R.id.pager);
             MyaPager adapter;
             int tabPosition=0;
-            if (savedInstanceState == null) {
-                Bundle arguments = getArguments();
-                assignLaunchInput(arguments);
-            } else {
+            myaLaunchInput = MyaHelper.getInstance().getMyaLaunchInput();
+            if (savedInstanceState != null) {
                 Bundle arguments = savedInstanceState.getBundle(TAB_BUNDLE);
-                assignLaunchInput(arguments);
                 this.setArguments(arguments);
                 tabPosition = savedInstanceState.getInt(TAB_POSITION);
             }
@@ -60,16 +56,10 @@ public class MyaTabFragment extends MyaBaseFragment {
         return view;
     }
 
-    private void assignLaunchInput(Bundle arguments) {
-        if (arguments != null)
-            myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(TAB_BUNDLE, getArguments());
         outState.putInt(TAB_POSITION, viewPager.getCurrentItem());
-        outState.putSerializable(MYA_LAUNCH_INPUT, myaLaunchInput);
         super.onSaveInstanceState(outState);
     }
 

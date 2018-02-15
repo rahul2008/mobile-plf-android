@@ -32,8 +32,6 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
  * @since 2017.5.0
  */
 public class MyaInterface implements UappInterface {
-    private static final String TAG = "MyaInterface";
-    public static final String MYA_LAUNCH_INPUT = "mya_launch_input";
     public static String USER_PLUGIN = "user_plugin";
     private static final MyaInterface reference = new MyaInterface();
 
@@ -77,6 +75,7 @@ public class MyaInterface implements UappInterface {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
+        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
@@ -94,7 +93,6 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments, MyaLaunchInput myaLaunchInput) {
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-        arguments.putSerializable(MYA_LAUNCH_INPUT,myaLaunchInput);
         myaTabFragment.setArguments(arguments);
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
         myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
@@ -105,7 +103,6 @@ public class MyaInterface implements UappInterface {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
-            myAccountIntent.putExtra(MYA_LAUNCH_INPUT, myaLaunchInput);
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
     }

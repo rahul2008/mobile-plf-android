@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
@@ -23,7 +24,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -34,7 +34,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
@@ -124,13 +123,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
         String settingItems = "settings.menuItems";
         List<?> list = null;
-        MyaLaunchInput myaLaunchInput = null;
         if (arguments != null)
-            myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
+            list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsConfigurableItems();
 
-        if (myaLaunchInput != null) {
-            list = myaLaunchInput.getSettingsConfigurableItems();
-        }
         if (list == null || list.isEmpty()) {
             try {
                 list = (ArrayList<?>) appInfraInterface.getConfigInterface().getPropertyForKey(settingItems, "mya", error);

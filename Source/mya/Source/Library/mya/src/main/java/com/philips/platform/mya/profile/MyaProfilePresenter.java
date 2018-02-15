@@ -11,11 +11,11 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
@@ -59,10 +58,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         List<?> list = null;
         if (arguments != null) {
             setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
-            MyaLaunchInput myaLaunchInput = (MyaLaunchInput) arguments.getSerializable(MYA_LAUNCH_INPUT);
-            if (myaLaunchInput != null) {
-                list = myaLaunchInput.getProfileConfigurableItems();
-            }
+            list = MyaHelper.getInstance().getMyaLaunchInput().getProfileConfigurableItems();
         }
         if (list == null || list.isEmpty()) {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface

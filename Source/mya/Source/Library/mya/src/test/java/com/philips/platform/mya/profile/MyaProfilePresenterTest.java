@@ -26,7 +26,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.philips.platform.mya.launcher.MyaInterface.MYA_LAUNCH_INPUT;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -93,7 +92,6 @@ public class MyaProfilePresenterTest {
         MyaLaunchInput value = new MyaLaunchInput(context, null);
         String[] settingsItems = {"settings1","settings2"};
         value.setProfileConfigurableItems(Arrays.asList(settingsItems));
-        arguments.putSerializable(MYA_LAUNCH_INPUT, value);
         arguments.putSerializable(USER_PLUGIN, userDataModelProvider);
         return arguments;
     }

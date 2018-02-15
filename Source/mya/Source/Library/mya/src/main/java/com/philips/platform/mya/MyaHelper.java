@@ -9,6 +9,7 @@ package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -23,6 +24,7 @@ public class MyaHelper {
     private AppInfraInterface appInfra;
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
+    private MyaLaunchInput myaLaunchInput;
     private List<ConsentConfiguration> consentConfigurationList;
 
     private MyaHelper() {
@@ -91,5 +93,13 @@ public class MyaHelper {
 
     public void setThemeConfiguration(ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
+    }
+
+    public MyaLaunchInput getMyaLaunchInput() {
+        return myaLaunchInput;
+    }
+
+    public void setMyaLaunchInput(MyaLaunchInput myaLaunchInput) {
+        this.myaLaunchInput = myaLaunchInput;
     }
 }
