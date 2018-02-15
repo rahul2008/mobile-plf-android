@@ -125,7 +125,12 @@
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
 
+##--------------- Jodatime  ----------
 
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
 
 ######AppInfar
 
