@@ -8,8 +8,6 @@
 package com.philips.platform.mya.catk.mapper;
 
 import static org.junit.Assert.assertEquals;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
@@ -17,8 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
 public class ConsentToDtoMapperTest {
     private static final String DUTCH_LOCALE = "nl-NL";
