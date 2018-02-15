@@ -33,27 +33,22 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
-    private static final String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static final String PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static final String PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-    private static final String EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+
 
     private static final String EVAL_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
     private static final String DEV_PRX_RESEND_CONSENT_URL = "https://dev.philips.com/prx/registration/resendConsentMail";
 
-    private static final String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
-    private static final String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static final String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
     private static final String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
     private static final String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
-
-    private static final String TEST_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
-
-    private static final String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static final String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
 
@@ -115,14 +110,14 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
-            mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
             return;
         }
         if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue())) {
-            mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
             return;
         }
@@ -139,8 +134,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             return;
         }
         if (registrationEnv.equalsIgnoreCase(Configuration.TESTING.getValue())) {
-            mProductRegisterUrl = TEST_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = TEST_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
         }
     }
@@ -308,7 +303,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         return isMobileFlow;
     }
 
-    public void setMobileFlow(boolean mobileFlow) {
+    public static void setMobileFlow(boolean mobileFlow) {
         isMobileFlow = mobileFlow;
     }
 }
