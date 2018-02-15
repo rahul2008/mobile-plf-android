@@ -226,6 +226,10 @@ public class ConsentsClient {
         return Collections.unmodifiableList(consentDefinitionList);
     }
 
+    public AppInfraInterface getAppInfra() {
+        return appInfra;
+    }
+
     interface ConfigCompletionListener {
         void onConfigurationCompletion(@NonNull String cssUrl);
 
@@ -257,9 +261,5 @@ public class ConsentsClient {
 
     void setNetworkController(NetworkController networkController) {
         controller = networkController;
-    }
-
-    public AppInfraInterface getAppInfra() {
-        return appInfra;
     }
 }
