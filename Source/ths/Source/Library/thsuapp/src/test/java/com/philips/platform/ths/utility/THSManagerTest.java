@@ -483,7 +483,7 @@ public class THSManagerTest {
         SDKCallback value = visitContextCaptor.getValue();
         value.onFailure(any(Throwable.class));
 
-        verify(THSVisitContextCallBack).onFailure(any(Throwable.class));
+        verify(THSVisitContextCallBack).onFailure((Throwable)isNull());
     }
 
 /*    @Test
@@ -1040,7 +1040,7 @@ public class THSManagerTest {
         verify(visitManagerMock).getVisitContext((Consumer)isNull(), any(OnDemandSpecialty.class), getVisitContextCaptor.capture());
         final SDKCallback<VisitContext, SDKError> value = getVisitContextCaptor.getValue();
         value.onResponse(visitContextMock, sdkError);
-        verify(THSVisitContextCallBack).onResponse(any(THSVisitContext.class), any(SDKError.class));
+        verify(THSVisitContextCallBack).onResponse(any(THSVisitContext.class), any(THSSDKError.class));
     }
 
     @Test
@@ -1058,7 +1058,7 @@ public class THSManagerTest {
         verify(consumerManagerMock).getVitals((Consumer)isNull(), any(VisitContext.class), getVitalsCaptor.capture());
         final SDKCallback<Vitals, SDKError> value = getVitalsCaptor.getValue();
         value.onResponse(vitalsMock, sdkError);
-        verify(thsVitalCallBackMock).onResponse(any(Vitals.class), any(SDKError.class));
+        verify(thsVitalCallBackMock).onResponse(any(THSVitals.class), any(THSSDKError.class));
     }
 
     @Test
@@ -1201,7 +1201,7 @@ public class THSManagerTest {
     public void updateVitalsValidationFailure() throws AWSDKInstantiationException {
         when(thsVitalsMock.getVitals()).thenReturn(vitalsMock);
         thsManager.updateVitals(contextMock, thsVitalsMock, thsUpdateVitalsCallBackMock);
-        verify(consumerManagerMock).updateVitals((Consumer)isNull(), any(Vitals.class), any(VisitContext.class), updateVitalsCaptor.capture());
+        verify(consumerManagerMock).updateVitals((Consumer)isNull(), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
         final SDKValidatedCallback<Void, SDKError> value = updateVitalsCaptor.getValue();
         Map map = new HashMap();
         value.onValidationFailure(map);
