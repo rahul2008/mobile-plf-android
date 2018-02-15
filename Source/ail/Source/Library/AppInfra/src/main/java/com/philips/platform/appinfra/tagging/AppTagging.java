@@ -48,6 +48,7 @@ public class AppTagging implements AppTaggingInterface {
     static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
     static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
     static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
+    static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     private static String prevPage;
     private final AppInfra mAppInfra;
     protected String mComponentID;
@@ -192,10 +193,15 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     @Override
-    public ConsentHandlerInterface getConsentHandler() {
+    public ConsentHandlerInterface getClickStreamConsentHandler() {
             if (mConsentHandler == null)
                 mConsentHandler = new ClickStreamConsentHandler(mAppInfra);
             return mConsentHandler;
+    }
+
+    @Override
+    public String getClickStreamConsentIdentifier() {
+        return CLICKSTREAM_CONSENT_TYPE;
     }
 
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {

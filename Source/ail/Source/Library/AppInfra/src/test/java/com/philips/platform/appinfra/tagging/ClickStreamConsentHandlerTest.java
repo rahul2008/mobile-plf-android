@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
-import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -14,6 +13,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,6 +41,7 @@ public class ClickStreamConsentHandlerTest {
     AppTaggingInterface appTaggingInterface;
     @Mock
     SecureStorageInterface.SecureStorageError secureStorageError;
+    List<String> types;
     private TestClickStreamConsentHandler clickStreamConsentHandler;
 
     @Before
@@ -48,12 +52,8 @@ public class ClickStreamConsentHandlerTest {
         when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
         when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
         when(definition.getLocale()).thenReturn("en-US");
-    }
-
-    private List<String> getTypes() {
-        List<String> types = new ArrayList<>();
-        types.add(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_TYPE);
-        return types;
+        types = new ArrayList<>();
+        types.add("AIL_ClickStream");
     }
 
     private List<String> getWrongTypes() {
@@ -64,80 +64,73 @@ public class ClickStreamConsentHandlerTest {
 
     @Test
     public void verifyPostConsentSuccess() {
-        when(definition.getTypes()).thenReturn(getTypes());
+        when(definition.getTypes()).thenReturn(types);
         when(definition.getVersion()).thenReturn(1);
-        clickStreamConsentHandler.storeConsentState(definition, true, new TestPostCallback() {
-            @Override
-            public void onPostConsentSuccess(Consent consent) {
-                assertEquals(ConsentStatus.active, consent.getStatus());
-            }
-        });
+        PostConsentCallback mockCallback = mock(PostConsentCallback.class);
+
+        clickStreamConsentHandler.storeConsentState(definition, true, mockCallback);
+
+
+        ArgumentCaptor<Consent> callbackss = ArgumentCaptor.forClass(Consent.class);
+        verify(mockCallback).onPostConsentSuccess(callbackss.capture());
+        Consent consent = callbackss.getValue();
+
+        assertEquals(consent.getStatus(), ConsentStatus.active);
     }
 
     @Test(expected = AssertionError.class)
     public void verifyPostConsentFailure() {
         when(definition.getTypes()).thenReturn(getWrongTypes());
-        clickStreamConsentHandler.storeConsentState(definition, true, new TestPostCallback() {
-        });
+
+        PostConsentCallback mockCallback = mock(PostConsentCallback.class);
+
+        clickStreamConsentHandler.storeConsentState(definition, true, mockCallback);
+
+
     }
 
     @Test(expected = AssertionError.class)
     public void verifyFetchConsentFailure() {
         when(definition.getTypes()).thenReturn(getWrongTypes());
-        clickStreamConsentHandler.fetchConsentState(definition, new TestFetchCallback() {
-        });
+
+        CheckConsentsCallback mockCallbackcs = mock(CheckConsentsCallback.class);
+
+        clickStreamConsentHandler.fetchConsentState(definition, mockCallbackcs);
     }
 
     @Test
     public void verifyFetchConsentSuccess() {
-        when(definition.getTypes()).thenReturn(getTypes());
+        when(definition.getTypes()).thenReturn(types);
         when(definition.getVersion()).thenReturn(1);
         when(appTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        clickStreamConsentHandler.fetchConsentStates(Collections.singletonList(definition), new TestFetchCallback() {
-            @Override
-            public void onGetConsentsSuccess(List<Consent> consents) {
-                assertEquals(false, consents.get(0).isAccepted());
-            }
-        });
+
+        CheckConsentsCallback mockedCallback = mock(CheckConsentsCallback.class);
+        clickStreamConsentHandler.fetchConsentStates(Collections.singletonList(definition), mockedCallback);
+
+        ArgumentCaptor<List<Consent>> captor = ArgumentCaptor.forClass(List.class);
+        verify(mockedCallback).onGetConsentsSuccess(captor.capture());
+        List<Consent> value = captor.getValue();
+
+        assertFalse(value.get(0).isAccepted());
+
     }
 
     @Test
     public void verifyFetchConsentVersionMismatch() {
-        when(definition.getTypes()).thenReturn(getTypes());
+        when(definition.getTypes()).thenReturn(types);
         when(definition.getVersion()).thenReturn(2);
-        clickStreamConsentHandler.fetchConsentState(definition, new TestFetchCallback() {
-            @Override
-            public void onGetConsentsSuccess(List<Consent> consents) {
-                assertEquals(false, consents.get(0).isAccepted());
-            }
-        });
+
+        CheckConsentsCallback fetcherMock = mock(CheckConsentsCallback.class);
+        clickStreamConsentHandler.fetchConsentState(definition, fetcherMock);
+
+        ArgumentCaptor<List<Consent>> captor = ArgumentCaptor.forClass(List.class);
+        verify(fetcherMock).onGetConsentsSuccess(captor.capture());
+        List<Consent> value = captor.getValue();
+
+        assertFalse(value.get(0).isAccepted());
+
     }
 
-    private class TestPostCallback implements PostConsentCallback {
-
-        @Override
-        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-            throw new RuntimeException("onPostConsentFailed Failed");
-        }
-
-        @Override
-        public void onPostConsentSuccess(Consent consent) {
-            throw new RuntimeException("onPostConsentSuccess Failed");
-        }
-    }
-
-    private class TestFetchCallback implements CheckConsentsCallback {
-
-        @Override
-        public void onGetConsentsSuccess(List<Consent> consents) {
-            throw new RuntimeException("onGetConsentsSuccess Failed");
-        }
-
-        @Override
-        public void onGetConsentsFailed(ConsentError error) {
-            throw new RuntimeException("onGetConsentsFailed Failed");
-        }
-    }
 
     private class TestClickStreamConsentHandler extends ClickStreamConsentHandler {
 

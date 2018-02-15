@@ -19,23 +19,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.appinfra.tagging.AppTagging.CLICKSTREAM_CONSENT_TYPE;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 
-public class ClickStreamConsentHandler implements ConsentHandlerInterface {
+class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
-    public static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
     AppInfraInterface appInfraInterface;
 
-    @Override
-    public void fetchConsentState(ConsentDefinition definition, CheckConsentsCallback callback) {
-        callback.onGetConsentsSuccess(getSuccessConsentForStatus(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
-    }
-
     ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
+    }
+
+    @Override
+    public void fetchConsentState(ConsentDefinition definition, CheckConsentsCallback callback) {
+        callback.onGetConsentsSuccess(getSuccessConsentForStatus(definition, getConsentStatus(processClickStreamConsentStatus(definition))));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         List<Consent> consents = new ArrayList<>();
         for (ConsentDefinition definition : consentDefinitions) {
             if(getClickStreamType(definition) != null){
-                consents.add(createConsentFromDefinition(definition, toConsentStatus(processClickStreamConsentStatus(definition))));
+                consents.add(createConsentFromDefinition(definition, getConsentStatus(processClickStreamConsentStatus(definition))));
             }
         }
         assertFalse(consents.isEmpty());
@@ -53,7 +53,7 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         assertNotNull(getClickStreamType(definition));
-        appInfraInterface.getTagging().setPrivacyConsent(toPrivacyStatus(status));
+        appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
         callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status)));
     }
@@ -87,11 +87,11 @@ public class ClickStreamConsentHandler implements ConsentHandlerInterface {
         return definition.getVersion() > Integer.valueOf(appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError()));
     }
 
-    private AppTaggingInterface.PrivacyStatus toPrivacyStatus(boolean status) {
+    private AppTaggingInterface.PrivacyStatus getPrivacyStatus(boolean status) {
         return status ? AppTaggingInterface.PrivacyStatus.OPTIN : AppTaggingInterface.PrivacyStatus.OPTOUT;
     }
 
-    private ConsentStatus toConsentStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+    private ConsentStatus getConsentStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
         ConsentStatus status = ConsentStatus.inactive;
         if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTIN))
             status = ConsentStatus.active;

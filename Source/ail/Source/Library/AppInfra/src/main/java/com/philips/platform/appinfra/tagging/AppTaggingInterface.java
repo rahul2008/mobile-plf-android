@@ -220,12 +220,23 @@ public interface AppTaggingInterface extends Serializable {
 	}
 
 	/**
-	 * Gets Tagging Consent Handler.
+	 * Retrieves the handler which handles Click Stream Consent
+	 * ClickStreamConsentHandler is used for storing/fetching Tagging Consents in Adobe
 	 *
-	 * @return the consent handler interface
+	 * @return This method returns the Click Stream Consent Handler
 	 * @since 2018.1.0
 	 */
-	ConsentHandlerInterface getConsentHandler();
+	ConsentHandlerInterface getClickStreamConsentHandler();
+
+	/**
+	 * This gives the Click Stream key without which ClickStreamConsentHandler will not function.
+	 * Only Consent Definitions containing this key will be considered for Click Stream Handling.
+	 * If no such key is found then the app will crash.
+	 *
+	 * @return This method returns the Click Stream Consent Identifier
+	 * @since 2018.1.0
+	 */
+	String getClickStreamConsentIdentifier();
 
 	enum SocialMedium {
 		Facebook("facebook"),
