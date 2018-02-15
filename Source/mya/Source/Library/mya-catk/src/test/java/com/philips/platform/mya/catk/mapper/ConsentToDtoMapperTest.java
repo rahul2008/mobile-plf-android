@@ -44,14 +44,14 @@ public class ConsentToDtoMapperTest {
     public void map_correctlyTo_NL() {
         givenConsent(activityTypeWithMissingLanguage);
         whenCallingMapWith();
-        thenConsentIs(new CreateConsentDto("nl-NL", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
+        thenConsentIs(new CreateConsentDto("-NL", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
     }
 
     @Test
     public void map_correctlyTo_nl() {
         givenConsent(activityTypeWithMissingCountry);
         whenCallingMapWith();
-        thenConsentIs(new CreateConsentDto("nl-NL", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
+        thenConsentIs(new CreateConsentDto("nl-", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
     }
 
     private void givenConsent(BackendConsent consent) {
