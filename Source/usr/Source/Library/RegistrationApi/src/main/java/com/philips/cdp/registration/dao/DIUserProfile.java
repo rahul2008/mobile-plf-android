@@ -89,13 +89,6 @@ public class DIUserProfile implements Serializable {
     /* Date of birth */
     private Date dateOfBirth;
 
-
-    /**
-     * Class constructor
-     */
-    public DIUserProfile() {
-    }
-
     /**
      * get email
      *
