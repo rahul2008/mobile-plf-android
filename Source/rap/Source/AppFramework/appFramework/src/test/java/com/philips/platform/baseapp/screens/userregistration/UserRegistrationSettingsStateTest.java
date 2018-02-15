@@ -32,6 +32,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,7 +75,7 @@ public class UserRegistrationSettingsStateTest {
     @Test
     public void onUserLogoutSuccess() throws Exception {
         userRegState.onUserLogoutSuccess();
-        verify(homeFragmentState).navigate(any(UiLauncher.class));
+        verify(homeFragmentState).navigate((UiLauncher)isNull());
     }
 
     @After

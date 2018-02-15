@@ -39,6 +39,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -109,7 +110,7 @@ public class SupportFragmentStateTest {
         when(appFrameworkApplication.getTargetFlowManager()).thenReturn(flowManager);
         when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(productRegistrationState);
         supportFragmentStateMock.onMainMenuItemClicked("RA_Product_Registration_Text");
-        verify(productRegistrationState).navigate(any(UiLauncher.class));
+        verify(productRegistrationState).navigate((UiLauncher)isNull());
 
     }
 

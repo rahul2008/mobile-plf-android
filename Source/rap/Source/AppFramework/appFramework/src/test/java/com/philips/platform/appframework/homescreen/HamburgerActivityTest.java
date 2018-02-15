@@ -54,7 +54,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -275,7 +276,7 @@ public class HamburgerActivityTest {
     @Test
     public void logoutClickWhenUserLoggedOutTest() {
         TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
-        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
+        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject((Context)isNull()).isUserSignIn()).thenReturn(false);
         LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
         logoutParent.performClick();
         assertFalse(sideBar.isDrawerVisible(navigationView));
@@ -291,7 +292,7 @@ public class HamburgerActivityTest {
     public void logoutResultSuccessTest() {
         assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Logout));
         TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
-        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
+        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject((Context)isNull()).isUserSignIn()).thenReturn(false);
         hamburgerActivity.onLogoutResultSuccess();
         assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Login));
     }
