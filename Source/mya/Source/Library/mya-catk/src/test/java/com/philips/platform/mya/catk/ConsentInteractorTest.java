@@ -33,6 +33,7 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
+import com.philips.platform.mya.catk.listener.GetConsentsResponseListener;
 import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
