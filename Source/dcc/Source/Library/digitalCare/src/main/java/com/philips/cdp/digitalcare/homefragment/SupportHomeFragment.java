@@ -60,14 +60,10 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
-import com.philips.platform.mya.csw.justintime.JustInTimeFragmentWidget;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
@@ -387,14 +383,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     private void showConsentDialog(){
         if(!Utils.isEulaAccepted(getActivity())){
-            ConsentDefinition definition = CcConsentProvider.fetchLocationConsentDefinitionFor(getActivity(), Utils.getLocaleFromAppInfra());
-            DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
-            JustInTimeFragmentWidget justInTimeFragmentWidget = JustInTimeFragmentWidget.newInstance(definition, deviceStoredConsentHandler, getJustInTimeTextResources());
-            justInTimeFragmentWidget.setCompletionListener(getJustInTimeWidgetHandler());
+            addJustInTimeConsentDependencies();
+            JustInTimeConsentFragment justInTimeFragmentWidget = JustInTimeConsentFragment.newInstance(android.R.layout.two_line_list_item);
             showFragment(justInTimeFragmentWidget);
         }else {
             showFragment(new LocatePhilipsFragment());
         }
+    }
+
+    private void addJustInTimeConsentDependencies() {
+        JustInTimeConsentDependencies.appInfra = DigitalCareConfigManager.getInstance().getAPPInfraInstance();
+        JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinitionFor(getActivity(), Utils.getLocaleFromAppInfra());
+        JustInTimeConsentDependencies.consentHandlerInterface = CcConsentProvider.fetchDeviceStoredConsentHandler();
+        JustInTimeConsentDependencies.textResources = getJustInTimeTextResources();
+        JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
 
     @NonNull

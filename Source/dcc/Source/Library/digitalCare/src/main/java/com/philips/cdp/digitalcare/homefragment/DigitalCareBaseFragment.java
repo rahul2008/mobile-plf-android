@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +47,12 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+
+import java.util.List;
 
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener, BackEventListener {
@@ -367,19 +371,25 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             }
         }
         try {
-            FragmentTransaction fragmentTransaction = mFragmentActivityContext
-                    .getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = mFragmentActivityContext.getSupportFragmentManager().beginTransaction();
             if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
             fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
-            fragmentTransaction.addToBackStack(fragment.getTag());
+            if(! (getFragmentAtTop(mFragmentActivityContext.getSupportFragmentManager()) instanceof JustInTimeConsentFragment)){
+                fragmentTransaction.addToBackStack(fragment.getTag());
+            }
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             DigiCareLogger.e(TAG, "IllegalStateException" + e.getMessage());
         }
+    }
+
+    private Fragment getFragmentAtTop(FragmentManager fragmentManager){
+        List<Fragment> fragments = fragmentManager.getFragments();
+        return fragments.get(fragments.size() - 1);
     }
 
     @Override
