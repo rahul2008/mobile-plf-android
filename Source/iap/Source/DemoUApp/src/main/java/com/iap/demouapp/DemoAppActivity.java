@@ -406,7 +406,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setUserRegistrationUIEventListener(this);
-       // urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
         URInterface urInterface = new URInterface();
         urInterface.launch(new ActivityLauncher(ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
