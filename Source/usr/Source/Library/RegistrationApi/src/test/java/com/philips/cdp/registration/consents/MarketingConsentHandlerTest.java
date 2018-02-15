@@ -18,10 +18,12 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.cdp.registration.consents.URConsentProvider.USR_MARKETING_CONSENT;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -96,10 +98,6 @@ public class MarketingConsentHandlerTest {
         thenMarketingConsentIsRetrieved(ConsentStatus.active);
     }
 
-//    private void whenCheckingConsent() {
-//        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")), givenCheckConsentCallback);
-//        verify(mockUser).getReceiveMarketingEmail();
-//    }
 
     @Test
     public void checkConsents_2() throws Exception {
@@ -108,6 +106,21 @@ public class MarketingConsentHandlerTest {
         whenRefreshUser();
 //        whenCheckingConsents();
         thenMarketingConsentIsRetrieved(ConsentStatus.rejected);
+    }
+
+
+    @Test
+    public void checkConsent_3() throws Exception {
+        givenConsentDefinitionTypeNotSame();
+        givenMarketingConsentIsGiven(true);
+        //whenCheckingConsent();
+        whenRefreshUser();
+        thenErrorCallbackIsCalled();
+    }
+
+    private void givenConsentDefinitionTypeNotSame() {
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
+        subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
     }
 
     @Test
@@ -209,8 +222,11 @@ public class MarketingConsentHandlerTest {
 
 
     private void givenConsentDefinition() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
+        final ArrayList<String> types = new ArrayList<>();
+        types.add(USR_MARKETING_CONSENT);
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", types, 42, Locale.US);
         subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
+
     }
 
     private void givenStatusToPost(boolean status) {
