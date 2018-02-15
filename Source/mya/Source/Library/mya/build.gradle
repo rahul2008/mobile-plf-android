@@ -149,6 +149,7 @@ dependencies {
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.robolectric_shadows
+    testCompile deps.opengl
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
