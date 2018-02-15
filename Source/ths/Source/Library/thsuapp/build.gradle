@@ -263,6 +263,7 @@ dependencies {
     }
     testCompile deps.robolectric_shadows
     testCompile deps.maven_ant
+    testCompile deps.opengl
 
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
