@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
  * Test for ConnectivityPresenter
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class ConnectivityPresenterTest {
 
     @Mock

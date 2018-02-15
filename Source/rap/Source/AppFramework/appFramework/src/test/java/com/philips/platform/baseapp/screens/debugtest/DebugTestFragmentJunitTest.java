@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class DebugTestFragmentJunitTest extends TestCase {
     private DebugTestFragment debugFragment;
     private AppFrameworkApplication appFrameworkApplication;
