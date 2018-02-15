@@ -8,27 +8,20 @@
 package com.philips.platform.mya.csw.permission;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import android.app.ProgressDialog;
@@ -36,7 +29,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
