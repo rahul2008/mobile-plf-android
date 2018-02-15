@@ -44,7 +44,7 @@ android {
 
 dependencies {
 
-    for (dep in [':registrationApi', ':securedblibrary', ':dataServices']) {
+    for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':mya-csw']) {
         if (directdependencies) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')

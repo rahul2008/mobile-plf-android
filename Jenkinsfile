@@ -94,6 +94,28 @@ pipeline {
             }
         }
 
+		stage('Publish PSRA apk') {
+            when {
+				allOf {
+					expression { return params.buildType == 'PSRA' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
+            }
+            steps {
+                script {
+					APK_NAME = readFile("apkname.txt").trim()
+                    echo "APK_NAME = ${APK_NAME}"
+                    APK_INFO = APK_NAME.split("referenceApp-")
+					APK_PATH = APK_INFO[0]
+                    PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
+                    echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
+					sh """#!/bin/bash -le
+						curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+					"""
+                }
+            }
+        }
+
         stage('Trigger E2E Test') {
             when {
 				allOf {
