@@ -34,6 +34,10 @@ import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
@@ -99,7 +103,13 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
+        JustInTimeTextResources textResources = new JustInTimeTextResources();
+        textResources.titleTextRes = R.string.RA_CSW_JustInTime_Title;
+        textResources.acceptTextRes = R.string.RA_CSW_JustInTime_Accept;
+        textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
+        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
+                new ConsentInteractor(ConsentsClient.getInstance()),
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
     }
 
     @NonNull

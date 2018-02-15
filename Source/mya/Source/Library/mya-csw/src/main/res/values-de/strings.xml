@@ -43,9 +43,6 @@
   <string name="mya_Settings">[de]Settings</string>
   <string name="mya_change_country">[de]Logout to change country</string>
   <string name="mya_change_country_message">[de]Please logout to change the country you live in. This will lets us tailor the warranty and other information to your location</string>
-  <string name="mya_csw_justintime_accept">[de]OK, count me in</string>
-  <string name="mya_csw_justintime_reject">[de]Maybe later</string>
-  <string name="mya_csw_justintime_title">[de]Be the first to know</string>
   <string name="mya_logout_message">[de]You will be logged out of the application. After you log out, you can always login again.</string>
   <string name="mya_logout_title">[de]Are you sure you want to log out?</string>
 </resources>

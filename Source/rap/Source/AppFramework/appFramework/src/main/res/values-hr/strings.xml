@@ -57,9 +57,10 @@
 <string name="RA_Empty_Invalid_Data">Polje za podatke prazno je ili nije valjano</string>
 <string name="RA_Invalid_Param_Msg">Unijeli ste ili odabrali vrijednosti parametra koje nisu valjane. Odaberite odgovarajuće vrijednosti parametra i pokrenite ponovo</string>
 <string name="RA_NO_Order_History">Prethodne narudžbe nisu dostupne</string>
-<string name="RA_PR_Benefit_Text">Produžite jamstvo za 24 mjeseca.
-Osigurajte 10 % popusta za proizvode Philips.
-Osigurajte besplatnu dodatnu opremu za proizvod</string>
+<string name="RA_PR_Benefit_Text">Produžite jamstvo za 24 mjeseca.  Osigurajte 10 % popusta za proizvode Philips.  Osigurajte besplatnu dodatnu opremu za proizvod</string>
+  <string name="RA_CSW_JustInTime_Accept">[hr]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[hr]Maybe later </string>
+  <string name="RA_CSW_JustInTime_Title">[hr]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Jamstveno razdoblje produženo je do sljedeće godine</string>
 <string name="RA_PR_Email_Text">Poruka e-pošte s ugovorom za produženo jamstvo poslana je na vašu adresu e-pošte</string>
 <string name="RA_UR_Env_Alert">Promijeni konfiguraciju</string>
