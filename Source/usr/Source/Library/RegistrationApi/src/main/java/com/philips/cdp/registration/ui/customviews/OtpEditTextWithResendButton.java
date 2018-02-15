@@ -110,11 +110,7 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
 
     private boolean validateEmail() {
         if (mEtVerify != null) {
-            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
-                return true;
-            } else {
-                return false;
-            }
+            return mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH;
         }
         return false;
     }
@@ -178,7 +174,7 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+    //To do
     }
 
     @Override
@@ -212,10 +208,11 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
     public void afterTextChanged(Editable s) {
         raiseUpdateUIEvent();
         if (validateEmail()) {
-            if (mTvErrDescriptionView != null && mFlInvalidFieldAlert != null) {
-                mTvErrDescriptionView.setVisibility(GONE);
-                mFlInvalidFieldAlert.setVisibility(GONE);
+            if (mTvErrDescriptionView == null || mFlInvalidFieldAlert == null) {
+                return;
             }
+            mTvErrDescriptionView.setVisibility(GONE);
+            mFlInvalidFieldAlert.setVisibility(GONE);
         }
     }
 
@@ -226,11 +223,7 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
     }
 
     public boolean isShown() {
-        if (mEtVerify != null && mEtVerify.isShown()) {
-            return true;
-        } else {
-            return false;
-        }
+        return mEtVerify != null && mEtVerify.isShown();
     }
 
     public void setImeOptions(int option) {

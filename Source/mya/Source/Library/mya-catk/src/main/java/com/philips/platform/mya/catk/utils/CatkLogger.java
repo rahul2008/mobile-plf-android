@@ -11,7 +11,7 @@ package com.philips.platform.mya.catk.utils;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.BuildConfig;
 
 /**
@@ -28,7 +28,7 @@ public class CatkLogger {
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
-        mLoggingInterface = ConsentAccessToolKit.getInstance().getCatkComponent().getLoggingInterface();
+        mLoggingInterface = ConsentsClient.getInstance().getCatkComponent().getLoggingInterface();
         mLoggingInterface = mLoggingInterface.createInstanceForComponent("catk", BuildConfig.VERSION_NAME);
     }
 

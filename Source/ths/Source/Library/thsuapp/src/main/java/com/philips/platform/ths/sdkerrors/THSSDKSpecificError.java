@@ -82,6 +82,9 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
         } else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_INVALID.name())) {
             errorMessage = context.getString(R.string.ths_invalid_parameter);
             return true;
+        }else if (sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_ELIG_EXCEPTION.name())) {
+            errorMessage = context.getString(R.string.ths_insurance_invalid_subscription_info);
+            return true;
         } else {
             return false;
         }

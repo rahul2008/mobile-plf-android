@@ -6,9 +6,9 @@
  */
 package com.philips.platform.mya.csw.justintime;
 
-import android.os.Parcelable;
+import java.io.Serializable;
 
-public class JustInTimeTextResources {
+public class JustInTimeTextResources implements Serializable {
     public int acceptTextRes;
     public int rejectTextRes;
     public int titleTextRes;

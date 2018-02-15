@@ -11,7 +11,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.injection.CatkComponent;
 
 import com.philips.platform.mya.catk.NetworkController;
@@ -70,7 +70,7 @@ public class CatkComponentMock implements CatkComponent {
     }
 
     @Override
-    public void inject(ConsentAccessToolKit consentAccessToolKit) {
+    public void inject(ConsentsClient consentsClient) {
 
     }
 
