@@ -1,11 +1,5 @@
 package com.philips.platform.mya.mch;
 
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
@@ -35,16 +29,7 @@ import org.mockito.MockitoAnnotations;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
 
-/**
- * Created by Entreco on 19/12/2017.
- */
 public class MarketingConsentHandlerTest {
     private static final String LOCALE_STRING = "en-US";
 
