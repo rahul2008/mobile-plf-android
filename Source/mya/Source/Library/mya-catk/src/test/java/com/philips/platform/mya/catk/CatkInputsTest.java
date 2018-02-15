@@ -9,7 +9,6 @@ package com.philips.platform.mya.catk;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +16,7 @@ import org.junit.Test;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.catk.mock.ContextMock;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -28,7 +28,6 @@ public class CatkInputsTest {
         someAppInfraInterface = new AppInfraInterfaceMock();
         this.inputBuilder = new CatkInputs.Builder();
     }
-
 
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void build_whenContextNotSetThrowsException() {

@@ -33,12 +33,11 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.listener.GetConsentsResponseListener;
 import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
@@ -236,7 +235,6 @@ public class ConsentInteractorTest {
     private void andConsentListContainsNumberOfItems(int expectedNumberOfItems) {
         assertEquals(expectedNumberOfItems, captorRequired.getValue().size());
     }
-
 
     private ConsentCallback consentCallback = new ConsentCallback() {
 
