@@ -71,11 +71,14 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             List<Consent> marketingConsents = new ArrayList<>(definitions.size());
 
             for (ConsentDefinition definition : definitions) {
-                final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
-                marketingConsents.add(marketingConsent);
+                if (definition.getTypes().contains(URConsentProvider.USR_MARKETING_CONSENT)) {
+                    final Consent marketingConsent = createConsentFromDefinition(definition, toStatus(receiveMarketingEmail));
+                    marketingConsents.add(marketingConsent);
+                    callback.onGetConsentsSuccess(marketingConsents);
+                    return;
+                }
             }
-
-            callback.onGetConsentsSuccess(marketingConsents);
+            callback.onGetConsentsFailed(new ConsentError(URConsentProvider.USR_MARKETING_CONSENT+ "Not Found", CONSENT_ERROR_UNKNOWN));
         } catch (Exception consentFailed) {
             callback.onGetConsentsFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN));
         }
