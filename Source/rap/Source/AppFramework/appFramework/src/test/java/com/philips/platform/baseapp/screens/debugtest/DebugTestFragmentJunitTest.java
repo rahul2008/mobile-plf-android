@@ -20,7 +20,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
 public class DebugTestFragmentJunitTest extends TestCase {
     private DebugTestFragment debugFragment;
     private AppFrameworkApplication appFrameworkApplication;

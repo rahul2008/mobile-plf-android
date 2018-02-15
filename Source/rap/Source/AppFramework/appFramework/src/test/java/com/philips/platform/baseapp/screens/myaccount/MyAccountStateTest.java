@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +39,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
 public class MyAccountStateTest {
     private static final String PRIVACY_URL = "http://google.com";
 
