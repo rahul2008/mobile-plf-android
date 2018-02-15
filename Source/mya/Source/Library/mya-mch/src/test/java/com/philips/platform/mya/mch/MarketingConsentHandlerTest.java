@@ -1,12 +1,12 @@
 package com.philips.platform.mya.mch;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;

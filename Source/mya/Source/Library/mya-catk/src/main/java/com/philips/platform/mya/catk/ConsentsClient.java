@@ -25,10 +25,11 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ConsentsClient {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitionList;
+    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
 
     ConsentsClient() {

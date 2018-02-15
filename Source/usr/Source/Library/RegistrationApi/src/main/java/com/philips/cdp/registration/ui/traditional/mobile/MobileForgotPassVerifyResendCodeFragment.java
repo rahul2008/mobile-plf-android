@@ -40,7 +40,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
@@ -87,7 +86,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     ValidationEditText phoneNumberEditText;
 
     @BindView(R2.id.usr_mobileverification_resendsmstimer_progress)
-    ProgressBarWithLabel usr_mobileverification_resendsmstimer_progress;
+    ProgressBarWithLabel usrMobileverificationResendsmstimerProgress;
 
     @BindView(R2.id.ll_reg_root_container)
     LinearLayout fragmentRootLayout;
@@ -106,8 +105,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     private String verificationSmsCodeURL;
 
     private String mobileNumber;
-
-    private String redirectUri;
 
     @Override
     public void onAttach(Context context) {
@@ -128,7 +125,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
         if (bundle != null) {
             mobileNumber = bundle.getString(mobileNumberKey);
-            redirectUri = bundle.getString(redirectUriKey);
+            String redirectUri = bundle.getString(redirectUriKey);
             verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
             mobileVerifyResendCodePresenter.setRedirectUri(redirectUri);
         }
@@ -156,7 +153,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         phoneNumberEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            //Do not do anything
             }
 
             @Override
@@ -172,7 +169,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
             @Override
             public void afterTextChanged(Editable s) {
-
+            // Do not do anything
             }
         });
     }
@@ -213,7 +210,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        // applyParams(config, fragmentRootLayout, width);
+       // Do not do anything
     }
 
     @Override
@@ -238,9 +235,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_EMAIL_VERIFICATION);
-//        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
-//                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
-//                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
         viewOrHideNotificationBar();
         hideProgressDialog();
         getRegistrationFragment().startCountDownTimer();
@@ -301,14 +295,10 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
 
-
     @Override
     public void onUpdate() {
         handleUI();
     }
-
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-
 
     @Override
     public void trackVerifyActionStatus(String state, String key, String value) {
@@ -341,17 +331,17 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void enableResendButton() {
-        if (networkUtility.isNetworkAvailable())
+        if (networkUtility.isNetworkAvailable()) {
             resendSMSButton.setEnabled(true);
-        hideProgressDialog();
+        }
+            hideProgressDialog();
     }
 
     public void updateResendTime(long timeLeft) {
         int timeRemaining = (int) (timeLeft / 1000);
-        usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(
+        usrMobileverificationResendsmstimerProgress.setSecondaryProgress(
                 ((60 - timeRemaining) * 100) / 60);
-        String timeRemainingAsString = Integer.toString(timeRemaining);
-        usr_mobileverification_resendsmstimer_progress.setText(
+        usrMobileverificationResendsmstimerProgress.setText(
                 String.format(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
         disableResendButton();
     }
@@ -412,8 +402,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void onCounterEventReceived(String event, long timeLeft) {
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
-            usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(progress);
-            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
+            usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
+            usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
             updateResendTime(timeLeft);

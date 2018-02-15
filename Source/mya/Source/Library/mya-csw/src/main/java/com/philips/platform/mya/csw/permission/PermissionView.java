@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;

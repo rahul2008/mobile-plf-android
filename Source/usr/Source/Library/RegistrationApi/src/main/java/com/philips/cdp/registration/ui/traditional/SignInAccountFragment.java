@@ -79,7 +79,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 
-public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
+public class  SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
         EventListener, ResendVerificationEmailHandler,
         NetworkStateListener {
@@ -113,17 +113,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_forgotPassword_button)
     Label resetPasswordLabel;
 
-    @BindView(R2.id.usr_loginScreen_rootLayout_LinearLayout)
-    LinearLayout usr_loginScreen_rootLayout_LinearLayout;
-
     @BindView(R2.id.usr_loginScreen_email_label)
     Label usr_loginScreen_email_label;
 
     @BindView(R2.id.usr_loginScreen_progress_indicator)
     LinearLayout progressBar;
-
-    @BindView(R2.id.usr_loginScreen_forgotPassword_LinearLayout)
-    LinearLayout usr_loginScreen_forgotPassword_LinearLayout;
 
     private User mUser;
 

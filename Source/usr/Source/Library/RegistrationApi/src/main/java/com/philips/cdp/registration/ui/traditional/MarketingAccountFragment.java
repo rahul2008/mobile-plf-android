@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
@@ -62,7 +60,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     Label receivePhilipsNewsLabel;
 
     @BindView(R2.id.usr_marketingScreen_rootContainer_linearLayout)
-    LinearLayout usr_marketingScreen_rootContainer_linearLayout;
+    LinearLayout usrMarketingScreenRootContainerLinearLayout;
 
 
 
@@ -77,11 +75,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private long mTrackCreateAccountTime;
 
     MarketingAccountPresenter marketingAccountPresenter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -174,7 +167,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // applyParams(config,usr_marketingScreen_rootContainer_linearLayout,width);
+       // no value
     }
 
     @Override

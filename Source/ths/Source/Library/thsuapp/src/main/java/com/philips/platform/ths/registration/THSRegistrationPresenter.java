@@ -63,6 +63,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
                     date.setTime(calendar.getTimeInMillis());
 
                     ((THSRegistrationFragment)mTHSBaseFragment).updateDobView(date);
+                    ((THSRegistrationFragment)mTHSBaseFragment).validateUserFields();
 
                 }
             };

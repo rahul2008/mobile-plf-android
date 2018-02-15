@@ -132,8 +132,9 @@ dependencies {
         releaseCompile project(path: ':registrationApi', configuration: 'release')
         debugCompile project(path: ':mya-csw', configuration: 'debug')
         releaseCompile project(path: ':mya-csw', configuration: 'release')
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
+
     } else {
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversiongit + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
@@ -141,7 +142,7 @@ dependencies {
             exclude group: 'com.android.support', module: 'customtabs'
         }
         compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-chi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
