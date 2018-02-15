@@ -138,7 +138,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldCallCreateConsentOnTheCatk() throws Exception {
-        when(internationalizationMock.getBCP47UILocale()).thenReturn("en-US");
+        givenAppLocaleOf("en-US");
         givenCreateConsentInteractor();
         givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
@@ -147,7 +147,7 @@ public class ConsentInteractorTest {
 
     @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
-        when(internationalizationMock.getBCP47UILocale()).thenReturn("en-");
+        givenAppLocaleOf("en-");
         givenCreateConsentInteractor();
         givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
@@ -156,11 +156,15 @@ public class ConsentInteractorTest {
 
     @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
-        when(internationalizationMock.getBCP47UILocale()).thenReturn("-US");
+        givenAppLocaleOf("-US");
         givenCreateConsentInteractor();
         givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
+    }
+
+    private void givenAppLocaleOf(final String locale) {
+        when(internationalizationMock.getBCP47UILocale()).thenReturn(locale);
     }
 
     private void givenCreateConsentInteractor() {
