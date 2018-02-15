@@ -34,9 +34,14 @@ public class InternationalizationTest extends AppInfraInstrumentation {
         assertNotNull(localeString);
     }
 
-    public void test_givenInterfaceCreated_whenGetBCP47UILocale_thenShouldReturnContainingUnderscore() {
+    public void test_givenInterfaceCreated_whenGetBCP47UILocale_thenShouldReturnContainingNoUnderscore() {
         String localeString = mInternationalizationInterface.getBCP47UILocale();
-        assertTrue(localeString.contains("_"));
+        assertFalse(localeString.contains("_"));
+    }
+
+    public void test_givenInterfaceCreated_whenGetBCP47UILocale_thenShouldReturnContainingDash() {
+        String localeString = mInternationalizationInterface.getBCP47UILocale();
+        assertTrue(localeString.contains("-"));
     }
 
 }
