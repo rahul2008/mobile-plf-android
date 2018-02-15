@@ -40,7 +40,6 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
@@ -86,7 +85,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     XRegError errorMessage;
 
     @BindView(R2.id.reg_verify_mobile_desc1)
-    Label reg_verify_mobile_desc1;
+    Label regVerifyMobileDesc1;
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
@@ -133,7 +132,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        reg_verify_mobile_desc1.setText(str);
+        regVerifyMobileDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
@@ -164,7 +163,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        //applyParams(config, usrAccountRootLayout, width);
+        //Do not do anything
     }
 
     @Override
@@ -212,15 +211,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         handleUI();
     }
 
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-  
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<>();
         map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
         map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
-
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
