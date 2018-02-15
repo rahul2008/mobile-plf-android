@@ -2,17 +2,15 @@ package com.philips.platform.mya.csw;
 
 import com.philips.platform.mya.csw.mock.ActionBarListenerMock;
 import com.philips.platform.mya.csw.mock.CswFragmentMock;
-import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.mya.csw.wrapper.CswBaseFragmentWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(CustomRobolectricRunner.class)
+
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CswBaseFragmentTest {
 
@@ -41,10 +39,6 @@ public class CswBaseFragmentTest {
         thenSetResourceIdIsInvokedWith(123);
     }
 
-    private void thenSetResourceIdIsInvokedWith(int i) {
-        assertEquals(cswFragment.getResourceID(), i);
-    }
-
     @Test
     public void onResume_doesNotSetTitleIfParentFragmentIsNull() throws Exception {
         givenANullParentFragment();
@@ -58,6 +52,10 @@ public class CswBaseFragmentTest {
 
     private void thenActionBarIsUpdatedWith(int expectedActionBarInt, boolean expectedActionBarBoolean) {
         assertEquals(expectedActionBarInt, actionBarListener.updatedActionBarInt);
+    }
+
+    private void thenSetResourceIdIsInvokedWith(int i) {
+        assertEquals(cswFragment.getResourceID(), i);
     }
 
     private void givenFragmentCountIs(int i) {
