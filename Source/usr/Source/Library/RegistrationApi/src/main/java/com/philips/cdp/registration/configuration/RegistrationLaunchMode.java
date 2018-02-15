@@ -18,7 +18,14 @@ public enum RegistrationLaunchMode {
      * By enabling User accepts to receive philips marketing campaign
      * @since 1.0.0
      */
-    MARKETING_OPT("MarketingOpt");
+    MARKETING_OPT("MarketingOpt"),
+
+    /**
+     * By enabling User It goes to Registration flow by default .
+     * @since 1.0.0
+     * @deprecated : Use either MY_ACCOUNT or MARKETING_OPT
+     */
+    DEFAULT("default");
 
 
     private String mValue;
