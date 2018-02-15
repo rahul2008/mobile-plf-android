@@ -37,7 +37,9 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -144,7 +146,7 @@ public class THSSearchPresenterTest {
     @Test
     public void searchProviders() throws Exception {
         mTHSSearchPresenter.searchProviders("abc", practiceMock);
-        verify(practiceProvidersManager).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), anyString(), ArgumentMatchers.<String>anySet(), ArgumentMatchers.<ProviderType>anySet(), any(State.class), any(Language.class), anyInt(), any(SDKCallback.class));
+        verify(practiceProvidersManager).findProviders(any(Consumer.class), any(Practice.class), (OnDemandSpecialty)isNull(), anyString(), (Set<String>)isNull(), (Set<ProviderType>)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), any(SDKCallback.class));
         // verify(practiceProvidersManager).findFutureAvailableProviders(any(Consumer.class),any(PracticeInfo.class),anyString(),any(Language.class),any(Date.class),anyInt(),anyInt(),any(SDKCallback.class));
     }
 

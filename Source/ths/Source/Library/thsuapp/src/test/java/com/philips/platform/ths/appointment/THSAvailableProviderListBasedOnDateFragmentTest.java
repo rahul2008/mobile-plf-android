@@ -60,6 +60,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_AVAILABLE_PROVID
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_INFO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -159,8 +160,8 @@ public class THSAvailableProviderListBasedOnDateFragmentTest {
         doThrow(AWSDKInstantiationException.class).when(practiceProvidersManagerMock).findFutureAvailableProviders(any(Consumer.class), any(Practice.class),
                 anyString(), any(Language.class), any(Date.class), anyInt(),anyInt(), any(SDKCallback.class));
         mTHSAvailableProviderListBasedOnDateFragment.refreshView();
-        verify(practiceProvidersManagerMock).findFutureAvailableProviders(any(Consumer.class), any(Practice.class),
-                anyString(), any(Language.class), any(Date.class), anyInt(),anyInt(), any(SDKCallback.class));
+        verify(practiceProvidersManagerMock).findFutureAvailableProviders((Consumer)isNull(), any(Practice.class),
+                (String) isNull(), (Language)isNull(), any(Date.class), (Integer) isNull(),(Integer)isNull(), any(SDKCallback.class));
     }
 
     @Test

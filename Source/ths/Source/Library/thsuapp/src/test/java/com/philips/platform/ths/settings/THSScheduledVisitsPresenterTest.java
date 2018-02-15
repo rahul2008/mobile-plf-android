@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -127,7 +128,7 @@ public class THSScheduledVisitsPresenterTest {
     public void onEventConfirm() throws Exception {
         mTHSScheduledVisitsPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
         verify(thsScheduledVisitsFragmentMock).stopRefreshing();
-        verify(consumerManagerMock).cancelAppointment(any(Consumer.class), any(Appointment.class), (SDKCallback<Void, SDKError>) any());
+        verify(consumerManagerMock).cancelAppointment(any(Consumer.class), (Appointment)isNull(), (SDKCallback<Void, SDKError>) any());
     }
 
     @Test

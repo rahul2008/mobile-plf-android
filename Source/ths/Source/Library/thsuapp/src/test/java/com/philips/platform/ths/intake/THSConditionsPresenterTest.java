@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -134,7 +135,7 @@ public class THSConditionsPresenterTest {
     @Test
     public void onEventSkipBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.conditions_skip);
-        verify(pTHBaseViewMock, atLeast(1)).addFragment(any(THSFollowUpFragment.class), anyString(), any(Bundle.class), anyBoolean());
+        verify(pTHBaseViewMock, atLeast(1)).addFragment(any(THSFollowUpFragment.class), anyString(), (Bundle)isNull(), anyBoolean());
     }
 
     @Test

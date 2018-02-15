@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -131,7 +132,7 @@ public class THSVisitHistoryPresenterTest {
     @SuppressWarnings("unchecked")
     public void getVisitHistory() throws Exception {
         mThsVisitHistoryPresenter.getVisitHistory();
-        verify(consumerManagerMock).getVisitReports(any(Consumer.class), any(SDKLocalDate.class), anyBoolean(), (SDKCallback<List<VisitReport>, SDKError>) any());
+        verify(consumerManagerMock).getVisitReports(any(Consumer.class), (SDKLocalDate)isNull(), (Boolean)isNull(), (SDKCallback<List<VisitReport>, SDKError>) any());
     }
 
     @Test
@@ -139,7 +140,7 @@ public class THSVisitHistoryPresenterTest {
     public void getVisitHistoryAWSDKInstantiationException() throws Exception {
         doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getVisitReports(any(Consumer.class), any(SDKLocalDate.class), anyBoolean(), (SDKCallback<List<VisitReport>, SDKError>) any());
         mThsVisitHistoryPresenter.getVisitHistory();
-        verify(consumerManagerMock).getVisitReports(any(Consumer.class), any(SDKLocalDate.class), anyBoolean(), (SDKCallback<List<VisitReport>, SDKError>) any());
+        verify(consumerManagerMock).getVisitReports(any(Consumer.class), (SDKLocalDate)isNull(), (Boolean)isNull(), (SDKCallback<List<VisitReport>, SDKError>) any());
     }
 
     @Test

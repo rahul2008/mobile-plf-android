@@ -29,6 +29,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -104,7 +105,7 @@ public class THSMedicationPresenterTest {
     @Test
     public void onEvent_ths_intake_medication_skip_step_label() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
-        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class), anyString(), any(Bundle.class), anyBoolean());
+        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class), anyString(), (Bundle)isNull(), anyBoolean());
     }
 
     @Test
@@ -122,7 +123,7 @@ public class THSMedicationPresenterTest {
     @Test
     public void onGetMedicationReceived() throws Exception {
         mTHSMedicationPresenter.onGetMedicationReceived(null, sdkErrormock);
-        verify(thsMedicationFragmentMock).showExistingMedicationList(any(THSMedication.class));
+        verify(thsMedicationFragmentMock).showExistingMedicationList((THSMedication)isNull());
     }
 
 }
