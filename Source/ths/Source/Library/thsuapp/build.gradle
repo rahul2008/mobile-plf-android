@@ -223,6 +223,7 @@ dependencies {
     compile deps.support.appcompatv7
     compile deps.constraintlayout
     compile deps.support.design
+    testCompile deps.opengl
 
     def dp = project.ext.has('useprojectdependencies')
 
