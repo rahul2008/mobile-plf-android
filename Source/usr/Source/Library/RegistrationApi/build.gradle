@@ -11,7 +11,7 @@ jacoco {
     toolVersion = "0.7.6.201602180812"
 }
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
