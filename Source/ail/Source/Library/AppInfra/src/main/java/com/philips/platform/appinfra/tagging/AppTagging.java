@@ -8,33 +8,14 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 
 
 /**
@@ -48,15 +29,11 @@ public class AppTagging implements AppTaggingInterface {
     static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
     static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
     static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-    static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     private static String prevPage;
     private final AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
     private transient AppTaggingHandler appTaggingHandle;
-
-    private ClickStreamConsentHandler mConsentHandler;
-
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -192,18 +169,6 @@ public class AppTagging implements AppTaggingInterface {
         getAppTaggingHandler().taggingDataRegister(receiver);
     }
 
-    @Override
-    public ConsentHandlerInterface getClickStreamConsentHandler() {
-            if (mConsentHandler == null)
-                mConsentHandler = new ClickStreamConsentHandler(mAppInfra);
-            return mConsentHandler;
-    }
-
-    @Override
-    public String getClickStreamConsentIdentifier() {
-        return CLICKSTREAM_CONSENT_TYPE;
-    }
-
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {
         final HashMap<String, String> trackMap = new HashMap<>();
         trackMap.put("socialItem", sharedItem);
@@ -222,4 +187,5 @@ public class AppTagging implements AppTaggingInterface {
         getAppTaggingHandler().setPrevPage(previousPage);
 
     }
+
 }
