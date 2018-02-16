@@ -31,13 +31,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,6 +61,7 @@ public class MyaSettingsPresenterTest {
         assertNull(myaSettingsPresenter.getView());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGettingSettingItems() {
         AppInfraInterface appInfraInterface = mock(AppInfraInterface.class);
@@ -74,7 +76,7 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
-        verify(view).showSettingsItems(anyMap());
+        verify(view).showSettingsItems((Map<String, SettingsModel>) any());
     }
 
     @Test

@@ -22,11 +22,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -52,6 +54,7 @@ public class MyaProfilePresenterTest {
         assertNotNull(myaProfilePresenter.getMyaDetailsFragment());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGettingProfileItems() {
         AppInfraInterface appInfraInterface = mock(AppInfraInterface.class);
@@ -62,7 +65,7 @@ public class MyaProfilePresenterTest {
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         myaProfilePresenter.getProfileItems(appInfraInterface);
-        verify(view).showProfileItems(anyMap());
+        verify(view).showProfileItems((Map)any());
     }
 
     @Test

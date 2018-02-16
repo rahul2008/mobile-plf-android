@@ -3,7 +3,7 @@ package com.philips.platform.mya.profile;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -28,7 +28,6 @@ import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
