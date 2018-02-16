@@ -77,7 +77,8 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor_withNoConsentConfigurations() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface, never()).checkConsents(mPermissionPresenter);
+        givenConsentConfigurations();
+        verify(mockHandlerInterface, never()).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test
@@ -91,7 +92,7 @@ public class PermissionPresenterTest {
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         givenConsentConfigurations();
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface).checkConsents(mPermissionPresenter);
+        verify(mockHandlerInterface).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test
