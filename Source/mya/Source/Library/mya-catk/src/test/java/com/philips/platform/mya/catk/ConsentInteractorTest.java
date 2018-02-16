@@ -162,8 +162,8 @@ public class ConsentInteractorTest {
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
-        //subject.post(givenConsentDefinition, checked, mockPostConsentCallback);
-        subject.fetchConsentState(givenConsentDefinition,mockCheckConsentsCallback);
+        subject.storeConsentState(givenConsentDefinition, checked, mockPostConsentCallback);
+        //subject.fetchConsentState(givenConsentDefinition,mockCheckConsentsCallback);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
