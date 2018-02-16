@@ -140,6 +140,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     private LinkedHashMap<String, SettingsModel> getLocalisedList(List<?> propertyForKey, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
+        SettingsModel privacySettingsModel = new SettingsModel();
+        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
+        profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
@@ -151,10 +154,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 }
                 profileList.put(key, settingsModel);
             }
-        } else {
-            SettingsModel privacySettingsModel = new SettingsModel();
-            privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
-            profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
         return profileList;
     }
