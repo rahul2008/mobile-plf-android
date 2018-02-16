@@ -109,10 +109,3 @@
 -keep interface com.philips.platform.appinfra.**{*;}
 
 # --------------------- AppInfra keep rules end here
-
-##--------------- Jodatime  ----------
-
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }

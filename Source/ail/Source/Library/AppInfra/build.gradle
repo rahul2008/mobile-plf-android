@@ -95,15 +95,6 @@ dependencies {
     compile deps.support.supportv4
     compile deps.support.annotations
 
-    // Philips Components
-    def dp = project.ext.has('useprojectdependencies')
-    if (dp) {
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-    }
-
     testCompile deps.junit
     testCompile deps.powermock_junit
     testCompile deps.powermock_mockito
