@@ -316,7 +316,7 @@ def DeployingConnectedTestsLogs() {
             ARTIFACTORY_REPO="platform-logs-release-local"
         elif [ '''+DevelopBranch+''' = true ]
         then
-            ARTIFACTORY_REPO="platform-logs-snapshot-local "
+            ARTIFACTORY_REPO="platform-logs-snapshot-local"
         else
             echo "Not published as build is not on a master, develop or release branch" . $BranchName
         fi
