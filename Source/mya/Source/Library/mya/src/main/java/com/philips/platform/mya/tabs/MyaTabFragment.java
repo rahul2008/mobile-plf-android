@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaPager;
 import com.philips.platform.mya.R;
@@ -46,8 +47,13 @@ public class MyaTabFragment extends MyaBaseFragment {
             }
             addTabs(tabLayout);
             adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
-            if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null)
-                adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
+            if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null) {
+                if (myaLaunchInput.getMyaTabConfig().getFragment() != null)
+                    adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
+                else {
+                    MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, " Mya ", " Input(MYATabConfig) to configure Proposition specific Tab not provided ");
+                }
+            }
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
             viewPager.setCurrentItem(tabPosition, true);

@@ -8,6 +8,7 @@
 package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.pif.chi.ConsentConfiguration;
@@ -26,6 +27,7 @@ public class MyaHelper {
     private ThemeConfiguration themeConfiguration;
     private MyaLaunchInput myaLaunchInput;
     private List<ConsentConfiguration> consentConfigurationList;
+    private LoggingInterface myaLogger;
 
     private MyaHelper() {
     }
@@ -101,5 +103,13 @@ public class MyaHelper {
 
     public void setMyaLaunchInput(MyaLaunchInput myaLaunchInput) {
         this.myaLaunchInput = myaLaunchInput;
+    }
+
+    public void setMyaLogger(LoggingInterface myaLogger) {
+        this.myaLogger = myaLogger;
+    }
+
+    public LoggingInterface getMyaLogger() {
+        return myaLogger;
     }
 }
