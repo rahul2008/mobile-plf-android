@@ -9,6 +9,9 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -225,6 +228,27 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     @Override
+    public void encryptBulkData(final byte[] dataToBeEncrypted, final DataEncryptionListener dataEncryptionListener) {
+        HandlerThread handlerThread=new HandlerThread("EncryptionWorkerThread");
+        handlerThread.start();
+        Looper looper=handlerThread.getLooper();
+        Handler handler=new Handler(looper);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                SecureStorageError secureStorageError=new SecureStorageError();
+                byte[] encryptedData=encryptData(dataToBeEncrypted,secureStorageError);
+                if(secureStorageError.getErrorCode()==null){
+                    dataEncryptionListener.onEncryptionSuccess(encryptedData);
+                }else{
+                    dataEncryptionListener.onEncryptionError(secureStorageError);
+                }
+
+            }
+        });
+    }
+
+    @Override
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError) {
         if (null == dataToBeDecrypted) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.NullData);
@@ -239,7 +263,26 @@ public class SecureStorage implements SecureStorageInterface {
         }
         return decryptedBytes;
     }
+    @Override
+    public void decryptBulkData(final byte[] dataToBeDecrypted, final DataDecryptionListener dataDecryptionListener) {
+        HandlerThread handlerThread=new HandlerThread("EncryptionWorkerThread");
+        handlerThread.start();
+        Looper looper=handlerThread.getLooper();
+        Handler handler=new Handler(looper);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                SecureStorageError secureStorageError=new SecureStorageError();
+                byte[] decryptedData=decryptData(dataToBeDecrypted,secureStorageError);
+                if(secureStorageError.getErrorCode()==null){
+                    dataDecryptionListener.onDecryptionSuccess(decryptedData);
+                }else{
+                    dataDecryptionListener.onDecyptionError(secureStorageError);
+                }
 
+            }
+        });
+    }
     Key getSecretKey(SecureStorageError secureStorageError) {
         Key key = null;
         try {

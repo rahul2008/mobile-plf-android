@@ -94,7 +94,10 @@ dependencies {
     compile deps.support.supportv4
     compile deps.support.annotations
 
-    testCompile 'org.mockito:mockito-core:2.8.9'
+    testCompile deps.junit
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_mockito
+    testCompile deps.mockito
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile deps.assertj
 
