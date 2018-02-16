@@ -246,8 +246,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {
                     detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
-                    detailsButtonTwo.setVisibility(View.VISIBLE);
-                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                    checkForUrgentCare();
                 }
             }
         } else if (ProviderVisibility.isVideoAvailable(provider.getVisibility())) {
@@ -262,8 +261,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                     detailsButtonTwo.setVisibility(View.GONE);
                 } else {
                     detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
-                    detailsButtonTwo.setVisibility(View.VISIBLE);
-                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                    checkForUrgentCare();
                 }
             }
         } else if (ProviderVisibility.isOffline(provider.getVisibility())) {
@@ -273,9 +271,17 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             } else {
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
-                detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                checkForUrgentCare();
             }
+        }
+    }
+
+    private void checkForUrgentCare() {
+        if(thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
+            detailsButtonTwo.setVisibility(View.VISIBLE);
+            detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+        }else {
+            detailsButtonTwo.setVisibility(View.GONE);
         }
     }
 

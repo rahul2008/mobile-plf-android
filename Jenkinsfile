@@ -89,8 +89,10 @@ pipeline {
                 sh '''#!/bin/bash -l
                     set -e
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+					./gradlew :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
+				DeployingConnectedTestsLogs()
             }
         }
 
@@ -303,6 +305,50 @@ def DeployingLeakCanaryArtifacts() {
             curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
             echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/rap/Source/AppFramework/apkname.txt
         fi
+
+        if [ $? != 0 ]
+        then
+            exit 1
+        else
+            cd $BASE_PATH
+        fi
+    '''
+    sh shellcommand
+}
+
+def DeployingConnectedTestsLogs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+    def shellcommand = '''#!/bin/bash -l
+        export BASE_PATH=`pwd`
+        echo $BASE_PATH
+
+        cd $BASE_PATH
+
+        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_REPO="unknown"
+
+        if [ '''+MasterBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-release-local"
+        elif [ '''+ReleaseBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-release-local"
+        elif [ '''+DevelopBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-snapshot-local "
+        else
+            echo "Not published as build is not on a master, develop or release branch" . $BranchName
+        fi
+
+
+        find . -name *logs.zip | while read LOGS;
+		do
+			curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
+		done
+
 
         if [ $? != 0 ]
         then
