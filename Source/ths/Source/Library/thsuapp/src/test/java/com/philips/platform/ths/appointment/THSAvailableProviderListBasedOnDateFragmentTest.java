@@ -160,7 +160,7 @@ public class THSAvailableProviderListBasedOnDateFragmentTest {
         doThrow(AWSDKInstantiationException.class).when(practiceProvidersManagerMock).findFutureAvailableProviders(any(Consumer.class), any(Practice.class),
                 anyString(), any(Language.class), any(Date.class), anyInt(),anyInt(), any(SDKCallback.class));
         mTHSAvailableProviderListBasedOnDateFragment.refreshView();
-        verify(practiceProvidersManagerMock).findFutureAvailableProviders((Consumer)isNull(), any(Practice.class),
+        verify(practiceProvidersManagerMock).findFutureAvailableProviders(any(Consumer.class), any(Practice.class),
                 (String) isNull(), (Language)isNull(), any(Date.class), (Integer) isNull(),(Integer)isNull(), any(SDKCallback.class));
     }
 
