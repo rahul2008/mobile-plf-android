@@ -6,7 +6,7 @@ apply plugin: 'com.jakewharton.butterknife'
 
 //def libVersionNumber = new File("${projectDir}/../../../VERSION_JUMP").text.trim()
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
