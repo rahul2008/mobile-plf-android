@@ -235,14 +235,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onResume() {
-//        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-//        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }

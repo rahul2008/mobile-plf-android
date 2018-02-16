@@ -32,7 +32,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, name_value, dob_value, email_address_heading;
-    private View email_divider;
     private final String DETAILS_BUNDLE = "details_bundle";
     private UserDetailPresenter myaDetailPresenter;
     private User user;
@@ -95,23 +94,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         email_address_heading = view.findViewById(R.id.email_address_heading);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
-        email_divider = view.findViewById(R.id.email_divider);
     }
-
-
-    public int getActionbarTitleResId() {
-        return R.string.MYA_My_account;
-    }
-
-
-    public String getActionbarTitle(Context context) {
-        return context.getString(R.string.MYA_My_details);
-    }
-
-    public boolean getBackButtonState() {
-        return true;
-    }
-
     @Override
     public void setUserName(String name) {
         if (!TextUtils.isEmpty(name)) {
@@ -130,7 +113,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
         } else {
             email_address.setText(email);
-            email_divider.setVisibility(View.VISIBLE);
         }
     }
 

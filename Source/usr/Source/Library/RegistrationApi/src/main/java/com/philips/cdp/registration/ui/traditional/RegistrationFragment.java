@@ -302,9 +302,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     private void launchMyAccountFragment() {
-        UserDetailsFragment marketingAccountFragment = new UserDetailsFragment();
+        UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
+        fragmentTransaction.replace(R.id.fl_reg_fragment_container, userDetailsFragment);
         fragmentTransaction.commitAllowingStateLoss();
     }
 

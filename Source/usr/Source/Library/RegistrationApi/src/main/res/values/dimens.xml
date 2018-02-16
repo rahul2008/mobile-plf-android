@@ -186,6 +186,7 @@
     <dimen name="MYA_end_margin">16dp</dimen>
     <dimen name="MYA_bottom_margin">16dp</dimen>
     <dimen name="MYA_top_margin">16dp</dimen>
+    <dimen name="MYA_top_margin_12">12dp</dimen>
     <dimen name="MYA_padding">16dp</dimen>
     <dimen name="MYA_item_top_margin">8dp</dimen>
     <dimen name="MYA_item_bottom_margin">8dp</dimen>

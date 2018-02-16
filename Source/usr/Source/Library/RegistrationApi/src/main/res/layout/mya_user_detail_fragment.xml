@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/MYA_top_margin"
+                android:layout_marginTop="@dimen/MYA_top_margin_12"
                 android:id="@+id/email_address_heading"
                 android:layout_marginStart="@dimen/MYA_start_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
@@ -82,14 +82,6 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_right_arrow_show_more" />
-            <View
-                android:id="@+id/email_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/email_address_value"
-                android:layout_marginTop="@dimen/MYA_item_top_margin"
-                android:layout_marginBottom="@dimen/MYA_item_bottom_margin"
-                android:background="?attr/uidContentSecondaryBackgroundColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mobile_number_heading"
@@ -136,7 +128,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/MYA_top_margin"
+            android:layout_marginTop="@dimen/MYA_top_margin_12"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -159,14 +151,7 @@
                 android:layout_height="wrap_content"
                 />
 
-            <View
-                android:id="@+id/name_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/name_value"
-                android:layout_marginTop="@dimen/MYA_item_top_margin"
-                android:layout_marginBottom="@dimen/MYA_item_bottom_margin"
-                android:background="?attr/uidContentSecondaryBackgroundColor"/>
+
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/gender_heading"
@@ -188,15 +173,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-
-            <View
-                android:id="@+id/gender_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/gender_value"
-                android:layout_marginTop="@dimen/MYA_item_top_margin"
-                android:layout_marginBottom="@dimen/MYA_item_bottom_margin"
-                android:background="?attr/uidContentSecondaryBackgroundColor"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -237,14 +213,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/MYA_top_margin"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="?attr/uidContentSecondaryBackgroundColor"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
             android:text="@string/MYA_Address"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/MYA_top_margin"/>
@@ -257,7 +233,7 @@
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             />
     </LinearLayout>
 

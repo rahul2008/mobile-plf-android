@@ -53,23 +53,6 @@ public class UserDetailsFragmentTest {
         myaDetailsFragment.setUser(userMock);
         SupportFragmentTestUtil.startFragment(myaDetailsFragment);
     }
-
-    @Test
-    public void testEquals_getActionbarTitleResId() throws Exception{
-        assertEquals(R.string.MYA_My_account,myaDetailsFragment.getActionbarTitleResId());
-    }
-
-    @Test
-    public void testNotNull_getActionbarTitle() throws Exception{
-        assertNotNull(myaDetailsFragment.getActionbarTitle(mContext));
-    }
-
-    @Test
-    public void notNullgetBackButtonState() throws Exception {
-        assertNotNull(myaDetailsFragment.getBackButtonState());
-        testCircleTextData();
-    }
-
     @Test
     public void testCircleTextData() {
         Label view = myaDetailsFragment.getView().findViewById(R.id.mya_name);
