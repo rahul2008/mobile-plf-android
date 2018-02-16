@@ -51,7 +51,7 @@ public class MyaTabFragment extends MyaBaseFragment {
                 if (myaLaunchInput.getMyaTabConfig().getFragment() != null)
                     adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
                 else {
-                    MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, " Mya ", " Input(MYATabConfig) to configure Proposition specific Tab not provided ");
+                    MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, " mya ", " Input(MYATabConfig) to configure Proposition specific Tab not provided ");
                 }
             }
             viewPager.setAdapter(adapter);
@@ -72,7 +72,7 @@ public class MyaTabFragment extends MyaBaseFragment {
     private void addTabs(TabLayout tabLayout) {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_profile)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_settings)));
-        if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null && myaLaunchInput.getMyaTabConfig().getTabName() != null)
+        if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null && myaLaunchInput.getMyaTabConfig().getTabName() != null && myaLaunchInput.getMyaTabConfig().getFragment() != null)
             tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTabConfig().getTabName()));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }

@@ -34,11 +34,7 @@ public class MyaHelper {
 
     public static MyaHelper getInstance() {
         if (instance == null) {
-            synchronized (MyaHelper.class) {
-                if (instance == null) {
-                    instance = new MyaHelper();
-                }
-            }
+            instance = new MyaHelper();
         }
         return instance;
     }
