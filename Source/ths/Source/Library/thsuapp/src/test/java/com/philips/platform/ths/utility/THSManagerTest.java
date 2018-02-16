@@ -924,7 +924,7 @@ public class THSManagerTest {
     @Test
     public void checkConsumerExists() throws AWSDKInstantiationException {
         thsManager.checkConsumerExists(contextMock, thsCheckConsumerExistsCallbackMock);
-        verify(consumerManagerMock).checkConsumerExists((String)isNull(), consumerExisitsCaptor.capture());
+        verify(consumerManagerMock).checkConsumerExists(anyString(), consumerExisitsCaptor.capture());
         final SDKCallback<Boolean, SDKError> value = consumerExisitsCaptor.getValue();
         value.onResponse(true, sdkError);
         verify(thsCheckConsumerExistsCallbackMock).onResponse(anyBoolean(), any(THSSDKError.class));
@@ -934,7 +934,7 @@ public class THSManagerTest {
     public void checkConsumerExistsNotDependent() throws AWSDKInstantiationException {
         thsManager.getThsConsumer(contextMock).setDependent(false);
         thsManager.checkConsumerExists(contextMock, thsCheckConsumerExistsCallbackMock);
-        verify(consumerManagerMock).checkConsumerExists((String)isNull(), consumerExisitsCaptor.capture());
+        verify(consumerManagerMock).checkConsumerExists(anyString(), consumerExisitsCaptor.capture());
         final SDKCallback<Boolean, SDKError> value = consumerExisitsCaptor.getValue();
         value.onResponse(true, sdkError);
         verify(thsCheckConsumerExistsCallbackMock).onResponse(anyBoolean(), any(THSSDKError.class));
@@ -944,7 +944,7 @@ public class THSManagerTest {
     public void checkConsumerExistsOnFailure() throws AWSDKInstantiationException {
         thsManager.getThsConsumer(contextMock).setDependent(false);
         thsManager.checkConsumerExists(contextMock, thsCheckConsumerExistsCallbackMock);
-        verify(consumerManagerMock).checkConsumerExists((String)isNull(), consumerExisitsCaptor.capture());
+        verify(consumerManagerMock).checkConsumerExists(anyString(), consumerExisitsCaptor.capture());
         final SDKCallback<Boolean, SDKError> value = consumerExisitsCaptor.getValue();
         value.onFailure(throwable);
         verify(thsCheckConsumerExistsCallbackMock).onFailure(throwable);
