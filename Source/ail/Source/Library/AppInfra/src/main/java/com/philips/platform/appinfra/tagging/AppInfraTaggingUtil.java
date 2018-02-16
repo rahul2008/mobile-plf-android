@@ -40,7 +40,6 @@ public class AppInfraTaggingUtil implements AppTaggingAction {
     public static final String GET_HOME_COUNTRY_GEOIP_SUCCESS = " Successfully fetched country code  from geoip";
     public static final String SET_HOME_COUNTRY_SUCCESS = " Successfully setHomeCountry to country ";
     public static final String ADD_URL_PARAMETERS = " Successfully added the URL parameters";
-    public static final String COUNTRY_MAPPING = " country mapping present";
     public static final String SD_FORCE_REFRESH_CALLED = "Service discovery force refreshed called";
 
     public AppInfraTaggingUtil(AppTaggingInterface appTagging, LoggingInterface appInfraLogInstance) {

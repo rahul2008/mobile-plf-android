@@ -43,7 +43,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.ADD_URL_PARAMETERS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.COUNTRY_CODE_SIM_ERROR;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.COUNTRY_MAPPING;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_GEOIP_SUCCESS;
@@ -918,7 +917,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 final Object countryMapping = mAppInfra.getConfigInterface().getPropertyForKey
                         ("servicediscovery.countryMapping", "appinfra", configError);
                 if (countryMapping != null && countryMapping instanceof Map) {
-                    appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, COUNTRY_MAPPING);
                     return (Map<String, String>) countryMapping;
                 }
             } catch (IllegalArgumentException exception) {
