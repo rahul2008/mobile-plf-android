@@ -66,7 +66,7 @@
         android:id="@+id/line_separator_2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/calendar_container"
+        android:layout_below="@+id/ths_calendar_container_layout"
         android:layout_marginBottom="20dp"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 

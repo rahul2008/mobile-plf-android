@@ -90,6 +90,8 @@ dependencies {
     testCompile deps.assertj
     testCompile deps.powermock_api_mockito
     testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_classloading_xstream
 }
 
 pitest {

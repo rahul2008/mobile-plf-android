@@ -18,6 +18,7 @@ import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.appframework.stateimpl.DemoDlsState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
+import com.philips.platform.appframework.stateimpl.DemoThsState;
 import com.philips.platform.appframework.stateimpl.DemoUFWState;
 import com.philips.platform.appframework.stateimpl.DemoUSRState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
@@ -50,6 +51,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
+        uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

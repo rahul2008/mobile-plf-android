@@ -153,6 +153,11 @@ android {
         ]
     }
 
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -161,10 +166,6 @@ android {
         release
     }
 
-    dexOptions {
-        preDexLibraries = false
-        jumboMode = false
-    }
     buildTypes {
         def BOOLEAN = "bool"
         def TRUE = "true"
@@ -282,8 +283,8 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':telehealth', configuration: 'debug')
-        releaseCompile project(path: ':telehealth', configuration: 'release')
+        debugCompile project(path: ':thsUapp', configuration: 'debug')
+        releaseCompile project(path: ':thsUapp', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'

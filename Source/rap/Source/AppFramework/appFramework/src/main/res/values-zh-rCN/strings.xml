@@ -57,9 +57,10 @@
 <string name="RA_Empty_Invalid_Data">数据字段空白或无效</string>
 <string name="RA_Invalid_Param_Msg">您输入或选择的参数值无效。请选择适当参数值，然后重新启动</string>
 <string name="RA_NO_Order_History">订单历史记录不可用</string>
-<string name="RA_PR_Benefit_Text">将保修期延长为 24 个月。
-享受门店购买飞利浦商品 10% 折扣。
-免费获取产品附件</string>
+<string name="RA_PR_Benefit_Text">将保修期延长为 24 个月。 享受门店购买飞利浦商品 10% 折扣。 免费获取产品附件</string>
+  <string name="RA_CSW_JustInTime_Accept">[zh-CN]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[zh-CN]Maybe later </string>
+  <string name="RA_CSW_JustInTime_Title">[zh-CN]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">您的保修期已延长到明年</string>
 <string name="RA_PR_Email_Text">一封包含延长保修合同的电子邮件已发送至您的电子邮箱地址</string>
 <string name="RA_UR_Env_Alert">更改配置</string>

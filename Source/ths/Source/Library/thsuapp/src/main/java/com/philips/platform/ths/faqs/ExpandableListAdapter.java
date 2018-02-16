@@ -30,7 +30,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<FaqBeanPojo>> listDataChild;
     private THSFaqFragment mTHSFaqFragment;
 
-    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap map) {
+    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap<String, List<FaqBeanPojo>> map) {
         this.mTHSFaqFragment = thsFaqFragment;
         this.context = mTHSFaqFragment.getContext();
 
@@ -118,9 +118,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         Label lblListHeaderShowAllorShowLess =  convertView
                 .findViewById(R.id.lblshowAll);
         if(isExpanded){
-            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.ths_show_less));
+            lblListHeaderShowAllorShowLess.setText(context.getText(R.string.ths_show_less));
         }else{
-            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.ths_show_all));
+            lblListHeaderShowAllorShowLess.setText(context.getText(R.string.ths_show_all));
         }
         lblListHeader.setText(headerTitle);
 

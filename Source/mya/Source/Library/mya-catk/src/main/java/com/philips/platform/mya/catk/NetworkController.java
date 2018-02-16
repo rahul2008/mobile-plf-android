@@ -30,7 +30,7 @@ public class NetworkController implements AuthErrorListener {
     }
 
     void init() {
-        ConsentAccessToolKit.getInstance().getCatkComponent().inject(this);
+        ConsentsClient.getInstance().getCatkComponent().inject(this);
     }
 
     void sendConsentRequest(final NetworkAbstractModel model) {
@@ -64,14 +64,14 @@ public class NetworkController implements AuthErrorListener {
         header.put("api-version", "1");
         header.put("content-type", "application/json");
         addAuthorization(header);
-        header.put("performerid", ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
+        header.put("performerid", ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpUUID());
         header.put("cache-control", "no-cache");
         return header;
     }
 
     private static void addAuthorization(Map<String, String> headers) {
         headers.remove("authorization");
-        headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        headers.put("authorization", "bearer " + ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
     private void performRefreshToken(final NetworkAbstractModel triedModel, final VolleyError error) {
@@ -93,7 +93,7 @@ public class NetworkController implements AuthErrorListener {
     }
 
     private void refreshAccessToken(final RefreshTokenListener refreshTokenListener) {
-        ConsentAccessToolKit.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
+        ConsentsClient.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 refreshTokenListener.onRefreshSuccess();

@@ -1,36 +1,20 @@
 package com.philips.platform.mya.csw.permission;
 
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.mock.DialogViewMock;
-import com.philips.platform.mya.csw.mock.RestInterfaceMock;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.mock.DialogViewMock;
+import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 
-/**
- * Created by 310237243 on 23/01/2018.
- */
 public class PermissionViewTest {
-
-    @Test
-    public void onResumeCallsPresenterIfInternetReachable() {
-        givenInternetIsReachable();
-        whenResuming();
-        verify(permissionPresenter).getConsentStatus();
-    }
-
-    @Test
-    @Ignore
-    public void onResumeShowsErrorDialogIfInternetUnReachable() {
-        givenInternetIsUnReachable();
-        whenResuming();
-       //verify(dialogView).showDialog((FragmentActivity) any());
-    }
 
     @Before
     public void setup() {
@@ -48,22 +32,43 @@ public class PermissionViewTest {
         };
     }
 
+    @Test
+    public void onResumeCallsPresenterIfInternetReachable() {
+        givenInternetIsReachable();
+        whenResuming();
+        verify(permissionPresenter).getConsentStatus();
+    }
+
+    @Test
+    @Ignore
+    public void onResumeShowsErrorDialogIfInternetUnReachable() {
+        givenInternetIsUnReachable();
+        whenResuming();
+    }
+
+    @Test
+    public void onResume_setsResourceIdOnParentFragment() throws Exception {
+        whenResuming();
+        thenSetResourceIdIsInvokedWith(R.string.csw_privacy_settings);
+    }
+
+    private void thenSetResourceIdIsInvokedWith(int i) {
+        assertEquals(permissionView.getTitleResourceId(), i);
+    }
 
     private void givenInternetIsReachable() {
         restInterfaceMock.isInternetAvailable = true;
     }
 
-
     private void givenInternetIsUnReachable() {
         restInterfaceMock.isInternetAvailable = false;
     }
-
 
     private void whenResuming() {
         permissionView.onResume();
     }
 
-    private RestInterfaceMock restInterfaceMock  = new RestInterfaceMock();
+    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
     private PermissionView permissionView;
 
     @Mock

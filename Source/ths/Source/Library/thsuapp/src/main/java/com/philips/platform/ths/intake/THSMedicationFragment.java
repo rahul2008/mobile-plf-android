@@ -54,7 +54,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     protected String tagAction = "";
     private Label mLabelPatientName;
     public static int deleteButtonEventID = 9009090;
-
+    static final long serialVersionUID = 36L;
 
     @Nullable
     @Override
@@ -79,7 +79,6 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         mExistingMedicationListView.addFooterView(footer);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity(), this);
         mExistingMedicationListView.setAdapter(mTHSExistingMedicationListAdapter);
-
         return view;
     }
 
@@ -91,7 +90,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        mSelectedMedication=null;
         actionBarListener = getActionBarListener();
 
         if (existingMedicineFetched) {
@@ -169,8 +168,9 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (resultCode == RESULT_OK) {
             if (requestCode == MEDICATION_ON_ACTIVITY_RESULT) {
                 mSelectedMedication = data.getExtras().getParcelable("selectedMedication");
-                createCustomProgressBar(mProgressbarContainer, BIG);
-                mPresenter.onEvent(deleteButtonEventID);
+                /*createCustomProgressBar(mProgressbarContainer, BIG);
+                mPresenter.onEvent(deleteButtonEventID);*/
+                showExistingMedicationList(mExistingMedication);
             }
         }
     }
@@ -185,7 +185,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     }
 
     protected void setContinueButtonState() {
-        if (null != mExistingMedication.getMedicationList() && mExistingMedication.getMedicationList().size() <= 0) {
+        if (null == mExistingMedication.getMedicationList() || mExistingMedication.getMedicationList().size() == 0) {
             mSelectedMedication = null;
             updateMedicationButton.setEnabled(false);
         } else {

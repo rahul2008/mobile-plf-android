@@ -14,8 +14,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URInterface;
-
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -53,7 +51,6 @@ public class BaseConfiguration {
         return propertyValue;
     }
 
-    @Deprecated
     @VisibleForTesting
     protected void setAppInfraWrapper(AppInfraWrapper appInfraWrapper) {
         this.appInfraWrapper = appInfraWrapper;

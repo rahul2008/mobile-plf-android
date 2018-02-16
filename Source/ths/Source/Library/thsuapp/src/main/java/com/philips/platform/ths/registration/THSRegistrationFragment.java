@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Gender;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
@@ -45,6 +44,7 @@ import java.util.Locale;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_STATES;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
@@ -73,6 +73,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private boolean isLocationValid;
     private RelativeLayout mLocationCantainer;
     private Label mStateLabel;
+    static final long serialVersionUID = 127L;
 
     @Nullable
     @Override
@@ -209,7 +210,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.ths_continue) {
-            if (validateUserDetails()) {
+            if (validateUserFields()) {
 
                 mContinueButton.showProgressIndicator();
 
@@ -241,34 +242,40 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
     }
 
-    private boolean validateUserDetails() {
-        if (validateNameFields()) {
-            boolean isValidDOB = mThsRegistrationPresenter.validateDOB(mDob);
-            if (isValidDOB) {
-                if (ths_edit_dob_container.isShowingError()) {
-                    ths_edit_dob_container.hideError();
-                }
-                if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
-                    isLocationValid = false;
-                }else {
-                    isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
-                }
-                if (isLocationValid) {
-                    ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
-                    ths_edit_location_container.showError();
-                    return false;
-                } else {
-                    if (ths_edit_location_container.isShowingError()) {
-                        ths_edit_location_container.hideError();
-                    }
-                    return true;
-                }
-            } else {
-                ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
-                ths_edit_dob_container.showError();
-                return false;
-            }
+    protected boolean validateUserFields(){
+        return validateNameFields() && validateDOB() && validateState();
+    }
+
+    private boolean validateState() {
+        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+            isLocationValid = false;
+        }else {
+            isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
+        }
+        if (isLocationValid) {
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_location_validation_error),false);
+            ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
+            ths_edit_location_container.showError();
+            return false;
         } else {
+            if (ths_edit_location_container.isShowingError()) {
+                ths_edit_location_container.hideError();
+            }
+            return true;
+        }
+    }
+
+    private boolean validateDOB() {
+        boolean isValidDOB = mThsRegistrationPresenter.validateDOB(mDob);
+        if(isValidDOB){
+            if (ths_edit_dob_container.isShowingError()) {
+                ths_edit_dob_container.hideError();
+            }
+            return true;
+        }else {
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_dob_validation_error),false);
+            ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
+            ths_edit_dob_container.showError();
             return false;
         }
     }
@@ -353,6 +360,12 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         } else {
             lastNameValidationLayout.hideError();
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 
 }

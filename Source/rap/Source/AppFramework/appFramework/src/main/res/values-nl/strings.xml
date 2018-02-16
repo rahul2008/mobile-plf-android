@@ -57,9 +57,10 @@
 <string name="RA_Empty_Invalid_Data">Gegevensveld is leeg of bevat ongeldige gegevens</string>
 <string name="RA_Invalid_Param_Msg">U hebt ongeldige parameters ingevoerd of geselecteerd. Selecteer de juiste parameters en probeer het opnieuw</string>
 <string name="RA_NO_Order_History">Bestelgeschiedenis niet beschikbaar</string>
-<string name="RA_PR_Benefit_Text">Verleng uw garantie met 24 maanden. 
-Ontvang 10% korting in de Philips Store. 
-Ontvang gratis productaccessoires</string>
+<string name="RA_PR_Benefit_Text">Verleng uw garantie met 24 maanden.Ontvang 10% korting in de Philips Store.Ontvang gratis productaccessoires</string>
+<string name="RA_CSW_JustInTime_Accept">[nl]OK, count me in</string>
+<string name="RA_CSW_JustInTime_Reject">[nl]Maybe later</string>
+<string name="RA_CSW_JustInTime_Title">[nl]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Uw garantieperiode is verlengd tot volgend jaar</string>
 <string name="RA_PR_Email_Text">Een e-mail met contract voor uitgebreide garantie is verzonden naar uw e-mailadres</string>
 <string name="RA_UR_Env_Alert">Configuratie wijzigen</string>

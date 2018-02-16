@@ -60,6 +60,9 @@
 <string name="RA_PR_Benefit_Text">Produžite garanciju za 24 mjeseca.
 Iskoristite 10% popusta od kompanije Philips.
 Primite besplatne dodatke za proizvode</string>
+  <string name="RA_CSW_JustInTime_Accept">[bs]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[bs]Maybe later </string>
+  <string name="RA_CSW_JustInTime_Title">[bs]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Vaš garancijski period je produžen do naredne godine</string>
 <string name="RA_PR_Email_Text">Poruka e-pošte s ugovorom za produženu garanciju je poslana na vašu adresu e-pošte</string>
 <string name="RA_UR_Env_Alert">Promijeni konfiguraciju</string>

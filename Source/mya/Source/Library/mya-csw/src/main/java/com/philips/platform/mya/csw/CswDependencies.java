@@ -8,7 +8,7 @@
 package com.philips.platform.mya.csw;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.List;
