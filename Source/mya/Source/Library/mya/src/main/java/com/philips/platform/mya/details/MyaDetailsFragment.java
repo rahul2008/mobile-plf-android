@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;

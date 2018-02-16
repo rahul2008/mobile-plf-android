@@ -7,9 +7,13 @@
 
 package com.philips.platform.mya.runner;
 
+import com.philips.platform.mya.mock.LabelShadow;
+import com.philips.platform.uid.view.widget.Label;
+
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.internal.bytecode.ShadowMap;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.FileFsFile;
 import org.robolectric.res.FsFile;
@@ -35,6 +39,13 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
             return new AndroidManifest(androidManifestFile, resDirectory, assetsDirectory);
         }
 
+    }
+
+    @Override
+    protected ShadowMap createShadowMap() {
+        return new ShadowMap.Builder()
+                .addShadowClass(Label.class, LabelShadow.class, true, true, true)
+                .build();
     }
 
     private String getModuleRootPath(Config config) {

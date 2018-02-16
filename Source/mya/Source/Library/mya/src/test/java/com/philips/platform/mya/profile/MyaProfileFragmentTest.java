@@ -28,6 +28,7 @@ import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
