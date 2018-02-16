@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ClientCertRequest;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,20 +21,11 @@ import com.philips.cdp.registration.ui.utils.RLog;
  */
 public class ResetPasswordWebView extends Fragment {
 
-    private WebView mWebView;
     private ProgressDialog mProgressDialog;
 
-    public static final String TEST_RESET_PASSWORD = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
-    public static final String STAGE_RESET_PASSWORD = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
-    public static final String PROD_RESET_PASSWORD = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
-    private String redirectUri;
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public static final String TEST_RESET_PASS = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
+    public static final String STAGE_RESET_PASS = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
+    public static final String PROD_RESET_PASS = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +36,7 @@ public class ResetPasswordWebView extends Fragment {
 
     private void initUI(View view) {
         final String redirectUriKey = "redirectUri";
-        mWebView = (WebView) view.findViewById(R.id.reg_wv_reset_password_webview);
+        WebView mWebView = (WebView) view.findViewById(R.id.reg_wv_reset_password_webview);
 
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
@@ -66,8 +56,6 @@ public class ResetPasswordWebView extends Fragment {
         RLog.d("MobileVerifyCodeFragment ", "response val 2 token url "+url);
 
         mWebView.loadUrl(url);
-        //mWebView.loadUrl("https://acc.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
-        //mWebView.loadUrl("https://www.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
         mWebView.clearView();
         mWebView.measure(100, 100);
         mWebView.getSettings().setUseWideViewPort(true);
@@ -92,10 +80,6 @@ public class ResetPasswordWebView extends Fragment {
                 hideWebViewSpinner();
             }
 
-            @Override
-            public void onReceivedClientCertRequest(WebView view, ClientCertRequest request) {
-                super.onReceivedClientCertRequest(view, request);
-            }
         });
 
     }
@@ -103,10 +87,10 @@ public class ResetPasswordWebView extends Fragment {
     private String getURL(String redirectUriKey) {
         Bundle bundle = getArguments();
         RLog.d("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
-        redirectUri = bundle.getString(redirectUriKey);
+        String redirectUri = bundle.getString(redirectUriKey);
 
         String url;
-        if(redirectUri!=null && redirectUri.length()>0){
+        if(redirectUri !=null && redirectUri.length()>0){
             //Reset Password SMS URL
             url = redirectUri;
         }else{
@@ -128,13 +112,13 @@ public class ResetPasswordWebView extends Fragment {
     private String initializeResetPasswordLinks(String registrationEnv) {
 
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            return PROD_RESET_PASSWORD;
+            return PROD_RESET_PASS;
         }
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            return STAGE_RESET_PASSWORD;
+            return STAGE_RESET_PASS;
         }
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            return TEST_RESET_PASSWORD;
+            return TEST_RESET_PASS;
         }
         return null;
     }

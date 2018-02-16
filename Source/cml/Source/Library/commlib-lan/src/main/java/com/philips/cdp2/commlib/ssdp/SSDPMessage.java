@@ -1,23 +1,41 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@SuppressWarnings("unused")
-class SSDPMessage {
+import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 
-    static final String SEPARATOR = ": ";
-    static final String NEWLINE = "\r\n";
+@SuppressWarnings("unused")
+public class SSDPMessage {
+
+    static class SSDPSearchMessage extends SSDPMessage {
+        SSDPSearchMessage(final @NonNull String searchTarget, int searchIntervalInSeconds) {
+            super(MESSAGE_TYPE_SEARCH);
+
+            getHeaders().put(HOST, SSDP_HOST + ":" + SSDP_PORT);
+            getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
+            getHeaders().put(MAX_WAIT_TIME, String.valueOf(searchIntervalInSeconds));
+            getHeaders().put(SEARCH_TARGET, searchTarget);
+        }
+    }
 
     static final String SSDP_HOST = "239.255.255.250";
     static final int SSDP_PORT = 1900;
+
+    static final String SEPARATOR = ": ";
+    static final String NEWLINE = "\r\n";
 
     private static final int TYPE_SEARCH = 0;
     private static final int TYPE_NOTIFY = 1;
@@ -44,6 +62,7 @@ class SSDPMessage {
     static final String NOTIFICATION_TYPE = "NT";
     static final String NOTIFICATION_SUBTYPE = "NTS";
     static final String USER_AGENT = "USER-AGENT";
+    static final String BOOT_ID = "BOOTID.UPNP.ORG";
 
     static final String NAMESPACE_DISCOVER = "\"ssdp:discover\"";
 
@@ -117,4 +136,17 @@ class SSDPMessage {
 
         return builder.toString();
     }
+
+    @Nullable
+    public URL getDescriptionUrl() {
+        final String location = get(LOCATION);
+
+        try {
+            return new URL(location);
+        } catch (MalformedURLException e) {
+            DICommLog.e(SSDP, "Invalid description location: " + location);
+            return null;
+        }
+    }
 }
+

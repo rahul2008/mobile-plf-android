@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.ui.traditional.countrySelection;
+package com.philips.cdp.registration.ui.traditional.countryselection;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -16,8 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by philips on 12/3/17.

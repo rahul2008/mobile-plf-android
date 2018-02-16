@@ -11,6 +11,7 @@ package com.philips.cdp.registration.configuration;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_HOME_COUNTRY;
@@ -24,8 +25,6 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class AppConfiguration extends BaseConfiguration {
 
-    private static final String REGISTRATION_ENVIRONMENT = "appidentity.appState";
-    private static final String MICROSITE_ID_KEY = "appidentity.micrositeId";
     private static final String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
     private static final String WE_CHAT_APP_ID_KEY = "weChatAppId";
     private static final String WE_CHAT_APP_SECRET_KEY = "weChatAppSecret";
@@ -46,13 +45,15 @@ public class AppConfiguration extends BaseConfiguration {
         return getConfigPropertyValue(micrositeIdObject);
     }
 
-    public HashMap<String,String> getServiceDiscoveryCountryMapping() {
+    public Map<String,String> getServiceDiscoveryCountryMapping() {
         Object serviceDiscoveryCountryMappingObject = appInfraWrapper.getAppInfraProperty(SD_COUNTRYMAPPING_ID_KEY);
+        HashMap<String,String> hashMap = null;
         if(serviceDiscoveryCountryMappingObject!=null){
-            return (HashMap<String,String>)serviceDiscoveryCountryMappingObject;
 
+            hashMap= (HashMap<String,String>)serviceDiscoveryCountryMappingObject;
+            return hashMap;
         }
-        return null;
+        return hashMap;
     }
 
     public String getRegistrationEnvironment() {
@@ -94,10 +95,12 @@ public class AppConfiguration extends BaseConfiguration {
 
     public List<String> getSupportedHomeCountries() {
         Object providersObject = appInfraWrapper.getURProperty(SUPPORTED_HOME_COUNTRIES);
+        List<String> providersObjects=null;
         if (providersObject != null) {
-            return (List<String>) providersObject;
+            providersObjects=(List<String>) providersObject;
+            return providersObjects;
         }
-        return null;
+        return providersObjects;
     }
 
     public String getFallBackHomeCountry() {

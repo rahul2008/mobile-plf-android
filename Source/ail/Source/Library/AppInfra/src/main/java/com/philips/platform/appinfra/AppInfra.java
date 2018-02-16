@@ -45,6 +45,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
     private static final long serialVersionUID = -5261016522164936691L;
     private SecureStorageInterface secureStorage;
+
     private LoggingInterface logger;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
@@ -100,7 +101,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private void setSecureStorage(SecureStorageInterface sec) {
         secureStorage = sec;
     }
-
     @Override
     public AppIdentityInterface getAppIdentity() {
         return appIdentity;

@@ -180,11 +180,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     String mWeChatAppSecret;
     IWXAPI mWeChatApi;
 
+    private String weChat="WECHAT";
+
 
     public void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d("WECHAT", "weChatId " + mWeChatAppId + " WechatSecrete " + mWeChatAppSecret);
+        RLog.d(weChat, weChat+"Id " + mWeChatAppId + weChat+"Secrete" + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {
             mWeChatApi = WXAPIFactory.createWXAPI(homeContract.getActivityContext(),
