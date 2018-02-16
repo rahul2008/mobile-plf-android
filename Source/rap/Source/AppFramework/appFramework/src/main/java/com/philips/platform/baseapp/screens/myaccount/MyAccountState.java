@@ -146,6 +146,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return definitions;
     }
 
+    List<ConsentDefinition> createTHSDefinitions(Context context, Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
+                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
+        return definitions;
+    }
+
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
@@ -159,10 +166,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
+        List<ConsentDefinition> thsDefinitions = createTHSDefinitions(context, currentLocale);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+       // consentHandlerMappings.add(new ConsentConfiguration(thsDefinitions, new MarketingConsentHandler(new User(context), thsDefinitions)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

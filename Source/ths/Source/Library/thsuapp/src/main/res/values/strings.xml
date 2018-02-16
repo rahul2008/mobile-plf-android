@@ -472,4 +472,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_slot_no_longer_available">This appointment slot is no longer available.  Please select a new time</string>
     <string name="ths_consumer_already_active">The consumer is already active in a visit. End the active visit and try again</string>
     <string name="ths_invalid_parameter">You have entered an incorrect detail. Please try again.</string>
+
+    <!--GDPR Consent-->
+    <string name="ths_location_consent_title">I allow Philips to access my location data. </string>
+    <string name="ths_location_consent_help">I allow Philips to access my location data in detail TBD. </string>
+    <string name="ths_location_consent_accept">Accept</string>
+    <string name="ths_location_consent_reject">Reject</string>
 </resources>

@@ -196,7 +196,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      *  The crash was only in android 6 (Marshmallow) devices. Only way to handle the crash was to spawn a new thread and then post the runnable
      *  on UI thread.
      */
-    private void showPharmacySearch() {
+    public void showPharmacySearch() {
         hideProgressBar();
         if (isFragmentAttached()) {
             new Thread(new Runnable() {
