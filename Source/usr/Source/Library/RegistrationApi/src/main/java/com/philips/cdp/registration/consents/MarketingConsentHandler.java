@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.consents;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.User;
@@ -31,7 +32,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         return new User(context);
     }
 
-    public MarketingConsentHandler(final Context context, final List<ConsentDefinition> definitions) {
+    public MarketingConsentHandler(@NonNull final Context context, final List<ConsentDefinition> definitions) {
         this.context = context;
         this.definitions = definitions == null ? new ArrayList<>() : definitions;
     }

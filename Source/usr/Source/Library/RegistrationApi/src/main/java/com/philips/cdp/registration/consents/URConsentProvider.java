@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.consents;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.R;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -24,7 +25,8 @@ public class URConsentProvider {
      * @return ConsentDefinition for USR_MARKETING
      * @since 1.0.0
      */
-    public static ConsentDefinition fetchMarketingConsentDefinition(Context pContext, Locale pLocale) {
+
+    public static ConsentDefinition fetchMarketingConsentDefinition(@NonNull Context pContext, Locale pLocale) {
         String text = pContext.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
         String helpText = pContext.getString(R.string.reg_DLS_PhilipsNews_Description_Text);
         final ArrayList<String> types = new ArrayList<>();
