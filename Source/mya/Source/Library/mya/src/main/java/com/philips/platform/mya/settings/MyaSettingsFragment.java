@@ -51,6 +51,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     private LinearLayoutManager linearLayoutManager;
     private AppConfigurationInterface.AppConfigurationError error;
+    private ProgressBarButton logout;
     private Label philipsWebsite;
 
     @Override
@@ -168,7 +169,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
         Label textView = dialogView.findViewById(R.id.message_label);
         Label title_label = dialogView.findViewById(R.id.title_label);
-        ProgressBarButton logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
+        logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
         Button cancel = dialogView.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
@@ -246,6 +247,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
     }
 
+    @Override
+    public void hideProgressIndicator() {
+        if (logout != null)
+            logout.hideProgressIndicator();
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void setLinkUrl(String url) {
@@ -253,6 +260,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
         philipsWebsite.setText(Html.fromHtml(url));
     }
+
 
     private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
         return new View.OnClickListener() {
