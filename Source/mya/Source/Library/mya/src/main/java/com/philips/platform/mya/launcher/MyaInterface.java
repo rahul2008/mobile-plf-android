@@ -87,11 +87,11 @@ public class MyaInterface implements UappInterface {
             MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
             launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, bundle,myaLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments, MyaLaunchInput myaLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(arguments);
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
