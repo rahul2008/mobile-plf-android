@@ -32,7 +32,12 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     @Override
-    public void checkConsents(CheckConsentsCallback callback) {
+    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
+
+    }
+
+    @Override
+    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
 
         try {
             final boolean receiveMarketingEmail = user.getReceiveMarketingEmail();
@@ -50,7 +55,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     @Override
-    public void post(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
+    public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         user.updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status)), status);
     }
 

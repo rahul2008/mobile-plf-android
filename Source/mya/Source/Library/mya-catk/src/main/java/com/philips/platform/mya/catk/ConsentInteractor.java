@@ -44,12 +44,17 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     @Override
-    public void checkConsents(@NonNull final CheckConsentsCallback callback) {
+    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
+
+    }
+
+    @Override
+    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, @NonNull final CheckConsentsCallback callback) {
         fetchLatestConsents(callback);
     }
 
     @Override
-    public void post(ConsentDefinition definition, boolean switchChecked, PostConsentCallback callback) {
+    public void storeConsentState(ConsentDefinition definition, boolean switchChecked, PostConsentCallback callback) {
         ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
         List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
         consentsClient.createConsent(backendConsents, new CreateConsentResponseListener(definition, backendConsents, callback));
