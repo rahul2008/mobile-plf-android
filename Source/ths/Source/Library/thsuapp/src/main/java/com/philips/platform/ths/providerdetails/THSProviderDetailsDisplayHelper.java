@@ -277,7 +277,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     }
 
     private void checkForUrgentCare() {
-        if(thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
+        if(null == thsProviderDetailsViewInterface.getPractice() || thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
             detailsButtonTwo.setVisibility(View.VISIBLE);
             detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
         }else {
