@@ -13,7 +13,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.mya.catk.listener.NetworkErrorListener;
-import com.philips.platform.mya.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentError;
 
 import android.util.Log;
 

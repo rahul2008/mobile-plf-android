@@ -1,13 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.platform.myapplicationlibrary">
 
-    <application android:allowBackup="true"
+    <application
         android:theme="@style/Theme.DLS"
         >
 
    		 <activity android:name="com.philips.platform.myapplication.DemoMicroAppApplicationActivity"/>
+
         <activity
-            android:name="com.philips.platform.thsdemolaunch.FirstActivity"
+            android:name="com.philips.platform.thsdemolaunch.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.DLS.Purple.Bright" >
             <intent-filter>
@@ -18,8 +19,9 @@
         </activity>
 
         <activity
-            android:name="com.philips.platform.thsdemolaunch.MainActivity"
+            android:name="com.philips.platform.thsdemolaunch.THSDemoAddDependentActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:theme="@style/Theme.DLS.Purple.Bright" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

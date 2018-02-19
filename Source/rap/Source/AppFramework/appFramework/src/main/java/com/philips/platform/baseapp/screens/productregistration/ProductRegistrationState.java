@@ -127,7 +127,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     public void launchPR(){
         RALog.e(TAG ,"launchPR" );
         PRLaunchInput prodRegLaunchInput;
-        prodRegLaunchInput = new PRLaunchInput(getProductList(), false);
+        prodRegLaunchInput = new PRLaunchInput(getProductList(), true);
         prodRegLaunchInput.setProdRegUiListener(this);
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
     }

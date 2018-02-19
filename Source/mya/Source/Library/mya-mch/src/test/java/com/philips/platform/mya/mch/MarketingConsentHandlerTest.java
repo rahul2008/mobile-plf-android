@@ -1,16 +1,17 @@
 package com.philips.platform.mya.mch;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.mya.chi.CheckConsentsCallback;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.PostConsentCallback;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,9 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Entreco on 19/12/2017.
- */
+
 public class MarketingConsentHandlerTest {
 
     @Mock
@@ -128,24 +127,24 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenCheckingConsents() {
-        subject.checkConsents(givenCheckConsentCallback);
+        subject.fetchConsentStates(null, givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenCheckingConsentsThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
-        subject.checkConsents(givenCheckConsentCallback);
+        subject.fetchConsentStates(null, givenCheckConsentCallback);
         verify(mockUser).getReceiveMarketingEmail();
     }
 
     private void whenPostingConsentDefinitionSucceeds() {
-        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
+        subject.storeConsentState(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateSuccess();
     }
 
     private void whenPostingConsentDefinitionFails(int errorCode) {
-        subject.post(givenConsentDefinition, givenStatus, givenPostConsentCallback);
+        subject.storeConsentState(givenConsentDefinition, givenStatus, givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
     }
@@ -177,7 +176,7 @@ public class MarketingConsentHandlerTest {
 
     private void thenErrorCallbackIsCalled() {
         verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
-        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(anyList());
+        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(ArgumentMatchers.<Consent>anyList());
     }
 
 }

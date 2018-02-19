@@ -57,9 +57,10 @@
 <string name="RA_Empty_Invalid_Data">حقل البيانات فارغ أو غير صالح</string>
 <string name="RA_Invalid_Param_Msg">لقد أدخلت أو حددت قيم معامل غير صالحة. يرجى تحديد قيم المعامل المناسبة والتشغيل من جديد</string>
 <string name="RA_NO_Order_History">سجل الطلبات غير متوفر</string>
-<string name="RA_PR_Benefit_Text">تمديد فترة الضمان لـ 24 شهرًا.
-الحصول على خصم بنسبة 10% على المنتجات التي تم شراؤها في متجر Philips.‏
-الحصول على ملحقات منتج مجانية</string>
+<string name="RA_PR_Benefit_Text">تمديد فترة الضمان لـ 24 شهرًا.  الحصول على خصم بنسبة 10% على المنتجات التي تم شراؤها في متجر Philips.‏ الحصول على ملحقات منتج مجانية</string>
+  <string name="RA_CSW_JustInTime_Accept">[ar]OK, count me in</string>
+  <string name="RA_CSW_JustInTime_Reject">[ar]Maybe later </string>
+  <string name="RA_CSW_JustInTime_Title">[ar]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">تم تمديد فترة الضمان حتى السنة القادمة</string>
 <string name="RA_PR_Email_Text">تم إرسال بريد إلكتروني يتضمن عقد الضمان الممدد إلى عنوان بريدك الإلكتروني</string>
 <string name="RA_UR_Env_Alert">تغيير التكوين</string>

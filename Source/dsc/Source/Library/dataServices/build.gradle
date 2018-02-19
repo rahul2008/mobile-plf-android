@@ -7,7 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.neenbedankt.android-apt'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
@@ -19,14 +19,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -34,8 +34,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -46,6 +46,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -56,7 +61,7 @@ archivesBaseName = "dataServices"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -225,8 +230,6 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
-
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
@@ -241,38 +244,32 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    //Android Support
-    compile('com.android.support:support-annotations:26.0.2') {
+    compile(deps.support.annotations) {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
-    //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'joda-time:joda-time:2.9.7'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'javax.inject:javax.inject:1'
+    compile deps.greenrobot
+    compile deps.joda_time
+    compile deps.retrofit1
+    compile deps.okhttp
+    compile deps.javax_inject
 
-    compile "com.google.dagger:dagger:2.11"
-    apt "com.google.dagger:dagger-compiler:2.11"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'javax.annotation:jsr250-api:1.0'
-    testApt "com.google.dagger:dagger-compiler:2.11"
+    compile deps.dagger.dagger
+    apt deps.dagger.compiler
+    provided deps.glassfish_annotation
+    provided deps.javax_annotation
+    testApt deps.dagger.compiler
 
-    //Test Compile
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-all:1.10.17"
-    testCompile "com.squareup.assertj:assertj-android:1.1.1"
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
+    testCompile deps.assertj
 
-    testCompile("org.robolectric:robolectric:3.0") {
+    testCompile(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {

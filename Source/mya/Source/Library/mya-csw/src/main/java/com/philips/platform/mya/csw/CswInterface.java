@@ -9,11 +9,12 @@ package com.philips.platform.mya.csw;
 
 import java.util.List;
 
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
 import com.philips.platform.mya.csw.injection.CswModule;
 import com.philips.platform.mya.csw.injection.DaggerCswComponent;
+import com.philips.platform.mya.csw.permission.PermissionView;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -24,7 +25,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -83,31 +83,18 @@ public class CswInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, cswLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput uappLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
-            CswFragment cswFragment = new CswFragment();
-            cswFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
-            if (cswFragment.getArguments() == null) {
-                cswFragment.setArguments(new Bundle());
-            }
-            cswFragment.getArguments().putBoolean(CswFragment.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
-
+            PermissionView permissionFragment = new PermissionView();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-
-            if (uappLaunchInput.isAddtoBackStack()) {
-                fragmentTransaction.addToBackStack(CswConstants.CSWFRAGMENT);
-            }
-
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
-                    cswFragment,
-                    CswConstants.CSWFRAGMENT);
+            fragmentTransaction.addToBackStack(PermissionView.TAG);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionView.TAG);
             fragmentTransaction.commitAllowingStateLoss();
-            reference.cswLaunchInput = uappLaunchInput;
         } catch (IllegalStateException ignore) {
 
         }
@@ -140,9 +127,5 @@ public class CswInterface implements UappInterface {
 
     public CswDependencies getDependencies() {
         return uappDependencies;
-    }
-
-    public String getPrivacyUrl() {
-        return cswLaunchInput.getPrivacyNoticeUrl();
     }
 }

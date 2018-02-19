@@ -47,6 +47,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
@@ -191,7 +192,7 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onEvent(R.id.how_it_works);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -200,7 +201,8 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onEvent(R.id.how_it_works);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+            verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle) isNull(),anyBoolean());
+
     }
 
     @Test
@@ -409,7 +411,7 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onEvent(R.id.customer_support);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
 }

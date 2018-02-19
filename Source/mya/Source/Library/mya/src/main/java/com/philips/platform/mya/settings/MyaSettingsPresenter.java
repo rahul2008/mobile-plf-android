@@ -15,11 +15,10 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -74,7 +73,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());
                 cswInterface.init(dependencies, uappSettings);
-                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext(), MyaHelper.getInstance().getPrivacyNoticeUrl()));
+                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
                 return true;
             } else {
                 String title = getContext().getString(R.string.MYA_Offline_title);
@@ -85,8 +84,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return false;
     }
 
-    ConsentAccessToolKit getConsentAccessInstance() {
-        return ConsentAccessToolKit.getInstance();
+    ConsentsClient getConsentsClient() {
+        return ConsentsClient.getInstance();
     }
 
     CswInterface getCswInterface() {
@@ -106,8 +105,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         };
     }
 
-    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, String privacyNoticeUrl) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, privacyNoticeUrl);
+    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }

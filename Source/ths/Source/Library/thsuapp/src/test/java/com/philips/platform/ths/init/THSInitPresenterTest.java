@@ -56,6 +56,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
@@ -145,6 +146,8 @@ public class THSInitPresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getHsdpUUID()).thenReturn("123");
+
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
@@ -270,7 +273,7 @@ public class THSInitPresenterTest {
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
         when(THSAuthenticationMock.needsToCompleteEnrollment()).thenReturn(true);
         mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
-        verify(awsdkMock.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
+        verify(awsdkMock.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), (State)isNull(), (String)isNull(), (String)isNull(), any(SDKCallback.class));
     }
 
     @Test
@@ -434,6 +437,6 @@ public class THSInitPresenterTest {
     @Test
     public void testAuthenticate(){
         mThsInitPresenter.launchWelcomeScreen();
-        verify(thsInitFragmentMock).addFragment(any(THSBaseFragment.class), anyString(), any(Bundle.class), anyBoolean());
+        verify(thsInitFragmentMock).addFragment(any(THSBaseFragment.class), anyString(), (Bundle)isNull(), anyBoolean());
     }
 }

@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.settings;
@@ -29,6 +28,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -36,64 +36,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class THSVisitHistoryPresenterTest {
-    THSVisitHistoryPresenter mThsVisitHistoryPresenter;
+    private THSVisitHistoryPresenter mThsVisitHistoryPresenter;
 
     @Mock
-    THSVisitHistoryFragment thsVisitHistoryFragmentMock;
+    private THSVisitHistoryFragment thsVisitHistoryFragmentMock;
 
     @Mock
-    Context contextMock;
+    private Context contextMock;
 
     @Mock
-    Throwable throwableMock;
+    private Throwable throwableMock;
 
     @Mock
-    ConsumerManager consumerManagerMock;
+    private ConsumerManager consumerManagerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    private THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    Consumer consumerMock;
+    private Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    private THSConsumer thsConsumerMock;
 
     @Mock
-    VisitReport visitReportMock;
+    private VisitReport visitReportMock;
 
     @Mock
-    AWSDK awsdkMock;
+    private AWSDK awsdkMock;
 
     @Mock
-    SDKError sdkErrorMock;
+    private SDKError sdkErrorMock;
 
     @Mock
-    AppInfraInterface appInfraInterfaceMock;
+    private AppInfraInterface appInfraInterfaceMock;
 
     @Mock
-    AppTaggingInterface appTaggingInterface;
+    private AppTaggingInterface appTaggingInterface;
 
     @Mock
-    AppConfigurationInterface appConfigurationInterfaceMock;
+    private AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
-    ServiceDiscoveryInterface serviceDiscoveryMock;
+    private ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
-    LoggingInterface loggingInterface;
+    private LoggingInterface loggingInterface;
 
     @Mock
-    THSSDKError thssdkErrorMock;
+    private THSSDKError thssdkErrorMock;
 
     @Before
     public void setUp() throws Exception {
@@ -129,42 +129,44 @@ public class THSVisitHistoryPresenterTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getVisitHistory() throws Exception {
         mThsVisitHistoryPresenter.getVisitHistory();
-        verify(consumerManagerMock).getVisitReports(any(Consumer.class),any(SDKLocalDate.class),anyBoolean(),any(SDKCallback.class));
+        verify(consumerManagerMock).getVisitReports(any(Consumer.class), (SDKLocalDate)isNull(), (Boolean)isNull(), (SDKCallback<List<VisitReport>, SDKError>) any());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getVisitHistoryAWSDKInstantiationException() throws Exception {
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getVisitReports(any(Consumer.class),any(SDKLocalDate.class),anyBoolean(),any(SDKCallback.class));
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getVisitReports(any(Consumer.class), any(SDKLocalDate.class), anyBoolean(), (SDKCallback<List<VisitReport>, SDKError>) any());
         mThsVisitHistoryPresenter.getVisitHistory();
-        verify(consumerManagerMock).getVisitReports(any(Consumer.class),any(SDKLocalDate.class),anyBoolean(),any(SDKCallback.class));
+        verify(consumerManagerMock).getVisitReports(any(Consumer.class), (SDKLocalDate)isNull(), (Boolean)isNull(), (SDKCallback<List<VisitReport>, SDKError>) any());
     }
 
     @Test
     public void onResponseWithSdkErrorNull() throws Exception {
-        List list = new ArrayList();
+        List<VisitReport> list = new ArrayList<>();
         list.add(visitReportMock);
 
-        mThsVisitHistoryPresenter.onResponse(list,null);
-        verify(thsVisitHistoryFragmentMock).updateVisitHistoryView(anyList());
+        mThsVisitHistoryPresenter.onResponse(list, null);
+        verify(thsVisitHistoryFragmentMock).updateVisitHistoryView(ArgumentMatchers.<VisitReport>anyList());
 
     }
 
     @Test
     public void onResponseWithSdkErrorNotNull() throws Exception {
-        List list = new ArrayList();
+        List<VisitReport> list = new ArrayList<>();
         list.add(visitReportMock);
 
-        mThsVisitHistoryPresenter.onResponse(list,sdkErrorMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean(), anyBoolean());
+        mThsVisitHistoryPresenter.onResponse(list, sdkErrorMock);
+        verify(thsVisitHistoryFragmentMock).showError(anyString(), anyBoolean(), anyBoolean());
 
     }
 
     @Test(expected = IllegalStateException.class)
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean(), false);
+        verify(thsVisitHistoryFragmentMock).showError(anyString(), anyBoolean(), false);
     }
 
     @Test

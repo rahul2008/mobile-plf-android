@@ -4,14 +4,18 @@ package com.philips.platform.aildemo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,6 +30,8 @@ public class SecureStorageBulkActivity extends Activity {
     private SecureStorageInterface mSecureStorage;
     private byte[] encryptedData;
     private ScrollView scrollView;
+    private ProgressBar progressBar;
+    private boolean isOldSSEnabled;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +39,15 @@ public class SecureStorageBulkActivity extends Activity {
         setContentView(R.layout.activity_secure_storage_bulk);
         bulkTextView = (TextView) findViewById(R.id.bulk_txt);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        progressBar=(ProgressBar)findViewById(R.id.bulk_activity_progress_bar);
         appInfra = AILDemouAppInterface.getInstance().getAppInfra();
-        mSecureStorage = appInfra.getSecureStorage();
+        isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
+        if(isOldSSEnabled) {
+            mSecureStorage = appInfra.getSecureStorage();
+            Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
+        }else{
+            mSecureStorage=new SecureStorage2((AppInfra) appInfra);
+        }
     }
 
     public void onClick(View view) {
@@ -42,40 +55,97 @@ public class SecureStorageBulkActivity extends Activity {
 
         int id = view.getId();
         if (id == R.id.store_bulk_btn) {
+            setProgressVisibility(true);
             mSecureStorage.storeValueForKey(BULK_DATA_KEY, readTxt(), sseStore);
             if (null != sseStore.getErrorCode()) {
                 Toast.makeText(SecureStorageBulkActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
             }
+            setProgressVisibility(false);
         } else if (id == R.id.read_bulk_btn) {
+            setProgressVisibility(true);
             SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
             String decryptedData = mSecureStorage.fetchValueForKey(BULK_DATA_KEY, sse);
+            setProgressVisibility(false);
             if (null != sse.getErrorCode()) {
                 Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
             } else {
                 bulkTextView.setText(decryptedData);
             }
+
         } else if (id == R.id.store_bulk_encrypt_btn) {
-            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-            encryptedData = mSecureStorage.encryptData(readTxt().getBytes(), sse);
-            if (null != sse.getErrorCode()) {
-                Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
-            } else {
-                bulkTextView.setText(new String(encryptedData));
-            }
+            setProgressVisibility(true);
+            mSecureStorage.encryptBulkData(readTxt().getBytes(), new SecureStorageInterface.DataEncryptionListener() {
+                @Override
+                public void onEncryptionSuccess(final byte[] encryptedData) {
+                    SecureStorageBulkActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setProgressVisibility(false);
+                            bulkTextView.setText(Base64.encodeToString(encryptedData,Base64.DEFAULT));
+                        }
+                    });
+                }
+
+                @Override
+                public void onEncryptionError(final SecureStorageInterface.SecureStorageError secureStorageError) {
+                    SecureStorageBulkActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setProgressVisibility(false);
+                            Toast.makeText(SecureStorageBulkActivity.this, secureStorageError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
 
         } else if (id == R.id.read_bulk_decrypt_btn) {
-            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-            byte[] decryptedData = mSecureStorage.decryptData(encryptedData, sse);
-            if (null != sse.getErrorCode()) {
-                Toast.makeText(SecureStorageBulkActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
-            } else {
-                bulkTextView.setText(new String(decryptedData));
-            }
+            setProgressVisibility(true);
+
+            mSecureStorage.decryptBulkData(Base64.decode(bulkTextView.getText().toString(), Base64.DEFAULT), new SecureStorageInterface.DataDecryptionListener() {
+                @Override
+                public void onDecryptionSuccess(final byte[] decryptedData) {
+                    SecureStorageBulkActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setProgressVisibility(false);
+                            if(decryptedData!=null && readTxt().equalsIgnoreCase(new String(decryptedData))){
+                                Toast.makeText(SecureStorageBulkActivity.this,"Text Match",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(SecureStorageBulkActivity.this,"Text didn't Match",Toast.LENGTH_SHORT).show();
+                            }
+                            bulkTextView.setText(new String(decryptedData));
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onDecyptionError(final SecureStorageInterface.SecureStorageError secureStorageError) {
+                    SecureStorageBulkActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setProgressVisibility(false);
+                            Toast.makeText(SecureStorageBulkActivity.this, secureStorageError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
         } else if (id == R.id.scroll_bottom) {
             scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         } else if (id == R.id.scroll_up) {
             scrollView.fullScroll(ScrollView.FOCUS_UP);
         }
+    }
+
+    public void setProgressVisibility(boolean visibility){
+            if(visibility){
+                progressBar.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.GONE);
+            }else{
+                progressBar.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
+            }
     }
 
 

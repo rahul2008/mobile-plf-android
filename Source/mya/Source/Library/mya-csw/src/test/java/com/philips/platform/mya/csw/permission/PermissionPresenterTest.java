@@ -6,13 +6,13 @@ import android.test.mock.MockContext;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.ConsentError;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.BackendConsent;
-import com.philips.platform.mya.chi.datamodel.Consent;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
@@ -26,24 +26,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.robolectric.RuntimeEnvironment;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -83,7 +77,8 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor_withNoConsentConfigurations() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface, never()).checkConsents(mPermissionPresenter);
+        givenConsentConfigurations();
+        verify(mockHandlerInterface, never()).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test
@@ -97,7 +92,7 @@ public class PermissionPresenterTest {
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         givenConsentConfigurations();
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface).checkConsents(mPermissionPresenter);
+        verify(mockHandlerInterface).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
     }
 
     @Test
@@ -260,8 +255,8 @@ public class PermissionPresenterTest {
 
     private void givenConsentConfigurations() {
         ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
-        ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
-        givenConsentConfigurations = Arrays.asList(configuration);
+        ConsentConfiguration configuration = new ConsentConfiguration(Collections.singletonList(definition), mockHandlerInterface);
+        givenConsentConfigurations = Collections.singletonList(configuration);
         givenPresenter();
     }
 

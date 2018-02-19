@@ -2,9 +2,9 @@ package com.philips.platform.mya;
 
 
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.chi.ConsentConfiguration;
-import com.philips.platform.mya.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MyaHelperTest {
     private MyaHelper subject = MyaHelper.getInstance();

@@ -27,7 +27,7 @@ import org.robolectric.annotation.Config;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -133,13 +133,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings, PRIVACY_URL), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings, PRIVACY_URL), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }

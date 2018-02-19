@@ -17,6 +17,7 @@ import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSHashingFunction;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class THSDependentPresenter implements THSBasePresenter {
         for(THSConsumer thsConsumer:local){
             for(Consumer consumer: server){
 
-                if(thsConsumer.getHsdpUUID().equalsIgnoreCase(consumer.getSourceId())){
+                if(new THSHashingFunction().md5(thsConsumer.getHsdpUUID()).equalsIgnoreCase(consumer.getSourceId())){
                     thsConsumer.setConsumer(consumer);
                 }
             }

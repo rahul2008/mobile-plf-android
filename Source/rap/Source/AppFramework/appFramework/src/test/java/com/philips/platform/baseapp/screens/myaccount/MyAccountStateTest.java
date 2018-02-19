@@ -5,14 +5,21 @@
 */
 package com.philips.platform.baseapp.screens.myaccount;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
-import java.util.List;
-import java.util.Locale;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,25 +29,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import com.philips.platform.appframework.flowmanager.base.UIStateData;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.mya.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import java.util.List;
+import java.util.Locale;
 
-import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
 public class MyAccountStateTest {
     private static final String PRIVACY_URL = "http://google.com";
 
@@ -149,11 +148,6 @@ public class MyAccountStateTest {
         @Override
         public MyaInterface getInterface() {
             return myaInterface;
-        }
-
-        @Override
-        protected String getConfiguredPrivacyNoticeUrl(AppInfraInterface appInfra) {
-            return PRIVACY_URL;
         }
     }
 }

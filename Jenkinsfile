@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
-                InitialiseBuild()                
+                InitialiseBuild()
                 checkout scm
                 BuildAndUnitTest()
             }
@@ -88,8 +88,33 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew saveResDep zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+					./gradlew :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
                 '''
+                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
+				DeployingConnectedTestsLogs()
+            }
+        }
+
+		stage('Publish PSRA apk') {
+            when {
+				allOf {
+					expression { return params.buildType == 'PSRA' }
+					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+				}
+            }
+            steps {
+                script {
+					APK_NAME = readFile("apkname.txt").trim()
+                    echo "APK_NAME = ${APK_NAME}"
+                    APK_INFO = APK_NAME.split("referenceApp-")
+					APK_PATH = APK_INFO[0]
+                    PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
+                    echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
+					sh """#!/bin/bash -le
+						curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+					"""
+                }
             }
         }
 
@@ -199,7 +224,7 @@ def BuildAndUnitTest() {
             :mya:testRelease \
             :mya-catk:testReleaseUnitTest \
             :mya-csw:testReleaseUnitTest \
-            :mya-chi:testReleaseUnitTest \
+            :pif:testReleaseUnitTest \
             :mya-mch:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
@@ -229,7 +254,7 @@ def BuildLint() {
          :mya:lint \
          :mya-catk:lint \
          :mya-csw:lint \
-         :mya-chi:lint \
+         :pif:lint \
          :mya-mch:lint \
          :dataServices:lintRelease \
          :devicepairingUApp:lint \
@@ -288,7 +313,51 @@ def DeployingLeakCanaryArtifacts() {
             cd $BASE_PATH
         fi
     '''
-    sh shellcommand   
+    sh shellcommand
+}
+
+def DeployingConnectedTestsLogs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+    def shellcommand = '''#!/bin/bash -l
+        export BASE_PATH=`pwd`
+        echo $BASE_PATH
+
+        cd $BASE_PATH
+
+        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_REPO="unknown"
+
+        if [ '''+MasterBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-release-local"
+        elif [ '''+ReleaseBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-release-local"
+        elif [ '''+DevelopBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-logs-snapshot-local"
+        else
+            echo "Not published as build is not on a master, develop or release branch" . $BranchName
+        fi
+
+
+        find . -name *logs.zip | while read LOGS;
+		do
+			curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
+		done
+
+
+        if [ $? != 0 ]
+        then
+            exit 1
+        else
+            cd $BASE_PATH
+        fi
+    '''
+    sh shellcommand
 }
 
 def PublishUnitTestsresults() {
@@ -313,7 +382,7 @@ def PublishUnitTestsresults() {
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
     step([$class: 'JUnitResultArchiver', testResults: 'Source/ews/Source/Library/ews-android/build/test-results/*/*.xml'])
-    junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml' 
+    junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml'
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
@@ -350,10 +419,10 @@ def PublishUnitTestsresults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-mch/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mch'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-chi'])
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])  
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])
 }
 
 def PublishLintJacocoresults() {

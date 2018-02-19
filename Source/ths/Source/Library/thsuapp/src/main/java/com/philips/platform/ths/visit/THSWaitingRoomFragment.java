@@ -48,6 +48,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
+    static final long serialVersionUID = 1123L;
 
     @Nullable
     @Override
@@ -207,6 +208,11 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
         tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
         tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        //Fix for 115218
     }
 
 }

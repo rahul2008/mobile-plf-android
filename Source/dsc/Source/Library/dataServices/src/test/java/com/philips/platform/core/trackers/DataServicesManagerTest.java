@@ -26,8 +26,10 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
@@ -45,6 +47,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
+import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.PairDevicesRequestEvent;
 import com.philips.platform.core.events.RegisterDeviceToken;
@@ -337,13 +340,13 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         mDataServicesManager.updateConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
+        verify(eventingMock).post(any(DatabaseConsentUpdateRequest.class));
     }
 
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
         mDataServicesManager.deleteAllMoments(dbRequestListener);
-        verify(eventingMock).post(any(DataClearRequest.class));
+        verify(eventingMock).post(any(DeleteAllMomentsRequest.class));
     }
 
     //TODO: Spoorti - revisit this
@@ -506,7 +509,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         mDataServicesManager.saveMoments(list, dbRequestListener);
-        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
+        verify(eventingMock).post(any(MomentsSaveRequest.class));
     }
 
     @Test

@@ -33,6 +33,7 @@ import java.util.List;
 public class THSMicroAppInterfaceImpl implements UappInterface {
     protected Context context;
     protected AppInfraInterface appInfra;
+    static final long serialVersionUID = 1153L;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings

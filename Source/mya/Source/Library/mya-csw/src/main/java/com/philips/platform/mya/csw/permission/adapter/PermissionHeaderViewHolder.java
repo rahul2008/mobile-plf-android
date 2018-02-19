@@ -8,13 +8,12 @@
 package com.philips.platform.mya.csw.permission.adapter;
 
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.permission.PrivacyNoticeClickListener;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.uid.view.widget.Label;
-
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ClickableSpan;
 import android.view.View;
 
 class PermissionHeaderViewHolder extends BasePermissionViewHolder {
@@ -27,10 +26,9 @@ class PermissionHeaderViewHolder extends BasePermissionViewHolder {
 
     @Override
     public void onViewRecycled() {
-        // NOP
     }
 
-    public void setPrivacyURL(final String url, final PrivacyNoticeClickListener privacyNoticeClickListener) {
+    public void setPrivacyURL(final LinkSpanClickListener privacyNoticeClickListener) {
         Context context = itemView.getContext();
         String headerText = context.getString(R.string.csw_privacy_settings_desc);
 
@@ -40,22 +38,7 @@ class PermissionHeaderViewHolder extends BasePermissionViewHolder {
         headerText = headerText.replace("}", "");
 
         Spannable privacyNotice = new SpannableString(headerText);
-        privacyNotice.setSpan(new LinkSpan(url, privacyNoticeClickListener), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        privacyNotice.setSpan(new LinkSpan(privacyNoticeClickListener), openingBracketIndex, closingBracketIndex - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.headerTextView.setText(privacyNotice);
-    }
-
-    private class LinkSpan extends ClickableSpan {
-        private PrivacyNoticeClickListener privacyNoticeClickListener;
-        private String url;
-
-        private LinkSpan(String url, PrivacyNoticeClickListener privacyNoticeClickListener) {
-            this.url = url;
-            this.privacyNoticeClickListener = privacyNoticeClickListener;
-        }
-
-        @Override
-        public void onClick(View view) {
-            privacyNoticeClickListener.onPrivacyNoticeClicked(url);
-        }
     }
 }

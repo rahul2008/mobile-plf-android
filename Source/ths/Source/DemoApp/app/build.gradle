@@ -5,21 +5,21 @@ apply plugin: 'jacoco'
 
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -28,13 +28,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-//        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.trickyandroid
+
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-//        compile 'com.android.support:appcompat-v7:25.3.1'
+        classpath builddeps.androidapt
+//        compile build.support.appcompatv7
     }
 }
 
@@ -44,6 +44,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
@@ -53,7 +58,7 @@ archivesBaseName = "telehealthApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -127,16 +132,16 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 8
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
@@ -148,6 +153,11 @@ android {
         ]
     }
 
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -156,10 +166,6 @@ android {
         release
     }
 
-    dexOptions {
-        preDexLibraries = false
-        jumboMode = false
-    }
     buildTypes {
         def BOOLEAN = "bool"
         def TRUE = "true"
@@ -270,15 +276,15 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile deps.support.appcompatv7
     
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':telehealth', configuration: 'debug')
-        releaseCompile project(path: ':telehealth', configuration: 'release')
+        debugCompile project(path: ':thsUapp', configuration: 'debug')
+        releaseCompile project(path: ':thsUapp', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
@@ -286,7 +292,7 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }

@@ -1,56 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:background="?attr/uidContentPrimaryBackgroundColor"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/usr_loginScreen_rootLayout_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/usr_loginScreen_forgotPassword_LinearLayout"
-        android:background="@android:color/transparent">
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/reg_dimen_24dp"
+        android:paddingBottom="@dimen/reg_dimen_12dp"
+        android:background="@android:color/transparent"
+        android:fillViewport="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/usr_loginScreen_rootLayout_LinearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_dimen_24dp"
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/reg_layout_margin_16"
             android:layout_marginRight="@dimen/reg_layout_margin_16"
-            android:paddingBottom="@dimen/reg_dimen_16dp">
-
-            <LinearLayout
-                android:id="@+id/ll_reg_create_account_fields"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:orientation="vertical"
+            android:fillViewport="true"
+            android:paddingBottom="@dimen/reg_dimen_12dp">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_loginScreen_loginTitle_label"
+                    fontPath="fonts/centralesansbold.ttf"
+                    android:layout_alignParentTop="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_dimen_24dp"
                     android:text="@string/reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt"
                     android:textSize="@dimen/reg_dimen_20dp"
-                    android:textStyle="bold"
-                    fontPath="fonts/centralesansbold.ttf"/>
+                    android:textStyle="bold" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_loginScreen_email_label"
-                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
                     android:layout_width="wrap_content"
-                    android:textColor="?attr/uidLabelRegularNormalTextColor"
+                    android:layout_below="@+id/usr_loginScreen_loginTitle_label"
                     android:layout_height="wrap_content"
-                    android:text="@string/reg_DLS_Email_Label_Text"/>
+                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                    android:text="@string/reg_DLS_Email_Label_Text"
+                    android:textColor="?attr/uidLabelRegularNormalTextColor" />
 
                 <com.philips.platform.uid.view.widget.InputValidationLayout
                     android:id="@+id/usr_loginScreen_login_inputLayout"
+                    android:layout_below="@+id/usr_loginScreen_email_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_dimen_8dp"
@@ -58,27 +56,31 @@
                     app:uidTextBoxValidationErrorText="inline_error_message">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
-                        android:nextFocusDown="@+id/usr_loginScreen_password_textField"
                         android:id="@+id/usr_loginScreen_login_textField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                         android:maxLines="1"
-                        app:uidInputTextWithClearButton="true"/>
+                        android:nextFocusDown="@+id/usr_loginScreen_password_textField"
+                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
+                        app:uidInputTextWithClearButton="true" />
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
 
                 <com.philips.platform.uid.view.widget.Label
+                    android:layout_below="@+id/usr_loginScreen_login_inputLayout"
+
                     android:id="@+id/usr_loginScreen_password_label"
                     style="@style/UIDLabel.MarginTop"
-                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
                     android:layout_width="wrap_content"
-                    android:textColor="?attr/uidLabelRegularNormalTextColor"
                     android:layout_height="wrap_content"
-                    android:text="@string/reg_DLS_Password_lbltxt"/>
+                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                    android:text="@string/reg_DLS_Password_lbltxt"
+                    android:textColor="?attr/uidLabelRegularNormalTextColor" />
 
                 <com.philips.platform.uid.view.widget.InputValidationLayout
                     android:id="@+id/usr_loginScreen_password_inputLayout"
+                    android:layout_below="@+id/usr_loginScreen_password_label"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -89,61 +91,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
-                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                         android:inputType="textPassword"
-                        android:maxLines="1"/>
+                        android:maxLines="1"
+                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width" />
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
-            </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_reg_welcome_container"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_24dp"
-                >
 
                 <com.philips.platform.uid.view.widget.ProgressBarButton
                     android:id="@+id/usr_loginScreen_login_button"
+                    android:layout_below="@+id/usr_loginScreen_password_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/reg_dimen_24dp"
                     android:enabled="false"
                     app:uidIsIndeterminateProgressIndicator="true"
                     app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_SigIn_TitleTxt"
-                    app:uidProgressIndicatorButtonText="@string/reg_DLS_SigIn_TitleTxt"/>
+                    app:uidProgressIndicatorButtonText="@string/reg_DLS_SigIn_TitleTxt" />
 
-            </RelativeLayout>
 
-            <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/usr_loginScreen_error_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
-                />
+                <com.philips.cdp.registration.ui.customviews.XRegError
+                    android:id="@+id/usr_loginScreen_error_view"
+                    android:layout_below="@+id/usr_loginScreen_login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/reg_margin_bottom" />
 
-        </LinearLayout>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_loginScreen_forgotPassword_button"
+                    style="@style/UIDLabel"
+                    android:layout_below="@+id/usr_loginScreen_error_view"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:padding="@dimen/reg_dimen_4dp"
+                    android:text="@string/reg_Forgot_Password_Title"
+                    android:textSize="@dimen/reg_text_size_12" />
+        </RelativeLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/usr_loginScreen_forgotPassword_LinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/reg_dimen_24dp"
-        android:layout_marginBottom="@dimen/reg_dimen_16dp"
-        android:layout_marginLeft="@dimen/reg_layout_margin_16"
-        android:layout_marginRight="@dimen/reg_layout_margin_16"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/usr_loginScreen_forgotPassword_button"
-            style="@style/UIDLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Forgot_Password_Title"
-            android:textSize="@dimen/reg_text_size_12"/>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/usr_loginScreen_progress_indicator"

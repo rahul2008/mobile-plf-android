@@ -3,6 +3,7 @@
 build/
 local.properties
 *.iml
+*.lock
 
 Source/mya/Source/Library/\.idea/
 

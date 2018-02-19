@@ -125,7 +125,12 @@
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
 
+##--------------- Jodatime  ----------
 
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
 
 ######AppInfar
 
@@ -246,7 +251,7 @@
 
 ## New rules for EventBus 3.0.x ##
 # http://greenrobot.org/eventbus/documentation/proguard/
-
+#
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
@@ -257,3 +262,14 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+#
+##Registration
+#-keep class com.philips.cdp.registration.** {*;}
+
+##--------------- Jodatime  ----------
+
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }

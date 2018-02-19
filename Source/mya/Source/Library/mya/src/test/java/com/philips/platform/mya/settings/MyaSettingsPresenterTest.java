@@ -12,7 +12,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -29,13 +29,13 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.chi.ConsentConfiguration;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -74,7 +74,7 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
-        verify(view).showSettingsItems(anyMap());
+        verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class MyaSettingsPresenterTest {
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final CswInterface cswInterface = mock(CswInterface.class);
-        final ConsentAccessToolKit consentAccessToolKit = mock(ConsentAccessToolKit.class);
+        final ConsentsClient consentsClient = mock(ConsentsClient.class);
         final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view) {
@@ -118,13 +118,13 @@ public class MyaSettingsPresenterTest {
             }
 
             @Override
-            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, String privacyNoticeUrl) {
+            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
                 return cswLaunchInput;
             }
 
             @Override
-            ConsentAccessToolKit getConsentAccessInstance() {
-                return consentAccessToolKit;
+            ConsentsClient getConsentsClient() {
+                return consentsClient;
             }
         };
         String key = "Mya_Privacy_Settings";
@@ -156,9 +156,9 @@ public class MyaSettingsPresenterTest {
     @Test
     public void shouldNotReturnNullWhenInvoked() {
         MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext(), "privacyNoticeURL.com"));
+        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
         assertNotNull(myaSettingsPresenter.getCswInterface());
-        assertNotNull(myaSettingsPresenter.getConsentAccessInstance());
+        assertNotNull(myaSettingsPresenter.getConsentsClient());
     }
 
 }
