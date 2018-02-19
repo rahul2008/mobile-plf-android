@@ -11,10 +11,11 @@ import android.text.TextUtils;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import static com.philips.platform.appinfra.tagging.AppTaggingConstants.SUCCESS_MESSAGE;
-import static com.philips.platform.appinfra.tagging.AppTaggingConstants.TECHNICAL_ERROR;
+import java.io.Serializable;
 
-public class AppInfraTaggingUtil implements AppTaggingAction {
+public class AppInfraTaggingUtil implements Serializable {
+
+    private static final long serialVersionUID = -7930120706891543524L;
     private AppTaggingInterface appTagging;
     private LoggingInterface appInfraLogging;
 
@@ -41,24 +42,30 @@ public class AppInfraTaggingUtil implements AppTaggingAction {
     public static final String SET_HOME_COUNTRY_SUCCESS = " Successfully setHomeCountry to country ";
     public static final String ADD_URL_PARAMETERS = " Successfully added the URL parameters";
     public static final String SD_FORCE_REFRESH_CALLED = "Service discovery force refreshed called";
+    //keys
+    public static final String SEND_DATA = "sendData";
+
+
+    //Actions
+    public static final String TECHNICAL_ERROR = "TechnicalError";
+    static final String SUCCESS_MESSAGE = "appInfraSuccessMessage";
+
 
     public AppInfraTaggingUtil(AppTaggingInterface appTagging, LoggingInterface appInfraLogInstance) {
         this.appTagging = appTagging;
         this.appInfraLogging = appInfraLogInstance;
     }
 
-    @Override
     public void trackSuccessAction(String category, String message) {
         if (!TextUtils.isEmpty(category) && !TextUtils.isEmpty(message)) {
-            appTagging.trackActionWithInfo(AppTaggingConstants.SEND_DATA, SUCCESS_MESSAGE, category.concat(":").concat(message));
+            appTagging.trackActionWithInfo(SEND_DATA, SUCCESS_MESSAGE, category.concat(":").concat(message));
             appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, category.concat(":").concat(message));
         }
     }
 
-    @Override
     public void trackErrorAction(String category, String message) {
         if (!TextUtils.isEmpty(category) && !TextUtils.isEmpty(message)) {
-            appTagging.trackActionWithInfo(AppTaggingConstants.SEND_DATA, TECHNICAL_ERROR, "AIL:".concat(category).concat(":").concat(message));
+            appTagging.trackActionWithInfo(SEND_DATA, TECHNICAL_ERROR, "AIL:".concat(category).concat(":").concat(message));
             appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "AIL:".concat(category).concat(":").concat(message));
         }
     }
