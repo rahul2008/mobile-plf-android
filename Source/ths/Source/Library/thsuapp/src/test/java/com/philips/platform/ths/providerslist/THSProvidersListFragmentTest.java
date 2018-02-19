@@ -60,6 +60,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -146,6 +147,9 @@ public class THSProvidersListFragmentTest {
 
     @Mock
     THSProviderInfo thsProviderInfoMock;
+
+    @Mock
+    ProviderInfo providerInfo;
 
     @Mock
     ProviderInfo providerInfoMock;
@@ -307,11 +311,16 @@ public class THSProvidersListFragmentTest {
         verify(thsProviderListPresenterMock, atLeastOnce()).onEvent(any(Integer.class));
     }
 
+    @Mock
+    Iterator<THSProviderInfo> infoIteratorMock;
     @Test
     public void testOnProviderListUpdate() {
+        when(thsProviderInfoListMock.size()).thenReturn(2);
+        when(thsProvidersListFragmentTest.getProviderInfoIterator(thsProviderInfoListMock)).thenReturn(infoIteratorMock);
         SupportFragmentTestUtil.startFragment(thsProvidersListFragmentTest);
         thsProvidersListFragmentTest.recyclerView = recyclerViewMock;
-        thsProvidersListFragmentTest.updateProviderAdapterList(providerInfoListMock);
+        thsProvidersListFragmentTest.practice = practice;
+        thsProvidersListFragmentTest.updateProviderAdapterList(thsProviderInfoListMock);
         thsProvidersListFragmentTest.updateMainView(true);
         thsProvidersListFragmentTest.updateMainView(false);
         verify(recyclerViewMock).setAdapter(any(RecyclerView.Adapter.class));

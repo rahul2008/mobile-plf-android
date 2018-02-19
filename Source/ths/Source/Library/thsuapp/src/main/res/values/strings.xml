@@ -175,7 +175,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 
     <!-- Set Reminder Dialog text strings -->
-    <string name="ths_rb_no_reminder">No Reminder</string>
+    <string name="ths_rb_no_reminder">No reminder</string>
     <string name="ths_rb_15_mins_reminder">15 minutes before</string>
     <string name="ths_rb_one_hour_before">1 hour before</string>
     <string name="ths_rb_four_hours_before">4 hours before</string>
@@ -219,13 +219,15 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_available_location_specialists_string">available location specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
     <string name="ths_provider_fetch_error">Provider fetch error</string>
-    <string name="ths_provider_fetch_error_text">No provider available for practice</string>
+    <string name="ths_provider_fetch_error_text">No Doctors available for consultation. Please try after sometime</string>
 
 
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
     <string name="ths_hippa_notice">HIPAA notice</string>
     <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
+    <string name="ths_download_visit_report_button">Ok, I understand</string>
+    <string name="ths_privacy_notice_title">Privacy notice</string>
 
 
     <!-- Insurance fragment strings-->
@@ -286,7 +288,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_progressbar_message_child_text">This may take few minutes</string>
     <string name="ths_matchmaking_error_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
     <string name="ths_matchmaking_provider_not_supplied">Provider not supplied</string>
-    <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
+    <string name="ths_matchmaking_no_provider_available_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
     <string name="ths_not_valid_credit_card_number">Please enter correct card number</string>
