@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -76,7 +77,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     String mCountry;
     private String mCountrySourceType;
     private AppInfraTaggingUtil appInfraTaggingAction;
-    private enum SD_REQUEST_TYPE {refresh, getHomeCountry, getServiceUrlWithLanguagePreference, getServiceUrlWithCountryPreference, getURlMAPWithLanguageOrCountry,
+    enum SD_REQUEST_TYPE {refresh, getHomeCountry, getServiceUrlWithLanguagePreference, getServiceUrlWithCountryPreference, getURlMAPWithLanguageOrCountry,
                                 getServiceLocaleWithLanguagePreference, setHomeCountry, getServicesWithCountryPreference, getServicesWithLanguagePreference, getServiceLocaleWithCountryPreference};
     /**
      * Instantiates a new Service discovery manager.
@@ -86,10 +87,20 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public ServiceDiscoveryManager(final AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mRequestItemManager = new RequestManager(context, mAppInfra);
+        mRequestItemManager = getRequestManager();
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
-        appInfraTaggingAction = new AppInfraTaggingUtil(aAppInfra.getAppInfraTaggingInstance(),aAppInfra.getAppInfraLogInstance());
+        appInfraTaggingAction = getAppInfraTaggingUtil(aAppInfra);
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    RequestManager getRequestManager() {
+        return new RequestManager(context, mAppInfra);
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+        return new AppInfraTaggingUtil(aAppInfra.getAppInfraTaggingInstance(),aAppInfra.getAppInfraLogInstance());
     }
 
     private void queueResultListener(final boolean forceRefresh, final AbstractDownloadItemListener listener, final SD_REQUEST_TYPE requestType) {
@@ -230,7 +241,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return propositionService;
     }
 
-    private ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service,
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service,
                                             AISDURLType aisdurlType, SD_REQUEST_TYPE requestType) {
         if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");

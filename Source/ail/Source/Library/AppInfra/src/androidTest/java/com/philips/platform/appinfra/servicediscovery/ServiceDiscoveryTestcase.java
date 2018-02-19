@@ -9,10 +9,15 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +33,11 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * ServiceDiscovery Test class.
@@ -99,6 +109,46 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		} catch (Exception exception) {
 		}
 
+	}
+
+
+	public void testProcessRequest() {
+		AppInfra mAppInfra = mock(AppInfra.class);
+		ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
+		serviceDiscovery.setSuccess(true);
+		RestInterface restInterfaceMock = mock(RestInterface.class);
+		RequestQueue requestQueueMock = mock(RequestQueue.class);
+		SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
+		when(mAppInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
+		final RequestManager requestManagerMock = mock(RequestManager.class);
+		when(requestManagerMock.execute("www.philips.com",ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform)).thenReturn(serviceDiscovery);
+		when(restInterfaceMock.getRequestQueue()).thenReturn(requestQueueMock);
+		LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
+		when(restInterfaceMock.isInternetReachable()).thenReturn(false);
+		when(mAppInfra.getRestClient()).thenReturn(restInterfaceMock);
+		when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+
+			@Override
+			RequestManager getRequestManager() {
+				return requestManagerMock;
+			}
+		};
+		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
+		when(restInterfaceMock.isInternetReachable()).thenReturn(true);
+		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_SUCCESS);
+		serviceDiscovery.setSuccess(false);
+		ServiceDiscovery.Error error = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT," connection time out");
+		serviceDiscovery.setError(error);
+		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 	}
 
 	public void testConfig() {
@@ -1342,4 +1392,5 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}
 		});
 	}
+
 }
