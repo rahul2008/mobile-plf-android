@@ -1,6 +1,6 @@
 package com.philips.platform.ccdemouapp.adapter;
 
-/**
+/*
  * AutoCompleteAdapter For Filtering Autocompeletion TextView
  * Activity.
  *
@@ -29,7 +29,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements
 
         super(context, resource, textViewResourceId, fullList);
         this.fullList = fullList;
-        mOriginalValues = new ArrayList<String>(fullList);
+        mOriginalValues = new ArrayList<>(fullList);
 
     }
 
@@ -65,13 +65,13 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements
 
             if (mOriginalValues == null) {
                 synchronized (lock) {
-                    mOriginalValues = new ArrayList<String>(fullList);
+                    mOriginalValues = new ArrayList<>(fullList);
                 }
             }
 
             if (prefix == null || prefix.length() == 0) {
                 synchronized (lock) {
-                    ArrayList<String> list = new ArrayList<String>(
+                    ArrayList<String> list = new ArrayList<>(
                             mOriginalValues);
                     results.values = list;
                     results.count = list.size();
@@ -82,7 +82,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements
                 ArrayList<String> values = mOriginalValues;
                 int count = values.size();
 
-                ArrayList<String> newValues = new ArrayList<String>(count);
+                ArrayList<String> newValues = new ArrayList<>(count);
 
                 for (int i = 0; i < count; i++) {
                     String item = values.get(i);
@@ -104,9 +104,9 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements
                                       FilterResults results) {
 
             if (results.values != null) {
-                fullList = (ArrayList<String>) results.values;
+                fullList = (ArrayList) results.values;
             } else {
-                fullList = new ArrayList<String>();
+                fullList = new ArrayList<>();
             }
             if (results.count > 0) {
                 notifyDataSetChanged();
