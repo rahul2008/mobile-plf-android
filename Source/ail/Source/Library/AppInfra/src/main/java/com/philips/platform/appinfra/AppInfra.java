@@ -49,7 +49,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private LoggingInterface logger;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
-    private AppTaggingInterface appInfraTagger;
+    private AppTaggingInterface appInfraTagging;
     private AppIdentityInterface appIdentity;
     private InternationalizationInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
@@ -196,7 +196,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
     private void setTagging(AppTaggingInterface tagg) {
         tagging = tagg;
-        appInfraTagger = tagging.createInstanceForComponent(getComponentId(),
+        appInfraTagging = tagging.createInstanceForComponent(getComponentId(),
                 getVersion());
     }
 
@@ -205,8 +205,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     }
 
 
-    public AppTaggingInterface getAppInfraTagger() { // this tag should be used withing App Infra library
-        return appInfraTagger;
+    public AppTaggingInterface getAppInfraTaggingInstance() { // this tag should be used withing App Infra library
+        return appInfraTagging;
     }
 
     @Override
