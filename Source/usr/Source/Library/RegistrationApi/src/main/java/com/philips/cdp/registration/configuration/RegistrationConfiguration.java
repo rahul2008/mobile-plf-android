@@ -15,8 +15,6 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,10 +61,6 @@ public class RegistrationConfiguration {
 
     private static volatile RegistrationConfiguration registrationConfiguration;
 
-    private RegistrationConfiguration() {
-        //component.inject(this);
-    }
-
     public static synchronized RegistrationConfiguration getInstance() {
         if (registrationConfiguration == null) {
             synchronized (RegistrationConfiguration.class) {
@@ -97,7 +91,7 @@ public class RegistrationConfiguration {
                 }
             }
         } else {
-            RLog.e("RegistrationConfiguration", "Registration client is null");
+            RLog.e(this.getClass().getSimpleName(), "Registration client is null");
         }
 
         return registrationClient;
@@ -124,7 +118,7 @@ public class RegistrationConfiguration {
     public String getMicrositeId() {
         String micrositeId = appConfiguration.getMicrositeId();
         if (null == micrositeId) {
-            RLog.e("RegistrationConfiguration", "Microsite ID is null");
+            RLog.e(this.getClass().getSimpleName(), "Microsite ID is null");
         }
         return micrositeId;
     }
@@ -135,10 +129,10 @@ public class RegistrationConfiguration {
      * @return String
      */
     public List<String> getServiceDiscoveryCountries() {
-        HashMap<String,String> sdCountryMapping = appConfiguration.getServiceDiscoveryCountryMapping();
+        HashMap<String,String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
         if (null == sdCountryMapping) {
-            RLog.e("RegistrationConfiguration", "sdCountryMapping is null");
-            return null;
+            RLog.e(this.getClass().getSimpleName(), "sdCountryMapping is null");
+            return new ArrayList<>();
         }
         return  new ArrayList<>(sdCountryMapping.keySet());
     }
@@ -166,7 +160,8 @@ public class RegistrationConfiguration {
     public String getRegistrationEnvironment() {
         String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
         if (null == registrationEnvironment) {
-            RLog.e("RegistrationConfiguration", "Registration environment is null");
+            RLog.e(this.getClass().getSimpleName(), "Registration environment is null");
+            return registrationEnvironment;
         }
         if (registrationEnvironment.equalsIgnoreCase("TEST"))
             return Configuration.TESTING.getValue();

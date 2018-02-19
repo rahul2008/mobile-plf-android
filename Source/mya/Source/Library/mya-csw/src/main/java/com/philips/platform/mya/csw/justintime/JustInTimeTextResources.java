@@ -6,7 +6,9 @@
  */
 package com.philips.platform.mya.csw.justintime;
 
-public class JustInTimeTextResources {
+import java.io.Serializable;
+
+public class JustInTimeTextResources implements Serializable {
     public int acceptTextRes;
     public int rejectTextRes;
     public int titleTextRes;

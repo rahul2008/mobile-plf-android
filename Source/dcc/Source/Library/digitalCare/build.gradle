@@ -8,6 +8,11 @@ jacoco {
     toolVersion = "0.7.6.201602180812"
 }
 
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
    
@@ -108,12 +113,6 @@ artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 publishing {

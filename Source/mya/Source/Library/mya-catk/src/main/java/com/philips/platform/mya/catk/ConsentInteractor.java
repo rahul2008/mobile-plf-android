@@ -10,6 +10,7 @@ package com.philips.platform.mya.catk;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
+import com.philips.platform.mya.catk.exception.UnknownConsentType;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.mapper.LocaleMapper;
@@ -25,15 +26,12 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
-
 
 public class ConsentInteractor implements ConsentHandlerInterface {
 
@@ -62,12 +60,12 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     public void storeConsentState(ConsentDefinition definition, boolean switchChecked, PostConsentCallback callback) {
         ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
         List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
-        consentsClient.createConsent(backendConsents, new ConsentInteractor.CreateConsentResponseListener(definition, backendConsents, callback));
+        consentsClient.createConsent(backendConsents, new CreateConsentResponseListener(definition, backendConsents, callback));
     }
 
     public void getStatusForConsentType(final String consentType, ConsentCallback callback) {
         if (definitionsByType.get(consentType) == null) {
-            throw new UnknownwConsentType(consentType, definitionsByType.keySet());
+            throw new UnknownConsentType(consentType, definitionsByType.keySet());
         }
         consentsClient.getStatusForConsentType(consentType, 0, new GetConsentForTypeResponseListener(callback, definitionsByType.get(consentType)));
     }
@@ -93,33 +91,6 @@ public class ConsentInteractor implements ConsentHandlerInterface {
                 definitionsByType.put(type, consentDefinition);
             }
         }
-    }
-
-    static class CreateConsentResponseListener implements CreateConsentListener {
-
-        private final ConsentDefinition definition;
-
-        private final List<BackendConsent> backendConsents;
-        private final PostConsentCallback callback;
-
-        CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, PostConsentCallback postConsentCallback) {
-            this.definition = definition;
-            this.backendConsents = backendConsents;
-            this.callback = postConsentCallback;
-        }
-
-        @Override
-        public void onSuccess() {
-            CatkLogger.d(" Create BackendConsent: ", "Success");
-            callback.onPostConsentSuccess(new Consent(backendConsents, definition));
-        }
-
-        @Override
-        public void onFailure(ConsentNetworkError error) {
-            CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
-            callback.onPostConsentFailed(definition, new ConsentError(error.getMessage(), error.getCatkErrorCode()));
-        }
-
     }
 
     static class GetConsentForTypeResponseListener implements ConsentResponseListener {
@@ -149,12 +120,38 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     }
 
+    static class CreateConsentResponseListener implements CreateConsentListener {
+
+        private final ConsentDefinition definition;
+
+        private final List<BackendConsent> backendConsents;
+        private final PostConsentCallback callback;
+
+        public CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, PostConsentCallback postConsentCallback) {
+            this.definition = definition;
+            this.backendConsents = backendConsents;
+            this.callback = postConsentCallback;
+        }
+
+        @Override
+        public void onSuccess() {
+            CatkLogger.d(" Create BackendConsent: ", "Success");
+            callback.onPostConsentSuccess(new Consent(backendConsents, definition));
+        }
+
+        @Override
+        public void onFailure(ConsentNetworkError error) {
+            CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
+            callback.onPostConsentFailed(definition, new ConsentError(error.getMessage(), error.getCatkErrorCode()));
+        }
+    }
+
     static class GetConsentsResponseListener implements ConsentResponseListener {
 
         private CheckConsentsCallback callback;
         private ConsentsClient consentsClient;
 
-        GetConsentsResponseListener(@NonNull final CheckConsentsCallback callback, ConsentsClient consentsClient) {
+        public GetConsentsResponseListener(@NonNull final CheckConsentsCallback callback, ConsentsClient consentsClient) {
             this.callback = callback;
             this.consentsClient = consentsClient;
         }
@@ -203,23 +200,5 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     }
 
-    public static class UnknownwConsentType extends RuntimeException {
-
-        private UnknownwConsentType(String unknownType, Set<String> knownTypes) {
-            super(buildMessage(unknownType, knownTypes));
-        }
-
-        private static String buildMessage(String unknowntype, Collection<String> knownTypes) {
-            StringBuilder sB = new StringBuilder("unknown consent type: ");
-            sB.append(unknowntype);
-            sB.append(". Known types are:");
-            for (String type : knownTypes) {
-                sB.append(type);
-                sB.append(",");
-            }
-            return sB.toString();
-        }
-
-    }
 
 }

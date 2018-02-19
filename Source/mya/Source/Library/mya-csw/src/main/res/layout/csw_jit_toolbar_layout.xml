@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/jit_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:title="@null">
+
+    <LinearLayout
+        android:id="@+id/mya_toolbar_left_image_layout"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.ActionBarTextView
+        android:id="@+id/jit_toolbar_title"
+        style="@style/UIDToolbarBarTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</android.support.v7.widget.Toolbar>
+

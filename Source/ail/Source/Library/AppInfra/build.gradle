@@ -2,9 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfra"
 version = objcdp.getVersion(platformversion)
@@ -105,7 +106,10 @@ dependencies {
     compile deps.support.supportv4
     compile deps.support.annotations
 
-    testCompile 'org.mockito:mockito-core:2.8.9'
+    testCompile deps.junit
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_mockito
+    testCompile deps.mockito
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile deps.assertj
 

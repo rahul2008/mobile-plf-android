@@ -56,7 +56,7 @@ public class ConsentInteractorTest {
     @Mock
     private CheckConsentsCallback mockCheckConsentsCallback;
     @Captor
-    private ArgumentCaptor<ConsentInteractor.GetConsentsResponseListener> captorConsentDetails;
+    private ArgumentCaptor<ConsentResponseListener> captorConsentDetails;
     @Captor
     private ArgumentCaptor<List<Consent>> captorRequired;
     @Captor
@@ -207,7 +207,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenGetConsentDetailsIsCalled() {
-        verify(mockContentAccessToolkit).getConsentDetails(isA(ConsentInteractor.GetConsentsResponseListener.class));
+        verify(mockContentAccessToolkit).getConsentDetails(isA(ConsentResponseListener.class));
     }
 
     private void thenConsentFailedIsReported() {

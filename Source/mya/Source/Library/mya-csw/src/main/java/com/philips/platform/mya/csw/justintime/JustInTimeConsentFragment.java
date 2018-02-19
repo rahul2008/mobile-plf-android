@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
@@ -27,36 +26,27 @@ import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-public class JustInTimeFragmentWidget extends CswBaseFragment {
-    private JustInTimeWidgetHandler completionListener;
-    private ConsentDefinition consentDefinition;
-    private ConsentHandlerInterface consentHandlerInterface;
+public class JustInTimeConsentFragment extends CswBaseFragment {
     private ProgressDialog progressDialog;
-    private JustInTimeTextResources textResources;
-    private
     @LayoutRes
-    int containerId;
-    public static final String TAG = "JustInTimeConsent";
+    private int containerId;
 
-    public static JustInTimeFragmentWidget newInstance(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
-        Bundle args = new Bundle();
-        JustInTimeFragmentWidget fragment = new JustInTimeFragmentWidget();
-        fragment.setArguments(args);
-        fragment.setDependencies(consentDefinition, consentHandlerInterface, textResources, containerId);
+    public static JustInTimeConsentFragment newInstance(final int containerId) {
+        JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
+        fragment.containerId = containerId;
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
-
         initializeDescriptionLabel(justInTimeConsentView);
         initializeHelpLabel(justInTimeConsentView);
         initializeGiveConsentButton(justInTimeConsentView);
@@ -64,6 +54,11 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
         handleOrientation(justInTimeConsentView);
         return justInTimeConsentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -77,23 +72,12 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return textResources.titleTextRes;
-    }
-
-    public void setCompletionListener(JustInTimeWidgetHandler completionListener) {
-        this.completionListener = completionListener;
-    }
-
-    private void setDependencies(ConsentDefinition consentDefinition, ConsentHandlerInterface consentHandlerInterface, JustInTimeTextResources textResources, int containerId) {
-        this.consentDefinition = consentDefinition;
-        this.consentHandlerInterface = consentHandlerInterface;
-        this.textResources = textResources;
-        this.containerId = containerId;
+        return JustInTimeConsentDependencies.textResources.titleTextRes;
     }
 
     private void initializeConsentRejectButton(View justInTimeConsentView) {
         Button rejectConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
-        rejectConsentButton.setText(textResources.rejectTextRes);
+        rejectConsentButton.setText(JustInTimeConsentDependencies.textResources.rejectTextRes);
         rejectConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +88,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     private void initializeGiveConsentButton(View justInTimeConsentView) {
         Button giveConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
-        giveConsentButton.setText(textResources.acceptTextRes);
+        giveConsentButton.setText(JustInTimeConsentDependencies.textResources.acceptTextRes);
         giveConsentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +99,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
 
     private void initializeDescriptionLabel(View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
-        descriptionLabel.setText(consentDefinition.getText());
+        descriptionLabel.setText(JustInTimeConsentDependencies.consentDefinition.getText());
     }
 
     private void initializeHelpLabel(View justInTimeConsentView) {
@@ -123,7 +107,7 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-                DescriptionView.show(getFragmentManager(), consentDefinition.getHelpText(), containerId);
+            DescriptionView.show(getFragmentManager(), JustInTimeConsentDependencies.consentDefinition.getHelpText(), containerId);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
@@ -134,8 +118,8 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (completionListener != null) {
-                    completionListener.onConsentGiven();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentGiven();
                 }
             }
         }));
@@ -145,8 +129,8 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
         postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (completionListener != null) {
-                    completionListener.onConsentRejected();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentRejected();
                 }
             }
         }));
@@ -174,10 +158,10 @@ public class JustInTimeFragmentWidget extends CswBaseFragment {
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = CswInterface.get().getDependencies().getAppInfra().getRestClient().isInternetReachable();
+        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             showProgressDialog();
-            consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
+            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
         } else {
             showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
