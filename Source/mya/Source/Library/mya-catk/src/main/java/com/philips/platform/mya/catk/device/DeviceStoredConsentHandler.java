@@ -4,14 +4,14 @@ package com.philips.platform.mya.catk.device;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.mya.catk.utils.CatkHelper;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
-    private final AppInfraInterface appInfra;
+    private final AppInfra appInfra;
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
     private static final int LIST_POS_LOCALE = 2;
@@ -36,7 +35,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
 
-    public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
+    public DeviceStoredConsentHandler(final AppInfra appInfra) {
         this.appInfra = appInfra;
     }
 
@@ -73,7 +72,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         List<Consent> consents = new ArrayList<>(consentDefinitions.size());
         for (ConsentDefinition definition : consentDefinitions) {
             ConsentStatus consentStatus = processDefinition(definition);
-            consents.add(createConsentFromDefinition(definition, consentStatus));
+            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus));
         }
         callback.onGetConsentsSuccess(consents);
     }
@@ -82,6 +81,10 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         if (storageError.getErrorCode() != null) {
             appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
         }
+    }
+
+    private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
+        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status));
     }
 
     private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
@@ -106,7 +109,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 return;
             }
         }
-        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status)));
+        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
     }
 
     @NonNull
@@ -140,19 +143,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     @NonNull
     private String getConsentKey(String type) {
         return DEVICESTORE_TLA + "_" + type;
-    }
-
-    private Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus) {
-        final BackendConsent backendConsent = new BackendConsent(new Locale(definition.getLocale()), consentStatus, definition.getTypes().get(0), definition.getVersion());
-        return new Consent(backendConsent, definition);
-    }
-
-    private ConsentStatus toStatus(boolean status) {
-        return status ? ConsentStatus.active : ConsentStatus.rejected;
-    }
-
-    private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status));
     }
 
 }

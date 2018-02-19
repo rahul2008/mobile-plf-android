@@ -33,7 +33,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 public class JustInTimeConsentFragment extends CswBaseFragment {
-    public static final String TAG = "JustInTimeConsent";
     private ProgressDialog progressDialog;
     @LayoutRes
     private int containerId;
