@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.intake;
@@ -23,15 +22,16 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -39,25 +39,25 @@ import static org.mockito.Mockito.when;
 
 public class THSMedicationPresenterTest {
 
-    THSMedicationPresenter mTHSMedicationPresenter;
+    private THSMedicationPresenter mTHSMedicationPresenter;
 
     @Mock
-    THSMedicationFragment thsMedicationFragmentMock;
+    private THSMedicationFragment thsMedicationFragmentMock;
 
     @Mock
-    THSMedication thsMedicationMock;
+    private THSMedication thsMedicationMock;
 
     @Mock
-    Medication medicationMock;
+    private Medication medicationMock;
 
     @Mock
-    Context contextMock;
+    private Context contextMock;
 
     @Mock
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapper;
+    private THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     Consumer consumer;
@@ -66,10 +66,10 @@ public class THSMedicationPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    SDKError sdkErrormock;
+    private SDKError sdkErrormock;
 
     @Mock
-    THSConsumer thsConsumer;
+    private THSConsumer thsConsumer;
 
     @Before
     public void setUp() throws Exception {
@@ -93,25 +93,25 @@ public class THSMedicationPresenterTest {
     @Test
     public void onEvent_ths_intake_medication_continue_button() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_intake_medication_continue_button);
-        verify(consumerManagerMock).updateMedications(any(Consumer.class),anyList(),any(SDKCallback.class));
+        verify(consumerManagerMock).updateMedications(any(Consumer.class), ArgumentMatchers.<Medication>anyList(), any(SDKCallback.class));
     }
 
     @Test
     public void onEvent_ths_existing_medicine_footer_relative_layout() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
-        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class), anyString(), any(Bundle.class), anyBoolean());
     }
 
     @Test
     public void onEvent_ths_intake_medication_skip_step_label() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
-        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class), anyString(), (Bundle)isNull(), anyBoolean());
     }
 
     @Test
     public void fetchMedication() throws Exception {
         mTHSMedicationPresenter.fetchMedication();
-        verify(consumerManagerMock).getMedications(any(Consumer.class),any(SDKCallback.class));
+        verify(consumerManagerMock).getMedications(any(Consumer.class), any(SDKCallback.class));
     }
 
     @Test
@@ -122,8 +122,8 @@ public class THSMedicationPresenterTest {
 
     @Test
     public void onGetMedicationReceived() throws Exception {
-        mTHSMedicationPresenter.onGetMedicationReceived(null,sdkErrormock);
-        verify(thsMedicationFragmentMock).showExistingMedicationList(any(THSMedication.class));
+        mTHSMedicationPresenter.onGetMedicationReceived(null, sdkErrormock);
+        verify(thsMedicationFragmentMock).showExistingMedicationList((THSMedication)isNull());
     }
 
 }

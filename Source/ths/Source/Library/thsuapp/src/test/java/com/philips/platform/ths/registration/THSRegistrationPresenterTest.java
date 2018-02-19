@@ -45,6 +45,7 @@ import java.util.Map;
 
 import static com.americanwell.sdk.entity.SDKErrorReason.AUTH_SCHEDULED_DOWNTIME;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -169,7 +170,7 @@ public class THSRegistrationPresenterTest {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -178,7 +179,7 @@ public class THSRegistrationPresenterTest {
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_PRACTICES;
         sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -187,7 +188,7 @@ public class THSRegistrationPresenterTest {
         thsRegistrationFragmentMock.mLaunchInput = -1;
         sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -196,7 +197,7 @@ public class THSRegistrationPresenterTest {
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
         sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -205,7 +206,7 @@ public class THSRegistrationPresenterTest {
         sdkErrorMock = null;
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test(expected = IllegalStateException.class)

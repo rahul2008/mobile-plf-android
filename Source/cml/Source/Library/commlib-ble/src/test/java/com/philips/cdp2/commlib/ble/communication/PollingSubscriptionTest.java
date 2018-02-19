@@ -41,18 +41,22 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PollingSubscriptionTest {
 
     @Mock
-    ScheduledExecutorService mockExecutor;
+    private ScheduledExecutorService mockExecutor;
 
     @Mock
+    private
     CommunicationStrategy mockStrategy;
 
     @Mock
+    private
     ResponseHandler mockResponseHandler;
 
     @Mock
+    private
     ScheduledFuture<?> mockFuture;
 
     @Mock
+    private
     CountDownLatch mockCountDownLatch;
 
     @Mock
@@ -83,7 +87,7 @@ public class PollingSubscriptionTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                capturedHandlers.add(invocation.getArgumentAt(2, ResponseHandler.class));
+                capturedHandlers.add((ResponseHandler) invocation.getArgument(2));
                 return null;
             }
         }).when(mockStrategy).getProperties(anyString(), anyInt(), any(ResponseHandler.class));

@@ -55,6 +55,7 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -220,7 +221,7 @@ public class THSCostSummaryPresenterTest {
     @Test
     public void onEvent_payment_detail() throws Exception {
         mTHSCostSummaryPresenter.onEvent(R.id.ths_cost_summary_payment_detail_framelayout);
-        verify(thsCostSummaryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsCostSummaryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
