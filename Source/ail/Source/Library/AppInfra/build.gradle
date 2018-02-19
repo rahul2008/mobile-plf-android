@@ -88,6 +88,16 @@ android {
 }
 
 dependencies {
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if (dp) {
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
+
+    } else {
+        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+    }
     compile deps.adobemobilelib
     compile deps.gson
     compile deps.volley
