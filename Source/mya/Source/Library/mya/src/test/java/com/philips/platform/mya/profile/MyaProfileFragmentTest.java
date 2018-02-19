@@ -45,7 +45,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startVisibleFragment;
 
-@PrepareForTest({ ThemeUtils.class, UIDHelper.class})
+@PrepareForTest({ ThemeUtils.class })
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaProfileFragmentTest {
@@ -68,13 +68,13 @@ public class MyaProfileFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
+//        initMocks(this);
         mContext = RuntimeEnvironment.application;
         PowerMockito.mockStatic(ThemeUtils.class);
         when(ThemeUtils.buildColorStateList((Context) any(), anyInt())).thenReturn(colorStateList);
         MyaHelper.getInstance().setAppInfra(appInfraMock);
         myaProfileFragment = new MyaProfileFragment();
-        startFragment(myaProfileFragment);
+        startFragment(null);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
 
