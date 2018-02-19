@@ -40,34 +40,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
-//        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAppInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
-        SecureStorageInterface mSecureStorage = mAppInfra.getSecureStorage();
-
-        String enc = "4324332423432432432435425435435346465464547657567.000343242342";
-
-        try {
-            plainByte= enc.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-        }
-
-        SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
-        try {
-            String encBytesString = new String(encryptedByte, "UTF-8");
-            Log.e("Encrypted Data",encBytesString);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
-        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
-        try {
-            String decBytesString = new String(plainByte, "UTF-8");
-            Log.e("Decrypted Data",decBytesString);
-        } catch (UnsupportedEncodingException e) {
-        }
-
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
         componentIDTextView.setText(mAppInfra.getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
