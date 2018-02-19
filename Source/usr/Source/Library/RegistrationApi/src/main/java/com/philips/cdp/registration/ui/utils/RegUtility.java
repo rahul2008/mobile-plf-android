@@ -20,6 +20,7 @@ import android.widget.*;
 
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.*;
 import com.philips.platform.appinfra.abtestclient.*;
 
@@ -392,4 +393,30 @@ public class RegUtility {
     public static void showErrorMessage(Activity parentActivity) {
         parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity,parentActivity.getResources().getString(R.string.reg_Generic_Network_Error),Toast.LENGTH_SHORT).show());
     }
+
+    public static Country getCountry(String mSelectedCountryCode, Context mContext) {
+
+        String key = getCountryKey(mSelectedCountryCode);
+        String countryName = new Locale("", mSelectedCountryCode).getDisplayCountry();
+
+        int identifier = mContext.getResources().getIdentifier(key, "string", mContext.getApplicationContext().getPackageName());
+
+        if (identifier != 0) {
+            try {
+                countryName = mContext.getApplicationContext().getString(identifier);
+
+            } catch (Exception resourcesNotFoundException) {
+                RLog.d(RLog.EXCEPTION,resourcesNotFoundException.getMessage());
+            }
+        }
+
+        return new Country(mSelectedCountryCode, countryName);
+
+    }
+
+    private static String getCountryKey(String mSelectedCountryCode) {
+        return "reg_Country" + "_" + mSelectedCountryCode;
+    }
+
+
 }
