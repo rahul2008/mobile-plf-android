@@ -65,7 +65,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private static final String STATE_PRODUCTION = "PRODUCTION";
 
     private final AppInfra mAppInfra;
-    private final Context context;
+    private final transient Context context;
     private final transient RequestManager mRequestItemManager;
     private final ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
     private final ReentrantLock downloadLock;

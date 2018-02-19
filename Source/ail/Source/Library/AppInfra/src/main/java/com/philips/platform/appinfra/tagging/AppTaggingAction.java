@@ -6,7 +6,9 @@
 package com.philips.platform.appinfra.tagging;
 
 
-public interface AppTaggingAction {
+import java.io.Serializable;
+
+public interface AppTaggingAction extends Serializable {
 
     void trackSuccessAction(String category, String message);
     void trackErrorAction(String category, String message);
