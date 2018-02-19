@@ -1,21 +1,7 @@
 package com.philips.platform.mya.csw.permission;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import android.content.Context;
+import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -35,15 +21,23 @@ import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import android.content.Context;
-import android.test.mock.MockContext;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import java.util.Arrays;
-import java.util.Collections;
 
-import static org.powermock.api.mockito.PowerMockito.when;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
     private static final String AMERICAN_LOCALE = "en-US";
