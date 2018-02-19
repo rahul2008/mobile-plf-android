@@ -8,13 +8,13 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
 import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -66,7 +66,7 @@ public class SHNCapabilityConfigHeartRateZonesWrapperTest extends SHNCapabilityW
 
     private void callSetHeartRateZoneThresholdsOnInternalHandler() {
         capabilityWrapper.setHeartRateZoneThresholdsInBpm(mockedThresholdsList, mockedSHNResultListener);
-        verify(capabilityMock, never()).setHeartRateZoneThresholdsInBpm(anyList(), any(SHNResultListener.class));
+        verify(capabilityMock, never()).setHeartRateZoneThresholdsInBpm(ArgumentMatchers.<Integer>anyList(), any(SHNResultListener.class));
 
         captureInternalHandlerRunnable().run();
     }
@@ -130,7 +130,7 @@ public class SHNCapabilityConfigHeartRateZonesWrapperTest extends SHNCapabilityW
         callGetHeartRateZonesOnInternalHandler();
 
         getInternalResultListenerForGetThresholdsCall().onActionCompleted(mockedThresholdsList, EXPECTED_RESULT);
-        verify(mockedIntegerListResultListener, never()).onActionCompleted(anyList(), any(SHNResult.class));
+        verify(mockedIntegerListResultListener, never()).onActionCompleted(ArgumentMatchers.<Integer>anyList(), any(SHNResult.class));
 
         captureUserHandlerRunnable().run();
 

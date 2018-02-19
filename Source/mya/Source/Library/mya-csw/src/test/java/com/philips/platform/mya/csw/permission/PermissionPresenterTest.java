@@ -37,9 +37,13 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import android.content.Context;
 import android.test.mock.MockContext;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import java.util.Arrays;
+import java.util.Collections;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
     private static final String AMERICAN_LOCALE = "en-US";
@@ -256,8 +260,8 @@ public class PermissionPresenterTest {
 
     private void givenConsentConfigurations() {
         ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0);
-        ConsentConfiguration configuration = new ConsentConfiguration(Arrays.asList(definition), mockHandlerInterface);
-        givenConsentConfigurations = Arrays.asList(configuration);
+        ConsentConfiguration configuration = new ConsentConfiguration(Collections.singletonList(definition), mockHandlerInterface);
+        givenConsentConfigurations = Collections.singletonList(configuration);
         givenPresenter();
     }
 

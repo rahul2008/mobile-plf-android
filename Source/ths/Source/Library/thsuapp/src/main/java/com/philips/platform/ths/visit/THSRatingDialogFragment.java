@@ -14,15 +14,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 
-
-public class THSRatingDialogFragment extends DialogFragment {
+public class THSRatingDialogFragment extends DialogFragment implements android.widget.RatingBar.OnRatingBarChangeListener {
     public RatingBar providerInputRatingBar;
     public RatingBar visitInputRatingBar;
     public Button okButton;
@@ -38,14 +35,18 @@ public class THSRatingDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_rating, container, false);
-        providerInputRatingBar= (RatingBar) view.findViewById(R.id.ths_provider_ratingbar);
-        visitInputRatingBar= (RatingBar) view.findViewById(R.id.ths_visit_ratingbar);
-        okButton = (Button) view.findViewById(R.id.ths_ratingbar_ok_button);
+        providerInputRatingBar = view.findViewById(R.id.ths_provider_ratingbar);
+        visitInputRatingBar = view.findViewById(R.id.ths_visit_ratingbar);
+        providerInputRatingBar.setOnRatingBarChangeListener(this);
+        visitInputRatingBar.setOnRatingBarChangeListener(this);
+        okButton = view.findViewById(R.id.ths_ratingbar_ok_button);
+        okButton.setEnabled(false);
+        setOkButtonState();
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                thsVisitSummaryPresenter.sendRatings(  providerInputRatingBar.getRating(),
-                visitInputRatingBar.getRating());
+                thsVisitSummaryPresenter.sendRatings(providerInputRatingBar.getRating(),
+                        visitInputRatingBar.getRating());
                 dismiss();
             }
         });
@@ -55,5 +56,25 @@ public class THSRatingDialogFragment extends DialogFragment {
 
     }
 
+    private void setOkButtonState() {
+        float providerRatingValue = providerInputRatingBar.getRating();
+        float visitRatingValue = visitInputRatingBar.getRating();
+        if (providerRatingValue > 0 && visitRatingValue > 0) {
+            okButton.setEnabled(true);
+        } else {
+            okButton.setEnabled(false);
+        }
+    }
 
+
+    @Override
+    public void onRatingChanged(android.widget.RatingBar ratingBar, float v, boolean b) {
+        int viewID = ratingBar.getId();
+        if (viewID == R.id.ths_provider_ratingbar) {
+            setOkButtonState();
+        } else if (viewID == R.id.ths_visit_ratingbar) {
+            setOkButtonState();
+        }
+
+    }
 }

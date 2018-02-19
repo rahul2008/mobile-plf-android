@@ -41,7 +41,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @Ignore
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
 public class LocatePhilipsFragmentTest extends MockitoConfiguration {
 
     @Mock

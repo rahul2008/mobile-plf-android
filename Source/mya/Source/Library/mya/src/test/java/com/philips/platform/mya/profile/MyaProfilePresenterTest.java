@@ -20,6 +20,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
 import java.util.Map;

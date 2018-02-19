@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
@@ -22,12 +21,10 @@ import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.mya.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import android.test.mock.MockContext;
 
-@RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CswInterfaceTest {
 

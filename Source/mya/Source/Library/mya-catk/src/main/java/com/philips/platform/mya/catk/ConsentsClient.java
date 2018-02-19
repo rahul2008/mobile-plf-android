@@ -32,7 +32,6 @@ import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.io.Serializable;
 import android.support.annotation.NonNull;
 
 public class ConsentsClient {

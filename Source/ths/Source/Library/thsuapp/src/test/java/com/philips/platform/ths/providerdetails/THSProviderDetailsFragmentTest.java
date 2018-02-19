@@ -43,6 +43,7 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -152,7 +153,7 @@ public class THSProviderDetailsFragmentTest {
 
         List list = new ArrayList();
         list.add(dateMock);
-        verify(thsProviderDetailsDisplayHelperMock).updateView(any(Provider.class),any(List.class));
+        verify(thsProviderDetailsDisplayHelperMock).updateView(any(Provider.class),(List)isNull());
     }
 
     @Test
