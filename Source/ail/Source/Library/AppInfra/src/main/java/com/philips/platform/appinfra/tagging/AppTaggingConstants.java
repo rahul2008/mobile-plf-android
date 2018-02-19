@@ -27,23 +27,4 @@ public class AppTaggingConstants {
 
     public static final String COMPONENT_VERSION = "componentVersion";
 
-    //keys
-    public static final String SEND_DATA = "sendData";
-
-
-    //Actions
-    public static final String TECHNICAL_ERROR = "TechnicalError";
-    public static final String SUCCESS_MESSAGE = "appInfraSuccessMessage";
-
-
-
-    public static final String TagSDRefreshError = "SD refresh failed";
-    public static final String TagUrlByLanguageError = "getServiceUrlWithLanguagePreference error";
-    public static final String TagUrlByCountryError = "getServiceUrlWithCountryPreference error";
-    public static final String TagLocaleByLanguageError = "getServiceLocaleWithLanguagePreference, error";
-    public static final String TagServicesByLanguageName = "getServicesWithLanguagePreference error";
-    public static final String TagServicesByCountryError = "getServicesWithCountryPreference error";
-    public static final String TagLocaleByCountryError = "getServiceLocaleWithCountryPreference, error";
-
-
 }
