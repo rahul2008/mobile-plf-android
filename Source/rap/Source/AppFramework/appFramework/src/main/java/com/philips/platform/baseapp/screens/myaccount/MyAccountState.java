@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
@@ -138,7 +139,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return definitions;
     }
 
-    List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
+    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
                 .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1));
@@ -161,7 +162,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions, appInfra)));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
