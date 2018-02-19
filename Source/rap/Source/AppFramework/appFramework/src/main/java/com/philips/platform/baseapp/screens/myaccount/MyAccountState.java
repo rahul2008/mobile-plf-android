@@ -26,6 +26,7 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -40,6 +41,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.ths.consent.THSConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -148,8 +150,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     List<ConsentDefinition> createTHSDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
+        definitions.add(THSConsentProvider.getTHSConsentDefinition(context,currentLocale));
         return definitions;
     }
 
@@ -171,7 +172,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
-       // consentHandlerMappings.add(new ConsentConfiguration(thsDefinitions, new MarketingConsentHandler(new User(context), thsDefinitions)));
+        consentHandlerMappings.add(new ConsentConfiguration(thsDefinitions, new DeviceStoredConsentHandler(app.getAppInfra())));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

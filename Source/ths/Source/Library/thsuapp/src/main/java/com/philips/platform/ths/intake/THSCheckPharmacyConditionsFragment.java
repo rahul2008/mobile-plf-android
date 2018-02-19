@@ -205,7 +205,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            getActivity().getSupportFragmentManager().popBackStack();
+                            //getActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
                         }

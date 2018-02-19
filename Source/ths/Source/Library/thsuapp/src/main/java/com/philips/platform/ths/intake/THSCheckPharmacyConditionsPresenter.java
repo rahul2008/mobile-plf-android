@@ -67,12 +67,14 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
         } else {
+            thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(); // remove CheckPharmacyConditionFragment transitive fragment
             final DeviceStoredConsentHandler pDeviceStoredConsentHandler = new DeviceStoredConsentHandler(THSManager.getInstance().getAppInfra());
             Locale locale = THSConsentProvider.getCompleteLocale();
             final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition()!=null?THSManager.getInstance().getConsentDefinition():THSConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
             pDeviceStoredConsentHandler.fetchConsentState(thsConsentDefinition, new CheckConsentsCallback() {
                 @Override
                 public void onGetConsentsSuccess(List<Consent> consents) {
+                    Log.v("GDPR", "success");
                     boolean hasLocationConsent = false;
                     for (Consent consent : consents) {
                         if (consent.getType() == THSConsentProvider.THS_LOCATION) {
@@ -85,6 +87,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     }
 
                     if (!hasLocationConsent) {
+
                         JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                         justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
                         justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
@@ -94,16 +97,11 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         JustInTimeConsentDependencies.textResources=justInTimeTextResources;
                         JustInTimeConsentDependencies.completionListener=justInTimeWidgetHandler();
                         JustInTimeConsentDependencies.consentHandlerInterface=pDeviceStoredConsentHandler;
-
-
                         JustInTimeConsentFragment  justInTimeConsentFragment= JustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
-                       // thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                         FragmentTransaction fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
-                        fragmentTransaction.addToBackStack("consentTAG");
-                        fragmentTransaction.commit();
-
-                        //fragment push
+                        //fragmentTransaction.addToBackStack("consentTAG");
+                        fragmentTransaction.commitAllowingStateLoss();
                     } else {
                         thsCheckPharmacyConditonsView.displayPharmacy();
                     }
@@ -111,7 +109,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
 
                 @Override
                 public void onGetConsentsFailed(ConsentError error) {
-
+                    Log.v("GDPR", "onGetConsentsFailed" +error.toString());
                 }
             });
 
@@ -123,7 +121,8 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             @Override
             public void onConsentGiven() {
                 Log.v("SUCC", "onConsentGiven");
-                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+
+                //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 //thsCheckPharmacyConditonsView.popFragmentByTag("consentTAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 // thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 thsCheckPharmacyConditonsView.displayPharmacy();
@@ -132,7 +131,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             @Override
             public void onConsentRejected() {
                 Log.v("FAIL", "onConsentRejected");
-                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 showPharmacySearch();
             }
@@ -154,15 +153,13 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     }
 
     private void showPharmacySearch() {
-
-        if (null != thsCheckPharmacyConditonsView.getFragmentActivity() ) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     thsCheckPharmacyConditonsView.getFragmentActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                            //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             thsCheckPharmacyConditonsView.addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
                         }
@@ -170,7 +167,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                 }
             }).start();
 
-        }
+
     }
 
 }
