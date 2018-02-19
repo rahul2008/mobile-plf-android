@@ -104,5 +104,4 @@ dependencies {
     androidTestCompile deps.dexmaker_google_mockito
     androidTestCompile deps.mockito_old
     androidTestCompile deps.junit
-
 }
