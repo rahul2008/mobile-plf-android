@@ -5,15 +5,20 @@
 */
 package com.philips.platform.mya.catk.registry;
 
+import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 public class ConsentManager implements ConsentRegistryInterface {
 
@@ -47,25 +52,104 @@ public class ConsentManager implements ConsentRegistryInterface {
     }
 
     @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
+    public void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback) {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
+        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+        List<Consent> consentList = new ArrayList<>();
+
         for (String consentType : consentDefinition.getTypes()) {
-            getHandler(consentType).fetchConsentState(consentDefinition, callback); //Should have null check to throw exception in case of no handler registered?
+            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
+            consentCallbackListeners.add(listener);
+            getHandler(consentType).fetchConsentState(consentDefinition, listener);
         }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+
+        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+            if (consentCallbackListener.consentError != null) {
+                callback.onGetConsentsFailed(consentCallbackListener.consentError);
+                return;
+            } else {
+                consentList = consentCallbackListener.consentList;
+            }
+        }
+
+        callback.onGetConsentsSuccess(consentList);
     }
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
         for (ConsentDefinition consentDefinition : consentDefinitions) {
-            for (String consentType : consentDefinition.getTypes()) {
-                getHandler(consentType).fetchConsentState(consentDefinition, callback); //Should have null check or throw exception?
-            }
+            fetchConsentState(consentDefinition, callback);
+            //TODO Clarify multiple callback should be sent to the caller ?
         }
     }
 
     @Override
-    public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-        for (String consentType : definition.getTypes()) {
-            getHandler(consentType).storeConsentState(definition, status, callback); //Should have null check or throw exception?
+    public void storeConsentState(ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback) {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
+        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+
+        for (String consentType : consentDefinition.getTypes()) {
+            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
+            consentCallbackListeners.add(listener);
+            getHandler(consentType).storeConsentState(consentDefinition, status, listener);
+        }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+
+        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+            if (consentCallbackListener.consentError != null) {
+                callback.onPostConsentFailed(consentCallbackListener.consentDefinition, consentCallbackListener.consentError);
+                return;
+            }
+        }
+
+        callback.onPostConsentSuccess(consentCallbackListeners.get(0).consent);
+    }
+
+    private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            CatkLogger.d("InterruptedException", e.getMessage());
+        }
+    }
+
+    private class ConsentCallbackListener implements CheckConsentsCallback, PostConsentCallback {
+        CountDownLatch countDownLatch;
+        List<Consent> consentList = new ArrayList<>();
+        ConsentDefinition consentDefinition;
+        Consent consent;
+        ConsentError consentError = null;
+
+        ConsentCallbackListener(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void onGetConsentsSuccess(List<Consent> consents) {
+            consentList = consents;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onGetConsentsFailed(ConsentError error) {
+            consentError = error;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+            consentDefinition = definition;
+            consentError = error;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onPostConsentSuccess(Consent consent) {
+            this.consent = consent;
+            countDownLatch.countDown();
         }
     }
 }
