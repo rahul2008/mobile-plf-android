@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
@@ -65,10 +66,13 @@ public class MarketingConsentHandlerTest {
     private Context mockContext;
     @Mock
     private AppInfraInterface appInfraMock;
+    @Mock
+    private InternationalizationInterface internationalizationInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterfaceMock);
     }
 
     @Test
@@ -164,6 +168,7 @@ public class MarketingConsentHandlerTest {
 
     @Test
     public void itShouldGiveMarketingConsent() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(true);
         whenPostingConsentDefinitionSucceeds();
@@ -172,6 +177,7 @@ public class MarketingConsentHandlerTest {
 
     @Test
     public void itShouldRejectMarketingConsent() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(false);
         whenPostingConsentDefinitionSucceeds();
@@ -180,6 +186,7 @@ public class MarketingConsentHandlerTest {
 
     @Test
     public void itShouldNotGiveMarketingConsentWhenPostingAcceptedOperationFails() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(true);
         whenPostingConsentDefinitionFails(501);
@@ -286,6 +293,10 @@ public class MarketingConsentHandlerTest {
     private void thenErrorCallbackIsCalled() {
         verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
         verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(anyList());
+    }
+
+    private void givenPhoneLanguageIs(String bcp47UILocale) {
+        when(internationalizationInterfaceMock.getBCP47UILocale()).thenReturn(bcp47UILocale);
     }
 
     private class TestMarketingConsentHandler extends MarketingConsentHandler {
