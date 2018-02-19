@@ -649,13 +649,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void updateHomeCountry(String selectedCountryCode) {
-//        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
-        if (selectedCountryCode.equalsIgnoreCase("TW")) {
-            updateCountryText(new Locale("", "TW").getDisplayCountry());
-        } else {
-            updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
-        }
-
+        updateCountryText(RegUtility.getCountry(selectedCountryCode, this.getActivity()).getName());
         handleSocialProviders(selectedCountryCode);
     }
 
