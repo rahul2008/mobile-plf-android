@@ -121,7 +121,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
 		when(mAppInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
 		final RequestManager requestManagerMock = mock(RequestManager.class);
-		when(requestManagerMock.execute("www.philips.com",ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform)).thenReturn(serviceDiscovery);
+		String url = "www.philips.com";
+		when(requestManagerMock.execute(url,ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform)).thenReturn(serviceDiscovery);
 		when(restInterfaceMock.getRequestQueue()).thenReturn(requestQueueMock);
 		LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
 		when(restInterfaceMock.isInternetReachable()).thenReturn(false);
@@ -139,15 +140,15 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				return requestManagerMock;
 			}
 		};
-		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 		when(restInterfaceMock.isInternetReachable()).thenReturn(true);
-		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
 		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_SUCCESS);
 		serviceDiscovery.setSuccess(false);
 		ServiceDiscovery.Error error = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT," connection time out");
 		serviceDiscovery.setError(error);
-		mServiceDiscoveryManager.processRequest("www.philips.com", serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 	}
 
