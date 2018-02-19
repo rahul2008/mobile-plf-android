@@ -5,14 +5,15 @@
 */
 package com.philips.platform.baseapp.screens.telehealthservices;
 
-import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
-import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.After;
@@ -58,7 +59,7 @@ public class TeleHealthServicesStateTest {
 
     @Before
     public void setUp() {
-        teleHealthServicesState  = new TeleHealthServiceStateMock();
+        teleHealthServicesState = new TeleHealthServiceStateMock();
         teleHealthServicesState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         teleHealthServicesState.init(application);
@@ -71,13 +72,13 @@ public class TeleHealthServicesStateTest {
     public void testLaunchTelehealthServicesState() {
         teleHealthServicesState.setUiStateData(uiStateData);
         teleHealthServicesState.navigate(fragmentLauncher);
-        verify(thsMicroAppInterface).init(any(URDependancies.class), any(UappSettings.class));
-        verify(thsMicroAppInterface).launch(any(FragmentLauncher.class), any(THSMicroAppLaunchInput.class));
+        verify(thsMicroAppInterface).init(any(UappDependencies.class), any(UappSettings.class));
+        verify(thsMicroAppInterface).launch(any(UiLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
-    public void getMicroAppInterfaceTest(){
-        TeleHealthServicesState teleHealthServicesState  = new TeleHealthServicesState();
+    public void getMicroAppInterfaceTest() {
+        TeleHealthServicesState teleHealthServicesState = new TeleHealthServicesState();
         assertNotNull(teleHealthServicesState.getMicroAppInterface());
     }
 

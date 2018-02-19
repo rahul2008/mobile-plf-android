@@ -23,7 +23,7 @@ import java.util.Map;
 import static com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration.CONFIG_KEY_CONSOLE_LOG_ENABLED;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.STAGING;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;

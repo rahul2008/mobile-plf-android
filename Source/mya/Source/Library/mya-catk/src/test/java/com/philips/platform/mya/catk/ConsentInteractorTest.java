@@ -162,6 +162,7 @@ public class ConsentInteractorTest {
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
         subject.storeConsentState(givenConsentDefinition, checked, mockPostConsentCallback);
+        //subject.fetchConsentState(givenConsentDefinition,mockCheckConsentsCallback);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
@@ -189,7 +190,8 @@ public class ConsentInteractorTest {
     }
 
     private void whenCheckConsentsCalled() {
-        subject.fetchConsentStates(null, mockCheckConsentsCallback);
+        //subject.checkConsents(mockCheckConsentsCallback);
+        subject.fetchLatestConsents(mockCheckConsentsCallback);
     }
 
     private void andResponseFailsWithError(ConsentNetworkError error) {

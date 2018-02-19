@@ -41,7 +41,6 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -85,7 +84,7 @@ public class FirmwareUploaderTest {
         doAnswer(new Answer<Future<Void>>() {
             @Override
             public Future<Void> answer(InvocationOnMock invocation) throws Throwable {
-                Callable<Void> callable = invocation.getArgumentAt(0, Callable.class);
+                Callable<Void> callable = invocation.getArgument(0);
                 callable.call();
 
                 return mock(Future.class);
@@ -99,10 +98,10 @@ public class FirmwareUploaderTest {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
                 handlers.clear();
-                handlers.add(invocation.getArgumentAt(3, ResponseHandler.class));
+                handlers.add((ResponseHandler) invocation.getArgument(3));
                 return null;
             }
-        }).when(mockCommunicationStrategy).putProperties(any(Map.class), anyString(), anyInt(), any(ResponseHandler.class));
+        }).when(mockCommunicationStrategy).putProperties(any(Map.class), (String) any(), anyInt(), any(ResponseHandler.class));
 
         uploaderUnderTest = new FirmwareUploader(mockFirmwarePort, mockCommunicationStrategy, firmwaredata, mockUploadListener) {
             @NonNull

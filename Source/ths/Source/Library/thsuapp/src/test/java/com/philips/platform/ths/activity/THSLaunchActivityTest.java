@@ -29,7 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static com.philips.platform.ths.utility.THSConstants.KEY_ACTIVITY_THEME;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -75,7 +75,7 @@ public class THSLaunchActivityTest {
 
     @Test
     public void shouldSaveInstanceIsNotnull() throws Exception {
-        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).withIntent(intent).get();
+        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).get();
         THSLaunchActivity spyActivity = Mockito.spy(mThsLaunchActivity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
@@ -85,7 +85,7 @@ public class THSLaunchActivityTest {
 
 
     private void startActivity(Intent intent) {
-        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).withIntent(intent).get();
+        mThsLaunchActivity = buildActivity(THSLaunchActivity.class, intent).get();
         THSLaunchActivity spyActivity = Mockito.spy(mThsLaunchActivity);
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
         spyActivity.onCreate(null);
@@ -141,7 +141,7 @@ public class THSLaunchActivityTest {
         startActivity(intent);
         mThsLaunchActivity.toolbar = toolbarMock;
         mThsLaunchActivity.updateActionBar(mThsLaunchActivity.getString(R.string.ths_welcome),false);
-        verify(toolbarMock).setNavigationIcon(any(Drawable.class));
+        verify(toolbarMock).setNavigationIcon(null);
     }
 
 }
