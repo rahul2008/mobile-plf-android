@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
@@ -62,6 +63,8 @@ public class MarketingConsentHandlerTest {
     private boolean givenStatus;
     @Mock
     private Context mockContext;
+    @Mock
+    private AppInfraInterface appInfraMock;
 
     @Before
     public void setUp() throws Exception {
@@ -119,7 +122,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void givenConsentDefinitionTypeNotSame() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
         subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
     }
 
@@ -224,7 +227,7 @@ public class MarketingConsentHandlerTest {
     private void givenConsentDefinition() {
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", types, 42, Locale.US);
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", types, 42);
         subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
 
     }
@@ -288,7 +291,7 @@ public class MarketingConsentHandlerTest {
     private class TestMarketingConsentHandler extends MarketingConsentHandler {
 
         public TestMarketingConsentHandler(Context context, List<ConsentDefinition> definitions) {
-            super(context, definitions);
+            super(context, definitions, appInfraMock);
         }
 
         @Override
