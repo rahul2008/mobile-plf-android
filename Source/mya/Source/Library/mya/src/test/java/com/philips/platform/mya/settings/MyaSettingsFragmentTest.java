@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.BuildConfig;
@@ -18,14 +19,15 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,9 +37,11 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @PrepareForTest({ ThemeUtils.class })
 @RunWith(CustomRobolectricRunner.class)
@@ -57,17 +61,20 @@ public class MyaSettingsFragmentTest {
     private MyaSettingsAdapter myaSettingsAdapter;
     @Mock
     private ColorStateList colorStateList;
+    @Mock
+    private AppInfraInterface appInfraMock;
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         PowerMockito.mockStatic(ThemeUtils.class);
-        when(ThemeUtils.buildColorStateList((Context) any(), (Integer) any())).thenReturn(colorStateList);
+        when(ThemeUtils.buildColorStateList((Context) any(), anyInt())).thenReturn(colorStateList);
         myaSettingsFragment = new MyaSettingsFragment();
-        AppInfra appInfra = new AppInfra.Builder().build(mContext);
-        MyaHelper.getInstance().setAppInfra(appInfra);
-        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
+        MyaHelper.getInstance().setAppInfra(appInfraMock);
+        startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
 
@@ -136,7 +143,7 @@ public class MyaSettingsFragmentTest {
         when(serviceDiscoveryInterface.getHomeCountry()).thenReturn("IN");
         when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         MyaHelper.getInstance().setAppInfra(appInfra);
-        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
+        startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
 
         myaSettingsFragment.onActivityCreated(null);

@@ -4,15 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -29,15 +34,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class MyaDetailsFragmentTest {
 
     private MyaDetailsFragment myaDetailsFragment;
-    private FragmentTransactionMock fragmentTransaction = new FragmentTransactionMock();
     private Context mContext;
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     @Before
     public void setUp() throws Exception{
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         myaDetailsFragment = new MyaDetailsFragment();
-        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
+        SupportFragmentTestUtil.startFragment(myaDetailsFragment, MyaActivity.class);
     }
 
     @Test
