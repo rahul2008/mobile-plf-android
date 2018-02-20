@@ -17,6 +17,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
+@SuppressWarnings("serial")
 public class TwitterWebFragment extends DigitalCareBaseFragment {
 
     private WebView mTwitterWebView = null;
