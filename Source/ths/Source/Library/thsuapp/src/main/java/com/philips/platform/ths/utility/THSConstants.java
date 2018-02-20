@@ -50,7 +50,7 @@ public class THSConstants {
     public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
     public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
 
-    public static final String THS_NO_REMINDER_STRING = "no reminder";
+    public static final String THS_NO_REMINDER_STRING = "No reminder";
     public static final String THS_15_MINS_REMINDER = "15 minutes";
     public static final String THS_ONE_HOUR_REMINDER = "one Hour";
     public static final String THS_FOUR_HOURS_REMINDER = "4 hours";
@@ -174,9 +174,8 @@ public class THSConstants {
     public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
     public static final String KEY_ORIENTATION = "KEY_ORIENTATION";
 
-
-    public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
-    public static final String THS_GENERIC_SERVER_ERROR = "Oops! Something went wrong, please try after sometime";
+    public static final String THS_GENERIC_USER_ERROR = "Something went wrong. Please check your details and try again";
+    public static final String THS_GENERIC_SERVER_ERROR = "Something went wrong. Please check your internet connection and try again";
 
     //Faqs constants
     public static final String THS_FAQ_SERVICE_ID = "Telehealth.FAQURL";

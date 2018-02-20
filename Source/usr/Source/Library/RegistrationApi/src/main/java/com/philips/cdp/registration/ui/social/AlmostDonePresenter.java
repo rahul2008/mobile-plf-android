@@ -17,7 +17,8 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -96,15 +97,19 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
         } else {
             almostDoneContract.hideAcceptTermsView();
         }
-        updateTermsAndReceiveMarketingOpt();
+        updateTermsAndReceiveMarketingOpt(setMarketingOptinVisible());
     }
 
-    public void updateTermsAndReceiveMarketingOpt() {
+    private boolean setMarketingOptinVisible() {
+        return (RegUtility.getUiFlow() != UIFlow.FLOW_B)? true : mUser.isTermsAndConditionAccepted();
+    }
+
+    public void updateTermsAndReceiveMarketingOpt(boolean optinState) {
         if (mUser.isTermsAndConditionAccepted()) {
             almostDoneContract.updateTermsAndConditionView();
         }
 
-        if (!mUser.getReceiveMarketingEmail()) {
+        if (!mUser.getReceiveMarketingEmail() && optinState) {
             almostDoneContract.showMarketingOptCheck();
         } else {
             almostDoneContract.hideMarketingOptCheck();
@@ -184,7 +189,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        almostDoneContract.storePreference(mEmail);
+        storeEmailOrMobileInPreference();
         almostDoneContract.handleContinueSocialProvider();
     }
 
@@ -299,7 +304,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     }
 
     public void storeEmailOrMobileInPreference() {
-        if (mEmail != null) {
+        if (FieldsValidator.isValidEmail(mEmail)) {
             almostDoneContract.storePreference(mEmail);
             return;
         }

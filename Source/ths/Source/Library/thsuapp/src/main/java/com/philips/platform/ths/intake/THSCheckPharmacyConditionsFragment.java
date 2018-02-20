@@ -53,6 +53,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
+    static final long serialVersionUID = 46L;
 
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
