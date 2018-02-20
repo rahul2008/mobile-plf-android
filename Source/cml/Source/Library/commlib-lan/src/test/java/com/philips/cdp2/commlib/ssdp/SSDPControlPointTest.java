@@ -244,4 +244,14 @@ public class SSDPControlPointTest {
 
         verify(ssdpDeviceMock).updateFrom(secondMessageMock);
     }
+
+    @Test
+    public void givenControlPointIsStarted_whenStartedAgain_thenSecondStartIsIgnored() throws Exception {
+        ssdpControlPoint.start();
+
+        ssdpControlPoint.start();
+
+        verify(broadcastSocketMock, times(1)).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock, times(1)).joinGroup(any(InetAddress.class));
+    }
 }
