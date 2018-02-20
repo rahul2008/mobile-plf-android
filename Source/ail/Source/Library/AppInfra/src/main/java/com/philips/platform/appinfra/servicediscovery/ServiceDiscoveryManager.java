@@ -221,7 +221,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
     }
 
-    private ServiceDiscovery downloadPlatformService(SD_REQUEST_TYPE requestType) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    ServiceDiscovery downloadPlatformService(SD_REQUEST_TYPE requestType) {
         final String platformURL = getSDURLForType(AISDURLType.AISDURLTypePlatform);
         ServiceDiscovery platformService = new ServiceDiscovery(mAppInfra);
         if (platformURL != null) {
@@ -231,7 +232,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return platformService;
     }
 
-    private ServiceDiscovery downloadPropositionService(SD_REQUEST_TYPE requestType) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    ServiceDiscovery downloadPropositionService(SD_REQUEST_TYPE requestType) {
         final String propositionURL = getSDURLForType(AISDURLTypeProposition);
         ServiceDiscovery propositionService = new ServiceDiscovery(mAppInfra);
         if (propositionURL != null) {
