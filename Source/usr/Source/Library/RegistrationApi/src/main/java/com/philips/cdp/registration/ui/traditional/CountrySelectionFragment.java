@@ -72,11 +72,11 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         for (int i = 1; i < masterList.size(); i++) {
             if (masterList.get(i).getCode().equalsIgnoreCase("TW")) {
                 masterList.remove(masterList.get(i));
-                masterList.add(new Country("TW", "Chinese Taipei"));
+                masterList.add(new Country("TW", getString(R.string.reg_Country_TWGC)));
             }
         }
         if (selectedCountry.getName().equalsIgnoreCase(getString(R.string.reg_Country_TW))) {
-            masterList.remove(new Country("TW", "Chinese Taipei"));
+            masterList.remove(new Country("TW", getString(R.string.reg_Country_TWGC)));
         }
     }
 
