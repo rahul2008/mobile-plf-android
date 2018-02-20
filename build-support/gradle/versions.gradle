@@ -63,7 +63,7 @@ ext.philipsdeps = [
         uikitLib                        : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
         iap                             : [group: 'com.philips.cdp', name: 'iap', version: platformversionsuffix, changing: true],
         iapUApp                         : [group: 'com.philips.cdp', name: 'iapUApp', version: platformversionsuffix, changing: true],
-        pif                             : [group: 'com.philips.cdp', name: 'pif', version: platformversionsuffix, changing: true]
+        pif                             : [group: 'com.philips.cdp', name: 'pif', version: platformversionsuffix, changing: true],
         prx                             : [group: 'com.philips.cdp', name: 'prx', version: platformversionsuffix, changing: true],
         jump                            : [group: 'com.philips.cdp', name: 'jump', version: platformversionsuffix, changing: true],
         product_registration_libUApp    : [group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversionsuffix, changing: true],
