@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Koninklijke Philips N.V., 2017.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.platform.ews.logger;
@@ -17,7 +17,7 @@ public class EWSLogger {
         this.loggingInterface = loggingInterface;
     }
 
-    public  void v(String tag, String msg) {
+    public void v(String tag, String msg) {
         getLoggingInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 

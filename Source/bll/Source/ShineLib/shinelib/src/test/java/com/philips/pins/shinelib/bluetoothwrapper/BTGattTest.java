@@ -13,8 +13,6 @@ import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
-import com.philips.pins.shinelib.workarounds.Manufacturer;
-import com.philips.pins.shinelib.workarounds.Phone;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,7 +25,6 @@ import org.robolectric.util.ReflectionHelpers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -74,7 +71,7 @@ public class BTGattTest {
     private ArgumentMatcher<byte[]> byteArrayArgumentMatcher(final byte[] bytes) {
         return new ArgumentMatcher<byte[]>() {
             @Override
-            public boolean matches(Object argument) {
+            public boolean matches(final byte[] argument) {
                 return argument.equals(bytes);
             }
         };
@@ -83,7 +80,7 @@ public class BTGattTest {
     private ArgumentMatcher<byte[]> anyByteArray() {
         return new ArgumentMatcher<byte[]>() {
             @Override
-            public boolean matches(Object argument) {
+            public boolean matches(final byte[] argument) {
                 return true;
             }
         };
@@ -189,7 +186,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device).createBond();
     }
 
@@ -202,7 +199,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device).createBond();
     }
 
@@ -215,7 +212,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -228,7 +225,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -241,7 +238,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, false);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -254,7 +251,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, false, new byte[0]);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -268,7 +265,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -282,7 +279,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
         verify(device, never()).createBond();
     }
 
@@ -296,8 +293,8 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String)any());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String)any());
     }
 
     @Test
@@ -310,8 +307,8 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
     }
 
     @Test
@@ -325,7 +322,7 @@ public class BTGattTest {
 
         mockedUserHandler.executeFirstScheduledExecution();
 
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
     }
 
     @Test
@@ -339,7 +336,7 @@ public class BTGattTest {
 
         mockedUserHandler.executeFirstScheduledExecution();
 
-        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
     }
 
     @Test
@@ -353,7 +350,7 @@ public class BTGattTest {
 
         mockedUserHandler.executeFirstScheduledExecution();
 
-        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
     }
 
     @Test

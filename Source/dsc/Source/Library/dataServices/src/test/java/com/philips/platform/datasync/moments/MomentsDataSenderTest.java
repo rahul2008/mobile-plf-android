@@ -203,7 +203,7 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
+        verify(clientMock, never()).saveMoment((String) any(), (String) any(), any(UCoreMoment.class));
     }
 
     @Test
@@ -213,7 +213,7 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
+        verify(clientMock, never()).saveMoment((String) any(), (String) any(), any(UCoreMoment.class));
     }
 
     @Test
@@ -267,7 +267,7 @@ public class MomentsDataSenderTest {
         when(synchronisationDataMock.getGuid()).thenReturn(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
         when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
         when(clientMock.saveMoment(BABY_ID, USER_ID, uCoreMomentMock)).thenReturn(uCoreMomentSaveResponse);
-    //    when(uCoreMomentSaveResponse.getMomentId()).thenReturn(TEST_MOMENT_UD);
+        //    when(uCoreMomentSaveResponse.getMomentId()).thenReturn(TEST_MOMENT_UD);
         when(uGrowDataCreatorMock.createSynchronisationData(TEST_MOMENT_UD, false, momentMock.getDateTime(), 1)).thenReturn(synchronisationDataMock);
         when(momentMock.getSynchronisationData().isInactive()).thenReturn(true);
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -293,7 +293,7 @@ public class MomentsDataSenderTest {
     @Test
     public void ShouldPostNetworkErrorEvent_WhenRetrofitHttpErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
-        when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
+        when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -306,7 +306,7 @@ public class MomentsDataSenderTest {
     @Test
     public void ShouldPostExceptionEvent_WhenRetrofitUnexpectedErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.UNEXPECTED);
-        when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
+        when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -319,7 +319,7 @@ public class MomentsDataSenderTest {
     @Test
     public void ShouldPostExceptionEvent_WhenRetrofitConversionErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
-        when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
+        when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -423,7 +423,7 @@ public class MomentsDataSenderTest {
         when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_UD);
         when(retrofitErrorMock.getResponse()).thenReturn(response);
 
-        when(clientMock.updateMoment(anyString(), anyString(), anyString(), any(UCoreMoment.class))).
+        when(clientMock.updateMoment((String) any(), (String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
 
         boolean conflict = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -454,7 +454,7 @@ public class MomentsDataSenderTest {
         when(synchronisationDataMock.isInactive()).thenReturn(true);
         when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_UD);
 
-        when(clientMock.deleteMoment(anyString(), anyString(), anyString())).
+        when(clientMock.deleteMoment((String) any(), (String) any(), (String) any())).
                 thenThrow(retrofitErrorMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));

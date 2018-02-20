@@ -233,7 +233,7 @@ public class SHNServiceTest {
 
         byte[] data = {'d', 'a', 't', 'a'};
         doNothing().when(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted(), data);
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(any(SHNResult.class), any(byte[].class));
+        doNothing().when(mockedSHNCommandResultReporter).reportResult((SHNResult) any(), (byte[]) any());
 
         shnCharacteristic.write(data, mockedSHNCommandResultReporter);
         shnService.onCharacteristicWrite(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS);

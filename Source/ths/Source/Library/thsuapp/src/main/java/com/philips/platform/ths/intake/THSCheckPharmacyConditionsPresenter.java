@@ -22,6 +22,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.consent.THSConsentProvider;
+import com.philips.platform.ths.consent.THSJustInTimeConsentFragment;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
@@ -97,10 +98,10 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         JustInTimeConsentDependencies.textResources=justInTimeTextResources;
                         JustInTimeConsentDependencies.completionListener=justInTimeWidgetHandler();
                         JustInTimeConsentDependencies.consentHandlerInterface=pDeviceStoredConsentHandler;
-                        JustInTimeConsentFragment  justInTimeConsentFragment= JustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
+                        THSJustInTimeConsentFragment justInTimeConsentFragment= (THSJustInTimeConsentFragment)THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
                         FragmentTransaction fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
-                        //fragmentTransaction.addToBackStack("consentTAG");
+                        fragmentTransaction.addToBackStack("consentTAG");
                         fragmentTransaction.commitAllowingStateLoss();
                     } else {
                         thsCheckPharmacyConditonsView.displayPharmacy();
@@ -122,7 +123,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             public void onConsentGiven() {
                 Log.v("SUCC", "onConsentGiven");
 
-                //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 //thsCheckPharmacyConditonsView.popFragmentByTag("consentTAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 // thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 thsCheckPharmacyConditonsView.displayPharmacy();
@@ -131,7 +132,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             @Override
             public void onConsentRejected() {
                 Log.v("FAIL", "onConsentRejected");
-                //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 showPharmacySearch();
             }
@@ -159,7 +160,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     thsCheckPharmacyConditonsView.getFragmentActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                            thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             thsCheckPharmacyConditonsView.addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
                         }

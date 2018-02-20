@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
@@ -66,6 +67,6 @@ public class THSPharmacyAndShippingPresenterTest {
         thsPharmacyAndShippingPresenter.onEvent(R.id.ps_edit_consumer_shipping_address);
         verify(thsPharmacyShippingViewInterface).startEditShippingAddress();
         thsPharmacyAndShippingPresenter.onEvent(R.id.ths_ps_continue_button);
-        verify(thsPharmacyShippingViewInterface).addFragment(any(THSBaseFragment.class),any(String.class),any(Bundle.class), anyBoolean());
+        verify(thsPharmacyShippingViewInterface).addFragment(any(THSBaseFragment.class),any(String.class),(Bundle)isNull(), anyBoolean());
     }
 }

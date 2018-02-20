@@ -38,6 +38,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -158,7 +159,7 @@ public class THSVitalsPresenterTest {
         doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), any(VisitContext.class), any(SDKValidatedCallback.class));
         when(thsvItalsUIInterface.getTHSVitals()).thenReturn(thsVitals);
         thsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        verify(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), any(VisitContext.class), any(SDKValidatedCallback.class));
+        verify(consumerManagerMock).updateVitals(any(Consumer.class), (Vitals)isNull(), (VisitContext)isNull(), any(SDKValidatedCallback.class));
     }
 
     @Test
