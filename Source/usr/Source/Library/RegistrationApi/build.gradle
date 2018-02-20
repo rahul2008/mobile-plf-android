@@ -8,23 +8,27 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
 
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -33,11 +37,11 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
     }
 }
 
@@ -47,6 +51,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -56,8 +65,9 @@ archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
+
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -114,12 +124,6 @@ artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 publishing {
@@ -152,12 +156,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
@@ -217,8 +221,9 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.apache
+    compile deps.constraintlayout
+
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -231,6 +236,8 @@ dependencies {
         releaseCompile project(path: ':jump', configuration: 'release')
         debugCompile project(path: ':hsdp', configuration: 'debug')
         releaseCompile project(path: ':hsdp', configuration: 'release')
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
@@ -238,39 +245,34 @@ dependencies {
         compile project(':hsdp')
     }
 
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-
-    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
-
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    compile 'com.google.dagger:dagger:2.11'
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile 'org.robolectric:robolectric:3.4-rc2'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    compile deps.apache
+    compile deps.libphonenumber
+    annotationProcessor deps.butterknife_compiler
+    compile deps.butterknife
+    annotationProcessor deps.dagger.compiler
+    compile deps.dagger.dagger
+    provided deps.javax_annotation
+    compile deps.rxjava2
+    compile deps.rxbinding
+    retrolambdaConfig deps.retrolambda
+    androidTestCompile deps.junit
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.dexmaker_google_mockito
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.robolectric_utils
+    testCompile deps.robolectric_junit2
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    androidTestCompile deps.android_testrunner
     // Set this dependency to use JUnit 4 rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.android_testrules
     // Set this dependency to build and run Espresso tests
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile deps.espresso_core
     // Set this dependency to build and run UI Automator tests
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    compile 'com.android.support:support-v4:26.0.2'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    androidTestCompile deps.uiautomator
+    compile deps.support.supportv4
+    compile deps.greenrobot
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

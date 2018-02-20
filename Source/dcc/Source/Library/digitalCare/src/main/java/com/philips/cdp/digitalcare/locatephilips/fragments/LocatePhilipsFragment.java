@@ -106,6 +106,7 @@ import java.util.Map;
  * with the location tracker MAP usin the GoogleMap Feature from the GooglePlayServices library.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
+@SuppressWarnings("serial")
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         OnItemClickListener, OnMarkerClickListener,
         ResponseCallback, OnMapClickListener, OnMapReadyCallback,TextWatcher,CustomSearchView.OnHideListView {

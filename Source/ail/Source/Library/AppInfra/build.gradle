@@ -2,9 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfra"
 version = objcdp.getVersion(platformversion)
@@ -13,14 +14,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -29,8 +30,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -87,19 +88,30 @@ android {
 }
 
 dependencies {
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if (dp) {
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
+
+    } else {
+        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+    }
     compile deps.adobemobilelib
     compile deps.gson
-    compile 'com.android.volley:volley:1.0.0'
+    compile deps.volley
     compile deps.support.design
     compile deps.support.supportv4
     compile deps.support.annotations
 
-    testCompile 'org.mockito:mockito-core:2.8.9'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile deps.robolectric
     testCompile deps.assertj
+    testCompile deps.mockito
+    testCompile deps.junit
 
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.dexmaker_google_mockito
+    androidTestCompile deps.mockito_old
     androidTestCompile deps.junit
 }

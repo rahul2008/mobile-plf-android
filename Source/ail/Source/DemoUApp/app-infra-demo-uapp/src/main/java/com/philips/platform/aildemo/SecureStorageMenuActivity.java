@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
@@ -18,6 +20,8 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 
 	TextView deviceCapable;
 	TextView deviceLock;
+	ToggleButton toggleButton;
+	boolean isOldSecureStorageEnabled=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +36,20 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 		deviceLock = (TextView) findViewById(R.id.devicelockStatus);
 		deviceLock.setText(Boolean.toString(mSecureStorage.deviceHasPasscode()));
 
+		toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
+		toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				isOldSecureStorageEnabled=isChecked;
+			}
+		});
+
 		Button secureStorageButton = (Button) findViewById(R.id.secureStorage);
 		secureStorageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(SecureStorageMenuActivity.this, SecureStorageActivity.class);
+				intent.putExtra(Constants.IS_OLD_SS_ENABLED,isOldSecureStorageEnabled);
 				startActivity(intent);
 
 			}
@@ -46,6 +59,7 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(SecureStorageMenuActivity.this, SecureStorageEncryptDecryptActivity.class);
+				i.putExtra(Constants.IS_OLD_SS_ENABLED,isOldSecureStorageEnabled);
 				startActivity(i);
 			}
 		});
@@ -54,6 +68,7 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(SecureStorageMenuActivity.this, SecureStoragePasswordActivity.class);
+				intent.putExtra(Constants.IS_OLD_SS_ENABLED,isOldSecureStorageEnabled);
 				startActivity(intent);
 
 			}

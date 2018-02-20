@@ -45,6 +45,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
     private static final long serialVersionUID = -5261016522164936691L;
     private SecureStorageInterface secureStorage;
+
     private LoggingInterface logger;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
@@ -99,7 +100,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private void setSecureStorage(SecureStorageInterface sec) {
         secureStorage = sec;
     }
-
     @Override
     public AppIdentityInterface getAppIdentity() {
         return appIdentity;
@@ -370,6 +370,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "TimeSync Intitialization Done");
 
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
+
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");

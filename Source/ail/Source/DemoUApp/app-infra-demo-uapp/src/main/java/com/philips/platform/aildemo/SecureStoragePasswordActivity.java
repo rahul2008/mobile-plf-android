@@ -14,22 +14,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
 
 import java.security.Key;
 
 
 public class SecureStoragePasswordActivity extends AppCompatActivity {
     SecureStorageInterface mSecureStorage = null;
+    private boolean isOldSSEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_storage_password);
         AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
-        mSecureStorage = appInfra.getSecureStorage();
+        isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
+        if(isOldSSEnabled) {
+            mSecureStorage = appInfra.getSecureStorage();
+            Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
+        }else{
+            mSecureStorage=new SecureStorage2((AppInfra) appInfra);
+        }
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
         final TextView output_textView = (TextView) findViewById(R.id.output_textView);
