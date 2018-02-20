@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -35,9 +36,11 @@ import java.util.Map;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.ADD_URL_PARAMETERS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.MALFORMED_URL;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;
@@ -210,12 +213,17 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				return appInfraTaggingUtil;
 			}
 		};
-		String en = "gb";
+		String en = "en";
 		mServiceDiscoveryManager.setHomeCountry(en);
 		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SET_HOME_COUNTRY_SUCCESS.concat(en));
 		mServiceDiscoveryManager.getHomeCountry();
 		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS);
 
+		Context context = mock(Context.class);
+		TelephonyManager telephonyManagerMock = mock(TelephonyManager.class);
+		when(telephonyManagerMock.getSimCountryIso()).thenReturn("en");
+		when(context.getSystemService(Context.TELEPHONY_SERVICE)).thenReturn(telephonyManagerMock);
+		when(appInfra.getAppInfraContext()).thenReturn(context);
 		mServiceDiscoveryManager = new ServiceDiscoveryManager(appInfra) {
 			@Override
 			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
@@ -224,6 +232,26 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		};
 		mServiceDiscoveryManager.getHomeCountry();
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
+		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = mock(ServiceDiscoveryInterface.OnGetHomeCountryListener.class);
+		mServiceDiscoveryManager.getHomeCountry(listenerMock);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS);
+	}
+
+	public void testForceRefreshTagging() {
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		AppInfra appInfra = getAppInfraMocked();
+		SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
+		when(appInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
+
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+		};
+		ServiceDiscoveryInterface.OnRefreshListener onRefreshListenerMock = mock(ServiceDiscoveryInterface.OnRefreshListener.class);
+		mServiceDiscoveryManager.refresh(onRefreshListenerMock);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
 	}
 
 	@NonNull
