@@ -45,7 +45,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = FaqListFragment.class.getSimpleName();
     private CommonRecyclerViewAdapter<String> mFaqListAdapter;
-    private LinkedHashMap<String, CommonRecyclerViewAdapter> mGroupAdapters;
+    private LinkedHashMap<String, CommonRecyclerViewAdapter<Item>> mGroupAdapters;
     private RecyclerView mFaqList = null;
     private LinkedHashMap<String, List<Item>> mSupportData = null;
     private View view = null;
