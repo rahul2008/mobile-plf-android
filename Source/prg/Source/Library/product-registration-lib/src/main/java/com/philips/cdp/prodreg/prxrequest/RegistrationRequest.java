@@ -168,7 +168,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public int getRequestTimeOut() {
-        return 30000;
+        return maxRequestTimeOut;
     }
 
     @Override
