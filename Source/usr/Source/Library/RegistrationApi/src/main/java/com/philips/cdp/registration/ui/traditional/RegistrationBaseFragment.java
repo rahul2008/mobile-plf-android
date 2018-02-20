@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -53,6 +54,16 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    private Country country;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -359,5 +370,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
             });
         }
     }
+
 
 }

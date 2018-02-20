@@ -264,7 +264,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                     getRegistrationFragment().onBackPressed();
                 }
             };
-            CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, homePresenter.getRecentSelectedCountry());
+            CountrySelectionFragment picker = new CountrySelectionFragment();
             getRegistrationFragment().addFragment(picker);
         } else {
             disableControlsOnNetworkConnectionGone();

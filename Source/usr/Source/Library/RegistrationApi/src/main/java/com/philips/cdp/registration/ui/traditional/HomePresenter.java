@@ -292,21 +292,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.loginFailed(userRegistrationFailureInfo);
     }
 
-    public ArrayList<Country> getAllCountries() {
-        try {
-            ArrayList<Country> allCountriesList = new ArrayList<Country>();
-            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
-            for (String aRecourseList : recourseList) {
-                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
-                allCountriesList.add(country);
-            }
-            return allCountriesList;
 
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
 
 
     private HomePresenter.FLOWDELIGATE deligateFlow = HomePresenter.FLOWDELIGATE.DEFAULT;
