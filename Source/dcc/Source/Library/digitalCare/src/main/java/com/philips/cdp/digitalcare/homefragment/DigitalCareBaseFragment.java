@@ -50,6 +50,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+@SuppressWarnings("serial")
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener, BackEventListener {
 

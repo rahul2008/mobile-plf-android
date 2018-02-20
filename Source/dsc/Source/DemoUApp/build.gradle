@@ -59,9 +59,10 @@ dependencies {
 
     // Test Compile
     testCompile deps.junit
-    testCompile "org.mockito:mockito-all:1.10.17"
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    }
 }

@@ -19,8 +19,9 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -176,7 +177,7 @@ public class UCoreAccessProviderTest {
     @Test
     public void ShouldReturnValue_WhenGetMomentLastSyncTimestampIsCalled() {
         // uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY), anyString())).thenReturn(MOMENT_LAST_SYNC_URL_KEY);
+        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY), (String) any())).thenReturn(MOMENT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getMomentLastSyncTimestamp();
 
@@ -186,7 +187,7 @@ public class UCoreAccessProviderTest {
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampIsCalled() {
         //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_LAST_SYNC_URL_KEY);
+        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), (String) any())).thenReturn(INSIGHT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
 
@@ -196,7 +197,7 @@ public class UCoreAccessProviderTest {
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampForUserIsCalled() {
         //   uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
+        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), (String) any())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
 

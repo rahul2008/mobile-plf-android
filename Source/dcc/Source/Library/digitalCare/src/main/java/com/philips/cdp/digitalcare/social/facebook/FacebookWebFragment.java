@@ -24,6 +24,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.Utils;
 
+@SuppressWarnings("serial")
 public class FacebookWebFragment extends DigitalCareBaseFragment {
 
     private WebView mFacebookWebView = null;

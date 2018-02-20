@@ -40,7 +40,7 @@ public class MyaActivityTest {
         initMocks(this);
         intent = new Intent();
         intent.putExtra(MYA_DLS_THEME, 0);
-        activity = buildActivity(MyaActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(MyaActivity.class, intent).get();
         when(fragmentManagerMock.beginTransaction()).thenReturn(fragmentTransactionMock);
     }
 

@@ -66,6 +66,7 @@ import java.util.Set;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -267,8 +268,8 @@ public class THSProvidersListFragmentTest {
         when(thsProviderListPresenterMock.getPthManager()).thenReturn(thsManager);
         when(thsProvidersListFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         thsProviderListPresenterMock.fetchProviderList(consumer, practice);
-        verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(PracticeInfo.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class),
-                any(State.class), any(Language.class), any(Integer.class),
+        verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), (PracticeInfo)isNull(), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(),
+                (State)isNull(), (Language)isNull(),(Integer)isNull(),
                 any(SDKCallback.class));
 
     }
@@ -289,7 +290,7 @@ public class THSProvidersListFragmentTest {
     public void testOnEventGetStartedInPresenter() {
         SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
         thsProviderListPresenter.onEvent(R.id.getStartedButton);
-        verify(practiseprovidermanagerMock).getOnDemandSpecialties(any(Consumer.class), any(PracticeInfo.class), any(String.class), any(SDKCallback.class));
+        verify(practiseprovidermanagerMock).getOnDemandSpecialties((Consumer)isNull(),(PracticeInfo)isNull(), (String)isNull(), any(SDKCallback.class));
     }
 
     @Test(expected = NullPointerException.class)

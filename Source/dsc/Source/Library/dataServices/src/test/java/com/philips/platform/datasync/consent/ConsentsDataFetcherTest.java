@@ -38,9 +38,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 07/12/16.
- */
 public class ConsentsDataFetcherTest {
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String USER_ID = "TEST_GUID";
@@ -332,7 +329,7 @@ public class ConsentsDataFetcherTest {
         when(consentDataFetcher.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(consentDataFetcher.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(uCoreAdapterMock.getAppFrameworkClient(ConsentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(consentsClientMock);
-        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
+        when(consentsClientMock.getConsent((String)any(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
         when(uCoreConsentDetailMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));
         List<ConsentDetail> consentDetails=new ArrayList<>();
         consentDetails.add(mock((ConsentDetail.class)));
