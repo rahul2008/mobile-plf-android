@@ -87,6 +87,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
 
+    private boolean isScanning = false;
+
     private final Runnable searchTask = new Runnable() {
 
         @Override
@@ -117,7 +119,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     @Override
     public void start() {
-        if (acquireMulticastLock()) {
+        if (!isScanning && acquireMulticastLock()) {
+            isScanning = true;
             openSockets();
 
             startListening();
@@ -134,6 +137,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
         closeSockets();
         releaseMulticastLock();
+        isScanning = false;
     }
 
     @Nullable

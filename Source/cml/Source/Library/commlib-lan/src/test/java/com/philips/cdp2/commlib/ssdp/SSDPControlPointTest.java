@@ -254,4 +254,15 @@ public class SSDPControlPointTest {
         verify(broadcastSocketMock, times(1)).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, times(1)).joinGroup(any(InetAddress.class));
     }
+
+    @Test
+    public void givenControlPointIsStarted_AndStopped_WhenStartedAgain_thenSecondStartIsPerformed() throws Exception {
+        ssdpControlPoint.start();
+        ssdpControlPoint.stop();
+
+        ssdpControlPoint.start();
+
+        verify(broadcastSocketMock, times(2)).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock, times(2)).joinGroup(any(InetAddress.class));
+    }
 }
