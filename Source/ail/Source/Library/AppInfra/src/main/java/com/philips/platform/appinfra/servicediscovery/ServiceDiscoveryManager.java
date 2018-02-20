@@ -417,7 +417,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public String getHomeCountry() {
-        appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_INVOKED);
         String country = fetchFromSecureStorage(COUNTRY);
         if (TextUtils.isEmpty(country)) {
             appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);

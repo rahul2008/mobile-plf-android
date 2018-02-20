@@ -31,7 +31,6 @@ public class AppInfraTaggingUtil implements Serializable {
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     ////AppInfra success
-    public static final String GET_HOME_COUNTRY_INVOKED = " getHomeCountry synchronous api called";
     public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = " get home country  synchronous fetched  successfully";
     public static final String DOWNLOAD_PLATFORM_SERVICES_INVOKED = " Downloading platform services started";
     public static final String DOWNLOAD_PREPOSITION_SERVICES_INVOKED = " Downloading preposition services started";
