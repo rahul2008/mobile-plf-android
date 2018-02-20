@@ -119,7 +119,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     @Override
     public void start() {
-        if (!isScanning && acquireMulticastLock()) {
+        if (isScanning) {
+            DICommLog.d(SSDP, "Attempting to start discovery more than once. This could indicate faulty usage! Ignoring...");
+            return;
+        }
+
+        if (acquireMulticastLock()) {
             isScanning = true;
             openSockets();
 
