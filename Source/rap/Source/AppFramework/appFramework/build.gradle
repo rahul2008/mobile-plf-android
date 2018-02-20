@@ -157,15 +157,24 @@ publishing {
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    //Creating additional node for dependencies
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
+					
+                    def configurationNames = ["releaseCompile", 'compile']
+
+                    configurationNames.each { configurationName ->
+                        configurations[configurationName].allDependencies.each {
+                            if (it.group != null && it.name != null) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', it.version)                                
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 }
@@ -183,7 +192,15 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
+def buildType 
+
 android {
+
+	applicationVariants.all { variant ->
+        buildType = variant.buildType.name // sets the current build type
+		println "*****BuildType****"+ buildType
+    }
+	
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
 
