@@ -77,7 +77,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 //start publishing
 artifactory {
@@ -216,10 +216,10 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib-lan', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uikitLib
+        compile philipsdeps.commlib_lan
+        compile philipsdeps.uid
+        compile philipsdeps.uAppFwLib
     }
 
     // Android/Google

@@ -14,7 +14,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
 archivesBaseName = "pif"
-version = objcdp.getVersion(platformversion)
+version = platformversion
 
 android {
     compileSdkVersion versions.sdk
