@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.FragmentTransactionMock;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -34,7 +33,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class UserDetailsFragmentTest {
 
     private UserDetailsFragment myaDetailsFragment;
-    private FragmentTransactionMock fragmentTransaction = new FragmentTransactionMock();
     private Context mContext;
     @Mock
     private com.philips.cdp.registration.injection.RegistrationComponent componentMock;
