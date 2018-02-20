@@ -48,7 +48,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public int getTitleResourceId() {
-        return R.string.MYA_My_account;
+        return R.string.MYA_ACCOUNT;
     }
 
     @Override
