@@ -56,7 +56,7 @@ public class LogFormatter extends Formatter {
     }
 
     public String format(LogRecord record) {
-        Map<String, Object> dictionary = null;
+        Map<?,?> dictionary = null;
         final StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
@@ -85,7 +85,8 @@ public class LogFormatter extends Formatter {
             eventName = (String) params[0];  // params[0] is message
             if (params.length == 2) {
                 try {
-                    dictionary = (Map<String, Object>) params[1];
+                    if (params[1] instanceof Map)
+                        dictionary = (Map) params[1];
                 } catch (Exception e) {
                     mappInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
