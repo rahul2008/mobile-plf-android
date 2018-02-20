@@ -85,7 +85,7 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
             }
             steps {
                 sh '''#!/bin/bash -l
