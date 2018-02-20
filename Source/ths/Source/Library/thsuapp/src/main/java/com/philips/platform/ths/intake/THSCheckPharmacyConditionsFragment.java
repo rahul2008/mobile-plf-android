@@ -89,6 +89,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (!isGooglePlayServicesAvailable()) {
             getActivity().finish();
         }
+        timeoutHandler =  new Handler();
         createLocationRequest();
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
