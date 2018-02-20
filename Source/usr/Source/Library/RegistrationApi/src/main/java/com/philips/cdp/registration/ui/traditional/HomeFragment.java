@@ -622,11 +622,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void updateCountryText(String text) {
-        if (text.equalsIgnoreCase("Chinese Taipei")) {
+        if (text.equalsIgnoreCase(getString(R.string.reg_Country_TWGC))) {
             text = new Locale("", "TW").getDisplayCountry();
         }
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country) + ":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.reg_Country) + ":", text));
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country_Region) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.reg_Country_Region) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
