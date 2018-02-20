@@ -43,7 +43,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/login_details_label"
             style="@style/UIDLabel.Header"
-            android:text="@string/MYA_Login_details" />
+            android:text="@string/reg_Login_Details_Txt" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 android:id="@+id/email_address_heading"
                 android:layout_marginStart="@dimen/MYA_start_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
-                android:text="@string/MYA_Email_address" />
+                android:text="@string/reg_Email_address_TitleTxt" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/email_address_value"
@@ -92,7 +92,7 @@
                 android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/email_address_value"
-                android:text="@string/MYA_Mobile_number"/>
+                android:text="@string/reg_Mobile_number_TitleTxt"/>
 
             <ImageButton
                 android:id="@+id/mobile_right_arrow"
@@ -123,7 +123,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel.Header"
-            android:text="@string/MYA_Personal_details"/>
+            android:text="@string/reg_Personal_Details_Txt"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/MYA_start_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
-                android:text="@string/MYA_Name" />
+                android:text="@string/reg_Name_TitleTxt" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/name_value"
@@ -160,7 +160,7 @@
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/MYA_Gender"
+                android:text="@string/reg_Gender_TitleTxt"
                 android:layout_marginTop="@dimen/MYA_top_margin"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -193,7 +193,7 @@
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/MYA_Date_of_birth"
+                android:text="@string/reg_DateOfBirth_TitleTxt"
                 android:layout_marginTop="@dimen/MYA_top_margin"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -219,7 +219,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
-            android:text="@string/MYA_Address"
+            android:text="@string/reg_Address_TitleTxt"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

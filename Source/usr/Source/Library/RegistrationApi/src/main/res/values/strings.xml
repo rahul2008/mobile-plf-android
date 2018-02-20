@@ -386,14 +386,14 @@
 
     <!--My Account-->
 
-    <string name="MYA_ACCOUNT">My Account</string>
-    <string name="MYA_Email_address">Email address</string>
-    <string name="MYA_Mobile_number">Mobile number</string>
-    <string name="MYA_Personal_details">Personal details</string>
-    <string name="MYA_Name">Name</string>
-    <string name="MYA_Gender">Gender</string>
-    <string name="MYA_Date_of_birth">Date of birth</string>
-    <string name="MYA_Address">Address</string>
     <string name="MYA_Not_Available">Not available</string>
-    <string name="MYA_Login_details">Login details</string>
+    <string name="reg_MyDetails_TitleTxt">My account</string>
+    <string name="reg_Login_Details_Txt">Login details</string>
+    <string name="reg_Email_address_TitleTxt">E-mail address</string>
+    <string name="reg_Mobile_number_TitleTxt">Mobile number</string>
+    <string name="reg_Personal_Details_Txt">Personal details</string>
+    <string name="reg_Name_TitleTxt">Name</string>
+    <string name="reg_Gender_TitleTxt">Gender</string>
+    <string name="reg_DateOfBirth_TitleTxt">Date of birth</string>
+    <string name="reg_Address_TitleTxt">Address</string>
 </resources>
