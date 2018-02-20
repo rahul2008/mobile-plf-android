@@ -15,7 +15,6 @@ public class CountrySelectionPresenter {
     public CountrySelectionPresenter(CountrySelectionContract countrySelectionContract, Context context) {
         this.countrySelectionContract = countrySelectionContract;
         this.context = context;
-        fetchSupportedCountryList();
     }
 
     void fetchSupportedCountryList() {

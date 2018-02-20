@@ -58,7 +58,8 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         ButterKnife.bind(this, view);
         initUI(view);
 
-        countrySelectionPresenter = new CountrySelectionPresenter(this, context);
+        countrySelectionPresenter = new CountrySelectionPresenter(this, this.getContext());
+        countrySelectionPresenter.fetchSupportedCountryList();
         return view;
     }
 

@@ -255,15 +255,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             return;
         }
         if (homePresenter.isNetworkAvailable()) {
-            ArrayList<Country> rawMasterList = homePresenter.getAllCountries();
-            CountrySelectionListener countryChangeListener = new CountrySelectionListener() {
-                @Override
-                public void onSelectCountry(String name, String code) {
-                    RLog.d(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    homePresenter.changeCountry(name, code.trim().toUpperCase());
-                    getRegistrationFragment().onBackPressed();
-                }
-            };
             CountrySelectionFragment picker = new CountrySelectionFragment();
             getRegistrationFragment().addFragment(picker);
         } else {
@@ -335,18 +326,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
-//    private void makeProgressVisible() {
-//        mSvRootLayout.setVisibility(View.INVISIBLE);
-//        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.INVISIBLE);
-//        spinnerLayout.setVisibility(View.VISIBLE);
-//    }
-//
-//    private void makeProgressInvisible() {
-//        mSvRootLayout.setVisibility(View.VISIBLE);
-//        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
-//        spinnerLayout.setVisibility(View.INVISIBLE);
-//    }
-
     private void callSocialProvider(String providerName) {
         RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
         if (homePresenter.isNetworkAvailable()) {
@@ -375,10 +354,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
-       // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
-        //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
-        //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout2, width);
         handlePrivacyPolicyAndCountryView(width);
     }
 
@@ -691,9 +666,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void inflateEachProviderBtn(String provider) {
 
         try {
-//            String providerName = "reg_" + provider;
-//            String providerDrawable = "uid_social_media_" + provider + "_icon,";
-
             int drawableId = 0;
             if (provider.equals(SOCIAL_PROVIDER_FACEBOOK)) {
                 drawableId = R.drawable.uid_social_media_facebook_icon;
@@ -702,8 +674,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             } else if (provider.equals(SOCIAL_PROVIDER_WECHAT)) {
                 drawableId = R.drawable.uid_social_media_wechat_icon;
             }
-//            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
-//                    getRegistrationFragment().getParentActivity().getPackageName());
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
