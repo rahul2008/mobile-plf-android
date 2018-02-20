@@ -18,10 +18,12 @@ import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.uappadaptor.DataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +67,8 @@ public class MyaProfilePresenterTest {
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
-        myaProfilePresenter.processUi(appInfraInterface,getArguments(null));
-        verify(view).showProfileItems(anyMap());
+        myaProfilePresenter.getProfileItems(appInfraInterface);
+        verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test

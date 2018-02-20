@@ -36,7 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -234,7 +234,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
 
-        verify(mockedSHNDeviceScannerListener, atLeastOnce()).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener, atLeastOnce()).deviceFound((SHNDeviceScanner) any(), shnDeviceFoundInfoArgumentCaptor.capture());
     }
 
     @Test
@@ -265,7 +265,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
 
-        verify(mockedSHNDeviceScannerListener, times(1)).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture()); // Note that verify checks that the callback is called only once!
+        verify(mockedSHNDeviceScannerListener, times(1)).deviceFound((SHNDeviceScanner) any(), shnDeviceFoundInfoArgumentCaptor.capture()); // Note that verify checks that the callback is called only once!
     }
 
     @Test
@@ -302,7 +302,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
 
         ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
-        verify(mockedSHNDeviceScannerListener).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener).deviceFound((SHNDeviceScanner) any(), shnDeviceFoundInfoArgumentCaptor.capture());
     }
 
     @Test
@@ -358,7 +358,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
 
-        verify(mockedSHNDeviceScannerListener).deviceFound(any(SHNDeviceScanner.class), isA(SHNDeviceFoundInfo.class));
+        verify(mockedSHNDeviceScannerListener).deviceFound((SHNDeviceScanner) any(), isA(SHNDeviceFoundInfo.class));
     }
 
     @Test

@@ -43,6 +43,8 @@ import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import android.content.Context;
+import android.os.Bundle;
 
 public class MyaSettingsPresenterTest {
 
@@ -75,6 +77,8 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error);
+        verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
         myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(anyMap());
     }

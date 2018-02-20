@@ -17,10 +17,6 @@ import java.util.Locale;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 
-/**
- * Created by Entreco on 19/12/2017.
- */
-
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     private final User user;

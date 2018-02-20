@@ -24,7 +24,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
-
+@SuppressWarnings("serial")
 public class ProductReviewFragment extends DigitalCareBaseFragment {
 
     private static final String PRODUCT_REVIEW_URL = "https://%s%s/%s";
