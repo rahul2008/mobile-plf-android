@@ -31,9 +31,8 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private MyaListener myaListener;
     private MyAccountUIEventListener myAccountUIEventListener;
     private MyaTabConfig myaTabConfig;
-    private List<String> settingsConfigurableItems;
-    private List<String> profileConfigurableItems;
-
+    private List<String> settingsMenuList;
+    private List<String> profileMenuList;
     public MyaLaunchInput() {
     }
 
@@ -87,19 +86,19 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
         this.myaTabConfig = myaTabConfig;
     }
 
-    public List<String> getSettingsConfigurableItems() {
-        return settingsConfigurableItems;
+    public List<String> getSettingsMenuList() {
+        return settingsMenuList;
     }
 
-    public void setSettingsConfigurableItems(List<String> settingsConfigurableItems) {
-        this.settingsConfigurableItems = settingsConfigurableItems;
+    public void setSettingsMenuList(List<String> settingsMenuList) {
+        this.settingsMenuList = settingsMenuList;
     }
 
-    public List<String> getProfileConfigurableItems() {
-        return profileConfigurableItems;
+    public List<String> getProfileMenuList() {
+        return profileMenuList;
     }
 
-    public void setProfileConfigurableItems(List<String> profileConfigurableItems) {
-        this.profileConfigurableItems = profileConfigurableItems;
+    public void setProfileMenuList(List<String> profileMenuList) {
+        this.profileMenuList = profileMenuList;
     }
 }

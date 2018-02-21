@@ -91,7 +91,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         launchInput.addToBackStack(true);
         launchInput.setMyAccountUIEventListener(this);
 
-        MyaTabConfig myaTabConfig = new MyaTabConfig("config_tab",new TabTestFragment());
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         MyaInterface myaInterface = getInterface();
         launchInput.setMyaTabConfig(myaTabConfig);
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));

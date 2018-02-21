@@ -58,7 +58,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         List<?> list = null;
         if (arguments != null) {
             setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
-            list = MyaHelper.getInstance().getMyaLaunchInput().getProfileConfigurableItems();
+            list = MyaHelper.getInstance().getMyaLaunchInput().getProfileMenuList();
         }
         if (list == null || list.isEmpty()) {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface

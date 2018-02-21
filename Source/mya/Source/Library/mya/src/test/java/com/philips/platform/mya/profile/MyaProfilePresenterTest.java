@@ -18,7 +18,6 @@ import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.uappadaptor.DataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import org.junit.Before;
@@ -33,7 +32,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -93,7 +91,7 @@ public class MyaProfilePresenterTest {
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         MyaLaunchInput value = new MyaLaunchInput(context, null);
         String[] settingsItems = {"settings1","settings2"};
-        value.setProfileConfigurableItems(Arrays.asList(settingsItems));
+        value.setProfileMenuList(Arrays.asList(settingsItems));
         arguments.putSerializable(USER_PLUGIN, userDataModelProvider);
         return arguments;
     }

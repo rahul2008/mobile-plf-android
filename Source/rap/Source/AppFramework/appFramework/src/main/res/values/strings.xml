@@ -404,5 +404,6 @@
 
 
     <string name="hello_blank_fragment" translatable="false">Welcome configurable fragment</string>
+    <string name="mya_config_tab" translatable="false">Configuration tab</string>
 
 </resources>

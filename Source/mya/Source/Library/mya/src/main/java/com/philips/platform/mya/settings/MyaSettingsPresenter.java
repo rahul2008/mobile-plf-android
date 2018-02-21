@@ -125,7 +125,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         String settingItems = "settings.menuItems";
         List<?> list = null;
         if (arguments != null)
-            list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsConfigurableItems();
+            list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
 
         if (list == null || list.isEmpty()) {
             try {
