@@ -10,10 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-
 archivesBaseName = "mya-csw"
-version = objcdp.getVersion(platformversion)
-
 
 buildscript {
     dependencies {
@@ -107,15 +104,14 @@ dependencies {
         debugCompile project(path: ':mya-catk', configuration: 'debug')
         releaseCompile project(path: ':mya-catk', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-                {
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uid
+        compile (philipsdeps.registrationApi) {
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group: 'com.google.dagger'
+        }
+        compile philipsdeps.pif
+        compile philipsdeps.uikitLib
+        compile philipsdeps.mya-catk
     }
 
     // Tests

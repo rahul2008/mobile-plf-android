@@ -76,9 +76,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -286,10 +283,10 @@ dependencies {
         debugCompile project(path: ':thsUapp', configuration: 'debug')
         releaseCompile project(path: ':thsUapp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.telehealth
     }
 
     androidTestCompile(deps.espresso_core) {

@@ -42,7 +42,6 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 allprojects {
     repositories {
