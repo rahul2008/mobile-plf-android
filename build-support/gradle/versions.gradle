@@ -8,7 +8,7 @@ def epochTime() {
         return epoch
 }
 
-ext.baseplatformversion = "2018.0"
+ext.baseplatformversion = "1801.0"
 ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
