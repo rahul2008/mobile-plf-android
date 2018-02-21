@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -90,7 +88,7 @@ public class MyaProfilePresenterTest {
             }
         };
         String key="MYA_My_details";
-        assertTrue(myaProfilePresenter.handleOnClickProfileItem(key, null));
+        assertFalse(myaProfilePresenter.handleOnClickProfileItem(key, null));
         verify(myaDetailsFragment).setArguments(null);
         verify(view).showPassedFragment(myaDetailsFragment);
         assertFalse(myaProfilePresenter.handleOnClickProfileItem("some_item",null));
