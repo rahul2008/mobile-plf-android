@@ -42,7 +42,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.Robolectric.buildActivity;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class IAPActivityTest {
     @Mock
     FragmentManager fragmentManagerMock;
