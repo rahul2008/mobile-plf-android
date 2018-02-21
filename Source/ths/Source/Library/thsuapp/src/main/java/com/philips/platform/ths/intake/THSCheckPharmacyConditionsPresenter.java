@@ -20,7 +20,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.consent.THSConsentProvider;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.ths.consent.THSJustInTimeConsentFragment;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
@@ -68,15 +68,15 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             getConsumerShippingAddress();
         } else {
             final DeviceStoredConsentHandler pDeviceStoredConsentHandler = new DeviceStoredConsentHandler(THSManager.getInstance().getAppInfra());
-            Locale locale = THSConsentProvider.getCompleteLocale();
-            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
+            Locale locale = THSLocationConsentProvider.getCompleteLocale();
+            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
             pDeviceStoredConsentHandler.fetchConsentState(thsConsentDefinition, new CheckConsentsCallback() {
                 @Override
                 public void onGetConsentsSuccess(List<Consent> consents) {
                     Log.v("GDPR", "success");
                     boolean hasLocationConsent = false;
                     for (Consent consent : consents) {
-                        if (consent.getType() == THSConsentProvider.THS_LOCATION) {
+                        if (consent.getType() == THSLocationConsentProvider.THS_LOCATION) {
                             if (consent.getStatus() != ConsentStatus.active) {
                                 hasLocationConsent = false;
                             } else {

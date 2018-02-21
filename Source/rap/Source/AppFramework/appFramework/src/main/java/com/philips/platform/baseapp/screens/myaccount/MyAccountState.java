@@ -41,7 +41,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.ths.consent.THSConsentProvider;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -150,7 +150,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     List<ConsentDefinition> createTHSDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(THSConsentProvider.getTHSConsentDefinition(context,currentLocale));
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context,currentLocale));
         return definitions;
     }
 

@@ -15,7 +15,7 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class THSConsentProvider {
+public class THSLocationConsentProvider {
 
   // ConsentDefinition mConsentDefinition;
 
