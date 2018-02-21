@@ -12,7 +12,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class URLaunchInput extends UappLaunchInput {
 
-    private RegistrationLaunchMode registrationLaunchMode;
+    private RegistrationLaunchMode registrationLaunchMode = RegistrationLaunchMode.MARKETING_OPT;
 
     private RegistrationContentConfiguration registrationContentConfiguration;
 
@@ -143,5 +143,6 @@ public class URLaunchInput extends UappLaunchInput {
     public UIFlow getUIflow() {
         return uiFlow;
     }
+
 
 }
