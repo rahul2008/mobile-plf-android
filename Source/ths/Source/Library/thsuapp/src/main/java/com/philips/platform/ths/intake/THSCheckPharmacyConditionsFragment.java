@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -54,7 +55,9 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
+    private static final long TIMEOUT = 1000 * 15;
     static final long serialVersionUID = 46L;
+    private Handler timeoutHandler;
 
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -68,6 +71,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setMaxWaitTime(TIMEOUT);
     }
 
 
@@ -86,6 +90,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (!isGooglePlayServicesAvailable()) {
             getActivity().finish();
         }
+        timeoutHandler =  new Handler();
         createLocationRequest();
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -230,6 +235,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     @Override
     public void onLocationChanged(Location location) {
+        timeoutHandler.removeCallbacks(timeoutHandlerRunnable);
         FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         AmwellLog.d(TAG, "Firing onLocationChanged...... ::: Lat: " + location.getLatitude() + "Log:::: " + location.getLongitude());
         mCurrentLocation = location;
@@ -250,6 +256,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
         if (checkIfGPSProviderAvailable()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            timeoutHandler.postDelayed(timeoutHandlerRunnable , TIMEOUT);
 
         } else {
             showNoGpsDialog();
@@ -330,6 +337,13 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             AmwellLog.d(TAG, "Location update resumed .....................");
         }
     }
+
+    protected final Runnable timeoutHandlerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showPharmacySearch();
+        }
+    };
 
 
 }

@@ -24,6 +24,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
 
+@SuppressWarnings("serial")
 public class ProductInformationFragment extends DigitalCareBaseFragment {
 
     private WebView mWebView = null;
