@@ -36,10 +36,11 @@ public class ConsentManager implements ConsentRegistryInterface {
     @Override
     public ConsentHandlerInterface getHandler(String consentType) {
         for (Map.Entry<String, ConsentHandlerInterface> entry : consentHandlerMapping.entrySet()) {
-            if (entry.getKey().equals(consentType))
+            if (entry.getKey().equals(consentType)) {
                 return entry.getValue();
+            }
         }
-        return null;
+        throw new RuntimeException("Handler is not registered for the type " + consentType);
     }
 
     //TODO throw exception in case of key does not exist ?
@@ -52,10 +53,9 @@ public class ConsentManager implements ConsentRegistryInterface {
     }
 
     @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback) {
+    public void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback) throws RuntimeException {
         final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
         List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
-        List<Consent> consentList = new ArrayList<>();
 
         for (String consentType : consentDefinition.getTypes()) {
             ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
@@ -64,29 +64,26 @@ public class ConsentManager implements ConsentRegistryInterface {
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-
-        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
-            if (consentCallbackListener.consentError != null) {
-                callback.onGetConsentsFailed(consentCallbackListener.consentError);
-                return;
-            } else {
-                consentList = consentCallbackListener.consentList;
-            }
-        }
-
-        callback.onGetConsentsSuccess(consentList);
+        postResultOnFetchConsent(consentCallbackListeners, callback);
     }
 
     @Override
-    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
+    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
+        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+
         for (ConsentDefinition consentDefinition : consentDefinitions) {
-            fetchConsentState(consentDefinition, callback);
-            //TODO Clarify multiple callback should be sent to the caller ?
+            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
+            consentCallbackListeners.add(listener);
+            fetchConsentState(consentDefinition, listener);
         }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsent(consentCallbackListeners, callback);
     }
 
     @Override
-    public void storeConsentState(ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback) {
+    public void storeConsentState(ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback) throws RuntimeException {
         final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
         List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
 
@@ -97,15 +94,7 @@ public class ConsentManager implements ConsentRegistryInterface {
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-
-        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
-            if (consentCallbackListener.consentError != null) {
-                callback.onPostConsentFailed(consentCallbackListener.consentDefinition, consentCallbackListener.consentError);
-                return;
-            }
-        }
-
-        callback.onPostConsentSuccess(consentCallbackListeners.get(0).consent);
+        postResultOnStoreConsent(consentCallbackListeners, callback);
     }
 
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
@@ -114,6 +103,26 @@ public class ConsentManager implements ConsentRegistryInterface {
         } catch (InterruptedException e) {
             CatkLogger.d("InterruptedException", e.getMessage());
         }
+    }
+
+    private void postResultOnFetchConsent(List<ConsentCallbackListener> consentCallbackListeners, CheckConsentsCallback callback) {
+        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+            if (consentCallbackListener.consentError != null) {
+                callback.onGetConsentsFailed(consentCallbackListener.consentError);
+                return;
+            }
+        }
+        callback.onGetConsentsSuccess(consentCallbackListeners.get(0).consentList);
+    }
+
+    private void postResultOnStoreConsent(List<ConsentCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
+        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+            if (consentCallbackListener.consentError != null) {
+                postConsentCallback.onPostConsentFailed(consentCallbackListener.consentDefinition, consentCallbackListener.consentError);
+                return;
+            }
+        }
+        postConsentCallback.onPostConsentSuccess(consentCallbackListeners.get(0).consent);
     }
 
     private class ConsentCallbackListener implements CheckConsentsCallback, PostConsentCallback {
