@@ -16,10 +16,10 @@ import org.robolectric.res.FsFile;
 public class CustomRobolectricRunner extends RobolectricTestRunner {
 
     public CustomRobolectricRunner(Class<?> klass) throws InitializationError {
-
         super(klass);
     }
 
+    @Override
     protected AndroidManifest getAppManifest(Config config) {
         AndroidManifest appManifest = super.getAppManifest(config);
         FsFile androidManifestFile = appManifest.getAndroidManifestFile();
@@ -33,14 +33,11 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
             FsFile assetsDirectory = FileFsFile.from(moduleRoot, appManifest.getAndroidManifestFile().getPath().replace("AndroidManifest.xml", "assets"));
             return new AndroidManifest(androidManifestFile, resDirectory, assetsDirectory);
         }
+
     }
 
     private String getModuleRootPath(Config config) {
-
-        // /Users/philips/usr-android-user-registration/Source/Library/RegistrationApi/build/intermediates/bundles/debug/
         String moduleRoot = config.constants().getResource("").toString().replace("file:", "").replace("jar:", "");
-        // /Users/philips/usr-android-user-registration/Source/Library/RegistrationApi/build/intermediates/classes/test/debug/com/philips/cdp/registration/
         return moduleRoot.substring(0, moduleRoot.indexOf("/build"));
-        ///Users/philips/usr-android-user-registration/Source/Library/RegistrationApi
     }
 }
