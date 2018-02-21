@@ -57,7 +57,6 @@ public class MyaInterface implements UappInterface {
 
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
-        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
         reference.dependencies = myaDependencies;
     }
 

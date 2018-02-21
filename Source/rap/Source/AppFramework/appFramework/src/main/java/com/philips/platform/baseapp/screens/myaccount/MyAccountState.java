@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -27,7 +28,11 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.csw.CswDependencies;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
+import com.philips.platform.mya.dialogs.DialogView;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -43,6 +48,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +79,23 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 }
+                if (itemName.equals("Mya_Privacy_Settings")) {
+                    RestInterface restInterface = getRestClient();
+                    if (restInterface.isInternetReachable()) {
+//                        MyaDependencies myaDeps = getDependencies();
+                        //AppFrameworkApplication app = (AppFrameworkApplication) actContext.getApplicationContext();
+                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(),MyaHelper.getInstance().getConsentConfigurationList());
+                        CswInterface cswInterface = getCswInterface();
+                        UappSettings uappSettings = new UappSettings(actContext);
+                        cswInterface.init(dependencies, uappSettings);
+                        cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
+                        return true;
+                    } else {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String message = actContext.getString(R.string.MYA_Offline_message);
+                        showDialog(title, message);
+                    }
+                }
                 return false;
             }
 
@@ -92,6 +115,20 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    public void showDialog(String title, String message) {
+        new DialogView(title, message).showDialog(getFragmentActivity());
+    }
+
+    CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
     }
 
     private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
@@ -178,7 +215,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
+        return new MyaDependencies(appInfra);
     }
 
     @Override
@@ -209,5 +246,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     public FragmentActivity getFragmentActivity() {
         return fragmentLauncher.getFragmentActivity();
+    }
+
+    protected RestInterface getRestClient() {
+        return getDependencies().getAppInfra().getRestClient();
+    }
+    protected MyaDependencies getDependencies() {
+        return MyaInterface.get().getDependencies();
     }
 }

@@ -7,27 +7,14 @@
 
 package com.philips.platform.mya.settings;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatchers;
+import android.content.Context;
+import android.os.Bundle;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswInterface;
@@ -35,12 +22,22 @@ import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Context;
-import android.os.Bundle;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatchers;
+
+import java.util.ArrayList;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MyaSettingsPresenterTest {
 
@@ -111,22 +108,7 @@ public class MyaSettingsPresenterTest {
         final ConsentsClient consentsClient = mock(ConsentsClient.class);
         final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
-        myaSettingsPresenter = new MyaSettingsPresenter(view) {
-            @Override
-            CswInterface getCswInterface() {
-                return cswInterface;
-            }
-
-            @Override
-            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-                return cswLaunchInput;
-            }
-
-            @Override
-            ConsentsClient getConsentsClient() {
-                return consentsClient;
-            }
-        };
+        myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
@@ -153,12 +135,5 @@ public class MyaSettingsPresenterTest {
         verify(view).showOfflineDialog(testTitle, testMessage);
     }
 
-    @Test
-    public void shouldNotReturnNullWhenInvoked() {
-        MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
-        assertNotNull(myaSettingsPresenter.getCswInterface());
-        assertNotNull(myaSettingsPresenter.getConsentsClient());
-    }
 
 }

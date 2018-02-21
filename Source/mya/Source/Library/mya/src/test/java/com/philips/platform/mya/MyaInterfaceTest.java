@@ -7,27 +7,10 @@
 
 package com.philips.platform.mya;
 
-import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -43,10 +26,27 @@ import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import android.content.Context;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -133,13 +133,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
