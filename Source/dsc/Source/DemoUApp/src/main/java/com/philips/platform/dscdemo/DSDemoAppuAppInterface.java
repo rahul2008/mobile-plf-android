@@ -33,7 +33,7 @@ import java.util.List;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
-    private Context mContext;
+    private Context context;
 
     /**
      * @param uappDependencies - App dependencies
@@ -41,7 +41,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        mContext = uappSettings.getContext();
+        context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
         JustInTimeConsentDependencies.consentHandlerInterface = dsDependencies.momentConsentHandler;
         JustInTimeConsentDependencies.consentDefinition = dsDependencies.momentConsentDefinition;
@@ -86,9 +86,9 @@ public class DSDemoAppuAppInterface implements UappInterface {
     }
 
     private void launchActivity(final Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(mContext, activityClass);
+        Intent intent = new Intent(context, activityClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        context.startActivity(intent);
     }
 
     private void launchAsFragment(UiLauncher uiLauncher) {
@@ -100,7 +100,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     class CheckConsentsListener implements CheckConsentsCallback {
         private UiLauncher uiLauncher;
 
-        public CheckConsentsListener(UiLauncher uiLauncher) {
+        private CheckConsentsListener(UiLauncher uiLauncher) {
             this.uiLauncher = uiLauncher;
         }
 
@@ -115,6 +115,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
         @Override
         public void onGetConsentsFailed(ConsentError error) {
+            launchUApp(uiLauncher);
         }
     }
 
