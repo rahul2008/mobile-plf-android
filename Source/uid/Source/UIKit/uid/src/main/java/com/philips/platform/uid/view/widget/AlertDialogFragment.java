@@ -319,7 +319,7 @@ public class AlertDialogFragment extends DialogFragment {
         UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
             @Override
             public void run() {
-                if (decoreView != null) {
+                if (decorView != null) {
                     decorView.removeView(dimViewContainer);
                 }
                 decorView = null;
