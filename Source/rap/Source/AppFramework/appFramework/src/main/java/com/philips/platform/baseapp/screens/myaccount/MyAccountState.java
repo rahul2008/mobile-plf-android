@@ -6,8 +6,11 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -40,6 +43,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -72,6 +76,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             public boolean onClickMyaItem(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                }
+                if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
+                    URLaunchInput urLaunchInput = new URLaunchInput();
+                    urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+                    URInterface urInterface = new URInterface();
+                    urInterface.launch(fragmentLauncher,urLaunchInput);
+                    return true;
                 }
                 return false;
             }
