@@ -44,8 +44,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -195,23 +193,18 @@ dependencies {
         releaseCompile project(path: ':AppInfra', configuration: 'release')
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-		debugCompile project(path: ':telehealth', configuration: 'debug')
-        releaseCompile project(path: ':telehealth', configuration: 'release')        
+        debugCompile project(path: ':telehealth', configuration: 'debug')
+        releaseCompile project(path: ':telehealth', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.uAppFwLib) {
             exclude group: 'com.android.support'
         }
-
-        compile(group: 'com.philips.cdp', name: 'telehealth', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.telehealth) {
             exclude group: 'com.android.support'
             transitive = true
         }
-
     }
-	
-	
 }
