@@ -204,7 +204,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      */
     public void showPharmacySearch() {
         hideProgressBar();
-      //  if (isFragmentAttached()) {
+        if (null != getActivity() && null != getContext()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -220,7 +220,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }).start();
 
-        //}
+        }
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {

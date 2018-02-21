@@ -9,9 +9,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
-
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
-
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
@@ -26,9 +24,7 @@ import com.philips.platform.ths.consent.THSConsentProvider;
 import com.philips.platform.ths.consent.THSJustInTimeConsentFragment;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
-import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +34,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     FragmentTransaction fragmentTransaction;
     private THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView;
     private Pharmacy pharmacy;
+    private static final String CONSENT_FRAGMENT_TAG = "consentFragmentTAG";
 
     THSCheckPharmacyConditionsPresenter(THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView) {
         this.thsCheckPharmacyConditonsView = thsCheckPharmacyConditonsView;
@@ -70,10 +67,9 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
         } else {
-            //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(); // remove CheckPharmacyConditionFragment transitive fragment
             final DeviceStoredConsentHandler pDeviceStoredConsentHandler = new DeviceStoredConsentHandler(THSManager.getInstance().getAppInfra());
             Locale locale = THSConsentProvider.getCompleteLocale();
-            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition()!=null?THSManager.getInstance().getConsentDefinition():THSConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
+            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
             pDeviceStoredConsentHandler.fetchConsentState(thsConsentDefinition, new CheckConsentsCallback() {
                 @Override
                 public void onGetConsentsSuccess(List<Consent> consents) {
@@ -88,54 +84,50 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                             }
                         }
                     }
-
                     if (!hasLocationConsent) {
-
                         JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                         justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
                         justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
                         justInTimeTextResources.titleTextRes = R.string.ths_location_consent_title;
-                        JustInTimeConsentDependencies.appInfra= THSManager.getInstance().getAppInfra();
-                        JustInTimeConsentDependencies.consentDefinition=thsConsentDefinition;
-                        JustInTimeConsentDependencies.textResources=justInTimeTextResources;
-                        JustInTimeConsentDependencies.completionListener=justInTimeWidgetHandler();
-                        JustInTimeConsentDependencies.consentHandlerInterface=pDeviceStoredConsentHandler;
-                        JustInTimeConsentFragment justInTimeConsentFragment= THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
+                        JustInTimeConsentDependencies.appInfra = THSManager.getInstance().getAppInfra();
+                        JustInTimeConsentDependencies.consentDefinition = thsConsentDefinition;
+                        JustInTimeConsentDependencies.textResources = justInTimeTextResources;
+                        JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
+                        JustInTimeConsentDependencies.consentHandlerInterface = pDeviceStoredConsentHandler;
+                        THSJustInTimeConsentFragment justInTimeConsentFragment = (THSJustInTimeConsentFragment) JustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
                         fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
-                        fragmentTransaction.addToBackStack("consentTAG");
+                        fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
                         fragmentTransaction.commitAllowingStateLoss();
                     } else {
                         thsCheckPharmacyConditonsView.displayPharmacy();
                     }
                 }
-
                 @Override
                 public void onGetConsentsFailed(ConsentError error) {
-                    Log.v("GDPR", "onGetConsentsFailed" +error.toString());
+                    Log.v("GDPR", "onGetConsentsFailed" + error.toString());
+                    thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    thsCheckPharmacyConditonsView.showPharmacySearch();
+
                 }
             });
 
         }
     }
 
-    private JustInTimeWidgetHandler justInTimeWidgetHandler(){
-       return  new JustInTimeWidgetHandler() {
+    private JustInTimeWidgetHandler justInTimeWidgetHandler() {
+        return new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
                 Log.v("SUCC", "onConsentGiven");
-
-                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
-                //thsCheckPharmacyConditonsView.popFragmentByTag("consentTAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                // thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 thsCheckPharmacyConditonsView.displayPharmacy();
             }
 
             @Override
             public void onConsentRejected() {
                 Log.v("FAIL", "onConsentRejected");
-                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
-                //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
+                thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 thsCheckPharmacyConditonsView.showPharmacySearch();
             }
         };
@@ -155,22 +147,6 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         }
     }
 
-   /* private void showPharmacySearch() {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    thsCheckPharmacyConditonsView.getFragmentActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
-                            THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-                            thsCheckPharmacyConditonsView.addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
-                        }
-                    });
-                }
-            }).start();
 
-
-    }*/
 
 }
