@@ -54,7 +54,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     @Override
-    public void processUi(AppInfraInterface appInfra, Bundle arguments) {
+    public void getProfileItems(AppInfraInterface appInfra, Bundle arguments) {
         List<?> list = null;
         if (arguments != null) {
             setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));

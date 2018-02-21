@@ -29,6 +29,6 @@ interface MyaProfileContract {
 
         boolean handleOnClickProfileItem(String profileItem, Bundle bundle);
 
-        void processUi(AppInfraInterface appInfra, Bundle arguments);
+        void getProfileItems(AppInfraInterface appInfra, Bundle arguments);
     }
 }

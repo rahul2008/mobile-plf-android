@@ -69,7 +69,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         } else {
             arguments = savedInstanceState.getBundle(PROFILE_BUNDLE);
         }
-        presenter.processUi(MyaHelper.getInstance().getAppInfra(), arguments);
+        presenter.getProfileItems(MyaHelper.getInstance().getAppInfra(), arguments);
     }
 
 
