@@ -58,9 +58,6 @@
 <string name="RA_Invalid_Param_Msg">Sie haben ungültige Parameterwerte ausgewählt oder eingegeben. Geben Sie passende Parameterwerte ein, und starten Sie die Anwendung erneut.</string>
 <string name="RA_NO_Order_History">Bestellübersicht nicht verfügbar</string>
 <string name="RA_PR_Benefit_Text">Erweitern Sie Ihre Garantie um 24 Monate.  Erhalten Sie 10 % Rabatt auf Produkte im Philips Online-Shop.  Erhalten Sie kostenloses Zubehör.</string>
-  <string name="RA_CSW_JustInTime_Accept">[de]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[de]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[de]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Ihre Garantie wurde bis nächstes Jahr verlängert.</string>
 <string name="RA_PR_Email_Text">Eine E-Mail mit dem Vertrag der erweiterten Garantie wurde an Ihre E-Mail-Adresse gesendet.</string>
 <string name="RA_UR_Env_Alert">Konfiguration ändern</string>

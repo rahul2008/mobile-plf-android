@@ -15,12 +15,10 @@ public class DSDemoAppuAppDependencies extends UappDependencies {
 
     public ConsentDefinition momentConsentDefinition;
     public ConsentHandlerInterface momentConsentHandler;
-    public JustInTimeTextResources textResources;
 
-    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra, final ConsentHandlerInterface momentConsentHandler, final ConsentDefinition momentConsentDefinition, final JustInTimeTextResources textResources) {
+    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra, final ConsentHandlerInterface momentConsentHandler, final ConsentDefinition momentConsentDefinition) {
         super(appInfra);
         this.momentConsentHandler = momentConsentHandler;
         this.momentConsentDefinition = momentConsentDefinition;
-        this.textResources = textResources;
     }
 }

@@ -58,9 +58,6 @@
 <string name="RA_Invalid_Param_Msg">Du har angitt eller valgt ugyldige parameterverdier. Velg riktige parameterverdier og start på nytt</string>
 <string name="RA_NO_Order_History">Bestillingshistorikk er ikke tilgjengelig</string>
 <string name="RA_PR_Benefit_Text">Utvid garantien med 24 måneder.  Få 10 % rabatt fra Philips.  Motta produkttilbehør helt gratis</string>
-  <string name="RA_CSW_JustInTime_Accept">[nb]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[nb]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[nb]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Garantiperioden er utvidet til neste år</string>
 <string name="RA_PR_Email_Text">En e-post med utvidet garantikontrakt har blitt sendt til e-postadressen din</string>
 <string name="RA_UR_Env_Alert">Endre konfigurasjon</string>

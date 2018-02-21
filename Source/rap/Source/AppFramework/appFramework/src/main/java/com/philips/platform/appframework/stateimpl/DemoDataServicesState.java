@@ -103,13 +103,9 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        JustInTimeTextResources textResources = new JustInTimeTextResources();
-        textResources.titleTextRes = R.string.RA_CSW_JustInTime_Title;
-        textResources.acceptTextRes = R.string.RA_CSW_JustInTime_Accept;
-        textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
                 new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"));
     }
 
     @NonNull

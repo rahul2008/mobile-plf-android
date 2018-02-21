@@ -58,9 +58,6 @@
 <string name="RA_Invalid_Param_Msg">Érvénytelen paraméterértékeket adott meg vagy választott ki. Kérjük, válasszon megfelelő paraméterértékeket, majd indítsa újra</string>
 <string name="RA_NO_Order_History">Nem állnak rendelkezésre rendelési előzmények</string>
 <string name="RA_PR_Benefit_Text">Hosszabbítsa meg a garancia időtartamát 24 hónappal.  Legyen része 10% kedvezményben a Philips webáruházban vásárolt termékekre.  Tegyen szert terméktartozékokra ingyen</string>
-  <string name="RA_CSW_JustInTime_Accept">[hu]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[hu]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[hu]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">A garancia időtartamát kiterjesztettük a következő évig</string>
 <string name="RA_PR_Email_Text">A kiterjesztett garanciaszerződést tartalmazó e-mailt elküldtük az e-mail címére</string>
 <string name="RA_UR_Env_Alert">Konfiguráció módosítása</string>

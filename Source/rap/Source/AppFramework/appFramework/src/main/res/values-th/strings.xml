@@ -58,9 +58,6 @@
 <string name="RA_Invalid_Param_Msg">คุณได้ป้อนหรือเลือกค่าพารามิเตอร์ที่ไม่ถูกต้อง โปรดเลือกค่าพารามิเตอร์ที่เหมาะสม แล้วเริ่มอีกครั้ง</string>
 <string name="RA_NO_Order_History">ไม่สามารถดูประวัติการสั่งซื้อได้</string>
 <string name="RA_PR_Benefit_Text">ขยายการรับประกันของคุณออกไปอีก 24 เดือน รับส่วนลด 10% ใน Philips รับสินค้าอุปกรณ์เสริมฟรี</string>
-  <string name="RA_CSW_JustInTime_Accept">[th]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[th]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[th]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">ระยะเวลาการรับประกันของคุณได้ขยายออกไปเป็นปีหน้า</string>
 <string name="RA_PR_Email_Text">เราได้ส่งอีเมล์ที่มีสัญญาการรับประกันที่ขยายเพิ่มเติมไปยังอีเมล์แอดเดรสของคุณแล้ว</string>
 <string name="RA_UR_Env_Alert">เปลี่ยนการกำหนดค่า</string>
