@@ -148,7 +148,7 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class),
+        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (UCoreUserCharacteristics) any(),
                 eq(UCoreAdapter.API_VERSION))).thenReturn(response);
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
@@ -167,7 +167,7 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID),
-                (UCoreUserCharacteristics) any(Characteristics.class), eq(UCoreAdapter.API_VERSION))).thenThrow(retrofitErrorMock);
+                (UCoreUserCharacteristics) any(), eq(UCoreAdapter.API_VERSION))).thenThrow(retrofitErrorMock);
 
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));

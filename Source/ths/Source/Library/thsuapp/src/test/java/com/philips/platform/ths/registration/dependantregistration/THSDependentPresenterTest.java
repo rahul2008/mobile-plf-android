@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -99,7 +100,7 @@ public class THSDependentPresenterTest {
         when(THSManager.getInstance().getThsConsumer(contextMock).isDependent()).thenReturn(true);
         when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer().isDependent()).thenReturn(true);
         mTHSDependentPresenter.checkIfUserExists();
-        verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test

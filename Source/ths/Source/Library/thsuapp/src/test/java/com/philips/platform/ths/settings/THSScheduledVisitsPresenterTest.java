@@ -1,13 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.settings;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
@@ -26,74 +24,74 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSScheduledVisitsPresenterTest {
 
     @Mock
-    THSScheduledVisitsFragment thsScheduledVisitsFragmentMock;
+    private THSScheduledVisitsFragment thsScheduledVisitsFragmentMock;
 
     @Mock
-    AWSDK awsdkMock;
+    private AWSDK awsdkMock;
 
     @Mock
-    Context contextMock;
+    private Context contextMock;
 
-    THSScheduledVisitsPresenter mTHSScheduledVisitsPresenter;
-
-    @Mock
-    Appointment appointmentMock;
+    private THSScheduledVisitsPresenter mTHSScheduledVisitsPresenter;
 
     @Mock
-    Consumer consumerMock;
+    private Appointment appointmentMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapper;
+    private Consumer consumerMock;
 
     @Mock
-    ConsumerManager consumerManagerMock;
+    private THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
-    SDKLocalDate sdkLocalDateMock;
+    private ConsumerManager consumerManagerMock;
 
     @Mock
-    SDKError sdkErrorMock;
+    private SDKLocalDate sdkLocalDateMock;
 
     @Mock
-    THSSDKError thssdkErrorMock;
+    private SDKError sdkErrorMock;
 
     @Mock
-    Throwable throwableMock;
+    private THSSDKError thssdkErrorMock;
 
     @Mock
-    AppInfraInterface appInfraInterface;
+    private Throwable throwableMock;
 
     @Mock
-    AppTaggingInterface appTaggingInterface;
+    private AppInfraInterface appInfraInterface;
 
     @Mock
-    LoggingInterface loggingInterface;
+    private AppTaggingInterface appTaggingInterface;
 
     @Mock
-    ServiceDiscoveryInterface serviceDiscoveryMock;
+    private LoggingInterface loggingInterface;
 
     @Mock
-    User userMock;
+    private ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    private User userMock;
 
     @Before
     public void setUp() throws Exception {
@@ -126,10 +124,11 @@ public class THSScheduledVisitsPresenterTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void onEventConfirm() throws Exception {
         mTHSScheduledVisitsPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
         verify(thsScheduledVisitsFragmentMock).stopRefreshing();
-        verify(consumerManagerMock).cancelAppointment(any(Consumer.class),any(Appointment.class),any(SDKCallback.class));
+        verify(consumerManagerMock).cancelAppointment(any(Consumer.class), (Appointment)isNull(), (SDKCallback<Void, SDKError>) any());
     }
 
     @Test
@@ -139,29 +138,31 @@ public class THSScheduledVisitsPresenterTest {
     }
 
     @Test
-    public void testSetAppointment(){
+    public void testSetAppointment() {
         mTHSScheduledVisitsPresenter.setAppointment(appointmentMock);
-        assert mTHSScheduledVisitsPresenter.mAppointment!=null;
+        assert mTHSScheduledVisitsPresenter.mAppointment != null;
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cancelAppointment() throws Exception {
         mTHSScheduledVisitsPresenter.cancelAppointment(appointmentMock);
-        verify(consumerManagerMock).cancelAppointment(any(Consumer.class),any(Appointment.class),any(SDKCallback.class));
+        verify(consumerManagerMock).cancelAppointment(any(Consumer.class), any(Appointment.class), (SDKCallback<Void, SDKError>) any());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getAppointmentsSince() throws Exception {
         mTHSScheduledVisitsPresenter.getAppointmentsSince(sdkLocalDateMock);
-        verify(consumerManagerMock).getAppointments(any(Consumer.class),any(SDKLocalDate.class),any(SDKCallback.class));
+        verify(consumerManagerMock).getAppointments(any(Consumer.class), any(SDKLocalDate.class), (SDKCallback<List<Appointment>, SDKError>) any());
     }
 
     @Test
     public void onResponse() throws Exception {
-        List list = new ArrayList();
+        List<Appointment> list = new ArrayList<>();
         list.add(appointmentMock);
-        mTHSScheduledVisitsPresenter.onResponse(list,sdkErrorMock);
-        verify(thsScheduledVisitsFragmentMock).updateList(anyList());
+        mTHSScheduledVisitsPresenter.onResponse(list, sdkErrorMock);
+        verify(thsScheduledVisitsFragmentMock).updateList(ArgumentMatchers.<Appointment>anyList());
     }
 
     @Test
@@ -174,7 +175,7 @@ public class THSScheduledVisitsPresenterTest {
     public void onInitializationResponse() throws Exception {
         when(thssdkErrorMock.getSdkError()).thenReturn(null);
         when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
-        mTHSScheduledVisitsPresenter.onInitializationResponse(null,thssdkErrorMock);
+        mTHSScheduledVisitsPresenter.onInitializationResponse(null, thssdkErrorMock);
         verify(thsScheduledVisitsFragmentMock).onRefresh();
     }
 

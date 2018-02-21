@@ -39,5 +39,5 @@ dependencies {
     releaseCompile project(path: ":bluelib", configuration: 'release')
 
     testCompile deps.junit
-    testCompile deps.powermock_mockito
+    testCompile deps.mockito
 }

@@ -23,6 +23,7 @@ import java.net.URL;
  * Created by 310166779 on 12/14/2016.
  */
 
+@SuppressWarnings("serial")
 public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
     private WebView mServiceLocatorWebView = null;

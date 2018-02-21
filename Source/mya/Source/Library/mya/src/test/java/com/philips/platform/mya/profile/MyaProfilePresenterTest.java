@@ -20,6 +20,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class MyaProfilePresenterTest {
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         myaProfilePresenter.getProfileItems(appInfraInterface);
-        verify(view).showProfileItems(anyMap());
+        verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test

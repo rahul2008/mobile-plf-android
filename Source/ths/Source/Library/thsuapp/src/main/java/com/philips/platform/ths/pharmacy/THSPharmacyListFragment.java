@@ -113,10 +113,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
         }
-        if (null != location && !isSearched) {
-            createCustomProgressBar(pharmacy_list_fragment_container, BIG);
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
-        }
         return view;
     }
 
@@ -238,6 +234,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        if (null != location && !isSearched) {
+            createCustomProgressBar(pharmacy_list_fragment_container, BIG);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+        }
         if (null != pharmaciesList) {
             updatePharmacyListView(pharmaciesList);
         }
