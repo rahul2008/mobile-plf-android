@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CountrySelectionFragment extends RegistrationBaseFragment implements CountrySelectionContract{
+public class CountrySelectionFragment extends RegistrationBaseFragment implements CountrySelectionContract {
     @BindView(R2.id.country_recycler_view)
     RecyclerView countryListView;
 
@@ -28,6 +29,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     private CountrySelectionPresenter countrySelectionPresenter;
 
+    private Context context;
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -58,7 +60,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         ButterKnife.bind(this, view);
         initUI(view);
 
-        countrySelectionPresenter = new CountrySelectionPresenter(this, this.getContext());
+        countrySelectionPresenter = new CountrySelectionPresenter(this);
         countrySelectionPresenter.fetchSupportedCountryList();
         return view;
     }
@@ -81,12 +83,39 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     @Override
     public void updateRecyclerView(ArrayList<Country> countries) {
 
-        countryListAdapter = new CountrySelectionAdapter(countries);
+        countryListAdapter = new CountrySelectionAdapter(countries, this);
         countryListView.setAdapter(countryListAdapter);
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
     public void setSelectedCountry(Country country) {
-          setCountry(country);
+        setCountry(country);
+    }
+
+    @Override
+    public CountrySelectionFragment getCountrySelectionFragment() {
+        return this;
+    }
+
+    @Override
+    public Context getUSRContext() {
+        return this.context;
+    }
+
+    @Override
+    public RegistrationFragment getRegistrationFragment() {
+        return super.getRegistrationFragment();
+    }
+
+    @Override
+    public void popCountrySelectionFragment() {
+
+        getRegistrationFragment().onBackPressed();
     }
 }

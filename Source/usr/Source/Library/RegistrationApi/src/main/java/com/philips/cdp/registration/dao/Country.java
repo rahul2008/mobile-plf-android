@@ -1,8 +1,6 @@
 package com.philips.cdp.registration.dao;
 
-import java.util.Comparator;
-
-public class Country implements Comparator<Country> {
+public class Country  {
     private String code;
     private String name;
 
@@ -18,12 +16,6 @@ public class Country implements Comparator<Country> {
     public Country(String code, String name) {
         this.code = code;
         this.name = name;
-    }
-
-    @Override
-    public int compare(Country o1, Country o2) {
-
-        return o1.getName().compareTo(o2.getName());
     }
 
     @Override

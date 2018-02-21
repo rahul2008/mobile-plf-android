@@ -249,7 +249,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         }
     }
 
-
     private void handleCountrySelection() {
         if(!getRegistrationFragment().isHomeFragment()) {
             return;
@@ -884,4 +883,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         enableControls(true);
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
+
+    //homePresenter.changeCountry(name, code.trim().toUpperCase());
 }

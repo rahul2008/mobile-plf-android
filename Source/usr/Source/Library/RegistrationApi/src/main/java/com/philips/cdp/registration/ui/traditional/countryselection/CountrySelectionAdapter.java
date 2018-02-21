@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.ui.traditional.countryselection;
 
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.dao.Country;
-import com.philips.cdp.registration.listener.SelectedCountryListener;
+import com.philips.cdp.registration.ui.traditional.CountrySelectionContract;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -18,12 +17,10 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int HEADER_COUNT = 1;
     private List<Country> countries;
 
-    private int selectedPosition = 1; //
-
-    private Handler handler = new Handler();
-
+    private int selectedPosition = 1;
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_LIST = 1;
+    private final CountrySelectionContract countrySelectionContract;
 
     class CountryPickerHolder extends RecyclerView.ViewHolder {
         private Label countryName;
@@ -44,9 +41,9 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public CountrySelectionAdapter(List<Country> countries) {
-        super();
+    public CountrySelectionAdapter(List<Country> countries, CountrySelectionContract countrySelectionContract) {
         this.countries = countries;
+        this.countrySelectionContract = countrySelectionContract;
     }
 
 
@@ -94,6 +91,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.checked.setVisibility(View.GONE);
             }
             holder.itemView.setOnClickListener(view -> {
+                countrySelectionContract.popCountrySelectionFragment();
                 setSelectedPosition(position);
             });
         }
@@ -105,8 +103,9 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         return countries.size() + HEADER_COUNT;
     }
 
-    private void setSelectedPosition(int posistion) {
-        selectedPosition = posistion;
+    private void setSelectedPosition(int position) {
+        selectedPosition = position;
         notifyDataSetChanged();
     }
+
 }

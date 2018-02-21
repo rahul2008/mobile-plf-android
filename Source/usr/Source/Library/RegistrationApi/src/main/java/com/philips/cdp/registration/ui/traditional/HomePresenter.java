@@ -345,9 +345,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RegistrationHelper.getInstance().setCountryCode(countryCode);
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             homeContract.countryChangeStarted();
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
             getLocaleServiceDiscovery(countryName);
         }
     }
