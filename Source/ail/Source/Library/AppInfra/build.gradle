@@ -7,7 +7,7 @@ apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "AppInfra"
-version = platformversion
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 

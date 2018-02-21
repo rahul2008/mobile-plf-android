@@ -12,8 +12,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 
 
 archivesBaseName = "mya-csw"
-version = platformversion
-
 
 buildscript {
     dependencies {
