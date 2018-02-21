@@ -12,9 +12,7 @@ apply plugin: 'maven-publish'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-
 archivesBaseName = "pif"
-version = platformversion
 
 android {
     compileSdkVersion versions.sdk

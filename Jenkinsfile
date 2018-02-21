@@ -20,7 +20,6 @@ pipeline {
     }
     environment {
         TRIGGER_BY_TIMER = 'false'
-        EPOCH_TIME = sh(script: 'date +%s', returnStdout: true).trim()
     }
     options {
         timestamps()
@@ -29,7 +28,6 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
-                sh 'printenv'
                 InitialiseBuild()
                 checkout scm
                 BuildAndUnitTest()

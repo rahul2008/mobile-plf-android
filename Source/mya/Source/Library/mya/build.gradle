@@ -25,7 +25,6 @@ buildscript {
 
 archivesBaseName = "mya"
 group = 'com.philips.cdp'
-version = platformversion
 
 android {
     compileSdkVersion versions.sdk

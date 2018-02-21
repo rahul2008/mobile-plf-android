@@ -10,10 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-
 archivesBaseName = "mya-csw"
-version = platformversion
-
 
 buildscript {
     dependencies {
