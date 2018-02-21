@@ -82,8 +82,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
     private int START_THEME_SELECTOR=101;
-    @BindView(R.id.hamburger_menu_footer_container)
-    LinearLayout hamburgerFooterParent;
 
     private URLogoutInterface urLogoutInterface;
 
@@ -93,8 +91,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @BindView(R.id.rap_env_name)
     Label envInfo;
 
-    @BindView(R.id.hamburger_log_out)
-    Label hamburgerLogoutLabel;
 
     @BindView(R.id.hamburger_menu_header_container)
     LinearLayout hamburgerHeaderParent;
@@ -211,7 +207,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
             }
         });
-        hamburgerFooterParent.setOnClickListener(this);
         hamburgerHeaderParent.setOnClickListener(this);
         setUserNameAndLogoutText();
         initSidebarComponents();
@@ -224,12 +219,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
         if (!user.isUserSignIn()) {
-            hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
             String appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
-            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
             if(!appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
             envInfo.setText(appState);
 
@@ -517,17 +510,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     public void onClick(View view) {
         sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
-            case R.id.hamburger_menu_footer_container:
-                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
-                    showProgressBar();
-                    urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
-                                    .getUserRegistrationState().getUserObject(this));
-                } else {
-                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
-                    hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
-                    presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
-                }
-                break;
             case R.id.hamburger_menu_header_container:
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
                     selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;

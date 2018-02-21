@@ -189,7 +189,6 @@
 
     <string-array name="hamburger_drawer_items">
         <item>@string/RA_HomeTab_Menu_Title</item>
-        <item>@string/RA_SettingsScreen_Title</item>
         <item>@string/RA_Philips_Shop_Menu_Title</item>
         <item>@string/RA_See_a_doctor_Menu_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
@@ -200,7 +199,6 @@
 
     <array name="hamburger_drawer_items_res">
         <item>@drawable/rap_home</item>
-        <item>@drawable/rap_settings</item>
         <item>@drawable/rap_shop</item>
         <item>@drawable/rap_doctor</item>
         <item>@drawable/rap_settings</item>

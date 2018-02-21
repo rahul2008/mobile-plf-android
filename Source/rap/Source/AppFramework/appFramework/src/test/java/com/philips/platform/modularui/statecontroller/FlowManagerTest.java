@@ -16,7 +16,6 @@ import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
-import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 
 import junit.framework.TestCase;
@@ -59,12 +58,6 @@ public class FlowManagerTest extends TestCase {
         assertEquals(flowManager.getCurrentState(),homeFragmentState);
     }
 
-    public void testGetState(){
-        final FlowManager flowManager = mock(FlowManager.class);
-        final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
-        when(flowManager.getState(AppStates.SETTINGS)).thenReturn(settingsFragmentState);
-        assertEquals(settingsFragmentState,flowManager.getState(AppStates.SETTINGS));
-    }
 
     public void testGetCondition(){
         final FlowManager flowManager = mock(FlowManager.class);
