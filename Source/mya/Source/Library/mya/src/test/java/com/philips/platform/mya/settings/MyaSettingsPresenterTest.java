@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
@@ -75,6 +76,7 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
         myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
@@ -98,6 +100,8 @@ public class MyaSettingsPresenterTest {
         RestInterface mockRestClient = mock(RestInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(true);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
+        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final CswInterface cswInterface = mock(CswInterface.class);
         final ConsentsClient consentsClient = mock(ConsentsClient.class);
@@ -131,8 +135,10 @@ public class MyaSettingsPresenterTest {
         AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
         when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
         RestInterface mockRestClient = mock(RestInterface.class);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(false);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         String testTitle = "Test title";
         when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);

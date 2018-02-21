@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -66,6 +67,7 @@ public class MyaProfilePresenterTest {
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
         myaProfilePresenter.getProfileItems(appInfraInterface,getArguments(new UserDataModel()));
         verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
