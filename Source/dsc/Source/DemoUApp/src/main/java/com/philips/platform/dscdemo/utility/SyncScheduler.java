@@ -40,8 +40,8 @@ public class SyncScheduler {
                 public void run() {
                     isRunning = true;
                     try {
-                        updateSyncStatus(true);
                         mScheduleSyncReceiver.onReceive(getApplicationContext());
+                        updateSyncStatus(true);
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -71,8 +71,8 @@ public class SyncScheduler {
         return isSyncEnabled;
     }
 
-    private void updateSyncStatus (boolean isSyncing) {
-        if(updateSyncStatus != null){
+    private void updateSyncStatus(boolean isSyncing) {
+        if (updateSyncStatus != null) {
             updateSyncStatus.onSyncStatusChanged(isSyncing);
         }
     }
