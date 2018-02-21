@@ -11,6 +11,7 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteSyncedInsightsRequest;
 import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
@@ -28,8 +29,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeletingMonitorTest {
@@ -222,6 +220,16 @@ public class DeletingMonitorTest {
         deletingMonitor.onEventBackGround(event);
 
         verify(dbDeletingInterface).deleteFailed(any(SQLException.class), eq(dbRequestListener));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedInsights_noRequestListener() throws SQLException {
+        DeleteSyncedInsightsRequest event = new DeleteSyncedInsightsRequest(null);
+
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteSyncedInsights((DBRequestListener<Insight>) eq(null));
     }
 
     private void whenDataClearRequestEventIsPosted() {
