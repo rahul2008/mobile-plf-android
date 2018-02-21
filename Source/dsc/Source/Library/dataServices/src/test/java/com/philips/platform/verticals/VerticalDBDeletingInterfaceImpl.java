@@ -31,8 +31,6 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
 
     }
 
-
-
     @Override
     public void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
 
@@ -45,6 +43,11 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
+
+    }
+
+    @Override
+    public void deleteSyncedMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
     }
 
@@ -69,6 +72,11 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void deleteSyncedInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
     public int deleteSyncBit(SyncType syncType) throws SQLException {
         return 0;
     }
@@ -77,7 +85,6 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     public void deleteUserCharacteristics() throws SQLException {
 
     }
-
 
     @Override
     public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
@@ -88,5 +95,4 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     public void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
 
     }
-
 }

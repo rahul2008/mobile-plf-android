@@ -85,6 +85,13 @@ public interface DBDeletingInterface {
     void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
     /**
+     * Delete all the synced Moments from the database.
+     * @param dbRequestListener Callback for notifying listener with the result
+     * @throws SQLException throws exception if database operation fails
+     */
+    void deleteSyncedMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException;
+
+    /**
      * Delete all expired moments and associated sub-entities
      * @param dbRequestListener Callback for notifying the deleteAllExpiredMoments
      * @return returns number of affected rows
@@ -129,6 +136,13 @@ public interface DBDeletingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException;
+
+    /**
+     * Removes all synced Insights from the database.
+     * @param dbRequestListener Callback for notifying listener with the result
+     * @throws SQLException throws Exception if database operation failes
+     */
+    void deleteSyncedInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException;
 
     /**
      * Delete SyncBit Object from DataBase

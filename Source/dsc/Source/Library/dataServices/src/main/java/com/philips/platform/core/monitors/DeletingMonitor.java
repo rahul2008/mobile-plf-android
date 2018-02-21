@@ -14,6 +14,7 @@ import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
@@ -84,6 +85,16 @@ public class DeletingMonitor extends EventMonitor {
         final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteSyncedMomentsRequest event) {
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteSyncedMoments(dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }

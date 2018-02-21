@@ -11,6 +11,7 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -27,13 +28,18 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeletingMonitorTest {
@@ -58,7 +64,7 @@ public class DeletingMonitorTest {
     private DBDeletingInterface dbDeletingInterface;
 
     @Mock
-    DBRequestListener dbRequestListener;
+    private DBRequestListener dbRequestListener;
 
     @Mock
     private Eventing eventingMock;
@@ -195,6 +201,27 @@ public class DeletingMonitorTest {
         givenSQLExceptionThrownWhenDeleteInsightIsInvoked();
         whenDeleteInsightResponseIsPosted();
         thenVerifyDeleteFailedIsInvoked(sqlException);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_noRequestListener() throws SQLException {
+        DeleteSyncedMomentsRequest event = new DeleteSyncedMomentsRequest(null);
+
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteSyncedMoments((DBRequestListener<Moment>) eq(null));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_callsDeleteFailedOnFailure() throws SQLException {
+        doThrow(new SQLException()).when(dbDeletingInterface).deleteSyncedMoments((DBRequestListener<Moment>) any());
+        DeleteSyncedMomentsRequest event = new DeleteSyncedMomentsRequest(dbRequestListener);
+
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteFailed(any(SQLException.class), eq(dbRequestListener));
     }
 
     private void whenDataClearRequestEventIsPosted() {

@@ -84,6 +84,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void deleteSyncedMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        ormDeleting.deleteSyncedMoments();
+        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
+    }
+
+    @Override
     public void deleteMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
         notifyDBRequestListener.notifySuccess(dbRequestListener, (OrmMoment) moment, SyncType.MOMENT);
@@ -175,6 +181,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     public void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         ormDeleting.deleteInsight((OrmInsight) insight);
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
+    }
+
+    @Override
+    public void deleteSyncedInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        ormDeleting.deleteSyncedInsights();
     }
 
     //Sync
