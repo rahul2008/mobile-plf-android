@@ -11,6 +11,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
@@ -34,6 +35,7 @@ import java.util.Locale;
 
 class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
 
+    FragmentTransaction fragmentTransaction;
     private THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView;
     private Pharmacy pharmacy;
 
@@ -68,7 +70,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
         } else {
-            thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(); // remove CheckPharmacyConditionFragment transitive fragment
+            //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(); // remove CheckPharmacyConditionFragment transitive fragment
             final DeviceStoredConsentHandler pDeviceStoredConsentHandler = new DeviceStoredConsentHandler(THSManager.getInstance().getAppInfra());
             Locale locale = THSConsentProvider.getCompleteLocale();
             final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition()!=null?THSManager.getInstance().getConsentDefinition():THSConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
@@ -98,9 +100,9 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         JustInTimeConsentDependencies.textResources=justInTimeTextResources;
                         JustInTimeConsentDependencies.completionListener=justInTimeWidgetHandler();
                         JustInTimeConsentDependencies.consentHandlerInterface=pDeviceStoredConsentHandler;
-                        THSJustInTimeConsentFragment justInTimeConsentFragment= (THSJustInTimeConsentFragment)THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
-                        FragmentTransaction fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
+                        JustInTimeConsentFragment justInTimeConsentFragment= THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
+                        fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
                         fragmentTransaction.addToBackStack("consentTAG");
                         fragmentTransaction.commitAllowingStateLoss();
                     } else {
@@ -134,7 +136,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                 Log.v("FAIL", "onConsentRejected");
                 thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
                 //thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack();
-                showPharmacySearch();
+                thsCheckPharmacyConditonsView.showPharmacySearch();
             }
         };
     }
@@ -153,7 +155,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         }
     }
 
-    private void showPharmacySearch() {
+   /* private void showPharmacySearch() {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -169,6 +171,6 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             }).start();
 
 
-    }
+    }*/
 
 }

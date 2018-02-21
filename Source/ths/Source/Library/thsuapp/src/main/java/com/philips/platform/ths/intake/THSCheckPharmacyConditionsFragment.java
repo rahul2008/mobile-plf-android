@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -198,13 +199,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      */
     public void showPharmacySearch() {
         hideProgressBar();
-        if (isFragmentAttached()) {
+      //  if (isFragmentAttached()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //THSCheckPharmacyConditionsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE
                             getActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
@@ -213,7 +215,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }).start();
 
-        }
+        //}
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
