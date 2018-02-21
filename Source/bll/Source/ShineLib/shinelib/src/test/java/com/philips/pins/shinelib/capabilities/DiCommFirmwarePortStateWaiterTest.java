@@ -158,20 +158,20 @@ public class DiCommFirmwarePortStateWaiterTest{
     public void whenPropertiesAreUpdatedWithRequiredStateThenUnSubscribeIsCalled() throws Exception {
         whenPropertiesAreUpdatedWithRequestedStateUpdateThenListenerIsNotified();
 
-        verify(portMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(portMock).unsubscribe((DiCommPort.UpdateListener) any(), (SHNResultListener) any());
     }
 
     @Test
     public void whenPropertiesAreUpdatedWithUnexpectedStateThenUnSubscribeIsCalled() throws Exception {
         whenPropertiesAreUpdatedWithUnexpectedStateUpdateThenListenerIsNotifiedWithAnError();
 
-        verify(portMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(portMock).unsubscribe((DiCommPort.UpdateListener) any(), (SHNResultListener) any());
     }
 
     @Test
     public void whenCancelIsCalledThenUnsubcribedIsCalled() throws Exception {
         diCommFirmwarePortStateWaiter.cancel();
 
-        verify(portMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(portMock).unsubscribe((DiCommPort.UpdateListener) any(), (SHNResultListener) any());
     }
 }

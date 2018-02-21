@@ -245,15 +245,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public String getTitleResourceText() {
-        String titleResourceText = null;
-        if (getRegistrationFragment().getContentConfiguration() != null) {
-            titleResourceText = getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
-        }
-        return titleResourceText;
-    }
-
-    @Override
     public void trackRemarketing() {
         if (mUser.getReceiveMarketingEmail()) {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);

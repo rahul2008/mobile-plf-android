@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.bluetoothwrapper;
 
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanSettings;
 
 import com.philips.pins.shinelib.BuildConfig;
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -25,8 +27,7 @@ import java.util.List;
 
 import static android.os.Build.VERSION_CODES.M;
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -64,21 +65,23 @@ public class BleUtilitiesTest {
         bluetoothAdapter.setEnabled(false);
         bleUtilities.startLeScan(mockedScanCallback);
 
-        verify(scanner, never()).startScan(anyList(), any(ScanSettings.class), any(ScanCallback.class));
+        verify(scanner, never()).startScan(ArgumentMatchers.<ScanFilter>anyList(), any(ScanSettings.class), any(ScanCallback.class));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void whenStartLeScanIsCalledAndBatchScanIsSupportedThenTheScanIsStarted() {
         bleUtilities.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
-        verify(scanner).startScan(anyList(), callbackCaptor.capture(), any(ScanCallback.class));
+        verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
 
         List<ScanSettings> capturedMeasurements = callbackCaptor.getAllValues();
         ScanSettings settings = capturedMeasurements.get(0);
         assertEquals(settings.getReportDelayMillis(), 1000);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void whenStartLeScanIsCalledAndBatchScanIsNotSupportedThenTheScanIsStarted() {
         bluetoothAdapter.setIsOffloadedScanBatchingSupported(false);
@@ -86,7 +89,7 @@ public class BleUtilitiesTest {
         bleUtilities.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
-        verify(scanner).startScan(anyList(), callbackCaptor.capture(), any(ScanCallback.class));
+        verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
 
         List<ScanSettings> capturedMeasurements = callbackCaptor.getAllValues();
         ScanSettings settings = capturedMeasurements.get(0);

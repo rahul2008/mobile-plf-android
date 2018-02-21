@@ -210,4 +210,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        //Fix for 115218
+    }
+
 }

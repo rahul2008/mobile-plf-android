@@ -3,25 +3,31 @@
  * All rights reserved.
  */
 
-ext.platformversion = "2018.1.0"
+ext.platformversion = '2018.1.0'
 
 ext.versions = [
-        sdk                        : 26,
-        target                     : 26,
-        minsdk                     : 21,
-        buildtools                 : "26.0.2",
-        support                    : "26.0.2",
-        jacoco                     : "0.7.6.201602180812",
-        dagger                     : "2.11"
+        sdk                  : 26,
+        target               : 26,
+        minsdk               : 21,
+        buildtools           : '26.0.2',
+        support              : '26.0.2',
+        jacoco               : '0.8.0',
+        dagger               : '2.13',
+        renderscriptTargetApi: 26
 ]
 
 ext.builddeps = [
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
-        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
-        gradle            : 'com.android.tools.build:gradle:2.3.3',
         androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',
+        bintrayplugin     : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2',
+        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
         googleservices    : 'com.google.gms:google-services:3.0.0',
-        pitest            : 'pl.droidsonroids.gradle:gradle-pitest-plugin:0.0.4'
+        gradle            : 'com.android.tools.build:gradle:2.3.3',
+        hockeyapp         : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
+        jruby_gradle      : 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5',
+        mobilej           : 'de.mobilej.unmock:UnMockPlugin:0.6.2',
+        pitest            : 'pl.droidsonroids.gradle:gradle-pitest-plugin:0.0.4',
+        trickyandroid     : 'com.trickyandroid:jacoco-everywhere:0.2.1'
 ]
 
 ext.repos = [
@@ -31,51 +37,118 @@ ext.repos = [
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
 ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
 ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
-ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
-ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
+ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
+ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-local"
+ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
+
+ext.clojars = "https://clojars.org/repo/"
+ext.sonatype = "https://oss.sonatype.org/content/repositories/snapshots"
+ext.robolectric = "https://mvnrepository.com/artifact/org.robolectric/shadows-core"
 
 ext.deps = [
-        support            : [
-                annotations: "com.android.support:support-annotations:${ext.versions.support}",
-                appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
-                cardview   : "com.android.support:cardview-v7:${ext.versions.support}",
-                design     : "com.android.support:design:${ext.versions.support}",
-                fragment   : "com.android.support:support-fragment:${ext.versions.support}",
-                supportv4  : "com.android.support:support-v4:${ext.versions.support}",
-                recyclerview:"com.android.support:recyclerview-v7:${ext.versions.support}"
-        ],
-        adobemobilelib     : 'adobeMobileLibrary:adobeMobileLibrary:4.13.7',
-        constraintlayout   : "com.android.support.constraint:constraint-layout:1.0.2",
-        dagger             : [
-                dagger          : "com.google.dagger:dagger:${ext.versions.dagger}",
-                androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
+        adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.14.0',
+        americanwell                  : 'com.americanwell:awsdk:3.1.5',
+        butterknife                   : 'com.jakewharton:butterknife:8.8.1',
+        calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
+        constraintlayout              : 'com.android.support.constraint:constraint-layout:1.0.2',
+        dagger                        : [
                 androidprocessor: "com.google.dagger:dagger-android-processor:${ext.versions.dagger}",
-                compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}"
+                androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
+                compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}",
+                dagger          : "com.google.dagger:dagger:${ext.versions.dagger}"
         ],
-        gson               : 'com.google.code.gson:gson:2.8.1',
-        joda_time          : 'joda-time:joda-time:2.9.9',
-        ormlite            : [
-                core   : "com.j256.ormlite:ormlite-core:5.0",
-                android: "com.j256.ormlite:ormlite-android:5.0"
+        glassfish_annotation          : 'org.glassfish:javax.annotation:10.0-b28',
+        glide                         : 'com.github.bumptech.glide:glide:3.7.0',
+        greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
+        groovy                        : 'org.codehaus.groovy:groovy-all:2.4.13',
+        gson                          : 'com.google.code.gson:gson:2.8.2',
+        javax_annotation              : 'javax.annotation:jsr250-api:1.0',
+        javax_inject                  : 'javax.inject:javax.inject:1',
+        joda_time                     : 'joda-time:joda-time:2.9.9',
+        json                          : 'org.json:json:20171018',
+        leakcanary                    : 'com.squareup.leakcanary:leakcanary-android:1.5',
+        leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
+        okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
+        okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
+        ormlite                       : [
+                android: "com.j256.ormlite:ormlite-android:5.0",
+                core   : "com.j256.ormlite:ormlite-core:5.0"
         ],
-        leakcanary         : 'com.squareup.leakcanary:leakcanary-android:1.5',
+        play_services_maps            : 'com.google.android.gms:play-services-maps:11.0.4',
+        retrofit                      : 'com.squareup.retrofit2:retrofit:2.3.0',
+        retrofit1                     : 'com.squareup.retrofit:retrofit:1.9.0',
+        shamanland_fonticon           : 'com.shamanland:fonticon:0.1.9',
+        sqlcipher                     : 'net.zetetic:android-database-sqlcipher:3.5.7@aar',
+        support                       : [
+                animvecdraw : "com.android.support:animated-vector-drawable:${ext.versions.support}",
+                annotations : "com.android.support:support-annotations:${ext.versions.support}",
+                appcompatv7 : "com.android.support:appcompat-v7:${ext.versions.support}",
+                cardview    : "com.android.support:cardview-v7:${ext.versions.support}",
+                customtabs  : "com.android.support:customtabs:${ext.versions.support}",
+                design      : "com.android.support:design:${ext.versions.support}",
+                fragment    : "com.android.support:support-fragment:${ext.versions.support}",
+                recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}",
+                supportv4   : "com.android.support:support-v4:${ext.versions.support}"
+        ],
+        volley                        : 'com.android.volley:volley:1.1.0',
 
         // Testing
-        android_testrunner : 'com.android.support.test:runner:0.5',
-        assertj            : 'com.squareup.assertj:assertj-android:1.1.1',
-        cucumber           : 'info.cukes:cucumber-android:1.2.2',
-        cucumber_junit     : 'info.cukes:cucumber-junit:1.2.2',
-        dexmaker           : 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0',
-        espresso_core      : 'com.android.support.test.espresso:espresso-core:2.2.2',
-        junit              : 'junit:junit:4.12',
-        mockito            : 'org.mockito:mockito-core:1.10.19', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
-        multidex           : 'com.android.support:multidex:1.0.1',
-        powermock_junit    : 'org.powermock:powermock-module-junit4:1.6.6',
-        powermock_junit_rule            : 'org.powermock:powermock-module-junit4-rule:1.6.6',
-        powermock_mockito  : 'org.powermock:powermock-api-mockito:1.6.6',
-        powermock_classloading_xstream  : 'org.powermock:powermock-classloading-xstream:1.6.6',
-        robolectric        : 'org.robolectric:robolectric:3.3.1',
-        robolectric_shadows: 'org.robolectric:shadows-support-v4:3.3.1',
-        stetho             : 'com.facebook.stetho:stetho:1.5.0'
+        android_test_commons          : 'org.apache.commons:commons-lang3:3.4',
+        android_testrules             : 'com.android.support.test:rules:0.5',
+        android_testrunner            : 'com.android.support.test:runner:0.5',
+        androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner',
+        apache                        : 'org.apache.http.legacy:org.apache.http.legacy:1.0.0',
+        assertj                       : 'com.squareup.assertj:assertj-android:1.1.1',
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
+        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.8.1',
+        cucumber                      : 'info.cukes:cucumber-android:1.2.2',
+        cucumber_junit                : 'info.cukes:cucumber-junit:1.2.2',
+        dexmaker_google               : 'com.google.dexmaker:dexmaker:1.2',
+        dexmaker_google_mockito       : 'com.google.dexmaker:dexmaker-mockito:1.2',
+        espresso_contrib              : 'com.android.support.test.espresso:espresso-contrib:2.0',
+        espresso_core                 : 'com.android.support.test.espresso:espresso-core:2.2.2',
+        espresso_web                  : 'com.android.support.test.espresso:espresso-web:2.2.2',
+        frankiesardo_value            : 'com.github.frankiesardo:android-auto-value:0.1',
+        frankiesardo_value_processor  : 'com.github.frankiesardo:android-auto-value-processor:0.1',
+        immutables                    : 'org.immutables:value:2.4.4',
+        jackson_annotations           : 'com.fasterxml.jackson.core:jackson-annotations:2.9.2',
+        jackson_core                  : 'com.fasterxml.jackson.core:jackson-core:2.9.2',
+        jackson_databind              : 'com.fasterxml.jackson.core:jackson-databind:2.9.2',
+        junit                         : 'junit:junit:4.12',
+        junit_runners                 : 'com.nitorcreations:junit-runners:1.3',
+        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7',
+        maven_ant                     : 'org.apache.maven:maven-ant-tasks:2.1.3',
+        mockito                       : 'org.mockito:mockito-core:2.8.9',  // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
+        mockito_android               : 'org.mockito:mockito-android:2.7.22',
+        mockito_old                   : 'org.mockito:mockito-core:1.9.5',  // Don't remove this, needed as dexmaker for android test only compatible with mockito < 2.x
+        multidex                      : 'com.android.support:multidex:1.0.1',
+        opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
+        openid_appauth                : 'net.openid:appauth:0.7.0',
+        play_services_gcm             : 'com.google.android.gms:play-services-gcm:11.0.4',
+        play_services_location        : 'com.google.android.gms:play-services-location:11.0.4',
+        powermock_api_mockito         : 'org.powermock:powermock-api-mockito2:1.7.3',
+        powermock_api_mockito_old     : 'org.powermock:powermock-api-mockito:1.7.3',
+        powermock_classloading_xstream: 'org.powermock:powermock-classloading-xstream:1.7.3',
+        powermock_core                : 'org.powermock:powermock-core:1.7.3',
+        powermock_junit               : 'org.powermock:powermock-module-junit4:1.7.3',
+        powermock_junit_rule          : 'org.powermock:powermock-module-junit4-rule:1.7.3',
+        powermock_junit_rule_agent    : 'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
+        retrolambda                   : 'net.orfjackal.retrolambda:retrolambda:2.5.1',
+        retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.6.0',
+        robolectric                   : 'org.robolectric:robolectric:3.3.1',
+        robolectric_junit             : 'org.robolectric:junit:3.6.1',
+        robolectric_junit2            : 'org.robolectric:robolectric-junit:3.4-rc2',
+        robolectric_shadows           : 'org.robolectric:shadows-support-v4:3.3.2',
+        robolectric_shadows_multidex  : 'org.robolectric:shadows-multidex:3.6.1',
+        robolectric_utils             : 'org.robolectric:robolectric-utils:3.3.2',
+        rubygems                      : 'rubygems:roo:2.0.0',
+        rxbinding                     : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
+        rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+        squareup_okio                 : 'com.squareup.okio:okio:1.13.0',
+        squareup_picasso              : 'com.squareup.picasso:picasso:2.5.2',
+        stetho                        : 'com.facebook.stetho:stetho:1.5.0',
+        testing_support               : 'com.android.support.test:testing-support-lib:0.1',
+        uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
+        wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
 ]

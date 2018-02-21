@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:elevation="0dp">
 
-            <include layout="@layout/csw_jit_toolbar_layout" />
+            <include layout="@layout/csw_just_in_time_toolbar_layout" />
         </android.support.design.widget.AppBarLayout>
     </LinearLayout>
 

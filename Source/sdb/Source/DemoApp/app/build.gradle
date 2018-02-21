@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -22,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -43,7 +43,7 @@ archivesBaseName = "securedblibraryApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -116,13 +116,13 @@ publishing {
 }
 
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         applicationId 'com.philips.platform.database'
-        minSdkVersion config.minSdk
-        targetSdkVersion config.targetSdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -181,16 +181,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
+    }
+    testCompile deps.junit
     debugCompile project(path: ':securedblibrary', configuration: 'debug')
     releaseCompile project(path: ':securedblibrary', configuration: 'release')
-    compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile ('com.android.support:support-annotations:26.0.2')
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.support.annotations
     }
 
 tasks.withType(Test) {

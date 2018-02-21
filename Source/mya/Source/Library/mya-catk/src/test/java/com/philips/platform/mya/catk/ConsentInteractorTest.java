@@ -13,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.listener.GetConsentsResponseListener;
 import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentCallback;
@@ -57,7 +56,7 @@ public class ConsentInteractorTest {
     @Mock
     private CheckConsentsCallback mockCheckConsentsCallback;
     @Captor
-    private ArgumentCaptor<GetConsentsResponseListener> captorConsentDetails;
+    private ArgumentCaptor<ConsentResponseListener> captorConsentDetails;
     @Captor
     private ArgumentCaptor<List<Consent>> captorRequired;
     @Captor
@@ -163,6 +162,7 @@ public class ConsentInteractorTest {
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
         subject.storeConsentState(givenConsentDefinition, checked, mockPostConsentCallback);
+        //subject.fetchConsentState(givenConsentDefinition,mockCheckConsentsCallback);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
@@ -190,7 +190,8 @@ public class ConsentInteractorTest {
     }
 
     private void whenCheckConsentsCalled() {
-        subject.fetchConsentStates(null, mockCheckConsentsCallback);
+        //subject.checkConsents(mockCheckConsentsCallback);
+        subject.fetchLatestConsents(mockCheckConsentsCallback);
     }
 
     private void andResponseFailsWithError(ConsentNetworkError error) {
@@ -208,7 +209,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenGetConsentDetailsIsCalled() {
-        verify(mockContentAccessToolkit).getConsentDetails(isA(GetConsentsResponseListener.class));
+        verify(mockContentAccessToolkit).getConsentDetails(isA(ConsentResponseListener.class));
     }
 
     private void thenConsentFailedIsReported() {

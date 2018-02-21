@@ -174,7 +174,7 @@ public class THSPharmacyListFragmentTest {
 
 
 
-    @Test(expected = NoSuchMethodError.class)
+    @Test
     public void testShowSelectedPharmacyDetails(){
         when(pharmacy.getAddress()).thenReturn(addressMock);
         when(pharmacy.getAddress().getAddress1()).thenReturn("Smoething");
