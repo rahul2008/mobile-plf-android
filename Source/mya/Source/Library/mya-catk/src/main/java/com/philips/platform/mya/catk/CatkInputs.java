@@ -10,6 +10,7 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class CatkInputs {
 
     private final AppInfraInterface appInfra;
 
+    private final ConsentRegistryInterface consentRegistryInterface;
+
     private final Context context;
 
     private final List<ConsentDefinition> consentDefinitionList;
@@ -31,6 +34,7 @@ public class CatkInputs {
     private CatkInputs(Builder builder) {
         appInfra = builder.appInfra;
         context = builder.context;
+        consentRegistryInterface = builder.consentRegistryInterface;
         consentDefinitionList = builder.consentDefinitionList;
     }
 
@@ -46,9 +50,15 @@ public class CatkInputs {
         return Collections.unmodifiableList(consentDefinitionList);
     }
 
+    public ConsentRegistryInterface getConsentRegistryInterface() {
+        return consentRegistryInterface;
+    }
+
     public static class Builder {
 
         private AppInfraInterface appInfra;
+
+        private ConsentRegistryInterface consentRegistryInterface;
 
         private Context context;
 
@@ -59,6 +69,11 @@ public class CatkInputs {
 
         public Builder setAppInfraInterface(AppInfraInterface appInfra) {
             this.appInfra = appInfra;
+            return this;
+        }
+
+        public Builder setConsentRegistryInterface(ConsentRegistryInterface consentRegistryInterface) {
+            this.consentRegistryInterface = consentRegistryInterface;
             return this;
         }
 
@@ -79,14 +94,20 @@ public class CatkInputs {
             if (context == null) {
                 throw new InvalidInputException("Context not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
             }
+
+            if (consentRegistryInterface == null) {
+                throw new InvalidInputException("Consent Registry not given, we need registry instance to register type for an handler");
+            }
+
             if (consentDefinitionList == null) {
                 throw new InvalidInputException("ConsentDefinitions not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
             }
 
             final List<String> types = new ArrayList<>();
-            for(ConsentDefinition definition : consentDefinitionList){
-                for(String type : definition.getTypes()){
-                    if(types.contains(type)) throw new InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+            for (ConsentDefinition definition : consentDefinitionList) {
+                for (String type : definition.getTypes()) {
+                    if (types.contains(type))
+                        throw new InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
                     types.add(type);
                 }
             }

@@ -5,10 +5,9 @@ import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKitEmulator;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -29,6 +28,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +44,7 @@ public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
-    private List<ConsentConfiguration> givenConsentConfigurations = new ArrayList<>();
+    private List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>();
     private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
     @Mock
@@ -61,6 +61,8 @@ public class PermissionPresenterTest {
     private ConsentHandlerInterface mockConsentHandler;
     @Mock
     private Context mockContext;
+    @Mock
+    private ConsentRegistryInterface consentRegistryInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -69,30 +71,31 @@ public class PermissionPresenterTest {
     }
 
     @Test
-    public void testShowProgressDialog_withNoConsentConfigurations() throws Exception {
+    public void testGetConsentsIsCalledOnInteractor_withEmptyConsentDefinitions() throws Exception {
+        givenCswComponentWithEmptyConsentDefinitions();
         mPermissionPresenter.getConsentStatus();
-        verify(mockPermissionInterface, never()).showProgressDialog();
-    }
-
-    @Test
-    public void testGetConsentsIsCalledOnInteractor_withNoConsentConfigurations() throws Exception {
-        mPermissionPresenter.getConsentStatus();
-        givenConsentConfigurations();
-        verify(mockHandlerInterface, never()).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
+        verify(mockHandlerInterface, never()).fetchConsentStates(givenConsentDefinitions, mPermissionPresenter);
     }
 
     @Test
     public void testShowProgressDialog() throws Exception {
-        givenConsentConfigurations();
+        givenCswComponent();
         mPermissionPresenter.getConsentStatus();
         verify(mockPermissionInterface).showProgressDialog();
     }
 
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
-        givenConsentConfigurations();
+        givenCswComponent();
         mPermissionPresenter.getConsentStatus();
-        verify(mockHandlerInterface).fetchConsentStates(givenConsentConfigurations.get(0).getConsentDefinitionList(), mPermissionPresenter);
+        verify(consentRegistryInterface).fetchConsentStates(givenConsentDefinitions, mPermissionPresenter);
+    }
+
+    @Test
+    public void testShowProgressDialog_withEmptyConsentDefinition() throws Exception {
+        givenCswComponentWithEmptyConsentDefinitions();
+        mPermissionPresenter.getConsentStatus();
+        verify(mockPermissionInterface, never()).showProgressDialog();
     }
 
     @Test
@@ -168,8 +171,17 @@ public class PermissionPresenterTest {
         CswInterface cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
-        ConsentAccessToolKitEmulator consentAccessToolKit = new ConsentAccessToolKitEmulator();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentConfigurations);
+        givenConsentDefinitions();
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, givenConsentDefinitions);
+        CswSettings cswSettings = new CswSettings(context);
+        cswInterface.init(cswDependencies, cswSettings);
+    }
+
+    private void  givenCswComponentWithEmptyConsentDefinitions () {
+        CswInterface cswInterface = new CswInterface();
+        AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
+        MockContext context = new MockContext();
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, givenConsentDefinitions);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }
@@ -253,15 +265,14 @@ public class PermissionPresenterTest {
         givenError = new ConsentError("SOME ERROR", 401);
     }
 
-    private void givenConsentConfigurations() {
+    private void givenConsentDefinitions() {
         ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
-        ConsentConfiguration configuration = new ConsentConfiguration(Collections.singletonList(definition), mockHandlerInterface);
-        givenConsentConfigurations = Collections.singletonList(configuration);
+        givenConsentDefinitions = Arrays.asList(definition);
         givenPresenter();
     }
 
     private void givenPresenter() {
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, givenConsentConfigurations, mockAdapter){
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockAdapter) {
             @Override
             protected RestInterface getRestClient() {
                 return restInterfaceMock;

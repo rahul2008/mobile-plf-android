@@ -8,7 +8,8 @@
 package com.philips.platform.mya.launcher;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.ArrayList;
@@ -21,14 +22,20 @@ import java.util.List;
  */
 public class MyaDependencies extends UappDependencies {
 
-    private final List<ConsentConfiguration> consentConfigurationList;
+    private final ConsentRegistryInterface consentRegistryInterface;
+    private final List<ConsentDefinition> consentDefinitionList;
 
-    public MyaDependencies(AppInfraInterface appInfra, List<ConsentConfiguration> consentConfigurationList) {
+    public MyaDependencies(AppInfraInterface appInfra, ConsentRegistryInterface consentRegistryInterface, List<ConsentDefinition> consentDefinitionList) {
         super(appInfra);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
+        this.consentRegistryInterface = consentRegistryInterface;
+        this.consentDefinitionList = consentDefinitionList == null ? new ArrayList<ConsentDefinition>() : consentDefinitionList;
     }
 
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
+    public ConsentRegistryInterface getConsentRegistryInterface() {
+        return consentRegistryInterface;
+    }
+
+    public List<ConsentDefinition> getConsentDefinitionList() {
+        return consentDefinitionList;
     }
 }

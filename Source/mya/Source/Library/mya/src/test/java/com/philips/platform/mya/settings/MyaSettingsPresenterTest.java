@@ -35,7 +35,7 @@ import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -155,7 +155,7 @@ public class MyaSettingsPresenterTest {
 
     @Test
     public void shouldNotReturnNullWhenInvoked() {
-        MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
+        MyaHelper.getInstance().setConsentDefinitionList(new ArrayList<ConsentDefinition>());
         assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
         assertNotNull(myaSettingsPresenter.getCswInterface());
         assertNotNull(myaSettingsPresenter.getConsentsClient());

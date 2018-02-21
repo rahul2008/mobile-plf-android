@@ -13,6 +13,7 @@ import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import org.junit.Before;
@@ -49,6 +50,8 @@ public class MyaSettingsFragmentTest {
     private LinearLayoutManager linearLayoutManager;
     @Mock
     private MyaSettingsAdapter myaSettingsAdapter;
+    @Mock
+    private ConsentRegistryInterface consentRegistryInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -57,6 +60,7 @@ public class MyaSettingsFragmentTest {
         myaSettingsFragment = new MyaSettingsFragment();
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
+        MyaHelper.getInstance().setConsentRegistryInterface(consentRegistryInterface);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
@@ -126,6 +130,7 @@ public class MyaSettingsFragmentTest {
         when(serviceDiscoveryInterface.getHomeCountry()).thenReturn("IN");
         when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         MyaHelper.getInstance().setAppInfra(appInfra);
+        MyaHelper.getInstance().setConsentRegistryInterface(consentRegistryInterface);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
 

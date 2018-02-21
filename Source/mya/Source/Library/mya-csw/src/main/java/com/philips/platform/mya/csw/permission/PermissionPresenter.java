@@ -17,10 +17,11 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
+import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -30,25 +31,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 public class PermissionPresenter implements CheckConsentsCallback, ConsentToggleListener, PostConsentCallback {
 
     public Context mContext;
+
     @NonNull
     private final PermissionInterface permissionInterface;
-    @NonNull
-    private final List<ConsentConfiguration> configurationList;
+
     @NonNull
     private final PermissionAdapter adapter;
 
     private static final String CONSENT_TYPE_CLICKSTREAM = "clickstream";
 
-    @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final List<ConsentConfiguration> configurationList, @NonNull final PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
-        this.configurationList = configurationList;
         this.adapter = adapter;
         this.adapter.setConsentToggleListener(this);
     }
@@ -59,13 +56,14 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     }
 
     void getConsentStatus() {
-        if (!configurationList.isEmpty()) {
+        List<ConsentDefinition> consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
+        ConsentRegistryInterface consentRegistryInterface = CswInterface.getCswComponent().getConsentRegistryInterface();
+        if (!consentDefinitionList.isEmpty()) {
             permissionInterface.showProgressDialog();
-            for (ConsentConfiguration configuration : configurationList) {
-                ConsentHandlerInterface handlerInterface = configuration.getHandlerInterface();
-                if (handlerInterface != null) {
-                    handlerInterface.fetchConsentStates(configuration.getConsentDefinitionList(), this);
-                }
+            try {
+                consentRegistryInterface.fetchConsentStates(consentDefinitionList, this);
+            } catch (RuntimeException ex) {
+                CswLogger.e("RuntimeException", ex.getMessage());
             }
         }
     }

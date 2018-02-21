@@ -8,8 +8,7 @@
 package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -23,7 +22,8 @@ public class MyaHelper {
     private AppInfraInterface appInfra;
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
-    private List<ConsentConfiguration> consentConfigurationList;
+    private List<ConsentDefinition> consentDefinitionList;
+    private ConsentRegistryInterface consentRegistryInterface;
 
     private MyaHelper() {
     }
@@ -47,36 +47,6 @@ public class MyaHelper {
         this.appInfra = appInfra;
     }
 
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
-    }
-
-    public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
-        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
-    }
-
-    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
-        List<String> uniqueTypes = new ArrayList<>();
-        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
-            for (ConsentConfiguration configuration : consentConfigurationList) {
-                if (configuration != null) {
-                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                        if (definition != null) {
-                            for (String type : definition.getTypes()) {
-                                if (uniqueTypes.contains(type)) {
-                                    throw new CatkInputs.InvalidInputException(
-                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
-                                }
-                                uniqueTypes.add(type);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public MyaListener getMyaListener() {
         return myaListener;
     }
@@ -91,5 +61,21 @@ public class MyaHelper {
 
     public void setThemeConfiguration(ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
+    }
+
+    public ConsentRegistryInterface getConsentRegistryInterface() {
+        return consentRegistryInterface;
+    }
+
+    public void setConsentRegistryInterface(ConsentRegistryInterface consentRegistryInterface) {
+        this.consentRegistryInterface = consentRegistryInterface;
+    }
+
+    public List<ConsentDefinition> getConsentDefinitionList() {
+        return consentDefinitionList;
+    }
+
+    public void setConsentDefinitionList(List<ConsentDefinition> consentDefinitionList) {
+        this.consentDefinitionList = consentDefinitionList == null ? new ArrayList<ConsentDefinition>() : consentDefinitionList;
     }
 }

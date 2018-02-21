@@ -10,10 +10,12 @@ package com.philips.platform.mya.catk;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.catk.mock.ContextMock;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +23,15 @@ import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
+import static org.mockito.Mockito.mock;
+
 public class CatkInputsTest {
 
     @Before
     public void setup() {
         someContext = new ContextMock();
         someAppInfraInterface = new AppInfraInterfaceMock();
+        someConsentRegistryInterface =  mock(ConsentRegistryInterface.class);
         this.inputBuilder = new CatkInputs.Builder();
     }
 
@@ -41,6 +46,14 @@ public class CatkInputsTest {
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void build_whenAppInfraNotSetThrowsException() {
         givenContext(someContext);
+        givenConsentDefinitionTypes();
+        whenBuilding();
+    }
+
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void build_whenConsentRegistryNotSetThrowsException() {
+        givenContext(someContext);
+        givenAppInfraInterface(someAppInfraInterface);
         givenConsentDefinitionTypes();
         whenBuilding();
     }
@@ -64,6 +77,7 @@ public class CatkInputsTest {
     public void build_shouldReturnInstanceWhenEmptyConsentDefinitionsAreSet() throws Exception {
         givenContext(someContext);
         givenAppInfraInterface(someAppInfraInterface);
+        givenConsentRegistryInterface(someConsentRegistryInterface);
         givenConsentDefinitionTypes();
         whenBuilding();
     }
@@ -72,6 +86,7 @@ public class CatkInputsTest {
     public void build_shouldReturnInstanceWhenNoDuplicateConsentDefinitionsAreSet() throws Exception {
         givenContext(someContext);
         givenAppInfraInterface(someAppInfraInterface);
+        givenConsentRegistryInterface(someConsentRegistryInterface);
         givenConsentDefinitionTypes("moment", "coaching");
         whenBuilding();
     }
@@ -95,6 +110,10 @@ public class CatkInputsTest {
         this.appInfra = appInfra;
     }
 
+    private void givenConsentRegistryInterface(ConsentRegistryInterface consentRegistryInterface){
+        this.consentRegistryInterface = consentRegistryInterface;
+    }
+
     private void givenContext(ContextMock context) {
         this.context = context;
     }
@@ -102,12 +121,13 @@ public class CatkInputsTest {
     private void givenValidCatkInputs() {
         givenContext(someContext);
         givenAppInfraInterface(someAppInfraInterface);
+        givenConsentRegistryInterface(someConsentRegistryInterface);
         givenConsentDefinitionTypes("moment", "coaching");
         whenBuilding();
     }
 
     private void whenBuilding() {
-        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).build();
+        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).setConsentRegistryInterface(consentRegistryInterface).build();
     }
 
     private List<ConsentDefinition> whenGettingConsentDefinitions() {
@@ -121,9 +141,11 @@ public class CatkInputsTest {
     CatkInputs givenCatkInputs;
     CatkInputs.Builder inputBuilder;
     AppInfraInterface appInfra;
+    ConsentRegistryInterface consentRegistryInterface;
     ContextMock context;
     List<ConsentDefinition> consentDefinitions;
 
     ContextMock someContext;
     AppInfraInterface someAppInfraInterface;
+    ConsentRegistryInterface someConsentRegistryInterface;
 }

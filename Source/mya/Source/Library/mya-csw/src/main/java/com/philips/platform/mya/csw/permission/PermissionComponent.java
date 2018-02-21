@@ -11,5 +11,5 @@ import dagger.Component;
 
 @Component(modules = PermissionModule.class)
 public interface PermissionComponent {
-    PermissionPresenter presenter();
+//    PermissionPresenter presenter();
 }

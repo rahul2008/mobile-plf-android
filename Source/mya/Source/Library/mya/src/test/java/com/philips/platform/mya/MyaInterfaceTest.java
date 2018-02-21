@@ -27,7 +27,6 @@ import org.robolectric.annotation.Config;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -43,6 +42,8 @@ import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -73,7 +74,10 @@ public class MyaInterfaceTest {
     User mockUser;
     @Mock
     private CatkComponent mockCatkComponent;
-    private List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
+    @Mock
+    private ConsentRegistryInterface consentRegistryInterface;
+
+    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
 
     @Before
     public void setup() {
@@ -133,13 +137,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentRegistryInterface, consentDefinitionList), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentHandlerMappings), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra, consentRegistryInterface, consentDefinitionList), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }

@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 
-
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.mock.ActivityLauncherMock;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.csw.mock.FragmentActivityMock;
@@ -21,6 +19,8 @@ import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
 import com.philips.platform.mya.csw.permission.PermissionView;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import android.test.mock.MockContext;
@@ -29,7 +29,10 @@ import android.test.mock.MockContext;
 public class CswInterfaceTest {
 
     @Mock
-    private List<ConsentConfiguration> consentConfigurations;
+    private List<ConsentDefinition> consentDefinitionList;
+
+    @Mock
+    private ConsentRegistryInterface consentRegistryInterface;
 
     @Before
     public void setup() {
@@ -39,7 +42,7 @@ public class CswInterfaceTest {
         cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentConfigurations);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, consentDefinitionList);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

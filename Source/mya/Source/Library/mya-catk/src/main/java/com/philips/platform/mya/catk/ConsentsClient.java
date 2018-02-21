@@ -25,11 +25,13 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class ConsentsClient {
     private ServiceInfoProvider serviceInfoProvider;
     private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
+    private ConsentRegistryInterface consentRegistryInterface;
 
     ConsentsClient() {
     }
@@ -69,15 +72,26 @@ public class ConsentsClient {
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
         extractContextNames(catkInputs);
+        this.consentRegistryInterface = catkInputs.getConsentRegistryInterface();
         this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
+
+        registerBackendPlatformConsent();
 
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                 .AppConfigurationError();
 
         final Object strictConsentCheck = catkInputs.getAppInfra().getConfigInterface().getPropertyForKey("strictConsentCheck", "mya", configError);
-        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean)strictConsentCheck);
+        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean) strictConsentCheck);
 
+    }
+
+    private void registerBackendPlatformConsent() {
+        try {
+            consentRegistryInterface.register(Arrays.asList("moment", "coaching", "binary", "clickstream", "research", "analytics"), new ConsentInteractor(this));
+        } catch (RuntimeException exception) {
+            CatkLogger.d("RuntimeException", exception.getMessage());
+        }
     }
 
     private void initLogging() {

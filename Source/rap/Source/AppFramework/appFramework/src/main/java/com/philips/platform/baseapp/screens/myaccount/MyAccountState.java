@@ -25,7 +25,6 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
@@ -37,7 +36,6 @@ import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -151,19 +149,24 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
         Locale currentLocale = getCompleteLocale(app);
+
+        List<ConsentDefinition> catkConsentDefinitions = createCatkDefinitions(context, currentLocale);
+        List<ConsentDefinition> urConsentDefinitions =  Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
+
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
-                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
+                .setConsentRegistryInterface(app.getConsentRegistryInterface())
+                .setConsentDefinitions(catkConsentDefinitions)
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> urDefinitions = Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
+        List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
+        consentDefinitionList.addAll(catkConsentDefinitions);
+        consentDefinitionList.addAll(urConsentDefinitions);
 
-        List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions)));
-        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
+        MyaHelper.getInstance().setConsentRegistryInterface(app.getConsentRegistryInterface());
+        MyaHelper.getInstance().setConsentDefinitionList(consentDefinitionList);
     }
 
     @Override
@@ -178,7 +181,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
+        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentRegistryInterface(), MyaHelper.getInstance().getConsentDefinitionList());
     }
 
     @Override

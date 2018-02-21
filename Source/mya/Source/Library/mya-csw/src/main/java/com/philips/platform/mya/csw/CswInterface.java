@@ -9,13 +9,13 @@ package com.philips.platform.mya.csw;
 
 import java.util.List;
 
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
 import com.philips.platform.mya.csw.injection.CswModule;
 import com.philips.platform.mya.csw.injection.DaggerCswComponent;
 import com.philips.platform.mya.csw.permission.PermissionView;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -42,10 +42,8 @@ public class CswInterface implements UappInterface {
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
      *
-     * @param uappDependencies
-     *            - With an AppInfraInterface instance.
-     * @param uappSettings
-     *            - With an application provideAppContext.
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -67,10 +65,8 @@ public class CswInterface implements UappInterface {
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
-     * @param uiLauncher
-     *            - ActivityLauncher or FragmentLauncher
-     * @param uappLaunchInput
-     *            - CswLaunchInput
+     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - CswLaunchInput
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -112,10 +108,10 @@ public class CswInterface implements UappInterface {
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
 
-        List<ConsentConfiguration> consentConfigurationList = ((CswDependencies) uappDependencies).getConsentConfigurationList();
+        List<ConsentDefinition> consentDefinitionList = ((CswDependencies) uappDependencies).getConsentDefinitionList();
 
         return DaggerCswComponent.builder()
-                .cswModule(new CswModule(uappSettings.getContext(), consentConfigurationList))
+                .cswModule(new CswModule(uappSettings.getContext(), ((CswDependencies) uappDependencies).getConsentRegistryInterface(), consentDefinitionList))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 

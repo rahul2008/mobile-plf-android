@@ -69,7 +69,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             RestInterface restInterface = getRestClient();
             if (restInterface.isInternetReachable()) {
                 MyaDependencies myaDeps = getDependencies();
-                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
+                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentRegistryInterface(), myaDeps.getConsentDefinitionList());
                 CswInterface cswInterface = getCswInterface();
                 UappSettings uappSettings = new UappSettings(view.getContext());
                 cswInterface.init(dependencies, uappSettings);

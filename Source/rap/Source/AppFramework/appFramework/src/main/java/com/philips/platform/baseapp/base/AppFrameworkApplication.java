@@ -46,6 +46,8 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.mya.catk.registry.ConsentManager;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -58,6 +60,7 @@ public class AppFrameworkApplication extends Application {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
     public AppInfraInterface appInfra;
+    public ConsentRegistryInterface consentRegistryInterface;
     public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
@@ -116,7 +119,7 @@ public class AppFrameworkApplication extends Application {
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
-
+        initConsentRegistry();
         RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
@@ -157,6 +160,10 @@ public class AppFrameworkApplication extends Application {
         callback.onAppStatesInitialization();
     }
 
+    private void initConsentRegistry() {
+        consentRegistryInterface = new ConsentManager();
+    }
+
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
@@ -179,6 +186,10 @@ public class AppFrameworkApplication extends Application {
 
     public AppInfraInterface getAppInfra() {
         return appInfra;
+    }
+
+    public ConsentRegistryInterface getConsentRegistryInterface() {
+        return consentRegistryInterface;
     }
 
     public String getAppState() {
