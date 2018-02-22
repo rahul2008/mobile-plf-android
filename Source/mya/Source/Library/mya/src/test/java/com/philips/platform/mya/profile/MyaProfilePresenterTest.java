@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Arrays;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
@@ -35,7 +34,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,7 +58,6 @@ public class MyaProfilePresenterTest {
         assertNotNull(myaProfilePresenter.getMyaDetailsFragment());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGettingProfileItems() {
         AppInfraInterface appInfraInterface = mock(AppInfraInterface.class);
@@ -71,7 +68,8 @@ public class MyaProfilePresenterTest {
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
-        verify(view).showProfileItems((Map)any());
+        myaProfilePresenter.getProfileItems(appInfraInterface,getArguments(new UserDataModel()));
+        verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test

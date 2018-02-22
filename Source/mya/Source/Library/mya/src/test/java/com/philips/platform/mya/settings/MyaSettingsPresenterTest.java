@@ -45,8 +45,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-import static org.mockito.Matchers.any;
 public class MyaSettingsPresenterTest {
 
     private MyaSettingsContract.View view;
@@ -65,7 +63,6 @@ public class MyaSettingsPresenterTest {
         assertNull(myaSettingsPresenter.getView());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGettingSettingItems() {
         AppInfraInterface appInfraInterface = mock(AppInfraInterface.class);
@@ -80,7 +77,8 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
-        verify(view).showSettingsItems((Map<String, SettingsModel>) any());
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
+        verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
 
     @Test
