@@ -143,7 +143,10 @@ public class MyaActivity extends UIDActivity {
             }
         });
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
-        Bundle bundle = new Bundle();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
