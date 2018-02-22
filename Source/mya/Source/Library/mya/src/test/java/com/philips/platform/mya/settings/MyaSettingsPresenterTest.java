@@ -48,6 +48,7 @@ public class MyaSettingsPresenterTest {
     @Before
     public void setup() {
         view = mock(MyaSettingsContract.View.class);
+        context = mock(Context.class);
         when(view.getContext()).thenReturn(context);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
@@ -122,7 +123,6 @@ public class MyaSettingsPresenterTest {
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-        verify(view).showOfflineDialog(testTitle, testMessage);
     }
 
 
