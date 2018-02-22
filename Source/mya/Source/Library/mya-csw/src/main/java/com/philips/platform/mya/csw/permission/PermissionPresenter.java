@@ -68,6 +68,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         }
     }
 
+    //TODO handler should be removed from param list passed
     @Override
     public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();

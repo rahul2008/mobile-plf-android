@@ -191,7 +191,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         final List<ConsentView> consentViewList = new ArrayList<>();
         for (ConsentDefinition consentDefinition : consentDefinitionList) {
             try {
-                //TODO need to optimize for different handler types
+                //TODO handler can be removed from Consent view
                 consentViewList.add(new ConsentView(consentDefinition, consentRegistryInterface.getHandler(consentDefinition.getTypes().get(0))));
             } catch (RuntimeException exception) {
                 CswLogger.d("RuntimeException", exception.getMessage());
