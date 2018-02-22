@@ -11,7 +11,6 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightResponse;
-import com.philips.platform.core.events.DeleteSyncedInsightsRequest;
 import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
@@ -213,6 +212,16 @@ public class DeletingMonitorTest {
 
     @Test
     @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_withRequestListener() throws SQLException {
+        DeleteSyncedMomentsRequest event = new DeleteSyncedMomentsRequest(dbRequestListener);
+
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteSyncedMoments((DBRequestListener<Moment>) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_callsDeleteFailedOnFailure() throws SQLException {
         doThrow(new SQLException()).when(dbDeletingInterface).deleteSyncedMoments((DBRequestListener<Moment>) any());
         DeleteSyncedMomentsRequest event = new DeleteSyncedMomentsRequest(dbRequestListener);
@@ -220,16 +229,6 @@ public class DeletingMonitorTest {
         deletingMonitor.onEventBackGround(event);
 
         verify(dbDeletingInterface).deleteFailed(any(SQLException.class), eq(dbRequestListener));
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void deleteSyncedInsights_noRequestListener() throws SQLException {
-        DeleteSyncedInsightsRequest event = new DeleteSyncedInsightsRequest(null);
-
-        deletingMonitor.onEventBackGround(event);
-
-        verify(dbDeletingInterface).deleteSyncedInsights((DBRequestListener<Insight>) eq(null));
     }
 
     private void whenDataClearRequestEventIsPosted() {

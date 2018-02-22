@@ -375,12 +375,6 @@ public class OrmDeleting {
         return deleteBuilder.delete();
     }
 
-    public int deleteSyncedInsights() throws SQLException {
-        DeleteBuilder<OrmInsight, Integer> deleteBuilder = ormInsightDao.deleteBuilder();
-        deleteBuilder.where().eq("synced", true);
-        return deleteBuilder.delete();
-    }
-
     public int deleteSyncedMoments() throws SQLException {
         DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
         deleteBuilder.where().eq("synced", true);
