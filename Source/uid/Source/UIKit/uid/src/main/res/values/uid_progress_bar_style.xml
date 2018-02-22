@@ -34,15 +34,21 @@
         <item name="android:indeterminate">false</item>
         <item name="uidIsLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDefaultNormalOnBackgroundColor</item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDefaultNormalOnBackgroundColor
+        </item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateSmall" parent="UIDProgressBarCircularDeterminateSmall">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
-        <item name="android:indeterminateDrawable">@drawable/uid_circular_progress_bar_small_indeterminate</item>
-        <item name="android:indeterminateDuration">@integer/uid_progress_bar_circular_small_duration</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDetailNormalOnBackgroundColor</item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_small_indeterminate
+        </item>
+        <item name="android:indeterminateDuration">
+            @integer/uid_progress_bar_circular_small_duration
+        </item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDetailNormalOnBackgroundColor
+        </item>
     </style>
 
     <style name="UIDProgressBarCircularDeterminateMiddle" parent="Widget.AppCompat.ProgressBar.Horizontal">
@@ -59,8 +65,12 @@
     <style name="UIDProgressBarCircularIndeterminateMiddle" parent="UIDProgressBarCircularDeterminateMiddle">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
-        <item name="android:indeterminateDuration">@integer/uid_progress_bar_circular_middle_duration</item>
-        <item name="android:indeterminateDrawable">@drawable/uid_circular_progress_bar_middle_indeterminate</item>
+        <item name="android:indeterminateDuration">
+            @integer/uid_progress_bar_circular_middle_duration
+        </item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_middle_indeterminate
+        </item>
     </style>
 
     <style name="UIDProgressBarCircularDeterminateBig" parent="Widget.AppCompat.ProgressBar.Horizontal">
@@ -77,8 +87,11 @@
     <style name="UIDProgressBarCircularIndeterminateBig" parent="UIDProgressBarCircularDeterminateBig">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
-        <item name="android:indeterminateDuration">@integer/uid_progress_bar_circular_big_duration</item>
-        <item name="android:indeterminateDrawable">@drawable/uid_circular_progress_bar_big_indeterminate</item>
+        <item name="android:indeterminateDuration">@integer/uid_progress_bar_circular_big_duration
+        </item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_big_indeterminate
+        </item>
     </style>
 
     <style name="UIDIndeterminateLinearProgress">

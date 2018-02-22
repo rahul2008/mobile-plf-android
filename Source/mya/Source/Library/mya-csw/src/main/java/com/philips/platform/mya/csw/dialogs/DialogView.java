@@ -28,7 +28,7 @@ public class DialogView implements View.OnClickListener {
         okListener = null;
     }
 
-    public DialogView(final View.OnClickListener listener){
+    public DialogView(final View.OnClickListener listener) {
         okListener = listener;
     }
 
