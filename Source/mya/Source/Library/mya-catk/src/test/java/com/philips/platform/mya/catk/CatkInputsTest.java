@@ -7,17 +7,16 @@
 
 package com.philips.platform.mya.catk;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.mock.AppInfraInterfaceMock;
-import com.philips.platform.mya.catk.mock.ContextMock;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.catk.mock.AppInfraInterfaceMock;
+import com.philips.platform.mya.catk.mock.ContextMock;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -29,7 +28,6 @@ public class CatkInputsTest {
         someAppInfraInterface = new AppInfraInterfaceMock();
         this.inputBuilder = new CatkInputs.Builder();
     }
-
 
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void build_whenContextNotSetThrowsException() {
@@ -86,7 +84,7 @@ public class CatkInputsTest {
     private void givenConsentDefinitionTypes(String... types) {
         List<ConsentDefinition> definitions = new ArrayList<>();
         for (String type : types) {
-            definitions.add(new ConsentDefinition("", "", Collections.singletonList(type), 2, Locale.US));
+            definitions.add(new ConsentDefinition("", "", Collections.singletonList(type), 2));
         }
         consentDefinitions = definitions;
     }
