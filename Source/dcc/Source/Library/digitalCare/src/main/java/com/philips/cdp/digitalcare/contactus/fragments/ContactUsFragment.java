@@ -8,7 +8,6 @@
 
 package com.philips.cdp.digitalcare.contactus.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +41,7 @@ import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
@@ -67,7 +67,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
-    private ProgressDialog mDialog = null;
+    private ProgressAlertDialog mDialog = null;
 
     private static String TAG = ContactUsFragment.class.getSimpleName();
 
@@ -218,7 +218,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             return;
         }
         if (mDialog == null) {
-            mDialog = new ProgressDialog(getActivity());
+            mDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
             mDialog.setCancelable(true);
         }
         mDialog.setMessage(getActivity().getResources().getString(
