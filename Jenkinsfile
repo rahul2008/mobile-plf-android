@@ -83,13 +83,12 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
             }
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
-					./gradlew :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
+                    ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
 				DeployingConnectedTestsLogs()
