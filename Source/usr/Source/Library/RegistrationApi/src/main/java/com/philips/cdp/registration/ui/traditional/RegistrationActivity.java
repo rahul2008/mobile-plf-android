@@ -48,7 +48,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     final String iconFontAssetName = "PUIIcon.ttf";
 
     private TextView ivBack;
-    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+    private RegistrationLaunchMode mRegistrationLaunchMode ;
     private RegistrationContentConfiguration registrationContentConfiguration;
 
     private UIFlow uiFlow;

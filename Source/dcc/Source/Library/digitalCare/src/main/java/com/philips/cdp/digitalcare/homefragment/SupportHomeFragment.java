@@ -189,7 +189,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private boolean isProductSelected() {
         String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
         DigiCareLogger.i(TAG, "isProductSelected ?" + ctn);
-        return !(ctn != null && ctn != "");
+        return !(ctn != null && !ctn.isEmpty());
     }
 
     private void enableSupportButtonClickable() {

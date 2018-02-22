@@ -107,7 +107,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
         ToggleButton mEnableDisableSync = view.findViewById(R.id.toggleButton);
 
-        SyncScheduler.getInstance().setListener(this);
         if (!SyncScheduler.getInstance().isSyncEnabled()) {
             mEnableDisableSync.setChecked(false);
         }
@@ -158,6 +157,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     @Override
     public void onStart() {
         super.onStart();
+        SyncScheduler.getInstance().setListener(this);
         DataServicesManager.getInstance().registerDBChangeListener(this);
         DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
     }
@@ -265,6 +265,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+        SyncScheduler.getInstance().setListener(null);
     }
 
     @Override

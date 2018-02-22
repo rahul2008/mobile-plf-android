@@ -13,14 +13,17 @@ import android.os.Bundle;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -30,6 +33,7 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
@@ -70,18 +74,9 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        myaSettingsPresenter.getSettingItems(appInfraInterface, error);
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
-    }
-
-    @Test
-    public void testOnClickRecyclerItem() {
-        String key = "MYA_Country";
-        when(context.getString(R.string.MYA_change_country)).thenReturn("some title");
-        when(context.getString(R.string.MYA_change_country_message)).thenReturn("some message");
-        SettingsModel settingsModel = new SettingsModel();
-        myaSettingsPresenter.onClickRecyclerItem(key, settingsModel);
-        verify(view).showDialog("some title", "some message");
     }
 
     @Test
@@ -103,6 +98,8 @@ public class MyaSettingsPresenterTest {
         RestInterface mockRestClient = mock(RestInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(true);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
+        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final CswInterface cswInterface = mock(CswInterface.class);
         final ConsentsClient consentsClient = mock(ConsentsClient.class);
@@ -121,8 +118,10 @@ public class MyaSettingsPresenterTest {
         AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
         when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
         RestInterface mockRestClient = mock(RestInterface.class);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(false);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
+        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         String testTitle = "Test title";
         when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);
@@ -136,4 +135,11 @@ public class MyaSettingsPresenterTest {
     }
 
 
+    private Bundle getArguments() {
+        Bundle arguments = new Bundle();
+        MyaLaunchInput value = new MyaLaunchInput(context, null);
+        String[] profileItems = {"profile1","profile2"};
+        value.setProfileMenuList(Arrays.asList(profileItems));
+        return arguments;
+    }
 }

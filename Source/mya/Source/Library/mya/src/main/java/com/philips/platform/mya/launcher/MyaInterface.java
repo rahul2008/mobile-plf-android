@@ -10,6 +10,7 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.csw.permission.PermissionHelper;
@@ -32,7 +33,6 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
  * @since 2017.5.0
  */
 public class MyaInterface implements UappInterface {
-    private static final String TAG = "MyaInterface";
     public static String USER_PLUGIN = "user_plugin";
     private static final MyaInterface reference = new MyaInterface();
 
@@ -54,9 +54,9 @@ public class MyaInterface implements UappInterface {
         if (!(uappDependencies instanceof MyaDependencies)) {
             throw new IllegalArgumentException("uappDependencies must be an instance of MyaDependencies.");
         }
-
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
+        MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
         reference.dependencies = myaDependencies;
     }
 
@@ -75,6 +75,7 @@ public class MyaInterface implements UappInterface {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
+        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);

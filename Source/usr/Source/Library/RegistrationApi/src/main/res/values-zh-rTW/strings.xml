@@ -269,6 +269,15 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">請再次登入，於舊手機上重設密碼，或聯絡客戶服務取得進一步的支援。</string>
 <string name="reg_Try_To_Login_Button_Text">重新嘗試登入</string>
 <string name="reg_Contact_Customer_Care_Text">聯絡客戶服務</string>
+<string name="reg_MyDetails_TitleTxt">我的帳戶</string>
+<string name="reg_Login_Details_Txt">登入詳情</string>
+<string name="reg_Email_address_TitleTxt">電子郵件地址</string>
+<string name="reg_Mobile_number_TitleTxt">行動電話號碼</string>
+<string name="reg_Personal_Details_Txt">個人詳細資料</string>
+<string name="reg_Name_TitleTxt">名稱</string>
+<string name="reg_Gender_TitleTxt">性別</string>
+<string name="reg_DateOfBirth_TitleTxt">出生日期</string>
+<string name="reg_Address_TitleTxt">地址</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">立即登入</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">建立我的 Philips 帳戶</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">或使用以下帳戶登入：</string>
@@ -368,5 +377,8 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">請新增您的復原電子郵件</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">稍後再說</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">請輸入密碼以重設您的帳戶密碼。</string>
-<string name="reg_DLS_PhilipsNews_Description_Text">在獲得您的同意後，Philips 集團公司可能會以電郵、短訊及其他電子渠道如手機應用程式及社交媒體，向您發送推廣性電子通訊。 我們會分析並整合您的個人資料，以為您推薦適合您喜好及行為的通訊內容，並提供最優質的個人體驗。 這些數據包括：\n\n您提供的資料\n您主動樂意分享的個人資料如：您的姓名、生日、年齡、電郵地址、居住住址、國家、性別、電話號碼以及社交媒體資料。\n\n我們從您與 Philips 交互活動中所取得的資訊\n您使用 Philips 的數碼渠道如社交媒體、網頁、電郵、應用程式以及連接的裝置所產生的交互數據。 這些數據可能包括：IP 地址、Cookie、裝置資料、您點擊的連接、位置資訊以及您已瀏覽的網頁。\n\nPhilips 讓您隨時取消同意以上內容。\n詳情請參閱 Philips 私隱聲明  及 Philips Cookie 聲明 。</string>
+<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
 </resources>
