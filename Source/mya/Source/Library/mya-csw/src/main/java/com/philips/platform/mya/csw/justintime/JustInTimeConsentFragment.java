@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.justintime;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -21,6 +20,7 @@ import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
@@ -33,7 +33,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 public class JustInTimeConsentFragment extends CswBaseFragment {
-    private ProgressDialog progressDialog;
+    private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
 
@@ -107,7 +107,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
             public void onClick() {
-            DescriptionView.show(getFragmentManager(), JustInTimeConsentDependencies.consentDefinition.getHelpText(), containerId);
+                DescriptionView.show(getFragmentManager(), JustInTimeConsentDependencies.consentDefinition.getHelpText(), containerId);
             }
         }), 0, helpLink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_helplink);
@@ -143,17 +143,20 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     private void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            progressDialog.setCancelable(false);
+        if (progressDialogView == null) {
+            progressDialogView = new ProgressDialogView();
         }
-        progressDialog.show();
+        progressDialogView.showDialog(getActivity());
     }
 
     private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.hide();
+        if (progressDialogView != null) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            progressDialogView.hideDialog();
         }
     }
 

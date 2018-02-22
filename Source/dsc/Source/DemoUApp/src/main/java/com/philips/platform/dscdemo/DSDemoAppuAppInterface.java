@@ -59,7 +59,8 @@ public class DSDemoAppuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         List<ConsentDefinition> consentDefinitionsToCheck = Collections.singletonList(JustInTimeConsentDependencies.consentDefinition);
-        JustInTimeConsentDependencies.consentHandlerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
+        launchJustInTimeConsent(uiLauncher);
+        //JustInTimeConsentDependencies.consentHandlerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
     }
 
     private void launchUApp(UiLauncher uiLauncher) {
