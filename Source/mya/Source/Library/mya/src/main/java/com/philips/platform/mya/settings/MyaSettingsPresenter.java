@@ -5,15 +5,15 @@
  */
 package com.philips.platform.mya.settings;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
@@ -54,12 +54,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
-        if (key.equals("MYA_Country")) {
-            Context context = getContext();
-            view.showDialog(
-                    context.getString(R.string.MYA_change_country),
-                    context.getString(R.string.MYA_change_country_message));
-        }
     }
 
     @Override
@@ -89,7 +83,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         };
     }
 
-    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
+    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
         String settingItems = "settings.menuItems";
         List<?> list = null;
         if (arguments != null)

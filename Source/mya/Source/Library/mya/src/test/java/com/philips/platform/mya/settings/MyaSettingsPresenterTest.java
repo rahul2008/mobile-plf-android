@@ -31,6 +31,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,6 @@ import java.util.Arrays;
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,13 +46,15 @@ import static org.mockito.Mockito.when;
 public class MyaSettingsPresenterTest {
 
     private MyaSettingsContract.View view;
-    private Context context;
+    //private Context context;
     private MyaSettingsPresenter myaSettingsPresenter;
 
+    @Mock
+    Context context;
     @Before
     public void setup() {
         view = mock(MyaSettingsContract.View.class);
-        context = mock(Context.class);
+        //context = mock(Context.class);
         when(view.getContext()).thenReturn(context);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
@@ -107,7 +109,7 @@ public class MyaSettingsPresenterTest {
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
-        assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
     }

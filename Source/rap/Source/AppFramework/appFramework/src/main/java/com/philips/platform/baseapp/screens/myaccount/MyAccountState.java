@@ -83,8 +83,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 if (itemName.equals("Mya_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();
                     if (restInterface.isInternetReachable()) {
-//                        MyaDependencies myaDeps = getDependencies();
-                        //AppFrameworkApplication app = (AppFrameworkApplication) actContext.getApplicationContext();
                         CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(),MyaHelper.getInstance().getConsentConfigurationList());
                         CswInterface cswInterface = getCswInterface();
                         UappSettings uappSettings = new UappSettings(actContext);
