@@ -10,14 +10,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -26,8 +26,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -48,7 +48,7 @@ archivesBaseName = "MyAccountUApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -69,9 +69,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -210,8 +207,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    testCompile 'junit:junit:4.12'
+    compile deps.appcompatv7
+    testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
@@ -222,8 +219,8 @@ dependencies {
         debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
         releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya
+        compile philipsdeps.uid
+        compile philipsdeps.UserRegistrationUApp
     }
 }

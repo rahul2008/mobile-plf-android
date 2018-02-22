@@ -18,7 +18,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -63,7 +63,7 @@ public class CombinedCommunicationStrategyTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                strategyAvailabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
+                strategyAvailabilityListener = invocation.getArgument(0);
                 return null;
             }
         }).when(strategy).addAvailabilityListener(isA(AvailabilityListener.class));
@@ -145,7 +145,6 @@ public class CombinedCommunicationStrategyTest {
         verify(preferredStrategy).putProperties(null, null, 0, null);
     }
 
-
     @Test
     public void whenPutPropsIsCalled_withSomeAvailableStrategies_ThenDoesNotCallErrorOnResponseHandler() {
         final CommunicationStrategy preferredStrategy = createCommunicationStrategy(AVAILABLE);
@@ -168,7 +167,7 @@ public class CombinedCommunicationStrategyTest {
 
         strategy.putProperties(null, null, 0, responseHandlerMock);
 
-        verify(responseHandlerMock).onError(eq(NOT_CONNECTED), anyString());
+        verify(responseHandlerMock).onError(eq(NOT_CONNECTED), (String) any());
     }
 
     @Test
@@ -299,7 +298,8 @@ public class CombinedCommunicationStrategyTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(3, ResponseHandler.class).onError(NOT_CONNECTED, "");
+                ResponseHandler handler = invocation.getArgument(3);
+                handler.onError(NOT_CONNECTED, "");
                 return null;
             }
         }).when(one).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
@@ -348,7 +348,8 @@ public class CombinedCommunicationStrategyTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(3, ResponseHandler.class).onSuccess("");
+                ResponseHandler handler = invocation.getArgument(3);
+                handler.onSuccess("");
                 return null;
             }
         }).when(two).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));

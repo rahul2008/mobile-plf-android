@@ -15,7 +15,6 @@ import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -44,7 +43,7 @@ public class SHNDeviceFoundInfoTest {
 
         SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
-        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition((String) any(), (SHNDeviceDefinitionInfo) any());
     }
 
     @Test

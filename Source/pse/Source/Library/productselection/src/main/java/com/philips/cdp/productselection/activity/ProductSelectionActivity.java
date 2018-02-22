@@ -75,18 +75,18 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
     }
 
     protected boolean getCtnFromPreference() {
-        String ctn = null;
+        String ctn;
         prefs = getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
         ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
-        return !(ctn != null && ctn != "");
+        return !(ctn != null && !ctn.isEmpty());
     }
 
     private void animateThisScreen() {
         Bundle bundleExtras = getIntent().getExtras();
 
-        String startAnim = null;
-        String endAnim = null;
+        String startAnim;
+        String endAnim;
 
         int startAnimation = bundleExtras.getInt(Constants.START_ANIMATION_ID);
         int endAnimation = bundleExtras.getInt(Constants.STOP_ANIMATION_ID);

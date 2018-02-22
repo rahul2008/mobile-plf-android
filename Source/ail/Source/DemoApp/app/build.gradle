@@ -6,14 +6,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -22,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -44,7 +44,7 @@ archivesBaseName = 'AppInfraApp'
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -65,9 +65,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -148,22 +145,22 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testCompile deps.junit
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
+    }
+    compile deps.support.appcompatv7
+    compile deps.support.design
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uAppFwLib
     }
 
-    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    compile deps.leakcanary
     debugCompile project(path: ':AppInfraUApp', configuration: 'debug')
     releaseCompile project(path: ':AppInfraUApp', configuration: 'release')
 }

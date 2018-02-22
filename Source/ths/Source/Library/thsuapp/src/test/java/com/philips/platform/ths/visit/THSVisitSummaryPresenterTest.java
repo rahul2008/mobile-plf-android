@@ -33,6 +33,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.lang.reflect.Method;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -137,7 +138,7 @@ public class THSVisitSummaryPresenterTest {
     @Test
     public void sendRatings() throws Exception {
         thsVisitSummaryPresenter.sendRatings(4.0f, 4.0f);
-        verify(visitManagerMock).sendRatings(any(Visit.class), any(Integer.class), any(Integer.class), any(SDKCallback.class));
+        verify(visitManagerMock).sendRatings((Visit)isNull(), any(Integer.class), any(Integer.class), any(SDKCallback.class));
     }
 
 

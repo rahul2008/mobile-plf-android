@@ -6,16 +6,27 @@ package com.philips.cdp.registration.configuration;
  */
 public enum RegistrationLaunchMode {
 
+
     /**
-     * By enabling User does not accepts to receive philips marketing campaign
-     * @since 1.0.0
+     * By enabling User accepts to receive philips MyAccount screen
+     * @since 2018.1.0
      */
-    DEFAULT("Default"),
+
+    USER_DETAILS("UserDetails"),
+
     /**
      * By enabling User accepts to receive philips marketing campaign
      * @since 1.0.0
      */
-    MARKETING_OPT("MarketingOpt");
+    MARKETING_OPT("MarketingOpt"),
+
+    /**
+     * By enabling User It goes to Registration flow by default .
+     * @since 1.0.0
+     * @deprecated : Use either USER_DETAILS or MARKETING_OPT
+     */
+    DEFAULT("default");
+
 
     private String mValue;
 

@@ -9,9 +9,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
 
 import java.util.Arrays;
 
@@ -23,13 +25,20 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
     byte[] plainByte;
     byte[] encryptedByte;
     ScrollView encryptScrollView, decryptScrollView;
+    private boolean isOldSSEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_storage_encrypt_decrypt);
         AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
-        mSecureStorage = appInfra.getSecureStorage();
+        isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
+        if(isOldSSEnabled) {
+            mSecureStorage = appInfra.getSecureStorage();
+            Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
+        }else{
+            mSecureStorage=new SecureStorage2((AppInfra) appInfra);
+        }
 
         final TextView textViewEncrypt = (TextView)findViewById(R.id.textViewEncrypted);
         final TextView textViewDecrypted = (TextView)findViewById(R.id.textViewDecrpted);

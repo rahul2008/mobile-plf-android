@@ -17,7 +17,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class PaymentSelectionFragmentTest {
     private Context mContext;
     PaymentSelectionFragment paymentSelectionFragment;

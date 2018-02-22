@@ -10,7 +10,9 @@ import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
-public interface MyaListener {
+import java.io.Serializable;
+
+public interface MyaListener extends Serializable {
 
     boolean onClickMyaItem(String itemName);
 

@@ -6,7 +6,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.consents.MarketingConsentHandler;
+import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -23,9 +24,10 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -33,7 +35,6 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.mya.mch.MarketingConsentHandler;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -89,7 +90,10 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         });
         launchInput.addToBackStack(true);
         launchInput.setMyAccountUIEventListener(this);
+
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         MyaInterface myaInterface = getInterface();
+        launchInput.setMyaTabConfig(myaTabConfig);
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
     }
@@ -139,7 +143,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return definitions;
     }
 
-    List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
+    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
                 .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
@@ -158,11 +162,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context, currentLocale);
+        List<ConsentDefinition> urDefinitions = Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(new User(context), urDefinitions)));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

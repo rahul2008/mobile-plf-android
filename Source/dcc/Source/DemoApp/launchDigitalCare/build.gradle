@@ -5,16 +5,16 @@ apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +23,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -44,7 +44,7 @@ archivesBaseName = "digitalCareApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -67,13 +67,12 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-            repository {
-			repoKey = objcdp.getArtifactoryPublishRepoKey()
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
@@ -81,10 +80,10 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-				publications ('apk')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
-	    }
+        }
     }
     resolve {
         repository {
@@ -122,17 +121,16 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //applicationId "com.philips.cdp.sampledigitalcare"
         applicationId "com.philips.cl.di.dev.pa"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         generatedDensities = []
         multiDexEnabled true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
@@ -154,7 +152,6 @@ android {
         release {
             minifyEnabled true
             proguardFile 'proguard-rules.pro'
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
@@ -216,31 +213,28 @@ calabash {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:support-v4:26.0.2'
-    /*compile(group: 'com.philips.cdp', name: 'dcc', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive true
-            }*/
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    compile deps.support.recyclerview
+    compile deps.support.appcompatv7
+    compile deps.support.supportv4
+
+    androidTestCompile deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    androidTestCompile deps.espresso_contrib, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
-        androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+        androidTestCompile deps.uiautomator
     }
 
     debugCompile project(path: ':digitalCareUApp', configuration: 'debug')
     releaseCompile project(path: ':digitalCareUApp', configuration: 'release')
 
-    androidTestCompile "com.android.support:support-annotations:26.0.2"
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.support.annotations
+    androidTestCompile deps.testing_support
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.android_testrules
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -276,14 +270,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 }
 
-
-/*android {
-    packagingOptions {
-        exclude 'lib/arm64-v8a/librsjni.so'
-        pickFirst 'lib/arm64-v8a/libRSSupport.so'
-    }
-}*/
-
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
