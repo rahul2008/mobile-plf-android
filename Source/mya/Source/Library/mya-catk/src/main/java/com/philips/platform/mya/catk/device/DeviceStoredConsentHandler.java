@@ -1,8 +1,10 @@
 package com.philips.platform.mya.catk.device;
 
-
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -17,19 +19,15 @@ import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     private final AppInfraInterface appInfra;
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
-    private static final int LIST_POS_LOCALE = 2;
-    private static final int LIST_POS_TIMESTAMP = 3;
+    private static final int LIST_POS_TIMESTAMP = 2;
 
     @VisibleForTesting
     static final String DEVICESTORE_VALUE_DELIMITER = "@#$^";
@@ -70,10 +68,12 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+
         List<Consent> consents = new ArrayList<>(consentDefinitions.size());
         for (ConsentDefinition definition : consentDefinitions) {
             ConsentStatus consentStatus = processDefinition(definition);
-            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus));
+            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus, consentLanguage));
         }
         callback.onGetConsentsSuccess(consents);
     }
@@ -85,7 +85,8 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     }
 
     private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status));
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status, consentLanguage));
     }
 
     private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
@@ -110,7 +111,9 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 return;
             }
         }
-        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status)));
+
+        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
+        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status), consentLanguage));
     }
 
     @NonNull
@@ -118,7 +121,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         List<String> definitionString = new ArrayList<>();
         definitionString.add(LIST_POS_STATUS, String.valueOf(status));
         definitionString.add(LIST_POS_VERSION, String.valueOf(definition.getVersion()));
-        definitionString.add(LIST_POS_LOCALE, definition.getLocale());
         definitionString.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
         return definitionString;
     }
