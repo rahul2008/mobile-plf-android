@@ -7,18 +7,35 @@
 
 package com.philips.platform.mya.csw.dialogs;
 
-
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-public class ProgressDialogView extends DialogView {
+public class ProgressDialogView implements View.OnClickListener {
+    protected View view;
+    protected AlertDialogFragment alertDialogFragment;
+    private View.OnClickListener okListener;
+
+    public ProgressDialogView() {
+        okListener = null;
+    }
+
+    public ProgressDialogView(final View.OnClickListener listener) {
+        okListener = listener;
+    }
+
     public void showDialog(FragmentActivity activity) {
-        super.showDialog(activity, null, null);
+        if (!(activity.isFinishing())) {
+            setupView(activity);
+            setupAlertDialogFragment(activity);
+            showButton(activity);
+        }
     }
 
     public void hideDialog() {
@@ -27,7 +44,20 @@ public class ProgressDialogView extends DialogView {
         }
     }
 
-    @Override
+    protected void showButton(FragmentActivity activity) {
+        alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+    }
+
+    protected void setupAlertDialogFragment(FragmentActivity activity) {
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity, R.style.MyaAlertDialog)
+                .setDialogView(view)
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDimLayer(DialogConstants.DIM_STRONG)
+                .setCancelable(false);
+
+        alertDialogFragment = builder.create(new AlertDialogFragment());
+    }
+
     protected void setupView(FragmentActivity activity) {
         Context popupThemedContext = UIDHelper.getPopupThemedContext(activity);
         view = LayoutInflater
@@ -37,17 +67,10 @@ public class ProgressDialogView extends DialogView {
     }
 
     @Override
-    protected void showButton(FragmentActivity activity) {
-        alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
-    }
-
-    @Override
-    protected void setupTitleAndText(String title, String body) {
-        // Progress bar does not have title and body
-    }
-
-    @Override
-    protected void setupOkButton() {
-        // Progress bar does not have an ok button
+    public void onClick(View view) {
+        alertDialogFragment.dismiss();
+        if (okListener != null) {
+            okListener.onClick(view);
+        }
     }
 }

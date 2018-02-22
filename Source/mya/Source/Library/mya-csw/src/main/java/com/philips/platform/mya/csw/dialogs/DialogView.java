@@ -28,7 +28,7 @@ public class DialogView implements View.OnClickListener {
         okListener = null;
     }
 
-    public DialogView(final View.OnClickListener listener) {
+    public DialogView(final View.OnClickListener listener){
         okListener = listener;
     }
 
@@ -63,7 +63,7 @@ public class DialogView implements View.OnClickListener {
     }
 
     protected void setupAlertDialogFragment(FragmentActivity activity) {
-        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity, R.style.MyaAlertDialog)
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)

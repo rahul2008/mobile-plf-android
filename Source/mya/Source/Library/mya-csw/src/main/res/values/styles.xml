@@ -92,8 +92,7 @@
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin_left_right</item>
     </style>
-
-
+    
     <style name="MyaAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColorPrimary">?attr/uidContentItemPrimaryNormalTextColor</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>

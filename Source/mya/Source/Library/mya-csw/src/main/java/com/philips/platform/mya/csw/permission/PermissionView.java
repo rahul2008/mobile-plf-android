@@ -7,24 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
-import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.dialogs.DialogView;
-import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
-import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +17,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.R2;
+import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
+import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
+import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -42,7 +42,7 @@ import butterknife.Unbinder;
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
 
     public static final String TAG = "PermissionView";
-    private ProgressDialog mProgressDialog;
+    private ProgressDialogView progressDialog;
 
     private Unbinder unbinder;
 
@@ -135,19 +135,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialogView();
             }
-            mProgressDialog.show();
+            progressDialog.showDialog(getActivity());
         }
     }
 
     @Override
     public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
+        if (progressDialog != null) {
+            progressDialog.hideDialog();
         }
     }
 

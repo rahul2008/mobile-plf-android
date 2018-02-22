@@ -13,13 +13,13 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -59,8 +59,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         List<ConsentDefinition> consentDefinitionsToCheck = Collections.singletonList(JustInTimeConsentDependencies.consentDefinition);
-        launchJustInTimeConsent(uiLauncher);
-        //JustInTimeConsentDependencies.consentHandlerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
+        JustInTimeConsentDependencies.consentHandlerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
     }
 
     private void launchUApp(UiLauncher uiLauncher) {

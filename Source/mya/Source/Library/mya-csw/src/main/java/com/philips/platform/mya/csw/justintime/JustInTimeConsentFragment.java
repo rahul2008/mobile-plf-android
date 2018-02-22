@@ -151,11 +151,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     private void hideProgressDialog() {
         if (progressDialogView != null) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             progressDialogView.hideDialog();
         }
     }
