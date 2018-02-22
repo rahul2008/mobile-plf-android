@@ -626,7 +626,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     }
                 } else {
                     DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" +
-                            permissions.toString());
+                            permissions[0]);
                 }
                 break;
             default:
