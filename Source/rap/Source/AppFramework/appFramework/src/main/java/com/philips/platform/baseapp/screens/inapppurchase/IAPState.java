@@ -173,10 +173,8 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onFailure(int i) {
-        if (activityContext != null) {
-            ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
-            RALog.d(TAG, "IAPState list fetching failed");
-            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
-        }
+        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
+        RALog.d(TAG, "IAPState list fetching failed");
+        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
     }
 }
