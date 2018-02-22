@@ -18,9 +18,6 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -31,7 +28,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,15 +42,12 @@ import static org.mockito.Mockito.when;
 public class MyaSettingsPresenterTest {
 
     private MyaSettingsContract.View view;
-    //private Context context;
+    private Context context;
     private MyaSettingsPresenter myaSettingsPresenter;
 
-    @Mock
-    Context context;
     @Before
     public void setup() {
         view = mock(MyaSettingsContract.View.class);
-        //context = mock(Context.class);
         when(view.getContext()).thenReturn(context);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
@@ -103,14 +96,10 @@ public class MyaSettingsPresenterTest {
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
         when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
-        final CswInterface cswInterface = mock(CswInterface.class);
-        final ConsentsClient consentsClient = mock(ConsentsClient.class);
-        final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-        verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
     }
 
