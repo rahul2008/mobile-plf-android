@@ -246,6 +246,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldHideLoaderWhenCreateConsentFails() throws Exception {
+        givenCswComponent();
         givenConsentError();
         given(mockContext.getString(R.string.csw_problem_occurred_error_title)).willReturn("title");
         given(mockContext.getString(R.string.csw_problem_occurred_error_message, givenError.getErrorCode())).willReturn("message");
