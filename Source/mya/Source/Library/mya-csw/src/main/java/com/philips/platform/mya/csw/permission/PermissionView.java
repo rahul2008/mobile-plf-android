@@ -144,7 +144,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void hideProgressDialog() {
-        if (progressDialog != null) {
+        if (progressDialog != null && progressDialog.isDialogShown()) {
             progressDialog.hideDialog();
         }
     }

@@ -20,31 +20,40 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 public class ProgressDialogView implements View.OnClickListener {
     protected View view;
     protected AlertDialogFragment alertDialogFragment;
+    protected boolean isDialogShown;
     private View.OnClickListener okListener;
 
     public ProgressDialogView() {
-        okListener = null;
+        this.okListener = null;
+        this.isDialogShown = false;
     }
 
     public ProgressDialogView(final View.OnClickListener listener) {
-        okListener = listener;
+        this.okListener = listener;
+        this.isDialogShown = false;
     }
 
     public void showDialog(FragmentActivity activity) {
-        if (!(activity.isFinishing())) {
+        if (!(activity.isFinishing()) && !isDialogShown) {
             setupView(activity);
             setupAlertDialogFragment(activity);
-            showButton(activity);
+            displayDialog(activity);
+            isDialogShown = true;
         }
     }
 
     public void hideDialog() {
-        if (alertDialogFragment != null) {
+        if (alertDialogFragment != null && isDialogShown) {
             alertDialogFragment.dismiss();
+            isDialogShown = false;
         }
     }
 
-    protected void showButton(FragmentActivity activity) {
+    public boolean isDialogShown() {
+        return isDialogShown;
+    }
+
+    protected void displayDialog(FragmentActivity activity) {
         alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
     }
 

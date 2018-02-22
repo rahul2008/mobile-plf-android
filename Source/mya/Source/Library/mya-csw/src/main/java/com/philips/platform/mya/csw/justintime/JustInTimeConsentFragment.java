@@ -150,7 +150,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     private void hideProgressDialog() {
-        if (progressDialogView != null) {
+        if (progressDialogView != null && progressDialogView.isDialogShown()) {
             progressDialogView.hideDialog();
         }
     }
