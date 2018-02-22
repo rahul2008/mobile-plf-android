@@ -852,9 +852,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     @Override
-    public void startWeChatLogin() {
+    public void startWeChatLogin(String mWeChatCode) {
         showProgressDialog();
-        homePresenter.handleWeChatCode();
+        homePresenter.handleWeChatCode(mWeChatCode);
     }
 
     @Override

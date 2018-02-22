@@ -80,8 +80,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.WECHAT_AUTH, this);
     }
 
     public void cleanUp() {
@@ -90,8 +88,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.WECHAT_AUTH,
                 this);
     }
 
@@ -170,22 +166,18 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         return RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
     }
 
-    public boolean isWeChatAppRegistered() {
-        return isWeChatAppRegistered;
-    }
-
     private boolean isWeChatAppRegistered;
-    String mWeChatAppId;
-    String mWeChatAppSecret;
-    IWXAPI mWeChatApi;
+    private String mWeChatAppId;
+    private String mWeChatAppSecret;
+    private IWXAPI mWeChatApi;
 
-    private String weChat="WECHAT";
+    private String weChat = "WECHAT";
 
 
     public void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d(weChat, weChat+"Id " + mWeChatAppId + weChat+"Secrete" + mWeChatAppSecret);
+        RLog.d(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {
             mWeChatApi = WXAPIFactory.createWXAPI(homeContract.getActivityContext(),
@@ -216,17 +208,17 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void handleWeChatCode() {
-        RLog.d("WECHAT", String.format("WeChat Code: ", mWeChatCode));
+    public void handleWeChatCode(String pWeChatCode) {
+        RLog.d("WECHAT", "WeChat Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
-        weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, mWeChatCode,
+        weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
                 new WeChatAuthenticationListener() {
                     @Override
                     public void onSuccess(final JSONObject jsonObj) {
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.d("WECHAT body", "token " + token + " openid " + openId);
+                            RLog.d("WECHAT body", "WeChat token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
@@ -326,7 +318,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else {
             if (isEmailAvailable()) {
                 homeContract.naviagteToAccountActivationScreen();
-            } else if (isMobileNoAvailable() && !isMobileVerified()){
+            } else if (isMobileNoAvailable() && !isMobileVerified()) {
                 homeContract.naviagteToMobileAccountActivationScreen();
             } else {
                 homeContract.genericError();
@@ -351,7 +343,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
         homeContract.registrationCompleted();
     }
-
 
 
     public void changeCountry(String countryName, String countryCode) {
@@ -388,8 +379,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     private String provider;
 
-    String mWeChatCode;
-
     @Override
     public void onEventReceived(String event) {
         RLog.d(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
@@ -418,10 +407,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
             homeContract.initFailed();
             deligateFlow = FLOWDELIGATE.DEFAULT;
-        } else if (RegConstants.WECHAT_AUTH.equals(event)) {
-            if (mWeChatCode != null) {
-                homeContract.startWeChatLogin();
-            }
         }
     }
 
@@ -457,8 +442,9 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             RLog.d("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
-                    mWeChatCode = weChatCode;
-                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH));
+                    if (weChatCode != null) {
+                        homeContract.startWeChatLogin(weChatCode);
+                    }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     homeContract.wechatAutheticationCanceled();
@@ -474,7 +460,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     public boolean isEmailAvailable() {
         boolean isEmailAvailable = user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
         return isEmailAvailable;
-   }
+    }
 
 
     public boolean isMobileNoAvailable() {
@@ -488,7 +474,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
     public boolean isMobileVerified() {
-        boolean isMobileVerified =  user.isMobileVerified();
+        boolean isMobileVerified = user.isMobileVerified();
         return isMobileVerified;
     }
 
@@ -527,7 +513,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                     @Override
                     public void onError(Throwable e) {
                         ThreadUtils.postInMainThread(homeContract.getActivityContext(), () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
-                       homeContract.localeServiceDiscoveryFailed();
+                        homeContract.localeServiceDiscoveryFailed();
                     }
                 });
     }

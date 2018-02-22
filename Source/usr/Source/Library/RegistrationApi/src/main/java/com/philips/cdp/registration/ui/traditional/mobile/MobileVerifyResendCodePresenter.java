@@ -18,6 +18,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -27,7 +29,6 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final String BASE_URL_CODE_SERVICE_ID = "userreg.janrain.api";
-
     private static final int RESEND_OTP_REQUEST_CODE = 101;
     private static final String ERROR_CODE = "errorCode";
     private static final String OTP_RESEND_SUCCESS = "0";
@@ -57,8 +58,10 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(VERIFICATION_SMS_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
+                Map<String, String> header = new HashMap<>();
+                header.put("Content-Type", "application/json; charset=UTF-8");
                 RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
-                URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, "application/json; charset=UTF-8"
+                URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
                         , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest();
             }
@@ -77,10 +80,9 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
     @NonNull
     private String getSmsVerificationUrl(String verificationSmsCodeURL, String mobileNumber) {
-        RLog.d(TAG, verificationSmsCodeURL + "?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber));
-        return verificationSmsCodeURL + "?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber);
+        String JANRAIN_CHINA_PROVIDER = "?provider=" + "JANRAIN-CN&locale=zh_CN" + "&phonenumber=";
+        RLog.d(TAG, verificationSmsCodeURL + JANRAIN_CHINA_PROVIDER + FieldsValidator.getMobileNumber(mobileNumber));
+        return verificationSmsCodeURL + JANRAIN_CHINA_PROVIDER + FieldsValidator.getMobileNumber(mobileNumber);
     }
 
     public void cleanUp() {
@@ -107,15 +109,12 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             if (jsonObject.get(STAT).equals("ok")) {
                 RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
                 mobileVerifyCodeContract.refreshUser();
-                //      mobileVerifyCodeContract.enableResendButton();
             } else {
                 mobileVerifyCodeContract.hideProgressSpinner();
-
                 mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode"));
             }
         } catch (Exception e) {
             mobileVerifyCodeContract.hideProgressSpinner();
-
             mobileVerifyCodeContract.showSmsSendFailedError();
 
         }

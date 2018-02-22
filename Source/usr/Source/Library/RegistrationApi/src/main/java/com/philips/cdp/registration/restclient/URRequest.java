@@ -3,6 +3,8 @@ package com.philips.cdp.registration.restclient;
 import com.android.volley.Response;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
+import java.util.Map;
+
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -13,13 +15,13 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public class URRequest {
 
-    private final String header;
+    private final Map header;
     private final String url;
     private final String body;
     private final Response.Listener<String> successListener;
     private final Response.ErrorListener errorListener;
 
-    public URRequest(String url, String body, String header, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+    public URRequest(String url, String body, Map header, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
         this.url = url;
         this.body = body;
         this.successListener = successListener;
