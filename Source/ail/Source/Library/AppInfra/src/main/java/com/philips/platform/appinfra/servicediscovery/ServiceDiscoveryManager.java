@@ -658,6 +658,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             listener.ondataReceived(cachedData);
         } else {
             mRequestItemManager.clearCacheServiceDiscovery();
+
             queueResultListener(false, new AbstractDownloadItemListener() {
                 @Override
                 public void onDownloadDone(AISDResponse SDResponse) {
@@ -834,7 +835,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (mSavedURLPlatform != null && mURLStringPlatform != null) {
                 //if previously saved URL differs from current platform URL, URLs are expired
                 if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
-                    appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_DATA_EXPIRED);
+                    appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_URL_MISMATCH);
                     return true;
                 }
             } else {
@@ -851,7 +852,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (mSavedURLProposition != null && mURLStringProposition != null) {
                 //if previously saved URL differs from current proposition URL, URLs are expired
                 if (!mSavedURLProposition.equals(mURLStringProposition)) {
-                    appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_DATA_EXPIRED);
+                    appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_URL_MISMATCH);
                     return true;
                 }
             } else {
