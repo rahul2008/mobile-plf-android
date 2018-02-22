@@ -102,6 +102,9 @@
     <!--Fragment tag -->
     <string name="af_digital_care">digitalcare</string>
     <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
+    <string name="mya_delete_synced_data">Delete synced data</string>
+    <string name="dsc_delete_synced_moments_success">All synced data was deleted</string>
+    <string name="dsc_delete_synced_moments_failed">Sorry, something went wrong 😅, try again!</string>
 
     <string-array name="metrics">
         <item>"metric"</item>

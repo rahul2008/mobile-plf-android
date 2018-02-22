@@ -42,6 +42,7 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
@@ -581,5 +582,9 @@ public class DataServicesManager {
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;
+    }
+
+    public void deleteSyncedMoments(DBRequestListener<Moment> resultListener) {
+        mEventing.post(new DeleteSyncedMomentsRequest(resultListener));
     }
 }

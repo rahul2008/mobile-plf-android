@@ -33,6 +33,7 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
@@ -99,7 +100,7 @@ public class DataServicesManagerTest {
     private static final DateTime START_DATE = new DateTime();
     private static final DateTime END_DATE = new DateTime();
 
-    public static final int TEST_REFERENCE_ID = 111;
+    private static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
     public static final String TEST_BABY_ID = "TEST_BABY_ID";
     private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
@@ -109,30 +110,30 @@ public class DataServicesManagerTest {
     private String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
 
     @Mock
-    DataSender dataSenderMock;
+    private DataSender dataSenderMock;
 
     @Mock
-    SynchronisationCompleteListener synchronisationCompleteListenerMock;
+    private SynchronisationCompleteListener synchronisationCompleteListenerMock;
 
     @Mock
-    DataFetcher dataFetcherMock;
+    private DataFetcher dataFetcherMock;
 
     @Mock
     private Eventing eventingMock;
 
     @Mock
-    JSONObject jsonObject;
+    private JSONObject jsonObject;
 
     @Mock
     private File fileMock;
 
     @Mock
-    SynchronisationManager synchronisationManagerMock;
+    private SynchronisationManager synchronisationManagerMock;
 
     private UserRegistrationInterface userRegistrationInterface;
 
     @Mock
-    SynchronisationCompleteListener mSynchronisationCompleteListener;
+    private SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     private BaseAppDataCreator baseAppDataCreator;
 
@@ -143,7 +144,7 @@ public class DataServicesManagerTest {
     private Event requestEventMock;
 
     @Mock
-    Insight insightMock;
+    private Insight insightMock;
 
     @Mock
     private Moment momentMock;
@@ -171,54 +172,54 @@ public class DataServicesManagerTest {
     @Captor
     private ArgumentCaptor<MomentUpdateRequest> momentUpdateEventCaptor;
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     @Mock
-    DBDeletingInterface deletingInterfaceMock;
+    private DBDeletingInterface deletingInterfaceMock;
     @Mock
-    DBFetchingInterface fetchingInterfaceMock;
+    private DBFetchingInterface fetchingInterfaceMock;
     @Mock
-    DBSavingInterface savingInterfaceMock;
+    private DBSavingInterface savingInterfaceMock;
     @Mock
-    DBUpdatingInterface updatingInterfaceMock;
+    private DBUpdatingInterface updatingInterfaceMock;
     @Spy
-    Context mockContext;
+    private Context mockContext;
     @Mock
     private ConsentDetail consentDetailMock;
 
-    UCoreAccessProvider uCoreAccessProvider;
+    private UCoreAccessProvider uCoreAccessProvider;
 
     @Mock
-    BaseAppCore coreMock;
+    private BaseAppCore coreMock;
 
     @Mock
-    SynchronisationMonitor synchronisationMonitorMock;
+    private SynchronisationMonitor synchronisationMonitorMock;
 
     @Mock
-    ErrorHandlingInterface errorHandlingInterfaceMock;
+    private ErrorHandlingInterface errorHandlingInterfaceMock;
 
     @Mock
-    DBRequestListener dbRequestListener;
+    private DBRequestListener dbRequestListener;
 
     @Mock
-    Characteristics CharacteristicsMock;
+    private Characteristics CharacteristicsMock;
 
     @Mock
-    DBFetchRequestListner dbFetchRequestListner;
+    private DBFetchRequestListner dbFetchRequestListner;
 
     @Mock
     private AppComponent appComponantMock;
 
     @Mock
-    BaseAppDataCreator dataCreatorMock;
+    private BaseAppDataCreator dataCreatorMock;
 
     @Mock
-    SynchronisationCompleteListener synchronisationCompleteListener;
+    private SynchronisationCompleteListener synchronisationCompleteListener;
 
     @Mock
-    Settings settingsMock;
+    private Settings settingsMock;
 
-    DSPaginationSpy mDSPagination;
+    private DSPaginationSpy mDSPagination;
 
     @Before
     public void setUp() {
@@ -633,6 +634,21 @@ public class DataServicesManagerTest {
         whenSynchronizeMomentsByDateRange();
         thenVerifyMonitorsAreInitialized();
         thenVerifySynchronisationManagerIsCalled();
+    }
+
+    @Test
+    public void deleteSyncedMoments_noResultListener() {
+        mDataServicesManager.deleteSyncedMoments(null);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_withResultListener() {
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     private void whenSynchronizeIsInvoked() {
