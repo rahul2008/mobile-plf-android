@@ -32,6 +32,7 @@
             android:text="@string/MYA_Log_Out" />
 
         <LinearLayout
+            android:id="@+id/mya_website_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/MYA_padding"
@@ -52,6 +53,8 @@
                 style="@style/UIDLabel.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:layout_marginBottom="@dimen/MYA_bottom_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginStart="@dimen/MYA_start_margin"
