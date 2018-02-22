@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
@@ -20,7 +21,10 @@ import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter{
@@ -31,13 +35,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         this.view = view;
     }
 
-    @Override
-    public void getProfileItems(AppInfraInterface appInfra) {
-        view.showProfileItems(getProfileList(appInfra.getConfigInterface()));
-    }
-
-    @Override
-    public void setUserName(UserDataModelProvider userDataModelProvider) {
+    private void setUserName(UserDataModelProvider userDataModelProvider) {
         if (userDataModelProvider != null) {
             UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
             setUserModel(userDataModel);
@@ -47,6 +45,23 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     @Override
     public boolean handleOnClickProfileItem(String profileItem, Bundle bundle) {
         return false;
+    }
+
+    @Override
+    public void getProfileItems(AppInfraInterface appInfra, Bundle arguments) {
+        List<?> list = null;
+        if (arguments != null) {
+            setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
+            list = MyaHelper.getInstance().getMyaLaunchInput().getProfileMenuList();
+        }
+        if (list == null || list.isEmpty()) {
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+            String profileItems = "profile.menuItems";
+            list = (ArrayList<?>) appInfra.getConfigInterface().getPropertyForKey
+                    (profileItems, "mya", configError);
+        }
+        view.showProfileItems(getProfileList(list));
     }
 
     MyaDetailsFragment getMyaDetailsFragment() {
@@ -63,19 +78,13 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         }
     }
 
-    private TreeMap<String, String> getProfileList(AppConfigurationInterface appConfigurationManager) {
-        String profileItems = "profile.menuItems";
+    private TreeMap<String, String> getProfileList(List<?> list) {
         try {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            ArrayList<?> propertyForKey = (ArrayList<?>) appConfigurationManager.getPropertyForKey
-                    (profileItems, "mya", configError);
             TreeMap<String, String> treeMap = new TreeMap<>();
             MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
-            if (propertyForKey != null && propertyForKey.size() != 0) {
-                myaLocalizationHandler.getLocalisedList(view.getContext(), propertyForKey, treeMap);
-            } else {
-                treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
+            treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
+            if (list != null && list.size() != 0) {
+                myaLocalizationHandler.getLocalisedList(view.getContext(), list, treeMap);
             }
             return treeMap;
         } catch (IllegalArgumentException exception) {
