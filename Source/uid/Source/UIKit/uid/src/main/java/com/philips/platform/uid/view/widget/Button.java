@@ -105,9 +105,12 @@ public class Button extends AppCompatButton {
     //We need to set gravity to left and center vertical so that we can translate the canvas later and get proper values.
     private void setCenterLayoutFlag(@NonNull TypedArray typedArray) {
         isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UIDButton_uidButtonCenter, false);
-        if (isCenterLayoutRequested) {
-            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-        }
+        /*if (isCenterLayoutRequested) {
+            if(UIDUtils.isLayoutRTL(this))
+                setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+            else
+                setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        }*/
     }
 
     /**
@@ -138,8 +141,14 @@ public class Button extends AppCompatButton {
             if (layout != null) {
                 for (int i = 0; i < layout.getLineCount(); i++) {
                     if(UIDUtils.isLayoutRTL(this)){
+                        if (isCenterLayoutRequested) {
+                            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+                        }
                         textWidth = Math.max(textWidth, layout.getLineLeft(i));
                     } else {
+                        if (isCenterLayoutRequested) {
+                            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+                        }
                         textWidth = Math.max(textWidth, layout.getLineRight(i));
                     }
                 }
