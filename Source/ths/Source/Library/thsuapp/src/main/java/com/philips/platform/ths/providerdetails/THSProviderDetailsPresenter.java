@@ -110,7 +110,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
-                mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
+                THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
+                thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(true);
+                mThsBaseFragment.addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
                 THSConsumerWrapper THSConsumer = new THSConsumerWrapper();
