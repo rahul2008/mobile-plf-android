@@ -239,7 +239,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onResume() {
-//        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
         if (user.isUserSignIn())
@@ -250,7 +249,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onPause() {
-//        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }
@@ -337,7 +335,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);

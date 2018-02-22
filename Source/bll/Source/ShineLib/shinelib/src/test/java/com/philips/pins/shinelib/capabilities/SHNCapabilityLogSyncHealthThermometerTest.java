@@ -26,11 +26,11 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 public class SHNCapabilityLogSyncHealthThermometerTest {
 
@@ -93,7 +93,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNServiceHealthThermometer).setReceiveTemperatureMeasurements(booleanArgumentCaptor.capture(), any(SHNResultListener.class));
+        verify(mockedSHNServiceHealthThermometer).setReceiveTemperatureMeasurements(booleanArgumentCaptor.capture(), (SHNResultListener) any());
         assertFalse(booleanArgumentCaptor.getValue());
     }
 
@@ -107,14 +107,14 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
-        verify(mockedSHNServiceHealthThermometer, never()).setReceiveTemperatureMeasurements(anyBoolean(), any(SHNResultListener.class));
+        verify(mockedSHNServiceHealthThermometer, never()).setReceiveTemperatureMeasurements(anyBoolean(), (SHNResultListener) any());
     }
 
     @Test
     public void whenAbortSynchronizationIsCalledWithStateIdleThanListenerIsNotSet() {
         shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
-        verify(mockedSHNServiceHealthThermometer, never()).setReceiveTemperatureMeasurements(anyBoolean(), any(SHNResultListener.class));
+        verify(mockedSHNServiceHealthThermometer, never()).setReceiveTemperatureMeasurements(anyBoolean(), (SHNResultListener) any());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         shnCapabilityLogSyncHealthThermometer.onServiceStateChanged(mockedSHNServiceHealthThermometer, SHNService.State.Unavailable);
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNServiceHealthThermometer).setReceiveTemperatureMeasurements(booleanArgumentCaptor.capture(), any(SHNResultListener.class));
+        verify(mockedSHNServiceHealthThermometer).setReceiveTemperatureMeasurements(booleanArgumentCaptor.capture(), (SHNResultListener) any());
 
         assertFalse(booleanArgumentCaptor.getValue());
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, shnCapabilityLogSyncHealthThermometer.getState());
@@ -134,7 +134,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
     private SHNTemperatureMeasurement[] generateDataAndSendIt(Date[] dates) {
         SHNTemperatureMeasurement[] measurements = new SHNTemperatureMeasurement[dates.length];
         for (int i = 0; i < dates.length; i++) {
-            SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+            SHNTemperatureMeasurement mockedShnTemperatureMeasurement = mock(SHNTemperatureMeasurement.class);
             when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
             measurements[i] = mockedShnTemperatureMeasurement;
             shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
@@ -148,12 +148,12 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
 
-        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = mock(SHNTemperatureMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(null);
 
         shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onProgressUpdate(any(SHNCapabilityLogSyncHealthThermometer.class), anyFloat());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onProgressUpdate((SHNCapabilityLogSynchronization) any(), anyFloat());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(3, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -185,7 +185,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(4, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -205,7 +205,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -233,7 +233,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(3, shnLogArgumentCaptor.getValue().getLogItems().size());
 
@@ -248,7 +248,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
 
         Date date = new Date(100L);
-        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = mock(SHNTemperatureMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(date);
         shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
 
@@ -281,7 +281,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyTemperature));
         assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
@@ -296,7 +296,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
 
         Date date = new Date(100L);
-        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = mock(SHNTemperatureMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(date);
         shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
 
@@ -304,7 +304,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
 

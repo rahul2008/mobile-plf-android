@@ -8,14 +8,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +23,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -44,7 +44,7 @@ archivesBaseName = "UserRegistrationApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -61,9 +61,6 @@ allprojects {
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -122,14 +119,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
 
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
@@ -208,18 +205,18 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-    androidTestCompile "com.android.support:support-annotations:26.0.2"
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestCompile deps.support.annotations
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.android_testrules
+    androidTestCompile deps.espresso_core
+    androidTestCompile deps.uiautomator
     compile fileTree(dir: 'libs', include: ['*.jar'])
     debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
     releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
+    compile deps.support.appcompatv7
+    compile deps.constraintlayout
+    compile deps.support.design
+    testCompile deps.junit
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -33,6 +33,7 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -68,7 +69,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private ActionBarListener mActionBarListener;
 
-    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+    private RegistrationLaunchMode mRegistrationLaunchMode ;
 
     RegistrationContentConfiguration registrationContentConfiguration;
     Intent msgIntent;
@@ -203,11 +204,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             }
 
             if (fragment instanceof ForgotPasswordFragment) {
-                ((ForgotPasswordFragment)(fragment)).backPressed();
+                ((ForgotPasswordFragment) (fragment)).backPressed();
             }
             trackHandler();
             try {
-                currentFragment = mFragmentManager.getFragments().get(count-1);
+                currentFragment = mFragmentManager.getFragments().get(count - 1);
                 mFragmentManager.popBackStack();
             } catch (IllegalStateException e) {
                 /**
@@ -283,37 +284,35 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
-            if (isUserSignIn && isEmailVerified) {
+        boolean isEmailVerifiedOrNotRequired = isEmailVerified || !isEmailVerificationRequired;
+
+        if (isUserSignIn && isEmailVerifiedOrNotRequired && mRegistrationLaunchMode!=null) {
+
+            if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
                 launchMarketingAccountFragment();
-                return;
+
+            } else {
+                launchMyAccountFragment();
             }
 
-            if (isUserSignIn && !isEmailVerificationRequired) {
-                launchMarketingAccountFragment();
-                return;
-            }
-            AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
-        } else {
-            if (isUserSignIn && isEmailVerified) {
-                userRegistrationComplete();
-                return;
-            }
-            if (isUserSignIn && !isEmailVerificationRequired) {
-                userRegistrationComplete();
-                return;
-            }
+        }else {
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         }
+    }
+
+    private void launchMyAccountFragment() {
+        UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fl_reg_fragment_container, userDetailsFragment);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     public void userRegistrationComplete() {
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getParentActivity());
-        }else {
+        } else {
             RegUtility.showErrorMessage(getParentActivity());
         }
     }
@@ -341,6 +340,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                             + e.getMessage());
         }
     }
+
     public boolean isHomeFragment() {
         if (currentFragment instanceof HomeFragment) {
             return true;
@@ -366,7 +366,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
         hideKeyBoard();
     }
-
 
 
     public void navigateToHome() {
@@ -499,7 +498,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-       if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+        if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
@@ -613,7 +612,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    public View getNotificationContentView(String title, String message ) {
+    public View getNotificationContentView(String title, String message) {
         View view = View.inflate(getContext(), R.layout.reg_notification_bg_accent, null);
         ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title);
         ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);

@@ -46,6 +46,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 @SuppressLint("SetJavaScriptEnabled")
+@SuppressWarnings("serial")
 public class ChatNowFragment extends DigitalCareBaseFragment {
 
     private static final int SELECT_IMAGE = 0x2;

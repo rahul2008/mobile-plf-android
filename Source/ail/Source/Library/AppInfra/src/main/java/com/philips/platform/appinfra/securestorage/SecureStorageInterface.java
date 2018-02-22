@@ -83,7 +83,7 @@ public interface SecureStorageInterface extends Serializable {
 
 
     /**
-     * encrypt Data .
+     * Encrypt data.
      *
      * @param dataToBeEncrypted Plain Byte array
      * @return Encrypted Byte array
@@ -92,7 +92,16 @@ public interface SecureStorageInterface extends Serializable {
     byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
-     * decrypt Data .
+     * Encrypt bulk Data.Provides asynchronous behavior
+     *
+     * @param dataToBeEncrypted Plain Byte array
+     * @return Encrypted Byte array
+     * @since 2018.1.0
+     */
+    void encryptBulkData(byte[] dataToBeEncrypted,DataEncryptionListener dataEncryptionListener);
+
+    /**
+     * Decrypt data.
      *
      * @param dataToBeDecrypted Encrypted Byte array
      * @return Decrypted/Plain Byte array
@@ -100,20 +109,52 @@ public interface SecureStorageInterface extends Serializable {
      */
     byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
+
+    /**
+     * Decrypt bulk daata.Provides asynchronous behavior
+     *
+     * @param dataToBeDecrypted Encrypted Byte array
+     * @return Decrypted/Plain Byte array
+     * @since 2018.1.0
+     */
+    void decryptBulkData(byte[] dataToBeDecrypted,DataDecryptionListener dataDecryptionListener);
+
     class SecureStorageError {
         public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData}
 
-        ;
         private secureStorageError errorCode = null;
 
         public secureStorageError getErrorCode() {
             return errorCode;
         }
 
-        void setErrorCode(secureStorageError errorCode) {
+        public void setErrorCode(secureStorageError errorCode) {
             this.errorCode = errorCode;
         }
 
+        public String getErrorMessage() {
+            switch(errorCode){
+                case AccessKeyFailure:
+                    return "Not able to access key";
+                case UnknownKey:
+                    return "Unknown Key";
+                case EncryptionError:
+                    return "Encryption Error";
+                case DecryptionError:
+                    return "Decryption Error";
+                case StoreError:
+                    return "Error while saving encrypted data";
+                case DeleteError:
+                    return "Error while deleting";
+                case NoDataFoundForKey:
+                    return "Not able to find data for given key";
+                case NullData:
+                    return "Null data";
+                default:
+                    return "Error in secure storage";
+
+            }
+        }
 
     }
 
@@ -131,4 +172,24 @@ public interface SecureStorageInterface extends Serializable {
      * @since 2.1.0
      */
     boolean deviceHasPasscode();
+
+    /**
+     * Callback will be from worker thread. Make sure that you update UI elements from Main Thread.
+     */
+    interface DataDecryptionListener {
+
+        void onDecryptionSuccess(byte[] decryptedData);
+
+        void onDecyptionError(SecureStorageError secureStorageError);
+    }
+
+    /**
+     * Callback will be from worker thread. Make sure that you update UI elements from Main Thread.
+     */
+    interface DataEncryptionListener {
+
+        void onEncryptionSuccess(byte[] encryptedData);
+
+        void onEncryptionError(SecureStorageError secureStorageError);
+    }
 }

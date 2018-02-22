@@ -6,6 +6,8 @@
  */
 package com.philips.platform.mya.csw.permission;
 
-public interface MyAccountUIEventListener {
+import java.io.Serializable;
+
+public interface MyAccountUIEventListener extends Serializable {
     void onPrivacyNoticeClicked();
 }

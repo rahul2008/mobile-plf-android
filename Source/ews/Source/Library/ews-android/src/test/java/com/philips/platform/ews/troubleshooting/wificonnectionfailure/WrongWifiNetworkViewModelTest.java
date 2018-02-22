@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.platform.ews.troubleshooting.wificonnectionfailure;
@@ -75,7 +75,7 @@ public class WrongWifiNetworkViewModelTest {
             Exception {
         subject.onButtonClick();
 
-        verify(mockNavigator).navigateToConnectingDeviceWithWifiScreen(any(Bundle.class), eq(true));
+        verify(mockNavigator).navigateToConnectingDeviceWithWifiScreen((Bundle) any(), eq(true));
     }
 
     @Test

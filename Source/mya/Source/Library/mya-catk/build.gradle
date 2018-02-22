@@ -25,7 +25,6 @@ buildscript {
 
 archivesBaseName = "mya-catk"
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -118,8 +117,8 @@ configurations.all {
 dependencies {
     //3rd party
     compile 'com.android.support:support-annotations:26.0.2'
-    compile 'joda-time:joda-time:2.9.7'
-    compile 'com.google.code.gson:gson:2.7'
+    compile deps.joda_time
+    compile deps.gson
 
     def daggerVer = 2.11
     compile "com.google.dagger:dagger:$daggerVer"
@@ -135,12 +134,11 @@ dependencies {
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-                {
-                    exclude group: 'com.android.support', module: 'customtabs'
-                    exclude group: 'com.google.dagger'
-                }
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile (philipsdeps.registrationApi) {
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group: 'com.google.dagger'
+        }
+        compile philipsdeps.mya_chi
     }
 
     // Tests
