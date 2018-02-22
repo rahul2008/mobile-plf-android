@@ -212,11 +212,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				return appInfraTaggingUtil;
 			}
 		};
-		String en = "en";
+		String en = "gb";
 		mServiceDiscoveryManager.setHomeCountry(en);
 		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SET_HOME_COUNTRY_SUCCESS.concat(en));
 		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS.concat("gb"));
 
 		Context context = mock(Context.class);
 		TelephonyManager telephonyManagerMock = mock(TelephonyManager.class);
@@ -231,9 +231,20 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		};
 		mServiceDiscoveryManager.getHomeCountry();
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
-		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = mock(ServiceDiscoveryInterface.OnGetHomeCountryListener.class);
+		final String[] homeCountryCode = new String[1];
+		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+			@Override
+			public void onSuccess(String countryCode, SOURCE source) {
+				homeCountryCode[0] = countryCode;
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+
+			}
+		};
 		mServiceDiscoveryManager.getHomeCountry(listenerMock);
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS.concat(homeCountryCode[0]));
 	}
 
 	public void testForceRefreshTagging() {
@@ -258,22 +269,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}
 		};
 		mServiceDiscoveryManager.downloadPlatformService(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PLATFORM_SERVICES_INVOKED);
+		String sdurlForType = mServiceDiscoveryManager.getSDURLForType(ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PLATFORM_SERVICES_INVOKED.concat(sdurlForType));
 
+		sdurlForType = mServiceDiscoveryManager.getSDURLForType(ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
 		mServiceDiscoveryManager.downloadPropositionService(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED);
-	}
-
-	public void testGetSDURLForTypeTagging() {
-		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
-		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
-			@Override
-			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
-				return appInfraTaggingUtil;
-			}
-		};
-		String url = mServiceDiscoveryManager.getSDURLForType(ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, (" URL--").concat(url));
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED.concat(sdurlForType));
 	}
 
 	@NonNull

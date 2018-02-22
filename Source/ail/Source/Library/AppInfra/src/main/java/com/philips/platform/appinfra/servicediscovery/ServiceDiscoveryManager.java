@@ -226,7 +226,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final String platformURL = getSDURLForType(AISDURLType.AISDURLTypePlatform);
         ServiceDiscovery platformService = new ServiceDiscovery(mAppInfra);
         if (platformURL != null) {
-            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PLATFORM_SERVICES_INVOKED);
+            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PLATFORM_SERVICES_INVOKED.concat(platformURL));
             platformService = processRequest(platformURL, platformService, AISDURLType.AISDURLTypePlatform, requestType);
         }
         return platformService;
@@ -237,7 +237,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final String propositionURL = getSDURLForType(AISDURLTypeProposition);
         ServiceDiscovery propositionService = new ServiceDiscovery(mAppInfra);
         if (propositionURL != null) {
-            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED);
+            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED.concat(propositionURL));
             propositionService = processRequest(propositionURL, propositionService, AISDURLTypeProposition, requestType);
         }
         return propositionService;
@@ -350,8 +350,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
                     + "Appidentity values are null");
         }
-         if (url != null)
-             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, (" URL--").concat(url));
         return url;
     }
 
@@ -424,7 +422,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
             return null;
         } else {
-            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS);
+            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS.concat(country));
             return country;
         }
     }
@@ -450,8 +448,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"SAME COUNTRY Entered Country code is same as old one");
+                appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_SET_SAME_COUNTRY_CODE.concat(countryCode));
             }
         } else {
+            appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, countryCode != null ? SD_SET_INVALID_COUNTRY_CODE.concat(countryCode) : SD_SET_INVALID_COUNTRY_CODE);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Invalid COUNTRY Country code is INVALID");
         }
     }
@@ -723,7 +723,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
                 saveToSecureStore(countryCode, countryCodeSource.toString());
                 listener.onSuccess(countryCode, countryCodeSource);
-                appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS);
+                appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS.concat(countryCode));
             } else {
                 queueResultListener(false, new AbstractDownloadItemListener() {
                     @Override
@@ -734,7 +734,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                                 saveToSecureStore(country, countryCodeSource.toString());
                                 listener.onSuccess(country, countryCodeSource);
-                                appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_GEOIP_SUCCESS);
+                                appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_GEOIP_SUCCESS.concat(country));
                             } else {
                                 if (result.getError() != null) {
                                     final ServiceDiscovery.Error err = result.getError();
@@ -773,6 +773,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String getCountryCodeFromSim() {
         try {
             final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
             final String simCountry = tm.getSimCountryIso();
             if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                 countryCode = simCountry.toUpperCase(Locale.US);

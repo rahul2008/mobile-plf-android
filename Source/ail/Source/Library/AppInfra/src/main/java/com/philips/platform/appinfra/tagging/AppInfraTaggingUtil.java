@@ -26,19 +26,21 @@ public class AppInfraTaggingUtil implements Serializable {
     public static final String GET_HOME_COUNTRY_SYNCHRONOUS_ERROR =  " error while fetching synchronous getHomeCountry due to secure storage returned empty or null data";
     public static final String COUNTRY_CODE_SIM_ERROR = " Error fetching country code from sim";
     public static final String SD_DATA_EXPIRED = " ServiceDiscovery data expired";
+    public static final String SD_SET_SAME_COUNTRY_CODE = " setting same country code - ";
+    public static final String SD_SET_INVALID_COUNTRY_CODE = " setting invalid country code - ";
 
     // AppInfra Tagging Categories
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     ////AppInfra success
-    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = " get home country  synchronous fetched  successfully";
-    public static final String DOWNLOAD_PLATFORM_SERVICES_INVOKED = " Downloading platform services started";
-    public static final String DOWNLOAD_PREPOSITION_SERVICES_INVOKED = " Downloading preposition services started";
-    public static final String SD_SUCCESS = " Service discovery successfully fetched data from server ";
+    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = " get home country  synchronous fetched  successfully - ";
+    public static final String DOWNLOAD_PLATFORM_SERVICES_INVOKED = " Downloading platform services -";
+    public static final String DOWNLOAD_PREPOSITION_SERVICES_INVOKED = " Downloading preposition services -";
+    public static final String SD_SUCCESS = " SD download success ";
     public static final String SD_LOCAL_CACHE_DATA_SUCCESS = " ServiceDiscovery successfully fetched local cached data";
-    public static final String GET_HOME_COUNTRY_SIM_SUCCESS = " Successfully fetched country code from sim";
-    public static final String GET_HOME_COUNTRY_GEOIP_SUCCESS = " Successfully fetched country code  from geoip";
-    public static final String SET_HOME_COUNTRY_SUCCESS = " Successfully setHomeCountry to country ";
+    public static final String GET_HOME_COUNTRY_SIM_SUCCESS = " Successfully fetched country code from sim - ";
+    public static final String GET_HOME_COUNTRY_GEOIP_SUCCESS = " Successfully fetched country code  from GEOIP - ";
+    public static final String SET_HOME_COUNTRY_SUCCESS = " Successfully setHomeCountry - ";
     public static final String ADD_URL_PARAMETERS = " Successfully added the URL parameters";
     public static final String SD_FORCE_REFRESH_CALLED = "Service discovery force refreshed called";
     //keys
