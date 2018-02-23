@@ -12,7 +12,12 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,7 +35,6 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
-import com.philips.platform.uid.utils.UIDLog;
 import com.philips.platform.uid.utils.UIDUtils;
 
 /**
@@ -193,14 +197,6 @@ public class AlertDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setDimLayer();
-        try {
-            getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-            if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
-                setAlertWidth();
-            }
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
-        }
     }
 
     /**
@@ -219,17 +215,6 @@ public class AlertDialogFragment extends DialogFragment {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
         ft.commitAllowingStateLoss();
-    }
-
-    private void setAlertWidth() {
-        final ViewGroup.LayoutParams lp;
-        try {
-            lp = getView().getLayoutParams();
-            lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
-            getView().setLayoutParams(lp);
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
-        }
     }
 
     @Override
