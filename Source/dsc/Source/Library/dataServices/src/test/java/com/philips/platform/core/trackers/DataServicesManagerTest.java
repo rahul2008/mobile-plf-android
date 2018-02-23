@@ -654,45 +654,57 @@ public class DataServicesManagerTest {
 
     @Test
     public void deleteSyncedMoments_noResultListener() {
-        mDataServicesManager.deleteSyncedMoments(null);
-
-        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void deleteSyncedMoments_withResultListener() {
         mDataServicesManager.deleteSyncedMoments(dbRequestListener);
 
         verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
+    public void deleteSyncedMoments_withResultListener() {
+        //
+    }
+
+    @Test
+    public void migrateGDPR_noResultListener() {
+        mDataServicesManager.migrateGDPR(null);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
-    public void deleteSyncedMoments_withResultListener_migrationFlagNotSet() {
+    public void migrateGDPR_withResultListener() {
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void migrateGDPR_withResultListener_migrationFlagNotSet() {
         when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(false); // Returns default
 
-        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteSyncedMoments_withResultListener_migrationFlagSetTrue() {
+    public void migrateGDPR_withResultListener_migrationFlagSetTrue() {
         when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
 
-        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(eventingMock, never()).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteSyncedMoments_withResultListener_migrationFlagNotChanged() {
+    public void migrateGDPR_withResultListener_migrationFlagNotChanged() {
         when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
 
-        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(prefsMock, never()).edit();
     }
@@ -709,7 +721,7 @@ public class DataServicesManagerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deleteSyncedMoments_withResultListener_migrationFlagNotSet_shouldSetMigrationFlag() {
+    public void migrateGDPR_withResultListener_migrationFlagNotSet_shouldSetMigrationFlag() {
         doAnswer(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -724,7 +736,7 @@ public class DataServicesManagerTest {
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
-        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(prefsEditorMock).putBoolean(eq("gdpr_migration_flag"), eq(true));
         verify(prefsEditorMock).apply();
