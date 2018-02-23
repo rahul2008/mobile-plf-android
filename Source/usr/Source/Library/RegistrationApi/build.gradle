@@ -215,7 +215,6 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile deps.apache
     compile deps.constraintlayout
 
 
@@ -239,7 +238,6 @@ dependencies {
         compile project(':hsdp')
     }
 
-    compile deps.apache
     compile deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
