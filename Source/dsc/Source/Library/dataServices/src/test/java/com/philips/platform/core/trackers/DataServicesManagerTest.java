@@ -82,6 +82,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -92,9 +94,14 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -225,6 +232,9 @@ public class DataServicesManagerTest {
 
     @Mock
     private SharedPreferences prefsMock;
+
+    @Mock
+    private SharedPreferences.Editor prefsEditorMock;
 
     @Before
     public void setUp() {
@@ -658,21 +668,66 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_withResultListener_migrationFlagNotSet() {
-        // TODO
-        assertTrue(true);
+        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(false); // Returns default
+
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_withResultListener_migrationFlagSetTrue() {
-        // TODO
-        assertTrue(true);
+        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
+
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(eventingMock, never()).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_withResultListener_migrationFlagNotChanged() {
+        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
+
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(prefsMock, never()).edit();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_withResultListener_migrationFlagSetFalse() {
-        // TODO
-        assertTrue(true);
+        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(false); // Set to false
+
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteSyncedMoments_withResultListener_migrationFlagNotSet_shouldSetMigrationFlag() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post((Event) any());
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(prefsEditorMock).putBoolean(eq("gdpr_migration_flag"), eq(true));
+        verify(prefsEditorMock).apply();
     }
 
     private void whenSynchronizeIsInvoked() {

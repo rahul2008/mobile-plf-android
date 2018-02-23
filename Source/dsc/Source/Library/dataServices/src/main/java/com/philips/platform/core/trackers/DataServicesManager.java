@@ -590,7 +590,29 @@ public class DataServicesManager {
         return dbChangeListener;
     }
 
-    public void deleteSyncedMoments(DBRequestListener<Moment> resultListener) {
-        mEventing.post(new DeleteSyncedMomentsRequest(resultListener));
+    public void deleteSyncedMoments(final DBRequestListener<Moment> resultListener) {
+        if(!isGdprMigrationDone()) {
+            // Migrate if not done yet
+            mEventing.post(new DeleteSyncedMomentsRequest(new DBRequestListener<Moment>() {
+                @Override
+                public void onSuccess(List<? extends Moment> data) {
+                    storeGdprMigrationFlag();
+                    resultListener.onSuccess(data);
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    resultListener.onFailure(exception);
+                }
+            }));
+        }
+    }
+
+    private boolean isGdprMigrationDone() {
+        return gdprStorage.getBoolean(GDPR_MIGRATION_FLAG, false);
+    }
+
+    private void storeGdprMigrationFlag() {
+        gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
     }
 }
