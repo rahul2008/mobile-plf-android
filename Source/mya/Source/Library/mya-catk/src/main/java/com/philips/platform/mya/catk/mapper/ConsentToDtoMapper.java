@@ -25,11 +25,11 @@ public class ConsentToDtoMapper {
     }
 
     public CreateConsentDto map(BackendConsent consent) {
-        final String language = LocaleMapper.toLanguageString(consent.getLocale());
-        return new CreateConsentDto(language, buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
+        return new CreateConsentDto(consent.getLocale(), buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
     }
 
     private String buildPolicyRule(String type, int version) {
-        return new StringBuilder("urn:com.philips.consent:").append(type).append("/").append(country).append("/").append(version).append("/").append(propositionName).append("/").append(applicationName).toString();
+        return new StringBuilder("urn:com.philips.consent:").append(type).append("/").append(country).append("/").append(version).append("/").append(propositionName).append("/")
+                .append(applicationName).toString();
     }
 }

@@ -7,13 +7,19 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.inject.Inject;
 
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.exception.UnknownConsentType;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.mapper.LocaleMapper;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
@@ -25,13 +31,7 @@ import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
 public class ConsentInteractor implements ConsentHandlerInterface {
 
@@ -75,7 +75,8 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
-        Locale locale = LocaleMapper.toLocale(definition.getLocale());
+        String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
+
         List<BackendConsent> backendConsents = new ArrayList<>();
         List<String> types = definition.getTypes();
         for (String type : types) {
