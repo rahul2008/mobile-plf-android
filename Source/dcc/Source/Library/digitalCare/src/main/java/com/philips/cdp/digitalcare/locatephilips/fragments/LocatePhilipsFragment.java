@@ -9,7 +9,6 @@ package com.philips.cdp.digitalcare.locatephilips.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -91,6 +90,7 @@ import com.philips.cdp.digitalcare.util.CustomSearchView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.shamanland.fonticon.FontIconDrawable;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -144,7 +144,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private Button mButtonCall = null;
     private Button mButtonDirection = null;
     private CustomGeoAdapter mAdapter = null;
-    private ProgressDialog mDialog = null;
+    private ProgressAlertDialog mDialog = null;
     private ProgressBar mLocateNearProgressBar = null;
     private boolean isContactUsScreenLaunched = false;
     private Utils mUtils = null;
@@ -314,7 +314,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     protected void startProgressDialog() {
         if (mDialog == null)
-            mDialog = new ProgressDialog(getActivity());
+            mDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
         mDialog.setMessage(getResources().getString(R.string.loading));
         mDialog.setCancelable(true);
         if (!(getActivity().isFinishing())) {
