@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -196,6 +197,10 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.UIDAlertAnimation);
+        }
         setDimLayer();
     }
 
