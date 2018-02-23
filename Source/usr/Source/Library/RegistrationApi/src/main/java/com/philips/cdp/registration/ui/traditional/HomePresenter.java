@@ -17,6 +17,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.listener.WeChatAuthenticationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -51,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 
-public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
+public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener,CountrySelectionListener {
 
 
     @Inject
@@ -83,6 +84,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.WECHAT_AUTH, this);
+
+        homeContract.getHomeFragment().setCountrySelectionListener(this);
     }
 
     public void cleanUp() {
@@ -338,20 +341,18 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.registrationCompleted();
     }
 
-
-
-    public void changeCountry(String countryName, String countryCode) {
-        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
-        if (networkUtility.isNetworkAvailable()) {
-            serviceDiscoveryInterface.setHomeCountry(countryCode);
-            RegistrationHelper.getInstance().setCountryCode(countryCode);
-            homeContract.countryChangeStarted();
-            getLocaleServiceDiscovery(countryName);
-        }
-    }
-
     public boolean isNetworkAvailable() {
         return networkUtility.isNetworkAvailable();
+    }
+
+    @Override
+    public void onSelectCountry(String name, String code) {
+        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        if (networkUtility.isNetworkAvailable()) {
+            serviceDiscoveryInterface.setHomeCountry(code);
+            homeContract.countryChangeStarted();
+            getLocaleServiceDiscovery(code);
+        }
     }
 
     public enum FLOWDELIGATE {

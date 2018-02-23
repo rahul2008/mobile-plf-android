@@ -518,6 +518,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         continueWithouAccount.setEnabled(state);
     }
 
+    @Override
+    public HomeFragment getHomeFragment() {
+        return this;
+    }
+
     private void enableSocialProviders(boolean enableState) {
         for (int i = 0; i < mLlSocialProviderBtnContainer.getChildCount(); i++) {
             mLlSocialProviderBtnContainer.getChildAt(i).setEnabled(enableState);

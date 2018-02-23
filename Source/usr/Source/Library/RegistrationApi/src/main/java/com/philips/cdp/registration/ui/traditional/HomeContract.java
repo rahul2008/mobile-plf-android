@@ -80,4 +80,6 @@ interface HomeContract {
     void genericError();
 
     void handleBtnClickableStates(boolean state);
+
+    HomeFragment getHomeFragment();
 }

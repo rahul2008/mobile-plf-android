@@ -21,4 +21,6 @@ public interface CountrySelectionContract {
      RegistrationFragment getRegistrationFragment();
 
      void popCountrySelectionFragment();
+
+     void notifyCountryChange(Country country);
 }

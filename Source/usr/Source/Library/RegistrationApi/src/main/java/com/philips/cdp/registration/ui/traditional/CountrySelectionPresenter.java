@@ -1,9 +1,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.philips.cdp.registration.CountryComparator;
 import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.ArrayList;
@@ -28,6 +30,32 @@ public class CountrySelectionPresenter {
             Country country = RegUtility.getCountry(countryCode,context);
             countryTreeSet.add(country);
         }
-        countrySelectionContract.updateRecyclerView(new ArrayList<>(countryTreeSet));
+        countrySelectionContract.updateRecyclerView(setSelectedCountryOnTopOfList(new ArrayList<>(countryTreeSet)));
+    }
+
+    ArrayList<Country> setSelectedCountryOnTopOfList(ArrayList<Country> countries){
+
+
+        String alreadySelectedCountryCode = RegistrationHelper.getInstance().getCountryCode();
+
+        if(TextUtils.isEmpty(alreadySelectedCountryCode))return countries;
+
+        int alreadySelectedCountryIndex=0;
+        Country alreadySelectedCountry=null;
+
+        for(int i=0;i<countries.size();i++){
+
+            Country country=countries.get(i);
+            if(country.getCode().equalsIgnoreCase(alreadySelectedCountryCode)){
+                alreadySelectedCountryIndex=i;
+                alreadySelectedCountry=country;
+                break;
+            }
+        }
+
+        countries.remove(alreadySelectedCountryIndex);
+        countries.add(0,alreadySelectedCountry);
+
+        return countries;
     }
 }

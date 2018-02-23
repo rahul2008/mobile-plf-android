@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -95,6 +96,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setSelectedCountry(Country country) {
+        RegistrationHelper.getInstance().setCountryCode(country.getCode());
         setCountry(country);
     }
 
@@ -115,7 +117,11 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     @Override
     public void popCountrySelectionFragment() {
-
         getRegistrationFragment().onBackPressed();
+    }
+
+    @Override
+    public void notifyCountryChange(Country country) {
+        getCountrySelectionFragment().getCountrySelectionListener().onSelectCountry(country.getName(),country.getCode());
     }
 }

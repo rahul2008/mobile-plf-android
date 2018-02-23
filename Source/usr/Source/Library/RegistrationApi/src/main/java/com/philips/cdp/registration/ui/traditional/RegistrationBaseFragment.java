@@ -27,6 +27,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -64,6 +65,16 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     private Country country;
+
+    CountrySelectionListener countrySelectionListener;
+
+    public CountrySelectionListener getCountrySelectionListener() {
+        return countrySelectionListener;
+    }
+
+    public void setCountrySelectionListener(CountrySelectionListener countrySelectionListener) {
+        this.countrySelectionListener = countrySelectionListener;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

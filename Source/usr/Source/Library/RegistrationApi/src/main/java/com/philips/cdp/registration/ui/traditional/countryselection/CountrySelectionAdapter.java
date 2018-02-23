@@ -91,6 +91,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.checked.setVisibility(View.GONE);
             }
             holder.itemView.setOnClickListener(view -> {
+                countrySelectionContract.notifyCountryChange(country);
                 countrySelectionContract.popCountrySelectionFragment();
                 setSelectedPosition(position);
             });
@@ -107,5 +108,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         selectedPosition = position;
         notifyDataSetChanged();
     }
+
+
 
 }
