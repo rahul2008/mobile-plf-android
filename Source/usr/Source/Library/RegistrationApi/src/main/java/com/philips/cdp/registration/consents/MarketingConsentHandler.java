@@ -82,7 +82,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
                     return;
                 }
             }
-            callback.onGetConsentsFailed(new ConsentError(URConsentProvider.USR_MARKETING_CONSENT+ "Not Found", CONSENT_ERROR_UNKNOWN));
+            callback.onGetConsentsFailed(new ConsentError(URConsentProvider.USR_MARKETING_CONSENT + " Not Found", CONSENT_ERROR_UNKNOWN));
         } catch (Exception consentFailed) {
             callback.onGetConsentsFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN));
         }
