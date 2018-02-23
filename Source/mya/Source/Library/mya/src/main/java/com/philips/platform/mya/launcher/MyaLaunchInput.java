@@ -10,7 +10,6 @@ package com.philips.platform.mya.launcher;
 import android.content.Context;
 
 import com.philips.platform.mya.MyaTabConfig;
-import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -29,7 +28,6 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private transient Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
-    private MyAccountUIEventListener myAccountUIEventListener;
     private MyaTabConfig myaTabConfig;
     private List<String> settingsMenuList;
     private List<String> profileMenuList;
@@ -68,14 +66,6 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     public MyaListener getMyaListener() {
         return myaListener;
-    }
-
-    public void setMyAccountUIEventListener(MyAccountUIEventListener myAccountUIEventListener) {
-        this.myAccountUIEventListener = myAccountUIEventListener;
-    }
-
-    public MyAccountUIEventListener getMyAccountUIEventListener() {
-        return this.myAccountUIEventListener;
     }
 
     public MyaTabConfig getMyaTabConfig() {
