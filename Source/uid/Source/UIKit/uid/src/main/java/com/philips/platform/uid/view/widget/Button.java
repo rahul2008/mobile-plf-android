@@ -98,7 +98,7 @@ public class Button extends AppCompatButton {
             if (drawableColorlist != null) {
                 DrawableCompat.setTintList(wrappedCompatDrawable, drawableColorlist);
             }
-            setCompoundDrawablesRelativeWithIntrinsicBounds(wrappedCompatDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+            setCompoundDrawablesRelative(wrappedCompatDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         }
     }
 
@@ -121,8 +121,18 @@ public class Button extends AppCompatButton {
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        setCompoundDrawablesRelativeWithIntrinsicBounds(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        setCompoundDrawablesRelative(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         invalidate();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(UIDUtils.isLayoutRTL(this)){
+            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        } else {
+            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        }
     }
 
     @Override
@@ -156,12 +166,6 @@ public class Button extends AppCompatButton {
             } else {
                 canvas.translate((availableWidth - drawableAdjustments - textWidth) / 2, 0);
             }
-        }
-
-        if(UIDUtils.isLayoutRTL(this)){
-            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-        } else {
-            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         }
 
         super.onDraw(canvas);
