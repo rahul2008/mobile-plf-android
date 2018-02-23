@@ -1,6 +1,7 @@
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
@@ -90,6 +91,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
@@ -221,6 +223,9 @@ public class DataServicesManagerTest {
 
     private DSPaginationSpy mDSPagination;
 
+    @Mock
+    private SharedPreferences prefsMock;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -241,6 +246,7 @@ public class DataServicesManagerTest {
         mDataServicesManager.errorHandlingInterface = errorHandlingInterfaceMock;
         mDataServicesManager.mSynchronisationManager = synchronisationManagerMock;
         mDataServicesManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
+        mDataServicesManager.gdprStorage = prefsMock;
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
     }
 
@@ -649,6 +655,24 @@ public class DataServicesManagerTest {
         mDataServicesManager.deleteSyncedMoments(dbRequestListener);
 
         verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
+    }
+
+    @Test
+    public void deleteSyncedMoments_withResultListener_migrationFlagNotSet() {
+        // TODO
+        assertTrue(true);
+    }
+
+    @Test
+    public void deleteSyncedMoments_withResultListener_migrationFlagSetTrue() {
+        // TODO
+        assertTrue(true);
+    }
+
+    @Test
+    public void deleteSyncedMoments_withResultListener_migrationFlagSetFalse() {
+        // TODO
+        assertTrue(true);
     }
 
     private void whenSynchronizeIsInvoked() {

@@ -7,6 +7,7 @@
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -107,6 +108,8 @@ import javax.inject.Singleton;
 public class DataServicesManager {
 
     private static AppComponent mAppComponent;
+    private static final String GDPR_MIGRATION_FLAG_STORAGE = "dsc_gdpr_migration_flag_storage";
+    private static final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 
     private DBDeletingInterface mDeletingInterface;
     private DBFetchingInterface mFetchingInterface;
@@ -152,6 +155,8 @@ public class DataServicesManager {
     @Inject
     ErrorHandlingInterface errorHandlingInterface;
 
+    SharedPreferences gdprStorage;
+
     @Singleton
     private DataServicesManager() {
     }
@@ -171,6 +176,7 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
         initLogger();
     }
 
