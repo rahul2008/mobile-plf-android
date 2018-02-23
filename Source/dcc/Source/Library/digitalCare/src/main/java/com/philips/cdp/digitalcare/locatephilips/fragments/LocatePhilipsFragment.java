@@ -980,6 +980,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @SuppressWarnings("deprecation")
     protected void setSearchIcon() {
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null)) {
