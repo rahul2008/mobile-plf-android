@@ -1,9 +1,7 @@
 package com.philips.platform.core.trackers;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -68,7 +66,6 @@ import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
-import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -77,15 +74,12 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,12 +87,11 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -111,78 +104,39 @@ public class DataServicesManagerTest {
 
     private static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
-    public static final String TEST_BABY_ID = "TEST_BABY_ID";
     private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
-    private String TEST_MOMENT_TYPE = "CRYING";
-    private String TEST_MOMENT_DETAIL_TYPE = "STICKER";
-    private String TEST_MEASUREMENT_TYPE = "DURATION";
-    private String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
+    private static final String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
 
-    @Mock
-    private DataSender dataSenderMock;
+    private DataServicesManager mDataServicesManager;
 
     @Mock
     private SynchronisationCompleteListener synchronisationCompleteListenerMock;
-
-    @Mock
-    private DataFetcher dataFetcherMock;
-
     @Mock
     private Eventing eventingMock;
-
     @Mock
     private JSONObject jsonObject;
-
-    @Mock
-    private File fileMock;
-
     @Mock
     private SynchronisationManager synchronisationManagerMock;
 
     private UserRegistrationInterface userRegistrationInterface;
-
-    @Mock
-    private SynchronisationCompleteListener mSynchronisationCompleteListener;
-
     private BaseAppDataCreator baseAppDataCreator;
 
     @Mock
-    private BackendIdProvider backendIdProviderMock;
-
-    @Mock
     private Event requestEventMock;
-
     @Mock
     private Insight insightMock;
-
     @Mock
     private Moment momentMock;
-
     @Mock
     private MomentDetail momentDetailMock;
-
     @Mock
     private MeasurementGroup measurementGroupMock;
     @Mock
     private Measurement measurementMock;
-
     @Mock
     private MeasurementDetail measurementDetailMock;
-
     @Mock
     private MeasurementGroupDetail measurementGroupDetailMock;
-
-    @Captor
-    private ArgumentCaptor<MomentSaveRequest> momentSaveRequestCaptor;
-
-    @Captor
-    private ArgumentCaptor<MomentDeleteRequest> momentDeleteEventCaptor;
-
-    @Captor
-    private ArgumentCaptor<MomentUpdateRequest> momentUpdateEventCaptor;
-
-    private DataServicesManager mDataServicesManager;
-
     @Mock
     private DBDeletingInterface deletingInterfaceMock;
     @Mock
@@ -191,40 +145,26 @@ public class DataServicesManagerTest {
     private DBSavingInterface savingInterfaceMock;
     @Mock
     private DBUpdatingInterface updatingInterfaceMock;
-    @Spy
-    private Context mockContext;
     @Mock
     private ConsentDetail consentDetailMock;
-
+    @Mock
     private UCoreAccessProvider uCoreAccessProvider;
-
     @Mock
     private BaseAppCore coreMock;
-
     @Mock
     private SynchronisationMonitor synchronisationMonitorMock;
-
     @Mock
     private ErrorHandlingInterface errorHandlingInterfaceMock;
-
     @Mock
     private DBRequestListener dbRequestListener;
-
-    @Mock
-    private Characteristics CharacteristicsMock;
-
     @Mock
     private DBFetchRequestListner dbFetchRequestListner;
-
     @Mock
     private AppComponent appComponantMock;
-
     @Mock
     private BaseAppDataCreator dataCreatorMock;
-
     @Mock
     private SynchronisationCompleteListener synchronisationCompleteListener;
-
     @Mock
     private Settings settingsMock;
 
@@ -232,7 +172,6 @@ public class DataServicesManagerTest {
 
     @Mock
     private SharedPreferences prefsMock;
-
     @Mock
     private SharedPreferences.Editor prefsEditorMock;
 
@@ -245,7 +184,6 @@ public class DataServicesManagerTest {
 
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
-        uCoreAccessProvider = new VerticalUCoreAccessProvider(userRegistrationInterface);
         mDSPagination = new DSPaginationSpy();
         mDataServicesManager.mEventing = eventingMock;
         mDataServicesManager.mDataCreater = baseAppDataCreator;
@@ -257,6 +195,7 @@ public class DataServicesManagerTest {
         mDataServicesManager.mSynchronisationManager = synchronisationManagerMock;
         mDataServicesManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
         mDataServicesManager.gdprStorage = prefsMock;
+        mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
     }
 
@@ -334,7 +273,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
-        mDataServicesManager.saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
+        mDataServicesManager.saveConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
@@ -346,7 +285,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
-        mDataServicesManager.updateUserCharacteristics(anyListOf(Characteristics.class), dbRequestListener);
+        mDataServicesManager.updateUserCharacteristics(ArgumentMatchers.<Characteristics>anyList(), dbRequestListener);
     }
 
     @Test
@@ -356,7 +295,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
-        mDataServicesManager.updateConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
+        mDataServicesManager.updateConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentUpdateRequest.class));
     }
 
@@ -654,14 +593,17 @@ public class DataServicesManagerTest {
 
     @Test
     public void deleteSyncedMoments_noResultListener() {
-        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+        mDataServicesManager.deleteSyncedMoments(null);
 
         verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_withResultListener() {
-        //
+        mDataServicesManager.deleteSyncedMoments(dbRequestListener);
+
+        verify(eventingMock).post((DeleteSyncedMomentsRequest) any());
     }
 
     @Test
@@ -740,6 +682,70 @@ public class DataServicesManagerTest {
 
         verify(prefsEditorMock).putBoolean(eq("gdpr_migration_flag"), eq(true));
         verify(prefsEditorMock).apply();
+    }
+
+    @Test
+    public void migrateGDPR_withResultListener_shouldClearSyncTimeCache() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post((Event) any());
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(uCoreAccessProvider).clearSyncTimeCache();
+    }
+
+    @Test
+    public void migrateGDPR_withResultListener_shouldStartSync() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post((Event) any());
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(synchronisationManagerMock).startSync(any(SynchronisationCompleteListener.class));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void migrateGDPR_withResultListener_shouldCallbackWhenDone() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post((Event) any());
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(dbRequestListener).onSuccess(anyList());
     }
 
     private void whenSynchronizeIsInvoked() {

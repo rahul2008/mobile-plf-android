@@ -600,15 +600,17 @@ public class DataServicesManager {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override
                 public void onSuccess(List<? extends Moment> data) {
+                    mBackendIdProvider.clearSyncTimeCache();
+
+                    // TODO Fetch all moments from OBE
 
                 }
 
                 @Override
                 public void onFailure(Exception exception) {
-
+                    resultListener.onFailure(exception);
                 }
             });
-
         }
     }
 
