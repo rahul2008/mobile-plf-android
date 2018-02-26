@@ -29,7 +29,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.AlgorithmParameterSpec;
-import java.util.Calendar;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -142,17 +141,11 @@ class SecureStorageHelper {
             keyStore.load(null);
             if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
                 // if key is not generated
-                Calendar start = Calendar.getInstance();
-                Calendar end = Calendar.getInstance();
-                end.add(Calendar.YEAR, 50);
-
                 AlgorithmParameterSpec algorithmParameterSpec;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     algorithmParameterSpec = new KeyGenParameterSpec.Builder(SINGLE_UNIVERSAL_KEY, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                             .setCertificateSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
                             .setCertificateSerialNumber(BigInteger.ONE)
-                            .setKeyValidityStart(start.getTime())
-                            .setKeyValidityEnd(end.getTime())
                             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
                             .build();
 
@@ -161,8 +154,6 @@ class SecureStorageHelper {
                             .setAlias(SINGLE_UNIVERSAL_KEY)
                             .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
                             .setSerialNumber(BigInteger.ONE)
-                            .setStartDate(start.getTime())
-                            .setEndDate(end.getTime())
                             .build();
                 }
 
