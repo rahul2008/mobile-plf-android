@@ -125,6 +125,8 @@ public class MyaSettingsPresenterTest {
         };
         String key = "Mya_Privacy_Settings";
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
+        key = "MYA_My_details";
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
     }

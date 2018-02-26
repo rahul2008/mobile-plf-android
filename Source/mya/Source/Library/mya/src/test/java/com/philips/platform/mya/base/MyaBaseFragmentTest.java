@@ -64,12 +64,25 @@ public class MyaBaseFragmentTest {
     public void setup() {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
-        myaBaseFragment = new MyaSettingsFragment();
+        myaBaseFragment = new MyaSettingsFragment(){
+            @Override
+            public int getActionbarTitleResId() {
+                return 1;
+            }
+
+            @Override
+            public String getActionbarTitle(Context context) {
+                return "My Account";
+            }
+
+            @Override
+            public boolean getBackButtonState() {
+                return false;
+            }
+        };
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
         SupportFragmentTestUtil.startFragment(myaBaseFragment);
-
-        startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getContext());
     }
 

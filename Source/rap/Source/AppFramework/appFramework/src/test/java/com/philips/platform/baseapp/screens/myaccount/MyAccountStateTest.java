@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -36,6 +39,7 @@ import java.util.Locale;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -90,10 +94,13 @@ public class MyAccountStateTest {
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
+
+
     }
 
     @Test
     public void testLaunchMyAccountState() {
+        
         myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
@@ -149,5 +156,15 @@ public class MyAccountStateTest {
         public MyaInterface getInterface() {
             return myaInterface;
         }
+    }
+
+    @Test
+    public void testMyDetailsLaunch(){
+        URLaunchInput urLaunchInput = mock(URLaunchInput.class);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+        URInterface urInterface = mock(URInterface.class);
+        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
+        verify(urInterface).launch(fragmentLauncher,urLaunchInput);
+
     }
 }
