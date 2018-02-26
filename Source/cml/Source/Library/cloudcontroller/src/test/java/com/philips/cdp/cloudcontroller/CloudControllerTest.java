@@ -1,18 +1,16 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.cloudcontroller;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
-import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.Provision;
@@ -21,7 +19,6 @@ import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,24 +35,23 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({EventSubscription.class, SignOn.class, Log.class})
-public class CloudControllerTest extends RobolectricTest {
+public class CloudControllerTest {
 
     @Mock
-    DcsEventListener dcsListener;
+    private DcsEventListener dcsListener;
 
     @Mock
-    DcsResponseListener responseListenerMock;
+    private DcsResponseListener responseListenerMock;
 
     @Mock
-    EventSubscription eventSubscriptionMock;
+    private EventSubscription eventSubscriptionMock;
 
     @Mock
     private DefaultCloudController.DCSStartListener startedListener;
@@ -63,35 +59,20 @@ public class CloudControllerTest extends RobolectricTest {
     @Mock
     private SignOn signOnMock;
 
-    @Mock
-    Context contextMock;
-
-    @Mock
-    KpsConfigurationInfo kpsConfigurationInfoMock;
-
     private final String cppId = "valid cppId";
     private DefaultCloudController cloudController;
 
-    @Override
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
 
-        mockStatic(Log.class);
+        mockStatic(SignOn.class);
+        when(SignOn.getInstance((CallbackHandler) any(), (Params) any())).thenReturn(signOnMock);
 
         mockStatic(EventSubscription.class);
-        when(EventSubscription.getInstance(any(CallbackHandler.class), anyInt())).thenReturn(eventSubscriptionMock);
-
-        mockStatic(SignOn.class);
-        when(SignOn.getInstance(any(CallbackHandler.class), any(Params.class))).thenReturn(signOnMock);
+        when(EventSubscription.getInstance((CallbackHandler) any(), anyInt())).thenReturn(eventSubscriptionMock);
 
         mockStatic(Log.class);
-    }
-
-    @Override
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     @Test
@@ -113,7 +94,7 @@ public class CloudControllerTest extends RobolectricTest {
 
         controller.notifyDCSListener(data, cppId, action, null);
 
-        verify(responseListenerMock).onDCSResponseReceived(eq(data), anyString());
+        verify(responseListenerMock).onDCSResponseReceived(eq(data), (String) any());
     }
 
     @Test
@@ -125,7 +106,7 @@ public class CloudControllerTest extends RobolectricTest {
 
         controller.notifyDCSListener(data, null, action, null);
 
-        verify(responseListenerMock).onDCSResponseReceived(eq(data), anyString());
+        verify(responseListenerMock).onDCSResponseReceived(eq(data), (String) any());
     }
 
     @Test
@@ -288,7 +269,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStartDCSIsCalledThenEventSubscriptionCommandIsExecuted() throws Exception {
+    public void whenStartDCSIsCalledThenEventSubscriptionCommandIsExecuted() {
         CloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
@@ -297,7 +278,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSubscribeIsSuccessfulThenListenerIsNotified() throws Exception {
+    public void whenSubscribeIsSuccessfulThenListenerIsNotified() {
         DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
@@ -307,7 +288,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSubscribeIsSuccessfulThenStateIsStarted() throws Exception {
+    public void whenSubscribeIsSuccessfulThenStateIsStarted() {
         whenDCSCommandWasExecutedThenDCSStateIsStarting();
 
         cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
@@ -316,7 +297,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSubscribeIsUnsuccessfulThenListenerIsNotified() throws Exception {
+    public void whenSubscribeIsUnsuccessfulThenListenerIsNotified() {
         DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
@@ -326,7 +307,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSubscribeIsUnsuccessfulThenStateIs() throws Exception {
+    public void whenSubscribeIsUnsuccessfulThenStateIs() {
         DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
@@ -336,7 +317,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed() throws Exception {
+    public void whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed() {
         cloudController = createCloudControllerWithListeners(cppId, dcsListener);
 
         cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
@@ -350,7 +331,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSignOnIsSuccessfulThenDCSIsStarted() throws Exception {
+    public void whenSignOnIsSuccessfulThenDCSIsStarted() {
         whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed();
 
         when(signOnMock.getSignOnStatus()).thenReturn(true);
@@ -360,7 +341,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenDCSCommandWasNotExecutedThenDCSStateIsStopped() throws Exception {
+    public void whenDCSCommandWasNotExecutedThenDCSStateIsStopped() {
         CloudController cloudController = initCloudControllerAndPerformSignOn();
         when(eventSubscriptionMock.executeCommand()).thenReturn(Errors.AUTHENTICATION_FAILED);
 
@@ -370,7 +351,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenDCSCommandWasExecutedThenDCSStateIsStarting() throws Exception {
+    public void whenDCSCommandWasExecutedThenDCSStateIsStarting() {
         cloudController = initCloudControllerAndPerformSignOn();
         when(eventSubscriptionMock.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
 
@@ -380,7 +361,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStopDCSIsCalledWhenStopCommandIsExecuted() throws Exception {
+    public void whenStopDCSIsCalledWhenStopCommandIsExecuted() {
         whenSubscribeIsSuccessfulThenStateIsStarted();
 
         cloudController.stopDCSService();
@@ -389,7 +370,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStopDCSIsCalledWhenStateIsStopping() throws Exception {
+    public void whenStopDCSIsCalledWhenStateIsStopping() {
         whenSubscribeIsSuccessfulThenStateIsStarted();
 
         cloudController.stopDCSService();
@@ -398,7 +379,7 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenSubscribeEventWithDSCStoppedIsRecievedThenStateIsStopped() throws Exception {
+    public void whenSubscribeEventWithDSCStoppedIsRecievedThenStateIsStopped() {
         whenStopDCSIsCalledWhenStateIsStopping();
 
         when(eventSubscriptionMock.getState()).thenReturn(EventSubscription.SUBSCRIBE_EVENTS_STOPPED);
@@ -414,7 +395,7 @@ public class CloudControllerTest extends RobolectricTest {
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener, DcsResponseListener responseListener) {
         DefaultCloudController controller = new DefaultCloudController();
         controller.addDCSEventListener(cppId, dcsListener);
-        if(responseListener != null) {
+        if (responseListener != null) {
             controller.addDCSResponseListener(responseListener);
         }
         return controller;

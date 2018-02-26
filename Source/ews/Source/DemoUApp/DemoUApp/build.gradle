@@ -38,6 +38,11 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -69,9 +74,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 //start publishing
 artifactory {
@@ -177,12 +179,14 @@ dependencies {
     // Philips Dependencies
     debugCompile project(path: ':ews-android', configuration: 'debug')
     releaseCompile project(path: ':ews-android', configuration: 'release')
-    compile "com.android.support:support-annotations:${versions.support}"
-    compile "com.android.support:animated-vector-drawable:${versions.support}"
-    compile 'com.android.support:multidex:1.0.2'
-    compile "com.android.support:design:${versions.support}"
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    compile 'com.google.dagger:dagger:2.9'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    annotationProcessor deps.dagger.compiler
+
+    compile deps.constraintlayout
+    compile deps.dagger.dagger
+    compile deps.multidex
+    compile deps.support.animvecdraw
+    compile deps.support.annotations
+    compile deps.support.appcompatv7
+    compile deps.support.design
 }

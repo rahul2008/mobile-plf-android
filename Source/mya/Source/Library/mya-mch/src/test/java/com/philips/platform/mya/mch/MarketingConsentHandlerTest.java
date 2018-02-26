@@ -1,24 +1,12 @@
 package com.philips.platform.mya.mch;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
+import org.mockito.ArgumentMatchers;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -29,10 +17,23 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Entreco on 19/12/2017.
- */
+
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+
 public class MarketingConsentHandlerTest {
+    private static final String LOCALE_STRING = "en-US";
 
     @Mock
     private CheckConsentsCallback givenCheckConsentCallback;
@@ -48,6 +49,10 @@ public class MarketingConsentHandlerTest {
     private ArgumentCaptor<List<Consent>> consentGetCaptor;
     @Captor
     private ArgumentCaptor<ConsentError> errorCaptor;
+    @Mock
+    private AppInfraInterface appInfraMock;
+    @Mock
+    private InternationalizationInterface internationalizationInterfaceMock;
 
     private MarketingConsentHandler subject;
     private ConsentDefinition givenConsentDefinition;
@@ -56,6 +61,9 @@ public class MarketingConsentHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterfaceMock);
+        when(internationalizationInterfaceMock.getBCP47UILocale()).thenReturn(LOCALE_STRING);
     }
 
     @Test
@@ -115,8 +123,8 @@ public class MarketingConsentHandlerTest {
     }
 
     private void givenConsentDefinition() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42, Locale.US);
-        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition));
+        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
+        subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfraMock);
     }
 
     private void givenStatusToPost(boolean status) {
@@ -177,7 +185,7 @@ public class MarketingConsentHandlerTest {
 
     private void thenErrorCallbackIsCalled() {
         verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
-        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(anyList());
+        verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(ArgumentMatchers.<Consent>anyList());
     }
 
 }

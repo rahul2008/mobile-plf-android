@@ -7,24 +7,16 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.android.volley.VolleyError;
-import com.philips.platform.mya.catk.error.ConsentNetworkError;
-import com.philips.platform.mya.catk.listener.ConsentResponseListener;
-import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.listener.GetConsentsResponseListener;
-import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
-import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.pif.chi.ConsentCallback;
-import com.philips.platform.pif.chi.ConsentDefinitionException;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,21 +27,28 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.mya.catk.error.ConsentNetworkError;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.listener.CreateConsentListener;
+import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
+import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentCallback;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import android.support.annotation.NonNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentInteractorTest {
-
+    private static final String CANADIAN_LOCALE = "-CA";
     ConsentInteractor subject;
 
     @Mock
@@ -57,7 +56,7 @@ public class ConsentInteractorTest {
     @Mock
     private CheckConsentsCallback mockCheckConsentsCallback;
     @Captor
-    private ArgumentCaptor<GetConsentsResponseListener> captorConsentDetails;
+    private ArgumentCaptor<ConsentResponseListener> captorConsentDetails;
     @Captor
     private ArgumentCaptor<List<Consent>> captorRequired;
     @Captor
@@ -69,12 +68,19 @@ public class ConsentInteractorTest {
     private ArgumentCaptor<BackendConsent> captorConsent;
     @Mock
     private PostConsentCallback mockPostConsentCallback;
+    @Mock
+    private AppInfraInterface appInfraMock;
+    @Mock
+    private InternationalizationInterface internationalizationMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         CatkLogger.disableLogging();
         CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
+
+        when(mockCatk.getAppInfra()).thenReturn(appInfraMock);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationMock);
     }
 
     @Test
@@ -112,9 +118,9 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
-        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, Locale.getDefault()));
+        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0));
         whenFetchLatestConsentsCalled();
-        andResponseIs(new BackendConsent(Locale.CANADA, ConsentStatus.active, "type", 0));
+        andResponseIs(new BackendConsent(CANADIAN_LOCALE, ConsentStatus.active, "type", 0));
 
         thenConsentRetrievedIsReported();
         andConsentListContainsNumberOfItems(1);
@@ -123,46 +129,54 @@ public class ConsentInteractorTest {
     @Test
     public void getStatusForConsentType_filtersByType() {
         givenAccessToolkitWithConsentDefinitions(
-                new ConsentDefinition("text1", "help1", Collections.singletonList("type1"), 0, Locale.US),
-                new ConsentDefinition("text2", "help2", Collections.singletonList("type2"), 0, Locale.US));
+                new ConsentDefinition("text1", "help1", Collections.singletonList("type1"), 0),
+                new ConsentDefinition("text2", "help2", Collections.singletonList("type2"), 0));
         whenGetStatusForConsentType("type2");
         thenCatkdgetStatusForConsentTypeWasCalledWith("type2");
     }
 
     @Test
     public void itShouldCallCreateConsentOnTheCatk() throws Exception {
+        givenAppLocaleOf("en-US");
         givenCreateConsentInteractor();
-        givenConsentDefinition(Locale.getDefault());
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = ConsentDefinitionException.class)
+    @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
+        givenAppLocaleOf("en-");
         givenCreateConsentInteractor();
-        givenConsentDefinition(new Locale("nl", ""));
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = ConsentDefinitionException.class)
+    @Test()
     public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
+        givenAppLocaleOf("-US");
         givenCreateConsentInteractor();
-        givenConsentDefinition(new Locale("", "NL"));
+        givenConsentDefinition();
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
+    }
+
+    private void givenAppLocaleOf(final String locale) {
+        when(internationalizationMock.getBCP47UILocale()).thenReturn(locale);
     }
 
     private void givenCreateConsentInteractor() {
         subject = new ConsentInteractor(mockCatk);
     }
 
-    private void givenConsentDefinition(Locale locale) {
-        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, locale);
+    private void givenConsentDefinition() {
+        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0);
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
         subject.storeConsentState(givenConsentDefinition, checked, mockPostConsentCallback);
+        //subject.fetchConsentState(givenConsentDefinition,mockCheckConsentsCallback);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
@@ -190,7 +204,8 @@ public class ConsentInteractorTest {
     }
 
     private void whenCheckConsentsCalled() {
-        subject.fetchConsentStates(null, mockCheckConsentsCallback);
+        //subject.checkConsents(mockCheckConsentsCallback);
+        subject.fetchLatestConsents(mockCheckConsentsCallback);
     }
 
     private void andResponseFailsWithError(ConsentNetworkError error) {
@@ -208,7 +223,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenGetConsentDetailsIsCalled() {
-        verify(mockContentAccessToolkit).getConsentDetails(isA(GetConsentsResponseListener.class));
+        verify(mockContentAccessToolkit).getConsentDetails(isA(ConsentResponseListener.class));
     }
 
     private void thenConsentFailedIsReported() {
@@ -222,7 +237,6 @@ public class ConsentInteractorTest {
     private void andConsentListContainsNumberOfItems(int expectedNumberOfItems) {
         assertEquals(expectedNumberOfItems, captorRequired.getValue().size());
     }
-
 
     private ConsentCallback consentCallback = new ConsentCallback() {
 

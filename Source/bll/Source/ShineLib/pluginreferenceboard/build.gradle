@@ -9,7 +9,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "pluginreferenceboard"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -39,5 +38,5 @@ dependencies {
     releaseCompile project(path: ":bluelib", configuration: 'release')
 
     testCompile deps.junit
-    testCompile deps.powermock_mockito
+    testCompile deps.mockito
 }

@@ -51,9 +51,9 @@ import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 import java.util.List;
 
+@SuppressWarnings("serial")
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener, BackEventListener {
 

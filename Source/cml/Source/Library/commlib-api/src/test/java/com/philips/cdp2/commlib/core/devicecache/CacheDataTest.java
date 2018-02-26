@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
@@ -62,7 +62,7 @@ public class CacheDataTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                callables[0] = invocation.getArgumentAt(0, Callable.class);
+                callables[0] = invocation.getArgument(0);
                 return null;
             }
         }).when(executorMock).schedule(isA(Callable.class), anyLong(), isA(TimeUnit.class));

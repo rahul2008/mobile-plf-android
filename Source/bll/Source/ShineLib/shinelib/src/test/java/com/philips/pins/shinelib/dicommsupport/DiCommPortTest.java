@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.helper.MockedHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
@@ -19,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -367,7 +367,7 @@ public class DiCommPortTest {
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
-        verify(diCommUpdateListenerMock).onPropertiesChanged(anyMap());
+        verify(diCommUpdateListenerMock).onPropertiesChanged(ArgumentMatchers.<String, Object>anyMap());
     }
 
     @Test
@@ -378,7 +378,7 @@ public class DiCommPortTest {
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
-        verify(diCommUpdateListenerMock).onPropertiesChanged(anyMap());
+        verify(diCommUpdateListenerMock).onPropertiesChanged(ArgumentMatchers.<String, Object>anyMap());
     }
 
     @Test
@@ -472,7 +472,7 @@ public class DiCommPortTest {
         Map<String, Object> newProperties = new HashMap<>(properties);
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
-        verify(diCommUpdateListenerMock, never()).onPropertiesChanged(anyMap());
+        verify(diCommUpdateListenerMock, never()).onPropertiesChanged(ArgumentMatchers.<String, Object>anyMap());
     }
 
     @Test

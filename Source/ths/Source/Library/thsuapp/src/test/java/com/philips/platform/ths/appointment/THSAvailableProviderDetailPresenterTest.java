@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -258,7 +259,7 @@ public class THSAvailableProviderDetailPresenterTest {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getReminderOptions()).thenReturn(RemindOptions.EIGHT_HOURS);
         mThsAvailableProviderDetailPresenter.scheduleAppointment(0);
-        verify(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),anyString(),any(RemindOptions.class),any(RemindOptions.class),any(SDKValidatedCallback.class));
+        verify(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),(String)isNull(),any(RemindOptions.class),any(RemindOptions.class),any(SDKValidatedCallback.class));
     }
 
     @Test

@@ -8,14 +8,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,8 +23,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -44,7 +44,7 @@ archivesBaseName = "RegistrationCoppaSampleApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -64,9 +64,6 @@ allprojects {
     group = 'com.philips.cdp'
     
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -146,14 +143,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
@@ -240,7 +237,7 @@ repositories { flatDir { dirs 'libs' } }
 dependencies {
     debugCompile project(path: ':coppa', configuration: 'debug')
     releaseCompile project(path: ':coppa', configuration: 'release')
-    compile 'com.android.support:multidex:1.0.2'
+    compile deps.support.multidex
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

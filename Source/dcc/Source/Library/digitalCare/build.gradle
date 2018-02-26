@@ -5,21 +5,26 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }
+
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
    
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -28,8 +33,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -49,7 +54,7 @@ archivesBaseName = "digitalCare"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -73,9 +78,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -108,12 +110,6 @@ artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    from files(projectDir.toString() + "/../../../Documents/External/") {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 publishing {
@@ -146,12 +142,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         generatedDensities = []
@@ -159,7 +155,6 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
         resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
-        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
@@ -189,10 +184,10 @@ android {
         release {
             shrinkResources false
             consumerProguardFiles 'proguard-dcc.pro'
-            //consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-dcc.pro'
         }
 
         debug {
+            testCoverageEnabled=true
             debuggable true
             minifyEnabled false
             shrinkResources false
@@ -228,8 +223,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.1'
-    testCompile 'junit:junit:4.12'
+    testCompile deps.junit
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
@@ -239,26 +233,28 @@ dependencies {
         releaseCompile project(path: ':mya-catk', configuration: 'release')
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.mya-csw
+        compile philipsdeps.mya-catk
+        compile philipsdeps.productselection
+        compile philipsdeps.uid
     }
 
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.4.2'
-    testCompile 'org.robolectric:shadows-multidex:3.3.2'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'
-    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.6'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.6'
-    testCompile 'org.powermock:powermock-classloading-xstream:1.6.6'
-    //compile 'junit:junit:4.12'
+    compile deps.play_services_maps
+    compile deps.constraintlayout
+    testCompile deps.opengl
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows_multidex
+    testCompile deps.robolectric_shadows
+    testCompile deps.powermock_core
+    testCompile deps.mockito
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_junit_rule_agent
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_classloading_xstream
 }
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
@@ -317,5 +313,5 @@ task copyToLib(type: Copy) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
