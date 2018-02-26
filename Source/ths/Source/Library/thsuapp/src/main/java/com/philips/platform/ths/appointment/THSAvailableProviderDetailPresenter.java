@@ -15,6 +15,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -41,7 +42,7 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
 
-class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List<Date>, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
+class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List<Date>, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback<Void, SDKError> {
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
     List<Date> dateList;
@@ -208,7 +209,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     }
 
     @Override
-    public void onResponse(Object o, SDKError sdkError) {
+    public void onResponse(Void v, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (sdkError == null) {
                 AmwellLog.d("createAppointment", "success");
@@ -261,7 +262,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     }
 
     @Override
-    public void onValidationFailure(Map var1) {
+    public void onValidationFailure(Map<String, ValidationReason> var1) {
         mThsBaseFragment.showError(var1.toString());
     }
 }

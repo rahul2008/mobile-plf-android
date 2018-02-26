@@ -26,7 +26,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
 
-
+@SuppressWarnings("serial")
 public class THSInitFragment extends THSBaseFragment {
     public static final String TAG = THSInitFragment.class.getSimpleName();
     THSInitPresenter mThsInitPresenter;

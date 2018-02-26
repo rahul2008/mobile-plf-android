@@ -34,7 +34,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.mTHSFaqFragment = thsFaqFragment;
         this.context = mTHSFaqFragment.getContext();
 
-        final Set set = map.keySet();
+        final Set<String> set = map.keySet();
         this.listDataHeader = new ArrayList<>(set);
         this.listDataChild = map;
     }
