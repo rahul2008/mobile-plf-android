@@ -247,8 +247,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service,
                                             AISDURLType aisdurlType, SD_REQUEST_TYPE requestType) {
         if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
-            service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", " NO_NETWORK");
+            service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, " NO_NETWORK"));
             errorvalues = OnErrorListener.ERRORVALUES.NO_NETWORK;
             appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, " error while fetching ".concat(requestType.name().concat(" due to ").concat(service.getError().getErrorvalue().name())));
         } else {
@@ -422,7 +422,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
             return null;
         } else {
-            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS.concat(country));
             return country;
         }
     }
@@ -438,7 +437,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 sendBroadcast(countryCode);
                 appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SET_HOME_COUNTRY_SUCCESS.concat(countryCode));
                 serviceDiscovery = null;  // if there is no internet then also old SD value must be cleared.
-                mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
+                mRequestItemManager.clearCacheServiceDiscovery(appInfraTaggingAction); // clear SD cache
                 queueResultListener(true, new AbstractDownloadItemListener() {
                     @Override
                     public void onDownloadDone(AISDResponse result) {
@@ -642,7 +641,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
         try {
             output = new URL(url);
-            appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, ADD_URL_PARAMETERS);
             return output;
         } catch (MalformedURLException ex) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, " ServiceDiscovery URL error Malformed URL");
@@ -652,12 +650,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private void getServiceDiscoveryData(final AISDListener listener, SD_REQUEST_TYPE requestType) {
-        final AISDResponse cachedData = mRequestItemManager.getCachedData();
+        final AISDResponse cachedData = mRequestItemManager.getCachedData(appInfraTaggingAction);
         if (cachedData != null && !cachedURLsExpired()) {
             appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SD_LOCAL_CACHE_DATA_SUCCESS);
             listener.ondataReceived(cachedData);
         } else {
-            mRequestItemManager.clearCacheServiceDiscovery();
+            mRequestItemManager.clearCacheServiceDiscovery(appInfraTaggingAction);
 
             queueResultListener(false, new AbstractDownloadItemListener() {
                 @Override
@@ -795,18 +793,21 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void saveToSecureStore(final String country, final String countrySource) {
 
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
-        final SecureStorage.SecureStorageError mSecureStorageError = new SecureStorage.SecureStorageError();
+        final SecureStorage.SecureStorageError mSecureStorageError = getSecureStorageError();
 
         mSecureStorageInterface.storeValueForKey(COUNTRY, country, mSecureStorageError);
 
         mSecureStorageInterface.storeValueForKey(COUNTRY_SOURCE, countrySource, mSecureStorageError);
         this.mCountry = country;
         this.mCountrySourceType = countrySource;
+        if(!TextUtils.isEmpty(mSecureStorageError.getErrorMessage()))
+            appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED);
+
     }
 
     private String fetchFromSecureStorage(final String countrySource) {
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
-        final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
+        final SecureStorageInterface.SecureStorageError mSecureStorageError = getSecureStorageError();
         String value = "";
         if (countrySource.equals(COUNTRY)) {
             if (mCountry != null) {
@@ -823,7 +824,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 mCountrySourceType = value;
             }
         }
+        if(!TextUtils.isEmpty(mSecureStorageError.getErrorMessage()))
+            appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
         return value;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    SecureStorageInterface.SecureStorageError getSecureStorageError() {
+        return new SecureStorageInterface.SecureStorageError();
     }
 
     private boolean cachedURLsExpired() {

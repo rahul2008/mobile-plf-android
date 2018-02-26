@@ -29,12 +29,15 @@ public class AppInfraTaggingUtil implements Serializable {
     public static final String SD_URL_MISMATCH = " SD data refresh due to URL mismatch ";
     public static final String SD_SET_SAME_COUNTRY_CODE = " setHomeCountry same country - ";
     public static final String SD_SET_INVALID_COUNTRY_CODE = " setHomeCountry invalid country - ";
+    public static final String SD_SET_HOME_COUNTRY_STORE_FAILED = " setHomeCountry save failed";
+    public static final String SD_SET_HOME_COUNTRY_FETCH_FAILED = " setHomeCountry fetch failed ";
+    public static final String SD_STORE_FAILED = " error while saving SD data ";
+    public static final String SD_FETCH_FAILED = " error while fetching SD data ";
 
     // AppInfra Tagging Categories
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     ////AppInfra success
-    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS = " getHomeCountry  synchronous fetched successfully - ";
     public static final String DOWNLOAD_PLATFORM_SERVICES_INVOKED = " Downloading platform services -";
     public static final String DOWNLOAD_PREPOSITION_SERVICES_INVOKED = " Downloading preposition services -";
     public static final String SD_SUCCESS = " SD download success ";
@@ -42,8 +45,9 @@ public class AppInfraTaggingUtil implements Serializable {
     public static final String GET_HOME_COUNTRY_SIM_SUCCESS = " Fetched country code from sim - ";
     public static final String GET_HOME_COUNTRY_GEOIP_SUCCESS = " Fetched country code  from GEOIP - ";
     public static final String SET_HOME_COUNTRY_SUCCESS = " Successfully setHomeCountry - ";
-    public static final String ADD_URL_PARAMETERS = " Successfully added the URL parameters";
     public static final String SD_FORCE_REFRESH_CALLED = "SD force refreshed called";
+    public static final String SD_CLEAR_DATA = "Clearing SD data";
+
     //keys
     public static final String SEND_DATA = "sendData";
 

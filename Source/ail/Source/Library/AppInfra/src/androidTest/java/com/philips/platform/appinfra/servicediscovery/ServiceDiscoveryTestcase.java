@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,14 +34,13 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.ADD_URL_PARAMETERS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.MALFORMED_URL;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_FETCH_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;
@@ -156,6 +154,50 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 	}
 
+	public void testTaggingFetchSD() {
+		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
+		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
+		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			SecureStorageInterface.SecureStorageError getSecureStorageError() {
+				return secureStorageError;
+			}
+
+					@Override
+					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+
+						return appInfraTaggingUtil;
+					}
+				};
+		mServiceDiscoveryManager.getHomeCountry();
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
+
+	}
+
+	public void testTaggingStoreSD() {
+		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
+		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
+		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			SecureStorageInterface.SecureStorageError getSecureStorageError() {
+				return secureStorageError;
+			}
+
+					@Override
+					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+
+						return appInfraTaggingUtil;
+					}
+				};
+		mServiceDiscoveryManager.setHomeCountry("en");
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED);
+
+	}
+
 	public void testConfig() {
 
 		AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
@@ -174,32 +216,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
 	}
 
-	public void testApplyURLParameters() {
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("ctn", "HD9740");
-		parameters.put("sector", "B2C");
-		parameters.put("catalog", "shavers");
-		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
-		try {
-			URL url = new URL("https://d1lqe9temigv1p.cloudfront.net");
-			assertNotNull(mServiceDiscoveryManager.applyURLParameters(url, parameters));
-			AppInfra mAppInfra = getAppInfraMocked();
-
-			mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
-				@Override
-				AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
-					return appInfraTaggingUtil;
-				}
-			};
-			mServiceDiscoveryManager.applyURLParameters(url, parameters);
-			verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, ADD_URL_PARAMETERS);
-			url = new URL("not a url");
-			mServiceDiscoveryManager.applyURLParameters(url,parameters);
-			verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, MALFORMED_URL);
-		} catch (MalformedURLException e) {
-		}
-	}
-
 	public void testSetGetHomeCountryTagging() {
 		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
 		AppInfra appInfra = getAppInfraMocked();
@@ -215,8 +231,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		String en = "gb";
 		mServiceDiscoveryManager.setHomeCountry(en);
 		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SET_HOME_COUNTRY_SUCCESS.concat(en));
-		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_SUCCESS.concat("gb"));
 
 		Context context = mock(Context.class);
 		TelephonyManager telephonyManagerMock = mock(TelephonyManager.class);
