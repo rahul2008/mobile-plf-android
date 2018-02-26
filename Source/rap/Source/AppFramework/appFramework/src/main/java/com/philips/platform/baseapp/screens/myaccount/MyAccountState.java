@@ -152,9 +152,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return definitions;
     }
 
-    List<ConsentDefinition> createTHSDefinitions(Context context, Locale currentLocale) {
+    List<ConsentDefinition> createTHSDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context,currentLocale));
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
 
@@ -171,12 +171,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-        List<ConsentDefinition> thsDefinitions = createTHSDefinitions(context, currentLocale);
+        List<ConsentDefinition> thsDefinitions = createTHSDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions)));
         consentHandlerMappings.add(new ConsentConfiguration(thsDefinitions, new DeviceStoredConsentHandler(app.getAppInfra())));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
