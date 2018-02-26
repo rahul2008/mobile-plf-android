@@ -33,8 +33,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -64,22 +64,7 @@ public class MyaBaseFragmentTest {
     public void setup() {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
-        myaBaseFragment = new MyaSettingsFragment(){
-            @Override
-            public int getActionbarTitleResId() {
-                return 1;
-            }
-
-            @Override
-            public String getActionbarTitle(Context context) {
-                return "My Account";
-            }
-
-            @Override
-            public boolean getBackButtonState() {
-                return false;
-            }
-        };
+        myaBaseFragment = new MyaSettingsFragment();
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
         SupportFragmentTestUtil.startFragment(myaBaseFragment);
@@ -90,7 +75,7 @@ public class MyaBaseFragmentTest {
     public void testInvocations() {
         myaBaseFragment.setActionbarUpdateListener(actionBarListener);
         assertEquals(myaBaseFragment.getActionbarUpdateListener(),actionBarListener);
-        assertTrue(myaBaseFragment.getBackButtonState());
+        assertFalse(myaBaseFragment.getBackButtonState());
     }
 
     @Test
