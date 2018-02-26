@@ -425,6 +425,10 @@ public class DataServicesManager {
         mEventing.post(new DeleteInsightFromDB((List<Insight>) insights, dbRequestListener));
     }
 
+    public void deleteAllInsights() {
+        // TODO
+    }
+
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
@@ -600,10 +604,21 @@ public class DataServicesManager {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override
                 public void onSuccess(List<? extends Moment> data) {
+                    // TODO Delete all insights
+
                     mBackendIdProvider.clearSyncTimeCache();
+                    mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
+                        @Override
+                        public void onSyncComplete() {
 
-                    // TODO Fetch all moments from OBE
+                        }
 
+                        @Override
+                        public void onSyncFailed(Exception exception) {
+
+                        }
+                    });
+                    storeGdprMigrationFlag();
                 }
 
                 @Override
