@@ -45,7 +45,6 @@ import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -158,7 +157,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void onResume() {
         super.onResume();
-        makeProviderButtonsClickable();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
         handleBtnClickableStates(true);
     }
 
@@ -186,7 +185,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-            if (!getRegistrationFragment().isHomeFragment()) {
+            if(!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -528,22 +527,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void enableControlsOnNetworkConnectionArraival() {
-        mRegError.hideError();
-        mBtnCreateAccount.setEnabled(true);
-        enableSocialProviders(true);
-        mBtnMyPhilips.setEnabled(true);
-        mCountryDisplay.setEnabled(true);
-        mCountryDisplay2.setEnabled(true);
+        enableControls(true);
     }
 
     @Override
     public void disableControlsOnNetworkConnectionGone() {
         hideProgressDialog();
-        mBtnCreateAccount.setEnabled(false);
-        enableSocialProviders(false);
-        mBtnMyPhilips.setEnabled(false);
-        mCountryDisplay.setEnabled(false);
-        mCountryDisplay2.setEnabled(false);
+        handleBtnClickableStates(false);
         updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
     }
 
@@ -714,7 +704,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAppNotInstalled() {
-        makeProviderButtonsClickable();
+        handleBtnClickableStates(true);
         final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
                 mContext.getText(R.string.reg_wechat));
         Toast.makeText(mContext, formatedString
@@ -723,7 +713,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAppNotSupported() {
-        makeProviderButtonsClickable();
+        handleBtnClickableStates(true);
         Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
                 , Toast.LENGTH_SHORT).show();
     }
@@ -848,17 +838,16 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         getRegistrationFragment().userRegistrationComplete();
     }
 
-    private void makeProviderButtonsClickable() {
-        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
-        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
-            View childView = providerButtonGroup.getChildAt(i);
-            if (childView instanceof XProviderButton) {
-                childView.setClickable(true);
-            }
-        }
-    }
-
-    private int viewLength(TextView text, String newText) {
+//    private void makeProviderButtonsClickable() {
+//        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
+//        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
+//            View childView = providerButtonGroup.getChildAt(i);
+//            if (childView instanceof XProviderButton) {
+//                childView.setClickable(true);
+//            }
+//        }
+//    }
+    private int viewLength (TextView text, String newText) {
         float textWidth = text.getPaint().measureText(newText);
         return Math.round(textWidth);
     }

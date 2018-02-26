@@ -28,6 +28,7 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.CountrySelectionListener;
+import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -141,13 +142,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
-               /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, false);
-             /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
@@ -180,7 +178,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
-                   /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
                         fragment.getUpdateTitleListener().updateActionBar(
@@ -190,19 +187,24 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                         }
                     }
-                /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            getTitleResourceId());*/
                 }
             } else {
                 if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), false);
+
+
+                    if(this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment){
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), true);
+                    }else{
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), false);
+                    }
                     String titleText = getTitleResourceText();
                     if (titleText != null && titleText.length() > 0) {
                         fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                     }
                 }
-                /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());
             fragment.setCurrentTitleResource(getTitleResourceId());

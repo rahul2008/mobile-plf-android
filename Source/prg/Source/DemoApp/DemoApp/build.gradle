@@ -74,10 +74,6 @@ allprojects {
     }
 }
 
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -224,8 +220,7 @@ dependencies {
         debugCompile project(path: ':product-registration-libUApp', configuration: 'debug')
         releaseCompile project(path: ':product-registration-libUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp',
-                version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.product_registration_libUApp
     }
 
     androidTestCompile deps.espresso_core, {

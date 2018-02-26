@@ -79,9 +79,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -232,15 +229,11 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-    }
-
-    if(dp) {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.productselection
+        compile philipsdeps.uid
     }
 
     compile deps.play_services_maps

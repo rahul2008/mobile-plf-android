@@ -134,7 +134,7 @@ public class MyAccountStateTest {
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createCatkDefinitions(mockContext, Locale.forLanguageTag(LANGUAGE_TAG));
+        return myAccountState.createCatkDefinitions(mockContext);
     }
 
     class MyAccountStateMock extends MyAccountState {
