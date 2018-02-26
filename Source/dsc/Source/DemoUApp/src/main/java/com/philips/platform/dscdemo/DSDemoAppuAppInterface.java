@@ -14,6 +14,7 @@ import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
@@ -47,7 +48,11 @@ public class DSDemoAppuAppInterface implements UappInterface {
         JustInTimeConsentDependencies.consentDefinition = dsDependencies.momentConsentDefinition;
         AppInfraInterface appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
-        JustInTimeConsentDependencies.textResources = dsDependencies.textResources;
+        JustInTimeTextResources textResources = new JustInTimeTextResources();
+        textResources.titleTextRes = R.string.DSC_CSW_JustInTime_Title;
+        textResources.acceptTextRes = R.string.DSC_CSW_JustInTime_Accept;
+        textResources.rejectTextRes = R.string.DSC_CSW_JustInTime_Reject;
+        JustInTimeConsentDependencies.textResources = textResources;
 
         DemoAppManager mDemoAppManager = DemoAppManager.getInstance();
         mDemoAppManager.initPreRequisite(uappSettings.getContext(), appInfra);
