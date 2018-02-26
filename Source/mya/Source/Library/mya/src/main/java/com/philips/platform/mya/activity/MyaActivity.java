@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.tabs.MyaTabFragment;
@@ -142,12 +141,11 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-        UserDataProvider userDataProvider = new UserDataProvider(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
             bundle = new Bundle();
         }
-        bundle.putSerializable(USER_PLUGIN, userDataProvider);
+        bundle.putSerializable(USER_PLUGIN, MyaHelper.getInstance().getUserDataInterface());
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
         myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -24,6 +23,7 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -64,9 +64,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        UserDataProvider userDataProvider = (UserDataProvider) MyaHelper.getInstance().getUserDataInterface();
-        if (userDataProvider != null) {
-            userDataProvider.logOut(getLogoutListener());
+        UserDataInterface userDataInterface =  MyaHelper.getInstance().getUserDataInterface();
+        if (userDataInterface != null) {
+            userDataInterface.logOut(getLogoutListener());
         }
     }
 

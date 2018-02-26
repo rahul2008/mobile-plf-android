@@ -9,13 +9,13 @@ package com.philips.platform.mya.profile;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
 import java.util.ArrayList;
@@ -27,16 +27,16 @@ import java.util.TreeMap;
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter{
 
     private MyaProfileContract.View view;
-    private UserDataProvider userDataProvider;
+    private UserDataInterface userDataInterface;
     MyaProfilePresenter(MyaProfileContract.View view) {
         this.view = view;
     }
 
-    private void setUserName(UserDataProvider userDataProvider) {
-        if (userDataProvider != null) {
+    private void setUserName(UserDataInterface userDataInterface) {
+        if (userDataInterface != null) {
             ArrayList<String> list = new ArrayList<>();
             try {
-                HashMap<String,Object> userMap = userDataProvider.getUserDetails(list);
+                HashMap<String,Object> userMap = userDataInterface.getUserDetails(list);
                 String givenName = (String) userMap.get(UserDetailConstants.GIVEN_NAME);
                 String familyName = (String) userMap.get(UserDetailConstants.FAMILY_NAME);
                 if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
@@ -60,8 +60,8 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     public void getProfileItems(AppInfraInterface appInfra, Bundle arguments) {
         List<?> list = null;
         if (arguments != null) {
-            userDataProvider = (UserDataProvider)MyaHelper.getInstance().getUserDataInterface();
-            setUserName(userDataProvider);
+            userDataInterface = MyaHelper.getInstance().getUserDataInterface();
+            setUserName(userDataInterface);
 
             list = MyaHelper.getInstance().getMyaLaunchInput().getProfileMenuList();
         }

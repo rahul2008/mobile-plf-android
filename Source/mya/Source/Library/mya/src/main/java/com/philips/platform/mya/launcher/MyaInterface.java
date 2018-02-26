@@ -10,13 +10,13 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.tabs.MyaTabFragment;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -71,15 +71,15 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        UserDataProvider userDataProvider = getUserDataProvider(myaLaunchInput);
-        if (!userDataProvider.isUserLoggedIn(myaLaunchInput.getContext())) {
+        UserDataInterface userDataInterface = getUserDataProvider(myaLaunchInput);
+        if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         Bundle bundle = new Bundle();
-        bundle.putSerializable(USER_PLUGIN, userDataProvider);
+        bundle.putSerializable(USER_PLUGIN, userDataInterface);
         PermissionHelper.getInstance().setMyAccountUIEventListener(myaLaunchInput.
                 getMyAccountUIEventListener());
 
@@ -112,7 +112,7 @@ public class MyaInterface implements UappInterface {
         return dependencies;
     }
 
-    public UserDataProvider getUserDataProvider(MyaLaunchInput myaLaunchInput) {
-        return new UserDataProvider(myaLaunchInput.getContext());
+    protected UserDataInterface getUserDataProvider(MyaLaunchInput myaLaunchInput) {
+        return MyaHelper.getInstance().getUserDataInterface();
     }
 }
