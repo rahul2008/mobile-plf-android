@@ -15,11 +15,9 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -34,7 +32,6 @@ public class CatkInputsTest {
         someConsentRegistryInterface =  mock(ConsentRegistryInterface.class);
         this.inputBuilder = new CatkInputs.Builder();
     }
-
 
     @Test(expected = CatkInputs.InvalidInputException.class)
     public void build_whenContextNotSetThrowsException() {
@@ -101,7 +98,7 @@ public class CatkInputsTest {
     private void givenConsentDefinitionTypes(String... types) {
         List<ConsentDefinition> definitions = new ArrayList<>();
         for (String type : types) {
-            definitions.add(new ConsentDefinition("", "", Collections.singletonList(type), 2, Locale.US));
+            definitions.add(new ConsentDefinition("", "", Collections.singletonList(type), 2));
         }
         consentDefinitions = definitions;
     }

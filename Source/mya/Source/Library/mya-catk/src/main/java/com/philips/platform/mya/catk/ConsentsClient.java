@@ -7,9 +7,12 @@
 
 package com.philips.platform.mya.catk;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
@@ -30,10 +33,8 @@ import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 public class ConsentsClient {
 
@@ -55,6 +56,7 @@ public class ConsentsClient {
     private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
     private ConsentRegistryInterface consentRegistryInterface;
+    private AppInfraInterface appInfra;
 
     ConsentsClient() {
     }
@@ -71,8 +73,9 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        extractContextNames(catkInputs);
         this.consentRegistryInterface = catkInputs.getConsentRegistryInterface();
+        appInfra = catkInputs.getAppInfra();
+        extractContextNames();
         this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
 
@@ -99,8 +102,8 @@ public class ConsentsClient {
         CatkLogger.enableLogging();
     }
 
-    private void extractContextNames(CatkInputs catkInputs) {
-        AppConfigurationInterface appConfigInterface = catkInputs.getAppInfra().getConfigInterface();
+    private void extractContextNames() {
+        AppConfigurationInterface appConfigInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
         this.applicationName = (String) appConfigInterface.getPropertyForKey("appName", "hsdp", error);
         this.propositionName = (String) appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
@@ -234,6 +237,10 @@ public class ConsentsClient {
 
     public List<ConsentDefinition> getConsentDefinitions() {
         return Collections.unmodifiableList(consentDefinitionList);
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return appInfra;
     }
 
     interface ConfigCompletionListener {

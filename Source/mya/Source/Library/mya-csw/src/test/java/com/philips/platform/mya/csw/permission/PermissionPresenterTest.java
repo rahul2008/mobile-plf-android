@@ -41,6 +41,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
+    private static final String AMERICAN_LOCALE = "en-US";
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
@@ -177,7 +178,7 @@ public class PermissionPresenterTest {
         cswInterface.init(cswDependencies, cswSettings);
     }
 
-    private void  givenCswComponentWithEmptyConsentDefinitions () {
+    private void givenCswComponentWithEmptyConsentDefinitions() {
         CswInterface cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
@@ -187,12 +188,12 @@ public class PermissionPresenterTest {
     }
 
     private void givenActiveClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
     private void givenRejectedClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.rejected, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
@@ -204,8 +205,7 @@ public class PermissionPresenterTest {
     }
 
     private ConsentDefinition clickStreamConsentDefinition() {
-        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
-                1, new Locale("en", "US"));
+        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"), 1);
     }
 
     public void whenCreateConsentSuccess() {
@@ -267,7 +267,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenConsentDefinitions() {
-        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
+        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0);
         givenConsentDefinitions = Arrays.asList(definition);
         givenPresenter();
     }

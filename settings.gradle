@@ -137,3 +137,5 @@ include ':bluelib-demoapp'
 project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
 include ':dcc-demoapp'
 project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include ':ail-demoapp'
+//project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')

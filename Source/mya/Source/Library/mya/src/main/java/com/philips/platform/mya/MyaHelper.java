@@ -9,6 +9,8 @@ package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -24,17 +26,15 @@ public class MyaHelper {
     private ThemeConfiguration themeConfiguration;
     private List<ConsentDefinition> consentDefinitionList;
     private ConsentRegistryInterface consentRegistryInterface;
+    private MyaLaunchInput myaLaunchInput;
+    private LoggingInterface myaLogger;
 
     private MyaHelper() {
     }
 
     public static MyaHelper getInstance() {
         if (instance == null) {
-            synchronized (MyaHelper.class) {
-                if (instance == null) {
-                    instance = new MyaHelper();
-                }
-            }
+            instance = new MyaHelper();
         }
         return instance;
     }
@@ -77,5 +77,21 @@ public class MyaHelper {
 
     public void setConsentDefinitionList(List<ConsentDefinition> consentDefinitionList) {
         this.consentDefinitionList = consentDefinitionList == null ? new ArrayList<ConsentDefinition>() : consentDefinitionList;
+    }
+
+    public MyaLaunchInput getMyaLaunchInput() {
+        return myaLaunchInput;
+    }
+
+    public void setMyaLaunchInput(MyaLaunchInput myaLaunchInput) {
+        this.myaLaunchInput = myaLaunchInput;
+    }
+
+    public void setMyaLogger(LoggingInterface myaLogger) {
+        this.myaLogger = myaLogger;
+    }
+
+    public LoggingInterface getMyaLogger() {
+        return myaLogger;
     }
 }
