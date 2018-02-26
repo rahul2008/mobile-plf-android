@@ -9,6 +9,7 @@
 -keep class com.philips.cdp.registration.ui.utils.** {*;}
 -keep class com.philips.cdp.registration.hsdp.HsdpUser {*;}
 -keep class com.philips.cdp.registration.listener.** {*;}
+-keep class com.philips.cdp.registration.consents.** {*;}
 -keep class com.philips.cdp.registration.settings.RegistrationHelper { *; }
 -keep class com.philips.cdp.registration.configuration.RegistrationConfiguration { *; }
 -keep class com.philips.cdp.registration.settings.UserRegistrationInitializer { *; }

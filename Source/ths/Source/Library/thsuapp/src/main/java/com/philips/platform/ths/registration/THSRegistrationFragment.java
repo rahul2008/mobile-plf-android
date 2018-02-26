@@ -148,6 +148,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                         mCurrentSelectedState = mValidStates.get(position);
                         mEditTextStateSpinner.setText(mCurrentSelectedState.getName());
                         uiPicker.setSelection(position);
+                        validateUserFields();
                         uiPicker.dismiss();
                     }
                 }

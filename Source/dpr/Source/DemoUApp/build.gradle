@@ -6,7 +6,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "devicepairingUApp"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -58,16 +57,15 @@ dependencies {
     compile deps.support.fragment
     compile deps.support.appcompatv7
     compile deps.support.design
+    compile deps.multidex
 
     compile deps.constraintlayout
-
-    compile deps.multidex
     compile deps.ormlite.core
     compile deps.ormlite.android
 
     testCompile deps.junit
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }

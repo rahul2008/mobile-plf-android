@@ -29,7 +29,7 @@
     <string name="ths_vitals_temp_text">(in \u2109)</string>
     <string name="ths_vitals_medications">Step 3 of 5: Medications</string>
     <string name="ths_vitals_systolic">Systolic</string>
-    <string name="ths_vitals_diastolic">Diasystolic</string>
+    <string name="ths_vitals_diastolic">Diastolic</string>
     <string name="ths_temperature">Temperature</string>
     <string name="ths_vitals_fahrenheit">Fahrenheit</string>
     <string name="ths_vitals_f">oF</string>
@@ -175,7 +175,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 
     <!-- Set Reminder Dialog text strings -->
-    <string name="ths_rb_no_reminder">No Reminder</string>
+    <string name="ths_rb_no_reminder">No reminder</string>
     <string name="ths_rb_15_mins_reminder">15 minutes before</string>
     <string name="ths_rb_one_hour_before">1 hour before</string>
     <string name="ths_rb_four_hours_before">4 hours before</string>
@@ -225,7 +225,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
     <string name="ths_hippa_notice">HIPAA notice</string>
-    <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
+    <string name="ths_visit_summary_report_info">Your visit report will be available shortly. You will see it in your visit history soon.</string>
     <string name="ths_download_visit_report_button">Ok, I understand</string>
     <string name="ths_privacy_notice_title">Privacy notice</string>
 
@@ -348,7 +348,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent-->
     <string name="ths_visit_for">Who is this visit for?</string>
-    <string name="ths_select_name">Please select the person who needs the consult. For instance, if you are the parent and your child has an ear-ache, select your \'your child\'.</string>
+    <string name="ths_select_name">Please select the person who needs the consult. For instance, if you are the parent and your child has an ear-ache, select \'your child\'.</string>
 
     <string name="ths_select_patient">Select patient</string>
     <string name="ths_select_patient_detail_appointment_text">Please select a patient from which you would like to see the scheduled visits.</string>

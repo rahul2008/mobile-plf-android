@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
 
 
 jacoco {
@@ -12,14 +11,14 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -28,9 +27,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-//        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath builddeps.gradle
         classpath(builddeps.cdpSCM)
     }
 }
@@ -55,7 +52,7 @@ archivesBaseName = "myaApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -68,13 +65,10 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {url "https://clojars.org/repo/"}
+        maven {url clojars}
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -131,9 +125,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
-    }
+
     defaultConfig {
         applicationId 'com.philips.platform.mya.demoapp'
         minSdkVersion versions.minsdk
@@ -141,7 +133,7 @@ android {
         versionCode 8
         versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
@@ -270,13 +262,12 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-//    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
 
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile deps.support.appcompatv7
+    compile deps.constraintlayout
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -288,18 +279,18 @@ dependencies {
         debugCompile project(path: ':jump', configuration: 'debug')
         releaseCompile project(path: ':jump', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'jump', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.jump) {
             exclude group: 'com.android.support'
         }
     }
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }

@@ -61,6 +61,7 @@ subprojects {
     }
 
     group = 'com.philips.cdp'
+    version = platformversion
 
     if (!it.projectDir.exists()) {
         throw new GradleException("Project not found ${it}")

@@ -10,7 +10,6 @@
 
 package com.philips.cdp.digitalcare.homefragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -49,6 +48,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
@@ -63,6 +63,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -90,7 +91,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private CommonRecyclerViewAdapter<MenuItem> mAdapter;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private ProgressDialog mProgressDialog = null;
+    private ProgressAlertDialog mProgressDialog = null;
     protected ResponseCallback categoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
@@ -189,7 +190,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private boolean isProductSelected() {
         String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
         DigiCareLogger.i(TAG, "isProductSelected ?" + ctn);
-        return !(ctn != null && ctn != "");
+        return !(ctn != null && !ctn.isEmpty());
     }
 
     private void enableSupportButtonClickable() {
@@ -396,9 +397,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     private void launchProductSelectionFragmentComponent() {
-        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
-                (getActivity(), R.style.loaderTheme);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        if (mProgressDialog == null){
+            mProgressDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
+        }
+
         mProgressDialog.setCancelable(false);
         if (!(getActivity().isFinishing())) {
             mProgressDialog.show();
@@ -446,9 +448,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         DigiCareLogger.d(TAG, "Launching ProductSelection as Activity Instance");
 
-        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+        if (mProgressDialog == null) mProgressDialog = new ProgressAlertDialog
                 (getActivity(), R.style.loaderTheme);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+
         mProgressDialog.setCancelable(false);
         if (!(getActivity().isFinishing())) {
             mProgressDialog.show();
@@ -608,9 +610,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             subCategoryRequest.setRequestUrl(subCategoryUrl);
             subCategoryRequest.setResponseCallback(categoryResponseCallbak);
 
-            if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+            if (mProgressDialog == null) mProgressDialog = new ProgressAlertDialog
                     (getActivity(), R.style.loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+
             mProgressDialog.setCancelable(false);
             if (!(getActivity().isFinishing())) {
                 mProgressDialog.show();

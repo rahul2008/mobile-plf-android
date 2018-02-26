@@ -36,6 +36,7 @@ import org.robolectric.shadows.ShadowNotificationManager;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
@@ -82,7 +83,7 @@ public class DemoDataServicesStateTest {
     @Test
     public void testLaunchDemoDataServicesState() {
         demoDataServiceStateMock.navigate(activityLauncher);
-        verify(dsDemoAppuAppInterface).launch(any(UiLauncher.class), any(UappLaunchInput.class));
+        verify(dsDemoAppuAppInterface).launch(any(UiLauncher.class), (UappLaunchInput)isNull());
     }
 
 

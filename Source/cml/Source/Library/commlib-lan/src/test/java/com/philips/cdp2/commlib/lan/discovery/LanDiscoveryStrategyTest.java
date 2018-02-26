@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
@@ -79,7 +79,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                availabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
+                availabilityListener = invocation.getArgument(0);
                 return null;
             }
         }).when(connectivityMonitorMock).addAvailabilityListener(Matchers.<AvailabilityListener<ConnectivityMonitor>>any());
@@ -170,7 +170,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ref.set(invocation.getArgumentAt(1, ExpirationCallback.class));
+                ref.set((ExpirationCallback) invocation.getArgument(1));
                 return null;
             }
         }).when(deviceCacheMock).addNetworkNode(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());

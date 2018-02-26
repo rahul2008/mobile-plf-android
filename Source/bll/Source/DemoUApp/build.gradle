@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
@@ -9,7 +9,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "bluelib-demouapp"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -42,8 +41,8 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.pluginreferenceboard
+        compile philipsdeps.uAppFwLib
     }
 
     compile deps.support.design
@@ -53,5 +52,5 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = versions.jacoco
 }

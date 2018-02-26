@@ -9,13 +9,13 @@ package com.philips.platform.mya.csw;
 
 import java.util.List;
 
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
 import com.philips.platform.mya.csw.injection.CswModule;
 import com.philips.platform.mya.csw.injection.DaggerCswComponent;
 import com.philips.platform.mya.csw.permission.PermissionView;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -91,6 +91,7 @@ public class CswInterface implements UappInterface {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             PermissionView permissionFragment = new PermissionView();
+            permissionFragment.setUpdateTitleListener(fragmentLauncher.getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(PermissionView.TAG);
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionView.TAG);

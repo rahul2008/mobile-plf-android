@@ -17,14 +17,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -33,13 +33,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
+        classpath builddeps.trickyandroid
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
+        classpath builddeps.androidapt
+        classpath builddeps.bintrayplugin
+        classpath builddeps.mobilej
     }
 }
 
@@ -56,15 +56,16 @@ apply plugin: 'cdpSCM'
  */
 
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "telehealth"
 
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -82,9 +83,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -97,7 +95,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -107,7 +105,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -137,7 +136,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -152,17 +151,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
@@ -195,7 +194,7 @@ android {
             jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
             }
         }
     }
@@ -214,14 +213,14 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.2'
-    testCompile 'junit:junit:4.12'
+    compile deps.support.appcompatv7
+    compile deps.constraintlayout
+    compile deps.support.design
+    testCompile deps.opengl
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -231,34 +230,37 @@ dependencies {
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        /*compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        /*compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }*/
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
     }
 
-    compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.5', ext: 'aar'){
+    compile(deps.americanwell) {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile 'com.android.support:support-fragment:26.0.2'
+    compile deps.support.design
+    compile deps.play_services_maps
+    compile deps.play_services_location
 
-    testCompile 'org.mockito:mockito-all:1.10.19'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile ('org.robolectric:robolectric:3.4.2'){
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.assertj
+    testCompile(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile "org.robolectric:shadows-support-v4:3.3.2"
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.google.android.gms:play-services-location:11.0.4'
+    testCompile deps.robolectric_shadows
+    testCompile deps.maven_ant
+    testCompile deps.opengl
+
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 

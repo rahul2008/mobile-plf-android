@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -10,7 +10,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "commlib"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -62,6 +61,5 @@ dependencies {
         }
     }
 
-    testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
 }

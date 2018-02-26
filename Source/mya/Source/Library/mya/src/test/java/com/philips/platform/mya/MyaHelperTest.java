@@ -12,10 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MyaHelperTest {
     private MyaHelper subject = MyaHelper.getInstance();
@@ -70,7 +70,7 @@ public class MyaHelperTest {
     }
 
     private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0, Locale.US);
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
     }
 
 }

@@ -33,7 +33,7 @@ import java.util.Locale;
 
 //import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE;
 
-
+@SuppressWarnings("serial")
 public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
     public static final String TAG = THSProviderNotAvailableFragment.class.getSimpleName();
 

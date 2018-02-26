@@ -30,7 +30,7 @@ import java.util.Set;
 import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;

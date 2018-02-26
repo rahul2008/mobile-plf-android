@@ -19,6 +19,7 @@ import com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
@@ -28,7 +29,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -214,7 +214,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, shnErrorInvalidParameter);
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, state);
         verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
-        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(diCommPortMock).unsubscribe((DiCommPort.UpdateListener) any(), (SHNResultListener) any());
     }
 
     @Test
@@ -528,7 +528,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         sendResponseWithState(DiCommFirmwarePort.State.Error, 0);
 
-        verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
     }
 
     @Test
@@ -537,7 +537,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         sendResponseWithState(DiCommFirmwarePort.State.Checking, firmwareData.length);
 
-        verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
     }
 
     @Test
@@ -562,7 +562,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, 1.0f);
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
         verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
-        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), (SHNResultListener) any());
     }
 
     @Test
@@ -797,7 +797,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
 
-        verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
 
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -808,7 +808,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
 
-        verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
 
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying, capabilityFirmwareUpdateDiComm.getState());
 
@@ -823,7 +823,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         updateListenerCaptor.getValue().onPropertiesChanged(new HashMap<String, Object>());
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
-        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), (SHNResultListener) any());
         verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
@@ -836,7 +836,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         listenerArgumentCaptor.getValue().onPortUnavailable(diCommPortMock);
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
-        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
+        verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), (SHNResultListener) any());
         verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 

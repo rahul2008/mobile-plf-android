@@ -17,14 +17,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -33,13 +33,13 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.trickyandroid:jacoco-everywhere:0.2.1"
-        classpath "com.android.tools.build:gradle:2.3.1"
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
+        classpath builddeps.trickyandroid
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath "com.neenbedankt.gradle.plugins:android-apt:1.8"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2"
-        classpath "de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6"
+        classpath builddeps.androidapt
+        classpath builddeps.bintrayplugin
+        classpath builddeps.hockeyapp
     }
 }
 
@@ -64,7 +64,7 @@ archivesBaseName = "referenceApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -82,9 +82,6 @@ allprojects {
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -157,15 +154,24 @@ publishing {
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    //Creating additional node for dependencies
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
+					
+                    def configurationNames = ["releaseCompile", 'compile']
+
+                    configurationNames.each { configurationName ->
+                        configurations[configurationName].allDependencies.each {
+                            if (it.group != null && it.name != null) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', it.version)                                
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 }
@@ -183,7 +189,15 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
+def buildType 
+
 android {
+
+	applicationVariants.all { variant ->
+        buildType = variant.buildType.name // sets the current build type
+		println "*****BuildType****"+ buildType
+    }
+	
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
 
@@ -222,24 +236,23 @@ configurations.all {
 }
 
 dependencies {
-    compile("com.android.support:support-annotations:${versionsAndroid.support}") {
+    compile(deps.support.annotations) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile "com.android.support:design:${versionsAndroid.support}"
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    compile deps.support.design
+    compile deps.support.supportv4
 
-    debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
-    leakCanaryCompile "com.squareup.leakcanary:leakcanary-android:${versionsExternal.leakCanary}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
-    psraReleaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
+    debugCompile deps.leakcanary_no_op
+    leakCanaryCompile deps.leakcanary
+    releaseCompile deps.leakcanary_no_op
+    psraReleaseCompile deps.leakcanary_no_op
 
-    debugCompile "com.facebook.stetho:stetho:${versionsExternal.stetho}"
-    compile "com.j256.ormlite:ormlite-core:${versionsExternal.ormLite}"
-    compile "com.j256.ormlite:ormlite-android:${versionsExternal.ormLite}"
-    compile "com.android.support:multidex:${versionsAndroid.multidex}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${versionsExternal.butterKnife}"
+    debugCompile deps.stetho
+    compile deps.ormlite.core
+    compile deps.ormlite.android
+    compile deps.multidex
+    annotationProcessor deps.butterknife_compiler
 
-    compile("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 
     def dp = project.ext.has('useprojectdependencies')
 
@@ -329,68 +342,65 @@ dependencies {
         leakCanaryCompile project(path: ':themesettings', configuration: 'debug')
         releaseCompile project(path: ':themesettings', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'digitalCare', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'iap', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'dataServices', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.product_registration_lib
+        compile philipsdeps.digitalCare
+        compile philipsdeps.iap
+        compile (philipsdeps.dataServices) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-mch', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.mya_mch
+        compile (philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.commlib_demouapp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'iapUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-		compile(group: 'com.philips.cdp', name: 'thsUapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
-            exclude group: 'com.android.support'
-        }
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.devicepairingUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.telehealth
+        compile philipsdeps.ewsUApp
+        compile philipsdeps.bluelib_demouapp
         compile project(':pushnotification')
         compile project(':themesettings')
     }
 
-    testCompile "junit:junit:${versionsExternal.junit}"
-    testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
-    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-    testCompile "org.robolectric:shadows-multidex:${versionsExternal.robolectricSupport}"
-    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
-    testCompile "org.mockito:mockito-all:${versionsExternal.mockitoAll}"
+    testCompile deps.json
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.opengl
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_classloading_xstream
+    testCompile deps.powermock_core
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_junit_rule
+    testCompile deps.powermock_junit_rule_agent
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    testCompile deps.robolectric_shadows_multidex
 
-    testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4-rule-agent:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
-
-    testCompile "org.json:json:${versionsExternal.json}"
 }
 
 task copyToLib(type: Copy) {
