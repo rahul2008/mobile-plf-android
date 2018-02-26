@@ -84,22 +84,4 @@ public class Utils {
         }
         return locale;
     }
-
-    public static boolean isEulaAccepted(Context context) {
-        SharedPreferences mSharedpreferences = context.getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-
-        boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
-        editor.commit();
-        return mBoolean;
-    }
-
-    public static void setEulaPreference(Context context) {
-        SharedPreferences mSharedpreferences = context.getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-        editor.putBoolean("acceptEula", true);
-        editor.commit();
-    }
 }

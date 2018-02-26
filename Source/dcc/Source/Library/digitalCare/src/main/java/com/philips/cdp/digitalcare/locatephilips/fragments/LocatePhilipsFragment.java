@@ -115,7 +115,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
-    protected SharedPreferences mSharedpreferences = null;
     private GoogleMap mMap = null;
     private Marker mCurrentPosition = null;
     private AtosResponseModel mAtosResponse = null;
@@ -445,9 +444,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void initView() {
 
-        if(Utils.isEulaAccepted(getActivity())){
-            requestPermissionAndroidM();
-        }
+        requestPermissionAndroidM();
         mLinearLayout = getActivity().findViewById(
                 R.id.showlayout);
         mListView = getActivity().findViewById(R.id.placelistview);
