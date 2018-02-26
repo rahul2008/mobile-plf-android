@@ -26,7 +26,7 @@ import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD;
 
 
-
+@SuppressWarnings("serial")
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();

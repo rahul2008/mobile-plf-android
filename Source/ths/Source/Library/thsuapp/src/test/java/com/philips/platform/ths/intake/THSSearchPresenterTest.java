@@ -23,6 +23,11 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
@@ -39,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -104,12 +110,33 @@ public class THSSearchPresenterTest {
     @Mock
     private THSConsumer thsConsumer;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+    @Mock
+    LoggingInterface loggingInterface;
+
+
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
 
         THSManager.getInstance().setThsConsumer(thsConsumer);
         when(thsConsumer.getConsumer()).thenReturn(consumerMock);

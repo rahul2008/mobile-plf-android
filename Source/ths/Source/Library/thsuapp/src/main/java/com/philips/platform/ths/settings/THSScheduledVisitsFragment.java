@@ -31,6 +31,7 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_VISITS;
 
+@SuppressWarnings("serial")
 public class THSScheduledVisitsFragment extends THSBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSScheduledVisitsFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
