@@ -14,9 +14,12 @@ import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS;
 
+
+@SuppressWarnings("serial")
 public class THSFaqFragment extends THSBaseFragment {
     public static final String TAG = THSFaqFragment.class.getSimpleName();
 
@@ -42,7 +45,7 @@ public class THSFaqFragment extends THSBaseFragment {
         return view;
     }
 
-    protected void updateFaqs(HashMap map) {
+    protected void updateFaqs(HashMap<String, List<FaqBeanPojo>> map) {
 
         listAdapter = new ExpandableListAdapter(this, map);
         // setting list adapter

@@ -41,6 +41,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 
+@SuppressWarnings("serial")
 public class THSCreditCardBillingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSCreditCardBillingAddressFragment.class.getSimpleName();
