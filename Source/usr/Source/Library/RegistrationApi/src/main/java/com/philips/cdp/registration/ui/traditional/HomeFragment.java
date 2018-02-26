@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -39,9 +40,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -55,7 +54,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -185,7 +183,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-            if(!getRegistrationFragment().isHomeFragment()) {
+            if (!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -255,6 +253,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         }
         if (homePresenter.isNetworkAvailable()) {
             CountrySelectionFragment picker = new CountrySelectionFragment();
+            picker.setTargetFragment(this, 100);
             getRegistrationFragment().addFragment(picker);
         } else {
             disableControlsOnNetworkConnectionGone();
@@ -269,7 +268,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         updateCountryText(countryName);
-        homePresenter.addToRecent(RegistrationHelper.getInstance().getCountryCode());
     }
 
     @Override
@@ -838,16 +836,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         getRegistrationFragment().userRegistrationComplete();
     }
 
-//    private void makeProviderButtonsClickable() {
-//        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
-//        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
-//            View childView = providerButtonGroup.getChildAt(i);
-//            if (childView instanceof XProviderButton) {
-//                childView.setClickable(true);
-//            }
-//        }
-//    }
-    private int viewLength (TextView text, String newText) {
+    private int viewLength(TextView text, String newText) {
         float textWidth = text.getPaint().measureText(newText);
         return Math.round(textWidth);
     }
@@ -875,5 +864,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
 
-    //homePresenter.changeCountry(name, code.trim().toUpperCase());
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        String countryName = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME);
+        String countryCode = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE);
+        homePresenter.onSelectCountry(countryName, countryCode);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

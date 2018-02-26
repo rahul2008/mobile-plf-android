@@ -12,14 +12,6 @@ public interface CountrySelectionContract {
 
      void updateRecyclerView(ArrayList<Country> countries);
 
-     void setSelectedCountry(Country country);
-
-     CountrySelectionFragment getCountrySelectionFragment();
-
-     Context getUSRContext();
-
-     RegistrationFragment getRegistrationFragment();
-
      void popCountrySelectionFragment();
 
      void notifyCountryChange(Country country);

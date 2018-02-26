@@ -1,6 +1,8 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,8 +15,8 @@ import android.view.ViewGroup;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.dao.Country;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         initUI(view);
 
         countrySelectionPresenter = new CountrySelectionPresenter(this);
-        countrySelectionPresenter.fetchSupportedCountryList();
+        countrySelectionPresenter.fetchSupportedCountryList(context);
         return view;
     }
 
@@ -95,33 +97,21 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void setSelectedCountry(Country country) {
-        RegistrationHelper.getInstance().setCountryCode(country.getCode());
-        setCountry(country);
-    }
-
-    @Override
-    public CountrySelectionFragment getCountrySelectionFragment() {
-        return this;
-    }
-
-    @Override
-    public Context getUSRContext() {
-        return this.context;
-    }
-
-    @Override
-    public RegistrationFragment getRegistrationFragment() {
-        return super.getRegistrationFragment();
-    }
-
-    @Override
     public void popCountrySelectionFragment() {
         getRegistrationFragment().onBackPressed();
     }
 
     @Override
     public void notifyCountryChange(Country country) {
-        getCountrySelectionFragment().getCountrySelectionListener().onSelectCountry(country.getName(),country.getCode());
+        Intent intent = new Intent();
+        if (country.getCode().equalsIgnoreCase("TW")) {
+            countrySelectionPresenter.changeCountryNameToTaiwan(context, country);
+        }
+        intent.putExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE, country.getCode());
+        intent.putExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME, country.getName());
+        getTargetFragment().onActivityResult(
+                getTargetRequestCode(),
+                Activity.RESULT_OK,
+                intent);
     }
 }

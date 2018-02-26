@@ -109,6 +109,4 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-
-
 }
