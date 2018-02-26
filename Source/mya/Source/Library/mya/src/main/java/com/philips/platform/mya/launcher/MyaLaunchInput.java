@@ -9,9 +9,13 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
+import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
@@ -19,13 +23,16 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
  * @since 2017.5.0
  */
 
-public class MyaLaunchInput extends UappLaunchInput {
+public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
-    private Context context;
+    private static final long serialVersionUID = 1584414650805244556L;
+    private transient Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
     private MyAccountUIEventListener myAccountUIEventListener;
-
+    private MyaTabConfig myaTabConfig;
+    private List<String> settingsMenuList;
+    private List<String> profileMenuList;
     public MyaLaunchInput() {
     }
 
@@ -69,5 +76,29 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public MyAccountUIEventListener getMyAccountUIEventListener() {
         return this.myAccountUIEventListener;
+    }
+
+    public MyaTabConfig getMyaTabConfig() {
+        return myaTabConfig;
+    }
+
+    public void setMyaTabConfig(MyaTabConfig myaTabConfig) {
+        this.myaTabConfig = myaTabConfig;
+    }
+
+    public List<String> getSettingsMenuList() {
+        return settingsMenuList;
+    }
+
+    public void setSettingsMenuList(List<String> settingsMenuList) {
+        this.settingsMenuList = settingsMenuList;
+    }
+
+    public List<String> getProfileMenuList() {
+        return profileMenuList;
+    }
+
+    public void setProfileMenuList(List<String> profileMenuList) {
+        this.profileMenuList = profileMenuList;
     }
 }

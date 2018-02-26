@@ -31,7 +31,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -41,6 +40,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
+    private static final String AMERICAN_LOCALE = "en-US";
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
@@ -210,12 +210,12 @@ public class PermissionPresenterTest {
     }
 
     private void givenActiveClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.active, "clickstream", 1);
+        BackendConsent consent = new BackendConsent("en-US", ConsentStatus.active, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
     private void givenRejectedClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(new Locale("en", "US"), ConsentStatus.rejected, "clickstream", 1);
+        BackendConsent consent = new BackendConsent("en-US", ConsentStatus.rejected, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
@@ -231,7 +231,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenConsentConfigurations() {
-        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0, Locale.US);
+        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0);
         ConsentConfiguration configuration = new ConsentConfiguration(Collections.singletonList(definition), mockHandlerInterface);
         givenConsentConfigurations = Collections.singletonList(configuration);
         givenPresenter();
@@ -308,6 +308,6 @@ public class PermissionPresenterTest {
 
     private ConsentDefinition clickStreamConsentDefinition() {
         return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
-                1, new Locale("en", "US"));
+                1);
     }
 }

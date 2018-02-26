@@ -24,7 +24,6 @@ import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
@@ -51,6 +50,8 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         initializeHelpLabel(justInTimeConsentView);
         initializeGiveConsentButton(justInTimeConsentView);
         initializeConsentRejectButton(justInTimeConsentView);
+        initializeUserBenefitsDescriptionLabel(justInTimeConsentView);
+        initializeUserBenefitsTitleLabel(justInTimeConsentView);
 
         handleOrientation(justInTimeConsentView);
         return justInTimeConsentView;
@@ -102,6 +103,16 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         descriptionLabel.setText(JustInTimeConsentDependencies.consentDefinition.getText());
     }
 
+    private void initializeUserBenefitsDescriptionLabel(View justInTimeConsentView) {
+        Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_description);
+        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
+    }
+
+    private void initializeUserBenefitsTitleLabel(View justInTimeConsentView) {
+        Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_title);
+        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
+    }
+
     private void initializeHelpLabel(View justInTimeConsentView) {
         Spannable helpLink = new SpannableString(getContext().getString(R.string.mya_Consent_Help_Label));
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
@@ -137,7 +148,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     private void showErrorDialog(String errorTitle, String errorMessage) {
-        CswLogger.e(getClass().getName(), errorMessage);
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
