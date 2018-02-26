@@ -109,6 +109,9 @@ dependencies {
     testCompile deps.assertj
     testCompile deps.mockito
     testCompile deps.junit
+    testCompile deps.powermock_core
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_junit
 
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito

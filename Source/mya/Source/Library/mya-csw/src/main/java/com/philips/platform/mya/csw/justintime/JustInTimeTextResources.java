@@ -12,4 +12,6 @@ public class JustInTimeTextResources implements Serializable {
     public int acceptTextRes;
     public int rejectTextRes;
     public int titleTextRes;
+    public int userBenefitsTitleRes;
+    public int userBenefitsDescriptionRes;
 }

@@ -9,6 +9,7 @@ package com.philips.platform.ths.faqs;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class FaqBeanPojo implements Serializable{
 
     private String question;
