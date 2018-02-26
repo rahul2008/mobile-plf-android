@@ -69,17 +69,9 @@ public class ConsentManager implements ConsentRegistryInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) throws RuntimeException {
-        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
-        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
-
         for (ConsentDefinition consentDefinition : consentDefinitions) {
-            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
-            consentCallbackListeners.add(listener);
-            fetchConsentState(consentDefinition, listener);
+            fetchConsentState(consentDefinition, callback);
         }
-
-        waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(consentCallbackListeners, callback);
     }
 
     @Override
