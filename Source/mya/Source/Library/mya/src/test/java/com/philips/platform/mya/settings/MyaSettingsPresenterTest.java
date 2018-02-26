@@ -10,7 +10,7 @@ package com.philips.platform.mya.settings;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -24,7 +24,7 @@ import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -83,12 +83,12 @@ public class MyaSettingsPresenterTest {
 
     @Test
     public void testHandleLogOut() {
-        LogoutHandler logoutHandler = myaSettingsPresenter.getLogoutHandler();
+        LogoutListener logoutListener = myaSettingsPresenter.getLogoutListener();
         Bundle bundle = new Bundle();
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(context);
-        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
+        UserDataProvider userDataProvider = mock(UserDataProvider.class);
+        bundle.putSerializable(USER_PLUGIN, userDataProvider);
         myaSettingsPresenter.logOut(bundle);
-        logoutHandler.onLogoutSuccess();
+        logoutListener.onLogoutSuccess();
         verify(view).onLogOutSuccess();
     }
 

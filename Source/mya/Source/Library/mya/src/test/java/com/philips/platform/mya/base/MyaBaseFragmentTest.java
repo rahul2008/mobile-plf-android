@@ -8,6 +8,7 @@
 package com.philips.platform.mya.base;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,8 +17,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.activity.MyaActivity;
-import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
+import com.philips.platform.mya.settings.MyaPhilipsLinkFragment;
+import com.philips.platform.mya.settings.MyaSettingsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -26,7 +28,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
@@ -36,12 +37,14 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaBaseFragmentTest {
 
     private MyaBaseFragment myaBaseFragment;
+    private Context mContext;
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
         public void updateActionBar(int i, boolean b) {
@@ -56,8 +59,8 @@ public class MyaBaseFragmentTest {
 
     @Before
     public void setup() {
-        myaBaseFragment = new MyaDetailsFragment();
-        SupportFragmentTestUtil.startFragment(myaBaseFragment);
+        myaBaseFragment = new MyaPhilipsLinkFragment();
+        startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getContext());
     }
 
@@ -98,7 +101,7 @@ public class MyaBaseFragmentTest {
         FragmentActivity fragmentActivity = mock(FragmentActivity.class);
         when(fragmentActivity.getPackageName()).thenReturn("some_package");
         FragmentManager fragmentManagerMock = mock(FragmentManager.class);
-        MyaBaseFragment myaBaseFragmentMock = mock(MyaDetailsFragment.class);
+        MyaBaseFragment myaBaseFragmentMock = mock(MyaSettingsFragment.class);
         int value = 123456;
         when(myaBaseFragmentMock.getId()).thenReturn(value);
         when(fragmentActivity.getSupportFragmentManager()).thenReturn(fragmentManagerMock);
@@ -133,9 +136,9 @@ public class MyaBaseFragmentTest {
     @Test
     public void shouldSetTitleWhenInvoked() {
         ActionBarListener actionBarListener = mock(ActionBarListener.class);
-        myaBaseFragment = new MyaDetailsFragment();
+        myaBaseFragment = new MyaSettingsFragment();
         myaBaseFragment.setActionbarUpdateListener(actionBarListener);
-        SupportFragmentTestUtil.startFragment(myaBaseFragment);
+        startFragment(myaBaseFragment);
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitleResId(),myaBaseFragment.getBackButtonState());
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitle(RuntimeEnvironment.application),myaBaseFragment.getBackButtonState());
     }

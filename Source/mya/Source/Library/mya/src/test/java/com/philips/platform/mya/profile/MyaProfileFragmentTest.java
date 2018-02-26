@@ -10,7 +10,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -118,10 +117,6 @@ public class MyaProfileFragmentTest {
         ActionBarListener actionBarListener = mock(ActionBarListener.class);
         myaProfileFragment.setFragmentLauncher(fragmentLauncher);
         myaProfileFragment.setActionbarUpdateListener(actionBarListener);
-        MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-        myaProfileFragment.showPassedFragment(myaDetailsFragment);
-        assertEquals(myaDetailsFragment.getFragmentLauncher(), fragmentLauncher);
-        assertEquals(myaDetailsFragment.getActionbarUpdateListener(), actionBarListener);
     }
 
   /*  @Test

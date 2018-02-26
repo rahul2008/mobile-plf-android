@@ -7,27 +7,11 @@
 
 package com.philips.platform.mya;
 
-import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -42,11 +26,27 @@ import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import android.content.Context;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -80,14 +80,15 @@ public class MyaInterfaceTest {
         MockitoAnnotations.initMocks(this);
         context = RuntimeEnvironment.application;
         launchInput = new LaunchInputMock();
-        final UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
-        when(userDataModelProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
-        myaInterface = new MyaInterface() {
+        final UserDataProvider userDataProvider = mock(UserDataProvider.class);
+        when(userDataProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        myaInterface = new MyaInterface(){
             @Override
-            protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
-                return userDataModelProvider;
+            public UserDataProvider getUserDataProvider(MyaLaunchInput myaLaunchInput) {
+                return userDataProvider;
             }
         };
+
         fragmentTransaction = new FragmentTransactionMock();
         fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);

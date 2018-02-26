@@ -99,7 +99,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return new CswInterface();
     }
 
-    private LogoutListener getLogoutListener(){
+    protected LogoutListener getLogoutListener(){
         return new LogoutListener() {
             @Override
             public void onLogoutSuccess() {

@@ -112,7 +112,7 @@ public class MyaInterface implements UappInterface {
         return dependencies;
     }
 
-    protected UserDataProvider getUserDataProvider(MyaLaunchInput myaLaunchInput) {
+    public UserDataProvider getUserDataProvider(MyaLaunchInput myaLaunchInput) {
         return new UserDataProvider(myaLaunchInput.getContext());
     }
 }
