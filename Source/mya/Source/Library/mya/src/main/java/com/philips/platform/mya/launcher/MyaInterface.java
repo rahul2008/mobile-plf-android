@@ -71,7 +71,7 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        UserDataInterface userDataInterface = getUserDataProvider(myaLaunchInput);
+        UserDataInterface userDataInterface = getUserDataInterface(myaLaunchInput);
         if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
@@ -112,7 +112,7 @@ public class MyaInterface implements UappInterface {
         return dependencies;
     }
 
-    protected UserDataInterface getUserDataProvider(MyaLaunchInput myaLaunchInput) {
+    protected UserDataInterface getUserDataInterface(MyaLaunchInput myaLaunchInput) {
         return MyaHelper.getInstance().getUserDataInterface();
     }
 }
