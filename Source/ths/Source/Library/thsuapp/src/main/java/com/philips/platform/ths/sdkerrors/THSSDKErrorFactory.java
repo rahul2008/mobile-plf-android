@@ -15,6 +15,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_ERROR;
 
+@SuppressWarnings("rawtypes")
 public class THSSDKErrorFactory {
 
     static WeakReference<List> weakReference;

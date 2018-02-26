@@ -14,6 +14,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+@SuppressWarnings("serial")
 public class DemoMicroAppApplicationuAppInterface implements UappInterface {
 
     private Context context;
