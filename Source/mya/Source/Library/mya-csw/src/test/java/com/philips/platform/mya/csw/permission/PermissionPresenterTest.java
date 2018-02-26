@@ -198,7 +198,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenClickStreamConsentView() {
-        ConsentView consentView = new ConsentView(clickStreamConsentDefinition(), mockConsentHandler);
+        ConsentView consentView = new ConsentView(clickStreamConsentDefinition());
         List<ConsentView> consentViews = new ArrayList<>();
         consentViews.add(consentView);
         when(mockAdapter.getConsentViews()).thenReturn(consentViews);
@@ -296,7 +296,7 @@ public class PermissionPresenterTest {
     }
 
     private void whenTogglingConsentTo(boolean toggled) {
-        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled);
+        mPermissionPresenter.onToggledConsent(mockConsentDefinition, toggled);
     }
 
     private void whenAppIsOnline() {

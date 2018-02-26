@@ -7,9 +7,7 @@ import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -19,8 +17,6 @@ public class ConsentViewTest {
 
     public static final String ENGLISH_LOCALE = "en-UK";
     private String TYPE_MOMENT = "moment";
-    @Mock
-    private ConsentHandlerInterface mockConsentHandler;
 
     @Before
     public void setUp() throws Exception {
@@ -28,7 +24,7 @@ public class ConsentViewTest {
         currentConsentRejected = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
         currentConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
         oldConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
-        consentView = new ConsentView(consentDefinition, mockConsentHandler);
+        consentView = new ConsentView(consentDefinition);
     }
 
     @Test

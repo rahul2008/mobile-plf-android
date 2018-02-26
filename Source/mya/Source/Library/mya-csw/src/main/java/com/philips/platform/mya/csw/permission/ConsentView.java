@@ -16,7 +16,6 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 public class ConsentView {
 
     private final ConsentDefinition definition;
-    private final ConsentHandlerInterface handler;
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
@@ -24,9 +23,8 @@ public class ConsentView {
     @Nullable
     private Consent consent;
 
-    ConsentView(final ConsentDefinition definition, final ConsentHandlerInterface handler) {
+    ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
-        this.handler = handler;
     }
 
     public String getConsentText() {
@@ -43,10 +41,6 @@ public class ConsentView {
 
     public int getVersion() {
         return definition.getVersion();
-    }
-
-    public ConsentHandlerInterface getHandler() {
-        return handler;
     }
 
     public ConsentView storeConsent(Consent consent) {

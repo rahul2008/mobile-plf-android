@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
@@ -51,7 +50,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     private List<ConsentDefinition> consentDefinitionList;
     private PermissionAdapter adapter;
-    private ConsentRegistryInterface consentRegistryInterface;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -73,7 +71,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         unbinder = ButterKnife.bind(this, view);
 
         consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
-        consentRegistryInterface = CswInterface.getCswComponent().getConsentRegistryInterface();
 
         handleOrientation(view);
         return view;
@@ -191,8 +188,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         final List<ConsentView> consentViewList = new ArrayList<>();
         for (ConsentDefinition consentDefinition : consentDefinitionList) {
             try {
-                //TODO handler can be removed from Consent view
-                consentViewList.add(new ConsentView(consentDefinition, consentRegistryInterface.getHandler(consentDefinition.getTypes().get(0))));
+                consentViewList.add(new ConsentView(consentDefinition));
             } catch (RuntimeException exception) {
                 CswLogger.d("RuntimeException", exception.getMessage());
             }

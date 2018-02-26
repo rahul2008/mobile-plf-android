@@ -20,7 +20,6 @@ import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
@@ -68,9 +67,8 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         }
     }
 
-    //TODO handler should be removed from param list passed
     @Override
-    public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
+    public boolean onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             CswInterface.getCswComponent().getConsentRegistryInterface().storeConsentState(definition, consentGiven, this);
