@@ -24,7 +24,6 @@ import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
@@ -149,7 +148,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     private void showErrorDialog(String errorTitle, String errorMessage) {
-        CswLogger.e(getClass().getName(), errorMessage);
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
