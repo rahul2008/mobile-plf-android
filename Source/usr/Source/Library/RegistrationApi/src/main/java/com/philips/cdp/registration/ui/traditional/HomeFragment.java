@@ -221,7 +221,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void initUI(View view) {
         consumeTouch(view);
-        continueWithouAccount.setVisibility(View.GONE);
+//        continueWithouAccount.setVisibility(View.GONE);
         setContentConfig();
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
@@ -524,7 +524,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-        continueWithouAccount.setEnabled(state);
+//        continueWithouAccount.setEnabled(state);
     }
 
     private void enableSocialProviders(boolean enableState) {
