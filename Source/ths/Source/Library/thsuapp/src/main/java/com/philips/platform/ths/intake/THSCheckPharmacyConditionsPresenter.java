@@ -2,12 +2,13 @@ package com.philips.platform.ths.intake;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
@@ -24,6 +25,7 @@ import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.ths.consent.THSJustInTimeConsentFragment;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -63,6 +65,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
 
     @Override
     public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
+
         if (null != pharmacy) {
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
@@ -73,7 +76,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             pDeviceStoredConsentHandler.fetchConsentState(thsConsentDefinition, new CheckConsentsCallback() {
                 @Override
                 public void onGetConsentsSuccess(List<Consent> consents) {
-                    Log.v("GDPR", "success");
+                    AmwellLog.v("GDPR", "success");
                     boolean hasLocationConsent = false;
                     for (Consent consent : consents) {
                         if (consent.getType() == THSLocationConsentProvider.THS_LOCATION) {
@@ -85,6 +88,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         }
                     }
                     if (!hasLocationConsent) {
+                        ((THSCheckPharmacyConditionsFragment)thsCheckPharmacyConditonsView).hideProgressBar();
                         JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                         justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
                         justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
@@ -94,7 +98,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         JustInTimeConsentDependencies.textResources = justInTimeTextResources;
                         JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
                         JustInTimeConsentDependencies.consentHandlerInterface = pDeviceStoredConsentHandler;
-                        THSJustInTimeConsentFragment justInTimeConsentFragment = (THSJustInTimeConsentFragment) JustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
+                        JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
                         fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
                         fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
@@ -105,7 +109,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                 }
                 @Override
                 public void onGetConsentsFailed(ConsentError error) {
-                    Log.v("GDPR", "onGetConsentsFailed" + error.toString());
+                    AmwellLog.v("GDPR", "onGetConsentsFailed" + error.toString());
                     thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     thsCheckPharmacyConditonsView.showPharmacySearch();
 
@@ -119,14 +123,14 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         return new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
-                Log.v("SUCC", "onConsentGiven");
+                AmwellLog.v("SUCC", "onConsentGiven");
                 thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 thsCheckPharmacyConditonsView.displayPharmacy();
             }
 
             @Override
             public void onConsentRejected() {
-                Log.v("FAIL", "onConsentRejected");
+                AmwellLog.v("FAIL", "onConsentRejected");
                 thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 thsCheckPharmacyConditonsView.showPharmacySearch();
             }

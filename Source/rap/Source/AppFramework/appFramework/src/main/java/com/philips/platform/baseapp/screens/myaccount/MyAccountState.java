@@ -171,7 +171,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-        List<ConsentDefinition> urDefinitions = Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
         List<ConsentDefinition> thsDefinitions = createTHSDefinitions(context, currentLocale);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
