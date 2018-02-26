@@ -10,10 +10,11 @@ package com.philips.platform.mya;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MyaHelper {
     private MyaLaunchInput myaLaunchInput;
     private List<ConsentConfiguration> consentConfigurationList;
     private LoggingInterface myaLogger;
+    private UserDataInterface userDataInterface;
 
     private MyaHelper() {
     }
@@ -107,5 +109,13 @@ public class MyaHelper {
 
     public LoggingInterface getMyaLogger() {
         return myaLogger;
+    }
+
+    public UserDataInterface getUserDataInterface(){
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface){
+        this.userDataInterface = userDataInterface;
     }
 }

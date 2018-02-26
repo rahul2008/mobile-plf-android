@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
+import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
@@ -38,13 +39,10 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -52,6 +50,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -89,12 +88,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public DataInterface getDataInterface(DataModelType modelType) {
-                return new UserDataModelProvider(actContext);
-
-            }
-
-            @Override
             public void onError(MyaError myaError) {
 
             }
@@ -105,6 +98,10 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         MyaInterface myaInterface = getInterface();
         launchInput.setMyaTabConfig(myaTabConfig);
+
+        UserDataProvider userDataProvider = new UserDataProvider(actContext);
+        MyaHelper.getInstance().setUserDataInterface(userDataProvider);
+
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
     }

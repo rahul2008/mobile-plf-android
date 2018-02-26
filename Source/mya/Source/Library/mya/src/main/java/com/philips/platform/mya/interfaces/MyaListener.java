@@ -7,16 +7,12 @@ package com.philips.platform.mya.interfaces;
 
 
 import com.philips.platform.mya.error.MyaError;
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
 import java.io.Serializable;
 
 public interface MyaListener extends Serializable {
 
     boolean onClickMyaItem(String itemName);
-
-    DataInterface getDataInterface(DataModelType modelType);
 
     void onError(MyaError myaError);
 }

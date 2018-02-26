@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -24,7 +24,7 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
@@ -66,9 +64,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
-        if (userDataModelProvider != null) {
-            userDataModelProvider.logOut(view.getContext(), getLogoutHandler());
+        UserDataProvider userDataProvider = (UserDataProvider) MyaHelper.getInstance().getUserDataInterface();
+        if (userDataProvider != null) {
+            userDataProvider.logOut(getLogoutListener());
         }
     }
 
@@ -101,15 +99,16 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return new CswInterface();
     }
 
-    LogoutHandler getLogoutHandler() {
-        return new LogoutHandler() {
+    private LogoutListener getLogoutListener(){
+        return new LogoutListener() {
+            @Override
             public void onLogoutSuccess() {
                 view.onLogOutSuccess();
             }
 
-            public void onLogoutFailure(int responseCode, String message) {
-                // TODO - need to discuss with design team and handle on logout failure
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onLogoutFailure(int errorCode, String errorMessage) {
+                Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
                 view.hideProgressIndicator();
             }
         };
