@@ -9,6 +9,7 @@ package com.philips.platform.ths.uappclasses;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+@SuppressWarnings("serial")
 public class THSMicroAppLaunchInput extends UappLaunchInput {
 
 

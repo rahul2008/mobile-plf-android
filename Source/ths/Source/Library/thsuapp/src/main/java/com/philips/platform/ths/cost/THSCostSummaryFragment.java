@@ -32,6 +32,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COU
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
 
 
+@SuppressWarnings("serial")
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSCostSummaryFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;

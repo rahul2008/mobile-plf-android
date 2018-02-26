@@ -1,24 +1,15 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
+import java.util.Random;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
@@ -46,10 +37,20 @@ import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Random;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
@@ -69,13 +70,13 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Navigating to DemoDataService Screen
      *
-     * @param uiLauncher requires UiLauncher
+     * @param uiLauncher
+     *            requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        dsDemoAppuAppInterface.launch(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
-                        getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
+        dsDemoAppuAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
+                getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
     }
 
     @Override
@@ -107,6 +108,8 @@ public class DemoDataServicesState extends DemoBaseState
         textResources.titleTextRes = R.string.RA_CSW_JustInTime_Title;
         textResources.acceptTextRes = R.string.RA_CSW_JustInTime_Accept;
         textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
+        textResources.userBenefitsDescriptionRes = R.string.RA_CSW_JustInTime_UserBenefitsDescription;
+        textResources.userBenefitsTitleRes = R.string.RA_CSW_JustInTime_UserBenefitsTitle;
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
                 new ConsentInteractor(ConsentsClient.getInstance()),
                 ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
@@ -151,11 +154,11 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Create and show a simple notification containing the received GCM message.
      *
-     * @param message GCM message received.
+     * @param message
+     *            GCM message received.
      */
     private void sendNotification(String message) {
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
@@ -180,7 +183,6 @@ public class DemoDataServicesState extends DemoBaseState
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
-
 
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
@@ -223,5 +225,3 @@ public class DemoDataServicesState extends DemoBaseState
         return new User(appContext).isUserSignIn();
     }
 }
-
-

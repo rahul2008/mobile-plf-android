@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
@@ -22,6 +20,8 @@ import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import android.app.ProgressDialog;
