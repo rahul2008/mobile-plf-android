@@ -28,6 +28,7 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY_LIST;
 
+@SuppressWarnings("serial")
 public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = THSVisitHistoryFragment.class.getSimpleName();

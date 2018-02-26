@@ -35,6 +35,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME_BACK;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
+@SuppressWarnings("serial")
 public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSWelcomeBackFragment.class.getSimpleName();
