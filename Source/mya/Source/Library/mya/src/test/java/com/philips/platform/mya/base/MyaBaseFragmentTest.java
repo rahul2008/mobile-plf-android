@@ -15,10 +15,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.mya.BuildConfig;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
-import com.philips.platform.mya.settings.MyaPhilipsLinkFragment;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -28,6 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
@@ -37,6 +39,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -59,7 +62,13 @@ public class MyaBaseFragmentTest {
 
     @Before
     public void setup() {
-        myaBaseFragment = new MyaPhilipsLinkFragment();
+        initMocks(this);
+        mContext = RuntimeEnvironment.application;
+        myaBaseFragment = new MyaSettingsFragment();
+        AppInfra appInfra = new AppInfra.Builder().build(mContext);
+        MyaHelper.getInstance().setAppInfra(appInfra);
+        SupportFragmentTestUtil.startFragment(myaBaseFragment);
+
         startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getContext());
     }
