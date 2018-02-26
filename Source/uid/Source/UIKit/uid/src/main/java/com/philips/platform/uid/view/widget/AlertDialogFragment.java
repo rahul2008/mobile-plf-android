@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -126,7 +127,6 @@ public class AlertDialogFragment extends DialogFragment {
 
         handleButtonLayout();
         handlePositiveOnlyButton();
-        setDimLayer();
 
         return view;
     }
@@ -192,6 +192,7 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setDimLayer();
         try {
             getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
             if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
@@ -212,7 +213,7 @@ public class AlertDialogFragment extends DialogFragment {
      *
      * @param manager The FragmentManager this fragment will be added to.
      * @param tag     The tag for this fragment, as per
-     *                @since 3.0.0
+     * @since 3.0.0
      */
     public void showAllowingStateLoss(FragmentManager manager, String tag) {
         FragmentTransaction ft = manager.beginTransaction();
@@ -254,7 +255,6 @@ public class AlertDialogFragment extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        decorView.removeView(dimViewContainer);
         startExitAnimation();
         super.onDismiss(dialog);
     }
@@ -305,7 +305,7 @@ public class AlertDialogFragment extends DialogFragment {
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
      * @param color Color of background
-     *              @since 3.0.0
+     * @since 3.0.0
      */
     public void setDimColor(int color) {
         dimColor = color;
@@ -319,6 +319,9 @@ public class AlertDialogFragment extends DialogFragment {
         UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
             @Override
             public void run() {
+                if (decorView != null) {
+                    decorView.removeView(dimViewContainer);
+                }
                 decorView = null;
                 dimView = null;
                 dimViewContainer = null;
@@ -351,14 +354,7 @@ public class AlertDialogFragment extends DialogFragment {
         dimView.setBackgroundColor(dimColor);
         dimView.setAlpha(0f);
         dimViewContainer.addView(dimView);
-        decorView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (decorView != null) {
-                    decorView.addView(dimViewContainer);
-                }
-            }
-        });
+        decorView.addView(dimViewContainer);
     }
 
     private void setTitle(final ViewGroup headerView) {
@@ -382,7 +378,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of positive button
      *
      * @param listener Listener for positive button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setPositiveButtonLister(listener);
@@ -395,7 +391,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of negative button
      *
      * @param listener Listener for negative button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setNegativeButtonListener(listener);
@@ -408,7 +404,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of alternate button
      *
      * @param listener Listener for alternate button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setAlternateButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setAlternateButtonListener(listener);
@@ -444,8 +440,8 @@ public class AlertDialogFragment extends DialogFragment {
          * Style that needs to be applied on dialog.
          *
          * @param dialogStyle Selects a standard style: may be {@link #STYLE_NORMAL},
-         * {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
-         * {@link #STYLE_NO_INPUT}.
+         *                    {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
+         *                    {@link #STYLE_NO_INPUT}.
          * @return This Builder object to allow for chaining of calls to set methods
          * @since 3.0.0
          */

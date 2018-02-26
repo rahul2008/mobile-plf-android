@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.tagging;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.PostConsentCallback;
@@ -41,6 +42,8 @@ public class ClickStreamConsentHandlerTest {
     AppTaggingInterface appTaggingInterface;
     @Mock
     SecureStorageInterface.SecureStorageError secureStorageError;
+    @Mock
+    private InternationalizationInterface internationalizationInterface;
     List<String> types;
     private TestClickStreamConsentHandler clickStreamConsentHandler;
 
@@ -51,7 +54,7 @@ public class ClickStreamConsentHandlerTest {
         when(appInfra.getTagging()).thenReturn(appTaggingInterface);
         when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
         when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
-        when(definition.getLocale()).thenReturn("en-US");
+        when(appInfra.getInternationalization()).thenReturn(internationalizationInterface);
         types = new ArrayList<>();
         types.add("AIL_ClickStream");
     }

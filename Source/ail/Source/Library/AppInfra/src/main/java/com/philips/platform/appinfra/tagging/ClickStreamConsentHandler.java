@@ -40,10 +40,11 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
+        String consentLanguage = appInfraInterface.getInternationalization().getBCP47UILocale();
         List<Consent> consents = new ArrayList<>();
         for (ConsentDefinition definition : consentDefinitions) {
             if(getClickStreamType(definition) != null){
-                consents.add(createConsentFromDefinition(definition, getConsentStatus(processClickStreamConsentStatus(definition))));
+                consents.add(createConsentFromDefinition(definition, getConsentStatus(processClickStreamConsentStatus(definition)), consentLanguage));
             }
         }
         assertFalse(consents.isEmpty());
@@ -53,9 +54,10 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         assertNotNull(getClickStreamType(definition));
+        String consentLanguage = appInfraInterface.getInternationalization().getBCP47UILocale();
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(definition.getVersion()), getSecureStorageError());
-        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status)));
+        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status), consentLanguage));
     }
 
     private AppTaggingInterface.PrivacyStatus processClickStreamConsentStatus(ConsentDefinition definition) {
@@ -106,8 +108,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         return new SecureStorageInterface.SecureStorageError();
     }
 
-    private Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus) {
-        final BackendConsent backendConsent = new BackendConsent(new Locale(definition.getLocale()), consentStatus, definition.getTypes().get(0), definition.getVersion());
+    public static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
+        final BackendConsent backendConsent = new BackendConsent(consentLanguage, consentStatus, definition.getTypes().get(0), definition.getVersion());
         return new Consent(backendConsent, definition);
     }
 
@@ -116,6 +118,7 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     }
 
     private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status));
+        String consentLanguage = appInfraInterface.getInternationalization().getBCP47UILocale();
+        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status, consentLanguage));
     }
 }

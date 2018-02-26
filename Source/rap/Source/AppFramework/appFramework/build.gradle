@@ -83,9 +83,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -157,15 +154,24 @@ publishing {
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    //Creating additional node for dependencies
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
+					
+                    def configurationNames = ["releaseCompile", 'compile']
+
+                    configurationNames.each { configurationName ->
+                        configurations[configurationName].allDependencies.each {
+                            if (it.group != null && it.name != null) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', it.version)                                
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 }
@@ -183,7 +189,15 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
+def buildType 
+
 android {
+
+	applicationVariants.all { variant ->
+        buildType = variant.buildType.name // sets the current build type
+		println "*****BuildType****"+ buildType
+    }
+	
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
 
@@ -328,49 +342,47 @@ dependencies {
         leakCanaryCompile project(path: ':themesettings', configuration: 'debug')
         releaseCompile project(path: ':themesettings', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'digitalCare', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'iap', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'dataServices', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.product_registration_lib
+        compile philipsdeps.digitalCare
+        compile philipsdeps.iap
+        compile (philipsdeps.dataServices) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'mya', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-mch', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.mya_mch
+        compile (philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.commlib_demouapp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'iapUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-		compile(group: 'com.philips.cdp', name: 'thsUapp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
-            exclude group: 'com.android.support'
-        }
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.devicepairingUApp) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'ewsUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.telehealth
+        compile philipsdeps.ewsUApp
+        compile philipsdeps.bluelib_demouapp
         compile project(':pushnotification')
         compile project(':themesettings')
     }

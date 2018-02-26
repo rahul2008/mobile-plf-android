@@ -26,9 +26,6 @@ import android.widget.TextView;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
-import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
-import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.savedscreen.SavedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
@@ -92,7 +89,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     protected boolean setPreference(String ctn) {
 
-        if (ctn != null && ctn != "") {
+        if (ctn != null && !ctn.isEmpty()) {
             prefs = getActivity().getSharedPreferences(
                     USER_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -368,8 +365,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         mActivityContext = context;
         mActionbarUpdateListener = actionbarUpdateListener;
 
-        String startAnim = null;
-        String endAnim = null;
+        String startAnim;
+        String endAnim;
 
         if ((startAnimation != 0) && (endAnimation != 0)) {
             startAnim = context.getResources().getResourceName(startAnimation);
