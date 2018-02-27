@@ -7,7 +7,6 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -23,8 +22,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -64,10 +61,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        UserDataInterface userDataInterface =  MyaHelper.getInstance().getUserDataInterface();
-        if (userDataInterface != null) {
-            userDataInterface.logOut(getLogoutListener());
-        }
+        MyaHelper.getInstance().getMyaListener().onLogoutClick();
     }
 
     @Override
@@ -97,21 +91,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     CswInterface getCswInterface() {
         return new CswInterface();
-    }
-
-    protected LogoutListener getLogoutListener(){
-        return new LogoutListener() {
-            @Override
-            public void onLogoutSuccess() {
-                view.onLogOutSuccess();
-            }
-
-            @Override
-            public void onLogoutFailure(int errorCode, String errorMessage) {
-                Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                view.hideProgressIndicator();
-            }
-        };
     }
 
     CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {

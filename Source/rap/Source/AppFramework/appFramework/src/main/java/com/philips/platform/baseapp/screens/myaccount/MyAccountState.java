@@ -6,10 +6,12 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.cdp.registration.dao.UserDataProvider;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
@@ -33,6 +35,7 @@ import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
+import com.philips.platform.mya.dialogs.DialogView;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -49,7 +52,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -78,6 +80,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 }
                 if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
                     URLaunchInput urLaunchInput = new URLaunchInput();
+                    urLaunchInput.enableAddtoBackStack(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
                     URInterface urInterface = new URInterface();
                     urInterface.launch(fragmentLauncher,urLaunchInput);
@@ -88,6 +91,38 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
             @Override
             public void onError(MyaError myaError) {
+
+            }
+
+            @Override
+            public void onLogoutClick() {
+
+                User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(actContext);
+                if(user.isUserSignIn()){
+                    user.logout(new LogoutHandler() {
+                        @Override
+                        public void onLogoutSuccess() {
+                            ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                        }
+
+                        @Override
+                        public void onLogoutFailure(int responseCode, String message) {
+                            try {
+                                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+                                targetFlowManager.getBackState();
+                                BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), "logout");
+                                if (baseState != null)
+                                    baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+                            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                                    e) {
+                                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+                            }
+                            String title = actContext.getString(R.string.MYA_Offline_title);
+                            String errorMessage = actContext.getString(R.string.MYA_Offline_message);
+                            new DialogView(title, errorMessage).showDialog(getFragmentActivity());
+                        }
+                    });
+                }
 
             }
         });

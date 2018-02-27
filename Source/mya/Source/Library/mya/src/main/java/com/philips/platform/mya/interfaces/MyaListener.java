@@ -15,4 +15,6 @@ public interface MyaListener extends Serializable {
     boolean onClickMyaItem(String itemName);
 
     void onError(MyaError myaError);
+
+    void onLogoutClick();
 }
