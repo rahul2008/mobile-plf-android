@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Koninklijke Philips N.V.
+  ~ All rights are reserved. Reproduction or dissemination
+  ~ in whole or in part is prohibited without the prior written
+  ~ consent of the copyright holder.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/justInTimeView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/transparent"
+              android:paddingBottom="@dimen/default_screen_side_margin"
+              android:paddingEnd="@dimen/default_screen_side_margin"
+              android:paddingStart="@dimen/default_screen_side_margin">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
+</LinearLayout>

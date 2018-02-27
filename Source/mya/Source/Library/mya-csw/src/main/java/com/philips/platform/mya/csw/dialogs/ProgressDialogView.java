@@ -4,6 +4,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
+
 package com.philips.platform.mya.csw.dialogs;
 
 import android.content.Context;
@@ -15,55 +16,49 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
-import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.Label;
 
-public class DialogView implements View.OnClickListener {
-
+public class ProgressDialogView implements View.OnClickListener {
     protected View view;
     protected AlertDialogFragment alertDialogFragment;
+    protected boolean isDialogShown;
     private View.OnClickListener okListener;
 
-    public DialogView() {
-        okListener = null;
+    public ProgressDialogView() {
+        this.okListener = null;
+        this.isDialogShown = false;
     }
 
-    public DialogView(final View.OnClickListener listener) {
-        okListener = listener;
+    public ProgressDialogView(final View.OnClickListener listener) {
+        this.okListener = listener;
+        this.isDialogShown = false;
     }
 
-    public void showDialog(FragmentActivity activity, String title, String body) {
-        if (!(activity.isFinishing())) {
+    public void showDialog(FragmentActivity activity) {
+        if (!(activity.isFinishing()) && !isDialogShown) {
             setupView(activity);
             setupAlertDialogFragment(activity);
-            setupTitleAndText(title, body);
-            setupOkButton();
-            showButton(activity);
+            displayDialog(activity);
+            isDialogShown = true;
         }
     }
 
-    protected void setupTitleAndText(String title, String body) {
-        Label titleLabel = view.findViewById(R.id.mya_csw_label_error_message_title);
-        titleLabel.setText(title);
-        Label bodyLabel = view.findViewById(R.id.mya_csw_label_error_message_body);
-        bodyLabel.setText(body);
+    public void hideDialog() {
+        if (alertDialogFragment != null && isDialogShown) {
+            alertDialogFragment.dismiss();
+            isDialogShown = false;
+        }
     }
 
-    protected void showButton(FragmentActivity activity) {
+    public boolean isDialogShown() {
+        return isDialogShown;
+    }
+
+    protected void displayDialog(FragmentActivity activity) {
         alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
     }
 
-    protected void setupOkButton() {
-        Button okButton = getOkButton();
-        okButton.setOnClickListener(this);
-    }
-
-    protected Button getOkButton() {
-        return view.findViewById(R.id.cws_dialog_error_message_button_ok);
-    }
-
     protected void setupAlertDialogFragment(FragmentActivity activity) {
-        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity)
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity, R.style.MyaAlertDialog)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
@@ -77,7 +72,7 @@ public class DialogView implements View.OnClickListener {
         view = LayoutInflater
                 .from(activity)
                 .cloneInContext(popupThemedContext)
-                .inflate(R.layout.csw_dialog_connection, null, false);
+                .inflate(R.layout.csw_progress_dialog_connection, null, false);
     }
 
     @Override
@@ -88,4 +83,3 @@ public class DialogView implements View.OnClickListener {
         }
     }
 }
-

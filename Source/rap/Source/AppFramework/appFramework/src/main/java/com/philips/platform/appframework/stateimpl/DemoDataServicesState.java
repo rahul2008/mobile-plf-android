@@ -6,10 +6,20 @@
  */
 package com.philips.platform.appframework.stateimpl;
 
-import java.util.Random;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
@@ -27,7 +37,6 @@ import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
@@ -37,20 +46,10 @@ import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Random;
 
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
@@ -104,15 +103,9 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        JustInTimeTextResources textResources = new JustInTimeTextResources();
-        textResources.titleTextRes = R.string.RA_CSW_JustInTime_Title;
-        textResources.acceptTextRes = R.string.RA_CSW_JustInTime_Accept;
-        textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
-        textResources.userBenefitsDescriptionRes = R.string.RA_CSW_JustInTime_UserBenefitsDescription;
-        textResources.userBenefitsTitleRes = R.string.RA_CSW_JustInTime_UserBenefitsTitle;
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
                 new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"));
     }
 
     @NonNull

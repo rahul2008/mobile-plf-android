@@ -92,7 +92,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
                             (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).
                             build().load();
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
             }
         }

@@ -120,7 +120,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
                             getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).build().load();
                 }
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
 

@@ -41,7 +41,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         try {
             THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(), address, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
