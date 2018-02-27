@@ -29,7 +29,6 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
@@ -51,7 +50,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     private LinearLayoutManager linearLayoutManager;
     private AppConfigurationInterface.AppConfigurationError error;
-    private ProgressBarButton logout;
+    private Button logout;
     private Label philipsWebsite;
 
     @Override
@@ -91,6 +90,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 Bundle args = new Bundle();
                 args.putCharSequence(PHILIPS_LINK,tag);
                 fragment.setArguments(args);
+
                 showFragment(fragment);
                 return true;
             }
@@ -201,7 +201,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener onClickLogOut(final ProgressBarButton logout) {
+    private View.OnClickListener onClickLogOut(final Button logout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,7 +210,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                     presenter.logOut(getArguments());
                 }*/
                 //TODO - need to invoke above commented code when introduced call back for log out success
-                logout.showProgressIndicator();
                 presenter.logOut(getArguments());
             }
         };
@@ -249,8 +248,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void hideProgressIndicator() {
-        if (logout != null)
-            logout.hideProgressIndicator();
+
     }
 
     @SuppressWarnings("deprecation")
@@ -259,6 +257,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         philipsWebsite.setClickable(true);
         philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
         philipsWebsite.setText(Html.fromHtml(url));
+
     }
 
 

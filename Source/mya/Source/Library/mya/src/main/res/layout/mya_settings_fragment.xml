@@ -57,6 +57,7 @@
                 android:layout_marginBottom="@dimen/MYA_bottom_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginStart="@dimen/MYA_start_margin"
+                android:autoLink="web"
                  />
         </LinearLayout>
 
