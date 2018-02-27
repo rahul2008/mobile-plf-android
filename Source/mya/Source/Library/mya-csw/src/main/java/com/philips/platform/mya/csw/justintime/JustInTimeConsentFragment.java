@@ -13,7 +13,6 @@ import android.support.annotation.LayoutRes;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.CswBaseFragment;
@@ -31,7 +30,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-public class JustInTimeConsentFragment extends CswBaseFragment {
+public class JustInTimeConsentFragment extends CswBaseFragment implements JustInTimeConsentContract.View, JustInTimeConsentContract.Presenter {
     private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
@@ -43,9 +42,9 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
+        android.view.View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
         initializeDescriptionLabel(justInTimeConsentView);
         initializeHelpLabel(justInTimeConsentView);
         initializeGiveConsentButton(justInTimeConsentView);
@@ -67,7 +66,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
     }
 
     @Override
-    protected void handleOrientation(View view) {
+    protected void handleOrientation(android.view.View view) {
         handleOrientationOnView(view);
     }
 
@@ -76,44 +75,44 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         return JustInTimeConsentDependencies.textResources.titleTextRes;
     }
 
-    private void initializeConsentRejectButton(View justInTimeConsentView) {
+    private void initializeConsentRejectButton(android.view.View justInTimeConsentView) {
         Button rejectConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_later);
         rejectConsentButton.setText(JustInTimeConsentDependencies.textResources.rejectTextRes);
-        rejectConsentButton.setOnClickListener(new View.OnClickListener() {
+        rejectConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(android.view.View view) {
                 onConsentRejectedButtonClicked();
             }
         });
     }
 
-    private void initializeGiveConsentButton(View justInTimeConsentView) {
+    private void initializeGiveConsentButton(android.view.View justInTimeConsentView) {
         Button giveConsentButton = justInTimeConsentView.findViewById(R.id.mya_cws_button_in_time_consent_ok);
         giveConsentButton.setText(JustInTimeConsentDependencies.textResources.acceptTextRes);
-        giveConsentButton.setOnClickListener(new View.OnClickListener() {
+        giveConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(android.view.View view) {
                 onConsentGivenButtonClicked();
             }
         });
     }
 
-    private void initializeDescriptionLabel(View justInTimeConsentView) {
+    private void initializeDescriptionLabel(android.view.View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_consent_description);
         descriptionLabel.setText(JustInTimeConsentDependencies.consentDefinition.getText());
     }
 
-    private void initializeUserBenefitsDescriptionLabel(View justInTimeConsentView) {
+    private void initializeUserBenefitsDescriptionLabel(android.view.View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_description);
         descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
     }
 
-    private void initializeUserBenefitsTitleLabel(View justInTimeConsentView) {
+    private void initializeUserBenefitsTitleLabel(android.view.View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_title);
         descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
     }
 
-    private void initializeHelpLabel(View justInTimeConsentView) {
+    private void initializeHelpLabel(android.view.View justInTimeConsentView) {
         Spannable helpLink = new SpannableString(getContext().getString(R.string.mya_Consent_Help_Label));
         helpLink.setSpan(new LinkSpan(new LinkSpanClickListener() {
             @Override
@@ -125,7 +124,8 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         descriptionLabel.setText(helpLink);
     }
 
-    private void onConsentGivenButtonClicked() {
+    @Override
+    public void onConsentGivenButtonClicked() {
         postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
@@ -136,7 +136,8 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         }));
     }
 
-    private void onConsentRejectedButtonClicked() {
+    @Override
+    public void onConsentRejectedButtonClicked() {
         postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
@@ -147,25 +148,29 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         }));
     }
 
-    private void showErrorDialog(String errorTitle, String errorMessage) {
+    @Override
+    public void showErrorDialog(String errorTitle, String errorMessage) {
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
 
-    private void showProgressDialog() {
+    @Override
+    public void showProgressDialog() {
         if (progressDialogView == null) {
             progressDialogView = new ProgressDialogView();
         }
         progressDialogView.showDialog(getActivity());
     }
 
-    private void hideProgressDialog() {
+    @Override
+    public void hideProgressDialog() {
         if (progressDialogView != null && progressDialogView.isDialogShown()) {
             progressDialogView.hideDialog();
         }
     }
 
-    private void postConsent(boolean status, PostConsentCallback callback) {
+    @Override
+    public void postConsent(boolean status, PostConsentCallback callback) {
         boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             showProgressDialog();
