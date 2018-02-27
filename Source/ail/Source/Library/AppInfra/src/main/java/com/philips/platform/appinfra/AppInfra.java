@@ -205,6 +205,10 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     }
 
 
+    /**
+     *  This Api is used to tag only App-infra based events
+     * @return - returns AppTaggingInterface instance
+     */
     public AppTaggingInterface getAppInfraTaggingInstance() { // this tag should be used withing App Infra library
         return appInfraTagging;
     }
