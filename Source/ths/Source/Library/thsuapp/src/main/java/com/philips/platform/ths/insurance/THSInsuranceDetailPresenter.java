@@ -137,7 +137,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
             THSManager.getInstance().updateInsuranceSubscription(mTHSBaseFragment.getFragmentActivity(), tHSSubscriptionUpdateRequest, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

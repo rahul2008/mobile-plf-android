@@ -129,7 +129,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                             }
                                         });
                             } catch (AWSDKInstantiationException e) {
-                                e.printStackTrace();
                                 mThsBaseFragment.hideProgressBar();
                             }
                         }
@@ -143,7 +142,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                         }
                     });
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
             mThsBaseFragment.hideProgressBar();
         }
     }
@@ -156,7 +154,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
         try {
             THSManager.getInstance().getProviderDetails(context, thsProviderInfo, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
         }
     }
 
@@ -170,7 +167,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                 try {
                     THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
                 }
                 getProviderAvailability(provider);
             }
@@ -182,7 +178,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
             THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
                     ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -257,7 +253,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
             THSManager.getInstance().scheduleAppointment(mThsBaseFragment.getContext(), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(),
                     dateList.get(position), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getReminderOptions(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

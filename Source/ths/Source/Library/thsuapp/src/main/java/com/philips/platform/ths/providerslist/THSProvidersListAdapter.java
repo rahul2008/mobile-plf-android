@@ -132,7 +132,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
                         (holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder,holder.providerImage.getContext().getTheme())).
                         build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
         }

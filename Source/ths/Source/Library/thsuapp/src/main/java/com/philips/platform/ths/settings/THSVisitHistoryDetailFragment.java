@@ -161,7 +161,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
                         newImageLoader(assignedProviderInfo,
                                 mProviderImage, ProviderImageSize.LARGE).placeholder(drawable).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
             mLabelProviderName.setText(assignedProviderInfo.getFullName());
             mLabelPracticeName.setText(assignedProviderInfo.getSpecialty().getName());
