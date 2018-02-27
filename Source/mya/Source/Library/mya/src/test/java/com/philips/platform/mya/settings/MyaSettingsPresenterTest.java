@@ -23,8 +23,6 @@ import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -36,7 +34,6 @@ import org.mockito.ArgumentMatchers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -79,17 +76,6 @@ public class MyaSettingsPresenterTest {
         MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
         myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
-    }
-
-    @Test
-    public void testHandleLogOut() {
-        LogoutListener logoutListener = myaSettingsPresenter.getLogoutListener();
-        Bundle bundle = new Bundle();
-        UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        bundle.putSerializable(USER_PLUGIN, userDataInterface);
-        myaSettingsPresenter.logOut(bundle);
-        logoutListener.onLogoutSuccess();
-        verify(view).onLogOutSuccess();
     }
 
     @Test
