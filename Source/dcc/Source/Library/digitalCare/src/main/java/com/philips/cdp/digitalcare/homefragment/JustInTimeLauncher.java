@@ -24,8 +24,8 @@ class JustInTimeLauncher {
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
 
-    JustInTimeConsentFragment getJustInTimeFragment(int mContainerId) {
-        return JustInTimeConsentFragment.newInstance(mContainerId);
+    JustInTimeConsentFragment getJustInTimeFragment(int containerID) {
+        return JustInTimeConsentFragment.newInstance(containerID);
     }
 
     @NonNull
