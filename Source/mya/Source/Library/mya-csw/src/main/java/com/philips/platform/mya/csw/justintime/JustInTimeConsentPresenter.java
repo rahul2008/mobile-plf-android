@@ -11,13 +11,15 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Presenter {
     private final JustInTimeConsentContract.View view;
     private final ConsentHandlerInterface consentHandlerInterface;
+    private final ConsentDefinition consentDefinition;
     private AppInfraInterface appInfra;
 
-    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface) {
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface, ConsentDefinition consentDefinition) {
         this.view = view;
         this.appInfra = appInfra;
         this.view.setPresenter(this);
         this.consentHandlerInterface = consentHandlerInterface;
+        this.consentDefinition = consentDefinition;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         boolean isOnline = appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             view.showProgressDialog();
-            consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
+            consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
         } else {
             view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
         }

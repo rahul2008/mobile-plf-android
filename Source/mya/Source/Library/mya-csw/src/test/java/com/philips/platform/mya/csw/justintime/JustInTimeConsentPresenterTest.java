@@ -4,11 +4,15 @@ import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.justintime.spy.ConsentHandlerInterfaceSpy;
 import com.philips.platform.mya.csw.justintime.spy.ViewSpy;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class JustInTimeConsentPresenterTest {
@@ -17,13 +21,15 @@ public class JustInTimeConsentPresenterTest {
     private ViewSpy view;
     private AppInfraInterfaceMock appInfraMock;
     private ConsentHandlerInterfaceSpy consentHandlerInterface;
+    private ConsentDefinition consentDefinition;
 
     @Before
     public void setup() {
         appInfraMock = new AppInfraInterfaceMock();
         view = new ViewSpy();
         consentHandlerInterface = new ConsentHandlerInterfaceSpy();
-        presenter = new JustInTimeConsentPresenter(view, appInfraMock, consentHandlerInterface);
+        consentDefinition = new ConsentDefinition("", "", Collections.EMPTY_LIST, 0);
+        presenter = new JustInTimeConsentPresenter(view, appInfraMock, consentHandlerInterface, consentDefinition);
     }
 
     @Test
@@ -39,10 +45,17 @@ public class JustInTimeConsentPresenterTest {
     }
 
     @Test
-    public void OnConsentGivenShowsProgressDialogWhenOnline() {
+    public void onConsentGivenShowsProgressDialogWhenOnline() {
         givenUserIsOnline();
         whenGivingConsent();
         thenProgressDialogIsShown();
+    }
+
+    @Test
+    public void onConsentGivenStoresConsentStateWhenOnline() {
+        givenUserIsOnline();
+        whenGivingConsent();
+        thenConsentStateIsStored(consentDefinition);
     }
 
     private void givenUserIsOffline() {
@@ -66,4 +79,9 @@ public class JustInTimeConsentPresenterTest {
         assertTrue(view.progressDialogShown);
     }
 
+    private void thenConsentStateIsStored(ConsentDefinition definition) {
+        assertEquals(definition, consentHandlerInterface.definition_storeConsentState);
+        assertTrue(consentHandlerInterface.status_storeConsentState);
+        assertNotNull(consentHandlerInterface.callback_storeConsentState);
+    }
 }
