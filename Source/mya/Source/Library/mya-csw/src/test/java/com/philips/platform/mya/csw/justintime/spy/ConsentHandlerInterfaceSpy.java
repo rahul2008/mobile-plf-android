@@ -1,8 +1,10 @@
 package com.philips.platform.mya.csw.justintime.spy;
 
 import com.philips.platform.pif.chi.CheckConsentsCallback;
+import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;
@@ -27,5 +29,13 @@ public class ConsentHandlerInterfaceSpy implements ConsentHandlerInterface {
         this.definition_storeConsentState = definition;
         this.status_storeConsentState = status;
         this.callback_storeConsentState = callback;
+    }
+
+    public void callsCallback_onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+        this.callback_storeConsentState.onPostConsentFailed(definition, error);
+    }
+
+    public void callsCallback_onPostConsentSuccess(Consent consent) {
+        this.callback_storeConsentState.onPostConsentSuccess(consent);
     }
 }

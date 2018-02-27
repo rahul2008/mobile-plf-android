@@ -12,14 +12,16 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
     private final JustInTimeConsentContract.View view;
     private final ConsentHandlerInterface consentHandlerInterface;
     private final ConsentDefinition consentDefinition;
+    private final JustInTimeWidgetHandler completionListener;
     private AppInfraInterface appInfra;
 
-    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface, ConsentDefinition consentDefinition) {
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface, ConsentDefinition consentDefinition, JustInTimeWidgetHandler completionListener) {
         this.view = view;
         this.appInfra = appInfra;
         this.view.setPresenter(this);
         this.consentHandlerInterface = consentHandlerInterface;
         this.consentDefinition = consentDefinition;
+        this.completionListener = completionListener;
     }
 
     @Override
@@ -27,8 +29,8 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (JustInTimeConsentDependencies.completionListener != null) {
-                    JustInTimeConsentDependencies.completionListener.onConsentGiven();
+                if (completionListener != null) {
+                    completionListener.onConsentGiven();
                 }
             }
         }));
@@ -39,8 +41,8 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
             @Override
             public void onSuccess() {
-                if (JustInTimeConsentDependencies.completionListener != null) {
-                    JustInTimeConsentDependencies.completionListener.onConsentRejected();
+                if (completionListener != null) {
+                    completionListener.onConsentRejected();
                 }
             }
         }));
