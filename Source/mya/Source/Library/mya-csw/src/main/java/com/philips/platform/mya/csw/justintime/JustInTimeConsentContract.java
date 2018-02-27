@@ -6,6 +6,10 @@ interface JustInTimeConsentContract {
     interface View {
         void showErrorDialog(String errorTitle, String errorMessage);
 
+        void showErrorDialog(int errorTitleId, int errorMessageId);
+
+        void showErrorDialogForCode(int errorTitleId, int errorCode);
+
         void showProgressDialog();
 
         void hideProgressDialog();

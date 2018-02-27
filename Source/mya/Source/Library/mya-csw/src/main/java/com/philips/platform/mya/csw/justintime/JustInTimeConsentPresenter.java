@@ -1,32 +1,76 @@
-package com.philips.platform.mya.csw.justintime;public class JustInTimeConsentPresenter implements com.philips.platform.mya.csw.justintime.JustInTimeConsentContract.Presenter{private final com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment justInTimeConsentFragment;	public JustInTimeConsentPresenter(com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment justInTimeConsentFragment)	{		this.justInTimeConsentFragment = justInTimeConsentFragment;	}@java.lang.Override
+package com.philips.platform.mya.csw.justintime;
+
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+
+public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Presenter {
+    private final JustInTimeConsentContract.View view;
+
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view) {
+        this.view = view;
+    }
+
+    @Override
     public void onConsentGivenButtonClicked() {
-        justInTimeConsentFragment.postConsent(true, new com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment.JustInTimePostConsentCallback(new com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment.PostConsentSuccessHandler() {
-            @java.lang.Override
+        postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
+            @Override
             public void onSuccess() {
-                if (com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.completionListener != null) {
-                    com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.completionListener.onConsentGiven();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentGiven();
                 }
             }
         }));
-    }@java.lang.Override
+    }
+
+    @Override
     public void onConsentRejectedButtonClicked() {
-        justInTimeConsentFragment.postConsent(false, new com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment.JustInTimePostConsentCallback(new com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment.PostConsentSuccessHandler() {
-            @java.lang.Override
+        postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
+            @Override
             public void onSuccess() {
-                if (com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.completionListener != null) {
-                    com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.completionListener.onConsentRejected();
+                if (JustInTimeConsentDependencies.completionListener != null) {
+                    JustInTimeConsentDependencies.completionListener.onConsentRejected();
                 }
             }
         }));
-    }@java.lang.Override
-    public void postConsent(boolean status, com.philips.platform.pif.chi.PostConsentCallback callback) {
-        boolean isOnline = com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
+    }
+
+    @Override
+    public void postConsent(boolean status, PostConsentCallback callback) {
+        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
-            justInTimeConsentFragment.showProgressDialog();
-            com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition, status, callback);
+            view.showProgressDialog();
+            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
         } else {
-            justInTimeConsentFragment.showErrorDialog(justInTimeConsentFragment.getString(com.philips.platform.mya.csw.R.string.csw_offline_title), justInTimeConsentFragment.getString(com.philips.platform.mya.csw.R.string.csw_offline_message));
+            view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
         }
-    }interface PostConsentSuccessHandler {
+    }
+
+    class JustInTimePostConsentCallback implements PostConsentCallback {
+
+        private final JustInTimeConsentPresenter.PostConsentSuccessHandler handler;
+
+        public JustInTimePostConsentCallback(JustInTimeConsentPresenter.PostConsentSuccessHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+            view.hideProgressDialog();
+            view.showErrorDialogForCode(R.string.csw_problem_occurred_error_title, error.getErrorCode());
+        }
+
+        @Override
+        public void onPostConsentSuccess(Consent consent) {
+            view.hideProgressDialog();
+            handler.onSuccess();
+        }
+    }
+
+    interface PostConsentSuccessHandler {
         void onSuccess();
-    }}
+    }
+}

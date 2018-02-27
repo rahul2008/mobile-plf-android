@@ -31,6 +31,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 public class JustInTimeConsentFragment extends CswBaseFragment implements JustInTimeConsentContract.View, JustInTimeConsentContract.Presenter {
+    private final JustInTimeConsentPresenter justInTimeConsentPresenter = new JustInTimeConsentPresenter(this);
     private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
@@ -81,7 +82,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         rejectConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                onConsentRejectedButtonClicked();
+                justInTimeConsentPresenter.onConsentRejectedButtonClicked();
             }
         });
     }
@@ -92,7 +93,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         giveConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                onConsentGivenButtonClicked();
+                justInTimeConsentPresenter.onConsentGivenButtonClicked();
             }
         });
     }
@@ -126,26 +127,12 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
 
     @Override
     public void onConsentGivenButtonClicked() {
-        postConsent(true, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
-            @Override
-            public void onSuccess() {
-                if (JustInTimeConsentDependencies.completionListener != null) {
-                    JustInTimeConsentDependencies.completionListener.onConsentGiven();
-                }
-            }
-        }));
+        justInTimeConsentPresenter.onConsentGivenButtonClicked();
     }
 
     @Override
     public void onConsentRejectedButtonClicked() {
-        postConsent(false, new JustInTimePostConsentCallback(new PostConsentSuccessHandler() {
-            @Override
-            public void onSuccess() {
-                if (JustInTimeConsentDependencies.completionListener != null) {
-                    JustInTimeConsentDependencies.completionListener.onConsentRejected();
-                }
-            }
-        }));
+        justInTimeConsentPresenter.onConsentRejectedButtonClicked();
     }
 
     @Override
@@ -153,6 +140,19 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
+
+    @Override
+    public void showErrorDialog(int errorTitleId, int errorMessageId) {
+        showErrorDialog(getString(errorTitleId), getString(errorMessageId));
+    }
+
+    @Override
+    public void showErrorDialogForCode(int errorTitleId, int errorCode) {
+        String errorTitle = getContext().getString(errorTitleId);
+        String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), errorCode);
+        showErrorDialog(errorTitle, errorMessage);
+    }
+
 
     @Override
     public void showProgressDialog() {
@@ -171,20 +171,14 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
 
     @Override
     public void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
-        if (isOnline) {
-            showProgressDialog();
-            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
-        } else {
-            showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
-        }
+        justInTimeConsentPresenter.postConsent(status, callback);
     }
 
     class JustInTimePostConsentCallback implements PostConsentCallback {
 
-        private final PostConsentSuccessHandler handler;
+        private final JustInTimeConsentPresenter.PostConsentSuccessHandler handler;
 
-        public JustInTimePostConsentCallback(PostConsentSuccessHandler handler) {
+        public JustInTimePostConsentCallback(JustInTimeConsentPresenter.PostConsentSuccessHandler handler) {
             this.handler = handler;
         }
 
@@ -203,7 +197,4 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         }
     }
 
-    interface PostConsentSuccessHandler {
-        void onSuccess();
-    }
 }
