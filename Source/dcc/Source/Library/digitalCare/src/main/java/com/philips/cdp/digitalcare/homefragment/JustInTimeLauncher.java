@@ -24,8 +24,8 @@ class JustInTimeLauncher {
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
 
-    JustInTimeConsentFragment getJustInTimeFragment() {
-        return JustInTimeConsentFragment.newInstance(android.R.layout.two_line_list_item);
+    JustInTimeConsentFragment getJustInTimeFragment(int mContainerId) {
+        return JustInTimeConsentFragment.newInstance(mContainerId);
     }
 
     @NonNull

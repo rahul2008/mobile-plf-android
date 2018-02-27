@@ -105,12 +105,16 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
 
     private void initializeUserBenefitsDescriptionLabel(View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_description);
-        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
+        if(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes != 0) {
+            descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
+        }
     }
 
     private void initializeUserBenefitsTitleLabel(View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_title);
-        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
+        if (JustInTimeConsentDependencies.textResources.userBenefitsTitleRes != 0) {
+            descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
+        }
     }
 
     private void initializeHelpLabel(View justInTimeConsentView) {

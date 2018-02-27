@@ -1,12 +1,9 @@
 package com.philips.platform.mya.catk.device;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.utils.CatkHelper;
@@ -18,12 +15,15 @@ import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
-    private final AppInfra appInfra;
+    private final AppInfraInterface appInfra;
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
     private static final int LIST_POS_TIMESTAMP = 2;
@@ -33,7 +33,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
 
-    public DeviceStoredConsentHandler(final AppInfra appInfra) {
+    public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
