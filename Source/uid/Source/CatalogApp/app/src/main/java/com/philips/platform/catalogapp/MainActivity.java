@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+@SuppressWarnings("serial")
 public class MainActivity extends UIDActivity {
 
     protected static final String TITLE_TEXT = "TITLE_TEXT";

@@ -87,6 +87,7 @@ public class CswInterface implements UappInterface {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             PermissionView permissionFragment = new PermissionView();
+            permissionFragment.setUpdateTitleListener(fragmentLauncher.getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(PermissionView.TAG);
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionView.TAG);

@@ -74,7 +74,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
-
+@SuppressWarnings("serial")
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener, THSSymptomsFragmentViewInterface {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();

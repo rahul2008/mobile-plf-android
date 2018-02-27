@@ -24,10 +24,11 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_FAQ_SERVICE_ID;
 
-
+@SuppressWarnings("unchecked")
 public class THSFaqPresenter implements THSBasePresenter{
     THSFaqFragment mThsFaqFragment;
     THSRestClient mTHSRestClient;
@@ -64,7 +65,7 @@ public class THSFaqPresenter implements THSBasePresenter{
     }
 
     public void parseJson(String jsonString) {
-        HashMap map = new HashMap();
+        HashMap<String , List<FaqBeanPojo>> map = new HashMap<String , List<FaqBeanPojo>>();
         if(jsonString!=null) {
             JSONArray jsonArray = null;
             try {
