@@ -809,6 +809,13 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void deleteAllInsights_noResultListener() {
+        mDataServicesManager.deleteAllInsights(null);
+
+        verify(eventingMock).post((Event) any());
+    }
+
+    @Test
     public void deleteAllInsights_withResultListener() {
         mDataServicesManager.deleteAllInsights(dbRequestListener);
 
