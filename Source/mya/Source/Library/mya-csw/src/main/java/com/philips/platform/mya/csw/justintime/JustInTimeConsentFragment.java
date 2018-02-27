@@ -169,7 +169,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment {
         boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             showProgressDialog();
-            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
+            JustInTimeConsentDependencies.consentRegistryInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
         } else {
             showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }

@@ -8,11 +8,12 @@ package com.philips.platform.mya.csw.justintime;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public class JustInTimeConsentDependencies {
 
-    public static ConsentHandlerInterface consentHandlerInterface;
+    public static ConsentRegistryInterface consentRegistryInterface;
     public static ConsentDefinition consentDefinition;
     public static JustInTimeTextResources textResources;
     public static AppInfraInterface appInfra;

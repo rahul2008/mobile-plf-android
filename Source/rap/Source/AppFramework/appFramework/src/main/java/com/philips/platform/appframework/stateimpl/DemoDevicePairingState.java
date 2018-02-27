@@ -45,7 +45,7 @@ public class DemoDevicePairingState extends BaseState {
         AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext());
         final AppInfraInterface appInfraInterface = appContext.getAppInfra();
         DevicePairingUappSettings devicePairingUappSettings = new DevicePairingUappSettings(appContext);
-        DevicePairingUappDependencies devicePairingUappDependencies = new DevicePairingUappDependencies(appInfraInterface,
+        DevicePairingUappDependencies devicePairingUappDependencies = new DevicePairingUappDependencies(appInfraInterface, appContext.getConsentRegistryInterface(),
                 appContext.getCommCentralInstance());
         mDevicePairingUappInterface = new DevicePairingUappInterface();
 

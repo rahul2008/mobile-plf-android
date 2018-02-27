@@ -40,8 +40,9 @@ public class DevicePairingUappInterface implements UappInterface {
         DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
         devicePairingUappDependencies = ((DevicePairingUappDependencies) uappDependencies);
 
-        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra(), new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment")), dsDemoAppuAppSettings);
+        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra(),
+                devicePairingUappDependencies.getConsentRegistryInterface(),
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), null), dsDemoAppuAppSettings);
 
         User user = new User(mContext);
         if (user.isUserSignIn()) {

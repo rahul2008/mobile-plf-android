@@ -35,8 +35,6 @@ import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
@@ -50,6 +48,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Random;
+
+import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.textResources;
 
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
@@ -69,8 +69,7 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Navigating to DemoDataService Screen
      *
-     * @param uiLauncher
-     *            requires UiLauncher
+     * @param uiLauncher requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -104,8 +103,8 @@ public class DemoDataServicesState extends DemoBaseState
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
-                new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"));
+                ((AppFrameworkApplication) context.getApplicationContext()).getConsentRegistryInterface(),
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
     }
 
     @NonNull
@@ -147,8 +146,7 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Create and show a simple notification containing the received GCM message.
      *
-     * @param message
-     *            GCM message received.
+     * @param message GCM message received.
      */
     private void sendNotification(String message) {
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
