@@ -45,7 +45,6 @@ import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -153,7 +152,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
-        makeProviderButtonsClickable();
         handleBtnClickableStates(true);
     }
 
@@ -223,7 +221,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void initUI(View view) {
         consumeTouch(view);
-        continueWithouAccount.setVisibility(View.GONE);
+//        continueWithouAccount.setVisibility(View.GONE);
         setContentConfig();
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
@@ -335,18 +333,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
-//    private void makeProgressVisible() {
-//        mSvRootLayout.setVisibility(View.INVISIBLE);
-//        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.INVISIBLE);
-//        spinnerLayout.setVisibility(View.VISIBLE);
-//    }
-//
-//    private void makeProgressInvisible() {
-//        mSvRootLayout.setVisibility(View.VISIBLE);
-//        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
-//        spinnerLayout.setVisibility(View.INVISIBLE);
-//    }
-
     private void callSocialProvider(String providerName) {
         RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
         if (homePresenter.isNetworkAvailable()) {
@@ -376,9 +362,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void setViewParams(Configuration config, int width) {
         RLog.d(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
-       // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
-        //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
-        //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout2, width);
         handlePrivacyPolicyAndCountryView(width);
     }
 
@@ -541,7 +524,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-        continueWithouAccount.setEnabled(state);
     }
 
     private void enableSocialProviders(boolean enableState) {
@@ -554,22 +536,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void enableControlsOnNetworkConnectionArraival() {
-        mRegError.hideError();
-        mBtnCreateAccount.setEnabled(true);
-        enableSocialProviders(true);
-        mBtnMyPhilips.setEnabled(true);
-        mCountryDisplay.setEnabled(true);
-        mCountryDisplay2.setEnabled(true);
+        enableControls(true);
     }
 
     @Override
     public void disableControlsOnNetworkConnectionGone() {
         hideProgressDialog();
-        mBtnCreateAccount.setEnabled(false);
-        enableSocialProviders(false);
-        mBtnMyPhilips.setEnabled(false);
-        mCountryDisplay.setEnabled(false);
-        mCountryDisplay2.setEnabled(false);
+        handleBtnClickableStates(false);
         updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
     }
 
@@ -691,9 +664,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void inflateEachProviderBtn(String provider) {
 
         try {
-//            String providerName = "reg_" + provider;
-//            String providerDrawable = "uid_social_media_" + provider + "_icon,";
-
             int drawableId = 0;
             if (provider.equals(SOCIAL_PROVIDER_FACEBOOK)) {
                 drawableId = R.drawable.uid_social_media_facebook_icon;
@@ -702,9 +672,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             } else if (provider.equals(SOCIAL_PROVIDER_WECHAT)) {
                 drawableId = R.drawable.uid_social_media_wechat_icon;
             }
-//            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
-//                    getRegistrationFragment().getParentActivity().getPackageName());
-
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginStart(16);
@@ -745,7 +712,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAppNotInstalled() {
-        makeProviderButtonsClickable();
+        handleBtnClickableStates(true);
         final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
                 mContext.getText(R.string.reg_wechat));
         Toast.makeText(mContext, formatedString
@@ -754,7 +721,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAppNotSupported() {
-        makeProviderButtonsClickable();
+        handleBtnClickableStates(true);
         Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
                 , Toast.LENGTH_SHORT).show();
     }
@@ -879,15 +846,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         getRegistrationFragment().userRegistrationComplete();
     }
 
-    private void makeProviderButtonsClickable() {
-        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
-        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
-            View childView = providerButtonGroup.getChildAt(i);
-            if (childView instanceof XProviderButton) {
-                childView.setClickable(true);
-            }
-        }
-    }
     private int viewLength (TextView text, String newText) {
         float textWidth = text.getPaint().measureText(newText);
         return Math.round(textWidth);
