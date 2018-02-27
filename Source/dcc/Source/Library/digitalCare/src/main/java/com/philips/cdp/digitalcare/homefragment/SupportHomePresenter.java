@@ -28,17 +28,17 @@ class SupportHomePresenter implements HomeFragmentContract.HomeFragmentPresenter
                 if (consents != null) {
                     for (Consent consent : consents) {
                         if (DigitalCareConstants.CC_CONSENT_TYPE_LOCATION.equals(consent.getType()) && consent.isAccepted()) {
-                            viewContract.onConsentProvided(true);
+                            viewContract.isConsentAccepted(true);
                             return;
                         }
                     }
                 }
-                viewContract.askConsents();
+                viewContract.isConsentAccepted(false);
             }
 
             @Override
             public void onGetConsentsFailed(ConsentError error) {
-                viewContract.askConsents();
+                viewContract.isConsentAccepted(false);
             }
         });
     }

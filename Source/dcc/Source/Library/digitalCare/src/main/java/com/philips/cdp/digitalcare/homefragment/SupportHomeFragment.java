@@ -873,6 +873,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     @Override
     public void onConsentProvided(boolean consentProvided) {
         if (consentProvided) {
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
             showFragment(new LocatePhilipsFragment());
         } else {
             if (getActivity() != null) {
@@ -882,9 +883,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     @Override
-    public void askConsents() {
-        JustInTimeLauncher justInTimeLauncher = new JustInTimeLauncher();
-        justInTimeLauncher.addJustInTimeConsentDependencies(getActivity(), this);
-        showFragment(justInTimeLauncher.getJustInTimeFragment());
+    public void isConsentAccepted(boolean consentAccepted) {
+        if (consentAccepted) {
+            showFragment(new LocatePhilipsFragment());
+        } else {
+            if (getActivity() != null) {
+                JustInTimeLauncher justInTimeLauncher = new JustInTimeLauncher();
+                justInTimeLauncher.addJustInTimeConsentDependencies(getActivity(), this);
+                showFragment(justInTimeLauncher.getJustInTimeFragment());
+            }
+        }
     }
 }

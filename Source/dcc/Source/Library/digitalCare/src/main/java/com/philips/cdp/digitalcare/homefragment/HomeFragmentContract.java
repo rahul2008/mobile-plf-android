@@ -7,7 +7,7 @@ interface HomeFragmentContract {
 
     interface View {
         void onConsentProvided(boolean consentProvided);
-        void askConsents();
+        void isConsentAccepted(boolean consentAccepted);
     }
 
     interface HomeFragmentPresenter {
