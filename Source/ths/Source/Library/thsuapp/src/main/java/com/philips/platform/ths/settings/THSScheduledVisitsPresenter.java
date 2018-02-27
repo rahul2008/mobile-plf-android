@@ -53,7 +53,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
             mThsScheduledVisitsFragment.startRefreshing();
             THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(), appointment, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

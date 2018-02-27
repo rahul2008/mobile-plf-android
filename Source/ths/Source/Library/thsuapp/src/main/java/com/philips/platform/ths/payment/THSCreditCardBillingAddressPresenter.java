@@ -102,7 +102,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
 
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

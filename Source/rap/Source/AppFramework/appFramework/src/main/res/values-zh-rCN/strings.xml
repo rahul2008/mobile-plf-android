@@ -16,13 +16,6 @@
   <string name="RA_About_App_Version">版本</string>
   <string name="RA_About_Description_New">This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
   <string name="RA_About_Menu_Title">关于</string>
-  <string name="RA_CSW_JustInTime_Accept">[zh-CN]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[zh-CN]Maybe later
-</string>
-  <string name="RA_CSW_JustInTime_Title">[zh-CN]Be the first to know</string>
-  <string name="RA_CSW_JustInTime_UserBenefitsDescription">[zh-CN]\"Special offers, promotions and first hand information about new product releases.\nTailored for you!\n\nJoin 140.000 of your peers now!\"
-</string>
-  <string name="RA_CSW_JustInTime_UserBenefitsTitle">[zh-CN]What do we have to offer?</string>
   <string name="RA_Cancel">取消</string>
   <string name="RA_CoCo_Description_AppInfra">[zh-CN]AppInfra is the component\'s top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
   <string name="RA_CoCo_Description_Connectivity">[zh-CN]Connectivity feature in Reference App, provides the ability to pair the mobile application with a reference device using Bluetooth capability for capturing the data from the device to the mobile application</string>

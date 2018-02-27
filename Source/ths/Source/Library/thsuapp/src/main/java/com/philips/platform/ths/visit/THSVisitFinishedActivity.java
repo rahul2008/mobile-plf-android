@@ -81,7 +81,5 @@ int mResultcode;
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        int u=12;
-
     }
 }
