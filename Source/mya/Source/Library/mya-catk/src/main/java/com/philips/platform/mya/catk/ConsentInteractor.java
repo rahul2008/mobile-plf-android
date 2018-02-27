@@ -53,7 +53,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, @NonNull final CheckConsentsCallback callback) {
-        fetchLatestConsents(callback);
+
     }
 
     @Override
