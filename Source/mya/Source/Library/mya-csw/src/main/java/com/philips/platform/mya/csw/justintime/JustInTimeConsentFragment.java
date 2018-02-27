@@ -173,28 +173,4 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     public void postConsent(boolean status, PostConsentCallback callback) {
         justInTimeConsentPresenter.postConsent(status, callback);
     }
-
-    class JustInTimePostConsentCallback implements PostConsentCallback {
-
-        private final JustInTimeConsentPresenter.PostConsentSuccessHandler handler;
-
-        public JustInTimePostConsentCallback(JustInTimeConsentPresenter.PostConsentSuccessHandler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-            hideProgressDialog();
-            String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
-            String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
-            showErrorDialog(errorTitle, errorMessage);
-        }
-
-        @Override
-        public void onPostConsentSuccess(Consent consent) {
-            hideProgressDialog();
-            handler.onSuccess();
-        }
-    }
-
 }
