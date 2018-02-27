@@ -1,18 +1,23 @@
 package com.philips.platform.mya.csw.justintime;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Presenter {
     private final JustInTimeConsentContract.View view;
+    private final ConsentHandlerInterface consentHandlerInterface;
+    private AppInfraInterface appInfra;
 
-    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view) {
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface) {
         this.view = view;
+        this.appInfra = appInfra;
         this.view.setPresenter(this);
+        this.consentHandlerInterface = consentHandlerInterface;
     }
 
     @Override
@@ -40,10 +45,10 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
+        boolean isOnline = appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             view.showProgressDialog();
-            JustInTimeConsentDependencies.consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
+            consentHandlerInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
         } else {
             view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
         }
