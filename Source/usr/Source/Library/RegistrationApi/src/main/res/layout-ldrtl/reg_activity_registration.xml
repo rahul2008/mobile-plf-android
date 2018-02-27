@@ -17,7 +17,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/view_reg_devider"
         android:clickable="true"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:focusable="true" />
 
     <RelativeLayout
         android:id="@+id/rl_reg_header"
@@ -30,8 +31,8 @@
         <com.philips.cdp.registration.ui.customviews.XTextView
             android:id="@+id/tv_reg_header_title"
             style="@style/reg_style_homescreen_title"
-            android:layout_marginLeft="@dimen/reg_header_title_margin_right"
-            android:layout_toLeftOf="@+id/iv_reg_back"
+            android:layout_marginStart="@dimen/reg_header_title_margin_right"
+            android:layout_toStartOf="@+id/iv_reg_back"
             android:text="@string/reg_SigIn_TitleTxt"
             android:textColor="@color/reg_header_text_color"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -40,8 +41,8 @@
             android:id="@+id/iv_reg_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dip"
-            android:layout_marginLeft="5dip"
+            android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
             android:padding="@dimen/reg_header_iv_back_padding"
             android:text="@string/ic_reg_right"
             android:textColor="@color/reg_back_arrow_color"

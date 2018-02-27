@@ -53,7 +53,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
+        View view = inflater.inflate(R.layout.reg_user_detail_fragment, container, false);
         initViews(view);
         setRetainInstance(true);
         myaDetailPresenter = new UserDetailPresenter(this);
