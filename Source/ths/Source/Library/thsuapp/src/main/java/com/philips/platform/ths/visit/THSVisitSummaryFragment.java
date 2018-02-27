@@ -195,7 +195,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
                                 ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
                         getDrawable(R.drawable.doctor_placeholder, getFragmentActivity().getTheme())).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
 

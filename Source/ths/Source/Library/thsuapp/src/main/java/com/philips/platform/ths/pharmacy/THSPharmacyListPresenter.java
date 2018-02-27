@@ -53,7 +53,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, city, state, zipCode, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -61,7 +61,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, latitude, longitude, radius, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -104,7 +104,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), pharmacy, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

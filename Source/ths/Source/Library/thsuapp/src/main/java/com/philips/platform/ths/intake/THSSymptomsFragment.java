@@ -199,7 +199,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 try {
                     thsSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
             }
         } else {
@@ -298,7 +298,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         try {
             otherTopicEnabled = THSManager.getInstance().getAwsdk(getContext()).getConfiguration().otherTopicEnabled();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
         if (otherTopicEnabled) {
             return mThsVisitContext != null && additional_comments_edittext != null && !additional_comments_edittext.getText().toString().isEmpty();
@@ -444,7 +444,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             thsSymptomsPresenter.uploadDocuments(compressedImageUri);
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
         }
 
     }

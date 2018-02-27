@@ -160,7 +160,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             fragmentTransaction.addToBackStack(fragmentTag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (Exception ex) {
-            ex.printStackTrace();
+
         }
     }
 

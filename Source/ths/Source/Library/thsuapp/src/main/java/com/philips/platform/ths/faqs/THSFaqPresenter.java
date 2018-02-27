@@ -71,7 +71,7 @@ public class THSFaqPresenter implements THSBasePresenter{
             try {
                 jsonArray = new JSONArray(jsonString);
             } catch (JSONException e) {
-                e.printStackTrace();
+
             }
             Type listType = new TypeToken<ArrayList<THSFaqPojo>>() {
             }.getType();

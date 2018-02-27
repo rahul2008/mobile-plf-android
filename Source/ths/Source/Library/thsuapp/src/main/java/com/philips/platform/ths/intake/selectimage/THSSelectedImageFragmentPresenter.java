@@ -41,7 +41,7 @@ public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSD
         try {
             THSManager.getInstance().deletedHealthDocument(thsSelectedImageFragmentViewCallback.getFragmentActivity(),documentRecord,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

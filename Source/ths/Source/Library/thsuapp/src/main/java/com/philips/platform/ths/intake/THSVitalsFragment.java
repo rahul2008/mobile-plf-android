@@ -98,7 +98,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             try {
                 mThsVitalsPresenter.getVitals();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         } else {
             mContinue.setEnabled(true);

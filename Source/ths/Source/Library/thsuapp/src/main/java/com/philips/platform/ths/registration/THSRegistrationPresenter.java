@@ -123,7 +123,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         try {
             THSManager.getInstance().enrollConsumer(mTHSBaseFragment.getContext(), date,firstname,lastname,gender,state,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -131,7 +131,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         try {
             THSManager.getInstance().enrollDependent(mTHSBaseFragment.getContext(), date, firstname, lastname, gender, state, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
