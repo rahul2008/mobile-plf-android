@@ -12,6 +12,7 @@ import android.content.Context;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.interfaces.MyaListener;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.io.Serializable;
@@ -33,6 +34,8 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private MyaTabConfig myaTabConfig;
     private List<String> settingsMenuList;
     private List<String> profileMenuList;
+    private UserDataInterface userDataInterface;
+
     public MyaLaunchInput() {
     }
 
@@ -100,5 +103,12 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     public void setProfileMenuList(List<String> profileMenuList) {
         this.profileMenuList = profileMenuList;
+    }
+    public UserDataInterface getUserDataInterface(){
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface){
+        this.userDataInterface = userDataInterface;
     }
 }

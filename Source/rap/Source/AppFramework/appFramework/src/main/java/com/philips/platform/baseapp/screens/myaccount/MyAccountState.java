@@ -72,6 +72,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
+        MyaInterface myaInterface = getInterface();
+        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
+
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
@@ -130,14 +133,17 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         launchInput.setMyAccountUIEventListener(this);
 
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
-        MyaInterface myaInterface = getInterface();
+
         launchInput.setMyaTabConfig(myaTabConfig);
 
-        UserDataProvider userDataProvider = new UserDataProvider(actContext);
-        MyaHelper.getInstance().setUserDataInterface(userDataProvider);
+        launchInput.setUserDataInterface(((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserDataInterface());
 
-        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    @VisibleForTesting
+    User getUser(){
+        return new User(actContext);
     }
 
     private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
