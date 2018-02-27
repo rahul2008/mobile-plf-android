@@ -28,7 +28,7 @@ public class DevicePairingUappDependencies extends UappDependencies {
         return commCentral;
     }
 
-    public ConsentRegistryInterface getConsentRegistryInterface() {
+    public ConsentRegistryInterface getConsentRegistry() {
         return consentRegistryInterface;
     }
 
