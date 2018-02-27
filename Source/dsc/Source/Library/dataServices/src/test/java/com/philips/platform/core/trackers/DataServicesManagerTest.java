@@ -808,6 +808,13 @@ public class DataServicesManagerTest {
         verify(dbRequestListener).onFailure((Exception) any());
     }
 
+    @Test
+    public void deleteAllInsights_withResultListener() {
+        mDataServicesManager.deleteAllInsights(dbRequestListener);
+
+        verify(eventingMock).post((Event) any());
+    }
+
     private void whenSynchronizeIsInvoked() {
         mDataServicesManager.synchronize();
     }

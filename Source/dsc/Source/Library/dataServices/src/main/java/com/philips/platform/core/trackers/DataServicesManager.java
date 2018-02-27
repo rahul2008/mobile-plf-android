@@ -39,6 +39,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
@@ -426,8 +427,8 @@ public class DataServicesManager {
         mEventing.post(new DeleteInsightFromDB((List<Insight>) insights, dbRequestListener));
     }
 
-    public void deleteAllInsights() {
-        // TODO
+    public void deleteAllInsights(DBRequestListener<Insight> dbRequestListener) {
+        mEventing.post(new DeleteAllInsights(dbRequestListener));
     }
 
     public void deleteAll(DBRequestListener dbRequestListener) {
