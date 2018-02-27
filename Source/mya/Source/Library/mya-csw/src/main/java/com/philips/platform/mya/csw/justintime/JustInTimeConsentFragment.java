@@ -27,7 +27,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 public class JustInTimeConsentFragment extends CswBaseFragment implements JustInTimeConsentContract.View, JustInTimeConsentContract.Presenter {
-    private final JustInTimeConsentPresenter justInTimeConsentPresenter = new JustInTimeConsentPresenter(this);
     private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
@@ -84,7 +83,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         rejectConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                justInTimeConsentPresenter.onConsentRejectedButtonClicked();
+                presenter.onConsentRejectedButtonClicked();
             }
         });
     }
@@ -95,7 +94,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         giveConsentButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                justInTimeConsentPresenter.onConsentGivenButtonClicked();
+                presenter.onConsentGivenButtonClicked();
             }
         });
     }
@@ -129,12 +128,12 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
 
     @Override
     public void onConsentGivenButtonClicked() {
-        justInTimeConsentPresenter.onConsentGivenButtonClicked();
+        presenter.onConsentGivenButtonClicked();
     }
 
     @Override
     public void onConsentRejectedButtonClicked() {
-        justInTimeConsentPresenter.onConsentRejectedButtonClicked();
+        presenter.onConsentRejectedButtonClicked();
     }
 
 

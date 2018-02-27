@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentPresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -40,6 +41,9 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, containerId, this);
         JustInTimeConsentFragment justInTimeFragment = JustInTimeConsentFragment.newInstance(containerId);
         justInTimeFragment.setUpdateTitleListener(this);
+
+        new JustInTimeConsentPresenter(justInTimeFragment);
+
         FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
         String simpleName = justInTimeFragment.getClass().getSimpleName();
