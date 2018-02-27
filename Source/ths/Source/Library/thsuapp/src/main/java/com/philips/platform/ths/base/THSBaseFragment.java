@@ -44,7 +44,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_ERROR;
-
+@SuppressWarnings("serial")
 public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
 

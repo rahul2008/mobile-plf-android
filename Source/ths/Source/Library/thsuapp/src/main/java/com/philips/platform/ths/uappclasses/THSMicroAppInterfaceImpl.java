@@ -29,7 +29,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import java.io.Serializable;
 import java.util.List;
 
-
+@SuppressWarnings("unchecked")
 public class THSMicroAppInterfaceImpl implements UappInterface {
     protected Context context;
     protected AppInfraInterface appInfra;
