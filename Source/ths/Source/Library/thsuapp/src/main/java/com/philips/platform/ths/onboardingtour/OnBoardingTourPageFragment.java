@@ -43,8 +43,10 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
     // Store instance variables
     @StringRes private int titleId;
     @DrawableRes private int backgroundId;
+
     private List<OnBoardingSpanValue> spanValues;
 
+    @SuppressWarnings("serial")
     public static OnBoardingTourPageFragment newInstance(@StringRes int title,
                                                          @DrawableRes int background, List<OnBoardingSpanValue> spanIndexPairs) {
         Bundle args = new Bundle();

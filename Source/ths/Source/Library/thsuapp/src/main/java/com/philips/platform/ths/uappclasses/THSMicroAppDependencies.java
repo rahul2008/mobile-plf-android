@@ -13,7 +13,7 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-
+@SuppressWarnings("serial")
 public class THSMicroAppDependencies extends UappDependencies {
 
 
