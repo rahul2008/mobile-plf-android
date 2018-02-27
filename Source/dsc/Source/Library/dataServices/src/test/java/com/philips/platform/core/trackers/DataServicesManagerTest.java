@@ -28,6 +28,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
@@ -73,6 +74,7 @@ import com.philips.testing.verticals.datatyes.MomentType;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -820,6 +822,37 @@ public class DataServicesManagerTest {
         mDataServicesManager.deleteAllInsights(dbRequestListener);
 
         verify(eventingMock).post((Event) any());
+    }
+
+    @Test
+    @Ignore
+    public void migrateGDPR_withResultListener_shouldCallDeleteAllInsights() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteSyncedMomentsRequest.class));
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(dbRequestListener).onSuccess(anyList());
     }
 
     private void whenSynchronizeIsInvoked() {

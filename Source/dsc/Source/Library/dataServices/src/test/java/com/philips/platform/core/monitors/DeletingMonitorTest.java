@@ -7,6 +7,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
@@ -229,6 +230,24 @@ public class DeletingMonitorTest {
         deletingMonitor.onEventBackGround(event);
 
         verify(dbDeletingInterface).deleteFailed(any(SQLException.class), eq(dbRequestListener));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllInsights_noRequestListener() throws SQLException {
+        DeleteAllInsights event = new DeleteAllInsights(null);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteAllInsights((DBRequestListener<Insight>) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllInsights_withRequestListener() throws SQLException {
+        DeleteAllInsights event = new DeleteAllInsights(dbRequestListener);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteAllInsights((DBRequestListener<Insight>) any());
     }
 
     private void whenDataClearRequestEventIsPosted() {

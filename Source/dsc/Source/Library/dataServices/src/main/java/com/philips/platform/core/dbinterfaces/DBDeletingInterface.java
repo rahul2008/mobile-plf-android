@@ -138,6 +138,13 @@ public interface DBDeletingInterface {
     void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException;
 
     /**
+     * Delete ALL insights from the database
+     * @param dbRequestListener Callback for notifying the "deleteInsight" result
+     * @throws SQLException throws exception if database operation fails
+     */
+    void deleteAllInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException;
+
+    /**
      * Delete SyncBit Object from DataBase
      * @param syncType The SyncType Object to be deleted
      * @return returns a boolean indicating the database operation fail/success

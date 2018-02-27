@@ -606,8 +606,17 @@ public class DataServicesManager {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override
                 public void onSuccess(List<? extends Moment> data) {
-                    // TODO Delete all insights
+                    deleteAllInsights(new DBRequestListener<Insight>() {
+                        @Override
+                        public void onSuccess(List<? extends Insight> data) {
 
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+
+                        }
+                    });
                     mBackendIdProvider.clearSyncTimeCache();
                     mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
                         @Override
@@ -629,6 +638,7 @@ public class DataServicesManager {
                 }
             });
         }
+        // TODO: else call success callback immediately
     }
 
     public boolean isGdprMigrationDone() {

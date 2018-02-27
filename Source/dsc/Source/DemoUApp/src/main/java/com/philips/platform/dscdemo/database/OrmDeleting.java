@@ -233,6 +233,11 @@ public class OrmDeleting {
         }
     }
 
+    private void deleteAllSyncDataForAllInsights() throws SQLException {
+        synchronisationDataDao.executeRaw("DELETE FROM `ormsynchronisationdata` WHERE guid IN" +
+                " (SELECT synchronisationData_id FROM `orminsight` )");
+    }
+
     private void deleteMeasurements(@NonNull final OrmMeasurementGroup measurementGroup) throws SQLException {
         for (OrmMeasurement measurement : measurementGroup.getMeasurements()) {
             deleteMeasurementDetails(measurement.getId());
@@ -379,5 +384,13 @@ public class OrmDeleting {
         DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
         deleteBuilder.where().eq("synced", true);
         return deleteBuilder.delete();
+    }
+
+    public void deleteAllInsights() throws SQLException {
+        DeleteBuilder<OrmInsightMetaData, Integer> ormInsightMetaDataDeleteBuilder = ormInsightMetadataDao.deleteBuilder();
+        ormInsightMetaDataDeleteBuilder.delete();
+        deleteAllSyncDataForAllInsights();
+        DeleteBuilder<OrmInsight, Integer> ormInsightsDeleteBuilder = ormInsightDao.deleteBuilder();
+        ormInsightsDeleteBuilder.delete();
     }
 }
