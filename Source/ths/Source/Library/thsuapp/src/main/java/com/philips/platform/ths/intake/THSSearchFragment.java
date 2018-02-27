@@ -48,7 +48,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARC
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SEARCH;
 
-@SuppressWarnings({"serial", "rawtypes"})
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;

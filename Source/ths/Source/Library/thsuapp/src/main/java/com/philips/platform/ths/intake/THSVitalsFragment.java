@@ -32,7 +32,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_SYSTOL
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_TEMPERATURE_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_WEIGHT_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-
+@SuppressWarnings("serial")
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener, THSVItalsUIInterface, View.OnFocusChangeListener, TextWatcher {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
