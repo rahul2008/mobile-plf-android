@@ -94,6 +94,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -610,12 +611,12 @@ public class DataServicesManager {
                     mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
                         @Override
                         public void onSyncComplete() {
-
+                            resultListener.onSuccess(Collections.<Moment>emptyList());
                         }
 
                         @Override
                         public void onSyncFailed(Exception exception) {
-
+                            resultListener.onFailure(exception);
                         }
                     });
                     storeGdprMigrationFlag();
