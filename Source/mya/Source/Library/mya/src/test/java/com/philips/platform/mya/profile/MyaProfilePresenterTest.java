@@ -11,12 +11,12 @@ package com.philips.platform.mya.profile;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,11 +75,11 @@ public class MyaProfilePresenterTest {
 
     private Bundle getArguments() {
         Bundle arguments = new Bundle();
-        UserDataProvider userDataProvider = mock(UserDataProvider.class);
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         MyaLaunchInput value = new MyaLaunchInput(context, null);
         String[] settingsItems = {"settings1","settings2"};
         value.setProfileMenuList(Arrays.asList(settingsItems));
-        arguments.putSerializable(USER_PLUGIN, userDataProvider);
+        arguments.putSerializable(USER_PLUGIN, userDataInterface);
         return arguments;
     }
 }

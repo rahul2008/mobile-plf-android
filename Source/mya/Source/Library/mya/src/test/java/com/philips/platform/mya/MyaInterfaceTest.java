@@ -9,8 +9,6 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.platform.mya.catk.injection.CatkComponent;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -26,6 +24,7 @@ import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -70,8 +69,6 @@ public class MyaInterfaceTest {
     public static final String MYAFRAGMENT = MY_ACCOUNTS_INVOKE_TAG;
 
     @Mock
-    User mockUser;
-    @Mock
     private CatkComponent mockCatkComponent;
     private List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
 
@@ -80,12 +77,12 @@ public class MyaInterfaceTest {
         MockitoAnnotations.initMocks(this);
         context = RuntimeEnvironment.application;
         launchInput = new LaunchInputMock();
-        final UserDataProvider userDataProvider = mock(UserDataProvider.class);
-        when(userDataProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        final UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface(){
             @Override
-            public UserDataProvider getUserDataProvider(MyaLaunchInput myaLaunchInput) {
-                return userDataProvider;
+            public UserDataInterface getUserDataInterface(MyaLaunchInput myaLaunchInput) {
+                return userDataInterface;
             }
         };
 
