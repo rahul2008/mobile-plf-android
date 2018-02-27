@@ -31,7 +31,7 @@ public class Button extends AppCompatButton {
     private ColorStateList drawableColorlist;
     private int drawableWidth;
     private int drawableHeight;
-    private boolean isCenterLayoutRequested;
+    private boolean isCenterLayoutRequested, isLeftLayoutRequested;
     private Rect compoundRect = new Rect();
 
     public Button(@NonNull Context context) {
@@ -59,7 +59,7 @@ public class Button extends AppCompatButton {
         applyBackgroundTinting(typedArray, themedContext);
         applyTextColorTinting(typedArray, themedContext);
         applyDrawable(typedArray);
-        setCenterLayoutFlag(typedArray);
+        setCenterOrLeftLayoutFlag(typedArray);
         typedArray.recycle();
     }
 
@@ -103,8 +103,9 @@ public class Button extends AppCompatButton {
     }
 
     //We need to set gravity to left and center vertical so that we can translate the canvas later and get proper values.
-    private void setCenterLayoutFlag(@NonNull TypedArray typedArray) {
+    private void setCenterOrLeftLayoutFlag(@NonNull TypedArray typedArray) {
         isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UIDButton_uidButtonCenter, false);
+        isLeftLayoutRequested = typedArray.getBoolean(R.styleable.UIDButton_uidButtonLeft, false);
     }
 
     /**
@@ -128,10 +129,12 @@ public class Button extends AppCompatButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if(UIDUtils.isLayoutRTL(this)){
+        if(UIDUtils.isLayoutRTL(this) && (isCenterLayoutRequested || isLeftLayoutRequested)){
             setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         } else {
-            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            if(isCenterLayoutRequested || isLeftLayoutRequested) {
+                setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            }
         }
     }
 
