@@ -41,7 +41,7 @@ public class JustInTimeConsentPresenterTest {
         consentDefinition = new ConsentDefinition("", "", Collections.EMPTY_LIST, 0);
         backendConsent = new BackendConsent("", ConsentStatus.active, "", 0);
         consent = new Consent(backendConsent, consentDefinition);
-        consentError = new ConsentError("", 0);
+        consentError = new ConsentError("", 1234);
         completionListener = new JustInTimeWidgetHandlerSpy();
         presenter = new JustInTimeConsentPresenter(view, appInfraMock, consentHandlerInterface, consentDefinition, completionListener);
     }
@@ -82,33 +82,73 @@ public class JustInTimeConsentPresenterTest {
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenGivingConsent();
-        whenPostIsSuccessful();
         thenCompletionHandlerIsCalledOnConsentGiven();
     }
 
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
         givenUserIsOnline();
+        givenPostFails();
         whenGivingConsent();
-        whenPostIsNotSuccessful();
         thenCompletionHandlerIsNotCalledOnConsentGiven();
     }
 
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenGivingConsent();
-        whenPostIsSuccessful();
         thenProgressDialogIsHidden();
     }
 
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsNotSuccessful() {
         givenUserIsOnline();
+        givenPostFails();
         whenGivingConsent();
-        whenPostIsNotSuccessful();
         thenProgressDialogIsHidden();
+    }
+
+    @Test
+    public void onConsentRejectedCallsCompletionHandlerOnFailureWhenPostIsSuccessful() {
+        givenUserIsOnline();
+        givenPostSucceeds();
+        whenRejectingConsent();
+        thenCompletionHandlerIsCalledOnConsentRejected();
+    }
+
+    @Test
+    public void onConsentRejectedCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
+        givenUserIsOnline();
+        givenPostFails();
+        whenRejectingConsent();
+        thenCompletionHandlerIsNotCalledOnConsentRejected();
+    }
+
+    @Test
+    public void onConsentRejectedHidesProgressDialogWhenPostIsSuccessful() {
+        givenUserIsOnline();
+        givenPostSucceeds();
+        whenRejectingConsent();
+        thenProgressDialogIsHidden();
+    }
+
+    @Test
+    public void onConsentRejectedHidesProgressDialogWhenPostIsNotSuccessful() {
+        givenUserIsOnline();
+        givenPostFails();
+        whenRejectingConsent();
+        thenProgressDialogIsHidden();
+    }
+
+    @Test
+    public void onConsentRejectedShowsErrorDialogWhenPostIsNotSuccessful() {
+        givenUserIsOnline();
+        givenPostFails();
+        whenRejectingConsent();
+        thenShowsErrorDialog();
     }
 
     private void givenUserIsOffline() {
@@ -127,11 +167,11 @@ public class JustInTimeConsentPresenterTest {
         presenter.onConsentRejectedButtonClicked();
     }
 
-    private void whenPostIsSuccessful() {
+    private void givenPostSucceeds() {
         consentHandlerInterface.callsCallback_onPostConsentSuccess(consent);
     }
 
-    private void whenPostIsNotSuccessful() {
+    private void givenPostFails() {
         consentHandlerInterface.callsCallback_onPostConsentFailed(consentDefinition, consentError);
     }
 
@@ -162,4 +202,16 @@ public class JustInTimeConsentPresenterTest {
         assertFalse(completionListener.consentGiven);
     }
 
+    private void thenCompletionHandlerIsCalledOnConsentRejected() {
+        assertTrue(completionListener.consentRejected);
+    }
+
+    private void thenCompletionHandlerIsNotCalledOnConsentRejected() {
+        assertFalse(completionListener.consentRejected);
+    }
+
+    private void thenShowsErrorDialog() {
+        assertEquals(R.string.csw_problem_occurred_error_title, view.errorTileId_showErrorDialogForCode);
+        assertEquals(consentError.getErrorCode(), view.errorCode_showErrorDialogForCode);
+    }
 }
