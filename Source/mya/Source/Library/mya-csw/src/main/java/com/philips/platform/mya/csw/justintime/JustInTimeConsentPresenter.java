@@ -12,6 +12,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
 
     public JustInTimeConsentPresenter(JustInTimeConsentContract.View view) {
         this.view = view;
+        this.view.setPresenter(this);
     }
 
     @Override
@@ -38,8 +39,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         }));
     }
 
-    @Override
-    public void postConsent(boolean status, PostConsentCallback callback) {
+    private void postConsent(boolean status, PostConsentCallback callback) {
         boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             view.showProgressDialog();

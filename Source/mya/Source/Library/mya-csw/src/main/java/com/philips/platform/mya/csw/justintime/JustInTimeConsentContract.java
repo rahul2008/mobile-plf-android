@@ -1,9 +1,9 @@
 package com.philips.platform.mya.csw.justintime;
 
-import com.philips.platform.pif.chi.PostConsentCallback;
-
-interface JustInTimeConsentContract {
+public interface JustInTimeConsentContract {
     interface View {
+        void setPresenter(Presenter presenter);
+
         void showErrorDialog(String errorTitle, String errorMessage);
 
         void showErrorDialog(int errorTitleId, int errorMessageId);
@@ -19,7 +19,5 @@ interface JustInTimeConsentContract {
         void onConsentGivenButtonClicked();
 
         void onConsentRejectedButtonClicked();
-
-        void postConsent(boolean status, PostConsentCallback callback);
     }
 }

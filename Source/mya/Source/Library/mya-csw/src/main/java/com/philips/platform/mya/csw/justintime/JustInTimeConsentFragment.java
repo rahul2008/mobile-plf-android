@@ -23,10 +23,6 @@ import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -35,11 +31,17 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
+    private JustInTimeConsentContract.Presenter presenter;
 
     public static JustInTimeConsentFragment newInstance(final int containerId) {
         JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
         fragment.containerId = containerId;
         return fragment;
+    }
+
+    @Override
+    public void setPresenter(JustInTimeConsentContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -135,6 +137,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         justInTimeConsentPresenter.onConsentRejectedButtonClicked();
     }
 
+
     @Override
     public void showErrorDialog(String errorTitle, String errorMessage) {
         DialogView dialogView = new DialogView();
@@ -167,10 +170,5 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         if (progressDialogView != null && progressDialogView.isDialogShown()) {
             progressDialogView.hideDialog();
         }
-    }
-
-    @Override
-    public void postConsent(boolean status, PostConsentCallback callback) {
-        justInTimeConsentPresenter.postConsent(status, callback);
     }
 }
