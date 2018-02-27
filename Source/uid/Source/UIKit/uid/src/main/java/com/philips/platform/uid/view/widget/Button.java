@@ -24,6 +24,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class Button extends AppCompatButton {
 
@@ -97,16 +98,13 @@ public class Button extends AppCompatButton {
             if (drawableColorlist != null) {
                 DrawableCompat.setTintList(wrappedCompatDrawable, drawableColorlist);
             }
-            setCompoundDrawables(wrappedCompatDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+            setCompoundDrawablesRelative(wrappedCompatDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         }
     }
 
     //We need to set gravity to left and center vertical so that we can translate the canvas later and get proper values.
     private void setCenterLayoutFlag(@NonNull TypedArray typedArray) {
         isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UIDButton_uidButtonCenter, false);
-        if (isCenterLayoutRequested) {
-            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        }
     }
 
     /**
@@ -123,8 +121,18 @@ public class Button extends AppCompatButton {
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        setCompoundDrawables(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        setCompoundDrawablesRelative(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         invalidate();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(UIDUtils.isLayoutRTL(this)){
+            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        } else {
+            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        }
     }
 
     @Override
@@ -136,7 +144,11 @@ public class Button extends AppCompatButton {
             final Layout layout = getLayout();
             if (layout != null) {
                 for (int i = 0; i < layout.getLineCount(); i++) {
-                    textWidth = Math.max(textWidth, layout.getLineRight(i));
+                    if(UIDUtils.isLayoutRTL(this)){
+                        textWidth = Math.max(textWidth, layout.getLineLeft(i));
+                    } else {
+                        textWidth = Math.max(textWidth, layout.getLineRight(i));
+                    }
                 }
             }
 
@@ -149,7 +161,11 @@ public class Button extends AppCompatButton {
             }
 
             canvas.save();
-            canvas.translate((availableWidth - drawableAdjustments - textWidth) / 2, 0);
+            if(UIDUtils.isLayoutRTL(this)){
+                canvas.translate(-(textWidth) / 2, 0);
+            } else {
+                canvas.translate((availableWidth - drawableAdjustments - textWidth) / 2, 0);
+            }
         }
         super.onDraw(canvas);
 
