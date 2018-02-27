@@ -52,10 +52,17 @@ public class JustInTimeConsentPresenterTest {
     }
 
     @Test
-    public void onConsentGivenStoresConsentStateWhenOnline() {
+    public void onConsentGivenStoresActiveConsentStateWhenOnline() {
         givenUserIsOnline();
         whenGivingConsent();
-        thenConsentStateIsStored(consentDefinition);
+        thenConsentStateIsStored(consentDefinition, true);
+    }
+
+    @Test
+    public void onConsentRejectedStoresRejectedConsentStateWhenOnline() {
+        givenUserIsOnline();
+        whenRejectingConsent();
+        thenConsentStateIsStored(consentDefinition, false);
     }
 
     private void givenUserIsOffline() {
@@ -70,6 +77,10 @@ public class JustInTimeConsentPresenterTest {
         presenter.onConsentGivenButtonClicked();
     }
 
+    private void whenRejectingConsent() {
+        presenter.onConsentRejectedButtonClicked();
+    }
+
     private void thenErrorDialogIsShown(int expectedTitle, int expectedMessage) {
         assertEquals(expectedTitle, view.errorTitleId_showErrorDialog);
         assertEquals(expectedMessage, view.errorMessageId_showErrorDialog);
@@ -79,9 +90,9 @@ public class JustInTimeConsentPresenterTest {
         assertTrue(view.progressDialogShown);
     }
 
-    private void thenConsentStateIsStored(ConsentDefinition definition) {
+    private void thenConsentStateIsStored(ConsentDefinition definition, boolean active) {
         assertEquals(definition, consentHandlerInterface.definition_storeConsentState);
-        assertTrue(consentHandlerInterface.status_storeConsentState);
+        assertEquals(active, consentHandlerInterface.status_storeConsentState);
         assertNotNull(consentHandlerInterface.callback_storeConsentState);
     }
 }
