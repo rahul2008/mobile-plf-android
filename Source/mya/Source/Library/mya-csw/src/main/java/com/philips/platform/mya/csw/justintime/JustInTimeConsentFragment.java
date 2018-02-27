@@ -26,7 +26,7 @@ import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-public class JustInTimeConsentFragment extends CswBaseFragment implements JustInTimeConsentContract.View, JustInTimeConsentContract.Presenter {
+public class JustInTimeConsentFragment extends CswBaseFragment implements JustInTimeConsentContract.View {
     private ProgressDialogView progressDialogView;
     @LayoutRes
     private int containerId;
@@ -127,17 +127,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     }
 
     @Override
-    public void onConsentGivenButtonClicked() {
-        presenter.onConsentGivenButtonClicked();
-    }
-
-    @Override
-    public void onConsentRejectedButtonClicked() {
-        presenter.onConsentRejectedButtonClicked();
-    }
-
-
-    @Override
     public void showErrorDialog(String errorTitle, String errorMessage) {
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
@@ -154,7 +143,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), errorCode);
         showErrorDialog(errorTitle, errorMessage);
     }
-
 
     @Override
     public void showProgressDialog() {
