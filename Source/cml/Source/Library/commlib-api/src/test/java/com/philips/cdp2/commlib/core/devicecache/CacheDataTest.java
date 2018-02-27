@@ -121,7 +121,7 @@ public class CacheDataTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                callables[0] = invocation.getArgumentAt(0, Callable.class);
+                callables[0] = invocation.getArgument(0);
                 return null;
             }
         }).when(executorMock).schedule(isA(Callable.class), anyLong(), isA(TimeUnit.class));
