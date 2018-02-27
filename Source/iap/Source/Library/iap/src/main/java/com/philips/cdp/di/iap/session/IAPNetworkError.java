@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.session;
 
 import android.os.Message;
+import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -105,7 +106,12 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     private void setServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
-                String errorString = new String(error.networkResponse.data);
+              //  final String errorString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
+
+                final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
+                final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
+                final String errorString = new String(decode);
+
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
                 if (getMessage() != null) {
                     IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
