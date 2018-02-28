@@ -10,15 +10,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -28,6 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -70,17 +72,25 @@ public class MyAccountStateTest {
     private MyAccountState myAccountState;
 
     @Mock
-    User userMock;
-
-    @Mock
     UIStateData uiStateData;
 
     @Mock
     private Context mockContext;
+
+    @Mock
+    private UserRegistrationState userRegistrationStateMock;
+
+    @Mock
+    private UserDataInterface userDataInterfaceMock;
+
+    @Mock
+    AppFrameworkApplication appFrameworkApplication;
+
     private static final String LANGUAGE_TAG = "en-US";
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         myAccountState = new MyAccountStateMock(myaInterface);
 
         myAccountState.updateDataModel();
@@ -92,13 +102,15 @@ public class MyAccountStateTest {
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
+        when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
+        when(userRegistrationStateMock.getUserDataInterface()).thenReturn(userDataInterfaceMock);
     }
 
     @Test
     public void testLaunchMyAccountState() {
         
         myAccountState.setUiStateData(uiStateData);
-       // myAccountState.navigate(fragmentLauncher);
+        myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
     }
@@ -134,6 +146,7 @@ public class MyAccountStateTest {
         appInfraInterface = null;
         myAccountState = null;
         uiStateData = null;
+        appFrameworkApplication = null;
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
@@ -153,10 +166,5 @@ public class MyAccountStateTest {
             return myaInterface;
         }
 
-        @Override
-        User getUser() {
-            return userMock;
-        }
     }
-
 }

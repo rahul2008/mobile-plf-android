@@ -12,7 +12,6 @@ import android.content.Context;
 import com.philips.platform.mya.catk.injection.CatkComponent;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.mock.ActionBarListenerMock;
 import com.philips.platform.mya.mock.ActivityLauncherMock;
@@ -81,7 +80,7 @@ public class MyaInterfaceTest {
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface(){
             @Override
-            public UserDataInterface getUserDataInterface(MyaLaunchInput myaLaunchInput) {
+            public UserDataInterface getUserDataInterface() {
                 return userDataInterface;
             }
         };
