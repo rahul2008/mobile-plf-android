@@ -614,7 +614,7 @@ public class DataServicesManager {
 
                         @Override
                         public void onFailure(Exception exception) {
-
+                            resultListener.onFailure(exception);
                         }
                     });
                 }
