@@ -131,7 +131,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         try {
             mTHSAvailableProviderListBasedOnDatePresenter.getAvailableProvidersBasedOnDate();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

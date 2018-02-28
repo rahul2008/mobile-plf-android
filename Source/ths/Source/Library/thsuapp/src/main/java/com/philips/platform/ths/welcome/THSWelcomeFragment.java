@@ -27,6 +27,7 @@ import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExit
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
+@SuppressWarnings("serial")
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
     protected THSWelcomePresenter presenter;

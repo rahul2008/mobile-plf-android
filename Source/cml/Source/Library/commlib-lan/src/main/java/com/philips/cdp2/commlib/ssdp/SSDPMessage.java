@@ -113,6 +113,7 @@ public class SSDPMessage {
         return this.headers;
     }
 
+    @Nullable
     public String get(String key) {
         return getHeaders().get(key);
     }

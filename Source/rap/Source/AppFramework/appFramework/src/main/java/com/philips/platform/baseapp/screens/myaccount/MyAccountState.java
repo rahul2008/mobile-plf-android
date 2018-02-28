@@ -73,7 +73,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
-        init(actContext);
+
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
@@ -113,7 +113,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
         launchInput.addToBackStack(true);
-        PermissionHelper.getInstance().setMyAccountUIEventListener(this);
+        launchInput.setMyAccountUIEventListener(this);
+
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         MyaInterface myaInterface = getInterface();
         launchInput.setMyaTabConfig(myaTabConfig);
@@ -183,28 +184,28 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
+                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), 1));
         return definitions;
     }
 
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
+        AppInfraInterface appInfra = app.getAppInfra();
 
-        Locale currentLocale = getCompleteLocale(app);
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
-                .setAppInfraInterface(app.getAppInfra())
-                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
+                .setAppInfraInterface(appInfra)
+                .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> urDefinitions = Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
+        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions)));
-        setConfigurations(consentHandlerMappings);
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
     @Override

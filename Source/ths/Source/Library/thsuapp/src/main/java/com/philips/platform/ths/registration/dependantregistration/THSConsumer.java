@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class THSConsumer implements Serializable{
     private Date dob;
     private String firstName;

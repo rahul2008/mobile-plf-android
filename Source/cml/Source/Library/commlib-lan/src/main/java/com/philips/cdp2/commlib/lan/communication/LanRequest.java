@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -38,12 +38,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -55,7 +49,6 @@ import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class LanRequest extends Request {
 
@@ -73,8 +66,6 @@ public class LanRequest extends Request {
     private final SSLContext sslContext;
     private final LanRequestType requestType;
     private final DISecurity diSecurity;
-    @NonNull
-    private final ExecutorService executor;
 
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @SuppressLint("BadHostnameVerifier")
@@ -84,14 +75,7 @@ public class LanRequest extends Request {
         }
     };
 
-    @VisibleForTesting
-    @NonNull
-    protected ExecutorService createExecutor() {
-        return newSingleThreadExecutor();
-    }
-
-    public LanRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType,
-                      Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
+    LanRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
 
         this.networkNode = networkNode;
@@ -99,12 +83,11 @@ public class LanRequest extends Request {
         this.requestType = requestType;
         this.diSecurity = diSecurity;
         this.url = String.format(Locale.US, networkNode.isHttps() ? BASEURL_PORTS_HTTPS : BASEURL_PORTS, networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), productId, portName);
-
-        executor = createExecutor();
     }
 
     private String createDataToSend(final @NonNull Map<String, Object> dataMap) {
-        if (dataMap.isEmpty()) return null;
+        if (dataMap.isEmpty())
+            return null;
 
         String data = GsonProvider.get().toJson(dataMap, Map.class);
         log(INFO, LOCALREQUEST, "Data to send: " + data);
@@ -142,26 +125,11 @@ public class LanRequest extends Request {
                 appendDataToRequestIfAvailable(conn);
             }
 
-            final HttpURLConnection finalConn = conn;
-            final Future<Void> future = executor.submit(new Callable<Void>() {
-                public Void call() throws Exception {
-                    finalConn.connect();
-                    return null;
-                }
-            });
-
             try {
-                future.get(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS);
-            } catch (ExecutionException e) {
-                if (e.getCause() instanceof SSLHandshakeException) {
-                    throw (SSLHandshakeException) e.getCause();
-                } else if (e.getCause() instanceof TransportUnavailableException) {
-                    throw (TransportUnavailableException) e.getCause();
-                } else if (e.getCause() instanceof IOException) {
-                    throw (IOException) e.getCause();
-                } else {
-                    throw e;
-                }
+                conn.connect();
+            } catch (SocketTimeoutException e) {
+                log(ERROR, LOCALREQUEST, e.getMessage() == null ? "SocketTimeoutException" : e.getMessage());
+                return new Response(null, Error.TIMED_OUT, mResponseHandler);
             }
 
             try {
@@ -196,9 +164,6 @@ public class LanRequest extends Request {
         } catch (IOException e) {
             log(ERROR, LOCALREQUEST, e.getMessage() == null ? "IOException" : e.getMessage());
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            log(ERROR, LOCALREQUEST, e.getMessage() == null ? "ExecutionException" : e.getMessage());
-            return new Response(null, Error.TIMED_OUT, mResponseHandler);
         } finally {
             closeAllConnections(inputStream, out, conn);
             log(DEBUG, LOCALREQUEST, "Stop request LOCAL - response code: " + responseCode);
@@ -247,7 +212,9 @@ public class LanRequest extends Request {
 
     private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
         final String data = createDataToSend(mDataMap);
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
 
         OutputStreamWriter out;
         out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
@@ -258,7 +225,8 @@ public class LanRequest extends Request {
     }
 
     @NonNull
-    private HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
+    @VisibleForTesting
+    HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
         HttpURLConnection conn;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -303,7 +271,9 @@ public class LanRequest extends Request {
      * @return Returns converted string
      */
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        if (inputStream == null) return "";
+        if (inputStream == null) {
+            return "";
+        }
         Reader reader = new InputStreamReader(inputStream, "UTF-8");
 
         int len = 1024;

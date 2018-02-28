@@ -32,6 +32,6 @@ public class URConsentProvider {
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
         if (pLocale == null) return null;
-        return new ConsentDefinition(text, helpText, types, 1, pLocale);
+        return new ConsentDefinition(text, helpText, types, 1);
     }
 }

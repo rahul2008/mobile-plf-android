@@ -89,7 +89,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                         newImageLoader(assignedProvider,
                                 holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
 
