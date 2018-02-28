@@ -8,11 +8,7 @@
 package com.philips.platform.mya.launcher;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is used to provide dependencies for myaccount.
@@ -21,14 +17,8 @@ import java.util.List;
  */
 public class MyaDependencies extends UappDependencies {
 
-    private final List<ConsentConfiguration> consentConfigurationList;
-
-    public MyaDependencies(AppInfraInterface appInfra, List<ConsentConfiguration> consentConfigurationList) {
+    public MyaDependencies(AppInfraInterface appInfra) {
         super(appInfra);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
     }
 
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
-    }
 }

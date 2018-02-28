@@ -14,11 +14,14 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
@@ -30,8 +33,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -77,6 +81,11 @@ public class MyAccountStateTest {
     private Context mockContext;
     private static final String LANGUAGE_TAG = "en-US";
 
+    private List<ConsentConfiguration> configurations = new ArrayList<>();
+    @Mock
+    private ConsentHandlerInterface handler1;
+    @Mock
+    private ConsentHandlerInterface handler2;
     @Before
     public void setUp() {
         myAccountState = new MyAccountStateMock(myaInterface);
@@ -149,5 +158,49 @@ public class MyAccountStateTest {
         public MyaInterface getInterface() {
             return myaInterface;
         }
+    }
+
+
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_single_configuration() {
+        givenConfigurationsWithTypes(handler1, "moment", "moment");
+        whenSettingConfiguration();
+    }
+
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_multiple_configurations() {
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "moment", "coaching");
+        whenSettingConfiguration();
+    }
+
+    @Test
+    public void itShouldNotThrowExceptionWhenSettingConfigurationWithUniquesDuplicateTypes() {
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "coaching", "marketing");
+        whenSettingConfiguration();
+    }
+
+    @Test
+    public void itShouldNotThrowExceptionWhenSettingConfigurationWithoutTypes() {
+        givenConfigurationsWithTypes(handler1);
+        givenConfigurationsWithTypes(handler2);
+        whenSettingConfiguration();
+    }
+
+    private void givenConfigurationsWithTypes(ConsentHandlerInterface handler, String... types) {
+        List<ConsentDefinition> definitions = new ArrayList<>();
+        for (String type : types) {
+            definitions.add(createDefinitionsWithType(type));
+        }
+        configurations.add(new ConsentConfiguration(definitions, handler));
+    }
+
+    private void whenSettingConfiguration() {
+        myAccountState.setConfigurations(configurations);
+    }
+
+    private ConsentDefinition createDefinitionsWithType(String type) {
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
     }
 }

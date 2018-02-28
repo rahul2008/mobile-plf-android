@@ -386,7 +386,7 @@
 
     <!--My Account-->
 
-    <string name="MYA_Not_Available">Not available</string>
+    <string name="reg_Not_Available">Not available</string>
     <string name="reg_MyDetails_TitleTxt">My account</string>
     <string name="reg_Login_Details_Txt">Login details</string>
     <string name="reg_Email_address_TitleTxt">E-mail address</string>
