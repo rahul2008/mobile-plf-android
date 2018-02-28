@@ -14,11 +14,11 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
@@ -31,7 +31,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -119,7 +118,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(5, definitions.size());
+        assertEquals(6, definitions.size());
     }
 
     @After

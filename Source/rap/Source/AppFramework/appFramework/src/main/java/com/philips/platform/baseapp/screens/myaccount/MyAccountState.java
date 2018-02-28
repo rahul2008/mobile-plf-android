@@ -153,12 +153,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return definitions;
     }
 
-    List<ConsentDefinition> createTHSDefinitions(Context context) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
-        return definitions;
-    }
-
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
