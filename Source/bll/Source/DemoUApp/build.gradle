@@ -3,13 +3,10 @@
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
-
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "bluelib-demouapp"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -42,16 +39,12 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.pluginreferenceboard
+        compile philipsdeps.uAppFwLib
     }
 
     compile deps.support.design
     compile deps.support.cardview
 
     testCompile deps.junit
-}
-
-jacoco {
-    toolVersion = versions.jacoco
 }

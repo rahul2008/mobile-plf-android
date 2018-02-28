@@ -1,4 +1,4 @@
-/**
+/*
  * ContactUsFragment will help to provide options to contact Philips.
  *
  * @author : Ritesh.jha@philips.com
@@ -8,7 +8,6 @@
 
 package com.philips.cdp.digitalcare.contactus.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +41,7 @@ import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
@@ -67,7 +67,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
-    private ProgressDialog mDialog = null;
+    private ProgressAlertDialog mDialog = null;
 
     private static String TAG = ContactUsFragment.class.getSimpleName();
 
@@ -96,17 +96,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     private void initView(View view) {
-        mContactUsSocilaProviderButtonsParent = (RecyclerView) view.findViewById(
+        mContactUsSocilaProviderButtonsParent =  view.findViewById(
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
-        mChatBtn = (Button) view.findViewById(R.id.contactUsChat);
-        mCallPhilipsBtn = (Button) view.findViewById(R.id.contactUsCall);
-        mContactUsOpeningHours = (TextView) view.findViewById(R.id.contactUsOpeningHours);
-        mFirstRowText = (TextView) view.findViewById(R.id.firstRowText);
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
-        mLLSocialParent = (LinearLayout) view.findViewById(R.id.contactUsSocialParent);
+        mChatBtn = view.findViewById(R.id.contactUsChat);
+        mCallPhilipsBtn = view.findViewById(R.id.contactUsCall);
+        mContactUsOpeningHours = view.findViewById(R.id.contactUsOpeningHours);
+        mFirstRowText = view.findViewById(R.id.firstRowText);
+        mActionBarMenuIcon = view.findViewById(R.id.home_icon);
+        mActionBarArrow = view.findViewById(R.id.back_to_home_img);
+        mLLSocialParent = view.findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         mContactUsUtils = new ContactUsUtils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
@@ -171,12 +171,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     public boolean isContactNumberCached() {
         String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
-        return (customerSupportNumber != null && customerSupportNumber != "");
+        return (customerSupportNumber != null && !customerSupportNumber.isEmpty());
     }
 
     public boolean isContactHoursCached() {
         String contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
-        return (contactHours != null && contactHours != "");
+        return (contactHours != null && !contactHours.isEmpty());
     }
 
     @Override
@@ -218,7 +218,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             return;
         }
         if (mDialog == null) {
-            mDialog = new ProgressDialog(getActivity());
+            mDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
             mDialog.setCancelable(true);
         }
         mDialog.setMessage(getActivity().getResources().getString(
@@ -302,7 +302,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
         try {
             final Uri uri = Uri.parse(mContactUsUtils.facebooAppUrl(getActivity()));
-            final Map<String, String> contextData = new HashMap<String, String>();
+            final Map<String, String> contextData = new HashMap<>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
@@ -353,7 +353,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         final String twitterUrl = "www.twitter.com/";
         final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
         final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
-        final Map<String, String> contextData = new HashMap<String, String>();
+        final Map<String, String> contextData = new HashMap<>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
@@ -538,9 +538,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             @Override
             public void bindData(RecyclerView.ViewHolder viewHolder, MenuItem menuItem) {
                 View container = viewHolder.itemView.findViewById(R.id.icon_button);
-                Label contactUsListLabel = (Label) container.findViewById(R.id.icon_button_text);
+                Label contactUsListLabel = container.findViewById(R.id.icon_button_text);
                 contactUsListLabel.setText(menuItem.mText);
-                TextView contactUsListIcon = (TextView) container.findViewById(R.id.icon_button_icon);
+                TextView contactUsListIcon = container.findViewById(R.id.icon_button_icon);
                 contactUsListIcon.setText(menuItem.mIcon);
                 container.setTag(getResources().getResourceEntryName(menuItem.mText));
                 container.setOnClickListener(context);

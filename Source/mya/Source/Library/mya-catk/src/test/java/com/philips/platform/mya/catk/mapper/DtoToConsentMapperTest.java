@@ -7,19 +7,18 @@
 
 package com.philips.platform.mya.catk.mapper;
 
-import com.philips.platform.mya.catk.dto.GetConsentDto;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import static org.junit.Assert.assertEquals;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
+import com.philips.platform.mya.catk.dto.GetConsentDto;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 public class DtoToConsentMapperTest {
+    public static final String AMERICAN_LOCALE = "en-US";
     private BackendConsent result;
     private DtoToConsentMapper givenMapper;
     private GetConsentDto givenGetDto;
@@ -31,8 +30,9 @@ public class DtoToConsentMapperTest {
     @Before
     public void setUp() throws Exception {
         givenMapper = new DtoToConsentMapper();
-        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto(TIMESTAMP, "en-US", "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent", ConsentStatus.active, "someSubjectId");
-        getActiveFromIndiaTypeMomentLocaleEnUsModel = new BackendConsent(Locale.US, ConsentStatus.active, "moment", 1);
+        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto(TIMESTAMP, AMERICAN_LOCALE, "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent",
+                ConsentStatus.active, "someSubjectId");
+        getActiveFromIndiaTypeMomentLocaleEnUsModel = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, "moment", 1);
         getActiveFromIndiaTypeMomentLocaleEnUsModel.setTimestamp(new DateTime(TIMESTAMP));
     }
 
@@ -41,7 +41,7 @@ public class DtoToConsentMapperTest {
         givenDto(getActiveFromIndiaTypeMomentLocaleEnUsDto);
         whenCallingMapWith();
         thenConsentIs(getActiveFromIndiaTypeMomentLocaleEnUsModel);
-        thenLocaleStringIs("en_US");
+        thenLocaleStringIs("en-US");
     }
 
     private void givenDto(GetConsentDto getDto) {

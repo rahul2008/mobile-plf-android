@@ -25,7 +25,6 @@ buildscript {
 
 archivesBaseName = "mya"
 group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -125,20 +124,15 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':mya-csw', configuration: 'debug')
-        releaseCompile project(path: ':mya-csw', configuration: 'release')
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
 
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversiongit + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile philipsdeps.uikitLib
+        compile philipsdeps.uid
+        compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
-        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true)
     }
 
     // Tests

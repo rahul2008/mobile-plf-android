@@ -60,9 +60,6 @@ allprojects {
     group = 'com.philips.cdp'
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -179,7 +176,7 @@ dependencies {
         debugCompile project(path: ':IconFont', configuration: 'debug')
         releaseCompile project(path: ':IconFont', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'IconFont', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.IconFont
     }
 
     //test

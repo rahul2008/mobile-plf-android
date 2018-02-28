@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -23,9 +24,11 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -119,13 +122,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
-               /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, false);
-             /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
@@ -158,7 +158,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
-                   /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
                         fragment.getUpdateTitleListener().updateActionBar(
@@ -168,19 +167,24 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                         }
                     }
-                /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            getTitleResourceId());*/
                 }
             } else {
                 if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), false);
+
+
+                    if (this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment) {
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), true);
+                    } else {
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), false);
+                    }
                     String titleText = getTitleResourceText();
                     if (titleText != null && titleText.length() > 0) {
                         fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                     }
                 }
-                /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());
             fragment.setCurrentTitleResource(getTitleResourceId());
@@ -357,6 +361,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
                     }
                 }
             });
+        }
+    }
+
+
+    public ProgressAlertDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (this.isVisible()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
 

@@ -23,7 +23,7 @@ import com.philips.platform.uid.view.widget.Label;
 import static com.philips.platform.ths.R.id.ths_customer_support_phone_number_id;
 import static com.philips.platform.ths.utility.THSConstants.THS_CUSTOMER_SUPPORT;
 
-
+@SuppressWarnings("serial")
 public class THSCustomerSupportFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSCustomerSupportFragment.class.getSimpleName();
 

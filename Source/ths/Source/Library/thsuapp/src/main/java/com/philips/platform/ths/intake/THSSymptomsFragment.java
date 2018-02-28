@@ -74,7 +74,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
-
+@SuppressWarnings("serial")
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener, THSSymptomsFragmentViewInterface {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
@@ -199,7 +199,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 try {
                     thsSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
             }
         } else {
@@ -298,7 +298,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         try {
             otherTopicEnabled = THSManager.getInstance().getAwsdk(getContext()).getConfiguration().otherTopicEnabled();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
         if (otherTopicEnabled) {
             return mThsVisitContext != null && additional_comments_edittext != null && !additional_comments_edittext.getText().toString().isEmpty();
@@ -444,7 +444,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             thsSymptomsPresenter.uploadDocuments(compressedImageUri);
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
         }
 
     }

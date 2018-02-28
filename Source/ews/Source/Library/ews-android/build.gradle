@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco-android'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -27,7 +27,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -75,9 +74,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 //start publishing
 artifactory {
@@ -178,12 +174,6 @@ android {
         abortOnError false
     }
 
-    jacocoAndroidUnitTestReport {
-        csv.enabled false
-        html.enabled true
-        xml.enabled false
-    }
-
     libraryVariants.all { variant ->
         variant.outputs.each { output ->
             def libName = archivesBaseName
@@ -216,10 +206,10 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib-lan', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uikitLib
+        compile philipsdeps.commlib_lan
+        compile philipsdeps.uid
+        compile philipsdeps.uAppFwLib
     }
 
     // Android/Google

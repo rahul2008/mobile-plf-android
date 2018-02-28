@@ -3,10 +3,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
-jacoco {
-    toolVersion = versions.jacoco
-}
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
 
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -78,9 +75,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -167,9 +161,6 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
-            jacoco {
-                includeNoLocationClasses = true
-            }
         }
     }
 
@@ -232,15 +223,11 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'productselection', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-    }
-
-    if(dp) {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.productselection
+        compile philipsdeps.uid
     }
 
     compile deps.play_services_maps
@@ -256,24 +243,6 @@ dependencies {
     testCompile deps.powermock_junit_rule_agent
     testCompile deps.powermock_api_mockito
     testCompile deps.powermock_classloading_xstream
-}
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code-coverage/connected/*coverage.ec"
-    ])
 }
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 

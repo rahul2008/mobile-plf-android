@@ -38,6 +38,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -154,6 +155,16 @@ public class SSDPControlPointTest {
     }
 
     @Test
+    public void whenAnSsdpMessageIsReceivedThatHasNoUsnInHeader_thenItIsIgnored() {
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        when(ssdpMessageMock.get(USN)).thenReturn(null);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        verifyNoMoreInteractions(deviceListener);
+    }
+
+    @Test
     public void whenControlPointIsCreated_thenSocketsAreNotOpened() throws IOException {
 
         verify(broadcastSocketMock, never()).joinGroup(any(InetAddress.class));
@@ -243,5 +254,26 @@ public class SSDPControlPointTest {
         ssdpControlPoint.handleMessage(secondMessageMock);
 
         verify(ssdpDeviceMock).updateFrom(secondMessageMock);
+    }
+
+    @Test
+    public void givenControlPointIsStarted_whenStartedAgain_thenSecondStartIsIgnored() throws Exception {
+        ssdpControlPoint.start();
+
+        ssdpControlPoint.start();
+
+        verify(broadcastSocketMock, times(1)).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock, times(1)).joinGroup(any(InetAddress.class));
+    }
+
+    @Test
+    public void givenControlPointIsStarted_AndStopped_WhenStartedAgain_thenSecondStartIsPerformed() throws Exception {
+        ssdpControlPoint.start();
+        ssdpControlPoint.stop();
+
+        ssdpControlPoint.start();
+
+        verify(broadcastSocketMock, times(2)).joinGroup(any(InetAddress.class));
+        verify(listenSocketMock, times(2)).joinGroup(any(InetAddress.class));
     }
 }

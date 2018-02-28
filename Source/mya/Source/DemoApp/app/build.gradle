@@ -1,12 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
-
-jacoco {
-    toolVersion = versions.jacoco
-}
-
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -69,9 +64,6 @@ allprojects {
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -282,13 +274,13 @@ dependencies {
         debugCompile project(path: ':jump', configuration: 'debug')
         releaseCompile project(path: ':jump', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'jump', version: platformversion + objcdp.getVersionSuffix()) {
+        compile (philipsdeps.jump) {
             exclude group: 'com.android.support'
         }
     }
