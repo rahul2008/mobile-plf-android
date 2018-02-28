@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.R;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -26,16 +27,5 @@ public class THSLocationConsentProvider {
         final ArrayList<String> types = new ArrayList<>();
         types.add(THS_LOCATION);
         return new ConsentDefinition(text, helpText, types, 1);
-    }
-
-    public static Locale getCompleteLocale() {
-        Locale locale = Locale.US;
-        if (THSManager.getInstance().getAppInfra() != null && THSManager.getInstance().getAppInfra().getInternationalization() != null && THSManager.getInstance().getAppInfra().getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = THSManager.getInstance().getAppInfra().getInternationalization().getBCP47UILocale().split("-");
-            if (localeComponents.length == 2) {
-                locale = new Locale(localeComponents[0], localeComponents[1]);
-            }
-        }
-        return locale;
     }
 }

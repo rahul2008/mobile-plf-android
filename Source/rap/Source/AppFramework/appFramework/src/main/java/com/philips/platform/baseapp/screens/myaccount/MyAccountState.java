@@ -142,6 +142,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
 
@@ -171,12 +172,10 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-        List<ConsentDefinition> thsDefinitions = createTHSDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        consentHandlerMappings.add(new ConsentConfiguration(thsDefinitions, new DeviceStoredConsentHandler(app.getAppInfra())));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

@@ -1,35 +1,40 @@
 package com.philips.platform.ths.intake;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.ths.consent.THSJustInTimeConsentFragment;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+
+import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.appInfra;
+import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition;
 
 class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
 
@@ -70,16 +75,16 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
         } else {
-            final DeviceStoredConsentHandler pDeviceStoredConsentHandler = new DeviceStoredConsentHandler(THSManager.getInstance().getAppInfra());
-            Locale locale = THSLocationConsentProvider.getCompleteLocale();
-            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity(), locale);
-            pDeviceStoredConsentHandler.fetchConsentState(thsConsentDefinition, new CheckConsentsCallback() {
+            ConsentsClient consentsClient = ConsentsClient.getInstance();
+            final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(consentsClient);
+            final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity());
+            initConsentClient(consentsClient, thsConsentDefinition);
+            consentHandlerInterface.fetchConsentStates(Arrays.asList(thsConsentDefinition), new CheckConsentsCallback() {
                 @Override
                 public void onGetConsentsSuccess(List<Consent> consents) {
-                    AmwellLog.v("GDPR", "success");
                     boolean hasLocationConsent = false;
                     for (Consent consent : consents) {
-                        if (consent.getType() == THSLocationConsentProvider.THS_LOCATION) {
+                        if (consent.getType().equals(THSLocationConsentProvider.THS_LOCATION)) {
                             if (consent.getStatus() != ConsentStatus.active) {
                                 hasLocationConsent = false;
                             } else {
@@ -88,17 +93,19 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         }
                     }
                     if (!hasLocationConsent) {
-                        ((THSCheckPharmacyConditionsFragment)thsCheckPharmacyConditonsView).hideProgressBar();
+                        ((THSCheckPharmacyConditionsFragment) thsCheckPharmacyConditonsView).hideProgressBar();
                         JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                         justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
                         justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
                         justInTimeTextResources.titleTextRes = R.string.ths_location_consent_title;
-                        JustInTimeConsentDependencies.appInfra = THSManager.getInstance().getAppInfra();
-                        JustInTimeConsentDependencies.consentDefinition = thsConsentDefinition;
+                       // justInTimeTextResources.userBenefitsTitleRes = R.string.ths_location_consent_title;
+                       // justInTimeTextResources.userBenefitsDescriptionRes = R.string.ths_location_consent_help;
+
+                        consentDefinition = thsConsentDefinition;
                         JustInTimeConsentDependencies.textResources = justInTimeTextResources;
                         JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
-                        JustInTimeConsentDependencies.consentHandlerInterface = pDeviceStoredConsentHandler;
-                        JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(android.R.layout.activity_list_item);
+                        JustInTimeConsentDependencies.consentHandlerInterface = consentHandlerInterface;
+                        JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
                         fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
                         fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
@@ -107,9 +114,9 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         thsCheckPharmacyConditonsView.displayPharmacy();
                     }
                 }
+
                 @Override
                 public void onGetConsentsFailed(ConsentError error) {
-                    AmwellLog.v("GDPR", "onGetConsentsFailed" + error.toString());
                     thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     thsCheckPharmacyConditonsView.showPharmacySearch();
 
@@ -123,7 +130,6 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         return new JustInTimeWidgetHandler() {
             @Override
             public void onConsentGiven() {
-                AmwellLog.v("SUCC", "onConsentGiven");
                 thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().popBackStack(CONSENT_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 thsCheckPharmacyConditonsView.displayPharmacy();
             }
@@ -151,6 +157,15 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         }
     }
 
-
+    private void initConsentClient(ConsentsClient consentsClient, ConsentDefinition consentDefinition) {
+        Context context = thsCheckPharmacyConditonsView.getFragmentActivity();
+        CatkInputs catkInputs = new CatkInputs.Builder()
+                .setContext(context)
+                .setAppInfraInterface(THSManager.getInstance().getAppInfra())
+                .setConsentDefinitions(Arrays.asList(consentDefinition))
+                .build();
+        ConsentsClient.getInstance().init(catkInputs);
+        consentsClient.init(catkInputs);
+    }
 
 }
