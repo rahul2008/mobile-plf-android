@@ -62,6 +62,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Inject
     NetworkUtility networkUtility;
+    private static final long serialVersionUID = 1128016096756071386L;
+
 
     private FragmentManager mFragmentManager;
 

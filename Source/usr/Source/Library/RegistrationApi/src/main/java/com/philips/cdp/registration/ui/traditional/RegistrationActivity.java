@@ -46,6 +46,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
+    private static final long serialVersionUID = 1128016096756071388L;
 
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode ;
