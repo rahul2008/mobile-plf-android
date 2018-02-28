@@ -93,7 +93,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
                 }
             });
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

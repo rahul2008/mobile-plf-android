@@ -23,6 +23,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS_DETAIL;
 
+@SuppressWarnings("serial")
 public class THSFaqAnswerFragment extends THSBaseFragment{
     public static final String TAG = THSFaqAnswerFragment.class.getSimpleName();
     Label mLabelQuestion;

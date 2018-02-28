@@ -2,6 +2,7 @@ package com.philips.platform.ths.onboardingtour;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 class OnBoardingSpanValue implements Serializable{
 
 

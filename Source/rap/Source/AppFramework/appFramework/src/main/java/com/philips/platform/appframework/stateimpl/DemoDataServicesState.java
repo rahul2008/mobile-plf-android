@@ -1,8 +1,9 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appframework.stateimpl;
 
 import android.app.Notification;
@@ -36,7 +37,6 @@ import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
@@ -69,13 +69,13 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Navigating to DemoDataService Screen
      *
-     * @param uiLauncher requires UiLauncher
+     * @param uiLauncher
+     *            requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        dsDemoAppuAppInterface.launch(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
-                        getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
+        dsDemoAppuAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
+                getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
     }
 
     @Override
@@ -103,13 +103,9 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        JustInTimeTextResources textResources = new JustInTimeTextResources();
-        textResources.titleTextRes = R.string.RA_CSW_JustInTime_Title;
-        textResources.acceptTextRes = R.string.RA_CSW_JustInTime_Accept;
-        textResources.rejectTextRes = R.string.RA_CSW_JustInTime_Reject;
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
                 new ConsentInteractor(ConsentsClient.getInstance()),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
+                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"));
     }
 
     @NonNull
@@ -151,11 +147,11 @@ public class DemoDataServicesState extends DemoBaseState
     /**
      * Create and show a simple notification containing the received GCM message.
      *
-     * @param message GCM message received.
+     * @param message
+     *            GCM message received.
      */
     private void sendNotification(String message) {
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
@@ -180,7 +176,6 @@ public class DemoDataServicesState extends DemoBaseState
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
-
 
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
@@ -223,5 +218,3 @@ public class DemoDataServicesState extends DemoBaseState
         return new User(appContext).isUserSignIn();
     }
 }
-
-

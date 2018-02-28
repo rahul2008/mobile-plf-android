@@ -86,7 +86,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
             mTHSInsuranceConfirmationFragment.showProgressbar();
             THSManager.getInstance().updateInsuranceSubscription(mTHSInsuranceConfirmationFragment.getFragmentActivity(), tHSSubscriptionUpdateRequest, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

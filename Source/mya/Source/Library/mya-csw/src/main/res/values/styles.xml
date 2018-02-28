@@ -51,6 +51,7 @@
         <item name="android:paddingStart">@dimen/radio_button_text_padding_left_right</item>
         <item name="android:paddingEnd">@dimen/radio_button_text_padding_left_right</item>
     </style>
+
     <style name="TestButtonSecondaryText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?attr/uidCheckBoxDefaultDisabledBackgroundColor</item>
@@ -90,5 +91,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin_left_right</item>
+    </style>
+    
+    <style name="MyaAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
+        <item name="android:windowMinWidthMajor">0%</item>
+        <item name="android:windowMinWidthMinor">0%</item>
+        <item name="android:backgroundDimAmount">0.1</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

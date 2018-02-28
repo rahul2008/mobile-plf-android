@@ -78,7 +78,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         try {
             validationresult = THSManager.getInstance().isCreditCardNumberValid(mTHSCreditCardDetailFragment.getFragmentActivity(), cardNumber);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
         return validationresult;
     }
@@ -167,7 +167,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 createPaymentRequest.setCreditCardSecCode(CVVcode);
                 THSManager.getInstance().validateCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity(), mTHSCreatePaymentRequest, errors);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
             if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD)) {
                 mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_card_name));

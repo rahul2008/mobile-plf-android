@@ -25,6 +25,7 @@ public enum RegistrationLaunchMode {
      * @since 1.0.0
      * @deprecated : Use either USER_DETAILS or MARKETING_OPT
      */
+    @Deprecated
     DEFAULT("default");
 
 

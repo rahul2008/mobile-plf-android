@@ -107,11 +107,9 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
 //    }
     private String[] createRowItems(int items) {
         String[] rowItems = new String[items];
-        System.out.println("Item Quantity = " + items);
         for (int i = 0; i < items; i++) {
             rowItems[i] = String.valueOf(i + 1);
         }
-        System.out.println("Return Item rowItems = " + rowItems);
         return rowItems;
     }
 

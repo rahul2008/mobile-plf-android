@@ -126,13 +126,13 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
             THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), mThsProviderInfo, this);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         } catch (AWSDKInitializationException e) {
-            e.printStackTrace();
+
         }
     }
 

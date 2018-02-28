@@ -59,4 +59,7 @@
 
     </string-array>
 
+    <string name="DSC_CSW_JustInTime_Accept">OK, count me in</string>
+    <string name="DSC_CSW_JustInTime_Reject">Maybe later</string>
+    <string name="DSC_CSW_JustInTime_Title">Be the first to know</string>
 </resources>
