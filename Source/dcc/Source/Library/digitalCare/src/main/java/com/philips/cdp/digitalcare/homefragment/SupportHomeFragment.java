@@ -890,7 +890,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             if (getActivity() != null) {
                 JustInTimeLauncher justInTimeLauncher = new JustInTimeLauncher();
                 justInTimeLauncher.addJustInTimeConsentDependencies(getActivity(), this);
-                showFragment(justInTimeLauncher.getJustInTimeFragment(mContainerId));
+                showFragment(justInTimeLauncher.getJustInTimeFragment(mContainerId, mActionbarUpdateListener));
             }
         }
     }

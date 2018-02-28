@@ -11,6 +11,7 @@ import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 class JustInTimeLauncher {
     HomeFragmentContract.View viewContract;
@@ -24,8 +25,10 @@ class JustInTimeLauncher {
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
 
-    JustInTimeConsentFragment getJustInTimeFragment(int containerID) {
-        return JustInTimeConsentFragment.newInstance(containerID);
+    JustInTimeConsentFragment getJustInTimeFragment(int containerID, ActionBarListener actionBarListener) {
+        JustInTimeConsentFragment justInTimeConsentFragment = JustInTimeConsentFragment.newInstance(containerID);
+        justInTimeConsentFragment.setUpdateTitleListener(actionBarListener);
+        return justInTimeConsentFragment;
     }
 
     @NonNull
@@ -49,8 +52,8 @@ class JustInTimeLauncher {
         resources.titleTextRes = R.string.dcc_location_consent_title;
         resources.rejectTextRes = R.string.dcc_location_consent_reject;
         resources.acceptTextRes = R.string.dcc_location_consent_accept;
-        resources.userBenefitsTitleRes = R.string.dcc_location_consent_definition_text;
-        resources.userBenefitsDescriptionRes = R.string.dcc_location_consent_definition_help_text;
+//        resources.userBenefitsTitleRes = R.string.dcc_location_consent_definition_text;
+//        resources.userBenefitsDescriptionRes = R.string.dcc_location_consent_definition_help_text;
         return resources;
     }
 }
