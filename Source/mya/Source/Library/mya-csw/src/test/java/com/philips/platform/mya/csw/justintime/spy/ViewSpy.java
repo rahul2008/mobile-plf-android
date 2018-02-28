@@ -15,12 +15,7 @@ public class ViewSpy implements JustInTimeConsentContract.View {
     public void setPresenter(JustInTimeConsentContract.Presenter presenter) {
         this.presenter = presenter;
     }
-
-    @Override
-    public void showErrorDialog(String errorTitle, String errorMessage) {
-
-    }
-
+    
     @Override
     public void showErrorDialog(int errorTitleId, int errorMessageId) {
         this.errorTitleId_showErrorDialog = errorTitleId;

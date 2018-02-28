@@ -126,8 +126,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         descriptionLabel.setText(helpLink);
     }
 
-    @Override
-    public void showErrorDialog(String errorTitle, String errorMessage) {
+    private void showErrorDialog(String errorTitle, String errorMessage) {
         DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
