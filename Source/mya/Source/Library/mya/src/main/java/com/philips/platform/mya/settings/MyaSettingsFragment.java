@@ -7,7 +7,6 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -261,7 +260,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    @NonNull
     ClickableSpan getClickableSpan(final String url) {
         return new ClickableSpan() {
             @Override
