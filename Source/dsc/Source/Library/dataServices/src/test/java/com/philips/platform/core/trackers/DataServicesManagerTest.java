@@ -558,14 +558,6 @@ public class DataServicesManagerTest {
         verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
     }
 
-    private DSPaginationSpy createPagination() {
-        mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
-        mDSPagination.setPageLimit(1);
-        mDSPagination.setPageNumber(1);
-        mDSPagination.setOrderBy("timestamp");
-        return mDSPagination;
-    }
-
     @Test
     public void synchronize_deletesExpiredMoments() {
         mDataServicesManager.synchronize();
@@ -666,26 +658,8 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_migrationFlagNotSet_shouldSetMigrationFlag() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
-                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -698,16 +672,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void migrateGDPR_withResultListener_cannotDeleteMoments_shouldCallFailureCallback() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onFailure(new Exception());
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
+        givenFailureDeleteSyncedMomentRequest();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -719,26 +684,8 @@ public class DataServicesManagerTest {
 
     @Test
     public void migrateGDPR_withResultListener_shouldClearSyncTimeCache() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
-                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -750,26 +697,8 @@ public class DataServicesManagerTest {
 
     @Test
     public void migrateGDPR_withResultListener_shouldStartSync() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
-                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -782,35 +711,9 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_shouldCallbackWhenDone() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
-
-                arg0.onSyncComplete();
-                return null;
-            }
-        }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
-                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSyncCompletedOnStartSync();
+        givenSuccessfulDeleteAllInsights();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -822,35 +725,9 @@ public class DataServicesManagerTest {
 
     @Test
     public void migrateGDPR_withResultListener_shouldCallFailureCallback_whenFailed() {
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
-                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post((Event) any());
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
-
-                arg0.onSyncFailed(new Exception());
-                return null;
-            }
-        }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
-                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
-
-                listener.onSuccess(null);
-                return null;
-            }
-        }).when(eventingMock).post(any(DeleteAllInsights.class));
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSyncFailedOnStartSync();
+        givenSuccessfulDeleteAllInsights();
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -875,7 +752,36 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void migrateGDPR_withResultListener_shouldCallFailureCallback_whenFailedDeletingAllInsights() {
+
+    }
+
+    @Test
     public void migrateGDPR_withResultListener_shouldCallDeleteAllInsights() {
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
+        givenSyncCompletedOnStartSync();
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(dbRequestListener).onSuccess(anyList());
+    }
+
+    private void givenSyncFailedOnStartSync() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
+
+                arg0.onSyncFailed(new Exception());
+                return null;
+            }
+        }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
+    }
+
+    private void givenSuccessfulDeleteSyncedMomentsRequest() {
         doAnswer(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -886,6 +792,9 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post(any(DeleteSyncedMomentsRequest.class));
+    }
+
+    private void givenSuccessfulDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -896,6 +805,26 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post(any(DeleteAllInsights.class));
+    }
+
+    private void givenFailureDeleteSyncedMomentRequest() {
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
+                DBRequestListener<Moment> listener = arg0.getDbRequestListener();
+
+                listener.onFailure(new Exception());
+                return null;
+            }
+        }).when(eventingMock).post((Event) any());
+    }
+
+    private void givenNullServiceDiscoveryInterface() {
+        mDataServicesManager.setServiceDiscoveryInterface(null);
+    }
+
+    private void givenSyncCompletedOnStartSync() {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -905,12 +834,6 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
-        when(prefsMock.edit()).thenReturn(prefsEditorMock);
-        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
-        mDataServicesManager.migrateGDPR(dbRequestListener);
-
-        verify(dbRequestListener).onSuccess(anyList());
     }
 
     private void whenSynchronizeIsInvoked() {
@@ -919,6 +842,14 @@ public class DataServicesManagerTest {
 
     private void whenSynchronizeMomentsByDateRange() {
         mDataServicesManager.synchronizeMomentsByDateRange(START_DATE, END_DATE, synchronisationCompleteListenerMock);
+    }
+
+    private void whenFetchBaseUrlIsInvoked() {
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+    }
+
+    private void whenFetchCoachingServiceUrlIsInvoked() {
+        mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
     }
 
     private void thenVerifyMonitorsAreInitialized() {
@@ -934,16 +865,12 @@ public class DataServicesManagerTest {
         verify(synchronisationManagerMock).startSync(START_DATE, END_DATE, synchronisationCompleteListenerMock);
     }
 
-    private void givenNullServiceDiscoveryInterface() {
-        mDataServicesManager.setServiceDiscoveryInterface(null);
-    }
-
-    private void whenFetchBaseUrlIsInvoked() {
-        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
-    }
-
-    private void whenFetchCoachingServiceUrlIsInvoked() {
-        mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
+    private DSPaginationSpy createPagination() {
+        mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
+        mDSPagination.setPageLimit(1);
+        mDSPagination.setPageNumber(1);
+        mDSPagination.setOrderBy("timestamp");
+        return mDSPagination;
     }
 }
 
