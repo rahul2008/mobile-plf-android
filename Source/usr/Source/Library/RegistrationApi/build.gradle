@@ -5,11 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = versions.jacoco
-}
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -314,25 +310,6 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest"]) {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../RegistrationApi/build/intermediates/classes/debug',
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    //executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
 
 tasks.withType(Test) {
     ignoreFailures = true
