@@ -207,7 +207,7 @@ public class URInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface(){
         if(context == null) {
-            Log.d(TAG, "getUserDataInterface: Please call init API before fetching data interface");
+            RLog.d(TAG, "getUserDataInterface: Please call init API before fetching data interface");
             return null;
         }
         else {
