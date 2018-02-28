@@ -48,6 +48,7 @@
   <string name="RA_DLSS_avatar_default_text">[pl]Hello User, \nPlease sign in.</string>
   <string name="RA_DLS_Help_Philips_Shop">[pl]You can make Philips purchases or via 3rd party retailers here.</string>
   <string name="RA_DLS_Help_Support_screen_sub">[pl]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions, product information and reviews.</string>
+  <string name="RA_DLS_HomeScreen_Title">[pl]Reference App Home</string>
   <string name="RA_DLS_about_copyright">[pl]Copyright \u00A9 2017 Philips</string>
   <string name="RA_DLS_about_description">[pl]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
   <string name="RA_DLS_about_privacy">[pl]Privacy policy</string>
