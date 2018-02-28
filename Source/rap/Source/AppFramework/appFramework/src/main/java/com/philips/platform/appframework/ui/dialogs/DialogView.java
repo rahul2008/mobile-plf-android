@@ -4,7 +4,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.mya.dialogs;
+package com.philips.platform.appframework.ui.dialogs;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -72,7 +72,7 @@ public class DialogView {
         view = LayoutInflater
                 .from(activity)
                 .cloneInContext(popupThemedContext)
-                .inflate(R.layout.mya_dialog_connection, null, false);
+                .inflate(R.layout.af_dialog_connection, null, false);
 
 
         TextView titleView = view.findViewById(R.id.mya_offline_label_title);

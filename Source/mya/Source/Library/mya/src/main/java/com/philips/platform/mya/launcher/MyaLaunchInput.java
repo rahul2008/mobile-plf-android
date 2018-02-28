@@ -31,8 +31,6 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private MyaTabConfig myaTabConfig;
     private List<String> settingsMenuList;
     private List<String> profileMenuList;
-    public MyaLaunchInput() {
-    }
 
     public MyaLaunchInput(Context context, MyaListener myaListener) {
         this.context = context;
