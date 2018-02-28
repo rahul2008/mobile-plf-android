@@ -53,11 +53,10 @@
                 style="@style/UIDLabel.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:linksClickable="true"
                 android:layout_marginBottom="@dimen/MYA_bottom_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginStart="@dimen/MYA_start_margin"
-                android:autoLink="web"
+                android:text="@string/MYA_philips_website"
                  />
         </LinearLayout>
 

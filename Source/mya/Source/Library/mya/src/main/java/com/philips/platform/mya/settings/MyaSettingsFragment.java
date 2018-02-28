@@ -7,13 +7,17 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +27,6 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.dialogs.DialogView;
-import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -83,18 +86,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         philipsWebsite = view.findViewById(R.id.philips_website);
-        philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
-            @Override
-            public boolean interceptClick(CharSequence tag) {
-                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
-                Bundle args = new Bundle();
-                args.putCharSequence(PHILIPS_LINK,tag);
-                fragment.setArguments(args);
-
-                showFragment(fragment);
-                return true;
-            }
-        });
         logOutButton.setOnClickListener(this);
     }
 
@@ -253,11 +244,36 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setLinkUrl(String url) {
-        philipsWebsite.setClickable(true);
-        philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
-        philipsWebsite.setText(Html.fromHtml(url));
+    public void setLinkUrl(final String url) {
+        final SpannableString myString;
+        if (!TextUtils.isEmpty(url)) {
+            philipsWebsite.setClickable(true);
+            myString = new SpannableString(url);
+            ClickableSpan clickableSpan = getClickableSpan(url);
+            myString.setSpan(clickableSpan, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            String philipsDefaultUrl = getString(R.string.MYA_philips_website);
+            myString = new SpannableString(philipsDefaultUrl);
+            ClickableSpan clickableSpan = getClickableSpan(philipsDefaultUrl);
+            myString.setSpan(clickableSpan, 0, philipsDefaultUrl.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        philipsWebsite.setText(myString);
+        philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+    }
 
+    @NonNull
+    ClickableSpan getClickableSpan(final String url) {
+        return new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
+                Bundle args = new Bundle();
+                args.putString(PHILIPS_LINK, url);
+                fragment.setArguments(args);
+
+                showFragment(fragment);
+            }
+        };
     }
 
 

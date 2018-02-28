@@ -10,7 +10,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
-import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -130,7 +129,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
         launchInput.addToBackStack(true);
-        launchInput.setMyAccountUIEventListener(this);
+        launchInput.setMyAccountUIEventListener(null);
 
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
