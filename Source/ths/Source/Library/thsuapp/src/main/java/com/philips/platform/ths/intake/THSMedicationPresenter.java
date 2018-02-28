@@ -67,7 +67,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             THSManager.getInstance().getMedication(mTHSBaseFragment.getContext(), this);
 
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
@@ -79,7 +79,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
                 THSManager.getInstance().updateMedication(mTHSBaseFragment.getContext(), pTHMedication, this);
 
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
 

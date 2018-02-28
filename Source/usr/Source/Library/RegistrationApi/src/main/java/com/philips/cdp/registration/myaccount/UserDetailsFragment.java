@@ -31,7 +31,7 @@ import java.util.Date;
 public class UserDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
 
     private Label email_address, mobile_number;
-    private Label nameLabel, genderLabel, name_value, dob_value, email_address_heading;
+    private Label nameLabel, genderLabel, name_value, dob_value;
     private final String DETAILS_BUNDLE = "details_bundle";
     private UserDetailPresenter myaDetailPresenter;
     private User user;
@@ -53,7 +53,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
+        View view = inflater.inflate(R.layout.reg_user_detail_fragment, container, false);
         initViews(view);
         setRetainInstance(true);
         myaDetailPresenter = new UserDetailPresenter(this);
@@ -87,11 +87,10 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     }
 
     private void initViews(View view) {
-        nameLabel = view.findViewById(R.id.mya_name);
+        nameLabel = view.findViewById(R.id.reg_user_detail_lbl_name);
         email_address = view.findViewById(R.id.email_address_value);
         mobile_number = view.findViewById(R.id.mobile_number_value);
         genderLabel = view.findViewById(R.id.gender_value);
-        email_address_heading = view.findViewById(R.id.email_address_heading);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
     }
@@ -121,7 +120,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
             genderLabel.setText(gender);
         } else {
-            genderLabel.setText(getString(R.string.MYA_Not_Available));
+            genderLabel.setText(getString(R.string.reg_Not_Available));
         }
     }
 
@@ -132,7 +131,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
             String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
         } else
-            dob_value.setText(getString(R.string.MYA_Not_Available));
+            dob_value.setText(getString(R.string.reg_Not_Available));
     }
 
     @Override

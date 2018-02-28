@@ -1,15 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'jacoco'
-
-apply from: "../scripts/task_reporting_pushnotification.gradle"
 apply from: "../scripts/versions.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: "../scripts/flavors_pushnotification.gradle"
 
-jacoco {
-    toolVersion = versions.jacoco
-}
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -31,7 +25,6 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.trickyandroid
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)

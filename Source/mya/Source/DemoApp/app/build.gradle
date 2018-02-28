@@ -1,12 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
-
-jacoco {
-    toolVersion = versions.jacoco
-}
-
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 

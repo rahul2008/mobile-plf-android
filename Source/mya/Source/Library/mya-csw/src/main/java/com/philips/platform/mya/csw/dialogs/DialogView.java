@@ -24,7 +24,7 @@ public class DialogView implements View.OnClickListener {
     protected AlertDialogFragment alertDialogFragment;
     private View.OnClickListener okListener;
 
-    public DialogView(){
+    public DialogView() {
         okListener = null;
     }
 

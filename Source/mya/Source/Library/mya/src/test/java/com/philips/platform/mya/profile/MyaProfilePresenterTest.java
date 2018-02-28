@@ -49,6 +49,7 @@ public class MyaProfilePresenterTest {
         myaProfilePresenter.onViewActive(myaProfileFragment);
         myaProfilePresenter.onViewInactive();
         assertNull(myaProfilePresenter.getView());
+        assertNotNull(myaProfilePresenter.getMyaDetailsFragment());
     }
 
     @Test
@@ -60,7 +61,7 @@ public class MyaProfilePresenterTest {
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
-        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context, null));
         myaProfilePresenter.getProfileItems(appInfraInterface,getArguments());
         verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }

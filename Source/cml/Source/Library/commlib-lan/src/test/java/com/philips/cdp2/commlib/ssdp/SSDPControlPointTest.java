@@ -38,6 +38,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -151,6 +152,16 @@ public class SSDPControlPointTest {
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
         verify(deviceListener).onDeviceUnavailable(any(SSDPDevice.class));
+    }
+
+    @Test
+    public void whenAnSsdpMessageIsReceivedThatHasNoUsnInHeader_thenItIsIgnored() {
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        when(ssdpMessageMock.get(USN)).thenReturn(null);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        verifyNoMoreInteractions(deviceListener);
     }
 
     @Test

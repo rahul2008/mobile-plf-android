@@ -13,7 +13,6 @@ import android.os.Bundle;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
-import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -57,7 +56,6 @@ public class MyaInterface implements UappInterface {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
         MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
-        MyaHelper.getInstance().setConfigurations(myaDependencies.getConsentConfigurationList());
         reference.dependencies = myaDependencies;
     }
 
@@ -82,8 +80,8 @@ public class MyaInterface implements UappInterface {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataInterface);
-        PermissionHelper.getInstance().setMyAccountUIEventListener(myaLaunchInput.
-                getMyAccountUIEventListener());
+
+
 
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;

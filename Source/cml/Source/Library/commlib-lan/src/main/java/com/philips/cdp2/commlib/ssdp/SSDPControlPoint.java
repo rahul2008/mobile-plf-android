@@ -265,6 +265,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     @VisibleForTesting
     void handleMessage(final SSDPMessage message) {
         final String usn = message.get(SSDPMessage.USN);
+        if (usn == null) return;
 
         final SSDPDevice device;
 

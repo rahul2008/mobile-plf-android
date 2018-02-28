@@ -42,7 +42,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
         try {
             THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
