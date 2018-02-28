@@ -52,6 +52,8 @@ public class DSDemoAppuAppInterface implements UappInterface {
         textResources.titleTextRes = R.string.DSC_CSW_JustInTime_Title;
         textResources.acceptTextRes = R.string.DSC_CSW_JustInTime_Accept;
         textResources.rejectTextRes = R.string.DSC_CSW_JustInTime_Reject;
+        textResources.userBenefitsTitleRes = R.string.mya_csw_justintime_user_benefits_title;
+        textResources.userBenefitsDescriptionRes = R.string.mya_csw_justintime_user_benefits_description;
         JustInTimeConsentDependencies.textResources = textResources;
 
         DemoAppManager mDemoAppManager = DemoAppManager.getInstance();

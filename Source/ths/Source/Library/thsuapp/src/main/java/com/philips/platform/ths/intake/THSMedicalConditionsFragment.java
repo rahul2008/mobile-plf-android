@@ -95,7 +95,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         try {
             thsMedicalConditionsPresenter.getConditions();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

@@ -65,6 +65,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     Intent gpsSettingsIntent;
     private AlertDialogFragment alertDialogFragment;
     private RelativeLayout relativeLayout;
+    private boolean isPharmacyCheckRequired = false;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -72,6 +73,10 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setMaxWaitTime(TIMEOUT);
+    }
+
+    public void setPharmacyCheckRequired(boolean isPharmacyCheckRequired){
+        this.isPharmacyCheckRequired = isPharmacyCheckRequired;
     }
 
 
@@ -150,19 +155,23 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void checkIfPharmacyRequired() {
-        boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
-        if (isPharmacyRequired) {
-            thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
-        } else {  // go to insurance or cost detail
-            Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
-            getActivity().getSupportFragmentManager().popBackStack();
-            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
-            } else {
-                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+        if(isPharmacyCheckRequired) {
+            boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
+            if (isPharmacyRequired) {
+                thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
+            } else {  // go to insurance or cost detail
+                Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+                getActivity().getSupportFragmentManager().popBackStack();
+                if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                    final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                    addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                } else {
+                    final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                    addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                }
             }
+        }else {
+            displayPharmacy();
         }
     }
 

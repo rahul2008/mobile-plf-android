@@ -488,10 +488,9 @@ public class THSManager {
             password.append(firstThreeChars.charAt(index));
         }
 
-        String randomPassowrd = password.toString();
-        //AmwellLog.e(AmwellLog.LOG,"password -> " + randomPassowrd);
-        if(validatePassword(randomPassowrd)){
-            return randomPassowrd;
+        String randomPassword = password.toString();
+        if(validatePassword(randomPassword)){
+            return randomPassword;
         }else {
             return generatePasswordRandomly();
         }
@@ -499,7 +498,6 @@ public class THSManager {
 
     protected boolean validatePassword(String password){
         if(password.matches(".*[a-z].*") && password.matches(".*[A-Z].*") && password.matches(".*[0-9].*")){
-            //AmwellLog.e(AmwellLog.LOG,"password Validated -> " + password);
             return true;
         }
         return false;
@@ -1181,7 +1179,7 @@ public class THSManager {
         try {
             healthplans = getAwsdk(context).getConsumerManager().getHealthPlans();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
         return healthplans;
 

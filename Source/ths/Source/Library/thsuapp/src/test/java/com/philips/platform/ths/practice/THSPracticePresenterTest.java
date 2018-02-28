@@ -197,7 +197,7 @@ public class THSPracticePresenterTest {
             mMethod.setAccessible(true);
             mMethod.invoke(mTHSPracticePresenter);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException  e) {
-            e.printStackTrace();
+
         }
     }
 

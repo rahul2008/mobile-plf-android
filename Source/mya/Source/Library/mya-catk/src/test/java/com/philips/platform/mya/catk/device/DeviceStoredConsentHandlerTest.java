@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -39,7 +39,7 @@ public class DeviceStoredConsentHandlerTest {
                                              + "en-US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "type3";
 
     @Mock
-    private AppInfra appInfra;
+    AppInfraInterface appInfra;
 
     @Mock
     private SecureStorageInterface storageInterface;
@@ -160,7 +160,7 @@ public class DeviceStoredConsentHandlerTest {
 
     private class TestDeviceStoredConsentHandler extends DeviceStoredConsentHandler {
 
-        TestDeviceStoredConsentHandler(AppInfra appInfra) {
+        TestDeviceStoredConsentHandler(AppInfraInterface appInfra) {
             super(appInfra);
         }
 

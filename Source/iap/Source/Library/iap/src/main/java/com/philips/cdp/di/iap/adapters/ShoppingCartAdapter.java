@@ -119,7 +119,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                System.out.println("Item Quantity = "+data.getQuantity());
                 countPopUp.createPopUp(v,data.getStockLevel());
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();

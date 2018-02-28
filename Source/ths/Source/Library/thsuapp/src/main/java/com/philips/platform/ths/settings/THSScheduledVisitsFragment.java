@@ -74,7 +74,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
         try {
             mThsSchedulesVisitsPresenter.getAppointmentsSince(sdkLocalDate);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
