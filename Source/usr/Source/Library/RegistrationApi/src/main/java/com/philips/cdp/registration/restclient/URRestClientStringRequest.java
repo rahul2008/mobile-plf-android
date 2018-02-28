@@ -15,7 +15,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public class URRestClientStringRequest extends StringRequest {
     private Handler mHandler;
 
 
-    public URRestClientStringRequest(String url, String body, Map<String, String> pHeader, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+    URRestClientStringRequest(String url, String body, Map<String, String> pHeader, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
         super(Method.POST, url, successListener, errorListener, null, null, null);
 
         mBody = body;
@@ -65,7 +64,6 @@ public class URRestClientStringRequest extends StringRequest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
         params.put("Content-type", "application/x-www-form-urlencoded");
-        // params.put("Content-Type", mHeaders);
         if (mHeaders != null)
             params.putAll(mHeaders);
 
@@ -143,20 +141,5 @@ public class URRestClientStringRequest extends StringRequest {
 
     private void postErrorResponseOnUIThread(final VolleyError volleyError) {
         mHandler.post(() -> mErrorListener.onErrorResponse(volleyError));
-    }
-
-    private byte[] encodeParameters(Map<String, String> params, String paramsEncoding) {
-        StringBuilder encodedParams = new StringBuilder();
-        try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
-                encodedParams.append('=');
-                encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
-                encodedParams.append('&');
-            }
-            return encodedParams.toString().getBytes(paramsEncoding);
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException("Encoding not supported: " + paramsEncoding, uee);
-        }
     }
 }

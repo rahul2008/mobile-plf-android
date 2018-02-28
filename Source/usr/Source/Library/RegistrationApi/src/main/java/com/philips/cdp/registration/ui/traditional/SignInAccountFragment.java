@@ -92,8 +92,8 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
 
-//    public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
-//    public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
+//    public static final String USER_REQUEST_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
+//    public static final String USER_REQUEST_RESET_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
 
     @BindView(R2.id.usr_loginScreen_login_button)
     ProgressBarButton mBtnSignInAccount;

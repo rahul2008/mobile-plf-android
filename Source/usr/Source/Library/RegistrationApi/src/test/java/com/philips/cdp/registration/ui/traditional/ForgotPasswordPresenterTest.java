@@ -32,7 +32,7 @@ public class ForgotPasswordPresenterTest {
 
 
     @Mock
-    User userMock ;
+    User userMock;
 
     @Mock
     RegistrationHelper registrationHelperMock;
@@ -47,11 +47,15 @@ public class ForgotPasswordPresenterTest {
     Context contextMock;
 
     @Mock
+    UserRegistrationFailureInfo userRegistrationFailureInfoMock;
+
+    @Mock
     private RegistrationComponent registrationComponentMock;
+
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    ForgotPasswordPresenter forgotPasswordPresenter;
+    private ForgotPasswordPresenter forgotPasswordPresenter;
 
 
     @Before
@@ -60,7 +64,7 @@ public class ForgotPasswordPresenterTest {
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
 
-        forgotPasswordPresenter = new ForgotPasswordPresenter( registrationHelperMock, eventHelperMock, forgotPasswordContractMock, contextMock);
+        forgotPasswordPresenter = new ForgotPasswordPresenter(registrationHelperMock, eventHelperMock, forgotPasswordContractMock, contextMock);
     }
 
     @Test
@@ -78,32 +82,25 @@ public class ForgotPasswordPresenterTest {
 
     @Test
     public void unRegisterListener() throws Exception {
-
         forgotPasswordPresenter.unRegisterListener();
-
         Mockito.verify(registrationHelperMock).unRegisterNetworkListener(forgotPasswordPresenter);
         Mockito.verify(eventHelperMock).unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, forgotPasswordPresenter);
     }
 
     @Test
     public void onEventReceived() throws Exception {
-
         forgotPasswordPresenter.onEventReceived(RegConstants.JANRAIN_INIT_SUCCESS);
         Mockito.verify(forgotPasswordContractMock).handleUiStatus();
     }
 
     @Test
     public void onSendForgotPasswordSuccess() throws Exception {
-
         forgotPasswordPresenter.onSendForgotPasswordSuccess();
         Mockito.verify(forgotPasswordContractMock).handleSendForgotPasswordSuccess();
     }
-    @Mock
-    UserRegistrationFailureInfo userRegistrationFailureInfoMock;
 
     @Test
     public void onSendForgotPasswordFailedWithError() throws Exception {
-
         forgotPasswordPresenter.onSendForgotPasswordFailedWithError(userRegistrationFailureInfoMock);
         Mockito.verify(forgotPasswordContractMock).handleSendForgotPasswordFailedWithError(userRegistrationFailureInfoMock);
 
@@ -111,27 +108,8 @@ public class ForgotPasswordPresenterTest {
 
     @Test
     public void forgotPasswordRequest() throws Exception {
-
-        forgotPasswordPresenter.forgotPasswordRequest("email",userMock);
-
-        Mockito.verify( userMock).forgotPassword("email", forgotPasswordPresenter);
-    }
-
-//    @Test(expected = NullPointerException.class)
-//    public void onReceiveResult() throws Exception {
-//
-//        forgotPasswordPresenter.onReceiveResult(1,new Bundle());
-//    }
-
-    @Test
-    public void createResendSMSIntent() throws Exception {
-
-//        Assert.assertNotNull(forgotPasswordPresenter.createResendSMSIntent("URL"));
-    }
-
-    @Test
-    public void getBodyContent() throws Exception {
-//        Assert.assertNotNull(forgotPasswordPresenter.getBodyContent());
+        forgotPasswordPresenter.forgotPasswordRequest("email", userMock);
+        Mockito.verify(userMock).forgotPassword("email", forgotPasswordPresenter);
     }
 
     @Test(expected = NullPointerException.class)

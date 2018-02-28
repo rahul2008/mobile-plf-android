@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.android.volley.Request;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
@@ -56,23 +55,23 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
-    public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE =
+    private static final String USER_REQUEST_RESET_SMS_CODE =
             "/api/v1/user/requestPasswordResetSmsCode";
 
-    public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS =
+    private static final String USER_REQUEST_RESET_REDIRECT_URI_SMS =
             "/c-w/user-registration/apps/reset-password.html";
 
     private final ForgotPasswordContract forgotPasswordContract;
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
-    String verificationSmsCodeURL;
+    private String verificationSmsCodeURL;
 
-    String resetPasswordSmsRedirectUri;
+    private String resetPasswordSmsRedirectUri;
 
-    String userId;
+    private String userId;
 
-    Context context;
+    private Context context;
 
     public ForgotPasswordPresenter(
             RegistrationHelper registrationHelper, EventHelper eventHelper, ForgotPasswordContract forgotPasswordContract, Context context) {
@@ -85,7 +84,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(TAG, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         forgotPasswordContract.handleUiState(isOnline);
     }
 
@@ -102,7 +101,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @Override
     public void onEventReceived(String event) {
-        RLog.d(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onCounterEventReceived is : " + event);
+        RLog.d(TAG, "ResetPasswordFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             forgotPasswordContract.handleUiStatus();
         }
@@ -123,12 +122,10 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     }
 
     void handleResendSMSRespone(String response) {
-
         final String mobileNumberKey = "mobileNumber";
         final String tokenKey = "token";
         final String redirectUriKey = "redirectUri";
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
-
         try {
             JSONObject jsonObject = new JSONObject(response);
             if ("0".equals(jsonObject.getString("errorCode"))) {
@@ -145,18 +142,17 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.d("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+                RLog.d(TAG, " isAccountActivate is " + token + " -- " + response);
                 constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorMsg);
-                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
-                return;
+                RLog.d(TAG, " SMS Resend failure = " + response);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            RLog.d(TAG,"Exception : "+e.getMessage());
         }
     }
 
@@ -192,10 +188,10 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(smsServiceID)
-                .map(serviceUrl -> getBaseUrl(serviceUrl))
+                .map(this::getBaseUrl)
                 .map(baseUrl -> {
-                    resetPasswordSmsRedirectUri = baseUrl + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
-                    verificationSmsCodeURL = baseUrl + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+                    resetPasswordSmsRedirectUri = baseUrl + USER_REQUEST_RESET_REDIRECT_URI_SMS;
+                    verificationSmsCodeURL = baseUrl + USER_REQUEST_RESET_SMS_CODE;
                     return verificationSmsCodeURL;
                 })
                 .subscribeOn(Schedulers.io())
@@ -210,7 +206,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                     @Override
                     public void onError(Throwable e) {
                         forgotPasswordContract.hideForgotPasswordSpinner();
-                        RLog.d(TAG, "ForgotPasswordPresenter = " + e.getMessage());
+                        RLog.d(TAG, "Error = " + e.getMessage());
                         forgotPasswordContract.forgotPasswordErrorMessage(
                                 context.getString(R.string.reg_Generic_Network_Error));
                     }
@@ -225,12 +221,12 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
             url = new URL(serviceUrl);
             return (url.getProtocol() + urlSeparator + url.getHost());
         } catch (MalformedURLException e) {
-            RLog.d(TAG, "ForgotPasswordPresenter = " + e.getMessage());
+            RLog.d(TAG, "MalformedURLException = " + e.getMessage());
         }
         return "";
     }
 
-    public void clearDisposable() {
+    void clearDisposable() {
         disposable.clear();
     }
 }

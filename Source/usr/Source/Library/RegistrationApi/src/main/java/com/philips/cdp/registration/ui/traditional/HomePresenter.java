@@ -444,6 +444,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 case BaseResp.ErrCode.ERR_OK:
                     if (weChatCode != null) {
                         homeContract.startWeChatLogin(weChatCode);
+                    }else{
+                        RLog.d("WECHAT", "Wechat = "+weChatCode);
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -457,29 +459,25 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     };
 
 
-    public boolean isEmailAvailable() {
-        boolean isEmailAvailable = user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
-        return isEmailAvailable;
+    private boolean isEmailAvailable() {
+        return user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
     }
 
 
-    public boolean isMobileNoAvailable() {
-        boolean isMobileNoAvailable = user.getMobile() != null && FieldsValidator.isValidMobileNumber(user.getMobile());
-        return isMobileNoAvailable;
+    private boolean isMobileNoAvailable() {
+        return user.getMobile() != null && FieldsValidator.isValidMobileNumber(user.getMobile());
     }
 
     public boolean isEmailVerified() {
-        boolean isEmailVerified = user.isEmailVerified();
-        return isEmailVerified;
+        return user.isEmailVerified();
     }
 
     public boolean isMobileVerified() {
-        boolean isMobileVerified = user.isMobileVerified();
-        return isMobileVerified;
+        return user.isMobileVerified();
     }
 
 
-    public void getLocaleServiceDiscovery(final String countryName) {
+    private void getLocaleServiceDiscovery(final String countryName) {
         serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
