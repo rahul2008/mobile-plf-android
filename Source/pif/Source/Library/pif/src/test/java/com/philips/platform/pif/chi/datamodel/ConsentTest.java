@@ -7,17 +7,17 @@
 
 package com.philips.platform.pif.chi.datamodel;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 public class ConsentTest {
+    private static final String AMERICAN_LOCALE = "en-US";
 
     @Test
     public void isAccepted_trueIfHigherVersionBackendConsentIsActive() {
@@ -106,15 +106,15 @@ public class ConsentTest {
     }
 
     private void givenInactiveBackendConsentOfVersion(int version) {
-        backendConsent.add(new BackendConsent(Locale.US, ConsentStatus.inactive, TYPE, version));
+        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStatus.inactive, TYPE, version));
     }
 
     private void givenConsentDefinitionOfVersion(int version) {
-        consentDefinition = new ConsentDefinition("someText1", "someHelpText1", Collections.singletonList(TYPE), version, Locale.US);
+        consentDefinition = new ConsentDefinition("someText1", "someHelpText1", Collections.singletonList(TYPE), version);
     }
 
     private void givenActiveBackendConsentOfVersion(int version) {
-        backendConsent.add(new BackendConsent(Locale.US, ConsentStatus.active, TYPE, version));
+        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, TYPE, version));
     }
 
     private void whenRequiredConsentIsCreated() {

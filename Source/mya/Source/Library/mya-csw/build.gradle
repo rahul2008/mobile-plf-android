@@ -118,7 +118,6 @@ dependencies {
     testCompile deps.junit
     testCompile deps.maven_ant
     testCompile deps.maven_ant
-    testCompile deps.mockito
     testCompile deps.powermock_api_mockito
     testCompile deps.powermock_classloading_xstream
     testCompile deps.powermock_core

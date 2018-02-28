@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
@@ -114,59 +115,58 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * Creates a list of ConsentDefinitions</p
      *
      * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
-     * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> createCatkDefinitions(Context context, Locale currentLocale) {
+    List<ConsentDefinition> createCatkDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
-                Collections.singletonList("moment"), 1, currentLocale);
+                Collections.singletonList("moment"), 1);
         ConsentDefinitionRegistry.add(momentConsentDefinition);
         definitions.add(momentConsentDefinition);
         ConsentDefinition coachingConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
-                Collections.singletonList("coaching"), 1, currentLocale);
+                Collections.singletonList("coaching"), 1);
         ConsentDefinitionRegistry.add(coachingConsentDefinition);
         definitions.add(coachingConsentDefinition);
         ConsentDefinition binaryConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
-                Collections.singletonList("binary"), 1, currentLocale);
+                Collections.singletonList("binary"), 1);
         ConsentDefinitionRegistry.add(binaryConsentDefinition);
         definitions.add(binaryConsentDefinition);
         ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList("clickstream"), 1, currentLocale);
+                Collections.singletonList("clickstream"), 1);
         definitions.add(clickStreamConsentDefinition);
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
         ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
-                Arrays.asList("research", "analytics"), 1, currentLocale);
+                Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
         return definitions;
     }
 
-    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context, Locale currentLocale) {
+    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList("marketing"), 1, currentLocale));
+                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), 1));
         return definitions;
     }
 
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
+        AppInfraInterface appInfra = app.getAppInfra();
 
-        Locale currentLocale = getCompleteLocale(app);
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
-                .setAppInfraInterface(app.getAppInfra())
-                .setConsentDefinitions(createCatkDefinitions(context, currentLocale))
+                .setAppInfraInterface(appInfra)
+                .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> urDefinitions = Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
+        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions)));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 

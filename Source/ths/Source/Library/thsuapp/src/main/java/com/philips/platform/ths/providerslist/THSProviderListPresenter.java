@@ -53,7 +53,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         try {
             getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }

@@ -31,7 +31,7 @@ public class THSHashingFunction {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            
         }
         return "";
     }
