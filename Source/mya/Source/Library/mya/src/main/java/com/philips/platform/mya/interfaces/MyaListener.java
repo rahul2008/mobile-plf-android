@@ -16,5 +16,5 @@ public interface MyaListener extends Serializable {
 
     void onError(MyaError myaError);
 
-    void onLogoutClick();
+    void onLogoutClicked();
 }

@@ -201,6 +201,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 }*/
                 //TODO - need to invoke above commented code when introduced call back for log out success
                 presenter.logOut(getArguments());
+                dismissDialog();
             }
         };
     }

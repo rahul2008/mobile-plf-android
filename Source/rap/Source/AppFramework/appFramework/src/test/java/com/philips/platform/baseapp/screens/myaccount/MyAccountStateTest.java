@@ -32,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
 
@@ -86,13 +87,16 @@ public class MyAccountStateTest {
     @Mock
     AppFrameworkApplication appFrameworkApplication;
 
+
+
     private static final String LANGUAGE_TAG = "en-US";
+    private Context context;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         myAccountState = new MyAccountStateMock(myaInterface);
-
+        context = RuntimeEnvironment.application;
         myAccountState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
 

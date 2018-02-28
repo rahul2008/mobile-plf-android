@@ -97,9 +97,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onLogoutClick() {
+            public void onLogoutClicked() {
 
-                User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(actContext);
+                User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
                 if(user.isUserSignIn()){
                     user.logout(new LogoutHandler() {
                         @Override
@@ -129,7 +129,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
         launchInput.addToBackStack(true);
-        launchInput.setMyAccountUIEventListener(null);
+        launchInput.setMyAccountUIEventListener(this);
 
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
