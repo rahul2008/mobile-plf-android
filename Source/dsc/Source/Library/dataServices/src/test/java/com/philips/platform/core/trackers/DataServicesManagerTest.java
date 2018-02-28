@@ -107,6 +107,7 @@ public class DataServicesManagerTest {
     public static final String TEST_USER_ID = "TEST_USER_ID";
     private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
     private static final String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
+    private final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 
     private DataServicesManager mDataServicesManager;
 
@@ -617,7 +618,7 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_migrationFlagNotSet() {
-        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(GDPR_MIGRATION_FLAG, false)).thenReturn(false); // Returns default
 
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
@@ -627,7 +628,7 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_migrationFlagSetTrue() {
-        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
+        when(prefsMock.getBoolean(GDPR_MIGRATION_FLAG, false)).thenReturn(true);
 
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
@@ -637,7 +638,7 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_migrationFlagNotChanged() {
-        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(true);
+        when(prefsMock.getBoolean(GDPR_MIGRATION_FLAG, false)).thenReturn(true);
 
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
@@ -647,7 +648,7 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void deleteSyncedMoments_withResultListener_migrationFlagSetFalse() {
-        when(prefsMock.getBoolean("gdpr_migration_flag", false)).thenReturn(false); // Set to false
+        when(prefsMock.getBoolean(GDPR_MIGRATION_FLAG, false)).thenReturn(false); // Set to false
 
         mDataServicesManager.deleteSyncedMoments(dbRequestListener);
 
@@ -659,20 +660,20 @@ public class DataServicesManagerTest {
     public void migrateGDPR_withResultListener_migrationFlagNotSet_shouldSetMigrationFlag() {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSuccessfulDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
-        verify(prefsEditorMock).putBoolean(eq("gdpr_migration_flag"), eq(true));
+        verify(prefsEditorMock).putBoolean(eq(GDPR_MIGRATION_FLAG), eq(true));
         verify(prefsEditorMock).apply();
     }
 
     @Test
     public void migrateGDPR_withResultListener_cannotDeleteMoments_shouldCallFailureCallback() {
         givenFailureDeleteSyncedMomentRequest();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
@@ -685,7 +686,7 @@ public class DataServicesManagerTest {
     public void migrateGDPR_withResultListener_shouldClearSyncTimeCache() {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSuccessfulDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
@@ -698,7 +699,7 @@ public class DataServicesManagerTest {
     public void migrateGDPR_withResultListener_shouldStartSync() {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSuccessfulDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
@@ -713,7 +714,7 @@ public class DataServicesManagerTest {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSyncCompletedOnStartSync();
         givenSuccessfulDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
@@ -727,7 +728,7 @@ public class DataServicesManagerTest {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSyncFailedOnStartSync();
         givenSuccessfulDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
@@ -755,7 +756,7 @@ public class DataServicesManagerTest {
     public void migrateGDPR_withResultListener_shouldCallFailureCallback_whenFailedDeletingAllInsights() {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenFailedDeleteAllInsights();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
         mDataServicesManager.migrateGDPR(dbRequestListener);
@@ -769,7 +770,7 @@ public class DataServicesManagerTest {
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSuccessfulDeleteAllInsights();
         givenSyncCompletedOnStartSync();
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
         mDataServicesManager.migrateGDPR(dbRequestListener);
@@ -780,7 +781,7 @@ public class DataServicesManagerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_shouldStartSync_whenMigrationFlagIsTrue() {
-        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(true);
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(true);
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
 
