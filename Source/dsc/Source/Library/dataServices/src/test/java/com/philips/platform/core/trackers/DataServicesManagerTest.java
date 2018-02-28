@@ -74,7 +74,6 @@ import com.philips.testing.verticals.datatyes.MomentType;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -773,6 +772,18 @@ public class DataServicesManagerTest {
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(dbRequestListener).onSuccess(anyList());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void migrateGDPR_shouldStartSync_whenMigrationFlagIsTrue() {
+        when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(true);
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(dbRequestListener).onSuccess(anyList());

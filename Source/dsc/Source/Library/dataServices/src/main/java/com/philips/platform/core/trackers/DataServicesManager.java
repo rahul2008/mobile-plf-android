@@ -624,8 +624,9 @@ public class DataServicesManager {
                     resultListener.onFailure(exception);
                 }
             });
+        } else {
+            resultListener.onSuccess(Collections.<Object>emptyList());
         }
-        // TODO: else call success callback immediately
     }
 
     public boolean isGdprMigrationDone() {
