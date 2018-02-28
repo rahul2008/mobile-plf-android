@@ -1,12 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
 
-
-jacoco {
-    toolVersion = versions.jacoco
-}
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -28,13 +23,10 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.trickyandroid
-
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
         classpath builddeps.androidapt
-//        compile build.support.appcompatv7
     }
 }
 

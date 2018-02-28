@@ -75,6 +75,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
+        when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {

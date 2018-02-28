@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
@@ -272,39 +272,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../product-registration-lib/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*$ViewInjector*.*',
-                       '**/listener/*.class',
-                       '**/activity/*.class',
-                       '**/adaptor/*.class',
-                       '**/constants/*.class',
-                       '**/fragments/*.class',
-                       '**/imagehandler/*.class',
-                       '**/launcher/*.class',
-                       '**/logging/*.class',
-                       '**/tagging/*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../product-registration-lib/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
 tasks.withType(Test) {
     ignoreFailures = true
     maxHeapSize = '4g'
