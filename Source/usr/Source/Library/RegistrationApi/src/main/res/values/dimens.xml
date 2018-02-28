@@ -186,6 +186,7 @@
     <dimen name="reg_image_layout">200dp</dimen>
     <dimen name="reg_40sp"> 40sp</dimen>
     <dimen name="reg_dimen_1dp">1dp</dimen>
+    <dimen name="reg_dimen_5dp">5dp</dimen>
 
 
 </resources>
