@@ -602,20 +602,18 @@ public class DataServicesManager {
     }
 
     public void migrateGDPR(final DBRequestListener<Object> resultListener) {
-        if(!isGdprMigrationDone()) {
+        if(isGdprMigrationDone()) {
+            resultListener.onSuccess(Collections.<Object>emptyList());
+        } else {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override
                 public void onSuccess(final List<? extends Moment> momentData) {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
-                        public void onSuccess(List<? extends Insight> insightData) {
-                            runSync(resultListener);
-                        }
+                        public void onSuccess(List<? extends Insight> insightData) { runSync(resultListener); }
 
                         @Override
-                        public void onFailure(Exception exception) {
-                            resultListener.onFailure(exception);
-                        }
+                        public void onFailure(Exception exception) { resultListener.onFailure(exception); }
                     });
                 }
 
@@ -624,8 +622,6 @@ public class DataServicesManager {
                     resultListener.onFailure(exception);
                 }
             });
-        } else {
-            resultListener.onSuccess(Collections.<Object>emptyList());
         }
     }
 
