@@ -49,6 +49,8 @@ class JustInTimeLauncher {
         resources.titleTextRes = R.string.dcc_location_consent_title;
         resources.rejectTextRes = R.string.dcc_location_consent_reject;
         resources.acceptTextRes = R.string.dcc_location_consent_accept;
+        resources.userBenefitsTitleRes = R.string.dcc_location_consent_definition_text;
+        resources.userBenefitsDescriptionRes = R.string.dcc_location_consent_definition_help_text;
         return resources;
     }
 }

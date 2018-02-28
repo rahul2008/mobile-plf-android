@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
@@ -29,6 +30,7 @@ import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -163,10 +165,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
+        List<ConsentDefinition> dccDefinitions = Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinitionFor(context));
 
         List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
         consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        consentHandlerMappings.add(new ConsentConfiguration(dccDefinitions, new DeviceStoredConsentHandler(appInfra)));
         MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
