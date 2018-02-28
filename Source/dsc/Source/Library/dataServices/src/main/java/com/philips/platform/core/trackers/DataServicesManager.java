@@ -95,6 +95,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -600,16 +601,15 @@ public class DataServicesManager {
         mEventing.post(new DeleteSyncedMomentsRequest(resultListener));
     }
 
-    public void migrateGDPR(final DBRequestListener<Moment> resultListener) {
+    public void migrateGDPR(final DBRequestListener<Object> resultListener) {
         if(!isGdprMigrationDone()) {
-            // Migrate if not done yet
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override
-                public void onSuccess(List<? extends Moment> data) {
+                public void onSuccess(final List<? extends Moment> momentData) {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
-                        public void onSuccess(List<? extends Insight> data) {
-
+                        public void onSuccess(List<? extends Insight> insightData) {
+                            runSync(resultListener);
                         }
 
                         @Override
@@ -617,19 +617,6 @@ public class DataServicesManager {
 
                         }
                     });
-                    mBackendIdProvider.clearSyncTimeCache();
-                    mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
-                        @Override
-                        public void onSyncComplete() {
-                            resultListener.onSuccess(Collections.<Moment>emptyList());
-                        }
-
-                        @Override
-                        public void onSyncFailed(Exception exception) {
-                            resultListener.onFailure(exception);
-                        }
-                    });
-                    storeGdprMigrationFlag();
                 }
 
                 @Override
@@ -647,5 +634,21 @@ public class DataServicesManager {
 
     private void storeGdprMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
+    }
+
+    private void runSync(final DBRequestListener<Object> resultListener) {
+        mBackendIdProvider.clearSyncTimeCache();
+        mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
+            @Override
+            public void onSyncComplete() {
+                resultListener.onSuccess(Collections.<Object>emptyList());
+            }
+
+            @Override
+            public void onSyncFailed(Exception exception) {
+                resultListener.onFailure(exception);
+            }
+        });
+        storeGdprMigrationFlag();
     }
 }

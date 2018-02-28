@@ -676,6 +676,16 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post((Event) any());
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -719,6 +729,16 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post((Event) any());
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -740,6 +760,16 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post((Event) any());
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -771,6 +801,16 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -801,6 +841,16 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
+
+                listener.onSuccess(null);
+                return null;
+            }
+        }).when(eventingMock).post(any(DeleteAllInsights.class));
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
@@ -825,7 +875,6 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    @Ignore
     public void migrateGDPR_withResultListener_shouldCallDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override
@@ -847,6 +896,15 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(eventingMock).post(any(DeleteAllInsights.class));
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
+
+                arg0.onSyncComplete();
+                return null;
+            }
+        }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
         when(prefsMock.getBoolean(eq("gdpr_migration_flag"), eq(false))).thenReturn(false); // Returns default
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
