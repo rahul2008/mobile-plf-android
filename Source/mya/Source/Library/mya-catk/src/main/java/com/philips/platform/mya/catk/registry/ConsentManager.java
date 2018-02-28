@@ -69,9 +69,17 @@ public class ConsentManager implements ConsentRegistryInterface {
 
     @Override
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
+        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+
         for (ConsentDefinition consentDefinition : consentDefinitions) {
-            fetchConsentState(consentDefinition, callback);
+            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
+            consentCallbackListeners.add(listener);
+            fetchConsentState(consentDefinition, listener);
         }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsents(consentCallbackListeners, callback);
     }
 
     @Override
@@ -98,13 +106,27 @@ public class ConsentManager implements ConsentRegistryInterface {
     }
 
     private void postResultOnFetchConsent(List<ConsentCallbackListener> consentCallbackListeners, CheckConsentsCallback callback) {
+        List<Consent> consentList = new ArrayList<>();
         for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
             }
+            consentList = consentCallbackListener.consentList;
         }
-        callback.onGetConsentsSuccess(consentCallbackListeners.get(0).consentList);
+        callback.onGetConsentsSuccess(consentList);
+    }
+
+    private void postResultOnFetchConsents(List<ConsentCallbackListener> consentCallbackListeners, CheckConsentsCallback callback) {
+        List<Consent> consentList = new ArrayList<>();
+        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+            if (consentCallbackListener.consentError != null) {
+                callback.onGetConsentsFailed(consentCallbackListener.consentError);
+                return;
+            }
+            consentList.addAll(consentCallbackListener.consentList);
+        }
+        callback.onGetConsentsSuccess(consentList);
     }
 
     private void postResultOnStoreConsent(List<ConsentCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {

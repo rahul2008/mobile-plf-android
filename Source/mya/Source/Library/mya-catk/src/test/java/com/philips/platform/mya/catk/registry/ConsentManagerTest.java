@@ -30,8 +30,12 @@ public class ConsentManagerTest {
 
     private Consent mConsent;
     private ConsentDefinition mConsentDefinition;
-    private List<Consent> mConsentList = new ArrayList<>();
+    List<Consent> mConsentList = new ArrayList<>();
+    private List<Consent> mReceivedConsentList1 = new ArrayList<>();
+    private List<Consent> mReceivedConsentList3 = new ArrayList<>();
+
     private List<ConsentDefinition> mConsentDefinitionList;
+
     private ConsentError mConsentError;
 
     @Mock
@@ -123,7 +127,7 @@ public class ConsentManagerTest {
         mConsentManager.register(Arrays.asList("testConsent5"), handler);
         mConsentManager.register(Arrays.asList("testConsent6"), handler);
         mConsentManager.fetchConsentState(consentDefinition, mCheckConsentsCallback);
-        verify(mCheckConsentsCallback).onGetConsentsSuccess(mConsentList);
+        verify(mCheckConsentsCallback).onGetConsentsSuccess(mReceivedConsentList1);
     }
 
     @Test
@@ -145,27 +149,41 @@ public class ConsentManagerTest {
         mConsentDefinitionList = new ArrayList<>();
         mCheckConsentsCallback = mock(CheckConsentsCallback.class);
         mConsentDefinitionList.add(new ConsentDefinition("text", "help", Collections.singletonList("testConsent10"), 0));
-
         mConsentManager.register(Arrays.asList("testConsent10"), handler);
         mConsentManager.fetchConsentStates(mConsentDefinitionList, mCheckConsentsCallback);
-        verify(mCheckConsentsCallback).onGetConsentsSuccess(mConsentList);
+        verify(mCheckConsentsCallback).onGetConsentsSuccess(mReceivedConsentList1);
+    }
+
+    @Test
+    public void fetchConsentStates_ShouldReturnSuccessConsentStatusOfDiffTypes() {
+        SamplerHandler1 handler1 = new SamplerHandler1();
+        SampleHandler3 handler3 = new SampleHandler3();
+        mCheckConsentsCallback = mock(CheckConsentsCallback.class);
+        mConsentDefinitionList = new ArrayList<>();
+        mConsentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent19", "testConsent20"), 0));
+        mConsentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent21", "testConsent22"), 0));
+        mConsentManager.register(Arrays.asList("testConsent19", "testConsent20", "testConsent21"), handler1);
+        mConsentManager.register(Arrays.asList("testConsent22"), handler3);
+        mConsentManager.fetchConsentStates(mConsentDefinitionList, mCheckConsentsCallback);
+        List<Consent> consentList = new ArrayList<>();
+        consentList.add(mConsentList.get(1));
+        consentList.add(mConsentList.get(3));
+        verify(mCheckConsentsCallback).onGetConsentsSuccess(consentList);
     }
 
     @Test
     public void fetchConsentStates_ShouldReturnConsentStatusOfDiffTypes() {
         SamplerHandler1 handler1 = new SamplerHandler1();
         SampleHandler2 handler2 = new SampleHandler2();
-        mConsentDefinitionList = new ArrayList<>();
         mCheckConsentsCallback = mock(CheckConsentsCallback.class);
+        mConsentDefinitionList = new ArrayList<>();
         mConsentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent11", "testConsent12"), 0));
         mConsentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent17", "testConsent18"), 0));
-
         mConsentManager.register(Arrays.asList("testConsent11", "testConsent17", "testConsent18"), handler1);
         mConsentManager.register(Arrays.asList("testConsent12"), handler2);
         mConsentManager.fetchConsentStates(mConsentDefinitionList, mCheckConsentsCallback);
         verify(mCheckConsentsCallback).onGetConsentsFailed(mConsentError);
     }
-
 
     @Test
     public void storeConsentState_ShouldSaveTheConsentState() {
@@ -184,7 +202,6 @@ public class ConsentManagerTest {
         mConsentManager.register(Arrays.asList("testConsent14"), handler1);
         mConsentManager.register(Arrays.asList("testConsent15"), handler2);
         mConsentManager.register(Arrays.asList("testConsent16"), handler1);
-
         mPostConsentCallback = mock(PostConsentCallback.class);
         ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent14", "testConsent15", "testConsent16"), 0);
         mConsentManager.storeConsentState(consentDefinition, true, mPostConsentCallback);
@@ -196,11 +213,20 @@ public class ConsentManagerTest {
                 1);
     }
 
-    private void givenReceivedConsent() {
+    private void givenReceivedConsent1() {
         BackendConsent backendConsent = new BackendConsent("ec_US", ConsentStatus.active, "SomeConsent", 1);
         mConsent = new Consent(backendConsent, new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("SomeConsent"),
                 1));
-        mConsentList.add(mConsent);
+        mReceivedConsentList1 = Arrays.asList(mConsent);
+        mConsentList.addAll(mReceivedConsentList1);
+    }
+
+    private void givenReceivedConsent3() {
+        BackendConsent backendConsent = new BackendConsent("ec_US", ConsentStatus.active, "SomeConsent", 1);
+        mConsent = new Consent(backendConsent, new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("SomeConsent"),
+                1));
+        mReceivedConsentList3 = Arrays.asList(mConsent);
+        mConsentList.addAll(mReceivedConsentList3);
     }
 
     private void givenConsentError() {
@@ -210,19 +236,19 @@ public class ConsentManagerTest {
     private class SamplerHandler1 implements ConsentHandlerInterface {
         @Override
         public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
-            givenReceivedConsent();
-            callback.onGetConsentsSuccess(mConsentList);
+            givenReceivedConsent1();
+            callback.onGetConsentsSuccess(mReceivedConsentList1);
         }
 
         @Override
         public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
-            givenReceivedConsent();
-            callback.onGetConsentsSuccess(mConsentList);
+            givenReceivedConsent1();
+            callback.onGetConsentsSuccess(mReceivedConsentList1);
         }
 
         @Override
         public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-            givenReceivedConsent();
+            givenReceivedConsent1();
             callback.onPostConsentSuccess(mConsent);
         }
     }
@@ -245,6 +271,26 @@ public class ConsentManagerTest {
             givenConsentDefinition();
             givenConsentError();
             callback.onPostConsentFailed(mConsentDefinition, mConsentError);
+        }
+    }
+
+    private class SampleHandler3 implements ConsentHandlerInterface {
+        @Override
+        public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
+            givenReceivedConsent3();
+            callback.onGetConsentsSuccess(mReceivedConsentList3);
+        }
+
+        @Override
+        public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
+            givenReceivedConsent3();
+            callback.onGetConsentsSuccess(mReceivedConsentList3);
+        }
+
+        @Override
+        public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
+            givenReceivedConsent3();
+            callback.onPostConsentSuccess(mConsent);
         }
     }
 }
