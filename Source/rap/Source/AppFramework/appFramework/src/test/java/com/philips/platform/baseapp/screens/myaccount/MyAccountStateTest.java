@@ -36,7 +36,6 @@ import org.mockito.junit.MockitoRule;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -202,6 +201,6 @@ public class MyAccountStateTest {
     }
 
     private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0, Locale.US);
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
     }
 }
