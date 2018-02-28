@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -170,10 +172,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 if (null != fragment.getUpdateTitleListener()) {
 
 
-                    if(this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment){
+                    if (this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment) {
                         fragment.getUpdateTitleListener().updateActionBar(
                                 getTitleResourceId(), true);
-                    }else{
+                    } else {
 
                         fragment.getUpdateTitleListener().updateActionBar(
                                 getTitleResourceId(), false);
@@ -359,6 +361,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
                     }
                 }
             });
+        }
+    }
+
+
+    public ProgressAlertDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (this.isVisible()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
 
