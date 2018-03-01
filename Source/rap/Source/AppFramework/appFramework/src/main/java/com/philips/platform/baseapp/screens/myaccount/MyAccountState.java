@@ -148,10 +148,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
 
-        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
-
+        String[] profileItems = {"MYA_My_details"};
+        String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
+        launchInput.setProfileMenuList(Arrays.asList(profileItems));
+        launchInput.setSettingsMenuList(Arrays.asList(settingItems));
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 
