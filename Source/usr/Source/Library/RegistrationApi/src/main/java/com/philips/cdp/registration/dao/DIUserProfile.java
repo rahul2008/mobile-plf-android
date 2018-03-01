@@ -55,6 +55,9 @@ public class DIUserProfile implements Serializable {
     /* hsdp access token */
     private String hsdpAccessToken;
 
+    private static final long serialVersionUID = 1128016096756071387L;
+
+
     /**
      * Get Birth date
      * @return Date
