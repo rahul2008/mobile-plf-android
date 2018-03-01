@@ -21,6 +21,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_R
 
 public class MobileVerifyCodePresenter implements NetworkStateListener {
 
+    public static final String HTTPS = "https://";
     private final String USE_VERIFICATION_CODE = "/access/useVerificationCode";
     private final String VERIFICATION_CODE = "verification_code=";
     @Inject
@@ -37,7 +38,7 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
 
     public void verifyMobileNumber(String uuid, String otp) {
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(uuid, otp);
-        String url = "https://" + Jump.getCaptureDomain() + USE_VERIFICATION_CODE;
+        String url = HTTPS + Jump.getCaptureDomain() + USE_VERIFICATION_CODE;
 
         String bodyContent = VERIFICATION_CODE + verifiedMobileNumber;
         getRequest(url, bodyContent);
