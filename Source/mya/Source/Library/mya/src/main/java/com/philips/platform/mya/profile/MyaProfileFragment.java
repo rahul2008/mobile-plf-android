@@ -122,7 +122,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 String profileItem = value != null ? value : key;
                 boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onProfileMenuItemSelected(key);
                     handleTransition(onClickMyaItem, profileItem);
                 }
             }

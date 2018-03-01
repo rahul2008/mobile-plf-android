@@ -81,7 +81,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
-            public boolean onMenuItemSelected(String itemName) {
+            public boolean onSettingsMenuItemSelected(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("Mya_Privacy_Settings")) {
@@ -99,7 +99,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                         String message = actContext.getString(R.string.MYA_Offline_message);
                         showDialog(title, message);
                     }
-                } else if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onProfileMenuItemSelected(String itemName) {
+                if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
                     URLaunchInput urLaunchInput = new URLaunchInput();
                     urLaunchInput.enableAddtoBackStack(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);

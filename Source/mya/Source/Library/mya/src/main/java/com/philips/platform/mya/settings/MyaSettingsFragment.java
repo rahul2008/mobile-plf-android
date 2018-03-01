@@ -228,7 +228,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onLogOutSuccess() {
         dismissDialog();
         exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onMenuItemSelected(getContext().getString(R.string.mya_log_out));
+        MyaHelper.getInstance().getMyaListener().onSettingsMenuItemSelected(getContext().getString(R.string.mya_log_out));
     }
 
     @Override
@@ -279,7 +279,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key, getFragmentLauncher());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onSettingsMenuItemSelected(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }
