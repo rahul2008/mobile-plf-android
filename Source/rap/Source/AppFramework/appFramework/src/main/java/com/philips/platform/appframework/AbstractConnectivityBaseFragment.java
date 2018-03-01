@@ -61,13 +61,12 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     /**
      * Setup comm central
      */
-    protected CommCentral getCommCentral(ConnectivityDeviceType deviceType) {
+    protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
         try {
             AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
             mCommCentral = appContext.getCommCentralInstance();
-            appContext.getApplianceFactory().setDeviceType(deviceType);
             mCommCentral.getApplianceManager().addApplianceListener(this.applianceListener);
             RALog.i(TAG,"ConnectivityFragment getCommCentralInstance - " + mCommCentral);
         } catch (TransportUnavailableException e) {
