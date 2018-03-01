@@ -10,7 +10,6 @@ import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -27,7 +26,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -39,9 +37,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -127,18 +123,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
-
-    public void addToRecent(String countryCode) {
-        Country country = new Country(countryCode, new Locale("", countryCode).getDisplayCountry());
-        recentSelectedCountry.add(0, country);
-    }
-
-    public ArrayList<Country> getRecentSelectedCountry() {
-        return recentSelectedCountry;
-    }
-
-
     public void initServiceDiscovery() {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
@@ -150,7 +134,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 } else {
                     selectedCountryCode = RegUtility.getFallbackCountryCode();
                 }
-                addToRecent(selectedCountryCode);
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
 
@@ -160,7 +143,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
-                addToRecent(selectedCountryCode);
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
             }
@@ -180,13 +162,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     String mWeChatAppSecret;
     IWXAPI mWeChatApi;
 
-    private String weChat="WECHAT";
+    private String weChat = "WECHAT";
 
 
     public void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d(weChat, weChat+"Id " + mWeChatAppId + weChat+"Secrete" + mWeChatAppSecret);
+        RLog.d(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {
             mWeChatApi = WXAPIFactory.createWXAPI(homeContract.getActivityContext(),
@@ -292,22 +274,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.loginFailed(userRegistrationFailureInfo);
     }
 
-    public ArrayList<Country> getAllCountries() {
-        try {
-            ArrayList<Country> allCountriesList = new ArrayList<Country>();
-            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
-            for (String aRecourseList : recourseList) {
-                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
-                allCountriesList.add(country);
-            }
-            return allCountriesList;
-
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
-
 
     private HomePresenter.FLOWDELIGATE deligateFlow = HomePresenter.FLOWDELIGATE.DEFAULT;
 
@@ -326,7 +292,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else {
             if (isEmailAvailable()) {
                 homeContract.naviagteToAccountActivationScreen();
-            } else if (isMobileNoAvailable() && !isMobileVerified()){
+            } else if (isMobileNoAvailable() && !isMobileVerified()) {
                 homeContract.naviagteToMobileAccountActivationScreen();
             } else {
                 homeContract.genericError();
@@ -352,22 +318,18 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.registrationCompleted();
     }
 
-
-
-    public void changeCountry(String countryName, String countryCode) {
-        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
-        if (networkUtility.isNetworkAvailable()) {
-            serviceDiscoveryInterface.setHomeCountry(countryCode);
-            RegistrationHelper.getInstance().setCountryCode(countryCode);
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
-            homeContract.countryChangeStarted();
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-            getLocaleServiceDiscovery(countryName);
-        }
-    }
-
     public boolean isNetworkAvailable() {
         return networkUtility.isNetworkAvailable();
+    }
+
+    public void onSelectCountry(String countryName, String code) {
+        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        if (networkUtility.isNetworkAvailable()) {
+            serviceDiscoveryInterface.setHomeCountry(code);
+            RegistrationHelper.getInstance().setCountryCode(code);
+            homeContract.countryChangeStarted();
+            getLocaleServiceDiscovery(countryName);
+        }
     }
 
     public enum FLOWDELIGATE {
@@ -474,7 +436,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     public boolean isEmailAvailable() {
         boolean isEmailAvailable = user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
         return isEmailAvailable;
-   }
+    }
 
 
     public boolean isMobileNoAvailable() {
@@ -488,7 +450,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
     public boolean isMobileVerified() {
-        boolean isMobileVerified =  user.isMobileVerified();
+        boolean isMobileVerified = user.isMobileVerified();
         return isMobileVerified;
     }
 
@@ -527,7 +489,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                     @Override
                     public void onError(Throwable e) {
                         ThreadUtils.postInMainThread(homeContract.getActivityContext(), () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
-                       homeContract.localeServiceDiscoveryFailed();
+                        homeContract.localeServiceDiscoveryFailed();
                     }
                 });
     }
