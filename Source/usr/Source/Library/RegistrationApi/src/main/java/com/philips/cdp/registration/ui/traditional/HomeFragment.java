@@ -221,7 +221,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void initUI(View view) {
         consumeTouch(view);
-//        continueWithouAccount.setVisibility(View.GONE);
+        continueWithouAccount.setVisibility(View.GONE);
         setContentConfig();
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
