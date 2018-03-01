@@ -29,17 +29,18 @@ public class BleReferenceApplianceTest {
     }
 
     @Test
-    public void getDeviceType_ReturnsTrue(){
+    public void getDeviceType_ReturnsTrue() {
         assertEquals("ReferenceNode", new RefAppBleReferenceAppliance(networkNode, communicationStrategy).getDeviceType());
     }
 
     @Test
-    public void getDeviceMeasurement_NotNull(){
+    public void getDeviceMeasurement_NotNull() {
         assertNotNull(new RefAppBleReferenceAppliance(networkNode, communicationStrategy).getDeviceMeasurementPort());
     }
 
     @Test
     public void getSessionDataPortTest() {
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
         RefAppBleReferenceAppliance bleReferenceAppliance = new RefAppBleReferenceAppliance(networkNode, communicationStrategy);
         assertNotNull(bleReferenceAppliance.getSessionDataPort());
     }
