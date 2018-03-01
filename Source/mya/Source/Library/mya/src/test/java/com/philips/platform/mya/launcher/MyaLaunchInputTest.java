@@ -27,6 +27,7 @@ public class MyaLaunchInputTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         myaLaunchInput = new MyaLaunchInput(mContext);
+        myaLaunchInput.setMyaListener(myaListener);
     }
 
     @Test
