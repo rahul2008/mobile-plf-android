@@ -150,7 +150,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(5, definitions.size());
+        assertEquals(6, definitions.size());
     }
 
     @After
