@@ -189,7 +189,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
+               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
                 }*/
@@ -228,7 +228,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onLogOutSuccess() {
         dismissDialog();
         exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
+        MyaHelper.getInstance().getMyaListener().onMenuItemSelected(getContext().getString(R.string.mya_log_out));
     }
 
     @Override
@@ -279,7 +279,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key, getFragmentLauncher());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }

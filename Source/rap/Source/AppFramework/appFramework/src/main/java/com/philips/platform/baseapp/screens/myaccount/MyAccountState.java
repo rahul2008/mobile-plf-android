@@ -81,7 +81,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
             @Override
-            public boolean onClickMyaItem(String itemName) {
+            public boolean onMenuItemSelected(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("Mya_Privacy_Settings")) {
