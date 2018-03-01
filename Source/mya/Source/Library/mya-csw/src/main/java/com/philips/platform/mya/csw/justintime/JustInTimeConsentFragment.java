@@ -23,10 +23,6 @@ import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpan;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -160,42 +156,5 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         if (progressDialogView != null && progressDialogView.isDialogShown()) {
             progressDialogView.hideDialog();
         }
-    }
-
-    private void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = JustInTimeConsentDependencies.appInfra.getRestClient().isInternetReachable();
-        if (isOnline) {
-            showProgressDialog();
-            JustInTimeConsentDependencies.consentRegistryInterface.storeConsentState(JustInTimeConsentDependencies.consentDefinition, status, callback);
-        } else {
-            showErrorDialog(getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
-        }
-    }
-
-    class JustInTimePostConsentCallback implements PostConsentCallback {
-
-        private final PostConsentSuccessHandler handler;
-
-        public JustInTimePostConsentCallback(PostConsentSuccessHandler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-            hideProgressDialog();
-            String errorTitle = getContext().getString(R.string.csw_problem_occurred_error_title);
-            String errorMessage = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
-            showErrorDialog(errorTitle, errorMessage);
-        }
-
-        @Override
-        public void onPostConsentSuccess(Consent consent) {
-            hideProgressDialog();
-            handler.onSuccess();
-        }
-    }
-
-    interface PostConsentSuccessHandler {
-        void onSuccess();
     }
 }
