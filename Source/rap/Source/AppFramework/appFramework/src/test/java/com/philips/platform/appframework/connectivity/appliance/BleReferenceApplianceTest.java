@@ -25,7 +25,7 @@ public class BleReferenceApplianceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODELNAME_PS);
     }
 
     @Test
