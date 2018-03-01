@@ -70,6 +70,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -161,6 +162,18 @@ public class THSManager {
     private boolean mIsReturningUser = true;
     private String ServerURL=null;
     private String mCountry="";
+    ConsentDefinition mConsentDefinition;
+
+
+    public ConsentDefinition getConsentDefinition() {
+        return mConsentDefinition;
+    }
+
+    public void setConsentDefinition(ConsentDefinition mConsentDefinition) {
+        this.mConsentDefinition = mConsentDefinition;
+    }
+
+
 
     public String getCountry() {
         return mCountry;
