@@ -182,25 +182,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         });
     }
 
-    private ProgressDialog mProgressDialog;
-
-    private void showProgressDialog() {
-        if (isVisible()) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
-            }
-            mProgressDialog.show();
-        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
-    }
-
     @Override
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");

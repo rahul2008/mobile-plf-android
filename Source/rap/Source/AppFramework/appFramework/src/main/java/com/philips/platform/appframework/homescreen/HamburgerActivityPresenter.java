@@ -58,6 +58,7 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
+                baseState.init(fragmentLauncher.getFragmentActivity());
                 baseState.navigate(fragmentLauncher);
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException

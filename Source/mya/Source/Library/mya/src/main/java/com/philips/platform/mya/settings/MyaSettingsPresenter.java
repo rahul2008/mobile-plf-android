@@ -12,21 +12,13 @@ import android.widget.Toast;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.CswDependencies;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
-import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -74,31 +66,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
-        if (key.equals("Mya_Privacy_Settings")) {
-            RestInterface restInterface = getRestClient();
-            if (restInterface.isInternetReachable()) {
-                MyaDependencies myaDeps = getDependencies();
-                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
-                CswInterface cswInterface = getCswInterface();
-                UappSettings uappSettings = new UappSettings(view.getContext());
-                cswInterface.init(dependencies, uappSettings);
-                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
-                return true;
-            } else {
-                String title = getContext().getString(R.string.MYA_Offline_title);
-                String message = getContext().getString(R.string.MYA_Offline_message);
-                view.showOfflineDialog(title, message);
-            }
-        }
         return false;
-    }
-
-    ConsentsClient getConsentsClient() {
-        return ConsentsClient.getInstance();
-    }
-
-    CswInterface getCswInterface() {
-        return new CswInterface();
     }
 
     LogoutHandler getLogoutHandler() {
@@ -113,12 +81,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 view.hideProgressIndicator();
             }
         };
-    }
-
-    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
@@ -162,12 +124,4 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return view.getContext();
     }
 
-    // Visible for testing
-    protected RestInterface getRestClient() {
-        return getDependencies().getAppInfra().getRestClient();
-    }
-
-    protected MyaDependencies getDependencies() {
-        return MyaInterface.get().getDependencies();
-    }
 }
