@@ -135,16 +135,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
                         @Override
                         public void onLogoutFailure(int responseCode, String message) {
-                            try {
-                                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-                                targetFlowManager.getBackState();
-                                BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), "logout");
-                                if (baseState != null)
-                                    baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
-                            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                                    e) {
-                                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-                            }
                             String title = actContext.getString(R.string.MYA_Offline_title);
                             String errorMessage = actContext.getString(R.string.MYA_Offline_message);
                             new DialogView(title, errorMessage).showDialog(getFragmentActivity());
