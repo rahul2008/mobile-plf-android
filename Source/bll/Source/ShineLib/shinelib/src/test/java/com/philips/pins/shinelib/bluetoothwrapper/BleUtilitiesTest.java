@@ -23,7 +23,7 @@ import org.robolectric.shadows.ShadowApplication;
 
 import java.util.List;
 
-import static android.os.Build.VERSION_CODES.M;
+import static android.os.Build.VERSION_CODES.N_MR1;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = {M}, shadows = {ShadowBluetoothLEAdapter.class})
+@Config(constants = BuildConfig.class, sdk = {N_MR1}, shadows = {ShadowBluetoothLEAdapter.class})
 public class BleUtilitiesTest {
 
     private BleUtilities bleUtilities;
