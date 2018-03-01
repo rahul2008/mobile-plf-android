@@ -58,9 +58,11 @@ public class MyaInterface implements UappInterface {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
         MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
-        appTaggingInterface = myaDependencies.getAppInfra().getTagging().createInstanceForComponent("MYA", BuildConfig.VERSION_NAME);
+        appTaggingInterface = getTaggingInterface(myaDependencies);
         reference.dependencies = myaDependencies;
     }
+
+
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -117,5 +119,9 @@ public class MyaInterface implements UappInterface {
 
     protected UserDataInterface getUserDataInterface() {
         return MyaHelper.getInstance().getUserDataInterface();
+    }
+
+    protected AppTaggingInterface getTaggingInterface(MyaDependencies myaDependencies) {
+        return myaDependencies.getAppInfra().getTagging().createInstanceForComponent("MYA", BuildConfig.VERSION_NAME);
     }
 }

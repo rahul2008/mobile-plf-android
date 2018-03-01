@@ -9,6 +9,7 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -74,11 +75,17 @@ public class MyaInterfaceTest {
         context = RuntimeEnvironment.application;
         launchInput = new MyaLaunchInput(context,null);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        final AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {
             @Override
             public UserDataInterface getUserDataInterface() {
                 return userDataInterface;
+            }
+
+            @Override
+            protected AppTaggingInterface getTaggingInterface(MyaDependencies myaDependencies) {
+                return appTaggingInterface;
             }
         };
 
