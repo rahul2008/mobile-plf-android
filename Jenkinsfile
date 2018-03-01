@@ -215,6 +215,7 @@ def BuildAndUnitTest() {
             :commlib-cloud:generateJavadocPublicApi \
             :commlib:testReleaseUnitTest \
             :commlib-testutils:testReleaseUnitTest \
+            :commlib-integration-tests:testReleaseUnitTest \
             :commlib-ble:testReleaseUnitTest \
             :commlib-lan:testReleaseUnitTest \
             :commlib-cloud:testReleaseUnitTest \

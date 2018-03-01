@@ -44,6 +44,9 @@ public class URInterface implements UappInterface {
     private static RegistrationComponent component;
     private Context context;
 
+    private static final long serialVersionUID = 1128016096756071381L;
+
+
     /**
      * Launches the USR user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
