@@ -23,6 +23,8 @@ import java.util.Map;
 
 public class AppInfraInterfaceMock implements AppInfraInterface {
 
+    public RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
+
     @Override
     public SecureStorageInterface getSecureStorage() {
         return null;
@@ -208,7 +210,7 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public RestInterface getRestClient() {
-        return null;
+        return restInterfaceMock;
     }
 
     @Override
