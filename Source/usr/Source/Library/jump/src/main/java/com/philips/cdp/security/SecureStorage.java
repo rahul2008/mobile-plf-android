@@ -72,7 +72,7 @@ public class SecureStorage {
 
     }
 
-    public static String objectToString(Serializable obj) throws IOException {
+    public static String objectToString(Serializable obj) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); Base64OutputStream base64OutputStream = new Base64OutputStream(baos, Base64.NO_PADDING
                 | Base64.NO_WRAP); ObjectOutputStream oos = new ObjectOutputStream(base64OutputStream)) {
             oos.writeObject(obj);
