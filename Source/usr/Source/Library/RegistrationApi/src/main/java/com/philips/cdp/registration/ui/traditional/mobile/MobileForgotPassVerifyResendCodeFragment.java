@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -172,25 +171,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
             // Do not do anything
             }
         });
-    }
-
-    private ProgressDialog mProgressDialog;
-
-    private void showProgressDialog() {
-        if (isVisible()) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
-            }
-            mProgressDialog.show();
-        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
     }
 
     @Override
