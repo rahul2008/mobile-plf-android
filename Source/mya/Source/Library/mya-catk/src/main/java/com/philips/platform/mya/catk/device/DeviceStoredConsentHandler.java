@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.mya.catk.utils.CatkHelper;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
@@ -23,7 +23,7 @@ import android.support.annotation.VisibleForTesting;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
-    private final AppInfra appInfra;
+    private final AppInfraInterface appInfra;
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
     private static final int LIST_POS_TIMESTAMP = 2;
@@ -33,7 +33,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
 
-    public DeviceStoredConsentHandler(final AppInfra appInfra) {
+    public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
@@ -72,7 +72,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         List<Consent> consents = new ArrayList<>(consentDefinitions.size());
         for (ConsentDefinition definition : consentDefinitions) {
             ConsentStatus consentStatus = processDefinition(definition);
-            consents.add(CatkHelper.createConsentFromDefinition(definition, consentStatus, consentLanguage));
+            consents.add(createConsentFromDefinition(definition, consentStatus, consentLanguage));
         }
         callback.onGetConsentsSuccess(consents);
     }
@@ -85,7 +85,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
         String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
-        return Collections.singletonList(CatkHelper.createConsentFromDefinition(consentDefinition, status, consentLanguage));
+        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status, consentLanguage));
     }
 
     private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
@@ -112,7 +112,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         }
 
         String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
-        callback.onPostConsentSuccess(CatkHelper.createConsentFromDefinition(definition, CatkHelper.toStatus(status), consentLanguage));
+        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status), consentLanguage));
     }
 
     @NonNull
@@ -147,4 +147,12 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         return DEVICESTORE_TLA + "_" + type;
     }
 
+    public static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
+        final BackendConsent backendConsent = new BackendConsent(consentLanguage, consentStatus, definition.getTypes().get(0), definition.getVersion());
+        return new Consent(backendConsent, definition);
+    }
+
+    private ConsentStatus toStatus(boolean status) {
+        return status ? ConsentStatus.active : ConsentStatus.rejected;
+    }
 }

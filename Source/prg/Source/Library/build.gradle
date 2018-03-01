@@ -15,7 +15,6 @@ buildscript {
 }
 
 allprojects {
-	apply plugin: 'jacoco'
     repositories {
         maven { url repos.jcenter
             credentials {

@@ -3,8 +3,6 @@
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
-
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
@@ -49,8 +47,4 @@ dependencies {
     compile deps.support.cardview
 
     testCompile deps.junit
-}
-
-jacoco {
-    toolVersion = versions.jacoco
 }

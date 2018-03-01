@@ -183,7 +183,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-            if (!getRegistrationFragment().isHomeFragment()) {
+            if(!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -248,7 +248,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void handleCountrySelection() {
-        if (!getRegistrationFragment().isHomeFragment()) {
+        if(!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         if (homePresenter.isNetworkAvailable()) {
@@ -316,7 +316,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void showCreateAccountFragment() {
-        if (!getRegistrationFragment().isHomeFragment()) {
+        if(!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         getRegistrationFragment().addFragment(new CreateAccountFragment());
@@ -393,7 +393,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handlePrivacyPolicy() {
-        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
 
             if (!getRegistrationFragment().isHomeFragment()) {
                 return;
@@ -467,27 +467,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         homePresenter.trackSocialProviderPage();
         hideProgressDialog();
         enableControls(true);
-    }
-
-
-    private ProgressDialog mProgressDialog;
-
-
-    private void showProgressDialog() {
-        if (isVisible()) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
-            }
-            mProgressDialog.show();
-        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
     }
 
 

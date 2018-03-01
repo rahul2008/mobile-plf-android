@@ -5,7 +5,45 @@
 
 apply plugin: 'com.android.application'
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+import com.philips.cdp.cdpSCM
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+project.ext.directdependencies = project.ext.has('useprojectdependencies')
+
+project.ext.objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+
+repositories {
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
 
 android {
     compileSdkVersion versions.sdk
