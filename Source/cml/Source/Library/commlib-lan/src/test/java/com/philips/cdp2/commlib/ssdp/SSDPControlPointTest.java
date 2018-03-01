@@ -21,6 +21,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
@@ -73,7 +74,7 @@ public class SSDPControlPointTest {
     private WifiManager.MulticastLock lockMock;
 
     @Mock
-    private MulticastSocket broadcastSocketMock;
+    private DatagramSocket broadcastSocketMock;
 
     @Mock
     private MulticastSocket listenSocketMock;
@@ -99,7 +100,7 @@ public class SSDPControlPointTest {
         ssdpControlPoint = new SSDPControlPoint() {
             @NonNull
             @Override
-            MulticastSocket createBroadcastSocket() throws IOException {
+            DatagramSocket createBroadcastSocket() throws IOException {
                 return broadcastSocketMock;
             }
 
@@ -167,7 +168,6 @@ public class SSDPControlPointTest {
     @Test
     public void whenControlPointIsCreated_thenSocketsAreNotOpened() throws IOException {
 
-        verify(broadcastSocketMock, never()).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, never()).joinGroup(any(InetAddress.class));
     }
 
@@ -182,7 +182,6 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.start();
 
-        verify(broadcastSocketMock).joinGroup(any(InetAddress.class));
         verify(listenSocketMock).joinGroup(any(InetAddress.class));
     }
 
@@ -200,7 +199,6 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.stop();
 
-        verify(broadcastSocketMock).leaveGroup(any(InetAddress.class));
         verify(broadcastSocketMock).close();
         verify(listenSocketMock).leaveGroup(any(InetAddress.class));
         verify(listenSocketMock).close();
@@ -262,7 +260,6 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.start();
 
-        verify(broadcastSocketMock, times(1)).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, times(1)).joinGroup(any(InetAddress.class));
     }
 
@@ -273,7 +270,6 @@ public class SSDPControlPointTest {
 
         ssdpControlPoint.start();
 
-        verify(broadcastSocketMock, times(2)).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, times(2)).joinGroup(any(InetAddress.class));
     }
 }

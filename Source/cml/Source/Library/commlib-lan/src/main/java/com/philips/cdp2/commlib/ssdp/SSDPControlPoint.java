@@ -17,6 +17,7 @@ import com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDPSearchMessage;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
@@ -71,7 +72,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
     private final InetAddress multicastGroupAddress;
 
-    private MulticastSocket broadcastSocket;
+    private DatagramSocket broadcastSocket;
     private MulticastSocket listenSocket;
 
     private ScheduledExecutorService broadcastExecutor = newSingleThreadScheduledExecutor();
@@ -181,7 +182,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
         try {
             broadcastSocket = createBroadcastSocket();
             broadcastSocket.setReuseAddress(true);
-            broadcastSocket.joinGroup(multicastGroupAddress);
             broadcastSocket.bind(null);
 
             listenSocket = createListenSocket();
@@ -193,27 +193,23 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     private void closeSockets() {
-        closeSocket(broadcastSocket);
-        closeSocket(listenSocket);
-    }
-
-    private void closeSocket(final MulticastSocket socket) {
-        if (socket == null) {
-            return;
+        if (listenSocket != null) {
+            try {
+                listenSocket.leaveGroup(multicastGroupAddress);
+            } catch (IOException ignored) {
+            }
+            listenSocket.close();
         }
 
-        try {
-            socket.leaveGroup(multicastGroupAddress);
-            socket.close();
-        } catch (IOException e) {
-            DICommLog.e(SSDP, "Error leaving multicast group: " + e.getMessage());
+        if (broadcastSocket != null) {
+            broadcastSocket.close();
         }
     }
 
     @NonNull
     @VisibleForTesting
-    MulticastSocket createBroadcastSocket() throws IOException {
-        return new MulticastSocket(null);
+    DatagramSocket createBroadcastSocket() throws IOException {
+        return new DatagramSocket(null);
     }
 
     @NonNull
@@ -265,7 +261,9 @@ public class SSDPControlPoint implements SSDPDiscovery {
     @VisibleForTesting
     void handleMessage(final SSDPMessage message) {
         final String usn = message.get(SSDPMessage.USN);
-        if (usn == null) return;
+        if (usn == null) {
+            return;
+        }
 
         final SSDPDevice device;
 
@@ -314,12 +312,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private final class MessageTask implements Runnable {
 
         @NonNull
-        private final MulticastSocket socket;
+        private final DatagramSocket socket;
 
         @NonNull
         private final String messageType;
 
-        MessageTask(final @NonNull MulticastSocket socket, final @NonNull String messageType) {
+        MessageTask(final @NonNull DatagramSocket socket, final @NonNull String messageType) {
             this.socket = socket;
             this.messageType = messageType;
         }
