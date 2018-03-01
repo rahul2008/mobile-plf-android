@@ -80,7 +80,20 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
 
-        MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
+        MyaLaunchInput launchInput = new MyaLaunchInput(actContext);
+        launchInput.setMyaListener(getMyaListener());
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
+        launchInput.setMyaTabConfig(myaTabConfig);
+        String[] profileItems = {"MYA_My_details"};
+        String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
+        launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
+        launchInput.setProfileMenuList(Arrays.asList(profileItems));
+        launchInput.setSettingsMenuList(Arrays.asList(settingItems));
+        myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    private MyaListener getMyaListener() {
+        return new MyaListener() {
             @Override
             public boolean onSettingsMenuItemSelected(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
@@ -143,16 +156,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 }
 
             }
-        });
-
-        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
-        launchInput.setMyaTabConfig(myaTabConfig);
-        String[] profileItems = {"MYA_My_details"};
-        String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
-        launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
-        launchInput.setProfileMenuList(Arrays.asList(profileItems));
-        launchInput.setSettingsMenuList(Arrays.asList(settingItems));
-        myaInterface.launch(fragmentLauncher, launchInput);
+        };
     }
 
     private void showDialog(String title, String message) {

@@ -33,9 +33,8 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private List<String> profileMenuList;
     private UserDataInterface userDataInterface;
 
-    public MyaLaunchInput(Context context, MyaListener myaListener) {
+    public MyaLaunchInput(Context context) {
         this.context = context;
-        this.myaListener = myaListener;
     }
 
 
@@ -77,5 +76,9 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     public void setUserDataInterface(UserDataInterface userDataInterface){
         this.userDataInterface = userDataInterface;
+    }
+
+    public void setMyaListener(MyaListener myaListener) {
+        this.myaListener = myaListener;
     }
 }

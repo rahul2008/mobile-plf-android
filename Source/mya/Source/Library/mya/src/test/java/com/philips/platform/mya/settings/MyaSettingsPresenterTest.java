@@ -69,7 +69,7 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context,null));
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context));
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
@@ -121,7 +121,7 @@ public class MyaSettingsPresenterTest {
 
     private Bundle getArguments() {
         Bundle arguments = new Bundle();
-        MyaLaunchInput value = new MyaLaunchInput(context, null);
+        MyaLaunchInput value = new MyaLaunchInput(context);
         String[] profileItems = {"profile1","profile2"};
         value.setProfileMenuList(Arrays.asList(profileItems));
         return arguments;

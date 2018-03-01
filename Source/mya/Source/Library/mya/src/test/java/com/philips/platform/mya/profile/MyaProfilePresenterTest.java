@@ -60,7 +60,7 @@ public class MyaProfilePresenterTest {
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
-        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context, null));
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context));
         myaProfilePresenter.getProfileItems(appInfraInterface,getArguments());
         verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
@@ -76,7 +76,7 @@ public class MyaProfilePresenterTest {
     private Bundle getArguments() {
         Bundle arguments = new Bundle();
         UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        MyaLaunchInput value = new MyaLaunchInput(context, null);
+        MyaLaunchInput value = new MyaLaunchInput(context);
         String[] settingsItems = {"settings1","settings2"};
         value.setProfileMenuList(Arrays.asList(settingsItems));
         arguments.putSerializable(USER_PLUGIN, userDataInterface);

@@ -73,7 +73,7 @@ public class MyaInterfaceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         context = RuntimeEnvironment.application;
-        launchInput = new MyaLaunchInput(context,null);
+        launchInput = new MyaLaunchInput(context);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {

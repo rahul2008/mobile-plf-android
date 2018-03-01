@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.platform.appinfra.BuildConfig;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
@@ -75,6 +76,9 @@ public class MyaInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
         MyaHelper.getInstance().setUserDataInterface(myaLaunchInput.getUserDataInterface());
+        if (myaLaunchInput.getMyaListener() == null)
+            MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, "mya", "Mya Listener not set");
+
         UserDataInterface userDataInterface = getUserDataInterface();
         if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USERNOTLOGGEDIN);
