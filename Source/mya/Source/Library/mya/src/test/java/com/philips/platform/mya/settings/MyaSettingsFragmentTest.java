@@ -115,7 +115,7 @@ public class MyaSettingsFragmentTest {
     }
 
     @Test
-    public void ShouldonActivityCreated() {
+    public void ShouldOnActivityCreated() {
         ArrayList<String> arrayList = new ArrayList<>();
         getArray(arrayList);
         AppInfra appInfra = mock(AppInfra.class);

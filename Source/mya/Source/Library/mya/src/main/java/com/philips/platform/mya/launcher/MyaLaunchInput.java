@@ -70,6 +70,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     public void setProfileMenuList(List<String> profileMenuList) {
         this.profileMenuList = profileMenuList;
     }
+
     public UserDataInterface getUserDataInterface(){
         return userDataInterface;
     }

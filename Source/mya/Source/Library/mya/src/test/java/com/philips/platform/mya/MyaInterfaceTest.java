@@ -127,13 +127,11 @@ public class MyaInterfaceTest {
 
     private void whenCallingLaunchWithAddToBackstack() {
         myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
-        launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
         myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
-        launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 

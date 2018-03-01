@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public class MyaLaunchInputTest {
 
-    MyaLaunchInput myaLaunchInput;
+    private MyaLaunchInput myaLaunchInput;
     @Mock
     private MyaListener myaListener;
 
@@ -27,7 +27,6 @@ public class MyaLaunchInputTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         myaLaunchInput = new MyaLaunchInput(mContext, myaListener);
-        myaLaunchInput.addToBackStack(true);
     }
 
     @Test
@@ -40,8 +39,4 @@ public class MyaLaunchInputTest {
         assertNotNull(myaLaunchInput.getMyaListener());
     }
 
-    @Test
-    public void shouldNotNull_addToBackStack(){
-        assertNotNull(myaLaunchInput.isAddtoBackStack());
-    }
 }

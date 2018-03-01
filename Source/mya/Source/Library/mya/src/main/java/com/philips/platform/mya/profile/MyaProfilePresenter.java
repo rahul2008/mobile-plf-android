@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
@@ -62,15 +61,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         if (arguments != null) {
             userDataInterface = MyaHelper.getInstance().getUserDataInterface();
             setUserName(userDataInterface);
-
             list = MyaHelper.getInstance().getMyaLaunchInput().getProfileMenuList();
-        }
-        if (list == null || list.isEmpty()) {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            String profileItems = "profile.menuItems";
-            list = (ArrayList<?>) appInfra.getConfigInterface().getPropertyForKey
-                    (profileItems, "mya", configError);
         }
         view.showProfileItems(getProfileList(list));
     }
