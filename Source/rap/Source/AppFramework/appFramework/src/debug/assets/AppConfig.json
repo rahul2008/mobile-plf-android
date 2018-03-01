@@ -114,14 +114,5 @@
   "hsdp": {
     "appName": "OneBackend",
     "propositionName": "OneBackendProp"
-  },
-  "mya": {
-    "profile.menuItems": [
-      "MYA_My_details"
-    ],
-    "settings.menuItems": [
-      "MYA_Country",
-      "Mya_Privacy_Settings"
-    ]
   }
 }

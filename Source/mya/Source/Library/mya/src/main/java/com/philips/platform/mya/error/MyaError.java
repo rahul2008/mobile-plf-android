@@ -12,6 +12,7 @@ public enum MyaError {
 
     private int code;
     private String description;
+
     MyaError(int code, String description) {
         this.code = code;
         this.description = description;
