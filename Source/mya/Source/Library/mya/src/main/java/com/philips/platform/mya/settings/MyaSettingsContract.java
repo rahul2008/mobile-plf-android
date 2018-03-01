@@ -26,7 +26,7 @@ interface MyaSettingsContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error, Bundle arguments);
+        void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error);
 
         void onClickRecyclerItem(String key, SettingsModel settingsModel);
 

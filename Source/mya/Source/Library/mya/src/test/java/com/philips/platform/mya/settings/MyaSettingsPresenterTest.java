@@ -70,7 +70,7 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context,null));
-        myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error);
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
     }
 

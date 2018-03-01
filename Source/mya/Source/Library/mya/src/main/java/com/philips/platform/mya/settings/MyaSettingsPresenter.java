@@ -30,7 +30,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     @Override
-    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error, Bundle arguments) {
+    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
         appInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.landing.myphilips", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -42,7 +42,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
             }
         });
-        view.showSettingsItems(getSettingsMap(appInfra, arguments));
+        view.showSettingsItems(getSettingsMap(appInfra));
     }
 
     @Override
@@ -59,10 +59,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return false;
     }
 
-    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments) {
+    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
         List<?> list = null;
-        if (arguments != null)
-            list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
+        list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
         return getLocalisedList(list, appInfraInterface);
     }
 

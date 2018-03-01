@@ -109,9 +109,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             } else {
                 dismissDialog();
             }
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, savedInstanceState.getBundle(SETTINGS_BUNDLE));
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         } else {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, getArguments());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         }
 
 
