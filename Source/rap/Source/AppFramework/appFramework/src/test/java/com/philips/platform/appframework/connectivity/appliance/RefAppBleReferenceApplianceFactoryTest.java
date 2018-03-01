@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
@@ -36,42 +36,39 @@ public class RefAppBleReferenceApplianceFactoryTest {
     private NetworkNode networkNode;
 
     @Mock
-    private NetworkNode networkNodeModelNameNull;
-
-    @Mock
     private CommunicationStrategy communicationStrategy;
 
     private RefAppApplianceFactory bleReferenceApplianceFactory;
 
     @Before
     public void setUp(){
+        when(cloudTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+        when(lanTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+        when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
         bleReferenceApplianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
         when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
-        when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
         when(networkNode.isValid()).thenReturn(true);
     }
 
     @Test
     public void checkCanCreateApplianceForNode_True(){
         assertTrue(bleReferenceApplianceFactory.canCreateApplianceForNode(networkNode));
-
     }
 
     @Test
-    public void createApplianceForNode_For_Not_Null(){
-        when(cloudTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
-        when(lanTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+    public void createRefAppBleApplianceForNode_forBleReferenceNetworkNode(){
         when(networkNode.getModelId()).thenReturn("PS1234");
         when(networkNode.getName()).thenReturn("DiCommBLEReference");
         when(networkNode.isValid()).thenReturn(true);
         when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
-        assertNotNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode));
+
+        assertThat(bleReferenceApplianceFactory.createApplianceForNode(networkNode)).isInstanceOf(RefAppBleReferenceAppliance.class);
     }
 
     @Test
-    public void createApplianceForNode_For_Null(){
-        when(networkNodeModelNameNull.getDeviceType()).thenReturn("");
-        assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNodeModelNameNull));
+    public void createApplianceWithNullType_forNodeWithEmptyDeviceType(){
+        when(networkNode.getDeviceType()).thenReturn("");
+        assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode).getDeviceType());
     }
 
     @Test

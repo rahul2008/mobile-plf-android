@@ -21,6 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BleDeviceListAdapterTest {
@@ -37,14 +38,15 @@ public class BleDeviceListAdapterTest {
     private BleDeviceListAdapter adapter;
 
     @Before
-    public void setUp(){
+    public void setUp() {
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
         final ArrayList<RefAppBleReferenceAppliance> refAppBleReferenceAppliances = new ArrayList<>();
         adapter = new BleDeviceListAdapter(context, refAppBleReferenceAppliances);
     }
 
     @Test
     public void addDevice() throws Exception {
-        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode,bleDiscoveryStrategy));
-        Assert.assertEquals(1,adapter.getCount());
+        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode, bleDiscoveryStrategy));
+        Assert.assertEquals(1, adapter.getCount());
     }
 }

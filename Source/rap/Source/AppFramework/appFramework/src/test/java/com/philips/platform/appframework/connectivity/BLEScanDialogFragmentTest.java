@@ -35,10 +35,10 @@ import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class, sdk=25)
+@Config(application = TestAppFrameworkApplication.class, sdk = 25)
 public class BLEScanDialogFragmentTest {
 
     private BLEScanDialogFragment bleScanDialogFragment;
@@ -55,43 +55,44 @@ public class BLEScanDialogFragmentTest {
     private BLEScanDialogFragment.BLEScanDialogListener listener;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        activityController= Robolectric.buildActivity(TestActivity.class);
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
+        activityController = Robolectric.buildActivity(TestActivity.class);
         final TestActivity testActivity = activityController.create().start().get();
         bleScanDialogFragment = new BLEScanDialogFragment();
         FragmentManager fm = testActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         final Set<Appliance> applianceSet = new HashSet<>();
-        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy));
+        applianceSet.add(new RefAppBleReferenceAppliance(networkNode, bleCommunicationStrategy));
         bleScanDialogFragment.show(ft, "fragment");
         bleScanDialogFragment.setSavedApplianceList(applianceSet);
     }
 
     @Test
-    public void getDeviceCountTest(){
+    public void getDeviceCountTest() {
         assertEquals(bleScanDialogFragment.getDeviceCount(), 1);
     }
 
     @Test
-    public void dialogDimissTest(){
+    public void dialogDimissTest() {
         bleScanDialogFragment.setBLEDialogListener(listener);
-        ListView listview=(ListView)bleScanDialogFragment.getDialog().findViewById(R.id.device_listview);
+        ListView listview = (ListView) bleScanDialogFragment.getDialog().findViewById(R.id.device_listview);
         BleDeviceListAdapter adapter = (BleDeviceListAdapter) listview.getAdapter();
         View itemView = adapter.getView(0, null, listview);
-        listview.performItemClick(itemView,0,adapter.getItemId(0));
+        listview.performItemClick(itemView, 0, adapter.getItemId(0));
         assertFalse(bleScanDialogFragment.isAdded());
     }
 
     @Test
-    public void hideProgressBarTest(){
-        ProgressBar progressBar= (ProgressBar)bleScanDialogFragment.getDialog().findViewById(R.id.scanning_progress_bar);
+    public void hideProgressBarTest() {
+        ProgressBar progressBar = (ProgressBar) bleScanDialogFragment.getDialog().findViewById(R.id.scanning_progress_bar);
         bleScanDialogFragment.hideProgressBar();
-        assertEquals(View.GONE,progressBar.getVisibility());
-    }
-    @After
-    public void tearDown(){
-        activityController.pause().stop().destroy();
+        assertEquals(View.GONE, progressBar.getVisibility());
     }
 
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+    }
 }
