@@ -9,11 +9,13 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
@@ -90,6 +92,16 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteSyncedMomentsRequest event) {
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteSyncedMoments(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteExpiredMomentRequest event) {
         DBRequestListener<Integer> dbRequestListener = event.getDbRequestListener();
         try {
@@ -118,6 +130,16 @@ public class DeletingMonitor extends EventMonitor {
             dbInterface.deleteInsight(deleteInsightResponse.getInsight(), dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteAllInsights deleteAllInsights) {
+        DBRequestListener<Insight> dbRequestListener = deleteAllInsights.getDbRequestListener();
+        try {
+            dbInterface.deleteAllInsights(dbRequestListener);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

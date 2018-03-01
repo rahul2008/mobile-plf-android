@@ -1,16 +1,16 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.Intent;
 import android.os.Bundle;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,12 +19,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,17 +44,27 @@ public class MobileVerifyCodePresenterTest {
     private MobileVerifyCodeContract mockContract;
 
     @Mock
-    private HttpClientServiceReceiver.Listener listenerMock;
+    private URRequest mockURRequest;
+
 
     @Mock
     private NetworkUtility mockNetworkUtility;
 
+    @Mock
+    private Jump mockJump;
+
     private MobileVerifyCodePresenter presenter;
+    @Mock
+    private com.philips.platform.appinfra.rest.RestInterface appRestInterfaceMock;
+    @Mock
+    RequestQueue mockRequestQueue;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
+        Mockito.when(mockRegistrationComponent.getRestInterface()).thenReturn(appRestInterfaceMock);
+        Mockito.when(appRestInterfaceMock.getRequestQueue()).thenReturn(mockRequestQueue);
         presenter = new MobileVerifyCodePresenter(mockContract);
         presenter.mockInjections(mockServiceDiscoveryWrapper);
     }
@@ -69,19 +77,38 @@ public class MobileVerifyCodePresenterTest {
         presenter = null;
     }
 
+//    @Test
+//    public void testVerifyButtonClicked() {
+//        when(mockContract.getServiceIntent()).thenReturn(mock(Intent.class));
+//        when((mockContract.getClientServiceRecevier())).thenReturn(mock(HttpClientServiceReceiver.class));
+//        presenter.verifyMobileNumber("uuid", "123");
+//        verify(mockContract).startService(any(Intent.class));
+//    }
+
     @Test
     public void testVerifyButtonClicked() {
-        when(mockContract.getServiceIntent()).thenReturn(mock(Intent.class));
-        when((mockContract.getClientServiceRecevier())).thenReturn(mock(HttpClientServiceReceiver.class));
+        Jump.setCaptureDomain("traditional");
+        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
         presenter.verifyMobileNumber("uuid", "123");
-        verify(mockContract).startService(any(Intent.class));
-    }
 
+
+        JSONObject resultJsonObject = new JSONObject();
+        try {
+            resultJsonObject.put("stat", "ok");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        verify(mockContract).netWorkStateOnlineUiHandle();
+//        verify(mockContract).onSuccessResponse(resultJsonObject.toString());
+//        verify(mockContract).onErrorResponse(mock(VolleyError.class));
+
+    }
+//
 //    @Test
 //    public void testNetworkState_Enabled() {
 //        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
 //        presenter.onNetWorkStateReceived(true);
-//        verify(mockContract).enableVerifyButton();
+//          verify(mockContract).enableVerifyButton();
 //
 //    }
 //
@@ -89,27 +116,26 @@ public class MobileVerifyCodePresenterTest {
 //    public void testNetworkState_Disabled() {
 //        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
 //        presenter.onNetWorkStateReceived(false);
-//        verify(mockContract).disableVerifyButton();
+//         verify(mockContract).disableVerifyButton();
 //    }
 
     @Test
     public void testResultReceived_EmptyResult() {
         Bundle resultData = new Bundle();
-        presenter.onReceiveResult(0, resultData);
-        verify(mockContract).showSmsSendFailedError();
+        //presenter.onReceiveResult(0, resultData);
+        presenter.handleActivation(resultData.toString());
+        // verify(mockContract).showSmsSendFailedError();
     }
 
     @Test
     public void testResultReceived_SmsVerificationSuccess() {
-        Bundle resultData = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         try {
             resultJsonObject.put("stat", "ok");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
+        presenter.handleActivation(resultJsonObject.toString());
         verify(mockContract).refreshUserOnSmsVerificationSuccess();
     }
 
@@ -123,7 +149,7 @@ public class MobileVerifyCodePresenterTest {
             e.printStackTrace();
         }
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
+        presenter.handleActivation(resultData.toString());
         verify(mockContract, never()).refreshUserOnSmsVerificationSuccess();
     }
 
@@ -137,7 +163,7 @@ public class MobileVerifyCodePresenterTest {
             e.printStackTrace();
         }
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
+        presenter.handleActivation(resultData.toString());
         verify(mockContract, never()).refreshUserOnSmsVerificationSuccess();
     }
 
@@ -146,14 +172,13 @@ public class MobileVerifyCodePresenterTest {
         Bundle resultData = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
-        verify(mockContract, never()).refreshUserOnSmsVerificationSuccess();
+        presenter.handleActivation(resultData.toString());
         verify(mockContract).smsVerificationResponseError();
     }
 
     @Test
     public void testResultReceived_InvalidOtpWithCode() {
-        Bundle resultData = new Bundle();
+//        Bundle resultData = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         try {
             resultJsonObject.put("stat", "not ok");
@@ -161,15 +186,15 @@ public class MobileVerifyCodePresenterTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
+//        resultData.putString("responseStr", resultJsonObject.toString());
+        presenter.handleActivation(resultJsonObject.toString());
         verify(mockContract).setOtpInvalidErrorMessage();
         verify(mockContract).showOtpInvalidError();
     }
 
     @Test
     public void testResultReceived_InvalidOtpWithWrongCode() {
-        Bundle resultData = new Bundle();
+//        Bundle resultData = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         try {
             resultJsonObject.put("stat", "not ok");
@@ -178,8 +203,8 @@ public class MobileVerifyCodePresenterTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(SMS_ACTIVATION_REQUEST_CODE, resultData);
+//        resultData.putString("responseStr", resultJsonObject.toString());
+        presenter.handleActivation(resultJsonObject.toString());
         verify(mockContract).setOtpErrorMessageFromJson("Otp is not valid");
         verify(mockContract).showOtpInvalidError();
     }
@@ -195,8 +220,7 @@ public class MobileVerifyCodePresenterTest {
             e.printStackTrace();
         }
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(RESEND_OTP_REQUEST_CODE, resultData);
- //       verify(mockContract).enableResendButtonAndHideSpinner();
+        presenter.handleActivation(resultData.toString());
     }
 
     @Test
@@ -210,8 +234,7 @@ public class MobileVerifyCodePresenterTest {
             e.printStackTrace();
         }
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(RESEND_OTP_REQUEST_CODE, resultData);
-  //      verify(mockContract).showSmsResendTechincalError("20");
+        presenter.handleActivation(resultData.toString());
     }
 
     @Test
@@ -225,7 +248,6 @@ public class MobileVerifyCodePresenterTest {
             e.printStackTrace();
         }
         resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.onReceiveResult(RESEND_OTP_REQUEST_CODE, resultData);
-   //     verify(mockContract).showSmsResendTechincalError("50");
+        presenter.handleActivation(resultData.toString());
     }
 }

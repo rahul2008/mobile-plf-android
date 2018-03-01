@@ -10,9 +10,7 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.android.volley.VolleyError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -76,6 +73,8 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
+
+    private String TAG = MobileVerifyResendCodeFragment.class.getSimpleName();
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
@@ -269,6 +268,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         hidePopup();
+        RLog.d(TAG, "verifyClicked ");
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -276,7 +276,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
                 disableResendButton();
                 mobileVerifyResendCodePresenter.updatePhoneNumber(
-                        FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()), context);
+                        FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()));
             } else {
                 errorMessage.setError(getActivity().getResources().getString(
                         R.string.reg_InvalidPhoneNumber_ErrorMsg));
@@ -296,21 +296,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             popupWindow.dismiss();
             popupWindow = null;
         }
-    }
-
-    @Override
-    public Intent getServiceIntent() {
-        return new Intent(context, HttpClientService.class);
-    }
-
-    @Override
-    public HttpClientServiceReceiver getClientServiceRecevier() {
-        return new HttpClientServiceReceiver(handler);
-    }
-
-    @Override
-    public ComponentName startService(Intent intent) {
-        return context.startService(intent);
     }
 
     @Override
@@ -403,6 +388,17 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         user.refreshUser(this);
         getRegistrationFragment().stopCountDownTimer();
         disableResendButton();
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String response) {
+        mobileVerifyResendCodePresenter.handleOnSuccess(requestCode, response);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        hideProgressSpinner();
+        showSmsSendFailedError();
     }
 
 

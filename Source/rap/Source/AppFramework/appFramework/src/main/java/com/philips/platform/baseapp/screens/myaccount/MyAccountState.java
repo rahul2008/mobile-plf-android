@@ -18,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -33,7 +34,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.csw.permission.PermissionHelper;
-import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -46,6 +46,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -169,10 +170,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Collections.singletonList("clickstream"), 1);
         definitions.add(clickStreamConsentDefinition);
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
 
