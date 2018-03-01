@@ -62,7 +62,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Calendar myCalendar;
     private TextView tvSyncStatus;
     private Button btnMigrateData;
-
+    private Button btnResetMigrationFlag;
 
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -132,7 +132,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnStartSyncByDateRange = fragmentView.findViewById(R.id.btn_startSyncBy_dateRange);
         tvSyncStatus = fragmentView.findViewById(R.id.tvSyncStatus);
         btnDeleteSyncedData = fragmentView.findViewById(R.id.mya_delete_synced_data);
-        btnMigrateData = fragmentView.findViewById(R.id.reset_migration_flag);
+        btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
+        btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
 
         ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
 
