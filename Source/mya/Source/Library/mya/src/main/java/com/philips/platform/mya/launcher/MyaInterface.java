@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.platform.appinfra.BuildConfig;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.error.MyaError;
@@ -34,6 +35,7 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 public class MyaInterface implements UappInterface {
     public static String USER_PLUGIN = "user_plugin";
     private static final MyaInterface reference = new MyaInterface();
+    public static AppTaggingInterface appTaggingInterface;
 
     public static MyaInterface get() {
         return reference;
@@ -56,6 +58,7 @@ public class MyaInterface implements UappInterface {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
         MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
+        appTaggingInterface = myaDependencies.getAppInfra().getTagging().createInstanceForComponent("MYA", BuildConfig.VERSION_NAME);
         reference.dependencies = myaDependencies;
     }
 

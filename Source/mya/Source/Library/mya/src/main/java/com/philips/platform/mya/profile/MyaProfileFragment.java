@@ -23,6 +23,8 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
 
+import static com.philips.platform.mya.launcher.MyaInterface.appTaggingInterface;
+
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
 
@@ -57,6 +59,14 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(PROFILE_BUNDLE, getArguments());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(appTaggingInterface!=null) {
+            appTaggingInterface.trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+        }
     }
 
     @Override
