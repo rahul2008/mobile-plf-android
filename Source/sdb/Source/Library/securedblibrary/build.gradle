@@ -154,7 +154,6 @@ android {
             proguardFiles 'proguard-rules-securedb.pro'
         }
         debug {
-            testCoverageEnabled=true
             debuggable true
         }
     }
