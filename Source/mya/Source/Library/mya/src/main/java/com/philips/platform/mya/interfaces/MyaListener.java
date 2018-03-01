@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public interface MyaListener extends Serializable {
 
-    boolean onClickMyaItem(String itemName);
+    boolean onMenuItemSelected(String itemName);
 
     void onError(MyaError myaError);
 
