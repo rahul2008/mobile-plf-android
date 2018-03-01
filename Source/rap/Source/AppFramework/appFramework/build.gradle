@@ -144,7 +144,7 @@ publishing {
                 classifier = '1stleveldependencies'
             }
 
-            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt") {
+            artifact("$buildDir/outputs/mapping/release/mapping.txt") {
                 classifier = 'mapping'
             }
 

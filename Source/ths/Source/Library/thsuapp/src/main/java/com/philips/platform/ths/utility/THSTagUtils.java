@@ -101,6 +101,7 @@ public  class THSTagUtils {
                 THSManager.getInstance().getThsCompletionProtocol().didExitTHS(Other);
             }
             THSManager.getInstance().resetTHSManagerData();
+            AmwellLog.v("EXIT_THS","doExitToPropositionWithCallBack ");
         }
     }
 

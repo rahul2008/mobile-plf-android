@@ -89,4 +89,14 @@
         android:layout_marginTop="10dp"
         android:text="@string/complete_sync"/>
 
+    <Button
+        android:id="@+id/mya_delete_synced_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/mya_delete_synced_data"
+        />
+
+
+
 </LinearLayout>
