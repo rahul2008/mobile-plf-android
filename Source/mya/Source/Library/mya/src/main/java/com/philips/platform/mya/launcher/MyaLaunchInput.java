@@ -27,7 +27,6 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     private static final long serialVersionUID = 1584414650805244556L;
     private transient Context context;
-    private boolean isAddToBackStack;
     private MyaListener myaListener;
     private MyaTabConfig myaTabConfig;
     private List<String> settingsMenuList;
@@ -42,26 +41,6 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     public Context getContext() {
         return context;
-    }
-
-    /**
-     * Get status of is current fragment need to add to backstack or no.
-     *
-     * @return true if need to add to fragment back stack
-     * @since 2017.5.0
-     */
-    public boolean isAddtoBackStack() {
-        return isAddToBackStack;
-    }
-
-    /**
-     * Enable  add to back stack for current fragment.
-     *
-     * @param isAddToBackStack
-     * @since 2017.5.0
-     */
-    public void addToBackStack(boolean isAddToBackStack) {
-        this.isAddToBackStack = isAddToBackStack;
     }
 
     public MyaListener getMyaListener() {
