@@ -16,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
@@ -62,7 +61,7 @@ public class RefAppBleReferenceApplianceFactoryTest {
         when(networkNode.isValid()).thenReturn(true);
         when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
 
-        assertThat(bleReferenceApplianceFactory.createApplianceForNode(networkNode)).isInstanceOf(RefAppBleReferenceAppliance.class);
+        assertTrue(bleReferenceApplianceFactory.createApplianceForNode(networkNode) instanceof RefAppBleReferenceAppliance);
     }
 
     @Test
