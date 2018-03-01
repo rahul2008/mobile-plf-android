@@ -74,6 +74,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
+
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaInterface myaInterface = getInterface();
@@ -109,6 +110,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 }
                 return false;
             }
+
             @Override
             public void onError(MyaError myaError) {
 
@@ -232,13 +234,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentsClient.getInstance().init(catkInputs);
 
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-        setConsentConfiguration(context, appInfra, catkInputs, urDefinitions);
-    }
 
-    void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
-        consentConfigurationList= new ArrayList<>();
-        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
+        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
+        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
     }
 
     @Override

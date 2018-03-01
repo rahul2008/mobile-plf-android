@@ -53,7 +53,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        MyaHelper.getInstance().getMyaListener().onLogoutClick();
+        MyaHelper.getInstance().getMyaListener().onLogoutClicked();
     }
 
     @Override

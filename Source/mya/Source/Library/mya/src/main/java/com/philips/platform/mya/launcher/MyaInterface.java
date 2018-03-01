@@ -72,7 +72,7 @@ public class MyaInterface implements UappInterface {
         MyaHelper.getInstance().setUserDataInterface(myaLaunchInput.getUserDataInterface());
         UserDataInterface userDataInterface = getUserDataInterface();
         if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
-            myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
+            myaLaunchInput.getMyaListener().onError(MyaError.USERNOTLOGGEDIN);
             return;
         }
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
