@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">我的账户</string>
+<string name="MYA_Profile">个人资料</string>
+<string name="MYA_Settings">设置</string>
+<string name="MYA_My_details">我的详细信息</string>
+<string name="MYA_My_products">我的产品</string>
+<string name="MYA_My_subscriptions">我的订阅</string>
+<string name="MYA_My_orders">我的订单</string>
+<string name="MYA_Logout">注销</string>
+<string name="MYA_Account_settings">帐户设置</string>
+<string name="MYA_Country">国家/地区</string>
+<string name="MYA_Notifications">通知</string>
+<string name="MYA_Privacy_Settings">隐私设置</string>
+<string name="MYA_Login_details">登录详情</string>
+<string name="MYA_Email_address">电子邮件地址</string>
+<string name="MYA_Mobile_number">手机号码</string>
+<string name="MYA_Personal_details">个人详细信息</string>
+<string name="MYA_Name">姓名</string>
+<string name="MYA_Gender">性别</string>
+<string name="MYA_Date_of_birth">出生日期</string>
+<string name="MYA_Address">地址</string>
+<string name="MYA_Cancel">取消</string>
+<string name="MYA_change_country">退出以更改国家/地区</string>
+<string name="MYA_change_country_message">请退出以更改您所居住的国家/地区。这可让我们根据您的所在地的提供保修和其他信息</string>
+<string name="MYA_logout_title">确定要退出？</string>
+<string name="MYA_logout_message">您将退出应用程序。退出后，您始终可以再次登录。</string>
+<string name="MYA_Info">是否要更改您的登录 ID 或密码？请访问我们的网站。</string>
+<string name="MYA_Email_Validation_message">电子邮件地址未确认</string>
+<string name="MYA_Not_Available">不可用</string>
+<string name="MYA_Ok">确定</string>
+<string name="MYA_Offline_title">您处于脱机状态</string>
+<string name="MYA_Offline_message">您的互联网似乎无法正常连接。请检查并重试</string>
+<string name="mya_Privacy_Settings_Desc">管控您的个人隐私。有关详细信息，请阅读隐私声明。</string>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Moje konto</string>
+<string name="MYA_Profile">Profil</string>
+<string name="MYA_Settings">Ustawienia</string>
+<string name="MYA_My_details">Moje szczegóły</string>
+<string name="MYA_My_products">Moje produkty</string>
+<string name="MYA_My_subscriptions">Moje subskrypcje</string>
+<string name="MYA_My_orders">Moje zamówienia</string>
+<string name="MYA_Logout">Wyloguj</string>
+<string name="MYA_Account_settings">Ustawienia konta</string>
+<string name="MYA_Country">Kraj</string>
+<string name="MYA_Notifications">Powiadomienia</string>
+<string name="MYA_Privacy_Settings">Ustawienia prywatności</string>
+<string name="MYA_Login_details">Dane logowania</string>
+<string name="MYA_Email_address">Adres e-mail</string>
+<string name="MYA_Mobile_number">Numer telefonu komórkowego</string>
+<string name="MYA_Personal_details">Dane osobowe</string>
+<string name="MYA_Name">Imię i nazwisko</string>
+<string name="MYA_Gender">Płeć</string>
+<string name="MYA_Date_of_birth">Data urodzenia</string>
+<string name="MYA_Address">Adres</string>
+<string name="MYA_Cancel">Anuluj</string>
+<string name="MYA_change_country">Wyloguj się, aby zmienić kraj</string>
+<string name="MYA_change_country_message">Wyloguj się, aby zmienić ustawienie kraju. Pozwoli nam to dostosować warunki gwarancji i inne informacje do Twojej lokalizacji</string>
+<string name="MYA_logout_title">Czy na pewno chcesz się wylogować?</string>
+<string name="MYA_logout_message">Nastąpi wylogowanie z aplikacji. Po wylogowaniu zawsze możesz zalogować się ponownie.</string>
+<string name="MYA_Info">Chcesz zmienić identyfikator logowania lub hasło? Odwiedź naszą stronę internetową.</string>
+<string name="MYA_Email_Validation_message">Niepotwierdzony adres e-mail</string>
+<string name="MYA_Not_Available">Niedostępne</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">Nie masz połączenia z Internetem</string>
+<string name="MYA_Offline_message">Połączenie internetowe prawdopodobnie nie działa. Sprawdź i spróbuj ponownie</string>
+<string name="mya_Privacy_Settings_Desc">Dbaj o swoją prywatność. Więcej informacji znajdziesz w oświadczeniu o prywatności.</string>
+</resources>

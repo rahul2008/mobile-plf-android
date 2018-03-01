@@ -103,7 +103,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         SettingsModel privacySettingsModel = new SettingsModel();
-        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
+        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Privacy_Settings));
         profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {

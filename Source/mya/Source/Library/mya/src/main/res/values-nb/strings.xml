@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Min konto</string>
+<string name="MYA_Profile">Profil</string>
+<string name="MYA_Settings">Innstillinger</string>
+<string name="MYA_My_details">Mine detaljer</string>
+<string name="MYA_My_products">Produktene mine</string>
+<string name="MYA_My_subscriptions">Mine abonnementer</string>
+<string name="MYA_My_orders">Mine bestillinger</string>
+<string name="MYA_Logout">Logg av</string>
+<string name="MYA_Account_settings">Kontoinnstillinger</string>
+<string name="MYA_Country">Land</string>
+<string name="MYA_Notifications">Varslinger</string>
+<string name="MYA_Privacy_Settings">Innstillinger for privatliv</string>
+<string name="MYA_Login_details">Påloggingsdetaljer</string>
+<string name="MYA_Email_address">E-postadresse</string>
+<string name="MYA_Mobile_number">Mobilnummer</string>
+<string name="MYA_Personal_details">Personlige opplysninger</string>
+<string name="MYA_Name">Navn</string>
+<string name="MYA_Gender">Kjønn</string>
+<string name="MYA_Date_of_birth">Fødselsdato</string>
+<string name="MYA_Address">Adresse</string>
+<string name="MYA_Cancel">Avbryt</string>
+<string name="MYA_change_country">Logg av for å endre land</string>
+<string name="MYA_change_country_message">Logg deg av for å endre landet du bor i. Da kan vi tilpasse garantien og annen informasjon etter plasseringen din</string>
+<string name="MYA_logout_title">Er du sikker på at du vil logge deg av?</string>
+<string name="MYA_logout_message">Du logges av programmet. Etter avloggingen kan du selvfølgelig logge deg på igjen.</string>
+<string name="MYA_Info">Vil du endre påloggings-ID eller passord? Gå til nettstedet vårt.</string>
+<string name="MYA_Email_Validation_message">E-postadressen er ikke bekreftet</string>
+<string name="MYA_Not_Available">Ikke tilgjengelig</string>
+<string name="MYA_Ok">Ok</string>
+<string name="MYA_Offline_title">Du er frakoblet</string>
+<string name="MYA_Offline_message">Det ser ikke ut til at Internett-tilkoblingen din fungerer. Kontroller den og prøv på nytt</string>
+<string name="mya_Privacy_Settings_Desc">Ta kontroll over personvernet ditt. Les _merknaden om personvern_ for mer informasjon.</string>
+</resources>

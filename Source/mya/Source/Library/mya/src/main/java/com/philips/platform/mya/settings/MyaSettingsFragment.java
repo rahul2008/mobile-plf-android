@@ -238,7 +238,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onLogOutSuccess() {
         dismissDialog();
         exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
+        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.MYA_Log_Out));
     }
 
     @Override
