@@ -1,57 +1,54 @@
 package com.philips.cdp.registration.wechat;
 
 
-import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.listener.WeChatAuthenticationListener;
+import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.squareup.okhttp.*;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WeChatAuthenticator {
 
-    private static final int CONNECTION_TIME_OUT = 30 * 1000;
+    private final String WECHAT_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?";
 
     public void getWeChatResponse(final String weChatAppId,
                                   final String weChatAppSecrete,
                                   final String weChatAccessCode,
                                   final WeChatAuthenticationListener
                                           weChatAuthenticationListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    client.setConnectTimeout(CONNECTION_TIME_OUT, TimeUnit.MILLISECONDS);
-                    RequestBody formBody = new FormEncodingBuilder()
-                            .add("appid", weChatAppId)
-                            .add("secret", weChatAppSecrete)
-                            .add("code", weChatAccessCode)
-                            .add("state", "123456")
-                            .add("grant_type", "authorization_code")
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("https://api.weixin.qq.com/sns/oauth2/access_token")
-                            .post(formBody)
-                            .header("User-Agent", "wechatLoginDemo")
-                            .header("Content=Type", "application/x-www-form-urlencoded")
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    if (!response.isSuccessful())
-                        throw new IOException("Unexpected code " + response);
-                    String jsonResponse = response.body().string();
-                    JSONObject jsonObj = new JSONObject(jsonResponse);
+        new Thread(() -> {
+            try {
+                String body = "appid=" + weChatAppId + "&secret=" + weChatAppSecrete + "&code=" + weChatAccessCode + "&grant_type=authorization_code";
 
-                    weChatAuthenticationListener.onSuccess(jsonObj);
-                } catch (Exception ex) {
-                    RLog.e("WECHAT", ex.toString());
+                RLog.d("WECHAT", "JSON Body = " + WECHAT_ACCESS_TOKEN_URL + body);
+                Map<String, String> header = new HashMap<>();
+                header.put("User-Agent", "wechatLoginDemo");
+
+                URRequest urRequest = new URRequest(WECHAT_ACCESS_TOKEN_URL, body, header, response -> {
+                    try {
+                        JSONObject jsonObj = new JSONObject(response);
+                        weChatAuthenticationListener.onSuccess(jsonObj);
+                        RLog.d("WECHAT", jsonObj.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+                    RLog.e("WECHAT", error.getMessage());
                     weChatAuthenticationListener.onFail();
-                }
-            }
+                });
 
+                urRequest.makeRequest();
+            } catch (Exception ex) {
+                RLog.e("WECHAT", ex.toString());
+                weChatAuthenticationListener.onFail();
+            }
         }).start();
     }
+
+
 }
 
