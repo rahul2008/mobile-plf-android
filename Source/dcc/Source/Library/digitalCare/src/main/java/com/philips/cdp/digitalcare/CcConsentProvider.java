@@ -6,6 +6,7 @@ import android.content.Context;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class CcConsentProvider {
         return types;
     }
 
-    public static DeviceStoredConsentHandler fetchDeviceStoredConsentHandler() {
+    public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
         return new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
     }
 }

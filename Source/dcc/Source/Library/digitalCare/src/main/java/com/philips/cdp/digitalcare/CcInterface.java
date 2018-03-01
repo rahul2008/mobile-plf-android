@@ -15,9 +15,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-
 /**
  *
  * Interface class for initiating and launching the consumer care library from vertical app

@@ -13,18 +13,10 @@ package com.philips.cdp.digitalcare.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-
-import java.util.Locale;
 
 
 public class Utils {
@@ -74,14 +66,5 @@ public class Utils {
         double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
         return diagonalInches >= 6.5;
-    }
-
-    public static Locale getLocaleFromAppInfra(){
-        Locale locale = Locale.getDefault();
-        String[] locale_strings = DigitalCareConfigManager.getInstance().getAPPInfraInstance().getInternationalization().getBCP47UILocale().split("-");
-        if (locale_strings.length == 2) {
-            locale = new Locale(locale_strings[0], locale_strings[1]);
-        }
-        return locale;
     }
 }
