@@ -7,6 +7,7 @@ import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.SelectedCountryListener;
+import com.philips.cdp.registration.ui.traditional.CountrySelectionContract;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,12 +40,15 @@ public class CountrySelectionAdapterTest {
     @Mock
     private RecyclerView.ViewHolder viewHolderMock;
 
+    @Mock
+    CountrySelectionContract countrySelectionContractMock;
+
     @Before
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
 
-        countrySelectionAdapter = new CountrySelectionAdapter(countryListMock, countryListenerMock);
+        countrySelectionAdapter = new CountrySelectionAdapter(countryListMock,countrySelectionContractMock);
     }
 
     @Test

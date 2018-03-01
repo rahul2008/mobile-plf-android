@@ -200,4 +200,9 @@ public class RegConstants {
 
     public static final String TERMS_N_CONDITIONS_ACCEPTED = "TERMS_N_CONDITIONS_ACCEPTED";
 
+    //HomeFragment and CountrySelection Fragment Bundle keys
+
+    public static final String KEY_BUNDLE_COUNTRY_CODE = "KEY_BUNDLE_COUNTRY_CODE";
+
+    public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 }

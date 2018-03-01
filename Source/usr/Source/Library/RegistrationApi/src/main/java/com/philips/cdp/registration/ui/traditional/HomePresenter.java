@@ -27,6 +27,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -122,18 +123,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
-
-    public void addToRecent(String countryCode) {
-        Country country = new Country(countryCode, new Locale("", countryCode).getDisplayCountry());
-        recentSelectedCountry.add(0, country);
-    }
-
-    public ArrayList<Country> getRecentSelectedCountry() {
-        return recentSelectedCountry;
-    }
-
-
     public void initServiceDiscovery() {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
@@ -145,7 +134,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 } else {
                     selectedCountryCode = RegUtility.getFallbackCountryCode();
                 }
-                addToRecent(selectedCountryCode);
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
 
@@ -155,7 +143,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
-                addToRecent(selectedCountryCode);
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
             }
@@ -344,21 +331,18 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.registrationCompleted();
     }
 
-
-    public void changeCountry(String countryName, String countryCode) {
-        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
-        if (networkUtility.isNetworkAvailable()) {
-            serviceDiscoveryInterface.setHomeCountry(countryCode);
-            RegistrationHelper.getInstance().setCountryCode(countryCode);
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
-            homeContract.countryChangeStarted();
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-            getLocaleServiceDiscovery(countryName);
-        }
-    }
-
     public boolean isNetworkAvailable() {
         return networkUtility.isNetworkAvailable();
+    }
+
+    public void onSelectCountry(String countryName, String code) {
+        setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        if (networkUtility.isNetworkAvailable()) {
+            serviceDiscoveryInterface.setHomeCountry(code);
+            RegistrationHelper.getInstance().setCountryCode(code);
+            homeContract.countryChangeStarted();
+            getLocaleServiceDiscovery(countryName);
+        }
     }
 
     public enum FLOWDELIGATE {
