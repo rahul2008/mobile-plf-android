@@ -15,6 +15,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -41,6 +42,7 @@ public class MyaSettingsPresenterTest {
     private MyaSettingsContract.View view;
     private Context context;
     private MyaSettingsPresenter myaSettingsPresenter;
+    private MyaInterface myaInterface;
 
     @Before
     public void setup() {
@@ -82,6 +84,8 @@ public class MyaSettingsPresenterTest {
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
         when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
+        when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
@@ -98,9 +102,11 @@ public class MyaSettingsPresenterTest {
         when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
         RestInterface mockRestClient = mock(RestInterface.class);
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(false);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
         when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
+        when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
         MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         String testTitle = "Test title";
         when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);

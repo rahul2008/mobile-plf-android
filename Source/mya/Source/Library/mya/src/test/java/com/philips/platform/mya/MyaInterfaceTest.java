@@ -75,7 +75,6 @@ public class MyaInterfaceTest {
         context = RuntimeEnvironment.application;
         launchInput = new MyaLaunchInput(context,null);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        final AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
         myaInterface = new MyaInterface() {
             @Override
