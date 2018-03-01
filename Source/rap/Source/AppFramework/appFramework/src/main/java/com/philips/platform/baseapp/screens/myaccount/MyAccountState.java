@@ -201,6 +201,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
+        consentDefinitionList = new ArrayList<>();
         consentDefinitionList.addAll(catkConsentDefinitions);
         consentDefinitionList.addAll(urConsentDefinitions);
 
