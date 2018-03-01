@@ -6,7 +6,6 @@ import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 
 import org.junit.Before;
@@ -18,44 +17,40 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by philips on 16/01/17.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class RefAppBleReferenceApplianceFactoryTest {
 
     @Mock
-    BleTransportContext bleTransportContext;
+    private BleTransportContext bleTransportContext;
 
     @Mock
-    CloudTransportContext cloudTransportContext;
+    private CloudTransportContext cloudTransportContext;
 
     @Mock
-    LanTransportContext lanTransportContext;
+    private LanTransportContext lanTransportContext;
 
     @Mock
-    NetworkNode networkNode;
+    private NetworkNode networkNode;
 
     @Mock
-    NetworkNode networkNodeModelNameNull;
+    private NetworkNode networkNodeModelNameNull;
 
     @Mock
-    CommunicationStrategy communicationStrategy;
+    private CommunicationStrategy communicationStrategy;
 
-    RefAppApplianceFactory bleReferenceApplianceFactory;
+    private RefAppApplianceFactory bleReferenceApplianceFactory;
 
     @Before
     public void setUp(){
-        bleReferenceApplianceFactory=new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
-        bleReferenceApplianceFactory.setDeviceType(ConnectivityDeviceType.REFERENCE_NODE);
-        when(networkNode.getDeviceType())
-                .thenReturn(RefAppBleReferenceAppliance.MODELNAME);
+        bleReferenceApplianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
+        when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
         when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
         when(networkNode.isValid()).thenReturn(true);
     }
+
     @Test
     public void checkCanCreateApplianceForNode_True(){
         assertTrue(bleReferenceApplianceFactory.canCreateApplianceForNode(networkNode));
@@ -75,13 +70,12 @@ public class RefAppBleReferenceApplianceFactoryTest {
 
     @Test
     public void createApplianceForNode_For_Null(){
-        when(networkNodeModelNameNull.getDeviceType())
-                .thenReturn("");
+        when(networkNodeModelNameNull.getDeviceType()).thenReturn("");
         assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNodeModelNameNull));
     }
 
     @Test
-    public void getSupportedDeviceTypes_Contains_Ble_Model_Name(){
-        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().contains(RefAppBleReferenceAppliance.MODELNAME));
+    public void getSupportedDeviceTypes_isEmpty(){
+        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().isEmpty());
     }
 }

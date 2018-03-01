@@ -7,7 +7,6 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.AppInfraInterface;

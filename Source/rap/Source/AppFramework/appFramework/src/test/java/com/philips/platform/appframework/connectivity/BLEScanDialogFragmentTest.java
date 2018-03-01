@@ -17,7 +17,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
@@ -37,9 +36,7 @@ import java.util.Set;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
-/**
- * Test for BLEScanDialogFragment
- */
+
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class, sdk=25)
 public class BLEScanDialogFragmentTest {
@@ -48,28 +45,25 @@ public class BLEScanDialogFragmentTest {
 
     private ActivityController<TestActivity> activityController;
 
-    private TestActivity testActivity;
+    @Mock
+    private NetworkNode networkNode;
 
     @Mock
-    NetworkNode networkNode;
+    private BleCommunicationStrategy bleCommunicationStrategy;
 
     @Mock
-    BleCommunicationStrategy bleCommunicationStrategy;
-    private Set<Appliance> applianceSet;
-
-    @Mock
-    BLEScanDialogFragment.BLEScanDialogListener listener;
+    private BLEScanDialogFragment.BLEScanDialogListener listener;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         activityController= Robolectric.buildActivity(TestActivity.class);
-        testActivity=activityController.create().start().get();
+        final TestActivity testActivity = activityController.create().start().get();
         bleScanDialogFragment = new BLEScanDialogFragment();
         FragmentManager fm = testActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        applianceSet= new HashSet<>();
-        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy, ConnectivityDeviceType.REFERENCE_NODE));
+        final Set<Appliance> applianceSet = new HashSet<>();
+        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy));
         bleScanDialogFragment.show(ft, "fragment");
         bleScanDialogFragment.setSavedApplianceList(applianceSet);
     }
