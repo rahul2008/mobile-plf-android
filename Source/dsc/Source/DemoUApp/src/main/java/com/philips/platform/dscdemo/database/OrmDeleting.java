@@ -35,7 +35,6 @@ import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -234,6 +233,11 @@ public class OrmDeleting {
         }
     }
 
+    private void deleteAllSyncDataForAllInsights() throws SQLException {
+        synchronisationDataDao.executeRaw("DELETE FROM `ormsynchronisationdata` WHERE guid IN" +
+                " (SELECT synchronisationData_id FROM `orminsight` )");
+    }
+
     private void deleteMeasurements(@NonNull final OrmMeasurementGroup measurementGroup) throws SQLException {
         for (OrmMeasurement measurement : measurementGroup.getMeasurements()) {
             deleteMeasurementDetails(measurement.getId());
@@ -313,7 +317,7 @@ public class OrmDeleting {
         ormSettingsDeleteBuilder.delete();
     }
 
-    public boolean deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
+    public boolean deleteMoments(final List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) {
 
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
@@ -339,7 +343,7 @@ public class OrmDeleting {
     }
 
     //Insights
-    public boolean deleteInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
+    public boolean deleteInsights(final List<? extends Insight> insights, DBRequestListener<? extends Insight> dbRequestListener) {
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
                 @Override
@@ -374,5 +378,19 @@ public class OrmDeleting {
         DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
         deleteBuilder.where().eq("tableid",type.getId());
         return deleteBuilder.delete();
+    }
+
+    public int deleteSyncedMoments() throws SQLException {
+        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
+        deleteBuilder.where().eq("synced", true);
+        return deleteBuilder.delete();
+    }
+
+    public void deleteAllInsights() throws SQLException {
+        DeleteBuilder<OrmInsightMetaData, Integer> ormInsightMetaDataDeleteBuilder = ormInsightMetadataDao.deleteBuilder();
+        ormInsightMetaDataDeleteBuilder.delete();
+        deleteAllSyncDataForAllInsights();
+        DeleteBuilder<OrmInsight, Integer> ormInsightsDeleteBuilder = ormInsightDao.deleteBuilder();
+        ormInsightsDeleteBuilder.delete();
     }
 }
