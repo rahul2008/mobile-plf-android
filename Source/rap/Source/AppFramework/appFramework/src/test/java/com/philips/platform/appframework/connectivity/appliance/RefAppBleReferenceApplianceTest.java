@@ -24,16 +24,16 @@ public class RefAppBleReferenceApplianceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODELNAME_PS);
     }
 
     @Test
-    public void getDeviceType_ReturnsTrue(){
-        assertEquals("ReferenceNode", new RefAppBleReferenceAppliance(networkNode,communicationStrategy).getDeviceType());
+    public void getDeviceType_ReturnsReferenceNode() {
+        assertEquals("ReferenceNode", new RefAppBleReferenceAppliance(networkNode, communicationStrategy).getDeviceType());
     }
 
     @Test
-    public void getDeviceMeasurement_NotNull(){
-        assertNotNull(new RefAppBleReferenceAppliance(networkNode,communicationStrategy).getDeviceMeasurementPort());
+    public void getDeviceMeasurement_NotNull() {
+        assertNotNull(new RefAppBleReferenceAppliance(networkNode, communicationStrategy).getDeviceMeasurementPort());
     }
 }
