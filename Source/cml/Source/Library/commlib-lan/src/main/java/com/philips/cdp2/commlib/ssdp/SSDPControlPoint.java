@@ -70,9 +70,9 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private WifiManager.MulticastLock lock;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
-    private final InetAddress multicastGroupAddress;
+    private final InetAddress multicastGroup;
 
-    private DatagramSocket broadcastSocket;
+    private MulticastSocket broadcastSocket;
     private MulticastSocket listenSocket;
 
     private ScheduledExecutorService broadcastExecutor = newSingleThreadScheduledExecutor();
@@ -115,7 +115,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     };
 
     public SSDPControlPoint() {
-        this.multicastGroupAddress = getMultiCastGroupAddress();
+        this.multicastGroup = getMultiCastGroupAddress();
     }
 
     @Override
@@ -182,11 +182,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
         try {
             broadcastSocket = createBroadcastSocket();
             broadcastSocket.setReuseAddress(true);
+            broadcastSocket.joinGroup(multicastGroup);
             broadcastSocket.bind(null);
 
             listenSocket = createListenSocket();
             listenSocket.setReuseAddress(true);
-            listenSocket.joinGroup(multicastGroupAddress);
+            listenSocket.joinGroup(multicastGroup);
         } catch (IOException e) {
             throw new IllegalStateException("Error opening socket(s): " + e.getMessage());
         }
@@ -195,21 +196,25 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private void closeSockets() {
         if (listenSocket != null) {
             try {
-                listenSocket.leaveGroup(multicastGroupAddress);
+                listenSocket.leaveGroup(multicastGroup);
             } catch (IOException ignored) {
             }
             listenSocket.close();
         }
 
         if (broadcastSocket != null) {
+            try {
+                broadcastSocket.leaveGroup(multicastGroup);
+            } catch (IOException ignored) {
+            }
             broadcastSocket.close();
         }
     }
 
     @NonNull
     @VisibleForTesting
-    DatagramSocket createBroadcastSocket() throws IOException {
-        return new DatagramSocket(null);
+    MulticastSocket createBroadcastSocket() throws IOException {
+        return new MulticastSocket(null);
     }
 
     @NonNull
