@@ -24,8 +24,6 @@ import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -36,9 +34,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
@@ -68,10 +63,6 @@ public class MyaInterfaceTest {
 
     @Mock
     User mockUser;
-    @Mock
-    private ConsentRegistryInterface consentRegistryInterface;
-
-    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private MyaLaunchInput launchInput;
 
     @Before
@@ -131,13 +122,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentRegistryInterface, consentDefinitionList), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra, consentRegistryInterface, consentDefinitionList), new MyaSettings(context));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }

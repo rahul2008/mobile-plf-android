@@ -6,7 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -24,7 +23,6 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentsClient;
@@ -44,7 +42,6 @@ import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -111,7 +108,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
         launchInput.addToBackStack(true);
-        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         MyaInterface myaInterface = getInterface();
         launchInput.setMyaTabConfig(myaTabConfig);
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
@@ -147,7 +144,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * <p>
      * Creates a list of ConsentDefinitions</p
      *
-     * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
@@ -186,12 +183,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
-        AppInfraInterface appInfra = app.getAppInfra();
-
-        Locale currentLocale = getCompleteLocale(app);
 
         List<ConsentDefinition> catkConsentDefinitions = createCatkDefinitions(context);
-        List<ConsentDefinition> urConsentDefinitions =  Collections.singletonList(URConsentProvider.fetchMarketingConsentDefinition(context, currentLocale));
+        List<ConsentDefinition> urConsentDefinitions = createUserRegistrationDefinitions(context);
 
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
@@ -204,9 +198,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         consentDefinitionList = new ArrayList<>();
         consentDefinitionList.addAll(catkConsentDefinitions);
         consentDefinitionList.addAll(urConsentDefinitions);
-
-        MyaHelper.getInstance().setConsentRegistryInterface(app.getConsentRegistryInterface());
-        MyaHelper.getInstance().setConsentDefinitionList(consentDefinitionList);
     }
 
     @Override
@@ -221,8 +212,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        ConsentRegistryInterface consentDefinitionRegistry = ((AppFrameworkApplication) actContext.getApplicationContext()).getConsentRegistryInterface();
-        return new MyaDependencies(appInfra, consentDefinitionRegistry, MyaHelper.getInstance().getConsentDefinitionList());
+        return new MyaDependencies(appInfra);
     }
 
     @Override
@@ -258,33 +248,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     protected RestInterface getRestClient() {
         return getDependencies().getAppInfra().getRestClient();
     }
+
     protected MyaDependencies getDependencies() {
         return MyaInterface.get().getDependencies();
     }
 
-   /* public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
-        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
-    }
-
-    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
-        List<String> uniqueTypes = new ArrayList<>();
-        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
-            for (ConsentConfiguration configuration : consentConfigurationList) {
-                if (configuration != null) {
-                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                        if (definition != null) {
-                            for (String type : definition.getTypes()) {
-                                if (uniqueTypes.contains(type)) {
-                                    throw new CatkInputs.InvalidInputException(
-                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
-                                }
-                                uniqueTypes.add(type);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 }

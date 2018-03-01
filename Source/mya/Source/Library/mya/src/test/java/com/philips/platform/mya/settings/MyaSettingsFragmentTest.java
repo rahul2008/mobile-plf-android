@@ -60,7 +60,6 @@ public class MyaSettingsFragmentTest {
         myaSettingsFragment = new MyaSettingsFragment();
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
-        MyaHelper.getInstance().setConsentRegistryInterface(consentRegistryInterface);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
@@ -130,7 +129,6 @@ public class MyaSettingsFragmentTest {
         when(serviceDiscoveryInterface.getHomeCountry()).thenReturn("IN");
         when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         MyaHelper.getInstance().setAppInfra(appInfra);
-        MyaHelper.getInstance().setConsentRegistryInterface(consentRegistryInterface);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
 

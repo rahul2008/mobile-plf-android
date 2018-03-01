@@ -55,8 +55,6 @@ public class MyaInterface implements UappInterface {
         }
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
-        MyaHelper.getInstance().setConsentRegistryInterface(myaDependencies.getConsentRegistryInterface());
-        MyaHelper.getInstance().setConsentDefinitionList(myaDependencies.getConsentDefinitionList());
         MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
         reference.dependencies = myaDependencies;
     }
