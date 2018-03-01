@@ -170,7 +170,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Collections.singletonList("clickstream"), 1);
         definitions.add(clickStreamConsentDefinition);
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
