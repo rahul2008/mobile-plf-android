@@ -61,20 +61,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return false;
     }
 
-    LogoutHandler getLogoutHandler() {
-        return new LogoutHandler() {
-            public void onLogoutSuccess() {
-                view.onLogOutSuccess();
-            }
-
-            public void onLogoutFailure(int responseCode, String message) {
-                // TODO - need to discuss with design team and handle on logout failure
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                view.hideProgressIndicator();
-            }
-        };
-    }
-
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
         String settingItems = "settings.menuItems";
         List<?> list = null;

@@ -124,10 +124,16 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
 
     } else {
         compile philipsdeps.uikitLib
         compile philipsdeps.uid
+        compile philipsdeps.AppInfra
+        compile philipsdeps.uAppFwLib
     }
 
     // Tests

@@ -49,7 +49,6 @@ public class MyaProfilePresenterTest {
         myaProfilePresenter.onViewActive(myaProfileFragment);
         myaProfilePresenter.onViewInactive();
         assertNull(myaProfilePresenter.getView());
-        assertNotNull(myaProfilePresenter.getMyaDetailsFragment());
     }
 
     @Test

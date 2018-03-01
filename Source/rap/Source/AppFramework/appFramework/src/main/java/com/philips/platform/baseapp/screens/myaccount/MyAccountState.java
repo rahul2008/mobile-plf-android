@@ -7,8 +7,12 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -19,6 +23,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -34,7 +39,6 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.mya.csw.permission.PermissionHelper;
-import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -64,6 +68,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
+    private List<ConsentConfiguration> consentConfigurationList;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {

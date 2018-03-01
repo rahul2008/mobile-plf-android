@@ -25,7 +25,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;

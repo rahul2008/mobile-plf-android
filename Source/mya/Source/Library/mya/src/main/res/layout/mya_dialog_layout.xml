@@ -16,7 +16,7 @@
         style="@style/UIDAlertDialogTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="@dimen/reg_dimen_20dp"
+        android:layout_marginBottom="@dimen/MYA_end_margin"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/MYA_end_margin"
         android:layout_marginStart="@dimen/MYA_start_margin"
