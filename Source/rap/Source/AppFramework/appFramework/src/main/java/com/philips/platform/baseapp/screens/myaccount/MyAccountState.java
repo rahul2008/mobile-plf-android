@@ -57,7 +57,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class MyAccountState extends BaseState implements MyAccountUIEventListener {
 
@@ -117,7 +116,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onLogoutClick() {
+            public void onLogoutClicked() {
 
                 User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(actContext);
                 if(user.isUserSignIn()){
@@ -168,17 +167,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
-    }
-
-    private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
-        Locale locale = Locale.US;
-        if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getBCP47UILocale().split("-");
-            if (localeComponents.length == 2) {
-                locale = new Locale(localeComponents[0], localeComponents[1]);
-            }
-        }
-        return locale;
     }
 
     /**
@@ -232,15 +220,15 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
-
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-
-        List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
+        setConsentConfiguration(context, appInfra, catkInputs, urDefinitions);
     }
 
+    private void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
+        consentConfigurationList= new ArrayList<>();
+        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
+        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+    }
     @Override
     public void updateDataModel() {
 
@@ -261,7 +249,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         launchWebView(Constants.PRIVACY);
     }
 
-    public void launchWebView(String serviceId) {
+    private void launchWebView(String serviceId) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -286,14 +274,14 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return fragmentLauncher.getFragmentActivity();
     }
 
-    protected RestInterface getRestClient() {
+    private RestInterface getRestClient() {
         return getDependencies().getAppInfra().getRestClient();
     }
-    protected MyaDependencies getDependencies() {
+    private MyaDependencies getDependencies() {
         return MyaInterface.get().getDependencies();
     }
 
-    public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
+    void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
         throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
         this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
     }
