@@ -53,7 +53,7 @@ public class UserDetailsFragmentTest {
     }
     @Test
     public void testCircleTextData() {
-        Label view = myaDetailsFragment.getView().findViewById(R.id.mya_name);
+        Label view = myaDetailsFragment.getView().findViewById(R.id.reg_user_detail_lbl_name);
         myaDetailsFragment.setCircleText("circle text");
         assertEquals(view.getText(), "circle text");
     }

@@ -78,7 +78,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             supportedCountries = getSupportedCountries();
             stateList = getValidShippingStates(supportedCountries);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
         spinnerAdapter = getThsSpinnerAdapter();
@@ -251,7 +251,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 address1.setState(mCurrentSelectedState);
                 thsShippingAddressPresenter.updateShippingAddress(address1);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         } else if (v.getId() == R.id.sa_state_text_place_holder) {
             if(null!=uiPicker) {

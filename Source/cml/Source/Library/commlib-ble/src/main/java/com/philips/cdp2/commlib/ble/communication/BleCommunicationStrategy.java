@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,8 +19,8 @@ import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
@@ -50,24 +50,30 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
 
-    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+    private final DeviceCacheListener<BleCacheData> deviceCacheListener = new DeviceCacheListener<BleCacheData>() {
         @Override
-        public void onRemoved(String cppId) {
-            isAvailable = false;
+        public void onAdded(BleCacheData cacheData) {
+            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
+                cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
+                    @Override
+                    public void onAvailabilityChanged(@NonNull BleCacheData object) {
+                        if (isAvailable != object.isAvailable()) {
+                            isAvailable = object.isAvailable();
+                            notifyAvailabilityChanged();
+                        }
+                    }
+                });
+            }
         }
 
         @Override
-        public void onAdded(String cppId) {
-            final BleCacheData cacheData = deviceCache.getCacheData(BleCommunicationStrategy.this.cppId);
-            cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
-                @Override
-                public void onAvailabilityChanged(@NonNull BleCacheData object) {
-                    if (isAvailable != object.isAvailable()) {
-                        isAvailable = object.isAvailable();
-                        notifyAvailabilityChanged();
-                    }
+        public void onRemoved(BleCacheData cacheData) {
+            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
+                if (isAvailable) {
+                    isAvailable = false;
+                    notifyAvailabilityChanged();
                 }
-            });
+            }
         }
     };
 
@@ -118,8 +124,13 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
 
-        this.isAvailable = deviceCache.contains(cppId);
-        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
+        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
+        if (cacheData != null) {
+            this.isAvailable = cacheData.isAvailable();
+            notifyAvailabilityChanged();
+        }
+
+        this.deviceCache.addDeviceCacheListener(deviceCacheListener, cppId);
     }
 
     @Override

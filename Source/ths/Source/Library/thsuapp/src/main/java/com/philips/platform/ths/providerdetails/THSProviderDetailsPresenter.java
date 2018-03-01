@@ -69,7 +69,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
             else
                 viewInterface.dismissRefreshLayout();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
@@ -89,7 +89,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 try {
                     THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
                 viewInterface.updateView(provider);
             }
@@ -110,7 +110,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
-                mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
+                THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
+                thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(true);
+                mThsBaseFragment.addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
                 THSConsumerWrapper THSConsumer = new THSConsumerWrapper();
@@ -226,7 +228,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                                     }
                                                                 });
                                                             } catch (AWSDKInstantiationException e) {
-                                                                e.printStackTrace();
+
                                                             }
                                                             return;
                                                         }
@@ -243,7 +245,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                 }
                                             });
                                 } catch (AWSDKInstantiationException e) {
-                                    e.printStackTrace();
+
                                     mThsBaseFragment.hideProgressBar();
                                 }
                             }
@@ -258,7 +260,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                         }
                     });
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
             mThsBaseFragment.hideProgressBar();
         }
     }
@@ -300,7 +302,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         try {
             THSManager.getInstance().doMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -380,7 +382,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         try {
             THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext());
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
