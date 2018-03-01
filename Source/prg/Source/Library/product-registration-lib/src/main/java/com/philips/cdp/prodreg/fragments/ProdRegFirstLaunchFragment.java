@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private ImageView productImage;
     private TextView benefitsMessage;
     private Button registerButton;
-
 
     @Override
     public int getActionbarTitleResId() {

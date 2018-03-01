@@ -6,7 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
@@ -20,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -28,7 +28,12 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.csw.CswDependencies;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
+import com.philips.platform.mya.csw.permission.PermissionHelper;
+import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -39,10 +44,12 @@ import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
+import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,12 +66,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
+    private List<ConsentDefinition> consentDefinitionList;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
-
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
@@ -72,6 +79,22 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             public boolean onClickMyaItem(String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                }
+                if (itemName.equals("Mya_Privacy_Settings")) {
+                    RestInterface restInterface = getRestClient();
+                    if (restInterface.isInternetReachable()) {
+                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(), getApplicationContext().getConsentRegistryInterface(), consentDefinitionList);
+                        PermissionHelper.getInstance().setMyAccountUIEventListener(MyAccountState.this);
+                        CswInterface cswInterface = getCswInterface();
+                        UappSettings uappSettings = new UappSettings(actContext);
+                        cswInterface.init(dependencies, uappSettings);
+                        cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
+                        return true;
+                    } else {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String message = actContext.getString(R.string.MYA_Offline_message);
+                        showDialog(title, message);
+                    }
                 }
                 return false;
             }
@@ -88,13 +111,25 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
         });
         launchInput.addToBackStack(true);
-        launchInput.setMyAccountUIEventListener(this);
-
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
         MyaInterface myaInterface = getInterface();
         launchInput.setMyaTabConfig(myaTabConfig);
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    private void showDialog(String title, String message) {
+        new DialogView(title, message).showDialog(getFragmentActivity());
+    }
+
+    private CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
     }
 
     private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
@@ -166,7 +201,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
 
-        List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
         consentDefinitionList.addAll(catkConsentDefinitions);
         consentDefinitionList.addAll(urConsentDefinitions);
 
@@ -186,7 +220,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentRegistryInterface(), MyaHelper.getInstance().getConsentDefinitionList());
+        ConsentRegistryInterface consentDefinitionRegistry = ((AppFrameworkApplication) actContext.getApplicationContext()).getConsentRegistryInterface();
+        return new MyaDependencies(appInfra, consentDefinitionRegistry, MyaHelper.getInstance().getConsentDefinitionList());
     }
 
     @Override
@@ -218,4 +253,37 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public FragmentActivity getFragmentActivity() {
         return fragmentLauncher.getFragmentActivity();
     }
+
+    protected RestInterface getRestClient() {
+        return getDependencies().getAppInfra().getRestClient();
+    }
+    protected MyaDependencies getDependencies() {
+        return MyaInterface.get().getDependencies();
+    }
+
+   /* public void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
+        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
+        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
+    }
+
+    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
+        List<String> uniqueTypes = new ArrayList<>();
+        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
+            for (ConsentConfiguration configuration : consentConfigurationList) {
+                if (configuration != null) {
+                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                        if (definition != null) {
+                            for (String type : definition.getTypes()) {
+                                if (uniqueTypes.contains(type)) {
+                                    throw new CatkInputs.InvalidInputException(
+                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                                }
+                                uniqueTypes.add(type);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }*/
 }

@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: buildscript.sourceFile.parent+ "/versions.gradle"
+    apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
     repositories {
         maven {
@@ -23,13 +28,6 @@ buildscript {
         classpath builddeps.cdpSCM
     }
 }
-
-/*
- * Copyright (c) Koninklijke Philips N.V., 2018.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
 
 import com.philips.cdp.cdpSCM
 

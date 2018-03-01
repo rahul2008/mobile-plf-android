@@ -10,6 +10,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  */
 public class URSettings extends UappSettings {
 
+    private static final long serialVersionUID = 1128016096756071385L;
+
     /**
      * Creates instance of URSettings with application context
      * @param applicationContext application context

@@ -44,7 +44,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         try {
             THSManager.getInstance().getVisitSummary(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
@@ -68,7 +68,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
             }
             THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -114,7 +114,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         try {
             THSManager.getInstance().getVisitHistory(mTHSVisitSummaryFragment.getContext(),null, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
     // fetch report callback

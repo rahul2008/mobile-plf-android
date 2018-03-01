@@ -90,7 +90,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
         try {
             THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), practice, provider, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -99,7 +99,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
             THSManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medication, this);
 
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -107,7 +107,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
         try {
             THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(), THSManager.getInstance().getPTHConsumer(uiBaseView.getContext()), null, null, pharmacyZip, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }

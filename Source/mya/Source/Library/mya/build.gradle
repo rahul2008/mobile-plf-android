@@ -124,8 +124,6 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':mya-csw', configuration: 'debug')
-        releaseCompile project(path: ':mya-csw', configuration: 'release')
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
 
@@ -135,9 +133,6 @@ dependencies {
         compile (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
-        compile philipsdeps.mya_csw
-        compile philipsdeps.mya_chi
-        compile philipsdeps.mya_catk
     }
 
     // Tests

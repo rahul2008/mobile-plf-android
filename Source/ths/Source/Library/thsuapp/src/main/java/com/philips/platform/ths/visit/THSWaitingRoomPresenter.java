@@ -74,7 +74,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                             (mTHSWaitingRoomFragment.mProviderImageView.getResources().getDrawable(R.drawable.doctor_placeholder, mTHSWaitingRoomFragment.getActivity().getTheme())).
                             build().load();
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
 
                 ////////////
@@ -91,7 +91,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
             THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), mTHSWaitingRoomFragment.mVisit, null, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }catch (Exception e){
             mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.ths_something_went_wrong));
         }
@@ -120,7 +120,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         try {
             THSManager.getInstance().cancelVisit(mTHSWaitingRoomFragment.getFragmentActivity(), mTHSWaitingRoomFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -129,7 +129,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             THSManager.getInstance().abandonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
             mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

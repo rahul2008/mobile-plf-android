@@ -28,7 +28,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         try {
             THSManager.getInstance().getConsumerPreferredPharmacy(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -36,7 +36,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         try {
             THSManager.getInstance().getConsumerShippingAddress(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

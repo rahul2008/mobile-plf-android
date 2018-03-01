@@ -36,7 +36,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
             try {
                 THSManager.getInstance().updateConditions(thsBaseFragment.getContext(), ((THSMedicalConditionsFragment) thsBaseFragment).getTHSConditions(), this);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
 
         } else if (componentID == R.id.conditions_skip) {
