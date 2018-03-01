@@ -9,37 +9,48 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.os.*;
-import android.text.*;
-import android.text.style.*;
-import android.view.*;
-import android.widget.*;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.jakewharton.rxbinding2.widget.*;
-import com.philips.cdp.registration.*;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.UpdateMobile;
+import com.philips.cdp.registration.ui.utils.UpdateToken;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import org.greenrobot.eventbus.*;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import java.util.*;
+import javax.inject.Inject;
 
-import javax.inject.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import butterknife.*;
-
-import static com.janrain.android.Jump.*;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
+import static com.janrain.android.Jump.getRedirectUri;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyCodeContract, OnUpdateListener{
@@ -68,10 +79,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     private Context context;
 
     private MobileForgotPassVerifyCodePresenter mobileVerifyCodePresenter;
-
-    private Handler handler;
-
-    boolean isVerified;
 
     private String verificationSmsCodeURL;
 
@@ -115,7 +122,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
         setDescription();
-        handler = new Handler();
+        Handler handler = new Handler();
         handleVerificationCode();
         return view;
     }
@@ -216,10 +223,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
         getRegistrationFragment().hideKeyBoard();
-        createSMSPasswordResetIntent();
+        resetSmsPassword();
     }
 
-    public Intent createSMSPasswordResetIntent() {
+    public void resetSmsPassword() {
 
         RLog.d("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUriValue + " " + responseToken);
@@ -230,7 +237,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         bundle.putString(redirectUriKey, redirectUriValue);
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
-        return null;
     }
 
     private void constructRedirectUri() {
@@ -261,18 +267,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
         mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
         getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
-    }
-
-    public Intent getServiceIntent() {
-        return new Intent(context, HttpClientService.class);
-    }
-
-    public HttpClientServiceReceiver getClientServiceRecevier() {
-        return new HttpClientServiceReceiver(handler);
-    }
-
-    public ComponentName startService(Intent intent) {
-        return context.startService(intent);
     }
 
     public void enableVerifyButton() {

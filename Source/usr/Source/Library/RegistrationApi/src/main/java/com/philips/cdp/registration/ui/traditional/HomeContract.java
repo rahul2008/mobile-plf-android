@@ -61,7 +61,7 @@ interface HomeContract {
 
     void wechatAutheticationCanceled();
 
-    void startWeChatLogin();
+    void startWeChatLogin(String mWeChatCode);
 
     void naviagteToAccountActivationScreen();
 
