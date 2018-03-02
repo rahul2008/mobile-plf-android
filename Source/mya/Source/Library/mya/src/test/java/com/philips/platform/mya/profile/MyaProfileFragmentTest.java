@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
@@ -54,6 +55,8 @@ public class MyaProfileFragmentTest {
         mContext = RuntimeEnvironment.application;
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
+        MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         myaProfileFragment = new MyaProfileFragment();
         SupportFragmentTestUtil.startFragment(myaProfileFragment);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);

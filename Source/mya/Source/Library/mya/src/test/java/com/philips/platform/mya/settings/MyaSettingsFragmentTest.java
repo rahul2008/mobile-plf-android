@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
@@ -55,7 +56,7 @@ public class MyaSettingsFragmentTest {
         mContext = RuntimeEnvironment.application;
         myaSettingsFragment = new MyaSettingsFragment();
         ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
-
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         ArrayList<String> arrayList = new ArrayList<>();
         getArray(arrayList);
         AppInfra appInfra = mock(AppInfra.class);
@@ -63,6 +64,7 @@ public class MyaSettingsFragmentTest {
         MyaLaunchInput myaLaunchInput = new MyaLaunchInput(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
+        MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaLaunchInput.setSettingsMenuList(arrayList);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
