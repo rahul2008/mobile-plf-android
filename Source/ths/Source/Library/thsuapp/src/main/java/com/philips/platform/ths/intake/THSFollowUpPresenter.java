@@ -68,7 +68,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             THSManager.getInstance().updateConsumer(mTHSFollowUpFragment.getFragmentActivity(), updatedPhoneNumber, this);
 
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }

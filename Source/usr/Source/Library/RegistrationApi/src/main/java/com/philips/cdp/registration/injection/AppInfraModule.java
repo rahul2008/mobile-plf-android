@@ -7,6 +7,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -23,6 +24,11 @@ public class AppInfraModule {
 
     public AppInfraModule(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
+    }
+
+    @Provides
+    public RestInterface providesRestInterface() {
+        return appInfraInterface.getRestClient();
     }
 
     @Singleton

@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.americanwell.sdk.entity.SDKEntity;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -47,6 +48,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARC
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SEARCH;
 
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;
@@ -59,7 +61,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     int searchType = 0;
     private Practice practice;
     protected List<Pharmacy> pharmacyList;
-    static final long serialVersionUID = 42L;
+
 
 
     @Override

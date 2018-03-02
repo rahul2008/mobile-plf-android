@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.app.ProgressDialog;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +11,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -20,8 +20,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
  * Created by 310190722 on 6/21/2016.
  */
 public class ResetPasswordWebView extends Fragment {
-
-    private ProgressDialog mProgressDialog;
 
     public static final String TEST_RESET_PASS = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String STAGE_RESET_PASS = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
@@ -37,23 +35,16 @@ public class ResetPasswordWebView extends Fragment {
     private void initUI(View view) {
         final String redirectUriKey = "redirectUri";
         WebView mWebView = (WebView) view.findViewById(R.id.reg_wv_reset_password_webview);
-
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-        }
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mProgressDialog.setCancelable(false);
         showWebViewSpinner();
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
 
         String url = getURL(redirectUriKey);
-        RLog.d("MobileVerifyCodeFragment ", "response val 2 token url "+url);
+        RLog.d("MobileVerifyCodeFragment ", "response val 2 token url " + url);
 
         mWebView.loadUrl(url);
         mWebView.clearView();
@@ -86,14 +77,14 @@ public class ResetPasswordWebView extends Fragment {
 
     private String getURL(String redirectUriKey) {
         Bundle bundle = getArguments();
-        RLog.d("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
+        RLog.d("MobileVerifyCodeFragment", "bundle size " + bundle.size());
         String redirectUri = bundle.getString(redirectUriKey);
 
         String url;
-        if(redirectUri !=null && redirectUri.length()>0){
+        if (redirectUri != null && redirectUri.length() > 0) {
             //Reset Password SMS URL
             url = redirectUri;
-        }else{
+        } else {
             //Reset Password EMAIL URL
             url = initializeResetPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         }
@@ -101,14 +92,13 @@ public class ResetPasswordWebView extends Fragment {
     }
 
     private void showWebViewSpinner() {
-        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
+        if (!(getActivity().isFinishing())) showProgressDialog();
     }
 
     private void hideWebViewSpinner() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
+        hideProgressDialog();
     }
+
     private String initializeResetPasswordLinks(String registrationEnv) {
 
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
@@ -123,5 +113,23 @@ public class ResetPasswordWebView extends Fragment {
         return null;
     }
 
+
+    public ProgressAlertDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (this.isVisible()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
 
 }

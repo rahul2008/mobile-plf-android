@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -251,24 +252,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             mResendEmail.setEnabled(false);
             mReturnButton.setEnabled(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
-    }
-
-    private ProgressDialog mProgressDialog;
-
-    private void showProgressDialog() {
-        if (this.isVisible()) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
-            }
-            mProgressDialog.show();        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
         }
     }
 

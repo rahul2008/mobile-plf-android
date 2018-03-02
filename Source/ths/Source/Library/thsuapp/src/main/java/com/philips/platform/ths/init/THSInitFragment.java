@@ -26,7 +26,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
 
-
+@SuppressWarnings("serial")
 public class THSInitFragment extends THSBaseFragment {
     public static final String TAG = THSInitFragment.class.getSimpleName();
     THSInitPresenter mThsInitPresenter;
@@ -74,9 +74,11 @@ public class THSInitFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // entry to THS, start tagging
-        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
-        THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            // entry to THS, start tagging
+            THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
+            THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        }
     }
 
     @Override

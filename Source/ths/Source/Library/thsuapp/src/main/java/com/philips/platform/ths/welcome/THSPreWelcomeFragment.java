@@ -29,6 +29,7 @@ import com.philips.platform.uid.view.widget.Label;
 import static com.philips.platform.ths.utility.THSConstants.THS_CONFIRM_T_AND_C;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITION;
 
+@SuppressWarnings("serial")
 public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSPreWelcomeFragment.class.getSimpleName();
     protected THSPreWelcomePresenter mThsPreWelcomeScreenPresenter;

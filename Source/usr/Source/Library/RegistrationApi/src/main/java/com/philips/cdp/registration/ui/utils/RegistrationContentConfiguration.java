@@ -5,6 +5,8 @@ import java.io.*;
 
 public class RegistrationContentConfiguration implements Serializable {
 
+    private static final long serialVersionUID = 1128016096756071383L;
+
     private String valueForRegistrationTitle;
 
     private String valueForEmailVerification;

@@ -1,26 +1,16 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.android.volley.VolleyError;
 
 public interface MobileVerifyCodeContract {
 
-
-    HttpClientServiceReceiver getClientServiceRecevier();
-
-    ComponentName startService(Intent intent);
-
-    Intent getServiceIntent();
-
     void enableVerifyButton();
 
-
     void disableVerifyButton();
+
     void netWorkStateOnlineUiHandle();
+
     void netWorkStateOfflineUiHandle();
-
-
 
     void showSmsSendFailedError();
 
@@ -37,4 +27,8 @@ public interface MobileVerifyCodeContract {
     void setOtpErrorMessageFromJson(String errorDescription);
 
     void storePreference(String emailOrMobileNumber);
+
+    void onSuccessResponse(String response);
+
+    void onErrorResponse(VolleyError error);
 }

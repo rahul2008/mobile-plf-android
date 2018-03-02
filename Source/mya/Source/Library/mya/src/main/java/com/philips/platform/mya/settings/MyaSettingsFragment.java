@@ -22,7 +22,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.mya.dialogs.DialogView;
 import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -147,11 +146,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         }
-    }
-
-    @Override
-    public void showOfflineDialog(String title, String message) {
-        new DialogView(title, message).showDialog(getActivity());
     }
 
     private void showDialog(String title, String message) {

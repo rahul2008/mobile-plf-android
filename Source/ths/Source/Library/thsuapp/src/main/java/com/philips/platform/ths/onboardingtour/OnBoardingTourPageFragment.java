@@ -32,6 +32,7 @@ import java.util.List;
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
  */
+@SuppressWarnings("unchecked")
 public class OnBoardingTourPageFragment extends THSBaseFragment {
     public static final String TAG =  OnBoardingTourPageFragment.class.getSimpleName();
 
@@ -43,8 +44,10 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
     // Store instance variables
     @StringRes private int titleId;
     @DrawableRes private int backgroundId;
+
     private List<OnBoardingSpanValue> spanValues;
 
+    @SuppressWarnings("serial")
     public static OnBoardingTourPageFragment newInstance(@StringRes int title,
                                                          @DrawableRes int background, List<OnBoardingSpanValue> spanIndexPairs) {
         Bundle args = new Bundle();
