@@ -85,44 +85,11 @@ public class MyaSettingsPresenterTest {
         when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         key = "MYA_My_details";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-    }
-
-    @Test
-    public void testHandleOnClickSettingsWhenDeviceIsOffline() {
-        MyaDependencies mockDependencies = mock(MyaDependencies.class);
-        AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
-        when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
-        RestInterface mockRestClient = mock(RestInterface.class);
-        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
-        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
-        when(mockRestClient.isInternetReachable()).thenReturn(false);
-        when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
-        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
-        when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
-        String testTitle = "Test title";
-        when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);
-        String testMessage = "Test message";
-        when(context.getString(R.string.MYA_Offline_message)).thenReturn(testMessage);
-        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
-        myaSettingsPresenter = new MyaSettingsPresenter(view);
-        String key = "Mya_Privacy_Settings";
-        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-    }
-
-
-    private Bundle getArguments() {
-        Bundle arguments = new Bundle();
-        MyaLaunchInput value = new MyaLaunchInput(context);
-        String[] profileItems = {"profile1","profile2"};
-        value.setProfileMenuList(Arrays.asList(profileItems));
-        return arguments;
     }
 }

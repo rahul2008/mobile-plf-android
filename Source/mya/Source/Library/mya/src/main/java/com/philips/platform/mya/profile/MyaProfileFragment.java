@@ -23,9 +23,6 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
 
-import static com.philips.platform.mya.launcher.MyaInterface.appTaggingInterface;
-
-
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
 
     private RecyclerView recyclerView;
@@ -64,9 +61,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public void onResume() {
         super.onResume();
-        if(appTaggingInterface!=null) {
-            appTaggingInterface.trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
-        }
+       MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
     }
 
     @Override
@@ -107,7 +102,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
         recyclerView.setItemAnimator(getAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
-        myaProfileAdaptor.setOnClickListener(onClickRecylerViewItem(profileList));
+        myaProfileAdaptor.setOnClickListener(onClickRecyclerViewItem(profileList));
     }
 
     protected DefaultItemAnimator getAnimator() {
@@ -122,7 +117,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         return linearLayoutManager;
     }
 
-    private View.OnClickListener onClickRecylerViewItem(final Map<String, String> profileList) {
+    private View.OnClickListener onClickRecyclerViewItem(final Map<String, String> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {

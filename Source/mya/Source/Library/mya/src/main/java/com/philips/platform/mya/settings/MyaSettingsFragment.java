@@ -36,7 +36,6 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.mya.launcher.MyaInterface.appTaggingInterface;
 import static com.philips.platform.mya.settings.MyaPhilipsLinkFragment.PHILIPS_LINK;
 
 
@@ -93,9 +92,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        if(appTaggingInterface!=null) {
-            appTaggingInterface.trackPageWithInfo("MYA_01_06_settings_page","MYA_01_06_settings_page","My Settings page");
-        }
+        MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
     }
 
     @Override
@@ -181,12 +178,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 isDialogOpen = false;
                 dismissDialog();
-                if(appTaggingInterface != null) {
                     Map<String,String> map = new HashMap<>();
                     map.put("inAppNotification","Are you sure you want to log out?");
                     map.put("inAppNotificationResponse","Cancel");
-                    appTaggingInterface.trackActionWithInfo("sendData",map);
-                }
+                    MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData",map);
             }
         };
     }
@@ -213,12 +208,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 //TODO - need to invoke above commented code when introduced call back for log out success
                 presenter.logOut(getArguments());
                 dismissDialog();
-                if(appTaggingInterface != null) {
-                    Map<String,String> map = new HashMap<>();
-                    map.put("inAppNotification","Are you sure you want to log out?");
-                    map.put("inAppNotificationResponse","Log out");
-                    appTaggingInterface.trackActionWithInfo("sendData",map);
-                }
+                Map<String, String> map = new HashMap<>();
+                map.put("inAppNotification", "Are you sure you want to log out?");
+                map.put("inAppNotificationResponse", "Log out");
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", map);
             }
         };
     }
@@ -277,9 +270,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
                 String appName = appIdentityInterface.getAppName();
                 String url = getString(R.string.MYA_philips_website)+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
-                if(appTaggingInterface != null) {
-                    appTaggingInterface.trackActionWithInfo("sendData", "exitLinkName", url);
-                }
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", url);
                 showFragment(fragment);
             }
         };

@@ -132,7 +132,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
             @Override
             public void onError(MyaError myaError) {
-
+                Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -280,10 +280,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     }
 
     private RestInterface getRestClient() {
-        return getDependencies().getAppInfra().getRestClient();
-    }
-    private MyaDependencies getDependencies() {
-        return MyaInterface.get().getDependencies();
+        return ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra().getRestClient();
     }
 
     void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {

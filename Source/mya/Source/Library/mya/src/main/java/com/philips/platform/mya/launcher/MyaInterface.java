@@ -35,14 +35,6 @@ import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
  */
 public class MyaInterface implements UappInterface {
     public static String USER_PLUGIN = "user_plugin";
-    private static final MyaInterface reference = new MyaInterface();
-    public static AppTaggingInterface appTaggingInterface;
-
-    public static MyaInterface get() {
-        return reference;
-    }
-
-    private MyaDependencies dependencies;
 
     /**
      * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
@@ -59,8 +51,7 @@ public class MyaInterface implements UappInterface {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
         MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
-        appTaggingInterface = getTaggingInterface(myaDependencies);
-        reference.dependencies = myaDependencies;
+        MyaHelper.getInstance().setAppTaggingInterface(getTaggingInterface(myaDependencies));
     }
 
 
@@ -115,15 +106,6 @@ public class MyaInterface implements UappInterface {
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
-    }
-
-    /**
-     * Get the My account dependencies
-     * @since 2017.5.0
-     * @return returns the mya dependencies
-     */
-    public MyaDependencies getDependencies() {
-        return dependencies;
     }
 
     protected UserDataInterface getUserDataInterface() {
