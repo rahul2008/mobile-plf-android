@@ -207,7 +207,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/LICENSE'
+        pickFirst 'META-INF/LICENSE'
     }
 
     publishNonDefault true

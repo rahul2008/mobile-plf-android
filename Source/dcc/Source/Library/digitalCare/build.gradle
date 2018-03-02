@@ -207,6 +207,10 @@ android {
         }
     }
 
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
+    }
+
     publishNonDefault true
 }
 
@@ -222,15 +226,12 @@ dependencies {
     if(dp) {
         debugCompile project(path: ':mya-csw', configuration: 'debug')
         releaseCompile project(path: ':mya-csw', configuration: 'release')
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
         compile philipsdeps.mya-csw
-        compile philipsdeps.mya-catk
         compile philipsdeps.productselection
         compile philipsdeps.uid
     }
