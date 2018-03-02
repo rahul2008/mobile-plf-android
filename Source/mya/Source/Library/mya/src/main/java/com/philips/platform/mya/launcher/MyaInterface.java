@@ -117,6 +117,11 @@ public class MyaInterface implements UappInterface {
         }
     }
 
+    /**
+     * Get the My account dependencies
+     * @since 2017.5.0
+     * @return returns the mya dependencies
+     */
     public MyaDependencies getDependencies() {
         return dependencies;
     }

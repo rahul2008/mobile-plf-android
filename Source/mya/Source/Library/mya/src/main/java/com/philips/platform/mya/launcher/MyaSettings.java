@@ -18,6 +18,11 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  */
 public class MyaSettings extends UappSettings {
 
+    /**
+     * Constructor for Mya settings
+     * @since 2017.5.0
+     * @param applicationContext pass the application context
+     */
     public MyaSettings(Context applicationContext) {
         super(applicationContext);
 
