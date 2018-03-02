@@ -4,15 +4,10 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -113,7 +108,7 @@ public class CcInterface implements UappInterface {
                     fragmentActivity, containerViewId, new ActionBarListener() {
                 @Override
                 public void updateActionBar(@StringRes int i, boolean b) {
-
+                    actionBarListener.updateActionBar(i, b);
                 }
 
                 @Override
