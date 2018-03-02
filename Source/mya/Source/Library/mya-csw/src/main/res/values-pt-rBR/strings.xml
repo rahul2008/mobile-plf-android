@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[pt-BR]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Ocorre um problema ao conectar com o servidor. Confira se a data e a hora de seu dispositivo estão configuradas corretamente. Se o problema persistir, desconecte e conecte-se novamente.</string>
+  <string name="csw_offline_message">[pt-BR]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[pt-BR]You are offline</string>
+  <string name="csw_ok">[pt-BR]OK</string>
+  <string name="csw_privacy_settings">[pt-BR]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[pt-BR]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[pt-BR]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[pt-BR]Problem occurred</string>
+  <string name="mya_Account_settings">Ajustes da conta</string>
+  <string name="mya_Address">Endereço</string>
+  <string name="mya_Cancel">Cancelar</string>
+  <string name="mya_Consent_Help_Label">O que isso significa?</string>
+  <string name="mya_Country">País</string>
+  <string name="mya_Date_of_birth">Nascimento</string>
+  <string name="mya_Email_Validation_message">Endereço de e-mail não confirmado</string>
+  <string name="mya_Email_address">E-mail</string>
+  <string name="mya_Gender">Sexo</string>
+  <string name="mya_Info">Deseja alterar seu ID de login e sua senha? Acesse nosso site.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[pt-BR]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Detalhes de login</string>
+  <string name="mya_Logout">Sair</string>
+  <string name="mya_Mobile_number">Número do celular</string>
+  <string name="mya_My_account">Minha conta</string>
+  <string name="mya_My_details">Meus detalhes</string>
+  <string name="mya_My_orders">Meus pedidos</string>
+  <string name="mya_My_products">Meus produtos</string>
+  <string name="mya_My_subscriptions">Minhas assinaturas</string>
+  <string name="mya_Name">Nome</string>
+  <string name="mya_Not_Available">Não disponível</string>
+  <string name="mya_Notifications">Notificações</string>
+  <string name="mya_Offline_message">Aparentemente, sua conexão com a Internet não está funcionando. Verifique e tente novamente</string>
+  <string name="mya_Offline_title">Você está offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Detalhes pessoais</string>
+  <string name="mya_Privacy_Settings">Privacidade</string>
+  <string name="mya_Privacy_Settings_Desc">Controle sua privacidade. Leia o _aviso de privacidade_ para obter mais informações.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Ocorreu um problema (erro %d). Tente novamente.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Ocorreu um problema</string>
+  <string name="mya_Profile">Perfil</string>
+  <string name="mya_Settings">Definições</string>
+  <string name="mya_change_country">Sair para trocar de país</string>
+  <string name="mya_change_country_message">Saia para trocar de país. Com essa informação, personalizaremos a garantia e outras informações, conforme sua localização.</string>
+  <string name="mya_csw_justintime_accept">[pt-BR]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[pt-BR]Maybe later</string>
+  <string name="mya_csw_justintime_title">[pt-BR]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[pt-BR]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[pt-BR]What do we have to offer?</string>
+  <string name="mya_logout_message">Você sairá do aplicativo agora. É possível conectar-se novamente depois.</string>
+  <string name="mya_logout_title">Tem certeza de que deseja sair?</string>
+</resources>
