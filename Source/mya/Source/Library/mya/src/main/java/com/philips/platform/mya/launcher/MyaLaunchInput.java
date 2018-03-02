@@ -37,15 +37,29 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
         this.context = context;
     }
 
-
+    /**
+     * Get the context
+     * @since 2017.5.0
+     * @return returns the context
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * Get the MyaListener needed to handle profile, settings and logout click
+     * @since 2017.5.0
+     * @return
+     */
     public MyaListener getMyaListener() {
         return myaListener;
     }
 
+    /**
+     *
+     * @since 2017.5.0
+     * @return
+     */
     public MyaTabConfig getMyaTabConfig() {
         return myaTabConfig;
     }

@@ -7,9 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -27,6 +29,8 @@ import java.util.TreeMap;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -50,9 +54,17 @@ public class MyaSettingsFragmentTest {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         myaSettingsFragment = new MyaSettingsFragment();
-        AppInfra appInfra = new AppInfra.Builder().build(mContext);
+        ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        getArray(arrayList);
+        AppInfra appInfra = mock(AppInfra.class);
+        when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
+        MyaLaunchInput myaLaunchInput = new MyaLaunchInput(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
+        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         SupportFragmentTestUtil.startFragment(myaSettingsFragment);
+        myaLaunchInput.setSettingsMenuList(arrayList);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
 

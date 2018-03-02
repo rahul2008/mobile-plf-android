@@ -247,18 +247,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return linearLayoutManager;
     }
 
-    @Override
-    public void onLogOutSuccess() {
-        dismissDialog();
-        exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onSettingsMenuItemSelected(getContext().getString(R.string.mya_log_out));
-    }
-
-    @Override
-    public void hideProgressIndicator() {
-
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public void setLinkUrl(final String url) {

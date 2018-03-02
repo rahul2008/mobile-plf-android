@@ -19,8 +19,6 @@ interface MyaSettingsContract {
 
     interface View extends MyaBaseView {
         void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap);
-        void onLogOutSuccess();
-        void hideProgressIndicator();
         void setLinkUrl(String url);
     }
 

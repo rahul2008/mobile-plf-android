@@ -42,7 +42,6 @@ public class MyaSettingsPresenterTest {
     private MyaSettingsContract.View view;
     private Context context;
     private MyaSettingsPresenter myaSettingsPresenter;
-    private MyaInterface myaInterface;
 
     @Before
     public void setup() {
