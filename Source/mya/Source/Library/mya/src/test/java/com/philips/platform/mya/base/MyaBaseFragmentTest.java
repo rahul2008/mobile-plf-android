@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
@@ -70,6 +71,8 @@ public class MyaBaseFragmentTest {
         MyaHelper.getInstance().setAppInfra(appInfra);
         MyaLaunchInput myaLaunchInput = new MyaLaunchInput(mContext);
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
+        MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         SupportFragmentTestUtil.startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getContext());
     }
