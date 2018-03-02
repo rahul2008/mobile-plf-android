@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">保加利亞</string>
 <string name="reg_Country_CA">加拿大</string>
 <string name="reg_Country_CL">智利</string>
-<string name="reg_Country_CN">中國</string>
+<string name="reg_Country_CN">中國大陸</string>
 <string name="reg_Country_CO">哥倫比亞</string>
 <string name="reg_Country_HR">克羅埃西亞</string>
 <string name="reg_Country_CZ">捷克共和國</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">法國</string>
 <string name="reg_Country_DE">德國</string>
 <string name="reg_Country_GR">希臘</string>
-<string name="reg_Country_HK">香港</string>
+<string name="reg_Country_HK">中國香港</string>
 <string name="reg_Country_HU">匈牙利</string>
 <string name="reg_Country_IN">印度</string>
 <string name="reg_Country_ID">印尼</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">英國</string>
 <string name="reg_Country_US">美國</string>
 <string name="reg_Country_VN">越南</string>
-<string name="reg_Country_MO">澳門</string>
+<string name="reg_Country_MO">中國澳門</string>
 <string name="reg_Country_LU">盧森堡</string>
+<string name="reg_Country_TWGC">中華台北</string>
 <string name="reg_Country_Search_Text">搜尋..</string>
 <string name="reg_AppNotInstalled_Alert_Title">應用程式未安裝</string>
 <string name="reg_App_NotInstalled_AlertMessage">請安裝 %s 應用程式以使用此功能。</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">請再次登入，於舊手機上重設密碼，或聯絡客戶服務取得進一步的支援。</string>
 <string name="reg_Try_To_Login_Button_Text">重新嘗試登入</string>
 <string name="reg_Contact_Customer_Care_Text">聯絡客戶服務</string>
+<string name="reg_Update_Email_Button_Text">更新電子郵件地址</string>
+<string name="reg_Country_Region">國家/地區</string>
 <string name="reg_MyDetails_TitleTxt">我的帳戶</string>
 <string name="reg_Login_Details_Txt">登入詳情</string>
 <string name="reg_Email_address_TitleTxt">電子郵件地址</string>
@@ -377,8 +380,7 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">請新增您的復原電子郵件</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">稍後再說</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">請輸入密碼以重設您的帳戶密碼。</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">在獲得您的同意後，Philips 集團公司可能會以電郵、短訊及其他電子渠道如手機應用程式及社交媒體，向您發送推廣性電子通訊。 我們會分析並整合您的個人資料，以為您推薦適合您喜好及行為的通訊內容，並提供最優質的個人體驗。 這些數據包括：\n\n您提供的資料\n您主動樂意分享的個人資料如：您的姓名、生日、年齡、電郵地址、居住住址、國家、性別、電話號碼以及社交媒體資料。\n\n我們從您與 Philips 交互活動中所取得的資訊\n您使用 Philips 的數碼渠道如社交媒體、網頁、電郵、應用程式以及連接的裝置所產生的交互數據。 這些數據可能包括：IP 地址、Cookie、裝置資料、您點擊的連接、位置資訊以及您已瀏覽的網頁。\n\nPhilips 讓您隨時取消同意以上內容。\n詳情請參閱 Philips 私隱聲明  及 Philips Cookie 聲明 。</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>
