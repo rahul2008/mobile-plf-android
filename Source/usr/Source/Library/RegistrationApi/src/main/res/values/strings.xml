@@ -254,6 +254,7 @@
     <string name="reg_Country_VN">Vietnam</string>
     <string name="reg_Country_MO">Macau</string>
     <string name="reg_Country_LU">Luxembourg</string>
+    <string name="reg_Country_TWGC">Chinese Taipei</string>
     <string name="reg_Country_Search_Text">Search..</string>
     <string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
     <string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
