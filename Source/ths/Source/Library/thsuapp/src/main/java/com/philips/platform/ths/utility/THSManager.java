@@ -204,11 +204,6 @@ public class THSManager {
     private User mUser;
 
     private AppInfraInterface mAppInfra;
-
-
-
-
-
     AppTaggingInterface mAppTaggingInterface;
     LoggingInterface mLoggingInterface;
 

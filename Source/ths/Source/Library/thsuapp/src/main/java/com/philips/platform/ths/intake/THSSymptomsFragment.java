@@ -114,8 +114,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         visitStartTime = THSTagUtils.getCurrentTime();
-        THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
-        THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeStart", null, null);
+
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
+            THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeStart", null, null);
+        }
 
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
