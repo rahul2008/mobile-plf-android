@@ -188,7 +188,7 @@ public class AppFrameworkApplication extends Application {
         return appInfra;
     }
 
-    public ConsentRegistryInterface getConsentRegistryInterface() {
+    public ConsentRegistryInterface getConsentRegistry() {
         return consentRegistryInterface;
     }
 

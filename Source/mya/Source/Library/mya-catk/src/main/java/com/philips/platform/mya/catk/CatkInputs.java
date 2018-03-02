@@ -50,7 +50,7 @@ public class CatkInputs {
         return Collections.unmodifiableList(consentDefinitionList);
     }
 
-    public ConsentRegistryInterface getConsentRegistryInterface() {
+    public ConsentRegistryInterface getConsentRegistry() {
         return consentRegistryInterface;
     }
 
@@ -72,7 +72,7 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConsentRegistryInterface(ConsentRegistryInterface consentRegistryInterface) {
+        public Builder setConsentRegistry(ConsentRegistryInterface consentRegistryInterface) {
             this.consentRegistryInterface = consentRegistryInterface;
             return this;
         }

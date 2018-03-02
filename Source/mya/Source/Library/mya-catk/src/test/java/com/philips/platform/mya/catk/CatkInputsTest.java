@@ -124,7 +124,7 @@ public class CatkInputsTest {
     }
 
     private void whenBuilding() {
-        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).setConsentRegistryInterface(consentRegistryInterface).build();
+        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).setConsentRegistry(consentRegistryInterface).build();
     }
 
     private List<ConsentDefinition> whenGettingConsentDefinitions() {

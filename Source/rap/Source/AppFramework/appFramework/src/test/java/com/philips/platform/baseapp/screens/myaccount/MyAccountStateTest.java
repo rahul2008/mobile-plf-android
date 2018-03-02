@@ -32,7 +32,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -100,7 +99,7 @@ public class MyAccountStateTest {
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
-        when(application.getConsentRegistryInterface()).thenReturn(consentRegistryInterface);
+        when(application.getConsentRegistry()).thenReturn(consentRegistryInterface);
     }
 
     @Test

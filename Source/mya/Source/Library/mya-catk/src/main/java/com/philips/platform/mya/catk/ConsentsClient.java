@@ -73,7 +73,7 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        this.consentRegistryInterface = catkInputs.getConsentRegistryInterface();
+        this.consentRegistryInterface = catkInputs.getConsentRegistry();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
         this.consentDefinitionList = catkInputs.getConsentDefinitions();

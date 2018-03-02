@@ -112,7 +112,7 @@ public class CswInterface implements UappInterface {
         List<ConsentDefinition> consentDefinitionList = ((CswDependencies) uappDependencies).getConsentDefinitionList();
 
         return DaggerCswComponent.builder()
-                .cswModule(new CswModule(uappSettings.getContext(), ((CswDependencies) uappDependencies).getConsentRegistryInterface(), consentDefinitionList))
+                .cswModule(new CswModule(uappSettings.getContext(), ((CswDependencies) uappDependencies).getConsentRegistry(), consentDefinitionList))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 

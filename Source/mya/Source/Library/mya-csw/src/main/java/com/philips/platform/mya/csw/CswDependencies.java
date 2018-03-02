@@ -26,7 +26,7 @@ public class CswDependencies extends UappDependencies {
         this.consentDefinitionList = consentDefinitionList;
     }
 
-    public ConsentRegistryInterface getConsentRegistryInterface() {
+    public ConsentRegistryInterface getConsentRegistry() {
         return consentRegistryInterface;
     }
 

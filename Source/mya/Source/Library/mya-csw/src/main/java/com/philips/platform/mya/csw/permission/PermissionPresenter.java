@@ -56,7 +56,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     void getConsentStatus() {
         List<ConsentDefinition> consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
-        ConsentRegistryInterface consentRegistryInterface = CswInterface.getCswComponent().getConsentRegistryInterface();
+        ConsentRegistryInterface consentRegistryInterface = CswInterface.getCswComponent().getConsentRegistry();
         if (!consentDefinitionList.isEmpty()) {
             permissionInterface.showProgressDialog();
             try {
@@ -71,7 +71,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public boolean onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            CswInterface.getCswComponent().getConsentRegistryInterface().storeConsentState(definition, consentGiven, this);
+            CswInterface.getCswComponent().getConsentRegistry().storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
             return consentGiven;
         } else {

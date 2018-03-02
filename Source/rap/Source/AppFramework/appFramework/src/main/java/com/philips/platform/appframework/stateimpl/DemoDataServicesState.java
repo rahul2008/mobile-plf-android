@@ -103,7 +103,7 @@ public class DemoDataServicesState extends DemoBaseState
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
         return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
-                ((AppFrameworkApplication) context.getApplicationContext()).getConsentRegistryInterface(),
+                ((AppFrameworkApplication) context.getApplicationContext()).getConsentRegistry(),
                 ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
     }
 

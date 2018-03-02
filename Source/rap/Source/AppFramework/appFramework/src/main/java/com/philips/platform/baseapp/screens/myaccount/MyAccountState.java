@@ -80,7 +80,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 if (itemName.equals("Mya_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();
                     if (restInterface.isInternetReachable()) {
-                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(), getApplicationContext().getConsentRegistryInterface(), consentDefinitionList);
+                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(), getApplicationContext().getConsentRegistry(), consentDefinitionList);
                         PermissionHelper.getInstance().setMyAccountUIEventListener(MyAccountState.this);
                         CswInterface cswInterface = getCswInterface();
                         UappSettings uappSettings = new UappSettings(actContext);
@@ -190,7 +190,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
-                .setConsentRegistryInterface(app.getConsentRegistryInterface())
+                .setConsentRegistry(app.getConsentRegistry())
                 .setConsentDefinitions(catkConsentDefinitions)
                 .build();
         ConsentsClient.getInstance().init(catkInputs);

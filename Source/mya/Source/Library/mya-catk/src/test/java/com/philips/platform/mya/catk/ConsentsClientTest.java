@@ -286,7 +286,7 @@ public class ConsentsClientTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).setConsentRegistryInterface(mockConsentRegistryInterface).build();
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).setConsentRegistry(mockConsentRegistryInterface).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {
