@@ -13,6 +13,7 @@ import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentPresenter;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
@@ -33,7 +34,6 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.appInfra;
 import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition;
 
 class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
@@ -106,6 +106,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
                         JustInTimeConsentDependencies.consentHandlerInterface = consentHandlerInterface;
                         JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
+                        new JustInTimeConsentPresenter(justInTimeConsentFragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentHandlerInterface, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
                         fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
                         fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
