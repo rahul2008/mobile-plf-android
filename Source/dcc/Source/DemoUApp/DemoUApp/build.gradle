@@ -146,6 +146,10 @@ android {
         abortOnError false
     }
 
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
+    }
+
     publishNonDefault true
 }
 
