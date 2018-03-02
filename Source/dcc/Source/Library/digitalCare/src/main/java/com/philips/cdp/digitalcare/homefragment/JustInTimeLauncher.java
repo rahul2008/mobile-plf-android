@@ -30,10 +30,6 @@ class JustInTimeLauncher {
     JustInTimeConsentFragment getJustInTimeFragment(int containerID, ActionBarListener actionBarListener) {
         JustInTimeConsentFragment justInTimeConsentFragment = JustInTimeConsentFragment.newInstance(containerID);
         justInTimeConsentFragment.setUpdateTitleListener(actionBarListener);
-
-        //TODO: Remove instantiation of JustInTimeConsentPresenter once development of JIT is complete. For now, added to fix breaking change.
-        new JustInTimeConsentPresenter(justInTimeConsentFragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentHandlerInterface, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
-        
         return justInTimeConsentFragment;
     }
 
