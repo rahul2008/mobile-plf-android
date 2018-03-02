@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.mya.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
@@ -67,7 +66,7 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
     public void onBindViewHolder(SettingsViewHolder holder, int position) {
         getItemViewType(position);
         String key = (String) settingsList.keySet().toArray()[position];
-        if (!TextUtils.isEmpty(key) && key.equalsIgnoreCase(context.getString(R.string.MYA_Country)))
+        if (!TextUtils.isEmpty(key) && key.equalsIgnoreCase("MYA_Country"))
             holder.arrow.setVisibility(View.GONE);
         SettingsModel settingsModel = settingsList.get(key);
         holder.settingTitle.setText((settingsModel != null && !TextUtils.isEmpty(settingsModel.getFirstItem())) ? settingsModel.getFirstItem() : key);

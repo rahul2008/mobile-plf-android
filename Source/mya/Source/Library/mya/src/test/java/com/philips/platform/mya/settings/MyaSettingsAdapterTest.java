@@ -71,8 +71,10 @@ public class MyaSettingsAdapterTest {
         View view = mock(View.class);
         Label label = mock(Label.class);
         Label label2 = mock(Label.class);
+        View arrow = mock(View.class);
         when(view.findViewById(R.id.item_title)).thenReturn(label);
         when(view.findViewById(R.id.second_item)).thenReturn(label2);
+        when(view.findViewById(R.id.arrow)).thenReturn(arrow);
         when(viewGroupMock.getContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
         when(layoutInflaterMock.inflate(R.layout.mya_single_item_layout, viewGroupMock, false)).thenReturn(view);
