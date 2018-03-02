@@ -50,7 +50,7 @@ public class MyaSettingsAdapterTest {
         initMocks(this);
         LinkedHashMap<String, SettingsModel> map = new LinkedHashMap<>();
         addData(map);
-        myaSettingsAdapter = new MyaSettingsAdapter(map);
+        myaSettingsAdapter = new MyaSettingsAdapter(contextMock, map);
         assertTrue(myaSettingsAdapter.getItemCount() == 2);
         View.OnClickListener onClickListener = mock(View.OnClickListener.class);
         myaSettingsAdapter.setOnClickListener(onClickListener);
