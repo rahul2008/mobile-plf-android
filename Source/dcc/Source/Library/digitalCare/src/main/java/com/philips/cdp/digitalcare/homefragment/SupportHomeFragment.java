@@ -341,8 +341,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         launchProductSelectionComponent();
                     } else {
                         homeFragmentPresenter = new SupportHomePresenter(this);
-                        homeFragmentPresenter.checkConsent(CcConsentProvider.fetchDeviceStoredConsentHandler(),
-                                CcConsentProvider.fetchLocationConsentDefinitionFor(getActivity()));
+                        homeFragmentPresenter.checkConsent(Utils.fetchDeviceStoredConsentHandler(),
+                                CcConsentProvider.fetchLocationConsentDefinition(getActivity()));
                     }
                 }
             }
