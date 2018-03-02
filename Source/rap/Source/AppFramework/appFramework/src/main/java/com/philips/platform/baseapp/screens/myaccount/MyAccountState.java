@@ -283,6 +283,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra().getRestClient();
     }
 
+    @VisibleForTesting
     void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
         throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
         this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
