@@ -135,6 +135,7 @@ android {
         generatedDensities = []
 
         resValue("string", "DCC_AUTHORITY", "com.philips.platform.ccdemouapp")
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -205,6 +206,10 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
+    }
+
     publishNonDefault true
 }
 
@@ -230,6 +235,8 @@ dependencies {
 
     debugCompile project(path: ':digitalCareUApp', configuration: 'debug')
     releaseCompile project(path: ':digitalCareUApp', configuration: 'release')
+
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 
     androidTestCompile deps.support.annotations
     androidTestCompile deps.testing_support

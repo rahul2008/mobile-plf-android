@@ -13,20 +13,21 @@ package com.philips.cdp.digitalcare.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 
 public class Utils {
 
-	public boolean isSimAvailable(final Context context) {
+    public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
+        return new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
+    }
+
+    public boolean isSimAvailable(final Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int SIM_STATE = telephonyManager.getSimState();
 
