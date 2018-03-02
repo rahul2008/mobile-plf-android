@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import java.io.Serializable;
 
 /**
- * Class used to add the configurable tab in my account
+ * Class used to add the proposition specific configurable tab in my account
  * @since 2018.1.0
  */
 public class MyaTabConfig implements Serializable {
@@ -44,7 +44,7 @@ public class MyaTabConfig implements Serializable {
 
     /**
      * Get the configurable fragment
-     * @since 2018.10
+     * @since 2018.1.0
      * @return return the configurable tab fragment
      */
     public Fragment getFragment() {

@@ -10,7 +10,6 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
@@ -37,7 +36,7 @@ public class MyaInterface implements UappInterface {
     public static String USER_PLUGIN = "user_plugin";
 
     /**
-     * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
+     * API to initialize My Account
      *
      * @param uappDependencies - With an AppInfraInterface instance.
      * @param uappSettings     - With an application provideAppContext.
@@ -50,14 +49,12 @@ public class MyaInterface implements UappInterface {
         }
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
-        MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent("mya", BuildConfig.VERSION_NAME));
+        MyaHelper.getInstance().setMyaLogger(myaDependencies.getAppInfra().getLogging().createInstanceForComponent(MyaHelper.MYA_TLA, com.philips.platform.mya.BuildConfig.VERSION_NAME));
         MyaHelper.getInstance().setAppTaggingInterface(getTaggingInterface(myaDependencies));
     }
 
-
-
     /**
-     * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     * Launches the My Account interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
      * @param uiLauncher      - ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput - MyaLaunchInput
@@ -68,7 +65,7 @@ public class MyaInterface implements UappInterface {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
         MyaHelper.getInstance().setUserDataInterface(myaLaunchInput.getUserDataInterface());
         if (myaLaunchInput.getMyaListener() == null)
-            MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, "mya", "Mya Listener not set");
+            MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, MyaHelper.MYA_TLA, "Mya Listener not set");
 
         UserDataInterface userDataInterface = getUserDataInterface();
         if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
@@ -113,6 +110,6 @@ public class MyaInterface implements UappInterface {
     }
 
     protected AppTaggingInterface getTaggingInterface(MyaDependencies myaDependencies) {
-        return myaDependencies.getAppInfra().getTagging().createInstanceForComponent("MYA", BuildConfig.VERSION_NAME);
+        return myaDependencies.getAppInfra().getTagging().createInstanceForComponent(MyaHelper.MYA_TLA, com.philips.platform.mya.BuildConfig.VERSION_NAME);
     }
 }

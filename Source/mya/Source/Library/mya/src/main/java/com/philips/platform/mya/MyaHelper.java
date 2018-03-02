@@ -25,6 +25,7 @@ public class MyaHelper {
     private LoggingInterface myaLogger;
     private UserDataInterface userDataInterface;
     private AppTaggingInterface appTaggingInterface;
+    public static final String MYA_TLA = "MYA";
 
     private MyaHelper() {
     }

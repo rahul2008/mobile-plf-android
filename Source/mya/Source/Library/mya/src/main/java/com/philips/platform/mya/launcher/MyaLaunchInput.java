@@ -36,7 +36,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     /**
      * Constructor for My account launch input
      * @since 2018.1.0
-     * @param context need to pass the context
+     * @param context need to pass the activity context
      */
     public MyaLaunchInput(Context context) {
         this.context = context;
@@ -62,6 +62,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Set the myaListener
+     * @since 2018.1.0
      * @param myaListener myaListener
      */
     public void setMyaListener(MyaListener myaListener) {
@@ -69,7 +70,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     }
 
     /**
-     * Get the MyaTabConfig which is used to configure tabs in mya
+     * Get MyaTabConfig used to configure the proposition specific tab in mya
      * @since 2018.1.0
      * @return returns the MyaTabConfig
      */
@@ -78,7 +79,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     }
 
     /**
-     * Set the MyaTabConfig
+     * Set the MyaTabConfig used to configure the proposition specific tab in mya
      * @param myaTabConfig send the myaTabConfig
      * @since 2018.1.0
      */
@@ -87,7 +88,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     }
 
     /**
-     * Get the list to be send in the Settings menu
+     * Get the list of items in the Settings menu
      * @since 2018.1.0
      * @return returns the list of Settings items
      */
@@ -105,7 +106,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     }
 
     /**
-     * Get the list to be send in the Profile menu
+     * Get the list of items in the Profile menu
      * @since 2018.1.0
      * @return returns the list of Profile items
      */

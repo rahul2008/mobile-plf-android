@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
@@ -128,7 +129,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
                 if (!handled) {
                     boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onProfileMenuItemSelected(key);
-                    handleTransition(onClickMyaItem, profileItem);
+                    handleAppProfileEvent(onClickMyaItem, profileItem);
                 }
             }
         };
@@ -147,8 +148,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         showFragment(fragment);
     }
 
-    private void handleTransition(boolean onClickMyaItem, String profileItem) {
-        // code to be added in future
+    private void handleAppProfileEvent(boolean onClickMyaItem, String profileItem) {
+        MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, MyaHelper.MYA_TLA, "Is proposition handling the profile event:" + onClickMyaItem);
+        // TODO:code to be added in future
     }
 
 }
