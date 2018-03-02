@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * This class is used to provide input parameters and customizations for myaccount.
  *
- * @since 2017.5.0
+ * @since 2018.1.0
  */
 
 public class MyaLaunchInput extends UappLaunchInput implements Serializable {
@@ -35,7 +35,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Constructor for My account launch input
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @param context need to pass the context
      */
     public MyaLaunchInput(Context context) {
@@ -44,7 +44,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Get the context
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @return returns the context
      */
     public Context getContext() {
@@ -53,7 +53,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Get the MyaListener needed to handle profile, settings and logout click callbacks
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @return returns mya listener
      */
     public MyaListener getMyaListener() {
@@ -70,7 +70,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Get the MyaTabConfig which is used to configure tabs in mya
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @return returns the MyaTabConfig
      */
     public MyaTabConfig getMyaTabConfig() {
@@ -80,7 +80,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     /**
      * Set the MyaTabConfig
      * @param myaTabConfig send the myaTabConfig
-     * @since 2017.5.0
+     * @since 2018.1.0
      */
     public void setMyaTabConfig(MyaTabConfig myaTabConfig) {
         this.myaTabConfig = myaTabConfig;
@@ -88,7 +88,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Get the list to be send in the Settings menu
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @return returns the list of Settings items
      */
     public List<String> getSettingsMenuList() {
@@ -97,7 +97,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Set the items needed in Settings menu
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @param settingsMenuList send the array list of Settings items
      */
     public void setSettingsMenuList(List<String> settingsMenuList) {
@@ -106,7 +106,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Get the list to be send in the Profile menu
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @return returns the list of Profile items
      */
     public List<String> getProfileMenuList() {
@@ -115,7 +115,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
 
     /**
      * Set the items needed in Profile menu
-     * @since 2017.5.0
+     * @since 2018.1.0
      * @param profileMenuList send the array list of Profile items
      */
     public void setProfileMenuList(List<String> profileMenuList) {

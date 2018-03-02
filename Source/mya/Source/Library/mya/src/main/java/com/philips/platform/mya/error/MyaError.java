@@ -9,7 +9,7 @@ package com.philips.platform.mya.error;
 
 /**
  * Class to get the type of errors in My account
- * @since 2017.5.0
+ * @since 2018.1.0
  */
 public enum MyaError {
     USERNOTLOGGEDIN(1001,"User not logged in");
@@ -19,7 +19,7 @@ public enum MyaError {
 
     /**
      * Constructor for MyaError
-     * @since 2018.5.0
+     * @since 2018.1.0
      * @param code error code for the error
      * @param description description for the type of error
      */
