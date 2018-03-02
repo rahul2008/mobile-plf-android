@@ -19,6 +19,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -67,6 +68,8 @@ public class MyaBaseFragmentTest {
         myaBaseFragment = new MyaSettingsFragment();
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);
+        MyaLaunchInput myaLaunchInput = new MyaLaunchInput(mContext);
+        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         SupportFragmentTestUtil.startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getContext());
     }
