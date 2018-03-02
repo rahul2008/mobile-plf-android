@@ -76,6 +76,7 @@ public class MyaInterfaceTest {
         launchInput = new MyaLaunchInput(context);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        final AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         myaInterface = new MyaInterface() {
             @Override
             public UserDataInterface getUserDataInterface() {
@@ -84,6 +85,7 @@ public class MyaInterfaceTest {
 
             @Override
             protected AppTaggingInterface getTaggingInterface(MyaDependencies myaDependencies) {
+
                 return appTaggingInterface;
             }
         };
