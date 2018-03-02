@@ -128,7 +128,9 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
                  }
              }
         }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"doctorLoyalty",""+doctorLoyality);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "doctorLoyalty", "" + doctorLoyality);
+        }
 
     }
 

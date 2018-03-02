@@ -9,7 +9,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -788,9 +787,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     @Override
-    public void startWeChatLogin() {
+    public void startWeChatLogin(String mWeChatCode) {
         showProgressDialog();
-        homePresenter.handleWeChatCode();
+        homePresenter.handleWeChatCode(mWeChatCode);
     }
 
     @Override
