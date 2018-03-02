@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[sk]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Vyskytol sa problém pri pripájaní k serveru. Uistite sa, že je na vašom zariadení správne nastavený dátum/čas. Ak problém pretrváva, odhláste sa a prihláste sa znova.</string>
+  <string name="csw_offline_message">[sk]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[sk]You are offline</string>
+  <string name="csw_ok">[sk]OK</string>
+  <string name="csw_privacy_settings">[sk]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[sk]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[sk]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[sk]Problem occurred</string>
+  <string name="mya_Account_settings">Nastavenia konta</string>
+  <string name="mya_Address">Adresa</string>
+  <string name="mya_Cancel">Zrušiť</string>
+  <string name="mya_Consent_Help_Label">Čo to znamená?</string>
+  <string name="mya_Country">Krajina</string>
+  <string name="mya_Date_of_birth">Dátum narodenia</string>
+  <string name="mya_Email_Validation_message">E-mailová adresa nie je potvrdená</string>
+  <string name="mya_Email_address">E-mailová adresa</string>
+  <string name="mya_Gender">Pohlavie</string>
+  <string name="mya_Info">Chcete si zmeniť prihlasovacie meno alebo heslo? Navštívte našu internetovú stránku.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[sk]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Prihlasovacie údaje</string>
+  <string name="mya_Logout">Odhlásiť sa</string>
+  <string name="mya_Mobile_number">Číslo mobilného telefónu</string>
+  <string name="mya_My_account">Moje konto</string>
+  <string name="mya_My_details">Moje detaily</string>
+  <string name="mya_My_orders">Objednávky</string>
+  <string name="mya_My_products">Moje výrobky</string>
+  <string name="mya_My_subscriptions">Moje odbery</string>
+  <string name="mya_Name">Názov</string>
+  <string name="mya_Not_Available">Nie je k dispozícii</string>
+  <string name="mya_Notifications">Upozornenia</string>
+  <string name="mya_Offline_message">Zdá sa, že vaše pripojenie k internetu nefunguje. Skontrolujte to a skúste akciu vykonať znova.</string>
+  <string name="mya_Offline_title">Ste offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Osobné údaje</string>
+  <string name="mya_Privacy_Settings">Nastavenia ochrany súkromia</string>
+  <string name="mya_Privacy_Settings_Desc">Regulujte si ochranu súkromia. Viac informácií nájdete v _oznámení o ochrane súkromia_.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Vyskytol sa problém (chyba %d). Skúste to znova.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Vyskytol sa problém</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Nastavenie</string>
+  <string name="mya_change_country">Odhláste sa na zmenu krajiny</string>
+  <string name="mya_change_country_message">Prosím, odhláste sa, aby ste mohli zmeniť krajinu, v ktorej žijete. Budeme tak môcť prispôsobiť záruku a ďalšie informácie podľa vašej lokality</string>
+  <string name="mya_csw_justintime_accept">[sk]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[sk]Maybe later</string>
+  <string name="mya_csw_justintime_title">[sk]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sk]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[sk]What do we have to offer?</string>
+  <string name="mya_logout_message">Budete odhlásení z aplikácie. Po odhlásení sa vždy môžete prihlásiť znova.</string>
+  <string name="mya_logout_title">Naozaj sa chcete odhlásiť?</string>
+</resources>
