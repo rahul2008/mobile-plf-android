@@ -133,27 +133,30 @@ public interface SecureStorageInterface extends Serializable {
         }
 
         public String getErrorMessage() {
-            switch(errorCode){
-                case AccessKeyFailure:
-                    return "Not able to access key";
-                case UnknownKey:
-                    return "Unknown Key";
-                case EncryptionError:
-                    return "Encryption Error";
-                case DecryptionError:
-                    return "Decryption Error";
-                case StoreError:
-                    return "Error while saving encrypted data";
-                case DeleteError:
-                    return "Error while deleting";
-                case NoDataFoundForKey:
-                    return "Not able to find data for given key";
-                case NullData:
-                    return "Null data";
-                default:
-                    return "Error in secure storage";
+            if (errorCode != null) {
+                switch (errorCode) {
+                    case AccessKeyFailure:
+                        return "Not able to access key";
+                    case UnknownKey:
+                        return "Unknown Key";
+                    case EncryptionError:
+                        return "Encryption Error";
+                    case DecryptionError:
+                        return "Decryption Error";
+                    case StoreError:
+                        return "Error while saving encrypted data";
+                    case DeleteError:
+                        return "Error while deleting";
+                    case NoDataFoundForKey:
+                        return "Not able to find data for given key";
+                    case NullData:
+                        return "Null data";
+                    default:
+                        return "Error in secure storage";
 
+                }
             }
+            return "";
         }
 
     }
