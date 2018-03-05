@@ -16,6 +16,8 @@ public class PRLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
     private boolean isAppLaunchFlow;
     private ProdRegUiListener prodRegUiListener;
+    private static final long serialVersionUID = -6635233525340545676L;
+
     private
     @IdRes
     int backgroundImageResourceId;

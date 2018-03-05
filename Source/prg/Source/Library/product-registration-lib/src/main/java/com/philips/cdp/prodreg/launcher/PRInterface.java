@@ -12,6 +12,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  */
 public class PRInterface implements UappInterface {
 
+    private static final long serialVersionUID = -6635233525340545674L;
+
     /**
      * API used for initializing Product Registration
      * @param uappDependencies - pass instance of UappDependencies

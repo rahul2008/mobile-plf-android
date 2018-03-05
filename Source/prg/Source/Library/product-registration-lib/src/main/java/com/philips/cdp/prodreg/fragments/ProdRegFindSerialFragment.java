@@ -32,6 +32,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
     private ImageView serialNumberImageView;
     private Label serialNumberTextView;
     private Label serialNumberForamtTextView;
+    private static final long serialVersionUID = -6635233525340545669L;
+
 
 
     @Override
