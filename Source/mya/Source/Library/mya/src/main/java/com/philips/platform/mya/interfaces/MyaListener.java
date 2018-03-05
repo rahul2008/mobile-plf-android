@@ -7,16 +7,16 @@ package com.philips.platform.mya.interfaces;
 
 
 import com.philips.platform.mya.error.MyaError;
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
 import java.io.Serializable;
 
 public interface MyaListener extends Serializable {
 
-    boolean onClickMyaItem(String itemName);
+    boolean onSettingsMenuItemSelected(String itemName);
 
-    DataInterface getDataInterface(DataModelType modelType);
+    boolean onProfileMenuItemSelected(String itemName);
 
     void onError(MyaError myaError);
+
+    void onLogoutClicked();
 }

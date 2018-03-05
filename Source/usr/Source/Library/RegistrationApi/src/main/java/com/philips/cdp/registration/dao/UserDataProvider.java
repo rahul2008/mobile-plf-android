@@ -46,7 +46,7 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     private void fillUserData() {
         userDataMap = new HashMap<>();
-        userDataMap.put(UserDetailConstants.GIVEN_NAME,getDisplayName());
+        userDataMap.put(UserDetailConstants.GIVEN_NAME,getGivenName());
         userDataMap.put(UserDetailConstants.FAMILY_NAME,getFamilyName());
         userDataMap.put(UserDetailConstants.GENDER,getGender());
         userDataMap.put(UserDetailConstants.EMAIL,getEmail());

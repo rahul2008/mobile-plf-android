@@ -9,8 +9,10 @@ package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 public class MyaHelper {
@@ -21,6 +23,9 @@ public class MyaHelper {
     private ThemeConfiguration themeConfiguration;
     private MyaLaunchInput myaLaunchInput;
     private LoggingInterface myaLogger;
+    private UserDataInterface userDataInterface;
+    private AppTaggingInterface appTaggingInterface;
+    public static final String MYA_TLA = "MYA";
 
     private MyaHelper() {
     }
@@ -70,5 +75,21 @@ public class MyaHelper {
 
     public LoggingInterface getMyaLogger() {
         return myaLogger;
+    }
+
+    public UserDataInterface getUserDataInterface(){
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface){
+        this.userDataInterface = userDataInterface;
+    }
+
+    public AppTaggingInterface getAppTaggingInterface() {
+        return appTaggingInterface;
+    }
+
+    public void setAppTaggingInterface(AppTaggingInterface appTaggingInterface) {
+        this.appTaggingInterface = appTaggingInterface;
     }
 }

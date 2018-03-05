@@ -28,6 +28,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mya_dialog_offline_button_ok"
+        style="@style/UIDExtraWideButton.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_main_button_top_margin"
