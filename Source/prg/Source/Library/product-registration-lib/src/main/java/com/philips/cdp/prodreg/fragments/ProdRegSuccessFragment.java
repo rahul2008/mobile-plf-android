@@ -36,6 +36,8 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     private ImageView imageBackground;
     private String imgURL;
     private TextView prSuccessConfigurableTextView,prg_product_title,prg_product_description,prg_success_thanks_textView;
+    private static final long serialVersionUID = -6635233525340545672L;
+
 
     @Override
     public int getActionbarTitleResId() {
@@ -79,7 +81,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         return view;
     }
 
-    @SuppressWarnings("noinspection unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

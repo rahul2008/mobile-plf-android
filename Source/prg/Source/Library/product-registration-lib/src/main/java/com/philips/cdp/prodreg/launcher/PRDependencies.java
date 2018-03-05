@@ -9,6 +9,8 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
  */
 public class PRDependencies extends UappDependencies {
 
+    private static final long serialVersionUID = -6635233525340545677L;
+
     /**
      * Create PRDependencies instance from AppInfraInterface object
      * @param appInfra - to pass the instance of AppInfraInterface
