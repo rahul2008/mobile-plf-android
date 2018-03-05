@@ -99,8 +99,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
     protected void doTaggingUponStopWaiting() {
-        THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
-        THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
+            THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
+        }
     }
 
     @Override

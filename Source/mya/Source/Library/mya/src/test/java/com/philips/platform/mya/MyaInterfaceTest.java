@@ -9,7 +9,7 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -23,7 +23,7 @@ import com.philips.platform.mya.mock.FragmentManagerMock;
 import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -66,8 +66,6 @@ public class MyaInterfaceTest {
     public static final String MYAFRAGMENT = MY_ACCOUNTS_INVOKE_TAG;
 
     @Mock
-    User mockUser;
-    @Mock
     private List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
     private MyaLaunchInput launchInput;
 
@@ -75,15 +73,23 @@ public class MyaInterfaceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         context = RuntimeEnvironment.application;
-        launchInput = new MyaLaunchInput(context,null);
-        final UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
-        when(userDataModelProvider.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        launchInput = new MyaLaunchInput(context);
+        final UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        final AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         myaInterface = new MyaInterface() {
             @Override
-            protected UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
-                return userDataModelProvider;
+            public UserDataInterface getUserDataInterface() {
+                return userDataInterface;
+            }
+
+            @Override
+            protected AppTaggingInterface getTaggingInterface(MyaDependencies myaDependencies) {
+
+                return appTaggingInterface;
             }
         };
+
         fragmentTransaction = new FragmentTransactionMock();
         fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);
@@ -129,13 +135,11 @@ public class MyaInterfaceTest {
 
     private void whenCallingLaunchWithAddToBackstack() {
         myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
-        launchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
         myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
-        launchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, launchInput);
     }
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
@@ -22,7 +23,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Map;
-
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
 
@@ -57,6 +57,12 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(PROFILE_BUNDLE, getArguments());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
     }
 
     @Override
@@ -97,7 +103,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
         recyclerView.setItemAnimator(getAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
-        myaProfileAdaptor.setOnClickListener(onClickRecylerViewItem(profileList));
+        myaProfileAdaptor.setOnClickListener(onClickRecyclerViewItem(profileList));
     }
 
     protected DefaultItemAnimator getAnimator() {
@@ -112,7 +118,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         return linearLayoutManager;
     }
 
-    private View.OnClickListener onClickRecylerViewItem(final Map<String, String> profileList) {
+    private View.OnClickListener onClickRecyclerViewItem(final Map<String, String> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,8 +128,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 String profileItem = value != null ? value : key;
                 boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
-                    handleTransition(onClickMyaItem, profileItem);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onProfileMenuItemSelected(key);
+                    handleAppProfileEvent(onClickMyaItem, profileItem);
                 }
             }
         };
@@ -142,8 +148,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         showFragment(fragment);
     }
 
-    private void handleTransition(boolean onClickMyaItem, String profileItem) {
-        // code to be added in future
+    private void handleAppProfileEvent(boolean onClickMyaItem, String profileItem) {
+        MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, MyaHelper.MYA_TLA, "Is proposition handling the profile event:" + onClickMyaItem);
+        // TODO:code to be added in future
     }
 
 }

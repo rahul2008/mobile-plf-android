@@ -135,13 +135,19 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
+        multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
 
     }
 
     lintOptions {
         abortOnError false
+    }
+
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
     }
 
     publishNonDefault true

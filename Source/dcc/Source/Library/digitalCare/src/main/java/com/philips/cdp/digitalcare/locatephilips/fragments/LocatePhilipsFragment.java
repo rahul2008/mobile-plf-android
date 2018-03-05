@@ -115,7 +115,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
-    protected SharedPreferences mSharedpreferences = null;
     private GoogleMap mMap = null;
     private Marker mCurrentPosition = null;
     private AtosResponseModel mAtosResponse = null;
@@ -203,11 +202,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         validateAtosResponse(response);
                     }
                 });
-
-                if (!isEulaAccepted()) {
-                    showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
-                    setEulaPreference();
-                }
             }
         }
     };
@@ -421,24 +415,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMapFragment.getMapAsync(this);
         }
 
-    }
-
-    protected boolean isEulaAccepted() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-
-        boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
-        editor.commit();
-        return mBoolean;
-    }
-
-    protected void setEulaPreference() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-        editor.putBoolean("acceptEula", true);
-        editor.commit();
     }
 
     /*
