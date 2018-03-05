@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
