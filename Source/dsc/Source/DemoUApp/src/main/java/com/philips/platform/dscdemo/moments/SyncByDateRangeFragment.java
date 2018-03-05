@@ -63,6 +63,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private TextView tvSyncStatus;
     private Button btnMigrateData;
     private Button btnResetMigrationFlag;
+    private TextView flagStateView;
 
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -108,12 +109,21 @@ public class SyncByDateRangeFragment extends DSBaseFragment
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             } else if (view == btnStartSyncByDateRange) {
                 fetchSyncByDateRange();
-            }
-            else if(view == btnDeleteSyncedData) {
+            } else if (view == btnDeleteSyncedData) {
                 deleteSyncedData();
+            } else if (view == btnMigrateData) {
+                migrateGDPRData();
+            } else if (view == btnResetMigrationFlag) {
+                boolean status = checkMigrationFlag();
+                flagStateView.setText(status ? "Yes" : "No");
             }
         }
     };
+
+    private boolean checkMigrationFlag() {
+        return DataServicesManager.getInstance().isGdprMigrationDone();
+    }
+
     private View fragmentView;
 
     @Override
@@ -134,6 +144,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnDeleteSyncedData = fragmentView.findViewById(R.id.mya_delete_synced_data);
         btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
         btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
+        flagStateView = fragmentView.findViewById(R.id.migration_flag_status);
 
         ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
 
@@ -164,6 +175,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         mMomentEndDateEt.setOnClickListener(clickListener);
         btnStartSyncByDateRange.setOnClickListener(clickListener);
         btnDeleteSyncedData.setOnClickListener(clickListener);
+        btnMigrateData.setOnClickListener(clickListener);
+        btnResetMigrationFlag.setOnClickListener(clickListener);
         return fragmentView;
     }
 
@@ -190,11 +203,11 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         mContext = context;
     }
 
-
     @Override
     public void onSyncComplete() {
         updateTextView(getString(R.string.sync_completed));
     }
+
 
     @Override
     public void onSyncFailed(Exception exception) {
@@ -247,7 +260,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         return true;
     }
 
-
     private void updateStartDate() throws ParseException {
         String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
@@ -255,6 +267,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         mMomentStartDateEt.setText(dateAsString);
         mStartDate = sdf.parse(dateAsString);
     }
+
 
     private void updateEndDate() throws ParseException {
         String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -306,6 +319,20 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
             private void showSnackbar(int msg) {
                 Snackbar.make(fragmentView, msg, Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void migrateGDPRData() {
+        DataServicesManager.getInstance().migrateGDPR(new DBRequestListener<Object>() {
+            @Override
+            public void onSuccess(List<?> data) {
+                Toast.makeText(getContext(), "GDPR migration completed", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(getContext(), "GDPR migration failed", Toast.LENGTH_LONG).show();
             }
         });
     }
