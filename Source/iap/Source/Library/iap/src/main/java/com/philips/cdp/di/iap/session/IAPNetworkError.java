@@ -106,8 +106,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     private void setServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
-              //  final String errorString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
-
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
