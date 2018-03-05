@@ -70,10 +70,11 @@ public class IAPNetworkErrorTest {
 
     @Test
     public void testSetServerErrorException() throws Exception {
-      //  mJsonObject = new JSONObject(TestUtils.readFile(IAPJsonRequestTest.class, "server_error.txt"));
-       // NetworkResponse networkResponse = new NetworkResponse(5, null, null, false);
-        mJsonObject = new JSONObject(TestUtils.readFile(IAPNetworkErrorTest.class, "server_error.txt"));
-        NetworkResponse networkResponse = new NetworkResponse(mJsonObject.toString().getBytes("utf-8"));
+
+        mJsonObject = new JSONObject(TestUtils.readFile(IAPJsonRequestTest.class, "server_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(5, null, null, false);
+      //  mJsonObject = new JSONObject(TestUtils.readFile(IAPNetworkErrorTest.class, "server_error.txt"));
+     //   NetworkResponse networkResponse = new NetworkResponse(mJsonObject.toString().getBytes("utf-8"));
         MockIAPNetworkError error = new MockIAPNetworkError(new ServerError(networkResponse), 0, null);
         assertEquals(IAPConstant.IAP_ERROR_SERVER_ERROR, error.getStatusCode());
     }
