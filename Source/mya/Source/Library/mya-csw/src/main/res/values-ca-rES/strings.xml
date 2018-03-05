@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">|[zh-TW]What does this mean?|</string>
+  <string name="csw_invalid_access_token_error_message">|Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.|</string>
+  <string name="csw_offline_message">|[zh-TW]Your internet connection does not seem to be working. Please check and try again|</string>
+  <string name="csw_offline_title">|[zh-TW]You are offline|</string>
+  <string name="csw_ok">|[zh-TW]OK|</string>
+  <string name="csw_privacy_settings">|[zh-TW]Privacy Settings|</string>
+  <string name="csw_privacy_settings_desc">|[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.|</string>
+  <string name="csw_problem_occurred_error_message">|[zh-TW]There was a problem (error %1$d). Please try again.|</string>
+  <string name="csw_problem_occurred_error_title">|[zh-TW]Problem occurred|</string>
+  <string name="mya_Account_settings">|Настройки учетной записи|</string>
+  <string name="mya_Address">|Διεύθυνση|</string>
+  <string name="mya_Cancel">|Скасувати|</string>
+  <string name="mya_Consent_Help_Label">|Qu\'est-ce que cela signifie ?|</string>
+  <string name="mya_Country">|Държава|</string>
+  <string name="mya_Date_of_birth">|Ημερομηνία γέννησης|</string>
+  <string name="mya_Email_Validation_message">|La dirección de correo electrónico no se ha confirmado.|</string>
+  <string name="mya_Email_address">|Endereço de correio electrónico|</string>
+  <string name="mya_Gender">|Geschlecht|</string>
+  <string name="mya_Info">|Bạn có muốn thay đổi ID đăng nhập hoặc mật khẩu của bạn không? Hãy truy cập trang web của chúng tôi.|</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">|[zh-TW]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.|</string>
+  <string name="mya_Login_details">|Detalhes de início de sessão|</string>
+  <string name="mya_Logout">|Fermer une session|</string>
+  <string name="mya_Mobile_number">|Номер мобильного телефона|</string>
+  <string name="mya_My_account">|Моя учетная запись|</string>
+  <string name="mya_My_details">|التفاصيل الخاصة بي|</string>
+  <string name="mya_My_orders">|As minhas encomendas|</string>
+  <string name="mya_My_products">|Os meus produtos|</string>
+  <string name="mya_My_subscriptions">|マイサブスクリプション|</string>
+  <string name="mya_Name">|Imię i nazwisko|</string>
+  <string name="mya_Not_Available">|Nu este disponibil|</string>
+  <string name="mya_Notifications">|Kennisgevingen|</string>
+  <string name="mya_Offline_message">|Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.|</string>
+  <string name="mya_Offline_title">|Ön nem kapcsolódik az internethez|</string>
+  <string name="mya_Ok">|V REDU|</string>
+  <string name="mya_Personal_details">|Renseignements personnels|</string>
+  <string name="mya_Privacy_Settings">|Настройки конфиденциальности|</string>
+  <string name="mya_Privacy_Settings_Desc">|Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte notificarea de confidenţialitate.|</string>
+  <string name="mya_Problem_Occurred_Error_Message">|Es ist ein Problem (error %d) aufgetreten. Versuchen Sie es erneut.|</string>
+  <string name="mya_Problem_Occurred_Error_Title">|Es ist ein Problem aufgetreten|</string>
+  <string name="mya_Profile">|ملف التعريف|</string>
+  <string name="mya_Settings">|Налаштування|</string>
+  <string name="mya_change_country">|Deconectează-te pentru a schimba ţara|</string>
+  <string name="mya_change_country_message">|Выполните выход, чтобы изменить страну проживания. Эта информация необходима для адаптации условий гарантии и других сведений в зависимости от вашего региона.|</string>
+  <string name="mya_csw_justintime_accept">|[zh-TW]OK, count me in|</string>
+  <string name="mya_csw_justintime_reject">|[zh-TW]Maybe later|</string>
+  <string name="mya_csw_justintime_title">|[zh-TW]Be the first to know|</string>
+  <string name="mya_csw_justintime_user_benefits_description">|[zh-TW]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"|</string>
+  <string name="mya_csw_justintime_user_benefits_title">|[zh-TW]What do we have to offer?|</string>
+  <string name="mya_logout_message">|Будет выполнен выход из приложения. Выполнив выход, вы в любой момент можете войти в приложение снова.|</string>
+  <string name="mya_logout_title">|Tem a certeza que deseja terminar a sessão?|</string>
+</resources>

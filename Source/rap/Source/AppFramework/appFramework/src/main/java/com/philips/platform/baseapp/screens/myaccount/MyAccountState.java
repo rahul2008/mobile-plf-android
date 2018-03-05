@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
@@ -34,6 +35,7 @@ import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -233,6 +235,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         consentConfigurationList= new ArrayList<>();
         consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        consentConfigurationList.add(new ConsentConfiguration(Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinition(context)), new DeviceStoredConsentHandler(appInfra)));
     }
     @Override
     public void updateDataModel() {
