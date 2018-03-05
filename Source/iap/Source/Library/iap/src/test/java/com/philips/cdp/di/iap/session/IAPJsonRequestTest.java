@@ -24,7 +24,7 @@ public class IAPJsonRequestTest {
         mIAIapJsonRequest = new IAPJsonRequest(1,null,null,null,null);
     }
 
-    @Test(expected = JSONException.class)
+    @Test
     public void testParseNetworkResponse() throws Exception{
         JSONObject obj = new JSONObject(TestUtils.readFile(IAPJsonRequestTest.class, "json_exception.txt"));
         NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
