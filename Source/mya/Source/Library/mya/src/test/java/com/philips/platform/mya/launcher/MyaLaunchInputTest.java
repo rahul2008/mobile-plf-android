@@ -11,9 +11,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by philips on 11/22/17.
- */
 public class MyaLaunchInputTest {
 
     private MyaLaunchInput myaLaunchInput;
