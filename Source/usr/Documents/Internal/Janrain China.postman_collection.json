@@ -1,0 +1,92 @@
+{
+	"id": "8c291bb5-16bf-dd35-b733-bd20b9c34810",
+	"name": "Janrain China",
+	"description": "",
+	"order": [
+		"b11d4aa5-ad8c-7343-2bba-33c7af92fc28"
+	],
+	"folders": [],
+	"timestamp": 1476792635076,
+	"owner": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "b11d4aa5-ad8c-7343-2bba-33c7af92fc28",
+			"headers": "Cache-Control: no-cache\nPostman-Token: 256cd25c-9f6b-44ce-cf82-3ad72475809d\nContent-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Cache-Control",
+					"value": "no-cache",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Postman-Token",
+					"value": "256cd25c-9f6b-44ce-cf82-3ad72475809d",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_url}}/access/getVerificationCode",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "client_id",
+					"value": "{{client_id}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "{{client_secret}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "type_name",
+					"value": "user",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "attribute_name",
+					"value": "mobileNumberVerified",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "code_length",
+					"value": "6",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "uuid",
+					"value": "63833700-f8d1-4e6a-9170-e5b9fa2ca9d1",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1502360313739,
+			"name": "getVerificationCode",
+			"description": "",
+			"collectionId": "8c291bb5-16bf-dd35-b733-bd20b9c34810",
+			"responses": []
+		}
+	]
+}

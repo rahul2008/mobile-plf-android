@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
@@ -53,10 +53,30 @@
             tools:text="Comma separated model ids" />
     </android.support.design.widget.TextInputLayout>
 
-    <ListView
-        android:id="@+id/cml_listViewAppliances"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:listSelector="@color/colorAccent" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/cml_listViewAppliances"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/colorAccent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/cml_clearAppliancesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/cml_clear_appliances"
+            android:elevation="4dp"
+            android:focusable="true"
+            android:src="@android:drawable/ic_menu_delete"
+            tools:elevation="4dp"
+            tools:fabSize="auto" />
+    </RelativeLayout>
 </LinearLayout>

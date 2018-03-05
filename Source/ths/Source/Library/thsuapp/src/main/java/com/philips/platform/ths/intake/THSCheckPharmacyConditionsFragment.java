@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     Intent gpsSettingsIntent;
     private AlertDialogFragment alertDialogFragment;
     private RelativeLayout relativeLayout;
+    private boolean isPharmacyCheckRequired = false;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -71,6 +73,10 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setMaxWaitTime(TIMEOUT);
+    }
+
+    public void setPharmacyCheckRequired(boolean isPharmacyCheckRequired){
+        this.isPharmacyCheckRequired = isPharmacyCheckRequired;
     }
 
 
@@ -149,19 +155,23 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void checkIfPharmacyRequired() {
-        boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
-        if (isPharmacyRequired) {
-            thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
-        } else {  // go to insurance or cost detail
-            Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
-            getActivity().getSupportFragmentManager().popBackStack();
-            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
-            } else {
-                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+        if(isPharmacyCheckRequired) {
+            boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
+            if (isPharmacyRequired) {
+                thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
+            } else {  // go to insurance or cost detail
+                Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+                getActivity().getSupportFragmentManager().popBackStack();
+                if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                    final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                    addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                } else {
+                    final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                    addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                }
             }
+        }else {
+            displayPharmacy();
         }
     }
 
@@ -201,15 +211,16 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      *  The crash was only in android 6 (Marshmallow) devices. Only way to handle the crash was to spawn a new thread and then post the runnable
      *  on UI thread.
      */
-    private void showPharmacySearch() {
+    public void showPharmacySearch() {
         hideProgressBar();
-        if (isFragmentAttached()) {
+        if (null != getActivity() && null != getContext()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //THSCheckPharmacyConditionsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE
                             getActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);

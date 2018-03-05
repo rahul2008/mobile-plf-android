@@ -67,7 +67,7 @@ public class MyaProfilePresenterTest {
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
-        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput());
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context, null));
         myaProfilePresenter.getProfileItems(appInfraInterface,getArguments(new UserDataModel()));
         verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }

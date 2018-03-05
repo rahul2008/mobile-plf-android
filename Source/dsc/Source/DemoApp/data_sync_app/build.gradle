@@ -249,7 +249,7 @@ dependencies {
     compile deps.support.annotations
     compile deps.support.appcompatv7
     compile deps.support.customtabs
-    compile deps.support.multidex
+    compile deps.multidex
 
     compile deps.ormlite.core
     compile deps.ormlite.android

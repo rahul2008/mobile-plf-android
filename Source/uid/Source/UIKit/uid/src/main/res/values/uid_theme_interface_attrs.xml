@@ -9,6 +9,7 @@
         <attr name="uidButtonImageDrawableWidth" format="dimension"/>
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
+        <attr name="uidButtonLeft" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDImageButton">
