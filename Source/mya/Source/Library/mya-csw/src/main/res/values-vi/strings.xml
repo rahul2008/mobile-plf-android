@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[vi]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Đã xảy ra vấn đề khi kết nối với máy chủ. Đảm bảo đã thiết lập đúng ngày/giờ trên thiết bị của bạn. Nếu vấn đề vẫn tiếp diễn, hãy đăng xuất và đăng nhập lại.</string>
+  <string name="csw_offline_message">[vi]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[vi]You are offline</string>
+  <string name="csw_ok">[vi]OK</string>
+  <string name="csw_privacy_settings">[vi]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[vi]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[vi]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[vi]Problem occurred</string>
+  <string name="mya_Account_settings">Thiết đặt tài khoản</string>
+  <string name="mya_Address">Địa chỉ</string>
+  <string name="mya_Cancel">Hủy</string>
+  <string name="mya_Consent_Help_Label">Điều này nghĩa là gì?</string>
+  <string name="mya_Country">Quốc gia</string>
+  <string name="mya_Date_of_birth">Ngày sinh</string>
+  <string name="mya_Email_Validation_message">Địa chỉ email không được xác nhận</string>
+  <string name="mya_Email_address">Địa chỉ email</string>
+  <string name="mya_Gender">Giới tính</string>
+  <string name="mya_Info">Bạn có muốn thay đổi ID đăng nhập hoặc mật khẩu của bạn không? Hãy truy cập trang web của chúng tôi.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[vi]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Chi tiết đăng nhập</string>
+  <string name="mya_Logout">Đăng xuất</string>
+  <string name="mya_Mobile_number">Số điện thoại di động</string>
+  <string name="mya_My_account">Tài khoản của tôi</string>
+  <string name="mya_My_details">Thông tin chi tiết</string>
+  <string name="mya_My_orders">Đơn hàng của tôi</string>
+  <string name="mya_My_products">Sản phẩm của tôi</string>
+  <string name="mya_My_subscriptions">Gói đăng ký của tôi</string>
+  <string name="mya_Name">Tên</string>
+  <string name="mya_Not_Available">Không có sẵn</string>
+  <string name="mya_Notifications">Thông báo</string>
+  <string name="mya_Offline_message">Kết nối internet của bạn có vẻ như không hiệu quả. Vui lòng kiểm tra và thử lại</string>
+  <string name="mya_Offline_title">Bạn đang ngoại tuyến</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Chi tiết cá nhân</string>
+  <string name="mya_Privacy_Settings">Cài đặt quyền riêng tư</string>
+  <string name="mya_Privacy_Settings_Desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc _thông báo về quyền riêng tư_ để biết thêm thông tin.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Đã xảy ra vấn đề (lỗi %d). Vui lòng thử lại.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Đã xảy ra lỗi</string>
+  <string name="mya_Profile">Hồ sơ</string>
+  <string name="mya_Settings">Cài đặt</string>
+  <string name="mya_change_country">Đăng xuất để thay đổi quốc gia</string>
+  <string name="mya_change_country_message">Vui lòng đăng xuất để thay đổi quốc gia nơi bạn sinh sống. Việc này sẽ cho phép chúng tôi điều chỉnh bảo hành và thông tin khác thích hợp với khu vực của bạn hơn</string>
+  <string name="mya_csw_justintime_accept">[vi]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[vi]Maybe later</string>
+  <string name="mya_csw_justintime_title">[vi]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[vi]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[vi]What do we have to offer?</string>
+  <string name="mya_logout_message">Bạn sẽ được đăng xuất khỏi ứng dụng. Sau khi đăng xuất, bạn vẫn luôn có thể đăng nhập lại.</string>
+  <string name="mya_logout_title">Bạn có chắc chắn muốn đăng xuất không?</string>
+</resources>
