@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">بلغاريا</string>
 <string name="reg_Country_CA">كندا</string>
 <string name="reg_Country_CL">تشيلي</string>
-<string name="reg_Country_CN">بر الصين الرئيسي</string>
+<string name="reg_Country_CN">الصين</string>
 <string name="reg_Country_CO">كولومبيا</string>
 <string name="reg_Country_HR">كرواتيا</string>
 <string name="reg_Country_CZ">جمهوريّة التشيك</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">فرنسا</string>
 <string name="reg_Country_DE">ألمانيا</string>
 <string name="reg_Country_GR">اليونان</string>
-<string name="reg_Country_HK">هونغ كونغ، الصين</string>
+<string name="reg_Country_HK">هونغ كونغ</string>
 <string name="reg_Country_HU">هنغاريا</string>
 <string name="reg_Country_IN">الهند</string>
 <string name="reg_Country_ID">إندونيسيا</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">المملكة المتحدة</string>
 <string name="reg_Country_US">الولايات المتحدة</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">ماكاو الصينية</string>
+<string name="reg_Country_MO">Macau</string>
 <string name="reg_Country_LU">لوكسمبورغ</string>
-<string name="reg_Country_TWGC">تايبيه الصينية</string>
 <string name="reg_Country_Search_Text">يتم الآن البحث...</string>
 <string name="reg_AppNotInstalled_Alert_Title">التطبيق غير مثبّت</string>
 <string name="reg_App_NotInstalled_AlertMessage">يرجى تثبيت تطبيق %s للاستفادة من هذه الميزة.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">يرجى تسجيل الدخول من جديد، وإعادة تعيين كلمة المرور على هاتفك القديم أو الاتصال بخدمة المستهلك للحصول على دعم إضافي.</string>
 <string name="reg_Try_To_Login_Button_Text">محاولة تسجيل الدخول من جديد</string>
 <string name="reg_Contact_Customer_Care_Text">الاتصال بخدمة المستهلك</string>
-<string name="reg_Update_Email_Button_Text">تحديث عنوان البريد الإلكتروني</string>
-<string name="reg_Country_Region">البلد / المنطقة</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول الآن</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">إنشاء حساب Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">أو تسجيل الدخول بواسطة:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">ربما لاحقًا</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">يرجى إضافة الرمز لإعادة تعيين كلمة مرور حسابك.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">ونتيجة لموافقتك، قد تقوم مجموعة شركات فيليبس بالاتصال بك عن طريق الرسائل الترويجية عبر البريد الإلكتروني، والرسائل القصيرة والقنوات الرقمية الأخرى، مثل تطبيقات الجوال ووسائل التواصل الاجتماعي. لتكون قادرة على تكييف الاتصالات بحسب تفضيلاتك وسلوكك وتوفير لك أفضل تجربة شخصية لك. وقد نقوم في فيليبس بتحليل وجمع البيانات الشخصية الخاصة بك. ويمكن أن تشمل هذه البيانات: \n\nالبيانات التي تزوّدُنا بها\nإن البيانات التي نطلب منك مشاركتها إيّانا تتضمن: إسمك، تاريخ الولادة أو العمر، عنوان البريد الالكتروني، مكان السكن، البلد، الجنس، رقم الهاتف بالإضافة إلى ملفك الشخصي في وسائل التواصل الاجتماعي.\n\nالبيانات التي نحصل عليها من تفاعلك مع فيليبس\nبيانات عن تعاملاتك واستخدامك للقنوات الرقمية الخاصة بفيليبس، مثل وسائل التواصل الاجتماعي والمواقع الإلكترونية ورسائل البريد الإلكتروني والتطبيقات والمنتجات ذات الصلة. ويمكن أن تشمل هذه البيانات: عنوان الIP، الكوكيز، معلومات الجهاز، والاتصالات تضغط عليها وتفاصيل المكان، والمواقع الالكترونية التي تزورها.\n\nتقوم فيليبس بإعطاءك الفرصة لسحب الموافقة في أي وقت.\nلمزيد من المعلومات، يرجى قراءة مذكرة الخصوصية وملفات تعريف الإرتباطالخاصة بفيليبس. \n\n</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

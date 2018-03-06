@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">불가리아</string>
 <string name="reg_Country_CA">캐나다</string>
 <string name="reg_Country_CL">칠레</string>
-<string name="reg_Country_CN">중국 본토</string>
+<string name="reg_Country_CN">중국</string>
 <string name="reg_Country_CO">콜롬비아</string>
 <string name="reg_Country_HR">크로아티아</string>
 <string name="reg_Country_CZ">체코 공화국</string>
@@ -241,7 +241,6 @@
 <string name="reg_Country_VN">베트남</string>
 <string name="reg_Country_MO">마카오</string>
 <string name="reg_Country_LU">룩셈부르크</string>
-<string name="reg_Country_TWGC">타이페이</string>
 <string name="reg_Country_Search_Text">검색..</string>
 <string name="reg_AppNotInstalled_Alert_Title">앱 설치 안 됨</string>
 <string name="reg_App_NotInstalled_AlertMessage">이 기능을 사용하려면 %s 앱을 설치하십시오.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">다시 로그인한 다음 기존 휴대폰에서 암호를 재설정하거나 고객 지원에 추가 지원을 문의하십시오.</string>
 <string name="reg_Try_To_Login_Button_Text">다시 로그인</string>
 <string name="reg_Contact_Customer_Care_Text">고객 지원에 문의</string>
-<string name="reg_Update_Email_Button_Text">이메일 주소 업데이트</string>
-<string name="reg_Country_Region">국가 / 지역</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">지금 로그인</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">내 필립스 계정 만들기</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">또는 다음으로 로그인:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">나중에</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">해당 코드를 입력하여 계정 암호를 재설정하십시오.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">귀하께서 동의하신 결과로 필립스 그룹은 홍보를 위해 이메일, SMS 및 모바일 앱, 소셜 미디어 등의 기타 디지털 채널을 통해 귀하께 연락을 드릴 수 있습니다. 귀하의 선호도와 행동 양식을 기반으로 한 맞춤형 커뮤니케이션 및 최고의 맞춤형 경험을 제공하기 위해 귀하의 개인정보를 분석하고 조합할 수 있습니다. 이러한 정보에는 다음이 포함됩니다.\n\n귀하께서 제공하신 정보\n당사와 공유하신 개인 정보에는 이름, 생년월일, 나이, 이메일 주소, 자택/회사 주소, 국가, 성별, 전화번호, 소셜 미디어 프로필 등이 있습니다.\n\n필립스와의 소통 과정에서 취득된 정보\n소셜 미디어, 웹 사이트, 이메일, 앱, 연계 제품 등 필립스 디지털 채널과의 소통 및 디지털 채널 사용을 통해 제공된 정보로, IP 주소, 쿠키, 장치 정보, 클릭한 커뮤니케이션, 위치 정보, 방문한 웹 사이트 등이 해당됩니다.\n\n언제라도 동의를 철회하실 수 있습니다.\n자세한 내용은 개인정보 보호정책 및 필립스 쿠키 정책을 참조하십시오.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

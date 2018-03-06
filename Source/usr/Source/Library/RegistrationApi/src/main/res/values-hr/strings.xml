@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bugarska</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Čile</string>
-<string name="reg_Country_CN">Kontinentalna Kina</string>
+<string name="reg_Country_CN">Porculan</string>
 <string name="reg_Country_CO">Kolumbija</string>
 <string name="reg_Country_HR">Hrvatska</string>
 <string name="reg_Country_CZ">Republika Češka</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francuska</string>
 <string name="reg_Country_DE">Njemačka</string>
 <string name="reg_Country_GR">Grčka</string>
-<string name="reg_Country_HK">Kineski Hong Kong</string>
+<string name="reg_Country_HK">Hong Kong</string>
 <string name="reg_Country_HU">Mađarska</string>
 <string name="reg_Country_IN">Indija</string>
 <string name="reg_Country_ID">Indonezija</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Ujedinjeno Kraljevstvo</string>
 <string name="reg_Country_US">Sjedinjene Američke Države</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Kineski Makao</string>
+<string name="reg_Country_MO">Makao</string>
 <string name="reg_Country_LU">Luksemburg</string>
-<string name="reg_Country_TWGC">Kineski Taipei</string>
 <string name="reg_Country_Search_Text">Pretraživanje...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplikacija nije instalirana</string>
 <string name="reg_App_NotInstalled_AlertMessage">Instalirajte aplikaciju %s kako biste mogli koristiti ovu značajku.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Prijavite se i ponovno postavite lozinku na starom telefonu ili se obratite centru za korisničku podršku za dodatne upute.</string>
 <string name="reg_Try_To_Login_Button_Text">Ponovno se pokušajte prijaviti</string>
 <string name="reg_Contact_Customer_Care_Text">Obratite se centru za korisničku podršku</string>
-<string name="reg_Update_Email_Button_Text">Ažuriranje adrese e-pošte</string>
-<string name="reg_Country_Region">Država / Regija</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prijavite se odmah</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Izrada Philips računa</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ili se prijavite koristeći:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Možda kasnije</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Unesite kod kako biste ponovo postavili lozinku za račun.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Budući da ste dali suglasnost, tvrtke iz grupacije Philips mogu vas kontaktirati u promocijske svrhe e-poštom, SMS porukom i drugim digitalnim kanalima kao što su mobilne aplikacije i društvene mreže. Kako bismo komunikaciju mogli prilagoditi vašim interesima i ponašanju te vam pružiti najbolji doživljaj, možemo analizirati i kombinirati vaše osobne podatke. Ti podaci mogu obuhvaćati:\n\nPodatke koje ste nam ustupili\nPodatke koje želite aktivno dijeliti s nama kao što su: vaše ime, datum rođenja ili dob, adresa e-pošte, poštanska adresa, država, spol, telefonski broj, profil društvenih mreža.\n\nPodatke koje prikupimo prilikom vaše interakcije s tvrtkom Philips\nPodatke o vašim interakcijama i upotrebi digitalnih kanala tvrtke Philips kao što su društvene mreže, web-mjesta, e-pošta, aplikacije i srodni proizvodi. Ti podaci mogu obuhvaćati: IP adresu, kolačiće, informacije o uređaju, komunikaciju koju odaberete, pojedinosti o lokaciji i web-mjesta koja posjećujete.\n\nPhilips će vam dati priliku da u bilo koje vrijeme poništite svoju suglasnost.\nViše informacija možete pronaći u Obavijesti o privatnosti tvrtke Philips i Obavijesti o kolačićima tvrtke Philips.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Manner-Kiina</string>
+<string name="reg_Country_CN">Kiina</string>
 <string name="reg_Country_CO">Kolumbia</string>
 <string name="reg_Country_HR">Kroatia</string>
 <string name="reg_Country_CZ">Tsekin tasavalta</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Ranska</string>
 <string name="reg_Country_DE">Saksa</string>
 <string name="reg_Country_GR">Kreikka</string>
-<string name="reg_Country_HK">Kiina - Hongkong</string>
+<string name="reg_Country_HK">Hongkong</string>
 <string name="reg_Country_HU">Unkari</string>
 <string name="reg_Country_IN">Intia</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Iso-Britannia</string>
 <string name="reg_Country_US">Yhdysvallat</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macao - Kiina</string>
+<string name="reg_Country_MO">Macao</string>
 <string name="reg_Country_LU">Luxembourg</string>
-<string name="reg_Country_TWGC">Taipei - Kiina</string>
 <string name="reg_Country_Search_Text">Haku..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Sovellusta ei ole asennettu</string>
 <string name="reg_App_NotInstalled_AlertMessage">Asenna %s, jos haluat käyttää tätä ominaisuutta.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Kirjaudu sisään uudelleen, palauta salasanasi vanhalla puhelimellasi tai ota yhteyttä asiakaspalveluun lisätietoja varten.</string>
 <string name="reg_Try_To_Login_Button_Text">Yritä kirjautua uudelleen</string>
 <string name="reg_Contact_Customer_Care_Text">Ota yhteyttä asiakaspalveluun</string>
-<string name="reg_Update_Email_Button_Text">Päivitä sähköpostiosoite</string>
-<string name="reg_Country_Region">Maa / alue</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Kirjaudu nyt</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Luo Philips-tili</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Tai kirjaudu tilillä:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Ehkä myöhemmin</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Palauta tilisi salasana antamalla koodi.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Kun annat suostumuksesi, Philips-konserniin kuuluvat yritykset voivat lähettää sinulle mainosviestejä sähköpostilla, tekstiviestillä tai muiden digitaalisten kanavien, kuten mobiilisovellusten tai yhteisöpalvelun, välityksellä. Saatamme analysoida ja yhdistää henkilötietojasi, jotta voimme mukauttaa viestejä mieltymyksiäsi ja ostokäyttäytymistäsi vastaavaksi sekä tarjota juuri sinulle sopivan kokemuksen. Näitä tietoja voivat olla: \n\nAntamasi tiedot\nAktiivisesti meille jakamasi tiedot, kuten nimi, syntymäaika tai ikä, sähköpostiosoite, fyysinen osoite, maa, sukupuoli, puhelinnumero ja yhteisöpalveluprofiili.\n\nTiedot, jotka saamme vuorovaikutuksestasi Philipsin kanssa\nTiedot, jotka koskevat vuorovaikutustasi sekä Philipsin digitaalisten kanavien, kuten yhteisöpalvelun, verkkosivujen, sähköpostin, sovellusten ja liitettyjen tuotteiden käyttöä. Näitä tietoja voivat olla: IP-osoite, evästeet, laitetiedot, napsauttamasi mainosviestit, sijaintitiedot sekä verkkosivuvierailusi\n\nPhilips myöntää käyttäjälle oikeuden peruuttaa suostumuksensa milloin tahansa.\nLisätietoja on Philipsin tietosuojalausunnossa ja Philipsin evästeitä koskevassa ilmoituksessa.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

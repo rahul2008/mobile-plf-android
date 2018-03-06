@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Cile</string>
-<string name="reg_Country_CN">Cina continentale</string>
+<string name="reg_Country_CN">Cina</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Croazia</string>
 <string name="reg_Country_CZ">Repubblica Ceca</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francia</string>
 <string name="reg_Country_DE">Germania</string>
 <string name="reg_Country_GR">Grecia</string>
-<string name="reg_Country_HK">Hong Kong (Cina)</string>
+<string name="reg_Country_HK">Hong Kong</string>
 <string name="reg_Country_HU">Ungheria</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Regno Unito</string>
 <string name="reg_Country_US">Stati Uniti</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macao (Cina)</string>
+<string name="reg_Country_MO">Macau</string>
 <string name="reg_Country_LU">Lussemburgo</string>
-<string name="reg_Country_TWGC">Taipei (Cina)</string>
 <string name="reg_Country_Search_Text">Ricerca...</string>
 <string name="reg_AppNotInstalled_Alert_Title">App non installata</string>
 <string name="reg_App_NotInstalled_AlertMessage">Installare l\'app %s per usufruire di questa funzione.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Effettua nuovamente l\'accesso, reimposta la password sul vecchio telefono oppure contatta l\'assistenza clienti per ulteriore supporto.</string>
 <string name="reg_Try_To_Login_Button_Text">Prova a effettuare l\'accesso più tardi</string>
 <string name="reg_Contact_Customer_Care_Text">Contatta l\'assistenza clienti</string>
-<string name="reg_Update_Email_Button_Text">Aggiorna indirizzo e-mail</string>
-<string name="reg_Country_Region">Paese / Regione</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Accedi ora</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Crea il mio account Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">O accedi con:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Forse più tardi</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Inserisci il codice per reimpostare la password del tuo account.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. Šie duomenys apima: \n\nDuomenis, kuriuos mums pateikiate\nDuomenis, kuriais norite aktyviai su mumis dalintis, pvz., vardas, gimimo metai arba amžius, el. pašto adresas, adresas, šalis, lytis, telefono numeris, socialinių tinklų profilis.\n\nDuomenis, kuriuos gauname jums naudojantis „Philips“\nDuomenis apie jūsų naudojamus „Philips“ skaitmeninius kanalus, pvz., socialiniai tinklai, svetainės, el. paštas, programos ir susiję gaminiai. Šie duomenys apima: IP adresą, slapukus, įrenginio informaciją, jūsų spustelėtus pranešimus, vietos informaciją ir jūsų lankomas svetaines\n\n„Philips“ palieka jums galimybę bet kada atšaukti savo sutikimą.\nJei reikia daugiau informacijos, perskaitykite „Philips“ privatumo nuostatas ir „Philips“ slapukų nuostatas.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Chineză - China continentală</string>
+<string name="reg_Country_CN">China</string>
 <string name="reg_Country_CO">Columbia</string>
 <string name="reg_Country_HR">Croaţia</string>
 <string name="reg_Country_CZ">Cehia</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Franţa</string>
 <string name="reg_Country_DE">Germania</string>
 <string name="reg_Country_GR">Grecia</string>
-<string name="reg_Country_HK">Chineză - Hong Kong</string>
+<string name="reg_Country_HK">Hong Kong</string>
 <string name="reg_Country_HU">Ungaria</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonezia</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Regatul Unit</string>
 <string name="reg_Country_US">Statele Unite</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Chineză - Macao</string>
+<string name="reg_Country_MO">Macau</string>
 <string name="reg_Country_LU">Luxemburg</string>
-<string name="reg_Country_TWGC">Chineză - Taipei</string>
 <string name="reg_Country_Search_Text">Căutare...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplicaţia nu este instalată</string>
 <string name="reg_App_NotInstalled_AlertMessage">Instalează aplicaţia %s pentru a profita de această funcţie.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Conectează-te din nou, resetează-ţi parola pe telefonul vechi sau contactează asistenţa pentru clienţi pentru ajutor suplimentar.</string>
 <string name="reg_Try_To_Login_Button_Text">Încearcă să te conectezi din nou</string>
 <string name="reg_Contact_Customer_Care_Text">Contactează asistenţa pentru clienţi</string>
-<string name="reg_Update_Email_Button_Text">Actualizare adresă e-mail</string>
-<string name="reg_Country_Region">Țară / regiune</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Conectează-te acum</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Creează-mi contul Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Sau conectează-te cu:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Poate mai târziu</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Introdu codul pentru a reseta parola contului.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Ca urmare a consimţământului tău, companiile din grupul Philips ar putea să te contacteze cu comunicaţii promoţionale prin e-mail, SMS şi alte canale digitale, cum ar fi aplicaţiile mobile şi reţelele sociale. Pentru a adapta comunicaţiile în funcţie de comportamentul şi preferinţele tale şi a-ţi oferi cea mai bună şi personalizată experienţă, este posibil să analizăm şi să combinăm datele tale personale. Cand vom analiza si combina datele tale personale, o vom face doar in conformitate cu prevederile legale aplicabile, care ar putea implica obtinerea unei prealabile aprobari sau confirmari si/ sau de informatii suplimentare din partea ta. Aceste date pot include: \n\nDatele furnizate de tine\nDatele pe care doreşti să le partajezi activ cu noi, precum numele, data naşterii sau vârsta, adresa de e-mail, adresa fizică, ţara, sexul, numărul de telefon, profilul de reţele sociale.\n\nDatele pe care le primim din interacţiunile tale cu Philips\nDatele despre interacţiunile cu şi folosirea canalelor digitale Philips, cum ar fi reţelele de socializare, site-urile web, e-mailurile, aplicaţiile şi produsele conectate. Aceste date pot include adresa IP, module cookie, informaţii despre dispozitiv, comunicaţiile pe care faci clic, detalii despre locaţie şi despre site-uri web pe care le accesezi\n\nPhilips îţi oferă oportunitatea să-ţi retragi consimţământul în orice moment.\nPentru mai multe informaţii, citeşte notificarea de confidenţialitate Philips şi notificarea privind modulele cookie Philips.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

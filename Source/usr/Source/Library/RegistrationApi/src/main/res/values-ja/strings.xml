@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">ブルガリア</string>
 <string name="reg_Country_CA">カナダ</string>
 <string name="reg_Country_CL">チリ</string>
-<string name="reg_Country_CN">中国（本土）</string>
+<string name="reg_Country_CN">中国</string>
 <string name="reg_Country_CO">コロンビア</string>
 <string name="reg_Country_HR">クロアチア</string>
 <string name="reg_Country_CZ">チェコ共和国</string>
@@ -241,7 +241,6 @@
 <string name="reg_Country_VN">ベトナム</string>
 <string name="reg_Country_MO">マカオ</string>
 <string name="reg_Country_LU">ルクセンブルグ</string>
-<string name="reg_Country_TWGC">中国台北</string>
 <string name="reg_Country_Search_Text">検索..</string>
 <string name="reg_AppNotInstalled_Alert_Title">アプリがインストールされていません</string>
 <string name="reg_App_NotInstalled_AlertMessage">この機能を利用するには、%s アプリをインストールしてください。</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">ログインし直して古い電話番号でパスワードをリセットするか、サポートが必要な場合はカスタマーケアにお問い合わせください。</string>
 <string name="reg_Try_To_Login_Button_Text">ログインし直す</string>
 <string name="reg_Contact_Customer_Care_Text">カスタマーケアに問い合わせる</string>
-<string name="reg_Update_Email_Button_Text">メールアドレスの更新</string>
-<string name="reg_Country_Region">国/地域</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">今すぐログイン</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">my Philips アカウントを作成</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">または次のアカウントでログイン：</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">後で実行</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">アカウントのパスワードをリセットするには、コードを入力してください。</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して、プロモーションについてご連絡させていただく場合があります。 お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。 それらのデータには次が含まれます： \n\nお客様にご提供いただく可能性のあるデータ\nお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様が同意の上ご提供いただくデータ。\n\nお客様とのやり取りで当社が入手するデータ\nソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。 これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックした情報、位置情報の詳細、アクセスしたウェブサイトなども含まれます。\n\nお客様はいつでも同意を取り消すことができます。\n詳細については、当社のプライバシーに関する通知 および cookie に関するポリシーをお読みください。</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

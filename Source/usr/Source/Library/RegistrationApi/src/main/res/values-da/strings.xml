@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgarien</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Det kinesiske fastland</string>
+<string name="reg_Country_CN">Kina</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Kroatien</string>
 <string name="reg_Country_CZ">Tjekkiet</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Frankrig</string>
 <string name="reg_Country_DE">Tyskland</string>
 <string name="reg_Country_GR">Grækenland</string>
-<string name="reg_Country_HK">Kinesisk Hongkong</string>
+<string name="reg_Country_HK">Hong Kong</string>
 <string name="reg_Country_HU">Ungarn</string>
 <string name="reg_Country_IN">Indien</string>
 <string name="reg_Country_ID">Indonesien</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Storbritannien</string>
 <string name="reg_Country_US">USA</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Kinesisk Macao</string>
+<string name="reg_Country_MO">Macau</string>
 <string name="reg_Country_LU">Luxembourg</string>
-<string name="reg_Country_TWGC">Kinesisk Taipei</string>
 <string name="reg_Country_Search_Text">Søg..</string>
 <string name="reg_AppNotInstalled_Alert_Title">App ikke installeret</string>
 <string name="reg_App_NotInstalled_AlertMessage">Installer %s appen for at benytte denne funktion.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Log på igen, nulstil din adgangskode på din gamle telefon, eller kontakt kundeservice for at få yderligere support.</string>
 <string name="reg_Try_To_Login_Button_Text">Prøv at logge på igen</string>
 <string name="reg_Contact_Customer_Care_Text">Kontakt kundeservice</string>
-<string name="reg_Update_Email_Button_Text">Opdater e-mailadresse</string>
-<string name="reg_Country_Region">Land / Region</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log på nu</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Opret min Philips-konto</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Eller log på med:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Måske senere</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Indtast koden for at nulstille adgangskoden til din konto.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Som et resultat af dit samtykke må Philips\' koncernselskaber kontakte dig med salgsfremmende kommunikation via e-mail, SMS og andre digitale kanaler, som f.eks. mobilapps og sociale medier. For at kunne tilpasse kommunikationen til dine præferencer og din adfærd og give dig den bedste personlige oplevelse må vi analysere og kombinere dine personlige oplysninger. Disse oplysninger kan indeholde: \n\nOplysninger, som du deler med os\nOplysninger, som du aktivt ønsker at dele med os, f.eks.: dit navn, din fødselsdato eller alder, din e-mailadresse, fysiske adresse, dit land, køn, telefonnummer og din profil på sociale medier.\n\nOplysninger, som vi får via dine interaktioner med Philips\nOplysninger om dine interaktioner med og din brug af Philips\' digitale kanaler, som f.eks. sociale medier, websteder, e-mails, apps og tilknyttede produkter. Disse oplysninger kan indeholde: IP-adresse, cookies, oplysninger, enhedsoplysninger, kommunikation, som du klikker på, placeringsoplysninger og websteder, som du besøger\n\nPhilips giver dig mulighed for at tilbagekalde dit samtykke til enhver tid.\nDu kan få flere oplysninger ved at læse Philips\' meddelelse om beskyttelse af personlige oplysninger og Philips\' meddelelse om brugen af cookies.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>
