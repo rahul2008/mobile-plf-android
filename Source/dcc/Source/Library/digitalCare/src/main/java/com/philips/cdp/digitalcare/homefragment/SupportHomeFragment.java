@@ -442,7 +442,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         new Thread() {
             @Override
             public void run() {
-                Looper.prepare();
                 ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher,
                         DigitalCareConfigManager.getInstance().getProductModelSelectionType());
             }
@@ -498,7 +497,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         new Thread() {
             @Override
             public void run() {
-                Looper.prepare();
                 ProductModelSelectionHelper.getInstance().invokeProductSelection(finalUiLauncher,
                         DigitalCareConfigManager.getInstance().getProductModelSelectionType());
             }
