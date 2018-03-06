@@ -145,6 +145,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
         btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
         flagStateView = fragmentView.findViewById(R.id.migration_flag_status);
+        flagStateView.setText(checkMigrationFlag() ? "Yes" : "No");
 
         ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
 
