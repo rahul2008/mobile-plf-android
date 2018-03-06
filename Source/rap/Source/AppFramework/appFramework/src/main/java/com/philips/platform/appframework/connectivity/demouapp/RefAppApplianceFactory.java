@@ -22,7 +22,6 @@ import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
 import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -42,79 +41,56 @@ public class RefAppApplianceFactory implements ApplianceFactory {
     @NonNull
     private final CloudTransportContext cloudTransportContext;
 
-    private ConnectivityDeviceType deviceType;
-
     public RefAppApplianceFactory(@NonNull final BleTransportContext bleTransportContext, @NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
         this.bleTransportContext = bleTransportContext;
         this.lanTransportContext = lanTransportContext;
         this.cloudTransportContext = cloudTransportContext;
     }
 
-    public void setDeviceType(ConnectivityDeviceType deviceType) {
-        this.deviceType = deviceType;
-    }
-
-    public ConnectivityDeviceType getConnectivityDeviceType() {
-        return deviceType;
-    }
-
     @Override
-    public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+    public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
         return networkNode.isValid();
     }
 
     @Override
-    public Appliance createApplianceForNode(NetworkNode networkNode) {
-        if (canCreateApplianceForNode(networkNode)) {
-            RALog.i(TAG, networkNode.getDeviceType());
-            final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
-                    bleTransportContext.createCommunicationStrategyFor(networkNode),
-                    lanTransportContext.createCommunicationStrategyFor(networkNode),
-                    cloudTransportContext.createCommunicationStrategyFor(networkNode));
+    public Appliance createApplianceForNode(@NonNull NetworkNode networkNode) {
+        RALog.i(TAG, networkNode.getDeviceType());
+        final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
+                bleTransportContext.createCommunicationStrategyFor(networkNode),
+                lanTransportContext.createCommunicationStrategyFor(networkNode),
+                cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
-            switch (networkNode.getDeviceType()) {
-                case AirPurifier.DEVICETYPE:
-                    networkNode.useLegacyHttp();
+        switch (networkNode.getDeviceType()) {
+            case AirPurifier.DEVICETYPE:
+                networkNode.useLegacyHttp();
 
-                    if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
-                        return new ComfortAirPurifier(networkNode, communicationStrategy);
-                    } else {
-                        return new JaguarAirPurifier(networkNode, communicationStrategy);
+                if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
+                    return new ComfortAirPurifier(networkNode, communicationStrategy);
+                } else {
+                    return new JaguarAirPurifier(networkNode, communicationStrategy);
+                }
+            case BleReferenceAppliance.DEVICETYPE:
+                return new RefAppBleReferenceAppliance(networkNode, communicationStrategy);
+            case WifiReferenceAppliance.DEVICETYPE:
+                return new WifiReferenceAppliance(networkNode, communicationStrategy);
+            case BrightEyesAppliance.DEVICETYPE:
+                return new BrightEyesAppliance(networkNode, communicationStrategy);
+            case PolarisAppliance.DEVICETYPE:
+                PolarisAppliance polaris = new PolarisAppliance(networkNode, communicationStrategy);
+                polaris.usesHttps(true);
+                return polaris;
+            default:
+                return new Appliance(networkNode, communicationStrategy) {
+                    @Override
+                    public String getDeviceType() {
+                        return null;
                     }
-                case BleReferenceAppliance.DEVICETYPE:
-                    if(networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HH1600) || networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HHS)||
-                            networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME)||networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME_PS)) {
-                        return new RefAppBleReferenceAppliance(networkNode, communicationStrategy, deviceType);
-                    }
-                    else {
-                        return new BleReferenceAppliance(networkNode, communicationStrategy);
-                    }
-                case WifiReferenceAppliance.DEVICETYPE:
-                    return new WifiReferenceAppliance(networkNode, communicationStrategy);
-                case BrightEyesAppliance.DEVICETYPE:
-                    return new BrightEyesAppliance(networkNode, communicationStrategy);
-                case PolarisAppliance.DEVICETYPE:
-                    PolarisAppliance polaris = new PolarisAppliance(networkNode, communicationStrategy);
-                    polaris.usesHttps(true);
-                    return polaris;
-                default:
-                    return new Appliance(networkNode, communicationStrategy) {
-                        @Override
-                        public String getDeviceType() {
-                            return null;
-                        }
-                    };
-            }
+                };
         }
-        return null;
     }
 
     @Override
     public Set<String> getSupportedDeviceTypes() {
-        return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(RefAppBleReferenceAppliance.MODELNAME);
-            add(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
-            add(RefAppBleReferenceAppliance.MODEL_NAME_HHS);
-        }});
+        return Collections.unmodifiableSet(new HashSet<String>());
     }
 }

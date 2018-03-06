@@ -61,9 +61,6 @@ repositories {
     }
 }
 
-group = 'com.philips.cdp'
-version = platformversion
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {

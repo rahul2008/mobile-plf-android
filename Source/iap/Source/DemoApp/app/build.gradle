@@ -41,9 +41,6 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "iapApp"
 
-group = 'com.philips.cdp'
-version = platformversion
-
 allprojects {
     repositories {
         maven {

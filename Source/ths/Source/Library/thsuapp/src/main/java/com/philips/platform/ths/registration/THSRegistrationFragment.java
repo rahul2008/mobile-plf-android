@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
@@ -148,6 +150,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                         mCurrentSelectedState = mValidStates.get(position);
                         mEditTextStateSpinner.setText(mCurrentSelectedState.getName());
                         uiPicker.setSelection(position);
+                        validateUserFields();
                         uiPicker.dismiss();
                     }
                 }
@@ -364,8 +367,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     @Override
     public boolean handleBackEvent() {
-        THSTagUtils.doExitToPropositionWithCallBack();
-        return true;
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            THSTagUtils.doExitToPropositionWithCallBack();
+            AmwellLog.v("REG_FRAG","handleBackEvent exit");
+            return true;
+        }
+        else {
+            AmwellLog.v("REG_FRAG","handleBackEvent false");
+            return false;
+        }
     }
 
 }

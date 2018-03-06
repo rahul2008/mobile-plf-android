@@ -78,9 +78,6 @@ allprojects {
 
 }
 
-group = 'com.philips.cdp'
-version = platformversion
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -165,7 +162,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-        consumerProguardFiles 'proguard-rules-usr.pro'
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -188,13 +184,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
             consumerProguardFiles 'proguard-rules-usr.pro'
-            proguardFiles 'proguard-rules-usr.pro'
         }
 
         debug {
-            minifyEnabled false
             debuggable true
         }
     }

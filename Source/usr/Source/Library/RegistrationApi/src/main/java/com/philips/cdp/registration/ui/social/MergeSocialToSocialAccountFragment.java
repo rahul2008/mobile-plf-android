@@ -31,7 +31,6 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -159,6 +158,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackPage(AppTaggingPages.HOME);
         mergeSocialToSocialAccountPresenter.logout();
         getFragmentManager().popBackStack();
+        getRegistrationFragment().handleBackEvent();
     }
 
     @OnClick(R2.id.usr_mergeScreen_login_button)

@@ -9,7 +9,6 @@ import android.content.Context;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import junit.framework.Assert;
@@ -22,34 +21,32 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-/**
- * Test for BleDeviceListAdapter
- */
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class BleDeviceListAdapterTest {
 
     @Mock
-    Context context;
-
-    ArrayList<RefAppBleReferenceAppliance> refAppBleReferenceAppliances;
+    private Context context;
 
     @Mock
-    NetworkNode networkNode;
+    private NetworkNode networkNode;
 
     @Mock
-    CommunicationStrategy bleDiscoveryStrategy;
+    private CommunicationStrategy bleDiscoveryStrategy;
 
     private BleDeviceListAdapter adapter;
 
     @Before
-    public void setUp(){
-        refAppBleReferenceAppliances =new ArrayList<>();
-        adapter=new BleDeviceListAdapter(context, refAppBleReferenceAppliances);
-    }
-    @Test
-    public void addDevice() throws Exception {
-        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode,bleDiscoveryStrategy, ConnectivityDeviceType.REFERENCE_NODE));
-        Assert.assertEquals(1,adapter.getCount());
+    public void setUp() {
+        when(networkNode.getModelId()).thenReturn(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
+        final ArrayList<RefAppBleReferenceAppliance> refAppBleReferenceAppliances = new ArrayList<>();
+        adapter = new BleDeviceListAdapter(context, refAppBleReferenceAppliances);
     }
 
+    @Test
+    public void addDevice() throws Exception {
+        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode, bleDiscoveryStrategy));
+        Assert.assertEquals(1, adapter.getCount());
+    }
 }

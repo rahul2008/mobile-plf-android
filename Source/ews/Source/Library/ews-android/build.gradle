@@ -71,9 +71,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = platformversion
-
 //start publishing
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()

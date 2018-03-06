@@ -49,6 +49,12 @@ public class URInterface implements UappInterface {
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   UappLaunchInput uappLaunchInput) {
         try {
+            RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationFunction();
+            if (null != registrationFunction) {
+                RegistrationConfiguration.getInstance().setPrioritisedFunction
+                        (registrationFunction);
+            }
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
