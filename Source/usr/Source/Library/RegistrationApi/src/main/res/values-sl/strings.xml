@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bolgarija</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Čile</string>
-<string name="reg_Country_CN">Kitajščina – celina</string>
+<string name="reg_Country_CN">Kitajskem</string>
 <string name="reg_Country_CO">Kolumbija</string>
 <string name="reg_Country_HR">Hrvaška</string>
 <string name="reg_Country_CZ">Češka</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francija</string>
 <string name="reg_Country_DE">Nemčija</string>
 <string name="reg_Country_GR">Grčija</string>
-<string name="reg_Country_HK">Kitajščina – Hongkong</string>
+<string name="reg_Country_HK">Hongkong</string>
 <string name="reg_Country_HU">Madžarska</string>
 <string name="reg_Country_IN">Indija</string>
 <string name="reg_Country_ID">Indonezija</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Združeno kraljestvo</string>
 <string name="reg_Country_US">ZDA</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Kitajščina – Macau</string>
+<string name="reg_Country_MO">Macau</string>
 <string name="reg_Country_LU">Luksemburg</string>
-<string name="reg_Country_TWGC">Kitajščina – Tajpej</string>
 <string name="reg_Country_Search_Text">Iskanje.</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplikacija ni nameščena</string>
 <string name="reg_App_NotInstalled_AlertMessage">Namestite aplikacijo %s in izkoristite to funkcijo.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Ponovno se prijavite, ponastavite geslo na starem mobilnem telefonu ali se obrnite na center za pomoč uporabnikom za dodatno podporo.</string>
 <string name="reg_Try_To_Login_Button_Text">Poskus ponovne prijave</string>
 <string name="reg_Contact_Customer_Care_Text">Obrnite se na center za pomoč uporabnikom.</string>
-<string name="reg_Update_Email_Button_Text">Posodobitev e-poštnega naslova</string>
-<string name="reg_Country_Region">Država / regija</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prijavite se zdaj</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Ustvari račun za My Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ali pa se prijavite z:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Mogoče pozneje</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Vnesite kodo, da ponastavite geslo računa.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Ob vašem soglasju vam družbe iz skupine Philips glede na vaše izbire in vedenje lahko pošiljajo promocijska obvestila prek e-pošte, sporočil SMS in drugih digitalnih kanalov, kot so mobilne aplikacije in družabna omrežja. Da bomo obvestila lahko prilagodili vašim izbiram in vedenju ter vam nudili najboljše osebno prilagojeno doživetje, lahko analiziramo in združujemo vaše osebne podatke. Ti podatki lahko vključujejo: \n\nPodatke, ki nam jih posredujete\nPodatke, ki jih aktivno delite z nami, kot so: ime, datum rojstva ali starost, e-poštni naslov, hišni naslov, država, spol, telefonska številka, profil v družabnem omrežju.\n\nPodatke, ki jih pridobimo prek komunikacije z družbo Philips\nPodatke o vaši komunikaciji in uporabi Philipsovih digitalnih kanalov, kot so družabna omrežja, spletne strani, e-pošta, aplikacije in povezani izdelki. Ti podatki lahko vključujejo: naslov IP, piškotke, informacije o napravi, uporabljene povezave, podrobnosti o lokaciji in obiskane spletne strani.\n\nPhilips vam omogoča možnost, da soglasje kadarkoli prekličete.\nVeč informacij lahko preberete v Philipsovem obvestilu o zasebnosti in Philipsovem obvestilu o piškotkih.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

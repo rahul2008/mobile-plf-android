@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Canadá</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Chino (continental)</string>
+<string name="reg_Country_CN">China</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Croacia</string>
 <string name="reg_Country_CZ">República Checa</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francia</string>
 <string name="reg_Country_DE">Alemania</string>
 <string name="reg_Country_GR">Grecia</string>
-<string name="reg_Country_HK">Chino (Hong Kong)</string>
+<string name="reg_Country_HK">Hong Kong</string>
 <string name="reg_Country_HU">Hungría</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,9 +239,8 @@
 <string name="reg_Country_GB">Reino Unido</string>
 <string name="reg_Country_US">Estados Unidos</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Chino (Macao)</string>
+<string name="reg_Country_MO">Macao</string>
 <string name="reg_Country_LU">Luxemburgo</string>
-<string name="reg_Country_TWGC">Chino (Taipei)</string>
 <string name="reg_Country_Search_Text">Buscar...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplicación no instalada</string>
 <string name="reg_App_NotInstalled_AlertMessage">Instala la aplicación %s para usar esta función.</string>
@@ -270,8 +269,6 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Vuelve a iniciar sesión, restablece tu contraseña en el teléfono antiguo o ponte en contacto con el Servicio de atención al cliente para obtener más ayuda.</string>
 <string name="reg_Try_To_Login_Button_Text">Intenta iniciar una sesión de nuevo</string>
 <string name="reg_Contact_Customer_Care_Text">Ponte en contacto con el Servicio de atención al cliente</string>
-<string name="reg_Update_Email_Button_Text">Actualizar dirección de correo electrónico</string>
-<string name="reg_Country_Region">País / Región</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Iniciar sesión ahora</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Crear mi cuenta de Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">O iniciar sesión con:</string>
@@ -372,6 +369,4 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Quizás más adelante</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Introduce el código para restablecer la contraseña de tu cuenta.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Mediante tu consentimiento, las empresas del grupo Philips pueden contactarte para entregar comunicaciones promocionales a través de correo electrónico, SMS y otros canales digitales, como aplicaciones móviles y medios sociales. Para personalizar las comunicaciones a tus preferencias y comportamiento y para entregar la mejor experiencia personalizada, es posible que analicemos y combinemos tus datos personales. Estos datos pueden incluir:\n\nLos datos que nos entregaste\nLos datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección postal, país, sexo, número de teléfono o perfil en medios sociales.\n\nLos datos que obtenemos de tus interacciones con Philips\nLos datos sobre tus interacciones y uso de los canales digitales de Philips, como medios sociales, sitios web, correos electrónicos, aplicaciones y productos conectados. Estos datos pueden incluir: dirección IP, cookies, información de dispositivo, comunicaciones donde haces clic, detalles de ubicación y sitios web que visitas\n\nPhilips te da la oportunidad de retirar tu consentimiento en cualquier momento.\nPara obtener más información, leé el aviso de privacidad de Philips y el aviso de cookie de Philips.</string>
-<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
-<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

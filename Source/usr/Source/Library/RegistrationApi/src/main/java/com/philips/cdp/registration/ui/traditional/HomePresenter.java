@@ -294,8 +294,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             ArrayList<Country> allCountriesList = new ArrayList<Country>();
             String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
             for (String aRecourseList : recourseList) {
-
-                Country country =RegUtility.getCountry(aRecourseList,homeContract.getActivityContext());
+                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
                 allCountriesList.add(country);
             }
             return allCountriesList;
