@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Kina</string>
+<string name="reg_Country_CN">Fastlands-Kina</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Kroatia</string>
 <string name="reg_Country_CZ">Tsjekkia</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Frankrike</string>
 <string name="reg_Country_DE">Tyskland</string>
 <string name="reg_Country_GR">Hellas</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Kina – Hongkong</string>
 <string name="reg_Country_HU">Ungarn</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Storbritannia</string>
 <string name="reg_Country_US">USA</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Kina – Macau</string>
 <string name="reg_Country_LU">Luxembourg</string>
+<string name="reg_Country_TWGC">Kina – Taipei</string>
 <string name="reg_Country_Search_Text">Søk..</string>
 <string name="reg_AppNotInstalled_Alert_Title">App ikke installert</string>
 <string name="reg_App_NotInstalled_AlertMessage">Installer %s-appen for å få denne funksjonen.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Logg deg på igjen, tilbakestill passordet på den gamle telefonen din, eller kontakt kundeservice hvis du trenger hjelp.</string>
 <string name="reg_Try_To_Login_Button_Text">Prøv å logge på igjen</string>
 <string name="reg_Contact_Customer_Care_Text">Kontakt kundeservice</string>
+<string name="reg_Update_Email_Button_Text">Oppdater e-postadressen</string>
+<string name="reg_Country_Region">Land / Region</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logg på nå</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Opprett Philips-konto</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Eller logg på med:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Kanskje senere</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Angi koden for å tilbakestille kontopassordet.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Gruppen av selskaper som Philips er en del av, kan som følge av ditt samtykke kontakte deg med salgsfremmende kommunikasjon via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere personopplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. Disse opplysningene kan inkludere følgende: \n\nOpplysningene du gir oss.\nOpplysningene som du aktivt deler med oss, for eksempel navn, fødselsdato eller alder, e-postadresse, adresse, land, kjønn, telefonnummer, profiler i sosiale medier.\n\nOpplysningene vi får fra samhandlingen din med Philips.\nOpplysninger om din samhandling med og bruk av Philips\' digitale kanaler, for eksempel sosiale medier, nettsteder, e-post, apper og tilkoblede produkter. Disse opplysningene kan inkludere: IP-adresse, informasjonskapsler, enhetsinformasjon, kommunikasjoner du klikker på, opplysninger om sted og nettsteder du besøker.\n\nPhilips gir deg anledning til å trekke tilbake samtykket ditt når som helst.\nFor mer informasjon kan du lese merknad om personvern fra Philips og merknad om informasjonskapsler fra Philips.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

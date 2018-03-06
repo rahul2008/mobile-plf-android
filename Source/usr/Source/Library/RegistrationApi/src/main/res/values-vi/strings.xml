@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bungary</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Trung Quốc</string>
+<string name="reg_Country_CN">Trung Quốc đại lục</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Croatia</string>
 <string name="reg_Country_CZ">Cộng hòa Séc</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Pháp</string>
 <string name="reg_Country_DE">Đức</string>
 <string name="reg_Country_GR">Hy Lạp</string>
-<string name="reg_Country_HK">|Hồng Kông</string>
+<string name="reg_Country_HK">Hồng Kông (Trung Quốc)</string>
 <string name="reg_Country_HU">Hungary</string>
 <string name="reg_Country_IN">Ấn Độ</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Vương quốc Anh</string>
 <string name="reg_Country_US">Hợp chủng quốc Hoa Kỳ</string>
 <string name="reg_Country_VN">Việt Nam</string>
-<string name="reg_Country_MO">Ma Cao</string>
+<string name="reg_Country_MO">Ma Cao (Trung Quốc)</string>
 <string name="reg_Country_LU">Luxembourg</string>
+<string name="reg_Country_TWGC">Trung Hoa Đài Bắc</string>
 <string name="reg_Country_Search_Text">Tìm kiếm..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Chưa cài đặt ứng dụng</string>
 <string name="reg_App_NotInstalled_AlertMessage">Vui lòng cài đặt ứng dụng %s để tận dụng tính năng này.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Vui lòng đăng nhập lại, đặt lại mật khẩu của bạn trên thiết bị cũ hoặc liên hệ với trung tâm chăm sóc khách hàng để được hỗ trợ thêm.</string>
 <string name="reg_Try_To_Login_Button_Text">Thử đăng nhập lại</string>
 <string name="reg_Contact_Customer_Care_Text">Liên hệ với trung tâm chăm sóc khách hàng</string>
+<string name="reg_Update_Email_Button_Text">Cập nhật địa chỉ email</string>
+<string name="reg_Country_Region">Quốc gia / Khu vực</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Đăng nhập ngay</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Tạo tài khoản Philips của tôi</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Hoặc đăng nhập bằng:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Có lẽ để sau</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Vui lòng nhập mã để đặt lại mật khẩu tài khoản của bạn.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Với sự chấp thuận của bạn, các công ty thuộc tập đoàn Philips có thể liên hệ với bạn kèm theo các thông tin quảng cáo qua email, SMS và các kênh kỹ thuật số khác, chẳng hạn như ứng dụng di động và mạng xã hội. Chúng tôi có thể sẽ phân tích và kết hợp dữ liệu cá nhân của bạn nhằm điều chỉnh thích hợp các thông tin theo đúng sở thích và hành vi của bạn, cũng như mang đến cho bạn trải nghiệm tùy chỉnh theo từng cá nhân tốt nhất. Dữ liệu này có thể bao gồm:\n\nDữ liệu mà bạn đưa cho chúng tôi\nDữ liệu mà bạn chủ động muốn chia sẻ với chúng tôi như: tên, ngày tháng năm sinh hay tuổi của bạn, địa chỉ email, địa chỉ vật lý, quốc gia, giới tính, số điện thoại, hồ sơ mạng xã hội.\n\nDữ liệu mà chúng tôi lấy được từ các tương tác của bạn với Philips\nDữ liệu về các tương tác và cách bạn sử dụng các kênh kỹ thuật số của Philips, chẳng hạn như mạng xã hội, trang web, email, ứng dụng và các sản phẩm được kết nối. Dữ liệu này có thể bao gồm: địa chỉ IP, cookie, thông tin thiết bị, các liên lạc mà bạn bấm vào, thông tin chi tiết về địa chỉ và các trang web bạn truy cập\n\nPhilips sẽ cho bạn cơ hội rút lại thỏa thuận của bạn bất kỳ lúc nào.\nĐể biết thêm thông tin, vui lòng đọc Thông báo về quyền riêng tư của Philips và Thông báo về cookie của Philips.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

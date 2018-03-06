@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgarija</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Čilė</string>
-<string name="reg_Country_CN">Kinija</string>
+<string name="reg_Country_CN">Žemyninė Kinija</string>
 <string name="reg_Country_CO">Kolumbija</string>
 <string name="reg_Country_HR">Kroatija</string>
 <string name="reg_Country_CZ">Čekija</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Prancūzija</string>
 <string name="reg_Country_DE">Vokietija</string>
 <string name="reg_Country_GR">Graikija</string>
-<string name="reg_Country_HK">Honkongas</string>
+<string name="reg_Country_HK">Kinijos Honkongas</string>
 <string name="reg_Country_HU">Vengrija</string>
 <string name="reg_Country_IN">Indija</string>
 <string name="reg_Country_ID">Indonezija</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Jungtinė Karalystė</string>
 <string name="reg_Country_US">Jungtinės Amerikos Valstijos</string>
 <string name="reg_Country_VN">Vietnamas</string>
-<string name="reg_Country_MO">Makao</string>
+<string name="reg_Country_MO">Kinijos Makao</string>
 <string name="reg_Country_LU">Liuksemburgas</string>
+<string name="reg_Country_TWGC">Kinijos Taipėjus</string>
 <string name="reg_Country_Search_Text">Paieška..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Programa neįdiegta</string>
 <string name="reg_App_NotInstalled_AlertMessage">Įdiekite %s programą, kad galėtumėte naudoti šią funkciją.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Prisijunkite dar kartą, nustatykite slaptažodį iš naujo senajame prietaise arba susisiekite su klientų aptarnavimu dėl tolesnės pagalbos.</string>
 <string name="reg_Try_To_Login_Button_Text">Bandyti prisijungti dar kartą</string>
 <string name="reg_Contact_Customer_Care_Text">Susisiekti su klientų aptarnavimu</string>
+<string name="reg_Update_Email_Button_Text">Atnaujinkite el. pašto adresą</string>
+<string name="reg_Country_Region">Šalis / regionas</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prisijunkite dabar</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Kurti „Philips“ paskyrą</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Arba prisijunkite per:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Galbūt vėliau</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Įveskite kodą, norėdami iš naujo nustatyti paskyros slaptažodį.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. Šie duomenys apima: \n\nDuomenis, kuriuos mums pateikiate\nDuomenis, kuriais norite aktyviai su mumis dalintis, pvz., vardas, gimimo metai arba amžius, el. pašto adresas, adresas, šalis, lytis, telefono numeris, socialinių tinklų profilis.\n\nDuomenis, kuriuos gauname jums naudojantis „Philips“\nDuomenis apie jūsų naudojamus „Philips“ skaitmeninius kanalus, pvz., socialiniai tinklai, svetainės, el. paštas, programos ir susiję gaminiai. Šie duomenys apima: IP adresą, slapukus, įrenginio informaciją, jūsų spustelėtus pranešimus, vietos informaciją ir jūsų lankomas svetaines\n\n„Philips“ palieka jums galimybę bet kada atšaukti savo sutikimą.\nJei reikia daugiau informacijos, perskaitykite „Philips“ privatumo nuostatas ir „Philips“ slapukų nuostatas.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

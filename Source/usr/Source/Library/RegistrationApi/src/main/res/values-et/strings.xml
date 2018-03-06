@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaaria</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Tšiili</string>
-<string name="reg_Country_CN">Hiina</string>
+<string name="reg_Country_CN">Mandri-Hiina</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Horvaatia</string>
 <string name="reg_Country_CZ">Tšehhi</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Prantsusmaa</string>
 <string name="reg_Country_DE">Saksa</string>
 <string name="reg_Country_GR">Kreeka</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Hiina Hongkong</string>
 <string name="reg_Country_HU">Ungari</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indoneesia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Ühendkuningriik</string>
 <string name="reg_Country_US">Ameerika Ühendriigid</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Hiina Macau</string>
 <string name="reg_Country_LU">Luksemburg</string>
+<string name="reg_Country_TWGC">Hiina Taipei</string>
 <string name="reg_Country_Search_Text">Otsing ...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Rakendus ei ole installitud</string>
 <string name="reg_App_NotInstalled_AlertMessage">Selle funktsiooni kasutamiseks installige %s rakendus.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Logige uuesti sisse, lähtestage parool oma vanas telefonis või võtke täiendava toe saamiseks ühendust tugitöötajatega.</string>
 <string name="reg_Try_To_Login_Button_Text">Proovi uuesti sisse logida</string>
 <string name="reg_Contact_Customer_Care_Text">Võta ühendust klienditeenindusega</string>
+<string name="reg_Update_Email_Button_Text">Värskendage e-posti aadressi</string>
+<string name="reg_Country_Region">Riik / regioon</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logi kohe sisse</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Loo minu Philipsi konto</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Või logige sisse kontoga:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Võib-olla hiljem</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Palun sisestage konto parooli lähtestamiseks kood.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:\n\nAndmeid, mida meile annate\nAndmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.\n\nAndmeid, mida me teie suhtlemisest Philipsiga kogume\nAndmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.\n\nPhilips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.\nLisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

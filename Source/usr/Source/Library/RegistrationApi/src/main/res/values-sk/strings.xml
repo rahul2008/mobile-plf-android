@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulharsko</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Čile</string>
-<string name="reg_Country_CN">Čína</string>
+<string name="reg_Country_CN">Čínština – pevnina</string>
 <string name="reg_Country_CO">Kolumbia</string>
 <string name="reg_Country_HR">Chorvátsko</string>
 <string name="reg_Country_CZ">Česká republika</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francúzsko</string>
 <string name="reg_Country_DE">Nemecko</string>
 <string name="reg_Country_GR">Grécko</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Čínština – Hongkong</string>
 <string name="reg_Country_HU">Maďarsko</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonézia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Spojené kráľovstvo</string>
 <string name="reg_Country_US">Spojené štáty</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Čínština – Macao</string>
 <string name="reg_Country_LU">Luxembursko</string>
+<string name="reg_Country_TWGC">Čínština – Tchaj-pej</string>
 <string name="reg_Country_Search_Text">Vyhľadávanie...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplikácia nie je nainštalovaná</string>
 <string name="reg_App_NotInstalled_AlertMessage">Na využívanie tejto funkcie si nainštalujte aplikáciu %s.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Prihláste sa znova, nastavte nové heslo v starom telefóne alebo požiadajte oddelenie starostlivosti o zákazníkov o ďalšiu pomoc.</string>
 <string name="reg_Try_To_Login_Button_Text">Skúsiť sa znova prihlásiť</string>
 <string name="reg_Contact_Customer_Care_Text">Kontaktovať oddelenie starostlivosti o zákazníkov</string>
+<string name="reg_Update_Email_Button_Text">Aktualizovať e-mailovú adresu</string>
+<string name="reg_Country_Region">Krajina / región</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prihlásiť sa teraz</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Vytvoriť moje konto Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Alebo sa prihlásiť cez:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Možno neskôr</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Zadajte kód a vytvorte nové heslo svojho konta.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Na základe súhlasu vás môžu kontaktovať spoločnosti skupiny Philips s reklamnými informáciami prostredníctvom e-mailu, SMS a iných digitálnych kanálov, ako napríklad mobilných aplikácií a sociálnych médií. Na to, aby sme mohli prispôsobiť komunikáciu vašim preferenciám a správaniu a zabezpečiť tak najlepšiu osobnú skúsenosť, budeme musieť analyzovať a kombinovať vaše osobné údaje. Tieto údaje môžu zahŕňať:\n\nÚdaje, ktoré nám poskytnete.\nÚdaje, ktoré chcete s nami aktívne zdieľať, ako napríklad: meno, dátum narodenia alebo vek, e-mailová adresa, poštová adresa, krajina, pohlavie, telefónne číslo, profil na sociálnej sieti.\n\nÚdaje, ktoré sme získali na základe vašej interakcie so spoločnosťou Philips.\nÚdaje o vašich interakciách a používaní digitálnych kanálov spoločnosti Philips, ako napríklad sociálnych médií, webových lokalít, e-mailov, aplikácií a pripojených produktov. Tieto údaje môžu obsahovať: adresu IP, súbory „cookie“, informácie o zariadení, konverzácie, na ktoré ste klikli, údaje o polohe a webové lokality, ktoré ste navštívili.\n\nSpoločnosť Philips vám umožní váš súhlas kedykoľvek zrušiť.\nAk sa chcete dozvedieť viac, prečítajte si vyhlásenie spoločnosti Philips o používaní osobných údajov a súboroch „cookie“.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

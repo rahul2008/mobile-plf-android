@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaristan</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Şili</string>
-<string name="reg_Country_CN">Çin</string>
+<string name="reg_Country_CN">Anakara Çin</string>
 <string name="reg_Country_CO">Kolombiya</string>
 <string name="reg_Country_HR">Hırvatistan</string>
 <string name="reg_Country_CZ">Çek Cumhuriyeti</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Fransa</string>
 <string name="reg_Country_DE">Almanya</string>
 <string name="reg_Country_GR">Yunanistan</string>
-<string name="reg_Country_HK">Hong Kong</string>
+<string name="reg_Country_HK">Çince Hong Kong</string>
 <string name="reg_Country_HU">Macaristan</string>
 <string name="reg_Country_IN">Hindistan</string>
 <string name="reg_Country_ID">Endonezya</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">İngiltere</string>
 <string name="reg_Country_US">ABD</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Çince Macau</string>
 <string name="reg_Country_LU">Lüksemburg</string>
+<string name="reg_Country_TWGC">Çince Taipei</string>
 <string name="reg_Country_Search_Text">Arama...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Uygulama yüklü değil</string>
 <string name="reg_App_NotInstalled_AlertMessage">Bu özelliği kullanabilmek için lütfen %s uygulamasını yükleyin.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Lütfen tekrar oturum açıp eski telefonunuzu kullanarak parolanızı sıfırlayın veya daha fazla destek için müşteri desteği ekibiyle iletişime geçin.</string>
 <string name="reg_Try_To_Login_Button_Text">Tekrar oturum açmayı dene</string>
 <string name="reg_Contact_Customer_Care_Text">Müşteri desteği ekibiyle iletişime geç</string>
+<string name="reg_Update_Email_Button_Text">E-posta adresini güncelle</string>
+<string name="reg_Country_Region">Ülke / Bölge</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Şimdi oturum açın</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Philips hesabımı oluştur</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Alternatif olarak, şununla oturum açın:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Belki daha sonra</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Hesap parolanızı sıfırlamak için lütfen kodu girin.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Philips şirketler grubu, onayınız doğrultusunda e-posta, SMS, mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden promosyonlar ile ilgili sizinle iletişime geçebilir. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. Bu verilere şunlar dahil olabilir:\n\nBize sağladığınız veriler\nBizimle aktif olarak paylaşmak istediğiniz veriler: adınız, doğum tarihiniz veya yaşınız, e-posta adresiniz, posta adresiniz, ülkeniz, cinsiyetiniz, telefon numaranız, sosyal medya profiliniz.\n\nPhilips ile olan etkileşimlerinizden elde ettiğimiz veriler\nSosyal medya, web siteleri, e-posta, uygulamalar ve bağlı ürünler gibi Philips dijital kanallarıyla olan etkileşiminiz ve bu kanalları kullanımınıza ilişkin veriler. Bu verilere şunlar dahil olabilir: IP adresi, çerezler, cihaz bilgileri, tıkladığınız iletişimler, konum ayrıntıları ve ziyaret ettiğiniz web siteleri\n\nPhilips, her zaman onayınızı geri çekme fırsatı sunar.\nDaha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Çerez bildirimini okuyun.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">България</string>
 <string name="reg_Country_CA">Канада</string>
 <string name="reg_Country_CL">Чили</string>
-<string name="reg_Country_CN">Китай</string>
+<string name="reg_Country_CN">Континентален Китай</string>
 <string name="reg_Country_CO">Колумбия</string>
 <string name="reg_Country_HR">Хърватска</string>
 <string name="reg_Country_CZ">Чешка република</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Франция</string>
 <string name="reg_Country_DE">Германия</string>
 <string name="reg_Country_GR">Гърция</string>
-<string name="reg_Country_HK">Хонконг</string>
+<string name="reg_Country_HK">Хонг Конг, Китай</string>
 <string name="reg_Country_HU">Унгария</string>
 <string name="reg_Country_IN">Индия</string>
 <string name="reg_Country_ID">Indonesia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Великобритания</string>
 <string name="reg_Country_US">България</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Макао, Китай</string>
 <string name="reg_Country_LU">Люксембург</string>
+<string name="reg_Country_TWGC">Република Китай</string>
 <string name="reg_Country_Search_Text">Търсене..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Приложението не е инсталирано</string>
 <string name="reg_App_NotInstalled_AlertMessage">Инсталирайте приложението %s, за да ползвате тази функция.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Влезте отново, възстановете Вашата парола на стария си телефон или се свържете с отдела за обслужване на клиенти за бъдеща поддръжка.</string>
 <string name="reg_Try_To_Login_Button_Text">Опитайте да влезете отново</string>
 <string name="reg_Contact_Customer_Care_Text">Свържете се с отдела за обслужване на клиенти</string>
+<string name="reg_Update_Email_Button_Text">Актуализация на имейл адрес</string>
+<string name="reg_Country_Region">Държава / област</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Влезте сега</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Създай акаунт във Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Или влезте с:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Може би по-късно</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Моля, въведете кода, за да нулирате паролата на своя акаунт.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Като резултат от вашето съгласие, компании от групата на Philips могат да се свързват с вас с промоционални съобщения чрез имейл, SMS и други дигитални канали, като мобилни приложения и социални медии. За да адаптираме съобщенията към вашите предпочитания и поведение и да ви предоставим най-добрата персонализирана услуга, можем да анализираме и комбинираме вашите лични данни. Тези данни могат да включват:\n\nДанни, които ни предоставяте\nДанни, които искате да споделяте активно с нас, като например: вашето име, дата на раждане или възраст, имейл адрес, пощенски адрес, страна, пол, телефонен номер, профил в социални медии.\n\nДанни, които получаваме от вашите взаимодействия с Philips\nДанни за вашите взаимоотношения и употреба на дигиталните канали на Philips, като например социални медии, уеб сайтове, имейли, приложения и свързани продукти. Тези данни могат да включват: IP адрес, бисквитки, информация за устройства, съобщения, върху които кликате, информация за местоположение и уеб сайтове, които посещавате.\n\nPhilips ще ви даде възможност да оттеглите съгласието си по всяко време.\nЗа повече информация прочетете бележката за поверителност на Philips и бележката за бисквитките на Philips.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

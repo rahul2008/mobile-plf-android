@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgarien</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">China</string>
+<string name="reg_Country_CN">Festland China</string>
 <string name="reg_Country_CO">Kolumbien</string>
 <string name="reg_Country_HR">Kroatien</string>
 <string name="reg_Country_CZ">Tschechische Republik</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Frankreich</string>
 <string name="reg_Country_DE">Deutschland</string>
 <string name="reg_Country_GR">Griechenland</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Hongkong, China</string>
 <string name="reg_Country_HU">Ungarn</string>
 <string name="reg_Country_IN">Indien</string>
 <string name="reg_Country_ID">Indonesien</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Großbritannien</string>
 <string name="reg_Country_US">USA</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Macau, China</string>
 <string name="reg_Country_LU">Luxemburg</string>
+<string name="reg_Country_TWGC">Taipeh, China</string>
 <string name="reg_Country_Search_Text">Suchen...</string>
 <string name="reg_AppNotInstalled_Alert_Title">App nicht installiert</string>
 <string name="reg_App_NotInstalled_AlertMessage">Installieren Sie die %s App, um diese Funktion verwenden zu können.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Melden Sie sich erneut an, setzen Sie Ihr Passwort über Ihr altes Telefon zurück, oder wenden Sie sich an den Kundendienst.</string>
 <string name="reg_Try_To_Login_Button_Text">Anmeldung erneut versuchen</string>
 <string name="reg_Contact_Customer_Care_Text">Kundendienst kontaktieren</string>
+<string name="reg_Update_Email_Button_Text">E-Mail-Adresse aktualisieren</string>
+<string name="reg_Country_Region">Land / Region</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Jetzt anmelden</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Philips Konto erstellen</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Oder anmelden mit:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Vielleicht später</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Geben Sie den Code ein, um Ihr Passwort zurückzusetzen.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Mit Ihrer Zustimmung können die Unternehmen der Philips Group Ihnen Werbemitteilungen per E-Mail, SMS und über andere digitale Kanäle, wie mobile Apps und soziale Medien, zukommen lassen. Damit wir die Mitteilungen an Ihre Interessen und Ihr Verhalten anpassen und Ihnen ein optimal personalisiertes Erlebnis bieten können, analysieren und kombinieren wir möglicherweise Ihre persönlichen Daten. Diese Daten können Folgendes umfassen: \n\nDaten, die Sie uns zur Verfügung stellen\nDaten, die Sie aktiv mit uns teilen möchten, z. B.: Name, Geburtsdatum oder Alter, E-Mail-Adresse, Postanschrift, Land, Geschlecht, Telefonnummer, Profil in sozialen Netzwerken\n\nDaten, die wir durch Ihre Interaktionen mit Philips beziehen\nDaten über Ihre Interaktionen und Ihre Nutzung der digitalen Philips Kanäle wie soziale Medien, Websites, E-Mails, Apps und vernetzte Produkte Diese Daten können Folgendes umfassen: IP-Adresse, Cookies, Geräteinformationen, von Ihnen angeklickte Informationen, Standortdetails und von Ihnen besuchte Websites\n\nSie erhalten von Philips die Gelegenheit, Ihre Zustimmung jederzeit zu widerrufen.\nUm weitere Informationen zu erhalten, lesen Sie die Philips Datenschutzrichtlinie und die Philips Cookie-Richtlinie.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgarije</string>
 <string name="reg_Country_CA">Canada</string>
 <string name="reg_Country_CL">Chili</string>
-<string name="reg_Country_CN">China</string>
+<string name="reg_Country_CN">Chinees vasteland</string>
 <string name="reg_Country_CO">Colombia</string>
 <string name="reg_Country_HR">Kroatië</string>
 <string name="reg_Country_CZ">Tsjechische Republiek</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Frankrijk</string>
 <string name="reg_Country_DE">Duitsland</string>
 <string name="reg_Country_GR">Griekenland</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Chinees Hongkong</string>
 <string name="reg_Country_HU">Hongarije</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonesië</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Verenigd Koninkrijk</string>
 <string name="reg_Country_US">Verenigde Staten</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Chinees Macau</string>
 <string name="reg_Country_LU">Luxemburg</string>
+<string name="reg_Country_TWGC">Chinees Taipei</string>
 <string name="reg_Country_Search_Text">Zoeken..</string>
 <string name="reg_AppNotInstalled_Alert_Title">App niet geïnstalleerd</string>
 <string name="reg_App_NotInstalled_AlertMessage">Installeer de app %s ter ondersteuning van deze functie.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Meld u opnieuw aan, herstel uw wachtwoord op uw oude telefoon of neem contact op met de klantenservice voor verdere ondersteuning.</string>
 <string name="reg_Try_To_Login_Button_Text">Probeer u opnieuw aan te melden</string>
 <string name="reg_Contact_Customer_Care_Text">Neem contact op met de klantenservice</string>
+<string name="reg_Update_Email_Button_Text">E-mailadres bijwerken</string>
+<string name="reg_Country_Region">Land / regio</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Nu aanmelden</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Mijn Philips-account maken</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Of meld u aan met:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Misschien later</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Voer de code in om uw accountwachtwoord opnieuw in te stellen.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Door uw toestemming kunnen de bedrijven uit de Philips-groep u promotionele berichten sturen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. Deze gegevens kunnen bestaan uit: \n\nGegevens die u ons verstrekt\nGegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.\n\nGegevens die wij hebben verkregen via uw interactie met Philips\nGegevens over uw interactie met en gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mails, apps en gerelateerde producten. Deze gegevens kunnen bestaan uit: IP-adres, cookies, apparaatinformatie, berichten waarop u klikt, locatiegegevens en websites die u bezoekt\n\nU kunt uw toestemming aan Philips op ieder gewenst moment intrekken.\nLees voor meer informatie de Philips-privacyverklaring en de Philips-cookieverklaring.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>
