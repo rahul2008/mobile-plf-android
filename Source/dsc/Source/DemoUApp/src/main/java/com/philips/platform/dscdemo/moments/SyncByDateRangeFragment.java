@@ -114,6 +114,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             } else if (view == btnMigrateData) {
                 migrateGDPRData();
             } else if (view == btnResetMigrationFlag) {
+                DataServicesManager.getInstance().resetGDPRMigrationFlag();
                 updateMigrationFlagView();
             }
         }
