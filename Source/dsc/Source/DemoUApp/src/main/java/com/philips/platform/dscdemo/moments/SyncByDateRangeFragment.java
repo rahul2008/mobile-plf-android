@@ -52,7 +52,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Button btnCompleteSync;
     private Button btnStartSyncByDateRange;
     private Button btnDeleteSyncedData;
-
     private Date mStartDate;
     private DateTime jodaStartDate;
     private Date mEndDate;
@@ -64,6 +63,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Button btnMigrateData;
     private Button btnResetMigrationFlag;
     private TextView flagStateView;
+    private View fragmentView;
 
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -114,17 +114,10 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             } else if (view == btnMigrateData) {
                 migrateGDPRData();
             } else if (view == btnResetMigrationFlag) {
-                boolean status = checkMigrationFlag();
-                flagStateView.setText(status ? "Yes" : "No");
+                updateMigrationFlagView();
             }
         }
     };
-
-    private boolean checkMigrationFlag() {
-        return DataServicesManager.getInstance().isGdprMigrationDone();
-    }
-
-    private View fragmentView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,7 +138,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
         btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
         flagStateView = fragmentView.findViewById(R.id.migration_flag_status);
-        flagStateView.setText(checkMigrationFlag() ? "Yes" : "No");
+        updateMigrationFlagView();
 
         ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
 
@@ -189,15 +182,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
     }
 
-    private void fetchSyncByDateRange() {
-        jodaStartDate = (mStartDate == null) ? new DateTime(0) : new DateTime(mStartDate);
-        jodaEndDate = (mEndDate == null) ? new DateTime() : new DateTime(mEndDate);
-        if (jodaStartDate != null && jodaEndDate != null) {
-            updateTextView(getString(R.string.sync_inProgress));
-        }
-        mMomentPresenter.fetchSyncByDateRange(jodaStartDate, jodaEndDate, this);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -209,7 +193,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         updateTextView(getString(R.string.sync_completed));
     }
 
-
     @Override
     public void onSyncFailed(Exception exception) {
         if (exception.getClass().getSimpleName().equalsIgnoreCase("SyncException")) {
@@ -218,6 +201,25 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             updateTextView(getString(R.string.sync_failed));
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
+        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+        SyncScheduler.getInstance().setListener(null);
+    }
+
+    @Override
+    public void onSyncStatusChanged(boolean isRunning) {
+        if (!(((Activity) mContext).isFinishing())) {
+            if (isRunning) {
+                updateTextView(getString(R.string.sync_inProgress));
+            } else {
+                updateTextView(getString(R.string.sync_stopped));
+            }
+        }
     }
 
     @Override
@@ -261,6 +263,24 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         return true;
     }
 
+    private void fetchSyncByDateRange() {
+        jodaStartDate = (mStartDate == null) ? new DateTime(0) : new DateTime(mStartDate);
+        jodaEndDate = (mEndDate == null) ? new DateTime() : new DateTime(mEndDate);
+        if (jodaStartDate != null && jodaEndDate != null) {
+            updateTextView(getString(R.string.sync_inProgress));
+        }
+        mMomentPresenter.fetchSyncByDateRange(jodaStartDate, jodaEndDate, this);
+    }
+
+
+    private void updateMigrationFlagView() {
+        flagStateView.setText(checkMigrationFlag() ? "Yes" : "No");
+    }
+
+    private boolean checkMigrationFlag() {
+        return DataServicesManager.getInstance().isGdprMigrationDone();
+    }
+
     private void updateStartDate() throws ParseException {
         String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
@@ -287,25 +307,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        DataServicesManager.getInstance().unRegisterDBChangeListener();
-        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
-        SyncScheduler.getInstance().setListener(null);
-    }
-
-    @Override
-    public void onSyncStatusChanged(boolean isRunning) {
-        if (!(((Activity) mContext).isFinishing())) {
-            if (isRunning) {
-                updateTextView(getString(R.string.sync_inProgress));
-            } else {
-                updateTextView(getString(R.string.sync_stopped));
-            }
-        }
-    }
-
     private void deleteSyncedData() {
         DataServicesManager.getInstance().deleteSyncedMoments(new DBRequestListener<Moment>() {
             @Override
@@ -329,6 +330,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             @Override
             public void onSuccess(List<?> data) {
                 Toast.makeText(getContext(), "GDPR migration completed", Toast.LENGTH_LONG).show();
+                updateMigrationFlagView();
             }
 
             @Override
