@@ -171,7 +171,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }
         }else {
-            displayPharmacy();
+            thscheckPharmacyConditionsPresenter.checkForConsent();
         }
     }
 
