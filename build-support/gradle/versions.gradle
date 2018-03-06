@@ -4,8 +4,10 @@
  */
 
 def epochTime() {
-        long epoch = System.currentTimeMillis()/1000
-        return epoch
+    def env_epoch = System.getenv('EPOCH_TIME')
+    long local_epoch = System.currentTimeMillis()/1000
+    def epoch = env_epoch != null ? env_epoch : local_epoch
+    return epoch
 }
 
 ext.baseplatformversion = "1705.1"
