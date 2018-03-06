@@ -39,11 +39,18 @@ public class DialogLayout extends ConstraintLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         DialogScrollView scrollView = (DialogScrollView) this.getChildAt(2);
-        int siblingHeight = getSiblingHeight();
-        int maxHeight = getContentAreaHeight() - layoutMargins - siblingHeight;
+
+        int maxHeight = getContentAreaHeight() - layoutMargins - getSiblingHeight();
         if(scrollView.getMeasuredHeight() > maxHeight){
             scrollView.setViewHeight(maxHeight);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+
+        int minHeight = scrollView.getMeasuredHeight() + layoutMargins + getSiblingHeight();
+        if(getMeasuredHeight() < minHeight){
+            setMinHeight(minHeight);
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
