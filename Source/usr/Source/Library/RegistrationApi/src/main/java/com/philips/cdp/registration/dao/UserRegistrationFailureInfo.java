@@ -9,6 +9,8 @@
 
 package com.philips.cdp.registration.dao;
 
+import android.text.TextUtils;
+
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
@@ -44,6 +46,16 @@ public class UserRegistrationFailureInfo {
             return error.error_description;
         } else {
             return errorDescription;
+        }
+    }
+
+    public String getErrorTagging(){
+
+        if(null != error && null != error.raw_response){
+
+            return RegUtility.getTaggingErrorDescription(error.raw_response);
+        }else{
+            return "Something went wrong";
         }
     }
 
