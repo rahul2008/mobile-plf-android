@@ -138,14 +138,14 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onLogoutClicked() {
+            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
 
                 User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(actContext);
                 if(user.isUserSignIn()){
                     user.logout(new LogoutHandler() {
                         @Override
                         public void onLogoutSuccess() {
-                            ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                            myaLogoutListener.onLogoutSuccess();
                         }
 
                         @Override
