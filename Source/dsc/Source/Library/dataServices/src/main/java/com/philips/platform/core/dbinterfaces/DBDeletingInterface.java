@@ -157,4 +157,10 @@ public interface DBDeletingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     void deleteUserCharacteristics() throws SQLException;
+
+    /**
+     * Deletes all expired Insights from the database
+     * @param dbRequestListener {@link DBRequestListener}
+     */
+    void deleteAllExpiredInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException;
 }

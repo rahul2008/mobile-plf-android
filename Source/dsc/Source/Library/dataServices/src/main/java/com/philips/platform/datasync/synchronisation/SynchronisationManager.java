@@ -68,6 +68,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullSuccess() {
+        // TODO Before starting to push, delete all 'expired' data (Moments & Insights)
         postEventToStartPush();
     }
 
