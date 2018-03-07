@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[ja]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">サーバーへの接続で問題が発生しました。デバイスの日時が正しく設定されていることを確認してください。問題が解消されない場合は、いったんログアウトしてからログインし直してください。</string>
+  <string name="csw_offline_message">[ja]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[ja]You are offline</string>
+  <string name="csw_ok">[ja]OK</string>
+  <string name="csw_privacy_settings">[ja]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[ja]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[ja]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[ja]Problem occurred</string>
+  <string name="mya_Account_settings">アカウント設定</string>
+  <string name="mya_Address">住所</string>
+  <string name="mya_Cancel">キャンセル</string>
+  <string name="mya_Consent_Help_Label">どういう意味ですか？</string>
+  <string name="mya_Country">国</string>
+  <string name="mya_Date_of_birth">生年月日</string>
+  <string name="mya_Email_Validation_message">メールアドレス未確認</string>
+  <string name="mya_Email_address">メールアドレス</string>
+  <string name="mya_Gender">性別</string>
+  <string name="mya_Info">ログイン ID またはパスワードを変更する場合はウェブサイトにアクセスしてください。</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[ja]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">ログイン詳細</string>
+  <string name="mya_Logout">ログアウト</string>
+  <string name="mya_Mobile_number">携帯電話番号</string>
+  <string name="mya_My_account">マイアカウント</string>
+  <string name="mya_My_details">詳細</string>
+  <string name="mya_My_orders">マイオーダー</string>
+  <string name="mya_My_products">マイプロダクツ</string>
+  <string name="mya_My_subscriptions">マイサブスクリプション</string>
+  <string name="mya_Name">名前</string>
+  <string name="mya_Not_Available">利用不可</string>
+  <string name="mya_Notifications">通知</string>
+  <string name="mya_Offline_message">インターネットに接続されていないようです。確認してから再試行してください。</string>
+  <string name="mya_Offline_title">オフラインです</string>
+  <string name="mya_Ok">はい</string>
+  <string name="mya_Personal_details">個人情報詳細</string>
+  <string name="mya_Privacy_Settings">プライバシー設定</string>
+  <string name="mya_Privacy_Settings_Desc">ご自分のプライバシーを管理しましょう。詳細については _privacy notice_ をお読みください。</string>
+  <string name="mya_Problem_Occurred_Error_Message">問題が発生しました（エラー %d）。再試行してください。</string>
+  <string name="mya_Problem_Occurred_Error_Title">問題が発生しました</string>
+  <string name="mya_Profile">プロファイル</string>
+  <string name="mya_Settings">設定</string>
+  <string name="mya_change_country">ログアウトして国を変更</string>
+  <string name="mya_change_country_message">ログアウトしてお住まいの国を変更してください。お客様の所在地に合わせた保証やその他の情報をご提供します。</string>
+  <string name="mya_csw_justintime_accept">[ja]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[ja]Maybe later</string>
+  <string name="mya_csw_justintime_title">[ja]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ja]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[ja]What do we have to offer?</string>
+  <string name="mya_logout_message">アプリケーションをログアウトします。ログアウト後はいつでも再度ログインできます。</string>
+  <string name="mya_logout_title">ログアウトしますか？</string>
+</resources>

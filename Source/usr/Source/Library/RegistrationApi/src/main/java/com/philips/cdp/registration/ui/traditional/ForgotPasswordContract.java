@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.support.v4.app.*;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.registration.dao.*;
 
 /**
@@ -10,12 +11,24 @@ import com.philips.cdp.registration.dao.*;
 
 public interface ForgotPasswordContract {
     void handleUiState(boolean isOnline);
+
     void handleUiStatus();
+
     void handleSendForgotPasswordSuccess();
+
     void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
+
     void hideForgotPasswordSpinner();
+
     void forgotPasswordErrorMessage(String errorMsgId);
+
     void trackAction(String state, String key, String value);
-    void intiateService(String url);
+
+    //void intiateService(String url);
+
     void addFragment(Fragment fragment);
+
+    void onSuccessResponse(String response);
+
+    void onErrorResponse(VolleyError error);
 }

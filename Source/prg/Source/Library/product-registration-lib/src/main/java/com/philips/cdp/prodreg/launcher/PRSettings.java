@@ -9,6 +9,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * @since 1.0.0
  */
 public class PRSettings extends UappSettings {
+    private static final long serialVersionUID = -6635233525340545678L;
+
 
     /**
      * creates instance of PRSettings with proposition application context

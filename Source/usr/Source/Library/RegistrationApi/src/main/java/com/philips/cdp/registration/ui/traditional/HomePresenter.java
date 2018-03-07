@@ -10,6 +10,7 @@ import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -26,6 +27,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -37,7 +39,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -77,8 +81,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.WECHAT_AUTH, this);
     }
 
     public void cleanUp() {
@@ -87,8 +89,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.WECHAT_AUTH,
                 this);
     }
 
@@ -153,14 +153,10 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         return RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
     }
 
-    public boolean isWeChatAppRegistered() {
-        return isWeChatAppRegistered;
-    }
-
     private boolean isWeChatAppRegistered;
-    String mWeChatAppId;
-    String mWeChatAppSecret;
-    IWXAPI mWeChatApi;
+    private String mWeChatAppId;
+    private String mWeChatAppSecret;
+    private IWXAPI mWeChatApi;
 
     private String weChat = "WECHAT";
 
@@ -199,17 +195,17 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void handleWeChatCode() {
-        RLog.d("WECHAT", String.format("WeChat Code: ", mWeChatCode));
+    public void handleWeChatCode(String pWeChatCode) {
+        RLog.d("WECHAT", "WeChat Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
-        weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, mWeChatCode,
+        weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
                 new WeChatAuthenticationListener() {
                     @Override
                     public void onSuccess(final JSONObject jsonObj) {
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.d("WECHAT body", "token " + token + " openid " + openId);
+                            RLog.d("WECHAT body", "WeChat token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
@@ -272,6 +268,23 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.loginFailed(userRegistrationFailureInfo);
+    }
+
+    public ArrayList<Country> getAllCountries() {
+        try {
+            ArrayList<Country> allCountriesList = new ArrayList<Country>();
+            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
+            for (String aRecourseList : recourseList) {
+
+                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
+                allCountriesList.add(country);
+            }
+            return allCountriesList;
+
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 
@@ -350,8 +363,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     private String provider;
 
-    String mWeChatCode;
-
     @Override
     public void onEventReceived(String event) {
         RLog.d(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
@@ -380,10 +391,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
             homeContract.initFailed();
             deligateFlow = FLOWDELIGATE.DEFAULT;
-        } else if (RegConstants.WECHAT_AUTH.equals(event)) {
-            if (mWeChatCode != null) {
-                homeContract.startWeChatLogin();
-            }
         }
     }
 
@@ -419,8 +426,11 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             RLog.d("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
-                    mWeChatCode = weChatCode;
-                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH));
+                    if (weChatCode != null) {
+                        homeContract.startWeChatLogin(weChatCode);
+                    }else{
+                        RLog.d("WECHAT", "Wechat = "+weChatCode);
+                    }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     homeContract.wechatAutheticationCanceled();
@@ -433,29 +443,25 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     };
 
 
-    public boolean isEmailAvailable() {
-        boolean isEmailAvailable = user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
-        return isEmailAvailable;
+    private boolean isEmailAvailable() {
+        return user.getEmail() != null && FieldsValidator.isValidEmail(user.getEmail());
     }
 
 
-    public boolean isMobileNoAvailable() {
-        boolean isMobileNoAvailable = user.getMobile() != null && FieldsValidator.isValidMobileNumber(user.getMobile());
-        return isMobileNoAvailable;
+    private boolean isMobileNoAvailable() {
+        return user.getMobile() != null && FieldsValidator.isValidMobileNumber(user.getMobile());
     }
 
     public boolean isEmailVerified() {
-        boolean isEmailVerified = user.isEmailVerified();
-        return isEmailVerified;
+        return user.isEmailVerified();
     }
 
     public boolean isMobileVerified() {
-        boolean isMobileVerified = user.isMobileVerified();
-        return isMobileVerified;
+        return user.isMobileVerified();
     }
 
 
-    public void getLocaleServiceDiscovery(final String countryName) {
+    private void getLocaleServiceDiscovery(final String countryName) {
         serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -78,23 +78,29 @@ public  class THSTagUtils {
         map.put(key,value);
         String country= THSManager.getInstance().getCountry();
         map.put("country",country);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        }
     }
     public static void doTrackActionWithInfo(String action, HashMap<String , String> map){
         String country= THSManager.getInstance().getCountry();
         map.put("country",country);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        }
     }
 
     public static void doTrackPageWithInfo(String string1,String string2,String string3){
         if(!mPreviousPageName.equalsIgnoreCase(string1)) {
-            THSManager.getInstance().getThsTagging().trackPageWithInfo(string1, string2, string3);
+            if(THSManager.getInstance().getThsTagging() !=null) {
+                THSManager.getInstance().getThsTagging().trackPageWithInfo(string1, string2, string3);
+            }
             mPreviousPageName=string1;
         }
     }
 
     public static void doExitToPropositionWithCallBack(){
-        if(null!=THSManager.getInstance() ) {
+        if(null!=THSManager.getInstance() && THSManager.getInstance().getThsTagging()!=null) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
             THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
             if (THSManager.getInstance().getThsCompletionProtocol() != null) {// added for uGrow request

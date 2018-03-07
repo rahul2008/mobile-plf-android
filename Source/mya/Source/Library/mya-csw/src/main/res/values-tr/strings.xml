@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[tr]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Sunucuya bağlanılırken bir sorun oluştu. Cihazındaki tarih/zaman ayarlarının doğru olduğundan emin olun. Sorun devam ederse lütfen oturumunuzu kapatıp yeniden açın.</string>
+  <string name="csw_offline_message">[tr]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[tr]You are offline</string>
+  <string name="csw_ok">[tr]OK</string>
+  <string name="csw_privacy_settings">[tr]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[tr]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[tr]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[tr]Problem occurred</string>
+  <string name="mya_Account_settings">Hesap ayarları</string>
+  <string name="mya_Address">Adres</string>
+  <string name="mya_Cancel">İptal</string>
+  <string name="mya_Consent_Help_Label">Bu ne anlama geliyor?</string>
+  <string name="mya_Country">Ülke</string>
+  <string name="mya_Date_of_birth">Doğum tarihi</string>
+  <string name="mya_Email_Validation_message">E-posta adresi doğrulanmadı</string>
+  <string name="mya_Email_address">E-posta adresi</string>
+  <string name="mya_Gender">Cinsiyet</string>
+  <string name="mya_Info">Oturum açma kimliği veya parolanızı değiştirmek mi istiyorsunuz? Web sitemize gidin.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[tr]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Oturum açma bilgileri</string>
+  <string name="mya_Logout">Oturumu kapat</string>
+  <string name="mya_Mobile_number">Cep telefonu</string>
+  <string name="mya_My_account">Hesabım</string>
+  <string name="mya_My_details">Bilgilerim</string>
+  <string name="mya_My_orders">Siparişlerim</string>
+  <string name="mya_My_products">Ürünlerim</string>
+  <string name="mya_My_subscriptions">Aboneliklerim</string>
+  <string name="mya_Name">Adı</string>
+  <string name="mya_Not_Available">Kullanılmıyor</string>
+  <string name="mya_Notifications">Bildirimler</string>
+  <string name="mya_Offline_message">İnternet bağlantınız çalışmıyor gibi görünüyor. Lütfen kontrol edip yeniden deneyin</string>
+  <string name="mya_Offline_title">Çevrimdışısınız</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Kişisel bilgiler</string>
+  <string name="mya_Privacy_Settings">Gizlilik ayarları</string>
+  <string name="mya_Privacy_Settings_Desc">Gizlilik ayarlarınızı kontrol edin. Daha fazla bilgi için _gizlilik bildirimini_ okuyun.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Bir sorun oluştu (hata %d). Lütfen tekrar deneyin.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Bir sorun oluştu</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Ayarlar</string>
+  <string name="mya_change_country">Ülkeyi değiştirmek için oturumu kapatın</string>
+  <string name="mya_change_country_message">Lütfen yaşadığınız ülkeyi değiştirmek için oturumunuzu kapatın. Böylece garantiyi ve diğer bilgileri konumunuza göre güncelleyebiliriz</string>
+  <string name="mya_csw_justintime_accept">[tr]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[tr]Maybe later</string>
+  <string name="mya_csw_justintime_title">[tr]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[tr]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[tr]What do we have to offer?</string>
+  <string name="mya_logout_message">Bu uygulamada oturumunuz kapatılacaktır. Oturum kapatıldıktan sonra dilediğiniz zaman yeniden oturumu açabilirsiniz.</string>
+  <string name="mya_logout_title">Oturumu kapatmak mı istiyorsunuz?</string>
+</resources>

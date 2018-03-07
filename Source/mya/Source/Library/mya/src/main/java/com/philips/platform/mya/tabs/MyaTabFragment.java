@@ -39,6 +39,7 @@ public class MyaTabFragment extends MyaBaseFragment {
             viewPager = view.findViewById(R.id.pager);
             MyaPager adapter;
             int tabPosition=0;
+            addTags(tabPosition);
             myaLaunchInput = MyaHelper.getInstance().getMyaLaunchInput();
             if (savedInstanceState != null) {
                 Bundle arguments = savedInstanceState.getBundle(TAB_BUNDLE);
@@ -81,6 +82,7 @@ public class MyaTabFragment extends MyaBaseFragment {
         return new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                addTags(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -93,6 +95,19 @@ public class MyaTabFragment extends MyaBaseFragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         };
+    }
+
+    private void addTags(int position) {
+        switch (position) {
+            case 0:
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+                break;
+            case 1:
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

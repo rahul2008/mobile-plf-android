@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">保加利亚</string>
 <string name="reg_Country_CA">加拿大</string>
 <string name="reg_Country_CL">智利</string>
-<string name="reg_Country_CN">中国</string>
+<string name="reg_Country_CN">中国大陆</string>
 <string name="reg_Country_CO">哥伦比亚</string>
 <string name="reg_Country_HR">克罗地亚</string>
 <string name="reg_Country_CZ">捷克共和国</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">法国</string>
 <string name="reg_Country_DE">德国</string>
 <string name="reg_Country_GR">希腊</string>
-<string name="reg_Country_HK">香港</string>
+<string name="reg_Country_HK">中国香港</string>
 <string name="reg_Country_HU">匈牙利</string>
 <string name="reg_Country_IN">印度</string>
 <string name="reg_Country_ID">印度尼西亚</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">英国</string>
 <string name="reg_Country_US">美国</string>
 <string name="reg_Country_VN">越南</string>
-<string name="reg_Country_MO">澳门</string>
+<string name="reg_Country_MO">中国澳门</string>
 <string name="reg_Country_LU">卢森堡</string>
+<string name="reg_Country_TWGC">中国台北</string>
 <string name="reg_Country_Search_Text">搜索..</string>
 <string name="reg_AppNotInstalled_Alert_Title">未安装应用程序</string>
 <string name="reg_App_NotInstalled_AlertMessage">请安装 %s 应用程序以使用该功能。</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">请再次登录，在您的旧手机上重置密码或联系客户服务以获取进一步支持。</string>
 <string name="reg_Try_To_Login_Button_Text">尝试再次登录</string>
 <string name="reg_Contact_Customer_Care_Text">联系客户服务</string>
+<string name="reg_Update_Email_Button_Text">更新电子邮件地址</string>
+<string name="reg_Country_Region">国家/地区</string>
 <string name="reg_MyDetails_TitleTxt">我的账户</string>
 <string name="reg_Login_Details_Txt">登录详情</string>
 <string name="reg_Email_address_TitleTxt">电子邮件地址</string>
@@ -377,8 +380,7 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">添加我的恢复电子邮箱</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">以后再用</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">请输入代码以重置您的帐户密码。</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">在您同意的前提下，飞利浦集团可能会通过电子邮件、短信以及移动APP和社交媒体等其他数字渠道与您联系，为您提供推广与促销资讯。 为了能够依据您的偏好和习惯量身定制宣传内容并提供最佳的个性化体验，我们可能会分析和合并您的个人资料。 这些资料可能包括：\n\n您向我们提供的资料\n您主动分享的资料，如：姓名、出生日期或年龄、电子邮件地址、实际地址、国家/地区、性别、电话号码、社交媒体个人资料。\n\n我们通过您与飞利浦的互动获得的资料\n有关您的互动活动和使用飞利浦数字频道（如社交媒体、网站、电子邮件、应用程序APP和互联产品）的资料。 这些资料可能包括：IP 地址、Cookie、设备信息、您点击的信息、位置详细信息以及您访问的网站\n\n飞利浦将为您提供随时撤回许可的机会。\n有关更多信息，请阅读飞利浦隐私声明 和飞利浦 Cookie 声明。</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

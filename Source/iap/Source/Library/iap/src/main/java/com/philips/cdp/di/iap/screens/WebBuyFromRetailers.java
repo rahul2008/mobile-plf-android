@@ -5,7 +5,9 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,8 +90,27 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                return true;
+
+                final String url = request.getUrl().toString();
+
+                if(url == null) return false;
+
+                try {
+                    if (url.startsWith("http:") || url.startsWith("https:"))
+                    {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                } catch (Exception e) {
+                    // Avoid crash due to not installed app which can handle the specific url scheme
+                    return false;
+                }
             }
 
             @Override

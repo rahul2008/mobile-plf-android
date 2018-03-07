@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[he]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
+  <string name="csw_offline_message">[he]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[he]You are offline</string>
+  <string name="csw_ok">[he]OK</string>
+  <string name="csw_privacy_settings">[he]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[he]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[he]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[he]Problem occurred</string>
+  <string name="mya_Account_settings">הגדרות חשבון</string>
+  <string name="mya_Address">כתובת</string>
+  <string name="mya_Cancel">ביטול</string>
+  <string name="mya_Consent_Help_Label">מה זה אומר?</string>
+  <string name="mya_Country">מדינה</string>
+  <string name="mya_Date_of_birth">תאריך לידה</string>
+  <string name="mya_Email_Validation_message">כתובת הדוא\"ל לא אושרה</string>
+  <string name="mya_Email_address">כתובת דוא\"ל</string>
+  <string name="mya_Gender">מין</string>
+  <string name="mya_Info">האם ברצונך לשנות את מזהה הכניסה או את הסיסמה שלך? בקר באתר האינטרנט שלנו.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[he]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">פרטי כניסה</string>
+  <string name="mya_Logout">התנתק</string>
+  <string name="mya_Mobile_number">מספר הנייד</string>
+  <string name="mya_My_account">החשבון שלי</string>
+  <string name="mya_My_details">הפרטים שלי</string>
+  <string name="mya_My_orders">ההזמנות שלי</string>
+  <string name="mya_My_products">המוצרים שלי</string>
+  <string name="mya_My_subscriptions">המנויים שלי</string>
+  <string name="mya_Name">שם</string>
+  <string name="mya_Not_Available">לא זמין</string>
+  <string name="mya_Notifications">הודעות</string>
+  <string name="mya_Offline_message">נראה שחיבור האינטרנט שלך אינו פועל. בדוק ונסה שוב</string>
+  <string name="mya_Offline_title">אתה במצב לא מקוון</string>
+  <string name="mya_Ok">אישור</string>
+  <string name="mya_Personal_details">פרטים אישיים</string>
+  <string name="mya_Privacy_Settings">הגדרות פרטיות</string>
+  <string name="mya_Privacy_Settings_Desc">שלוט בפרטיות שלך. למידע נוסף, קרא את _הודעת הפרטיות_.</string>
+  <string name="mya_Problem_Occurred_Error_Message">אירעה בעיה (שגיאה %d). אנא נסה שוב.</string>
+  <string name="mya_Problem_Occurred_Error_Title">אירעה בעיה.</string>
+  <string name="mya_Profile">פרופיל</string>
+  <string name="mya_Settings">הגדרות</string>
+  <string name="mya_change_country">כדי להחליף מדינה, צא מהמערכת</string>
+  <string name="mya_change_country_message">כדי להחליף את מדינת מגוריך, צא מהמערכת. באופן זה נוכל להתאים את האחריות ומידע נוסף למיקום שלך.</string>
+  <string name="mya_csw_justintime_accept">[he]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[he]Maybe later</string>
+  <string name="mya_csw_justintime_title">[he]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[he]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_title">[he]What do we have to offer?</string>
+  <string name="mya_logout_message">כעת תנותק מהאפליקציה. לאחר היציאה, תמיד תוכל להיכנס מחדש.</string>
+  <string name="mya_logout_title">אתה בטוח שברצונך לצאת מהמערכת?</string>
+</resources>

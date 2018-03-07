@@ -7,11 +7,11 @@ package com.philips.platform.pif.DataInterface.USR;
 
 import android.content.Context;
 
-import com.philips.platform.pif.DataInterface.DataInterface;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Data interface for getting the user data
  * @since 2018.1.0
  */
-public interface UserDataInterface extends DataInterface {
+public interface UserDataInterface extends Serializable{
 
 
     /**

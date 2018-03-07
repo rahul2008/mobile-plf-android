@@ -29,7 +29,8 @@
             android:layout_marginLeft="@dimen/default_screen_side_margin"
             android:layout_marginRight="@dimen/default_screen_side_margin"
             android:layout_marginTop="@dimen/default_screen_top_margin"
-            android:textSize="21sp"/>
+            android:textSize="21sp"
+            android:textStyle="bold"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mya_cws_label_in_time_user_benefits_description"

@@ -200,7 +200,7 @@ public class FieldsValidator {
             if (android.util.Patterns.PHONE.matcher(mobileNumber).matches()) {
                 try {
                     numberProto = phoneUtil.parse(mobileNumber, "CN");
-                    mobileNumber = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164).toString();
+                    mobileNumber = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164);
                     mobileNumber = mobileNumber.replace("+","");
                 } catch (NumberParseException e) {
                     e.printStackTrace();

@@ -319,7 +319,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void onModelDataLoadFinished(final Message msg) {
         if (processResponseFromHybrisForGetCart(msg)) return;
-        if (processResponseFromPRX(msg)) return;
+        processResponseFromPRX(msg);
     }
 
     @Override
@@ -331,13 +331,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         }
     }
 
-    private boolean processResponseFromPRX(final Message msg) {
+    private void processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
             notifyListChanged();
         } else {
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         }
-        return false;
     }
 
     private boolean processResponseFromHybrisForGetCart(final Message msg) {

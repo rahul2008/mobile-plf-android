@@ -10,46 +10,48 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.details.MyaDetailsFragment;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
-
-class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter {
+class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter{
 
     private MyaProfileContract.View view;
-
+    private UserDataInterface userDataInterface;
     MyaProfilePresenter(MyaProfileContract.View view) {
         this.view = view;
     }
 
-    private void setUserName(UserDataModelProvider userDataModelProvider) {
-        if (userDataModelProvider != null) {
-            UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
-            setUserModel(userDataModel);
+    private void setUserName(UserDataInterface userDataInterface) {
+        if (userDataInterface != null) {
+            ArrayList<String> list = new ArrayList<>();
+            try {
+                HashMap<String,Object> userMap = userDataInterface.getUserDetails(list);
+                String givenName = (String) userMap.get(UserDetailConstants.GIVEN_NAME);
+                String familyName = (String) userMap.get(UserDetailConstants.FAMILY_NAME);
+                if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
+                    view.setUserName(givenName.concat(" ").concat(familyName));
+                } else if (!TextUtils.isEmpty(givenName)) {
+                    view.setUserName(givenName);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     @Override
     public boolean handleOnClickProfileItem(String profileItem, Bundle bundle) {
-        if (profileItem.equals(view.getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
-            MyaDetailsFragment myaDetailsFragment = getMyaDetailsFragment();
-            myaDetailsFragment.setArguments(bundle);
-            view.showPassedFragment(myaDetailsFragment);
-            return true;
-        }
         return false;
     }
 
@@ -57,31 +59,11 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     public void getProfileItems(AppInfraInterface appInfra, Bundle arguments) {
         List<?> list = null;
         if (arguments != null) {
-            setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
+            userDataInterface = MyaHelper.getInstance().getUserDataInterface();
+            setUserName(userDataInterface);
             list = MyaHelper.getInstance().getMyaLaunchInput().getProfileMenuList();
         }
-        if (list == null || list.isEmpty()) {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            String profileItems = "profile.menuItems";
-            list = (ArrayList<?>) appInfra.getConfigInterface().getPropertyForKey
-                    (profileItems, "mya", configError);
-        }
         view.showProfileItems(getProfileList(list));
-    }
-
-    MyaDetailsFragment getMyaDetailsFragment() {
-        return new MyaDetailsFragment();
-    }
-
-    private void setUserModel(UserDataModel userDataModel) {
-        String givenName = userDataModel.getGivenName();
-        String familyName = userDataModel.getFamilyName();
-        if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
-            view.setUserName(givenName.concat(" ").concat(familyName));
-        } else if (!TextUtils.isEmpty(givenName)) {
-            view.setUserName(givenName);
-        }
     }
 
     private TreeMap<String, String> getProfileList(List<?> list) {
@@ -99,5 +81,4 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         }
         return null;
     }
-
 }
