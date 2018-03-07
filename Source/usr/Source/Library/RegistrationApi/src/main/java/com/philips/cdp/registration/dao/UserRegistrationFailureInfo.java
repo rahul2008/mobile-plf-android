@@ -9,8 +9,6 @@
 
 package com.philips.cdp.registration.dao;
 
-import android.text.TextUtils;
-
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
