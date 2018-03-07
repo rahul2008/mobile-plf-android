@@ -70,7 +70,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         SettingsModel privacySettingsModel = new SettingsModel();
         privacySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Privacy_Settings));
-        profileList.put("Mya_Privacy_Settings", privacySettingsModel);
+        profileList.put("MYA_Privacy_Settings", privacySettingsModel);
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
