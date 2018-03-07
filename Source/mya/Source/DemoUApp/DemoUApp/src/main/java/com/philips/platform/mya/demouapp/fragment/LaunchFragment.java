@@ -55,12 +55,14 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.urdemo.URDemouAppDependencies;
+import com.philips.platform.urdemo.URDemouAppInterface;
+import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.appInfra;
 
 
 public class LaunchFragment extends BaseFragment implements View.OnClickListener,MyAccountUIEventListener {
@@ -104,13 +106,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
 
         try {
-            MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
-
             MyaLaunchInput launchInput = new MyaLaunchInput(getContext());
+            MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
+            String[] profileItems = {"MYA_My_details"};
+            String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
+            launchInput.setProfileMenuList(Arrays.asList(profileItems));
+            launchInput.setSettingsMenuList(Arrays.asList(settingItems));
             launchInput.setMyaListener(getMyaListener());
+            launchInput.setUserDataInterface(MyAccountDemoUAppInterface.getUserDataInterface());
+            launchInput.setMyaTabConfig(myaTabConfig);
             MyaInterface myaInterface = new MyaInterface();
             myaInterface.init(getUappDependencies(), new MyaSettings(getContext()));
-            myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
             if (checkedId == R.id.radioButton) {
                 ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
                         ((DemoAppActivity) getActivity()).getThemeConfig(),
@@ -129,15 +135,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     }
                 }), launchInput);
             }
-        launchInput.setUserDataInterface(MyAccountDemoUAppInterface.getUserDataInterface());
-        MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
-        launchInput.setMyaTabConfig(myaTabConfig);
-        String[] profileItems = {"MYA_My_details"};
-        String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
-        launchInput.setProfileMenuList(Arrays.asList(profileItems));
-        launchInput.setSettingsMenuList(Arrays.asList(settingItems));
-        myaInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), launchInput);
-
         } catch (CatkInputs.InvalidInputException e) {
             e.printStackTrace();
         }
@@ -153,7 +150,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 } else if (itemName.equals("Mya_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();
                     if (restInterface.isInternetReachable()) {
-                        CswDependencies dependencies = new CswDependencies(appInfra, consentConfigurationList);
+                        CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra(), consentConfigurationList);
                         PermissionHelper.getInstance().setMyAccountUIEventListener(LaunchFragment.this);
                         CswInterface cswInterface = getCswInterface();
                         UappSettings uappSettings = new UappSettings(getContext());
@@ -184,7 +181,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
             @Override
             public void onError(MyaError myaError) {
-                Toast.makeText(getContext(), myaError.toString(), Toast.LENGTH_SHORT).show();
+                if (myaError == MyaError.USERNOTLOGGEDIN) {
+                    Toast.makeText(getActivity(), "User not signed in", Toast.LENGTH_SHORT).show();
+                    URDemouAppInterface uAppInterface;
+                    uAppInterface = new URDemouAppInterface();
+                    AppInfraInterface appInfraInterface = MyAccountDemoUAppInterface.getAppInfra();
+                    uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(getActivity()));
+                    uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+                }
             }
 
             @Override
@@ -208,17 +212,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         };
     }
 
-    public MyaInterface getInterface() {
-        return new MyaInterface();
-    }
 
     @NonNull
     protected MyaDependencies getUappDependencies() {
-        return new MyaDependencies(appInfra);
+        return new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
     }
 
     private RestInterface getRestClient() {
-        return appInfra.getRestClient();
+        return MyAccountDemoUAppInterface.getAppInfra().getRestClient();
     }
 
     @Override
@@ -233,12 +234,12 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     private void init() {
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(getContext())
-                .setAppInfraInterface(appInfra)
+                .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
                 .setConsentDefinitions(createCatkDefinitions(getContext()))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(getContext());
-        setConsentConfiguration(getContext(), appInfra, catkInputs, urDefinitions);
+        setConsentConfiguration(getContext(), MyAccountDemoUAppInterface.getAppInfra(), catkInputs, urDefinitions);
     }
 
     /**
