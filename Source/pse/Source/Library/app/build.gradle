@@ -39,9 +39,6 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "productselectionApp"
 
-group = 'com.philips.cdp'
-version = platformversion
-
 allprojects {
     repositories {
         maven {

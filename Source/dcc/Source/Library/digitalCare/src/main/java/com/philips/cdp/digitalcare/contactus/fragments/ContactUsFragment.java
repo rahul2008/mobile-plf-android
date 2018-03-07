@@ -8,10 +8,8 @@
 
 package com.philips.cdp.digitalcare.contactus.fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,7 +21,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,6 +42,8 @@ import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -76,8 +75,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private Configuration config = null;
     private Utils mUtils = null;
     private ContactUsUtils mContactUsUtils = null;
-    private AlertDialog mAlertDialog = null;
+    private AlertDialogFragment mAlertDialog = null;
     private long mLastClkTime;
+
+    public static final String CONTACT_US_DIALOG_TAG = "CONTACT_US_DIALOG_TAG";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -457,22 +458,26 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(null != mAlertDialog && mAlertDialog.isShowing())
-            mAlertDialog.cancel();
+        if(null != mAlertDialog)
+            mAlertDialog.dismiss();
     }
 
     private void showDialog(String message){
-        mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
-                .setTitle(null)
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.yes,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                mAlertDialog.dismiss();
-
-                            }
-                        }).show();
+                .setPositiveButton(android.R.string.yes, new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mAlertDialog != null) {
+                            mAlertDialog.dismiss();
+                        }
+                    }
+                })
+                .setDimLayer(DialogConstants.DIM_SUBTLE)
+                .setCancelable(false);
+        mAlertDialog = builder.create();
+        mAlertDialog.show(getFragmentManager(), CONTACT_US_DIALOG_TAG);
 
     }
 

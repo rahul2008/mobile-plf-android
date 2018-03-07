@@ -14,7 +14,10 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 
 
 public class OnBoardingFragment  extends THSBaseFragment implements View.OnClickListener{
@@ -55,5 +58,12 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
     public void onResume() {
         super.onResume();
         THSTagUtils.doTrackPageWithInfo(ON_BOARDING_START, null, null);
+    }
+
+
+    @Override
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 }

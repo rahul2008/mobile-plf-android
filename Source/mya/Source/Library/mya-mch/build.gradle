@@ -5,7 +5,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 
 archivesBaseName = "mya-mch"
-version = platformversion
 
 android {
     compileSdkVersion versions.sdk

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -50,6 +50,12 @@ public class TimePortFragment extends Fragment {
     private ReferenceAppliance currentAppliance;
     private DICommPortListener<TimePort> portListener = new DICommPortListener<TimePort>() {
 
+        private void resume() {
+            if (switchLoopGet.isChecked()) {
+                currentAppliance.getTimePort().reloadProperties();
+            }
+        }
+
         @Override
         public void onPortUpdate(TimePort timePort) {
             if (isAdded()) {
@@ -66,10 +72,7 @@ public class TimePortFragment extends Fragment {
                 String dateTimeString = DATETIME_FORMATTER.print(dt);
 
                 updateResult(dateTimeString);
-
-                if (switchLoopGet.isChecked()) {
-                    timePort.reloadProperties();
-                }
+                resume();
             }
         }
 
@@ -80,6 +83,7 @@ public class TimePortFragment extends Fragment {
             if (isAdded()) {
                 updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
             }
+            resume();
         }
     };
 

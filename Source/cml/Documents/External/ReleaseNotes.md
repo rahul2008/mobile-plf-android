@@ -41,6 +41,9 @@ Version {next}
 * CommLib - `ApplianceManager.ApplianceListener` is not generic typed anymore.
 
 ### Defects solved
+* CommLib LAN - \#103269 Prevent unnecessary creation of threads during execution of LAN requests  
+* CommLib LAN - \#116013 SSDP implementation not crashing on messages without USN header anymore (now get completely ignored)
+* CommLib LAN - \#111508 Improved SSDP implementation: reacting on NOTIFY messages again, no longer fetching description.xml time and again, improved SSDP M-SEARCH headers.
 * CloudController - \#14442 Added API to allow forcing of locale used by ICPClient (amongst other things, used for push notifications)
 * CommLib - \#72227 Timeout callback not called
 * CommLib - \#73361 XML parser vulnerability during SSDP discovery

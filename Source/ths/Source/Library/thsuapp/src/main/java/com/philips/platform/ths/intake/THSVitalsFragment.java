@@ -246,7 +246,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } else if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
             mDiastolicInputValidationLayout.setErrorMessage(getString(R.string.ths_vitals_enter_bp_field_error));
             mDiastolicInputValidationLayout.showError();
-            doTagging(THS_ANALYTICS_SYSTOLIC_VALIDATION, getString(R.string.ths_vitals_temperature_error), false);
+            doTagging(THS_ANALYTICS_SYSTOLIC_VALIDATION, getString(R.string.ths_vitals_enter_bp_field_error), false);
             return false;
         } else {
             if (mSystolicInputValidationLayout.isShowingError()) {
@@ -317,7 +317,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if (mThsVitalsPresenter.stringToInteger(systolic) > 250 || mThsVitalsPresenter.stringToInteger(diastolic) > 250) {
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error_range);
             mDiastolicInputValidationLayout.showError();
-            doTagging(THS_ANALYTICS_SYSTOLIC_VALIDATION, getString(R.string.ths_vitals_diastolic_error), false);
+            doTagging(THS_ANALYTICS_SYSTOLIC_VALIDATION, getString(R.string.ths_vitals_diastolic_error_range), false);
         } else if (mThsVitalsPresenter.stringToInteger(systolic) <= mThsVitalsPresenter.stringToInteger(diastolic)) {
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mDiastolicInputValidationLayout.showError();

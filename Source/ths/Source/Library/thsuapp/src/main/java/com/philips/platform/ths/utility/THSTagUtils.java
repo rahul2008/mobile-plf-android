@@ -10,6 +10,7 @@ import com.philips.platform.ths.intake.THSSymptomsFragment;
 import java.util.Date;
 import java.util.HashMap;
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
@@ -89,6 +90,18 @@ public  class THSTagUtils {
         if(!mPreviousPageName.equalsIgnoreCase(string1)) {
             THSManager.getInstance().getThsTagging().trackPageWithInfo(string1, string2, string3);
             mPreviousPageName=string1;
+        }
+    }
+
+    public static void doExitToPropositionWithCallBack(){
+        if(null!=THSManager.getInstance() ) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
+            THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
+            if (THSManager.getInstance().getThsCompletionProtocol() != null) {// added for uGrow request
+                THSManager.getInstance().getThsCompletionProtocol().didExitTHS(Other);
+            }
+            THSManager.getInstance().resetTHSManagerData();
+            AmwellLog.v("EXIT_THS","doExitToPropositionWithCallBack ");
         }
     }
 

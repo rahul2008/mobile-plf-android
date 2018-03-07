@@ -4,11 +4,13 @@
  */
 
 def epochTime() {
-        long epoch = System.currentTimeMillis()/1000
-        return epoch
+    def env_epoch = System.getenv('EPOCH_TIME')
+    long local_epoch = System.currentTimeMillis()/1000
+    def epoch = env_epoch != null ? env_epoch : local_epoch
+    return epoch
 }
 
-ext.baseplatformversion = "2017.5"
+ext.baseplatformversion = "1705.1"
 ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
@@ -23,7 +25,7 @@ ext.versions = [
 ]
 
 ext.builddeps = [
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.0.0', changing: true],
         buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
         gradle            : 'com.android.tools.build:gradle:2.3.3',
         androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',

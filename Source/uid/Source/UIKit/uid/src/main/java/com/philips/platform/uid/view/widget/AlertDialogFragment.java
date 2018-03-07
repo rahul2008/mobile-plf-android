@@ -7,12 +7,14 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,16 +23,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
-import com.philips.platform.uid.utils.UIDLog;
-import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * UID AlertDialogFragment.
@@ -67,11 +68,6 @@ public class AlertDialogFragment extends DialogFragment {
     private View bottom_divider;
 
     private LinearLayout buttonLayout;
-    private ViewGroup decorView;
-    private View dimView;
-    private FrameLayout dimViewContainer;
-    private int animDuration = 300;
-    private int dimColor = Color.BLACK;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogParams();
@@ -126,7 +122,6 @@ public class AlertDialogFragment extends DialogFragment {
 
         handleButtonLayout();
         handlePositiveOnlyButton();
-        setDimLayer();
 
         return view;
     }
@@ -192,13 +187,9 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try {
-            getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-            if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
-                setAlertWidth();
-            }
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.UIDAlertAnimation);
         }
     }
 
@@ -212,23 +203,12 @@ public class AlertDialogFragment extends DialogFragment {
      *
      * @param manager The FragmentManager this fragment will be added to.
      * @param tag     The tag for this fragment, as per
-     *                @since 3.0.0
+     * @since 3.0.0
      */
     public void showAllowingStateLoss(FragmentManager manager, String tag) {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
         ft.commitAllowingStateLoss();
-    }
-
-    private void setAlertWidth() {
-        final ViewGroup.LayoutParams lp;
-        try {
-            lp = getView().getLayoutParams();
-            lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
-            getView().setLayoutParams(lp);
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
-        }
     }
 
     @Override
@@ -244,19 +224,6 @@ public class AlertDialogFragment extends DialogFragment {
         outState.putInt(DialogConstants.UID_ALERT_DIALOG_TYPE_KEY, dialogParams.getDialogType());
         outState.putInt(DialogConstants.UID_ALERT_DIALOG_DIM_LAYER_KEY, dialogParams.getDimLayer());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onStart() {
-        startEnterAnimation();
-        super.onStart();
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        decorView.removeView(dimViewContainer);
-        startExitAnimation();
-        super.onDismiss(dialog);
     }
 
     private void setNegativeButtonProperties() {
@@ -305,60 +272,10 @@ public class AlertDialogFragment extends DialogFragment {
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
      * @param color Color of background
-     *              @since 3.0.0
+     * @since 3.0.0
      */
+    @Deprecated
     public void setDimColor(int color) {
-        dimColor = color;
-    }
-
-    private void startEnterAnimation() {
-        UIDUtils.animateAlpha(dimView, 1f, animDuration, null);
-    }
-
-    private void startExitAnimation() {
-        UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
-            @Override
-            public void run() {
-                decorView = null;
-                dimView = null;
-                dimViewContainer = null;
-            }
-        });
-    }
-
-    private void setDimLayer() {
-        setDimColors();
-        setDimContainer();
-        addDimView();
-    }
-
-    private void setDimColors() {
-        TypedArray array = getActivity().obtainStyledAttributes(R.styleable.PhilipsUID);
-        int bgColor = dialogParams.getDimLayer() == DialogConstants.DIM_SUBTLE ? array.getColor(R.styleable.PhilipsUID_uidDimLayerSubtleBackgroundColor, dimColor) : array.getColor(R.styleable.PhilipsUID_uidDimLayerStrongBackgroundColor, dimColor);
-        setDimColor(bgColor);
-        array.recycle();
-    }
-
-    private void setDimContainer() {
-        decorView = (ViewGroup) getActivity().getWindow().getDecorView();
-        dimViewContainer = new FrameLayout(getActivity());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        dimViewContainer.setLayoutParams(params);
-    }
-
-    private void addDimView() {
-        dimView = new View(getActivity());
-        dimView.setBackgroundColor(dimColor);
-        dimView.setAlpha(0f);
-        dimViewContainer.addView(dimView);
-        decorView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (decorView != null) {
-                    decorView.addView(dimViewContainer);
-                }
-            }
-        });
     }
 
     private void setTitle(final ViewGroup headerView) {
@@ -382,7 +299,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of positive button
      *
      * @param listener Listener for positive button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setPositiveButtonLister(listener);
@@ -395,7 +312,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of negative button
      *
      * @param listener Listener for negative button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setNegativeButtonListener(listener);
@@ -408,7 +325,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of alternate button
      *
      * @param listener Listener for alternate button
-     *                 @since 3.0.0
+     * @since 3.0.0
      */
     public void setAlternateButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setAlternateButtonListener(listener);
@@ -426,12 +343,13 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     public static class Builder {
+        static final int DEFAULT_DIALOG_THEME = R.style.UIDAlertDialog;
         final AlertDialogParams params;
-        final int theme;
+        int theme;
         int dialogStyle;
 
         public Builder(final Context context) {
-            this(context, R.style.UIDAlertDialog);
+            this(context, DEFAULT_DIALOG_THEME);
         }
 
         public Builder(@NonNull Context context, @StyleRes int themeResId) {
@@ -444,8 +362,8 @@ public class AlertDialogFragment extends DialogFragment {
          * Style that needs to be applied on dialog.
          *
          * @param dialogStyle Selects a standard style: may be {@link #STYLE_NORMAL},
-         * {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
-         * {@link #STYLE_NO_INPUT}.
+         *                    {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
+         *                    {@link #STYLE_NO_INPUT}.
          * @return This Builder object to allow for chaining of calls to set methods
          * @since 3.0.0
          */
@@ -615,6 +533,9 @@ public class AlertDialogFragment extends DialogFragment {
          */
         public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
             params.setDimLayer(dimLayer);
+            if(theme == DEFAULT_DIALOG_THEME && dimLayer == DialogConstants.DIM_STRONG) {
+                theme = R.style.UIDAlertDialog_Strong;
+            }
             return this;
         }
 

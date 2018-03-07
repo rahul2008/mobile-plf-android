@@ -210,4 +210,8 @@ public class RegistrationRequest extends PrxRequest {
             params.put(PURCHASE_DATE, purchaseDate);
     }
 
+    @Override
+    public int getRequestTimeOut() {
+        return 30000;
+    }
 }

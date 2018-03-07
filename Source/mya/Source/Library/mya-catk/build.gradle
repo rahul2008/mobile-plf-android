@@ -24,8 +24,6 @@ buildscript {
 }
 
 archivesBaseName = "mya-catk"
-group = 'com.philips.cdp'
-version = platformversion
 
 android {
     compileSdkVersion versions.sdk

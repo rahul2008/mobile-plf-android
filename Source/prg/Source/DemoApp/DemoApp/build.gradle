@@ -88,10 +88,6 @@ allprojects {
     ext.eventbusVer = "3.0.0"
 }
 
-
-group = 'com.philips.cdp'
-version = platformversion
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
