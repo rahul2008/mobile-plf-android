@@ -19,6 +19,7 @@ import android.text.style.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.*;
@@ -325,7 +326,8 @@ public class RegUtility {
             return serverResponse.getString("error_description");
         } catch (JSONException e) {
             e.printStackTrace();
-            return "Something went wrong";
+
+            return AppTagingConstants.SOMETHING_WENT_WRONG;
         }
     }
 

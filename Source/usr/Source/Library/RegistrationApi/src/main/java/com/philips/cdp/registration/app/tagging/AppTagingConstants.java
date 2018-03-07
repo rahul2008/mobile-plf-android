@@ -164,7 +164,7 @@ public class AppTagingConstants {
 
     public static final String FAILURE_SERVICEDISCOVERY = "UR:RegistrationConfigurationFailed:ServiceDiscovery:";
 
-
+	public static final String SOMETHING_WENT_WRONG = "UR:Something went wrong";
 
 
 

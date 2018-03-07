@@ -12,6 +12,7 @@ package com.philips.cdp.registration.dao;
 import android.text.TextUtils;
 
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONObject;
@@ -50,13 +51,18 @@ public class UserRegistrationFailureInfo {
         }
     }
 
+    /**
+     * {@code getErrorDescription } method to get error non localized description
+     *
+     * @return non localized description error description String
+     * @since 18.1.0
+     */
+
     public String getErrorTagging() {
-
         if (null != error && null != error.raw_response) {
-
             return RegUtility.getTaggingErrorDescription(error.raw_response);
         } else {
-            return "Something went wrong";
+            return AppTagingConstants.SOMETHING_WENT_WRONG;
         }
     }
 
