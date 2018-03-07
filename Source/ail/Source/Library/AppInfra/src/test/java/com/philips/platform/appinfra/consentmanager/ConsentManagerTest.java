@@ -1,10 +1,8 @@
 package com.philips.platform.appinfra.consentmanager;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -44,7 +42,7 @@ public class ConsentManagerTest {
     AppInfra appInfra;
 
     @Mock
-    private CheckConsentsCallback mCheckConsentsCallback;
+    private FetchConsentCallback mCheckConsentsCallback;
     @Mock
     private PostConsentCallback mPostConsentCallback;
 
@@ -129,7 +127,7 @@ public class ConsentManagerTest {
     public void fetchConsentState_ShouldReturnConsentStatus() {
         SamplerHandler1 handler = new SamplerHandler1();
         ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent5", "testConsent6"), 0);
-        mCheckConsentsCallback = mock(CheckConsentsCallback.class);
+        mCheckConsentsCallback = mock(FetchConsentCallback.class);
         mConsentManager.register(Arrays.asList("testConsent5"), handler);
         mConsentManager.register(Arrays.asList("testConsent6"), handler);
         mConsentManager.fetchConsentState(consentDefinition, mCheckConsentsCallback);

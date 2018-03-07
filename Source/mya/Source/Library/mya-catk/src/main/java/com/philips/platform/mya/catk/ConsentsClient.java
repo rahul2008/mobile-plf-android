@@ -208,12 +208,14 @@ public class ConsentsClient {
         });
     }
 
-    void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
+    void getStatusForConsentType(final String consentType, final ConsentResponseListener consentListener) {
 
         getConsentDetails(new ConsentResponseListener() {
 
             @Override
             public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+
+                consentListener.onResponseSuccessConsent(responseData);
                 for (BackendConsent consent : responseData) {
                     if (consentType.equals(consent.getType())) {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
@@ -234,6 +236,35 @@ public class ConsentsClient {
             }
         });
     }
+
+    /*void getStatusForConsentTypes(final LiString consentType, final ConsentResponseListener consentListener) {
+
+        getConsentDetails(new ConsentResponseListener() {
+
+            @Override
+            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+
+                consentListener.onResponseSuccessConsent(responseData);
+                for (BackendConsent consent : responseData) {
+                    if (consentType.equals(consent.getType())) {
+                        consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
+                        return;
+                    }
+                }
+                consentListener.onResponseSuccessConsent(strictConsentCheck ? null : Collections.singletonList(createAlwaysAcceptedBackendConsent(consentType)));
+            }
+
+            @Override
+            public void onResponseFailureConsent(ConsentNetworkError consentError) {
+                consentListener.onResponseFailureConsent(consentError);
+            }
+
+            @NonNull
+            private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
+                return new BackendConsent(null, ConsentStatus.active, consentType, Integer.MAX_VALUE);
+            }
+        });
+    }*/
 
     public List<ConsentDefinition> getConsentDefinitions() {
         return Collections.unmodifiableList(consentDefinitionList);

@@ -5,11 +5,9 @@ import java.util.List;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

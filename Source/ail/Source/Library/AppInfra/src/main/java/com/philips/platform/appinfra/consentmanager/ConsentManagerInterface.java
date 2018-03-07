@@ -5,9 +5,7 @@
 */
 package com.philips.platform.appinfra.consentmanager;
 
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public interface ConsentManagerInterface extends ConsentHandlerInterface {
      * @param consentDefinition Consent Definition for which the status has to be fetched
      * @param callback          The callback that should be invoked after fetch
      */
-    void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback);
+    void fetchConsentState(ConsentDefinition consentDefinition, final FetchConsentCallback callback);
 
     /**
      * Fetch the consents status of the given consent definition by delegating to the corresponding handler
@@ -43,7 +41,7 @@ public interface ConsentManagerInterface extends ConsentHandlerInterface {
      * @param consentDefinitions Consent Definition for which the status has to be fetched
      * @param callback           The callback that should be invoked after fetch
      */
-    void fetchConsentStates(List<ConsentDefinition> consentDefinitions, final CheckConsentsCallback callback);
+    void fetchConsentStates(List<ConsentDefinition> consentDefinitions, final FetchConsentsCallback callback);
 
     /**
      * Store the consents status of the given consent definition by delegating to the corresponding handler

@@ -16,7 +16,6 @@ import com.philips.platform.dscdemo.moments.MomentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

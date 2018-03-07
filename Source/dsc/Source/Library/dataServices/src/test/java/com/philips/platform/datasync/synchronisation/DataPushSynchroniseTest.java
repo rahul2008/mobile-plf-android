@@ -12,7 +12,6 @@ import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.spy.EventingSpy;
 
