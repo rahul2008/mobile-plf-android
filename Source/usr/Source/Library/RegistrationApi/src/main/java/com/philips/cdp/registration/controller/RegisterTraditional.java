@@ -14,6 +14,7 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -24,6 +25,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONException;
@@ -66,8 +68,10 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
+            userRegistrationFailureInfo.setErrorTagging(RegUtility.getTaggingErrorDescription(error.captureApiError.raw_response));
             if (error.captureApiError.code == -1) {
                 userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+                userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             }
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
             ThreadUtils.postInMainThread(mContext, () ->

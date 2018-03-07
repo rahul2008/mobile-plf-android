@@ -21,6 +21,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONException;
@@ -47,7 +48,6 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
     public void onFailure(ForgetPasswordError error) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setError(error.captureApiError);
-        handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         ThreadUtils.postInMainThread(mContext, () ->
                 mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));

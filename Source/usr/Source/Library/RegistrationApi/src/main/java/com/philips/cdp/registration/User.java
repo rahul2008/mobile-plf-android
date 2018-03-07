@@ -265,8 +265,9 @@ public class User {
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            ThreadUtils.postInMainThread(mContext, () ->
-                    forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
+            ThreadUtils.postInMainThread(mContext, () -> {
+                forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+            });
         }
     }
 

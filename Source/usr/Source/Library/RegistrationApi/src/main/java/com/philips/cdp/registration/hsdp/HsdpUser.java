@@ -375,7 +375,7 @@ public class HsdpUser {
                         public void onFileWriteFailure() {
                             handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE +
                                             RegConstants.HSDP_LOWER_ERROR_BOUND,
-                                    mContext.getString(R.string.reg_NoNetworkConnection));
+                                    mContext.getString(R.string.reg_NoNetworkConnection),AppTagingConstants.REG_NO_NETWORK_CONNECTION);
 
                         }
                     });
@@ -396,13 +396,13 @@ public class HsdpUser {
                 }} catch(Exception e){
                         handleSocialHsdpFailure(loginHandler,
                                         RegConstants.HSDP_CONFIGURATION_ERROR,
-                                mContext.getString(R.string.reg_Generic_Network_Error));
+                                mContext.getString(R.string.reg_Generic_Network_Error),e.getMessage());
                 }
             }).start();
         } else {
             handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE +
                             RegConstants.HSDP_LOWER_ERROR_BOUND,
-                    mContext.getString(R.string.reg_NoNetworkConnection));
+                    mContext.getString(R.string.reg_NoNetworkConnection),AppTagingConstants.REG_NO_NETWORK_CONNECTION);
         }
 
     }
@@ -429,10 +429,11 @@ public class HsdpUser {
      * @param string string
      */
     private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode,
-                                         String string) {
+                                         String string ,String errorTagging) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
         userRegistrationFailureInfo.setErrorDescription(string);
+        userRegistrationFailureInfo.setErrorTagging(errorTagging);
         ThreadUtils.postInMainThread(mContext,()->
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }

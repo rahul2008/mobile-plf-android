@@ -29,6 +29,12 @@ public class UserRegistrationFailureInfo {
     /* error */
     private CaptureApiError error;
 
+    public void setErrorTagging(String errorTagging) {
+        this.errorTagging = errorTagging;
+    }
+
+    private String errorTagging = "";
+
 
     /**
      * {@code getErrorDescription } method to get error description
@@ -56,12 +62,17 @@ public class UserRegistrationFailureInfo {
      * @since 18.1.0
      */
 
-    public String getErrorTagging() {
+    public String getErrorTaggingFromCaptureApiError() {
+
         if (null != error && null != error.raw_response) {
             return RegUtility.getTaggingErrorDescription(error.raw_response);
         } else {
-            return AppTagingConstants.SOMETHING_WENT_WRONG;
+            return errorTagging;
         }
+    }
+
+    public String getErrorTagging() {
+        return getErrorTaggingFromCaptureApiError();
     }
 
     /**
