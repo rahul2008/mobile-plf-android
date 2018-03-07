@@ -33,6 +33,7 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code getErrorDescription } method to get error description
+     *
      * @return errorDescription error description
      * @since 1.0.0
      */
@@ -49,18 +50,19 @@ public class UserRegistrationFailureInfo {
         }
     }
 
-    public String getErrorTagging(){
+    public String getErrorTagging() {
 
-        if(null != error && null != error.raw_response){
+        if (null != error && null != error.raw_response) {
 
             return RegUtility.getTaggingErrorDescription(error.raw_response);
-        }else{
+        } else {
             return "Something went wrong";
         }
     }
 
     /**
-     *{@code setErrorDescription}method do set error description
+     * {@code setErrorDescription}method do set error description
+     *
      * @param errorDescription error description
      * @since 1.0.0
      */
@@ -70,6 +72,7 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code getErrorCode} method to get error code
+     *
      * @return errorCode error code
      * @since 1.0.0
      */
@@ -79,6 +82,7 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code setErrorCode } method to set error code
+     *
      * @param errorCode error code
      * @since 1.0.0
      */
@@ -88,7 +92,8 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code getError}method to get captured api error
-     *{@link com.janrain.android.capture.CaptureApiError}
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
      * @return error
      * @since 1.0.0
      */
@@ -98,7 +103,8 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code setError} method to set error
-     *{@link com.janrain.android.capture.CaptureApiError}
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
      * @param error error
      * @since 1.0.0
      */

@@ -674,14 +674,7 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
     private void handleResend() {
         mBtnSignInAccount.setEnabled(false);
     }
-
-    private void trackMultipleActionsOnMobileSuccess() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
-        map.put(AppTagingConstants.MOBILE_INAPPNATIFICATION, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
-    }
-
+    
     private void enableAll() {
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);
