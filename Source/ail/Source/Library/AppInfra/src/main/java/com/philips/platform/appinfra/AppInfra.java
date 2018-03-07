@@ -18,6 +18,8 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -57,6 +59,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
     private AppUpdateInterface mAppupdateInterface;
+    private ConsentManagerInterface consentManager;
 
 
     /**
@@ -71,10 +74,10 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         appInfraContext = pContext;
     }
 
-    private static void postLog(AppInfra ai,long startTime, String message) {
+    private static void postLog(AppInfra ai, long startTime, String message) {
         long endTime = System.currentTimeMillis();
         long methodDuration = (endTime - startTime);
-        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
+        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
                 message + methodDuration);
     }
 
@@ -100,6 +103,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private void setSecureStorage(SecureStorageInterface sec) {
         secureStorage = sec;
     }
+
     @Override
     public AppIdentityInterface getAppIdentity() {
         return appIdentity;
@@ -217,12 +221,20 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         return aikmInterface;
     }
 
+    @Override
+    public ConsentManagerInterface getConsentManager() {
+        return null;
+    }
+
+    public void setConsentManager(ConsentManagerInterface consentMgr) {
+        consentManager = consentMgr;
+    }
+
     /**
      * The type Builder,to enable an application developer to create his own implementation for specific App Infra modules and have all components integrated in the app use that alternative module implementation;
      * App Infra supports a builder pattern. By the use of the builder pattern, it is possible to create an instance of App Infra with alternative module implementations that overwrite one or more of the default module implementations.
      * The most common use case for providing alternative implementations is for testing purposes where a (component test-) app wants to test its functionality in isolation without having to implicitly test the App Infra implementation or any cloud services abstracted by App Infra.
      * In such a case, the app developer can create an App Infra instance with dummy implementations.Another use case for implementation replacement is to provide the ability to maintain compatibility with another cloud back-end (version).
-     *
      */
     public static class Builder {
 
@@ -243,6 +255,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private AppUpdateInterface appupdateInterface;
         private AIKMInterface aikmInterface;
 
+        private ConsentManagerInterface consentManager;
+
 
         /**
          * Instantiates a new Builder.
@@ -261,6 +275,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             mRestInterface = null;
             languagePack = null;
             aikmInterface = null;
+            consentManager = null;
         }
 
 
@@ -352,9 +367,14 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             this.aikmInterface = aikmInterface;
         }
 
+        public Builder setConsentManager(ConsentManagerInterface consentMgr) {
+            this.consentManager = consentMgr;
+            return this;
+        }
 
         /**
          * Actual AppInfra object is created here.Once build is called AppInfra is created in memory and cannot be modified during runtime.
+         *
          * @param pContext Application Context
          * @return the app infra instance
          */
@@ -362,7 +382,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Starts");
             long startTime = System.currentTimeMillis();
             final AppInfra ai = new AppInfra(pContext);
-            final AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
+            final AppConfigurationManager appConfigurationManager = new AppConfigurationManager(ai);
             ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Intitialization Done");
 
@@ -390,17 +410,19 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
+            ai.setConsentManager(consentManager == null ? new ConsentManager(ai) : consentManager);
+
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                   final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
+                    final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
                     if (abTestConfig != null) {
                         ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
 //                        Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"Please add the Abtest Config Values " +
+                                AppInfraLogEventID.AI_APPINFRA, "Please add the Abtest Config Values " +
                                         "to use Abtesting");
                     }
                     ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
@@ -417,13 +439,13 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager,ai);
+                    final String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager, ai);
                     if (languagePackConfig != null) {
-                        ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+                        ai.setLanguagePackInterface(languagePack == null ? new LanguagePackManager(ai) : languagePack);
 //                        Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"Please add the LanguagePack Config Values " +
+                                AppInfraLogEventID.AI_APPINFRA, "Please add the LanguagePack Config Values " +
                                         "to use Language Pack");
                     }
                 }
@@ -441,21 +463,21 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 //                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"Please add the AppUpdate Config Values " +
+                                AppInfraLogEventID.AI_APPINFRA, "Please add the AppUpdate Config Values " +
                                         "to use AppUpdate Feature ");
                     }
                 }
             }).start();
 
 //            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final AIKManager aikManager;
-                        aikManager = new AIKManager(ai);
-                        ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
-                    }
-                }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final AIKManager aikManager;
+                    aikManager = new AIKManager(ai);
+                    ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
+                }
+            }).start();
 //            }
 
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
@@ -478,11 +500,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
         } catch (IllegalArgumentException e) {
             ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    AppInfraLogEventID.AI_APPINFRA,"IllegalArgumentException in InitializeLogs "+e.getMessage());
+                    AppInfraLogEventID.AI_APPINFRA, "IllegalArgumentException in InitializeLogs " + e.getMessage());
         }
         appInfraLogStatement.append("\"");
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
+                AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
     }
 
 }

@@ -190,7 +190,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
-                .setConsentRegistry(app.getConsentRegistry())
+                .setConsentManager(app.getAppInfra().getConsentManager())
                 .setConsentDefinitions(catkConsentDefinitions)
                 .build();
         ConsentsClient.getInstance().init(catkInputs);

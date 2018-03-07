@@ -5,6 +5,7 @@ import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -85,22 +86,32 @@ public interface AppInfraInterface extends Serializable {
     RestInterface getRestClient();
 
     /**
-     *  Gets the A/B testing Manager.
+     * Gets the A/B testing Manager.
+     *
      * @return the abTesting
      */
     ABTestClientInterface getAbTesting();
 
     /**
-     *  Gets the language pack Manager.
+     * Gets the language pack Manager.
+     *
      * @return the language pack
      */
     LanguagePackInterface getLanguagePack();
 
     /**
-     *  Gets the appupdate interface.
+     * Gets the appupdate interface.
+     *
      * @return appupdate interface
      */
     AppUpdateInterface getAppUpdate();
 
     AIKMInterface getAiKmInterface();
+
+    /**
+     * Gets ConsentManager.
+     *
+     * @return the ConsentManager
+     */
+    ConsentManagerInterface getConsentManager();
 }

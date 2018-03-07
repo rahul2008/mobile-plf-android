@@ -10,7 +10,7 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class CatkInputs {
 
     private final AppInfraInterface appInfra;
 
-    private final ConsentRegistryInterface consentRegistryInterface;
+    private final ConsentManagerInterface consentManager;
 
     private final Context context;
 
@@ -34,7 +34,7 @@ public class CatkInputs {
     private CatkInputs(Builder builder) {
         appInfra = builder.appInfra;
         context = builder.context;
-        consentRegistryInterface = builder.consentRegistryInterface;
+        consentManager = builder.consentManager;
         consentDefinitionList = builder.consentDefinitionList;
     }
 
@@ -50,15 +50,15 @@ public class CatkInputs {
         return Collections.unmodifiableList(consentDefinitionList);
     }
 
-    public ConsentRegistryInterface getConsentRegistry() {
-        return consentRegistryInterface;
+    public ConsentManagerInterface getConsentManager() {
+        return consentManager;
     }
 
     public static class Builder {
 
         private AppInfraInterface appInfra;
 
-        private ConsentRegistryInterface consentRegistryInterface;
+        private ConsentManagerInterface consentManager;
 
         private Context context;
 
@@ -72,8 +72,8 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConsentRegistry(ConsentRegistryInterface consentRegistryInterface) {
-            this.consentRegistryInterface = consentRegistryInterface;
+        public Builder setConsentManager(ConsentManagerInterface consentManager) {
+            this.consentManager = consentManager;
             return this;
         }
 
@@ -95,7 +95,7 @@ public class CatkInputs {
                 throw new InvalidInputException("Context not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
             }
 
-            if (consentRegistryInterface == null) {
+            if (consentManager == null) {
                 throw new InvalidInputException("Consent Registry not given, we need registry instance to register type for an handler");
             }
 

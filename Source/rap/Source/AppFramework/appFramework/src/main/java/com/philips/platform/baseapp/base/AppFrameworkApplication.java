@@ -23,9 +23,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.ConnectivityFragment;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -46,8 +44,6 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.mya.catk.registry.ConsentManager;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -60,7 +56,6 @@ public class AppFrameworkApplication extends Application {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
     public AppInfraInterface appInfra;
-    public ConsentRegistryInterface consentRegistryInterface;
     public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
@@ -119,7 +114,6 @@ public class AppFrameworkApplication extends Application {
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
-        initConsentRegistry();
         RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
@@ -130,7 +124,7 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-      //  determineHybrisFlow();
+        //  determineHybrisFlow();
         RALog.d(LOG, "Mya state begin::");
         initializeMya();
         RALog.d(LOG, "Mya state end::");
@@ -156,12 +150,8 @@ public class AppFrameworkApplication extends Application {
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
         RALog.d("test", "onCreate end::");
-        appDataInitializationStatus=true;
+        appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
-    }
-
-    private void initConsentRegistry() {
-        consentRegistryInterface = new ConsentManager();
     }
 
     public void initUserRegistrationState() {
@@ -186,10 +176,6 @@ public class AppFrameworkApplication extends Application {
 
     public AppInfraInterface getAppInfra() {
         return appInfra;
-    }
-
-    public ConsentRegistryInterface getConsentRegistry() {
-        return consentRegistryInterface;
     }
 
     public String getAppState() {
@@ -251,12 +237,10 @@ public class AppFrameworkApplication extends Application {
         RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
-        try{
+        try {
             getIap().isCartVisible();
 
-        }
-        catch (RuntimeException rte)
-        {
+        } catch (RuntimeException rte) {
             setShopingCartVisible(false);
         }
         RALog.d(LOG, "IAP state end::");
@@ -286,10 +270,10 @@ public class AppFrameworkApplication extends Application {
     }
 
     public synchronized CommCentral getCommCentralInstance() {
-        if(commCentral == null) {
+        if (commCentral == null) {
             commCentral = createCommCentral(getApplicationContext(), getAppInfra());
         }
-        RALog.i(TAG,"getCommCentralInstance - " + commCentral);
+        RALog.i(TAG, "getCommCentralInstance - " + commCentral);
         return commCentral;
     }
 
@@ -315,10 +299,11 @@ public class AppFrameworkApplication extends Application {
         final CloudController cloudController = new DefaultCloudController(context, new RefAppKpsConfigurationInfo());
 
         String ICPClientVersion = cloudController.getICPClientVersion();
-        RALog.d(TAG,"ICPClientVersion - " + ICPClientVersion);
+        RALog.d(TAG, "ICPClientVersion - " + ICPClientVersion);
 
         return cloudController;
     }
+
     /***
      * Initializar app infra
      *
@@ -335,7 +320,7 @@ public class AppFrameworkApplication extends Application {
         languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
             @Override
             public void onError(AILPRefreshResult ailpRefreshResult, String s) {
-                RALog.e(LOG,ailpRefreshResult.toString()+"---"+s);
+                RALog.e(LOG, ailpRefreshResult.toString() + "---" + s);
             }
 
             @Override
@@ -344,12 +329,12 @@ public class AppFrameworkApplication extends Application {
                     @Override
                     public void onSuccess(String filePath) {
                         UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
-                        RALog.d(LOG,"Success langauge pack activate "+"---"+filePath);
+                        RALog.d(LOG, "Success langauge pack activate " + "---" + filePath);
                     }
 
                     @Override
                     public void onError(AILPActivateResult ailpActivateResult, String s) {
-                        RALog.e(LOG,ailpActivateResult.toString()+"---"+s);
+                        RALog.e(LOG, ailpActivateResult.toString() + "---" + s);
                     }
                 });
             }

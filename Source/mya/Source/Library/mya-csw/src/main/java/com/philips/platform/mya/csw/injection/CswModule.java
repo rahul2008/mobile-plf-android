@@ -9,7 +9,7 @@ package com.philips.platform.mya.csw.injection;
 
 import android.content.Context;
 
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;
@@ -22,12 +22,12 @@ import dagger.Provides;
 @Module
 public class CswModule {
     private final Context context;
-    private final ConsentRegistryInterface consentRegistryInterface;
+    private final ConsentManagerInterface consentManagerInterface;
     private List<ConsentDefinition> consentDefinitionList;
 
-    public CswModule(Context context, ConsentRegistryInterface consentRegistryInterface, List<ConsentDefinition> consentDefinitionList) {
+    public CswModule(Context context, ConsentManagerInterface consentManagerInterface, List<ConsentDefinition> consentDefinitionList) {
         this.context = context;
-        this.consentRegistryInterface = consentRegistryInterface;
+        this.consentManagerInterface = consentManagerInterface;
         this.consentDefinitionList = consentDefinitionList;
     }
 
@@ -38,8 +38,8 @@ public class CswModule {
     }
 
     @Provides
-    public ConsentRegistryInterface provideConsentRegistryInterface() {
-        return consentRegistryInterface;
+    public ConsentManagerInterface provideConsentRegistryInterface() {
+        return consentManagerInterface;
     }
 
     @Provides

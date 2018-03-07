@@ -3,13 +3,13 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.mya.catk.registry;
+package com.philips.platform.appinfra.consentmanager;
 
-import com.philips.platform.mya.catk.utils.CatkLogger;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -20,9 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-public class ConsentManager implements ConsentRegistryInterface {
+public class ConsentManager implements ConsentManagerInterface {
 
+    private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
+
+    public ConsentManager(AppInfra aAppInfra) {
+        mAppInfra = aAppInfra;
+    }
 
     @Override
     public synchronized void register(List<String> consentTypes, ConsentHandlerInterface consentHandlerInterface) {
@@ -33,23 +38,22 @@ public class ConsentManager implements ConsentRegistryInterface {
         }
     }
 
+    //TODO throw exception in case of key does not exist ?
     @Override
-    public ConsentHandlerInterface getHandler(String consentType) {
+    public synchronized void deregister(List<String> consentTypes) {
+        for (String consentType : consentTypes) {
+            if (consentHandlerMapping.containsKey(consentType))
+                consentHandlerMapping.remove(consentType);
+        }
+    }
+
+    protected ConsentHandlerInterface getHandler(String consentType) {
         for (Map.Entry<String, ConsentHandlerInterface> entry : consentHandlerMapping.entrySet()) {
             if (entry.getKey().equals(consentType)) {
                 return entry.getValue();
             }
         }
         throw new RuntimeException("Handler is not registered for the type " + consentType);
-    }
-
-    //TODO throw exception in case of key does not exist ?
-    @Override
-    public synchronized void removeHandler(List<String> consentTypes) {
-        for (String consentType : consentTypes) {
-            if (consentHandlerMapping.containsKey(consentType))
-                consentHandlerMapping.remove(consentType);
-        }
     }
 
     @Override
@@ -101,7 +105,7 @@ public class ConsentManager implements ConsentRegistryInterface {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            CatkLogger.d("InterruptedException", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "", "");
         }
     }
 

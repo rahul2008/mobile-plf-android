@@ -20,7 +20,7 @@ import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -56,11 +56,11 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     void getConsentStatus() {
         List<ConsentDefinition> consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
-        ConsentRegistryInterface consentRegistryInterface = CswInterface.getCswComponent().getConsentRegistry();
+        ConsentManagerInterface consentManagerInterface = CswInterface.getCswComponent().getConsentRegistry();
         if (!consentDefinitionList.isEmpty()) {
             permissionInterface.showProgressDialog();
             try {
-                consentRegistryInterface.fetchConsentStates(consentDefinitionList, this);
+                consentManagerInterface.fetchConsentStates(consentDefinitionList, this);
             } catch (RuntimeException ex) {
                 CswLogger.e("RuntimeException", ex.getMessage());
             }

@@ -7,7 +7,7 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -62,7 +62,7 @@ public class PermissionPresenterTest {
     @Mock
     private Context mockContext;
     @Mock
-    private ConsentRegistryInterface consentRegistryInterface;
+    private ConsentManagerInterface consentManagerInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -88,7 +88,7 @@ public class PermissionPresenterTest {
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         givenCswComponent();
         mPermissionPresenter.getConsentStatus();
-        verify(consentRegistryInterface).fetchConsentStates(givenConsentDefinitions, mPermissionPresenter);
+        verify(consentManagerInterface).fetchConsentStates(givenConsentDefinitions, mPermissionPresenter);
     }
 
     @Test
@@ -208,7 +208,7 @@ public class PermissionPresenterTest {
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
         givenConsentDefinitions();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, givenConsentDefinitions);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentManagerInterface, givenConsentDefinitions);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }
@@ -217,7 +217,7 @@ public class PermissionPresenterTest {
         CswInterface cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, givenConsentDefinitions);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentManagerInterface, givenConsentDefinitions);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

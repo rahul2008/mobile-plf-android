@@ -46,7 +46,7 @@ import com.philips.platform.mya.catk.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.mya.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
@@ -82,7 +82,7 @@ public class ConsentsClientTest {
     @Mock
     private AppInfraInterface mockAppInfra;
     @Mock
-    private ConsentRegistryInterface mockConsentRegistryInterface;
+    private ConsentManagerInterface mockConsentManagerInterface;
     @Mock
     private Context mockContext;
     @Mock
@@ -286,7 +286,7 @@ public class ConsentsClientTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).setConsentRegistry(mockConsentRegistryInterface).build();
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).setConsentManager(mockConsentManagerInterface).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {

@@ -13,7 +13,7 @@ import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class MyaSettingsFragmentTest {
     @Mock
     private MyaSettingsAdapter myaSettingsAdapter;
     @Mock
-    private ConsentRegistryInterface consentRegistryInterface;
+    private ConsentManagerInterface consentManagerInterface;
 
     @Before
     public void setUp() throws Exception {

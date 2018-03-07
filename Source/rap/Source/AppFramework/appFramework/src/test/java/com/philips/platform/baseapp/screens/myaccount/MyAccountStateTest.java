@@ -14,7 +14,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -70,7 +70,7 @@ public class MyAccountStateTest {
     private FragmentTransaction fragmentTransaction;
 
     @Mock
-    private ConsentRegistryInterface consentRegistryInterface;
+    private ConsentManagerInterface consentManagerInterface;
 
     private MyAccountState myAccountState;
 
@@ -99,7 +99,7 @@ public class MyAccountStateTest {
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
-        when(application.getConsentRegistry()).thenReturn(consentRegistryInterface);
+        when(application.getConsentRegistry()).thenReturn(consentManagerInterface);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class MyAccountStateTest {
         hamburgerActivity = null;
         application = null;
         appInfraInterface = null;
-        consentRegistryInterface = null;
+        consentManagerInterface = null;
         myAccountState = null;
         uiStateData = null;
     }

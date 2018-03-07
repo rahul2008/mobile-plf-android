@@ -44,7 +44,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
-        JustInTimeConsentDependencies.consentRegistryInterface = dsDependencies.consentRegistryInterface;
+        JustInTimeConsentDependencies.consentManagerInterface = dsDependencies.consentManagerInterface;
         JustInTimeConsentDependencies.consentDefinition = dsDependencies.momentConsentDefinition;
         AppInfraInterface appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
@@ -66,7 +66,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         List<ConsentDefinition> consentDefinitionsToCheck = Collections.singletonList(JustInTimeConsentDependencies.consentDefinition);
-        JustInTimeConsentDependencies.consentRegistryInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
+        JustInTimeConsentDependencies.consentManagerInterface.fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
     }
 
     private void launchUApp(UiLauncher uiLauncher) {

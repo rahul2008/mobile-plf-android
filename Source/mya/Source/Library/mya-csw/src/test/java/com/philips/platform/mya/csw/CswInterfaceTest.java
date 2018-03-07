@@ -19,7 +19,7 @@ import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -32,7 +32,7 @@ public class CswInterfaceTest {
     private List<ConsentDefinition> consentDefinitionList;
 
     @Mock
-    private ConsentRegistryInterface consentRegistryInterface;
+    private ConsentManagerInterface consentManagerInterface;
 
     @Before
     public void setup() {
@@ -42,7 +42,7 @@ public class CswInterfaceTest {
         cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
-        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentRegistryInterface, consentDefinitionList);
+        CswDependencies cswDependencies = new CswDependencies(appInfraInterface, consentManagerInterface, consentDefinitionList);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
     }

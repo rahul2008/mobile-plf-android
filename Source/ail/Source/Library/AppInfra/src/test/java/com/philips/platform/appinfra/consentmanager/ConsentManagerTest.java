@@ -1,5 +1,6 @@
-package com.philips.platform.mya.catk.registry;
+package com.philips.platform.appinfra.consentmanager;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -10,9 +11,10 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,13 +41,17 @@ public class ConsentManagerTest {
     private ConsentError mConsentError;
 
     @Mock
+    AppInfra appInfra;
+
+    @Mock
     private CheckConsentsCallback mCheckConsentsCallback;
     @Mock
     private PostConsentCallback mPostConsentCallback;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        mConsentManager = new ConsentManager();
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        mConsentManager = new ConsentManager(appInfra);
         givenRegisteredConsent();
     }
 
@@ -108,7 +114,7 @@ public class ConsentManagerTest {
     }
 
     private void givenConsentTypeIsRemoved() {
-        mConsentManager.removeHandler(Arrays.asList("testConsent1"));
+        mConsentManager.deregister(Arrays.asList("testConsent1"));
     }
 
     private void whenGetHandlerIsInvokedForRemovedType() {
@@ -116,7 +122,7 @@ public class ConsentManagerTest {
     }
 
     private void whenRemoveHandlerIsInvokedForNonExistingType() {
-        mConsentManager.removeHandler(Arrays.asList("testConsent0"));
+        mConsentManager.deregister(Arrays.asList("testConsent0"));
     }
 
     @Test

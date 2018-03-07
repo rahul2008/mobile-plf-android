@@ -28,7 +28,7 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.pif.chi.ConsentRegistryInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
@@ -55,7 +55,7 @@ public class ConsentsClient {
     private ServiceInfoProvider serviceInfoProvider;
     private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
-    private ConsentRegistryInterface consentRegistryInterface;
+    private ConsentManagerInterface consentManagerInterface;
     private AppInfraInterface appInfra;
 
     ConsentsClient() {
@@ -73,7 +73,7 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        this.consentRegistryInterface = catkInputs.getConsentRegistry();
+        this.consentManagerInterface = catkInputs.getConsentManager();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
         this.consentDefinitionList = catkInputs.getConsentDefinitions();
@@ -91,7 +91,7 @@ public class ConsentsClient {
 
     private void registerBackendPlatformConsent() {
         try {
-            consentRegistryInterface.register(Arrays.asList("moment", "coaching", "binary", "clickstream", "research", "analytics"), new ConsentInteractor(this));
+            consentManagerInterface.register(Arrays.asList("moment", "coaching", "binary", "clickstream", "research", "analytics"), new ConsentInteractor(this));
         } catch (RuntimeException exception) {
             CatkLogger.d("RuntimeException", exception.getMessage());
         }
