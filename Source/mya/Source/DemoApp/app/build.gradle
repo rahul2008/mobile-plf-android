@@ -140,6 +140,10 @@ android {
         ]
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -294,6 +298,10 @@ dependencies {
     releaseCompile project(path: ':mya', configuration: 'release')
     debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
     releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
+    debugCompile project(path: ':mya-csw', configuration: 'debug')
+    releaseCompile project(path: ':mya-csw', configuration: 'release')
+    debugCompile project(path: ':mya-demoUapp', configuration: 'debug')
+    releaseCompile project(path: ':mya-demoUapp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {
