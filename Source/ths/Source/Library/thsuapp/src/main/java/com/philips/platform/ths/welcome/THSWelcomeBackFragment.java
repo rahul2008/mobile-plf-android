@@ -80,7 +80,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
             mRatingBar.setRating(mProvider.getRating());
 
             mLabelProviderName.setText(mProvider.getFullName());
-            mLabelPracticeName.setText(mPracticeInfo.getName());
+            mLabelPracticeName.setText(mProvider.getSpecialty().getName());
 
             if (mProvider.hasImage()) {
                 try {
