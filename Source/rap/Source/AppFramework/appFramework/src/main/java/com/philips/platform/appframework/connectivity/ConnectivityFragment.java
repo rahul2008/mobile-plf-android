@@ -24,7 +24,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -95,7 +94,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
-        mCommCentral = getCommCentral(ConnectivityDeviceType.REFERENCE_NODE);
+        mCommCentral = getCommCentral();
         startAppTagging(TAG);
         return rootView;
     }

@@ -29,13 +29,13 @@ import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
-
 
 /**
  * The type LanCommunicationStrategy.
@@ -171,8 +171,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     @Override
-    public void unsubscribe(String portName, int productId,
-                            ResponseHandler responseHandler) {
+    public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         requestQueue.addRequest(request);
@@ -245,14 +244,14 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private synchronized void handleAvailabilityChanged() {
-        boolean currentAvailability = isAvailable;
+        boolean currentlyAvailable = isAvailable;
 
         isAvailable = isCached && isConnected;
-        if (isAvailable != currentAvailability) {
+        if (isAvailable != currentlyAvailable) {
             notifyAvailabilityChanged();
         }
 
-        DICommLog.i("LanCommunicationStrategy", "isAvailable " + isAvailable + " for " + networkNode.getName());
+        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] - currentlyAvailable: [%s], isAvailable: [%s], isCached: [%s], isConnected: [%s]", networkNode.getName(), currentlyAvailable, isAvailable, isCached, isConnected));
 
         if (isAvailable) {
             localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
