@@ -30,10 +30,12 @@ public class CacheData {
     private final Callable expirationTask = new Callable<Void>() {
         @Override
         public Void call() throws Exception {
-            if (future != null && !future.isDone()) {
-                expirationCallback.onCacheExpired(networkNode);
+            synchronized (CacheData.this) {
+                if (future != null && !future.isDone()) {
+                    expirationCallback.onCacheExpired(networkNode);
+                }
+                return null;
             }
-            return null;
         }
     };
 
@@ -59,12 +61,16 @@ public class CacheData {
     }
 
     private void startTimer() {
-        future = executor.schedule(expirationTask, this.expirationPeriodMillis, TimeUnit.MILLISECONDS);
+        synchronized (this) {
+            future = executor.schedule(expirationTask, this.expirationPeriodMillis, TimeUnit.MILLISECONDS);
+        }
     }
 
     void stopTimer() {
+        synchronized (this) {
             if (future != null) {
                 future.cancel(true);
+            }
         }
     }
 
