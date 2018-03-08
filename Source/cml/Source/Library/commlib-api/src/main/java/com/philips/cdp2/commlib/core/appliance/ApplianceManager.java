@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.store.NullApplianceDatabase;
@@ -98,7 +99,7 @@ public class ApplianceManager {
         }
     };
 
-    private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
+    private final DiscoveryListener discoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscoveryStarted() {
         }
@@ -137,10 +138,7 @@ public class ApplianceManager {
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactory    the appliance factory
      */
-    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies,
-                            @NonNull ApplianceFactory applianceFactory,
-                            @NonNull NetworkNodeDatabase networkNodeDatabase,
-                            @Nullable ApplianceDatabase applianceDatabase) {
+    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull ApplianceFactory applianceFactory, @NonNull NetworkNodeDatabase networkNodeDatabase, @Nullable ApplianceDatabase applianceDatabase) {
         this.networkNodeDatabase = networkNodeDatabase;
 
         if (applianceDatabase == null) {
@@ -272,7 +270,9 @@ public class ApplianceManager {
 
         for (final NetworkNode networkNode : networkNodes) {
             final Appliance appliance = processDiscoveredOrLoadedNetworkNode(networkNode);
-            if (appliance == null) continue;
+            if (appliance == null) {
+                continue;
+            }
 
             applianceDatabase.loadDataForAppliance(appliance);
             networkNode.addPropertyChangeListener(new PropertyChangeListener() {
@@ -286,7 +286,8 @@ public class ApplianceManager {
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
-        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance found " + appliance.toString());
+        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance found: [" + appliance.toString() + "]");
+
         for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
@@ -298,6 +299,8 @@ public class ApplianceManager {
     }
 
     private void notifyApplianceUpdated(final @NonNull Appliance appliance) {
+        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance updated: [" + appliance.toString() + "]");
+
         for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
@@ -309,7 +312,8 @@ public class ApplianceManager {
     }
 
     private void notifyApplianceLost(final @NonNull Appliance appliance) {
-        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance lost " + appliance.toString());
+        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance lost [" + appliance.toString() + "]");
+
         for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
