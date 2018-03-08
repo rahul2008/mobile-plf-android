@@ -199,6 +199,7 @@ dependencies {
     
      compile 'com.squareup.picasso:picasso:2.5.2'
     //compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'com.android.support:customtabs:26.0.2'
     compile 'net.openid:appauth:0.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
     androidTestCompile 'junit:junit:4.12'
