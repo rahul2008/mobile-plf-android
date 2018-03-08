@@ -191,14 +191,16 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 }
             }
 
+
             @Override
-            public void onLogoutClicked() {
+            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
 
                 User user = MyAccountDemoUAppInterface.getUserObject();
                 if (user.isUserSignIn()) {
                     user.logout(new LogoutHandler() {
                         @Override
                         public void onLogoutSuccess() {
+                            myaLogoutListener.onLogoutSuccess();
                         }
 
                         @Override
