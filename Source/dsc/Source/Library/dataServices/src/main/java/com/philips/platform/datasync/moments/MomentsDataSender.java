@@ -21,6 +21,9 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,10 +147,11 @@ public class MomentsDataSender extends DataSender {
 
     private boolean createMoment(MomentsClient client, final Moment moment) {
         try {
-            UCoreMomentSaveResponse response = client.saveMoment(moment.getSubjectId(), moment.getCreatorId(),
+            UCoreMoment response = client.saveMoment(moment.getSubjectId(), moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
             if (response != null) {
                 addSynchronizationData(moment, response);
+                updateExpirationDate(moment, response);
                 postUpdatedOk(Collections.singletonList(moment));
             }
         } catch (RetrofitError error) {
@@ -157,22 +161,20 @@ public class MomentsDataSender extends DataSender {
         return false;
     }
 
+    private void updateExpirationDate(Moment moment, UCoreMoment uCoreMoment) {
+        moment.setExpirationDate(new DateTime(uCoreMoment.getExpirationDate(), DateTimeZone.UTC));
+    }
+
     private boolean updateMoment(MomentsClient client, final Moment moment) {
         try {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
-            Response response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
+            UCoreMoment response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
-            List<Header> responseHeaders = response.getHeaders();
-            if (isResponseSuccess(response)) {
-                for (Header header : responseHeaders) {
-                    if (header.getName().equals("ETag")) {
-                        moment.getSynchronisationData().setVersion(Integer.parseInt(header.getValue()));
-                        break;
-                    }
-                }
-                postUpdatedOk(Collections.singletonList(moment));
-            } else if (isConflict(response)) {
-            }
+
+            moment.getSynchronisationData().setVersion(response.getVersion());
+            moment.setExpirationDate(new DateTime(response.getExpirationDate(), DateTimeZone.UTC));
+            postUpdatedOk(Collections.singletonList(moment));
+
             return false;
         } catch (RetrofitError error) {
             if (error != null && isConflict(error.getResponse())) {
@@ -225,9 +227,9 @@ public class MomentsDataSender extends DataSender {
         return string != null && !string.isEmpty();
     }
 
-    private void addSynchronizationData(Moment moment, com.philips.platform.datasync.moments.UCoreMomentSaveResponse uCoreMomentSaveResponse) {
+    private void addSynchronizationData(Moment moment, UCoreMoment uCoreMoment) {
         SynchronisationData synchronisationData =
-                baseAppDataCreater.createSynchronisationData(uCoreMomentSaveResponse.getMomentId(), false,
+                baseAppDataCreater.createSynchronisationData(uCoreMoment.getGuid(), false,
                         moment.getDateTime(), 1);
         moment.setSynchronisationData(synchronisationData);
     }
