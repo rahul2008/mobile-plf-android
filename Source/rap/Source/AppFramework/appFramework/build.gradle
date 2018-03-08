@@ -384,6 +384,7 @@ dependencies {
             exclude group: 'com.android.support'
         }
         compile philipsdeps.telehealth
+        compile philipsdeps.telehealthUApp
         compile philipsdeps.ewsUApp
         compile philipsdeps.bluelib_demouapp
         compile project(':pushnotification')

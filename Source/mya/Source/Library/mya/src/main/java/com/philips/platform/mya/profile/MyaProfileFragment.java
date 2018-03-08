@@ -62,7 +62,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public void onResume() {
         super.onResume();
-       MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+
     }
 
     @Override
