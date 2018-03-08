@@ -12,6 +12,7 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.Jump;
+import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -24,6 +25,9 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.platform.appinfra.tagging.AppTaggingConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlowDownloadStatusListener {
 
@@ -46,9 +50,27 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
     public void onFailure(ForgetPasswordError error) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+        handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
         ThreadUtils.postInMainThread(mContext, () ->
                 mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
     }
+
+    private void handleOnlySocialSignIn(CaptureApiError error,
+                                        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        if (null != error && null != error.error
+                && error.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE) {
+            try {
+                JSONObject object = error.raw_response;
+                if (!object.isNull(RegConstants.MESSAGE)) {
+                    userRegistrationFailureInfo.setErrorDescription(object
+                            .getString(RegConstants.MESSAGE));
+                }
+            } catch (JSONException e) {
+                //NOP
+            }
+        }
+    }
+
 
     private String mEmailAddress;
 
