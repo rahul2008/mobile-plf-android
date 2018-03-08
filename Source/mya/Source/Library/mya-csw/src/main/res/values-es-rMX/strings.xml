@@ -54,7 +54,7 @@
   <string name="mya_csw_justintime_accept">[es-MX]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[es-MX]Maybe later</string>
   <string name="mya_csw_justintime_title">[es-MX]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[es-MX]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[es-MX]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[es-MX]What do we have to offer?</string>
   <string name="mya_logout_message">Se cerrará su sesión de la aplicación. Después de cerrar sesión, siempre puede volver a iniciar sesión.</string>
   <string name="mya_logout_title">¿Está seguro de que desea cerrar sesión?</string>
