@@ -10,7 +10,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionState;
@@ -19,6 +18,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +152,7 @@ public class ConsentManager implements ConsentManagerInterface {
                 callback.onGetConsentsFailed(consentManagerCallbackListener.consentError);
                 return;
             }
-            consentDefinitionStateList.addAll(consentManagerCallbackListener.consentDefinitionStates);
+            consentDefinitionStateList.addAll(Collections.singletonList(consentManagerCallbackListener.consentDefinitionState));
         }
         callback.onGetConsentsSuccess(consentDefinitionStateList);
     }
@@ -170,26 +170,13 @@ public class ConsentManager implements ConsentManagerInterface {
         postConsentCallback.onPostConsentSuccess(consentDefinitionState);
     }
 
-    private class ConsentManagerCallbackListener implements FetchConsentCallback, FetchConsentsCallback, PostConsentCallback {
+    private class ConsentManagerCallbackListener implements FetchConsentCallback {
         CountDownLatch countDownLatch;
-        List<ConsentDefinitionState> consentDefinitionStates = new ArrayList<>();
         ConsentDefinitionState consentDefinitionState;
         ConsentError consentError = null;
 
         ConsentManagerCallbackListener(CountDownLatch countDownLatch) {
             this.countDownLatch = countDownLatch;
-        }
-
-        @Override
-        public void onPostConsentFailed(ConsentError error) {
-            consentError = error;
-            countDownLatch.countDown();
-        }
-
-        @Override
-        public void onPostConsentSuccess(ConsentDefinitionState consentDefinitionState) {
-            this.consentDefinitionState = consentDefinitionState;
-            countDownLatch.countDown();
         }
 
         @Override
@@ -204,17 +191,11 @@ public class ConsentManager implements ConsentManagerInterface {
             countDownLatch.countDown();
         }
 
-        @Override
-        public void onGetConsentsSuccess(List<ConsentDefinitionState> consentDefinitionStateList) {
-            this.consentDefinitionStates = consentDefinitionStateList;
-            countDownLatch.countDown();
-        }
     }
 
-    private class ConsentTypeCallbackListener implements FetchConsentTypesStateCallback, FetchConsentTypeStateCallback, PostConsentTypeCallback {
+    private class ConsentTypeCallbackListener implements FetchConsentTypeStateCallback, PostConsentTypeCallback {
         CountDownLatch countDownLatch;
         ConsentError consentError = null;
-        List<ConsentState> consentStateList = new ArrayList<>();
         ConsentState consentState = null;
 
         ConsentTypeCallbackListener(CountDownLatch countDownLatch) {
@@ -236,12 +217,6 @@ public class ConsentManager implements ConsentManagerInterface {
         @Override
         public void onGetConsentsSuccess(ConsentState consentState) {
             this.consentState = consentState;
-            countDownLatch.countDown();
-        }
-
-        @Override
-        public void onGetConsentsSuccess(List<ConsentState> consentStateList) {
-            this.consentStateList = consentStateList;
             countDownLatch.countDown();
         }
 
