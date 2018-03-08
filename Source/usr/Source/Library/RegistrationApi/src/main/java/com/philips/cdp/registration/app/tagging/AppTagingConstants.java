@@ -167,9 +167,7 @@ public class AppTagingConstants {
 	public static final String REG_JAN_RAIN_SERVER_CONNECTION_FAILED = "UR:Failed to connect to the server, Please try again after some time.";
 
 	public static final String REG_NO_NETWORK_CONNECTION = "UR:Registration is not available because you are offline";
-
-	//<string name="REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR_LBLTXT">No worries! You do not need a Philips password. You have logged in with a social provider previously.</string>
-
+	
 	public static final String REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR = "UR:No worries! You do not need a Philips password. You have logged in with a social provider previously.";
 
 }
