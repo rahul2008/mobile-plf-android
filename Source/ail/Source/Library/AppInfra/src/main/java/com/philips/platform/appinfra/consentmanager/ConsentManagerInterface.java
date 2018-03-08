@@ -10,7 +10,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;
 
-public interface ConsentManagerInterface extends ConsentHandlerInterface {
+public interface ConsentManagerInterface {
 
     /**
      * Register consent type to the given handler

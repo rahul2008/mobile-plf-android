@@ -9,8 +9,13 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionState;
+import com.philips.platform.pif.chi.datamodel.ConsentState;
+import com.philips.platform.pif.chi.datamodel.ConsentVersionStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,48 +60,48 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, final CheckConsentsCallback callback) throws RuntimeException {
+    public void fetchConsentState(ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
         final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
-        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
 
         for (String consentType : consentDefinition.getTypes()) {
-            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
-            consentCallbackListeners.add(listener);
-            getHandler(consentType).fetchConsentState(consentDefinition, listener);
+            ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+            consentTypeCallbackListeners.add(listener);
+            getHandler(consentType).fetchConsentTypeState(consentType, listener);
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(consentCallbackListeners, callback);
+        postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
     }
 
     @Override
-    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) throws RuntimeException {
+    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, FetchConsentsCallback callback) throws RuntimeException {
         final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
-        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+        List<ConsentManagerCallbackListener> consentManagerCallbackListeners = new ArrayList<>();
 
         for (ConsentDefinition consentDefinition : consentDefinitions) {
-            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
-            consentCallbackListeners.add(listener);
+            ConsentManagerCallbackListener listener = new ConsentManagerCallbackListener(countDownLatch);
+            consentManagerCallbackListeners.add(listener);
             fetchConsentState(consentDefinition, listener);
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsents(consentCallbackListeners, callback);
+        postResultOnFetchConsents(consentManagerCallbackListeners, callback);
     }
 
     @Override
     public void storeConsentState(ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback) throws RuntimeException {
         final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
-        List<ConsentCallbackListener> consentCallbackListeners = new ArrayList<>();
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
 
         for (String consentType : consentDefinition.getTypes()) {
-            ConsentCallbackListener listener = new ConsentCallbackListener(countDownLatch);
-            consentCallbackListeners.add(listener);
-            getHandler(consentType).storeConsentState(consentDefinition, status, listener);
+            ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+            consentTypeCallbackListeners.add(listener);
+            getHandler(consentType).storeConsentTypeState(consentType, status, listener);
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnStoreConsent(consentCallbackListeners, callback);
+        postResultOnStoreConsent(consentDefinition, consentTypeCallbackListeners, callback);
     }
 
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
@@ -107,54 +112,85 @@ public class ConsentManager implements ConsentManagerInterface {
         }
     }
 
-    private void postResultOnFetchConsent(List<ConsentCallbackListener> consentCallbackListeners, CheckConsentsCallback callback) {
-        List<Consent> consentList = new ArrayList<>();
-        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
+    private void postResultOnFetchConsent(ConsentDefinition consentDefinition,
+                                          List<ConsentTypeCallbackListener> consentTypeCallbackListeners, FetchConsentCallback callback) {
+        ConsentDefinitionState consentDefinitionState = null;
+        for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
             }
-            consentList = consentCallbackListener.consentList;
+            consentDefinitionState = getConsentDefinitionState(consentDefinition, consentCallbackListener.consentState);
         }
-        callback.onGetConsentsSuccess(consentList);
+        callback.onGetConsentsSuccess(consentDefinitionState);
     }
 
-    private void postResultOnFetchConsents(List<ConsentCallbackListener> consentCallbackListeners, CheckConsentsCallback callback) {
-        List<Consent> consentList = new ArrayList<>();
-        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
-            if (consentCallbackListener.consentError != null) {
-                callback.onGetConsentsFailed(consentCallbackListener.consentError);
+    private ConsentDefinitionState getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentState consentState) {
+        ConsentDefinitionState consentDefinitionState = new ConsentDefinitionState();
+        consentDefinitionState.setConsentStatus(consentState.getConsentStatus());
+        consentDefinitionState.setConsentVersionStatus(getConsentVersionStatus(consentDefinition.getVersion(), consentState.getVersion()));
+        return consentDefinitionState;
+    }
+
+    private ConsentVersionStatus getConsentVersionStatus(int appVersion, int backendVersion) {
+        if (appVersion < backendVersion) {
+            return ConsentVersionStatus.AppVersionIsLower;
+        } else if (appVersion == backendVersion) {
+            return ConsentVersionStatus.InSync;
+        }
+        return ConsentVersionStatus.AppVersionIsHigher;
+    }
+
+    private void postResultOnFetchConsents(List<ConsentManagerCallbackListener> consentManagerCallbackListeners, FetchConsentsCallback callback) {
+        List<ConsentDefinitionState> consentDefinitionStateList = new ArrayList<>();
+        for (ConsentManagerCallbackListener consentManagerCallbackListener : consentManagerCallbackListeners) {
+            if (consentManagerCallbackListener.consentError != null) {
+                callback.onGetConsentsFailed(consentManagerCallbackListener.consentError);
                 return;
             }
-            consentList.addAll(consentCallbackListener.consentList);
+            consentDefinitionStateList.addAll(consentManagerCallbackListener.consentDefinitionStates);
         }
-        callback.onGetConsentsSuccess(consentList);
+        callback.onGetConsentsSuccess(consentDefinitionStateList);
     }
 
-    private void postResultOnStoreConsent(List<ConsentCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
-        for (ConsentCallbackListener consentCallbackListener : consentCallbackListeners) {
-            if (consentCallbackListener.consentError != null) {
-                postConsentCallback.onPostConsentFailed(consentCallbackListener.consentDefinition, consentCallbackListener.consentError);
+    private void postResultOnStoreConsent(ConsentDefinition consentDefinition,
+                                          List<ConsentTypeCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
+        ConsentDefinitionState consentDefinitionState = null;
+        for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
+            if (consentTypeCallbackListener.consentError != null) {
+                postConsentCallback.onPostConsentFailed(consentTypeCallbackListener.consentError);
                 return;
             }
+            consentDefinitionState = getConsentDefinitionState(consentDefinition, consentTypeCallbackListener.consentState);
         }
-        postConsentCallback.onPostConsentSuccess(consentCallbackListeners.get(0).consent);
+        postConsentCallback.onPostConsentSuccess(consentDefinitionState);
     }
 
-    private class ConsentCallbackListener implements CheckConsentsCallback, PostConsentCallback {
+    private class ConsentManagerCallbackListener implements FetchConsentCallback, FetchConsentsCallback, PostConsentCallback {
         CountDownLatch countDownLatch;
-        List<Consent> consentList = new ArrayList<>();
-        ConsentDefinition consentDefinition;
-        Consent consent;
+        List<ConsentDefinitionState> consentDefinitionStates = new ArrayList<>();
+        ConsentDefinitionState consentDefinitionState;
         ConsentError consentError = null;
 
-        ConsentCallbackListener(CountDownLatch countDownLatch) {
+        ConsentManagerCallbackListener(CountDownLatch countDownLatch) {
             this.countDownLatch = countDownLatch;
         }
 
         @Override
-        public void onGetConsentsSuccess(List<Consent> consents) {
-            consentList = consents;
+        public void onPostConsentFailed(ConsentError error) {
+            consentError = error;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onPostConsentSuccess(ConsentDefinitionState consentDefinitionState) {
+            this.consentDefinitionState = consentDefinitionState;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onGetConsentsSuccess(ConsentDefinitionState consentDefinitionState) {
+            this.consentDefinitionState = consentDefinitionState;
             countDownLatch.countDown();
         }
 
@@ -165,15 +201,49 @@ public class ConsentManager implements ConsentManagerInterface {
         }
 
         @Override
-        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-            consentDefinition = definition;
+        public void onGetConsentsSuccess(List<ConsentDefinitionState> consentDefinitionStateList) {
+            this.consentDefinitionStates = consentDefinitionStateList;
+            countDownLatch.countDown();
+        }
+    }
+
+    private class ConsentTypeCallbackListener implements FetchConsentTypesStateCallback, FetchConsentTypeStateCallback, PostConsentTypeCallback {
+        CountDownLatch countDownLatch;
+        ConsentError consentError = null;
+        List<ConsentState> consentStateList = new ArrayList<>();
+        ConsentState consentState = null;
+
+        ConsentTypeCallbackListener(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void onPostConsentFailed(ConsentError error) {
             consentError = error;
             countDownLatch.countDown();
         }
 
         @Override
-        public void onPostConsentSuccess(Consent consent) {
-            this.consent = consent;
+        public void onPostConsentSuccess(ConsentState consentState) {
+            this.consentState = consentState;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onGetConsentsSuccess(ConsentState consentState) {
+            this.consentState = consentState;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onGetConsentsSuccess(List<ConsentState> consentStateList) {
+            this.consentStateList = consentStateList;
+            countDownLatch.countDown();
+        }
+
+        @Override
+        public void onGetConsentsFailed(ConsentError error) {
+            consentError = error;
             countDownLatch.countDown();
         }
     }

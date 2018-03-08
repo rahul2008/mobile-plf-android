@@ -4,28 +4,23 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-
 package com.philips.platform.mya.catk;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
-import com.philips.platform.mya.catk.exception.UnknownConsentType;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
-import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.pif.chi.ConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentState;
 
 import android.support.annotation.NonNull;
 
@@ -34,90 +29,84 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     @NonNull
     private final ConsentsClient consentsClient;
 
-    private Map<String, ConsentDefinition> definitionsByType;
-
     @Inject
     public ConsentInteractor(@NonNull final ConsentsClient consentsClient) {
         this.consentsClient = consentsClient;
-        setupConsentDefinitions(consentsClient.getConsentDefinitions());
     }
 
     @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
-
+    public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+        consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
     }
 
     @Override
-    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, @NonNull final CheckConsentsCallback callback) {
-        fetchLatestConsents(callback);
+    public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
+        consentsClient.getConsentDetails(new GetConsentsResponseListener(consentTypes, callback));
     }
 
     @Override
-    public void storeConsentState(ConsentDefinition definition, boolean switchChecked, PostConsentCallback callback) {
-        ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
-        List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
-        consentsClient.createConsent(backendConsents, new CreateConsentResponseListener(definition, backendConsents, callback));
+    public void storeConsentTypeState(String consentType, boolean status, PostConsentTypeCallback callback) {
+
     }
 
-    public void getStatusForConsentType(final String consentType, ConsentCallback callback) {
-        if (definitionsByType.get(consentType) == null) {
-            throw new UnknownConsentType(consentType, definitionsByType.keySet());
-        }
-        consentsClient.getStatusForConsentType(consentType, 0, new GetConsentForTypeResponseListener(callback, definitionsByType.get(consentType)));
-    }
+    class GetConsentForTypeResponseListener implements ConsentResponseListener {
+        private FetchConsentTypeStateCallback callback;
 
-    public void fetchLatestConsents(@NonNull final CheckConsentsCallback callback) {
-        consentsClient.getConsentDetails(new GetConsentsResponseListener(callback, consentsClient));
-    }
-
-    private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
-        String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
-
-        List<BackendConsent> backendConsents = new ArrayList<>();
-        List<String> types = definition.getTypes();
-        for (String type : types) {
-            backendConsents.add(new BackendConsent(locale, status, type, definition.getVersion()));
-        }
-        return backendConsents;
-    }
-
-    private void setupConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-        definitionsByType = new HashMap<>();
-        for (ConsentDefinition consentDefinition : consentDefinitions) {
-            for (String type : consentDefinition.getTypes()) {
-                definitionsByType.put(type, consentDefinition);
-            }
-        }
-    }
-
-    static class GetConsentForTypeResponseListener implements ConsentResponseListener {
-
-        private ConsentDefinition definition;
-
-        private ConsentCallback callback;
-
-        public GetConsentForTypeResponseListener(ConsentCallback callback, ConsentDefinition definition) {
+        GetConsentForTypeResponseListener(FetchConsentTypeStateCallback callback) {
             this.callback = callback;
-            this.definition = definition;
         }
 
         @Override
         public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-            BackendConsent backendConsent = null;
             if (responseData != null && !responseData.isEmpty()) {
-                backendConsent = responseData.get(0);
+                BackendConsent backendConsent = responseData.get(0);
+                callback.onGetConsentsSuccess(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
+            } else {
+                callback.onGetConsentsSuccess(null);
             }
-            callback.onGetConsentRetrieved(new Consent(backendConsent, definition));
+
         }
 
         @Override
         public void onResponseFailureConsent(ConsentNetworkError error) {
-            callback.onGetConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
+            callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
-
     }
 
-    static class CreateConsentResponseListener implements CreateConsentListener {
+    class GetConsentsResponseListener implements ConsentResponseListener {
+        private List<String> consentTypes;
+        private FetchConsentTypesStateCallback callback;
+
+        GetConsentsResponseListener(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
+            this.consentTypes = consentTypes;
+            this.callback = callback;
+        }
+
+        @Override
+        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+            //TODO strict consent check needs to be verified ?
+            List<ConsentState> consentStates = new ArrayList<>();
+            if (responseData != null && !responseData.isEmpty()) {
+                for (BackendConsent backendConsent : responseData) {
+                    if (consentTypes.contains(backendConsent.getType())) {
+                        consentStates.add(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
+                    }
+                }
+                callback.onGetConsentsSuccess(consentStates);
+            } else {
+                CatkLogger.d(" BackendConsent : ", "no consent for type found on server");
+                callback.onGetConsentsSuccess(new ArrayList<ConsentState>());
+            }
+        }
+
+        @Override
+        public void onResponseFailureConsent(ConsentNetworkError error) {
+            CatkLogger.d(" BackendConsent : ", "response failure:" + error);
+            this.callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
+        }
+    }
+
+    /*static class CreateConsentResponseListener implements CreateConsentListener {
 
         private final ConsentDefinition definition;
 
@@ -141,61 +130,5 @@ public class ConsentInteractor implements ConsentHandlerInterface {
             CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
             callback.onPostConsentFailed(definition, new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
-    }
-
-    static class GetConsentsResponseListener implements ConsentResponseListener {
-
-        private CheckConsentsCallback callback;
-        private ConsentsClient consentsClient;
-
-        public GetConsentsResponseListener(@NonNull final CheckConsentsCallback callback, ConsentsClient consentsClient) {
-            this.callback = callback;
-            this.consentsClient = consentsClient;
-        }
-
-        @Override
-        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-            if (responseData != null && !responseData.isEmpty()) {
-                callback.onGetConsentsSuccess(filterConsentsByDefinitions(responseData));
-            } else {
-                CatkLogger.d(" BackendConsent : ", "no consent for type found on server");
-                callback.onGetConsentsSuccess(new ArrayList<Consent>());
-            }
-        }
-
-        @Override
-        public void onResponseFailureConsent(ConsentNetworkError error) {
-            CatkLogger.d(" BackendConsent : ", "response failure:" + error);
-            this.callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
-        }
-
-        private List<Consent> filterConsentsByDefinitions(List<BackendConsent> receivedBackendConsents) {
-            Map<String, BackendConsent> consentsMap = toMap(receivedBackendConsents);
-            List<Consent> consents = new ArrayList<>();
-            for (ConsentDefinition definition : consentsClient.getConsentDefinitions()) {
-                consents.add(new Consent(getConsents(consentsMap, definition), definition));
-            }
-            return consents;
-        }
-
-        private List<BackendConsent> getConsents(Map<String, BackendConsent> consentsMap, ConsentDefinition definition) {
-            List<BackendConsent> backendConsents = new ArrayList<>();
-            List<String> types = definition.getTypes();
-            for (String type : types) {
-                backendConsents.add(consentsMap.get(type));
-            }
-            return backendConsents;
-        }
-
-        private Map<String, BackendConsent> toMap(List<BackendConsent> responseData) {
-            Map<String, BackendConsent> map = new HashMap<>();
-            for (BackendConsent backendConsent : responseData) {
-                map.put(backendConsent.getType(), backendConsent);
-            }
-            return map;
-        }
-
-    }
-
-
+    }*/
 }
