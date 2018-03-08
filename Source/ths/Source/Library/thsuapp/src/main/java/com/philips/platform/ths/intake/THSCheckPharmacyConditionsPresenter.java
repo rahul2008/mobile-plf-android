@@ -13,7 +13,6 @@ import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentPresenter;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
@@ -114,7 +113,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
                     fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
-                    fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
+                    //fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
                     fragmentTransaction.commitAllowingStateLoss();
                 } else {
                     thsCheckPharmacyConditonsView.displayPharmacy();
