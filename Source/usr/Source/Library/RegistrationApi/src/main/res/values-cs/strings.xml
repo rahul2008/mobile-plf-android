@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Čína</string>
+<string name="reg_Country_CN">Čína, pevninská</string>
 <string name="reg_Country_CO">Kolumbie</string>
 <string name="reg_Country_HR">Croatia</string>
 <string name="reg_Country_CZ">Česká Republika</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Francie</string>
 <string name="reg_Country_DE">Německo</string>
 <string name="reg_Country_GR">Greece</string>
-<string name="reg_Country_HK">Hong Kong</string>
+<string name="reg_Country_HK">Čína, Hong Kong</string>
 <string name="reg_Country_HU">Maďarsko</string>
 <string name="reg_Country_IN">Indie</string>
 <string name="reg_Country_ID">Indonésie</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Velká Británie</string>
 <string name="reg_Country_US">Spojené státy americké</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Čína, Macao</string>
 <string name="reg_Country_LU">Lucembursko</string>
+<string name="reg_Country_TWGC">Čína, Tchaj-pej</string>
 <string name="reg_Country_Search_Text">Vyhledat..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplikace není nainstalována</string>
 <string name="reg_App_NotInstalled_AlertMessage">Nainstalujte aplikaci %s, chcete-li využít tuto funkci.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Přihlaste se znovu a obnovte heslo na svém starém telefonu nebo kontaktujte středisko péče o zákazníky, která vám poskytne podporu.</string>
 <string name="reg_Try_To_Login_Button_Text">Zkusit se znovu přihlásit</string>
 <string name="reg_Contact_Customer_Care_Text">Kontaktovat středisko péče o zákazníky</string>
+<string name="reg_Update_Email_Button_Text">Aktualizovat e-mailovou adresu</string>
+<string name="reg_Country_Region">Země / oblast</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Přihlásit se</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Vytvořit účet Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Nebo se přihlásit pomocí:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Možná později</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Zadejte kód k resetování hesla účtu.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Na základě vašeho souhlasu vás mohou společnosti skupiny Philips kontaktovat s reklamními zprávami prostřednictvím e-mailu, SMS a jiných digitálních kanálů, jako jsou mobilní aplikace a sociální média. Abychom vám mohli tyto zprávy přizpůsobit na míru a poskytnout vám tu nejlepší, individuální zkušenost, analyzujeme a kombinujeme vaše osobní údaje. Tyto údaje mohou zahrnovat:\n\nVámi poskytované údaje\nÚdaje, které s námi aktivně sdílíte: vaše jméno, datum narození či věk, e-mailová adresa, adresa bydliště, země, pohlaví, telefonní číslo, profily na sociálních médiích.\n\nÚdaje získané z vašich interakcí se společností Philips\nÚdaje o vašich interakcích a používání digitálních prostředků Philips, jako jsou sociální média, webové stránky, e-mail, aplikace a připojené výrobky. Tyto údaje mohou zahrnovat: IP adresu, soubory cookie, informace o zařízení, zprávy, na které kliknete, údaje o poloze a navštívené webové stránky.\n\nSpolečnost Philips vám dává možnost svůj souhlas kdykoliv zrušit.\nVíce informací naleznete Oznámení o ochraně osobních společnosti Philips a Oznámení o souborech cookie společnosti Philips.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

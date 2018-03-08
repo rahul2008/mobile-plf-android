@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgária</string>
 <string name="reg_Country_CA">Kanada</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">Kína</string>
+<string name="reg_Country_CN">Kontinentális Kína</string>
 <string name="reg_Country_CO">Kolumbia</string>
 <string name="reg_Country_HR">Horvátország</string>
 <string name="reg_Country_CZ">Cseh Közt.</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">Franciaország</string>
 <string name="reg_Country_DE">Németország</string>
 <string name="reg_Country_GR">Görögország</string>
-<string name="reg_Country_HK">Hongkong</string>
+<string name="reg_Country_HK">Hongkong, Kína</string>
 <string name="reg_Country_HU">Magyarország</string>
 <string name="reg_Country_IN">India</string>
 <string name="reg_Country_ID">Indonézia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Egyesült Királyság</string>
 <string name="reg_Country_US">Egyesült Államok</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Makaó</string>
+<string name="reg_Country_MO">Makaó, Kína</string>
 <string name="reg_Country_LU">Luxemburg</string>
+<string name="reg_Country_TWGC">Kínai Köztársaság</string>
 <string name="reg_Country_Search_Text">Keresés..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Az alkalmazás nincs telepítve</string>
 <string name="reg_App_NotInstalled_AlertMessage">Kérjük, telepítse a(z) %s alkalmazást a funkció használatához.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Kérjük, jelentkezzen be újra, módosítsa a jelszavát a régi telefonján, vagy további támogatásért lépjen kapcsolatba az ügyfélszolgálattal.</string>
 <string name="reg_Try_To_Login_Button_Text">Próbáljon újra bejelentkezni</string>
 <string name="reg_Contact_Customer_Care_Text">Lépjen kapcsolatba az ügyfélszolgálattal</string>
+<string name="reg_Update_Email_Button_Text">E-mail-cím frissítése</string>
+<string name="reg_Country_Region">Ország / régió</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Bejelentkezés most</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Saját Philips fiók létrehozása</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Vagy bejelentkezés a következővel:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Talán később</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Adja meg a kódot fiókja jelszavának módosításához.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot e-mailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak). Ahhoz hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. Ezek az adatok az alábbiakat tartalmazhatják: \n\nÖn által megadott adatok\nAzok az adatok, melyeket Ön aktívan meg kíván osztani velünk, pl: név, születési dátum vagy életkor, e-mail cím, lakcím, ország, nem, telefonszám, közösségioldal-profil.\n\nAz Ön Philips-szel való kapcsolatba kerüléséből származó, nekünk megadott adatai\nAz Ön Philips digitális csatornákkal (pl. közösségi oldalak, weboldalak, e-mail, alkalmazások és kapcsolódó termékek) való kapcsolatba kerüléséből, illetve ezek használatából adódó adatok. Ezek az adatok az alábbiakat tartalmazhatják: IP-cím, cookie-k, eszközadatok, kommunikációs csatornák, amelyekre Ön rákattint, részletes helyadatok, valamint az Ön által látogatott weboldalak\n\nA Philips lehetőséget biztosít Önnek arra, hogy bármikor visszavonja beleegyezését.\nTovábbi tájékoztatást a Philips adatvédelmi nyilatkozatban és a Philips Cookie-kkal kapcsolatos nyilatkozatban talál.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

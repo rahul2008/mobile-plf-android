@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">บัลแกเรีย</string>
 <string name="reg_Country_CA">แคนาดา</string>
 <string name="reg_Country_CL">ชิลี</string>
-<string name="reg_Country_CN">จีน</string>
+<string name="reg_Country_CN">จีน - แผ่นดินใหญ่</string>
 <string name="reg_Country_CO">โคลอมเบีย</string>
 <string name="reg_Country_HR">โครเอเชีย</string>
 <string name="reg_Country_CZ">สาธารณรัฐเชค</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">ฝรั่งเศส</string>
 <string name="reg_Country_DE">เยอรมนี</string>
 <string name="reg_Country_GR">กรีซ</string>
-<string name="reg_Country_HK">|ฮ่องกง</string>
+<string name="reg_Country_HK">จีน - ฮ่องกง</string>
 <string name="reg_Country_HU">ฮังการี</string>
 <string name="reg_Country_IN">อินเดีย</string>
 <string name="reg_Country_ID">อินโดนีเซีย</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">สหราชอาณาจักร</string>
 <string name="reg_Country_US">สหรัฐอเมริกา</string>
 <string name="reg_Country_VN">เวียดนาม</string>
-<string name="reg_Country_MO">มาเก๊า</string>
+<string name="reg_Country_MO">จีน - มาเก๊า</string>
 <string name="reg_Country_LU">ลักเซมเบิร์ก</string>
+<string name="reg_Country_TWGC">จีน - ไทเป</string>
 <string name="reg_Country_Search_Text">ค้นหา..</string>
 <string name="reg_AppNotInstalled_Alert_Title">ไม่ได้ติดตั้งแอป</string>
 <string name="reg_App_NotInstalled_AlertMessage">โปรดติดตั้งแอป %s เพื่อใช้งานคุณสมบัตินี้</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">โปรดเข้าสู่ระบบอีกครั้ง รีเซ็ตรหัสผ่านบนโทรศัพท์เครื่องเก่าของคุณหรือติดต่อทีมบริการดูแลลูกค้าสำหรับความช่วยเหลือเพิ่มเติม</string>
 <string name="reg_Try_To_Login_Button_Text">ลองเข้าสู่ระบบอีกครั้ง</string>
 <string name="reg_Contact_Customer_Care_Text">ติดต่อทีมบริการดูแลลูกค้า</string>
+<string name="reg_Update_Email_Button_Text">อัพเดตอีเมล์แอดเดรส</string>
+<string name="reg_Country_Region">ประเทศ / ภูมิภาค</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">ล็อกอินเลย</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">สร้างแอคเคาท์ Philips ของฉัน</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">หรือล็อกอินด้วย:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">เอาไว้ก่อน</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">โปรดป้อนรหัสเพื่อรีเซ็ตรหัสผ่านของบัญชี</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">จากที่คุณให้การอนุญาติ กลุ่มบริษัท Philips อาจจะติดต่อคุณด้วยการสื่อสารการโฆษณาและประชาสัมพันธ์ผ่านทางอีเมล์ SMS และช่องทางดิจิตอลอื่นๆ เช่นแอปพลิเคชันมือถือ และสื่อสังคมออนไลน์ เพื่อที่จะสามารถปรับการสื่อสารให้เหมาะสมกับรสนิยมและพฤติกรรมของคุณ ด้วยประสบการณ์รูปแบบเฉพาะที่ดีที่สุด เราอาจจะวิเคราะห์และรวบรวมข้อมูลส่วนบุคคลของคุณ ข้อมูลนี้อาจรวมถึง:\n\nข้อมูลที่คุณให้แก่เรา\nข้อมูลที่คุณต้องการแบ่งปันกับเราเช่น: ชื่อของคุณ, วันเกิดหรืออายุ, อีเมล์, ที่อยู่, ประเทศ, เพศ, หมายเลขโทรศัพท์, โปรไฟล์สื่อสังคมออนไลน์\n\nข้อมูลที่เราได้จากการที่คุณมีปฏิสัมพันธ์กับ Philips\nข้อมูลเกี่ยวกับปฏิสัมพันธ์และการใช้งานของช่องทางดิจิตอลของ Philips ของคุณเช่น สื่อสังคมออนไลน์, เว็บไซต์, อีเมล์, แอปพลิเคชัน และผลิตภัณฑ์ที่เชื่อมโยง ข้อมูลนี้ประกอบด้วย: IP แอดเดรส, คุกกี้, ข้อมูลอุปกรณ์, การสื่อสารที่คุณคลิก, รายละเอียดของสถานที่ และเว็บไซต์ที่คุณเยี่ยมชม\n\nPhilips ให้โอกาสคุณในการเพิกถอนคำยินยอมเมื่อใดก็ได้\nสำหรับข้อมูลเพิ่มเติม โปรดอ่านประกาศเกี่ยวกับความเป็นส่วนตัวของ Philips และประกาศเกี่ยวกับคุกกี้ของ Philips</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>

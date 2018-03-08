@@ -126,7 +126,7 @@
             android:layout_alignParentEnd="true"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Country"
+            android:text="@string/reg_Country_Region"
             android:textSize="@dimen/reg_text_size_12" />
     </RelativeLayout>
 
@@ -164,7 +164,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Country"
+            android:text="@string/reg_Country_Region"
             android:textSize="@dimen/reg_text_size_12" />
     </LinearLayout>
 

@@ -191,7 +191,7 @@
 <string name="reg_Country_BG">Bulgaria</string>
 <string name="reg_Country_CA">Canadá</string>
 <string name="reg_Country_CL">Chile</string>
-<string name="reg_Country_CN">China</string>
+<string name="reg_Country_CN">Chinês (China Continental)</string>
 <string name="reg_Country_CO">Colômbia</string>
 <string name="reg_Country_HR">Croatia</string>
 <string name="reg_Country_CZ">República Checa</string>
@@ -201,7 +201,7 @@
 <string name="reg_Country_FR">França</string>
 <string name="reg_Country_DE">Alemanha</string>
 <string name="reg_Country_GR">Greece</string>
-<string name="reg_Country_HK">Hong Kong</string>
+<string name="reg_Country_HK">Chinês (Hong Kong)</string>
 <string name="reg_Country_HU">Hungria</string>
 <string name="reg_Country_IN">Índia</string>
 <string name="reg_Country_ID">Indonésia</string>
@@ -239,8 +239,9 @@
 <string name="reg_Country_GB">Reino Unido</string>
 <string name="reg_Country_US">Estados Unidos</string>
 <string name="reg_Country_VN">Vietnam</string>
-<string name="reg_Country_MO">Macau</string>
+<string name="reg_Country_MO">Chinês (Macau)</string>
 <string name="reg_Country_LU">Luxemburgo</string>
+<string name="reg_Country_TWGC">Chinês (Taipei)</string>
 <string name="reg_Country_Search_Text">Pesquisar...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplicação não instalada</string>
 <string name="reg_App_NotInstalled_AlertMessage">Instale a aplicação %s para utilizar esta funcionalidade.</string>
@@ -269,6 +270,8 @@
 <string name="reg_Forgot_Password_Alert_Description_Two">Volte a iniciar sessão, reponha a palavra-passe no seu telemóvel anterior ou contacte o Apoio ao cliente para obter assistência.</string>
 <string name="reg_Try_To_Login_Button_Text">Tente iniciar sessão novamente</string>
 <string name="reg_Contact_Customer_Care_Text">Contactar o Apoio ao cliente</string>
+<string name="reg_Update_Email_Button_Text">Atualizar endereço de e-mail</string>
+<string name="reg_Country_Region">País / Região</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Inicie sessão agora</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Criar a minha conta Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ou inicie sessão com:</string>
@@ -369,4 +372,6 @@
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Talvez mais tarde</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Introduza o código para repor a palavra-passe da conta.</string>
 <string name="reg_DLS_PhilipsNews_Description_Text">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. Estes dados poderão incluir: \n\nDados que nos forneceu\nDados que partilhou connosco activamente, tais como: o seu nome, data de nascimento ou idade, endereço de correio electrónico, endereço postal, país, género, número de telefone, perfil de rede social.\n\nDados que obtivemos das suas interacções com a Philips\nDados sobre as suas interacções e utilização dos canais digitais da Philips, como redes sociais, Web sites, correio electrónico, aplicações e produtos conectados. Estes dados podem incluir: endereço IP, cookies, informações de dispositivos, comunicações onde clicou, detalhes de localização e Web sites que visitou\n\nA Philips permite-lhe cancelar o seu consentimento a qualquer momento.\nPara obter mais informações, leia a Política de privacidade da Philips e a Declaração de cookies da Philips.</string>
+<string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
+<string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
 </resources>
