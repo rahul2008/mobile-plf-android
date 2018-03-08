@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Tài khoản của tôi</string>
+<string name="MYA_Profile">Hồ sơ</string>
+<string name="MYA_Settings">Cài đặt</string>
+<string name="MYA_My_details">Thông tin chi tiết</string>
+<string name="MYA_My_products">Sản phẩm của tôi</string>
+<string name="MYA_My_subscriptions">Gói đăng ký của tôi</string>
+<string name="MYA_My_orders">Đơn hàng của tôi</string>
+<string name="MYA_Logout">Đăng xuất</string>
+<string name="MYA_Account_settings">Thiết đặt tài khoản</string>
+<string name="MYA_Country">Quốc gia</string>
+<string name="MYA_Notifications">Thông báo</string>
+<string name="MYA_Privacy_Settings">Cài đặt quyền riêng tư</string>
+<string name="MYA_Login_details">Chi tiết đăng nhập</string>
+<string name="MYA_Email_address">Địa chỉ email</string>
+<string name="MYA_Mobile_number">Số điện thoại di động</string>
+<string name="MYA_Personal_details">Chi tiết cá nhân</string>
+<string name="MYA_Name">Tên</string>
+<string name="MYA_Gender">Giới tính</string>
+<string name="MYA_Date_of_birth">Ngày sinh</string>
+<string name="MYA_Address">Địa chỉ</string>
+<string name="MYA_Cancel">Hủy</string>
+<string name="MYA_change_country">Đăng xuất để thay đổi quốc gia</string>
+<string name="MYA_change_country_message">Vui lòng đăng xuất để thay đổi quốc gia nơi bạn sinh sống. Việc này sẽ cho phép chúng tôi điều chỉnh bảo hành và thông tin khác thích hợp với khu vực của bạn hơn</string>
+<string name="MYA_logout_title">Bạn có chắc chắn muốn đăng xuất không?</string>
+<string name="MYA_logout_message">Bạn sẽ được đăng xuất khỏi ứng dụng. Sau khi đăng xuất, bạn vẫn luôn có thể đăng nhập lại.</string>
+<string name="MYA_Info">Bạn có muốn thay đổi ID đăng nhập hoặc mật khẩu của bạn không? Hãy truy cập trang web của chúng tôi.</string>
+<string name="MYA_Email_Validation_message">Địa chỉ email không được xác nhận</string>
+<string name="MYA_Not_Available">Không có sẵn</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">Bạn đang ngoại tuyến</string>
+<string name="MYA_Offline_message">Kết nối internet của bạn có vẻ như không hiệu quả. Vui lòng kiểm tra và thử lại</string>
+<string name="mya_Privacy_Settings_Desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc _thông báo về quyền riêng tư_ để biết thêm thông tin.</string>
+</resources>
