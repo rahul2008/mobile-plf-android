@@ -33,7 +33,28 @@ public class UserRegistrationFailureInfo {
         this.errorTagging = errorTagging;
     }
 
+    private void setErrorTagging() {
+        if (null != error && null != error.raw_response)
+            this.errorTagging = RegUtility.getTaggingErrorDescription(error.raw_response);
+    }
+
     private String errorTagging = "";
+
+    public UserRegistrationFailureInfo() {
+
+    }
+
+    /**
+     * {@code setError} constructor to set error
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
+     * @param error error
+     * @since 1.0.0
+     */
+    public UserRegistrationFailureInfo(CaptureApiError error) {
+        this.error = error;
+        setErrorTagging();
+    }
 
 
     /**
@@ -62,17 +83,8 @@ public class UserRegistrationFailureInfo {
      * @since 18.1.0
      */
 
-    public String getErrorTaggingFromCaptureApiError() {
-
-        if (null != error && null != error.raw_response) {
-            return RegUtility.getTaggingErrorDescription(error.raw_response);
-        } else {
-            return errorTagging;
-        }
-    }
-
     public String getErrorTagging() {
-        return getErrorTaggingFromCaptureApiError();
+        return this.errorTagging;
     }
 
     /**
@@ -123,8 +135,6 @@ public class UserRegistrationFailureInfo {
      * @param error error
      * @since 1.0.0
      */
-    public void setError(CaptureApiError error) {
-        this.error = error;
-    }
+
 
 }

@@ -136,9 +136,11 @@ public class User {
                                     userRegistrationFailureInfo.
                                             setErrorCode(RegConstants.
                                                     DI_PROFILE_NULL_ERROR_CODE);
-                                    ThreadUtils.postInMainThread(mContext, () -> traditionalLoginHandler.
-                                            onLoginFailedWithError(userRegistrationFailureInfo
-                                            ));
+                                    ThreadUtils.postInMainThread(mContext, () -> {
+                                        traditionalLoginHandler.
+                                                onLoginFailedWithError(userRegistrationFailureInfo
+                                                );
+                                    });
                                 }
                             }
                         }

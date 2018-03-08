@@ -335,7 +335,7 @@ public class HsdpUser {
                     handler.post(() -> handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE +
                                     RegConstants.HSDP_LOWER_ERROR_BOUND,
                             mContext.getString(R.string.
-                                    reg_JanRain_Server_Connection_Failed)));
+                                    reg_JanRain_Server_Connection_Failed),AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED));
                     return;
                 }
 
@@ -390,7 +390,7 @@ public class HsdpUser {
                             handleSocialConnectionFailed(loginHandler, Integer.parseInt(
                                     dhpAuthenticationResponse1.responseCode) +
                                             RegConstants.HSDP_LOWER_ERROR_BOUND,
-                                    dhpAuthenticationResponse1.message);
+                                    dhpAuthenticationResponse1.message,dhpAuthenticationResponse1.message);
                         }
                     });
                 }} catch(Exception e){
@@ -411,13 +411,14 @@ public class HsdpUser {
      * handle social connection failed
      * @param loginHandler login handler
      * @param errorCode error code
-     * @param string string
+     * @param description string
      */
     private void handleSocialConnectionFailed(SocialLoginHandler loginHandler,
-                                              int errorCode, String string) {
+                                              int errorCode, String description ,String errorTagging) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(string);
+        userRegistrationFailureInfo.setErrorDescription(description);
+        userRegistrationFailureInfo.setErrorTagging(errorTagging);
         ThreadUtils.postInMainThread(mContext,()->
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }

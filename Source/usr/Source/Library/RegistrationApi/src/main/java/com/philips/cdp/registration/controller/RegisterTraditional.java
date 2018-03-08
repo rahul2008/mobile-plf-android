@@ -66,9 +66,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onFailure(SignInError error) {
         try {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setError(error.captureApiError);
-            userRegistrationFailureInfo.setErrorTagging(RegUtility.getTaggingErrorDescription(error.captureApiError.raw_response));
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
             if (error.captureApiError.code == -1) {
                 userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                 userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
@@ -142,6 +140,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             ThreadUtils.postInMainThread(mContext,()->
             mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         }
@@ -163,6 +162,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         if (mTraditionalRegisterHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext,()->
             mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));

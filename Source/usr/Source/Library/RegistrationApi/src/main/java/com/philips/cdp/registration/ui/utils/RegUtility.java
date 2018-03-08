@@ -323,7 +323,6 @@ public class RegUtility {
 
     public static String getTaggingErrorDescription(JSONObject serverResponse) {
 
-        if(serverResponse==null)return "";
         try {
             return serverResponse.getString("error_description");
         } catch (JSONException e) {
