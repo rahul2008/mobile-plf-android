@@ -168,19 +168,13 @@ public class MomentsDataSender extends DataSender {
     private boolean updateMoment(MomentsClient client, final Moment moment) {
         try {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
-            Response response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
+            UCoreMoment response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
-            List<Header> responseHeaders = response.getHeaders();
-            if (isResponseSuccess(response)) {
-                for (Header header : responseHeaders) {
-                    if (header.getName().equals("ETag")) {
-                        moment.getSynchronisationData().setVersion(Integer.parseInt(header.getValue()));
-                        break;
-                    }
-                }
-                postUpdatedOk(Collections.singletonList(moment));
-            } else if (isConflict(response)) {
-            }
+
+            moment.getSynchronisationData().setVersion(response.getVersion());
+            moment.setExpirationDate(new DateTime(response.getExpirationDate(), DateTimeZone.UTC));
+            postUpdatedOk(Collections.singletonList(moment));
+
             return false;
         } catch (RetrofitError error) {
             if (error != null && isConflict(error.getResponse())) {

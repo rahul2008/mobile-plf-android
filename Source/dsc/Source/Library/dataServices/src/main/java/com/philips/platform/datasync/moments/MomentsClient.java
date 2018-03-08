@@ -39,7 +39,7 @@ interface MomentsClient {
                                        @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
 
     @PUT("/api/users/{userId}/moments/{momentId}")
-    Response updateMoment(@Path("userId") String userId,
+    UCoreMoment updateMoment(@Path("userId") String userId,
                           @Path("momentId") String momentId,
                           @Header("performerId") String performerId,
                           @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);

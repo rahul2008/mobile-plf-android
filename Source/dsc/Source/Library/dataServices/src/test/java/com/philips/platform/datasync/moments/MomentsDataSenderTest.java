@@ -339,22 +339,19 @@ public class MomentsDataSenderTest {
 
     @Test
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpOk() {
-        final ArrayList<Header> headers = new ArrayList<>(10);
-        Header etag = new Header("etag", "2");
-        headers.add(0, new Header("dummy", "1"));
-        headers.add(1, new Header("dummy1", "12"));
-        headers.add(2, etag);
-        Response response = new Response("", 200, "OK", headers, null);
-
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
         when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_ID);
         when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
-        when(clientMock.updateMoment(BABY_ID, TEST_MOMENT_ID, USER_ID, uCoreMomentMock)).thenReturn(response);
+        when(clientMock.updateMoment(BABY_ID, TEST_MOMENT_ID, USER_ID, uCoreMomentMock)).thenReturn(uCoreMomentResponseMock);
+        when(uCoreMomentResponseMock.getExpirationDate()).thenReturn(TEST_DATE_TIME_STRING);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
         verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
+        ArgumentCaptor<DateTime> argumentCaptor = ArgumentCaptor.forClass(DateTime.class);
+        verify(momentMock).setExpirationDate(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().toString()).isEqualTo(TEST_DATE_TIME_STRING);
     }
 
     @Test
@@ -403,22 +400,19 @@ public class MomentsDataSenderTest {
 
     @Test
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpAccepted() {
-        final ArrayList<Header> headers = new ArrayList<>(10);
-        Header etag = new Header("etag", "2");
-        headers.add(0, new Header("dummy", "1"));
-        headers.add(1, new Header("dummy1", "12"));
-        headers.add(2, etag);
-        Response response = new Response("", 201, "CREATED", headers, null);
-
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
         when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_ID);
         when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
-        when(clientMock.updateMoment(BABY_ID, TEST_MOMENT_ID, USER_ID, uCoreMomentMock)).thenReturn(response);
+        when(clientMock.updateMoment(BABY_ID, TEST_MOMENT_ID, USER_ID, uCoreMomentMock)).thenReturn(uCoreMomentResponseMock);
+        when(uCoreMomentResponseMock.getExpirationDate()).thenReturn(TEST_DATE_TIME_STRING);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
         verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
+        ArgumentCaptor<DateTime> argumentCaptor = ArgumentCaptor.forClass(DateTime.class);
+        verify(momentMock).setExpirationDate(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().toString()).isEqualTo(TEST_DATE_TIME_STRING);
     }
 
     @Test
