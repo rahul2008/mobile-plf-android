@@ -15,6 +15,7 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionState;
 import com.philips.platform.pif.chi.datamodel.ConsentState;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStatus;
 
 import java.util.ArrayList;
@@ -119,6 +120,9 @@ public class ConsentManager implements ConsentManagerInterface {
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
+            } else if (consentCallbackListener.consentState.getConsentStatus().equals(ConsentStatus.inactive)
+                    || consentCallbackListener.consentState.getConsentStatus().equals(ConsentStatus.rejected)) {
+                callback.onGetConsentsSuccess(consentDefinitionState);
             }
             consentDefinitionState = getConsentDefinitionState(consentDefinition, consentCallbackListener.consentState);
         }
