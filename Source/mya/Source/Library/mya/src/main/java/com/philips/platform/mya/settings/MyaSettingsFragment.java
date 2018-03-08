@@ -92,7 +92,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
     }
 
     @Override
