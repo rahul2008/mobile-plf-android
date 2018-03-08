@@ -25,7 +25,7 @@
     <com.philips.platform.uid.view.widget.ActionBarTextView
         android:id="@+id/mya_toolbar_title"
         style="@style/UIDToolbarBarTitleText"
-        android:text="@string/MYA_My_account"
+        android:text="@string/mya_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </android.support.v7.widget.Toolbar>
