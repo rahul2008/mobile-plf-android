@@ -188,6 +188,7 @@ public class OrmMoment implements Moment, Serializable {
         this.synced = synced;
     }
 
+    @Override
     public void setExpirationDate(DateTime expirationDate){
         this.expirationDate = expirationDate;
     }

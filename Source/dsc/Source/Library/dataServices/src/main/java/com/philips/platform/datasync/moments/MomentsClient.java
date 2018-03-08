@@ -34,7 +34,7 @@ interface MomentsClient {
     );
 
     @POST("/api/users/{subjectId}/moments")
-    UCoreMomentSaveResponse saveMoment(@Path("subjectId") String subjectId,
+    UCoreMoment saveMoment(@Path("subjectId") String subjectId,
                                        @Header("performerId") String userId,
                                        @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
 
