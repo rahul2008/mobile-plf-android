@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
-<string name="MYA_My_account">Mijn account</string>
-<string name="MYA_Profile">Profiel</string>
-<string name="MYA_Settings">Instellingen</string>
-<string name="MYA_My_details">Mijn details</string>
-<string name="MYA_My_products">Mijn producten</string>
-<string name="MYA_My_subscriptions">Mijn abonnementen</string>
-<string name="MYA_My_orders">Mijn bestellingen</string>
-<string name="MYA_Logout">Afmelden</string>
-<string name="MYA_Account_settings">Accountinstellingen</string>
-<string name="MYA_Country">Land</string>
-<string name="MYA_Notifications">Kennisgevingen</string>
-<string name="MYA_Privacy_Settings">Privacyinstellingen</string>
-<string name="MYA_Login_details">Aanmeldingsgegevens</string>
-<string name="MYA_Email_address">E-mailadres</string>
-<string name="MYA_Mobile_number">Mobiele nummer</string>
-<string name="MYA_Personal_details">Persoonlijke gegevens</string>
-<string name="MYA_Name">Naam</string>
-<string name="MYA_Gender">Geslacht</string>
-<string name="MYA_Date_of_birth">Geboortedatum</string>
-<string name="MYA_Address">Adres</string>
-<string name="MYA_Cancel">Annuleren</string>
-<string name="MYA_change_country">Meld u af om uw land te wijzigen</string>
-<string name="MYA_change_country_message">Meld u af en wijzig het land waar u woont. Zo kunnen we de garantie en andere informatie op uw locatie afstemmen.</string>
-<string name="MYA_logout_title">Weet u zeker dat u zich wilt afmelden?</string>
-<string name="MYA_logout_message">U wordt afgemeld bij de app. Nadat u zich hebt afgemeld, kunt u zich altijd weer aanmelden.</string>
-<string name="MYA_Info">Wilt u uw aanmeldings-ID of wachtwoord wijzigen? Ga naar onze website.</string>
-<string name="MYA_Email_Validation_message">E-mailadres niet bevestigd</string>
-<string name="MYA_Not_Available">Niet beschikbaar</string>
-<string name="MYA_Ok">OK</string>
-<string name="MYA_Offline_title">U bent offline</string>
-<string name="MYA_Offline_message">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
-<string name="mya_Privacy_Settings_Desc">Beheer uw privacy. Lees onze _privacyverklaring_ voor meer informatie.</string>
+    <string name="app_name">MyAccount</string>
+    <string name="MYA_Ok">nl-OK</string>
+    <string name="MYA_Offline_title">nl-You are offline</string>
+    <string name="MYA_Offline_message">nl-Your internet connection does not seem to be working. Please check and try again</string>
 </resources>
