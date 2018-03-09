@@ -99,7 +99,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return new MyaListener() {
             @Override
             public boolean onSettingsMenuItemSelected(String itemName) {
-                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
+                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Log_Out)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("MYA_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();

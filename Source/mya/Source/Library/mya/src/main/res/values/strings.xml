@@ -36,6 +36,5 @@
 
     <string name="MYA_Log_Out">Log out</string>
     <string name="MYA_philips_website" translatable="false"><a href="www.philips.com">www.philips.com</a></string>
-    <string name="MYA_visit_website" >Do you want to change your login ID or password? Visit our website. </string>
     <string name="MYA_Add_mobile_number" translatable="false">Add mobile number</string>
 </resources>
