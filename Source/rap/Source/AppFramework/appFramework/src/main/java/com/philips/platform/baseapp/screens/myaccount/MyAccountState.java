@@ -88,7 +88,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems = {"MYA_My_details"};
-        String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
+        String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
         launchInput.setSettingsMenuList(Arrays.asList(settingItems));
@@ -99,9 +99,9 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return new MyaListener() {
             @Override
             public boolean onSettingsMenuItemSelected(String itemName) {
-                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
+                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Logout)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
-                } else if (itemName.equals("Mya_Privacy_Settings")) {
+                } else if (itemName.equals("MYA_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();
                     if (restInterface.isInternetReachable()) {
                         CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(),consentConfigurationList);
