@@ -64,12 +64,10 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullSuccess() {
-        // TODO Before starting to push, delete all 'expired' data (Moments & Insights)
-        // TODO Save flag with latest DEL Timestamp
         // TODO Only delete expired data when DEL Timestamp longer than 24 hours ago.
         clearExpiredMoments();
         clearExpiredInsights();
-        expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, DateTime.now(DateTimeZone.UTC).toString()).apply();
+        setLastExpiredDataDeletionDateTime();
         postEventToStartPush();
     }
 
@@ -114,13 +112,17 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         mEventing.post(new WriteDataToBackendRequest());
     }
 
-
     private void clearExpiredMoments() {
         mEventing.post(new DeleteExpiredMomentRequest(null));
     }
 
+
     private void clearExpiredInsights() {
         mEventing.post(new DeleteExpiredInsightRequest(null));
+    }
+
+    private void setLastExpiredDataDeletionDateTime() {
+        expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, DateTime.now(DateTimeZone.UTC).toString()).apply();
     }
 
     private void postOnSyncComplete() {

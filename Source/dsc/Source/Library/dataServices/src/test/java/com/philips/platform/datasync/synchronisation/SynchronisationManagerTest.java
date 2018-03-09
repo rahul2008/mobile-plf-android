@@ -64,7 +64,6 @@ public class SynchronisationManagerTest {
         synchronisationManager.expiredDeletionTimeStorage = prefsMock;
         when(prefsMock.edit()).thenReturn(prefsEditorMock);
         when(prefsEditorMock.putString(anyString(), anyString())).thenReturn(prefsEditorMock);
-
     }
 
     @Test
