@@ -40,6 +40,7 @@ import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.securedblibrary.SqlLiteInitializer;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -75,11 +76,15 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
-
     private static DatabaseHelper sDatabaseHelper;
+    private DaoProvider daoProvider;
 
     private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
         super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
+    }
+
+    DatabaseHelper(Context context, AppInfraInterface appInfraInterface, SqlLiteInitializer initializer) {
+        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY, initializer);
     }
 
     public static synchronized DatabaseHelper getInstance(Context context, AppInfraInterface appInfraInterface) {
@@ -91,8 +96,15 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
+        OrmDatabaseHelper database = new OrmDatabaseHelper(connectionSource);
+        OrmDaoProvider daoProvider = new OrmDaoProvider(this);
+        onCreate(connectionSource, database, daoProvider);
+    }
+
+    public void onCreate(final ConnectionSource connectionSource, final DatabaseTable database, final DaoProvider daoProvider) {
+        this.daoProvider = daoProvider;
         try {
-            createTables(connectionSource);
+            createTables(connectionSource, database);
             insertDictionaries();
         } catch (SQLException e) {
         }
@@ -179,26 +191,25 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-
-    private void createTables(final ConnectionSource connectionSource) throws SQLException {
-        TableUtils.createTable(connectionSource, OrmMoment.class);
-        TableUtils.createTable(connectionSource, OrmMomentType.class);
-        TableUtils.createTable(connectionSource, OrmMomentDetail.class);
-        TableUtils.createTable(connectionSource, OrmMomentDetailType.class);
-        TableUtils.createTable(connectionSource, OrmMeasurement.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementType.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementDetail.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementDetailType.class);
-        TableUtils.createTable(connectionSource, OrmSynchronisationData.class);
-        TableUtils.createTable(connectionSource, OrmConsentDetail.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
-        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
-        TableUtils.createTable(connectionSource, OrmCharacteristics.class);
-        TableUtils.createTable(connectionSource, OrmSettings.class);
-        TableUtils.createTable(connectionSource, OrmDCSync.class);
-        TableUtils.createTable(connectionSource, OrmInsight.class);
-        TableUtils.createTable(connectionSource, OrmInsightMetaData.class);
+    private void createTables(final ConnectionSource connectionSource, final DatabaseTable database) throws SQLException {
+        database.createTable(connectionSource, OrmMoment.class);
+        database.createTable(connectionSource, OrmMomentType.class);
+        database.createTable(connectionSource, OrmMomentDetail.class);
+        database.createTable(connectionSource, OrmMomentDetailType.class);
+        database.createTable(connectionSource, OrmMeasurement.class);
+        database.createTable(connectionSource, OrmMeasurementType.class);
+        database.createTable(connectionSource, OrmMeasurementDetail.class);
+        database.createTable(connectionSource, OrmMeasurementDetailType.class);
+        database.createTable(connectionSource, OrmSynchronisationData.class);
+        database.createTable(connectionSource, OrmConsentDetail.class);
+        database.createTable(connectionSource, OrmMeasurementGroup.class);
+        database.createTable(connectionSource, OrmMeasurementGroupDetail.class);
+        database.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
+        database.createTable(connectionSource, OrmCharacteristics.class);
+        database.createTable(connectionSource, OrmSettings.class);
+        database.createTable(connectionSource, OrmDCSync.class);
+        database.createTable(connectionSource, OrmInsight.class);
+        database.createTable(connectionSource, OrmInsightMetaData.class);
     }
 
     @Override
@@ -233,84 +244,88 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
         if (momentDao == null) {
-            momentDao = getDao(OrmMoment.class);
+            momentDao = getOrmDao(OrmMoment.class);
         }
         return momentDao;
     }
 
+    public Dao getOrmDao(final Class<?> clazz) throws SQLException {
+        return daoProvider.getOrmDao(clazz);
+    }
+
     private Dao<OrmMomentType, Integer> getMomentTypeDao() throws SQLException {
         if (momentTypeDao == null) {
-            momentTypeDao = getDao(OrmMomentType.class);
+            momentTypeDao = getOrmDao(OrmMomentType.class);
         }
         return momentTypeDao;
     }
 
     public Dao<OrmMeasurementGroupDetailType, Integer> getMeasurementGroupDetailTypeDao() throws SQLException {
         if (measurementGroupDetailTypes == null) {
-            measurementGroupDetailTypes = getDao(OrmMeasurementGroupDetailType.class);
+            measurementGroupDetailTypes = getOrmDao(OrmMeasurementGroupDetailType.class);
         }
         return measurementGroupDetailTypes;
     }
 
     public Dao<OrmMeasurementGroup, Integer> getMeasurementGroupDao() throws SQLException {
         if (measurementGroup == null) {
-            measurementGroup = getDao(OrmMeasurementGroup.class);
+            measurementGroup = getOrmDao(OrmMeasurementGroup.class);
         }
         return measurementGroup;
     }
 
     public Dao<OrmMeasurementGroupDetail, Integer> getMeasurementGroupDetailDao() throws SQLException {
         if (measurementGroupDetails == null) {
-            measurementGroupDetails = getDao(OrmMeasurementGroupDetail.class);
+            measurementGroupDetails = getOrmDao(OrmMeasurementGroupDetail.class);
         }
         return measurementGroupDetails;
     }
 
     public Dao<OrmMomentDetail, Integer> getMomentDetailDao() throws SQLException {
         if (momentDetailDao == null) {
-            momentDetailDao = getDao(OrmMomentDetail.class);
+            momentDetailDao = getOrmDao(OrmMomentDetail.class);
         }
         return momentDetailDao;
     }
 
     private Dao<OrmMomentDetailType, Integer> getMomentDetailTypeDao() throws SQLException {
         if (momentDetailTypeDao == null) {
-            momentDetailTypeDao = getDao(OrmMomentDetailType.class);
+            momentDetailTypeDao = getOrmDao(OrmMomentDetailType.class);
         }
         return momentDetailTypeDao;
     }
 
     public Dao<OrmMeasurement, Integer> getMeasurementDao() throws SQLException {
         if (measurementDao == null) {
-            measurementDao = getDao(OrmMeasurement.class);
+            measurementDao = getOrmDao(OrmMeasurement.class);
         }
         return measurementDao;
     }
 
     private Dao<OrmMeasurementType, Integer> getMeasurementTypeDao() throws SQLException {
         if (measurementTypeDao == null) {
-            measurementTypeDao = getDao(OrmMeasurementType.class);
+            measurementTypeDao = getOrmDao(OrmMeasurementType.class);
         }
         return measurementTypeDao;
     }
 
     public Dao<OrmMeasurementDetail, Integer> getMeasurementDetailDao() throws SQLException {
         if (measurementDetailDao == null) {
-            measurementDetailDao = getDao(OrmMeasurementDetail.class);
+            measurementDetailDao = getOrmDao(OrmMeasurementDetail.class);
         }
         return measurementDetailDao;
     }
 
     private Dao<OrmMeasurementDetailType, Integer> getMeasurementDetailTypeDao() throws SQLException {
         if (measurementDetailTypeDao == null) {
-            measurementDetailTypeDao = getDao(OrmMeasurementDetailType.class);
+            measurementDetailTypeDao = getOrmDao(OrmMeasurementDetailType.class);
         }
         return measurementDetailTypeDao;
     }
 
     public Dao<OrmSynchronisationData, Integer> getSynchronisationDataDao() throws SQLException {
         if (synchronisationDataDao == null) {
-            synchronisationDataDao = getDao(OrmSynchronisationData.class);
+            synchronisationDataDao = getOrmDao(OrmSynchronisationData.class);
         }
         return synchronisationDataDao;
     }
@@ -318,42 +333,42 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     public Dao<OrmConsentDetail, Integer> getConsentDetailsDao() throws SQLException {
         if (consentDetailDao == null) {
-            consentDetailDao = getDao(OrmConsentDetail.class);
+            consentDetailDao = getOrmDao(OrmConsentDetail.class);
         }
         return consentDetailDao;
     }
 
     public Dao<OrmCharacteristics, Integer> getCharacteristicsDao() throws SQLException {
         if (characteristicsDao == null) {
-            characteristicsDao = getDao(OrmCharacteristics.class);
+            characteristicsDao = getOrmDao(OrmCharacteristics.class);
         }
         return characteristicsDao;
     }
 
     public Dao<OrmSettings, Integer> getSettingsDao() throws SQLException {
         if (settingDao == null) {
-            settingDao = getDao(OrmSettings.class);
+            settingDao = getOrmDao(OrmSettings.class);
         }
         return settingDao;
     }
 
     public Dao<OrmDCSync, Integer> getDCSyncDao() throws SQLException {
         if (ormDCSyncDao == null) {
-            ormDCSyncDao = getDao(OrmDCSync.class);
+            ormDCSyncDao = getOrmDao(OrmDCSync.class);
         }
         return ormDCSyncDao;
     }
 
     public Dao<OrmInsight, Integer> getInsightDao() throws SQLException {
         if (ormInsightDao == null) {
-            ormInsightDao = getDao(OrmInsight.class);
+            ormInsightDao = getOrmDao(OrmInsight.class);
         }
         return ormInsightDao;
     }
 
     public Dao<OrmInsightMetaData, Integer> getInsightMetaDataDao() throws SQLException {
         if (ormInsightMetaDataDao == null) {
-            ormInsightMetaDataDao = getDao(OrmInsightMetaData.class);
+            ormInsightMetaDataDao = getOrmDao(OrmInsightMetaData.class);
         }
         return ormInsightMetaDataDao;
     }
