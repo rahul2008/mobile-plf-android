@@ -11,7 +11,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
@@ -24,6 +23,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.logout.URLogout;
+import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -51,6 +52,7 @@ import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -76,7 +78,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
-
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaInterface myaInterface = getInterface();
@@ -138,25 +139,33 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onLogoutClicked() {
+            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
+                URLogout urLogout=new URLogout();
+                urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
+                    @Override
+                    public void onLogoutResultSuccess() {
+                        ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                        myaLogoutListener.onLogoutSuccess();
+                    }
 
-                User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(actContext);
-                if(user.isUserSignIn()){
-                    user.logout(new LogoutHandler() {
-                        @Override
-                        public void onLogoutSuccess() {
-                            ((HamburgerActivity) actContext).onLogoutResultSuccess();
-                        }
+                    @Override
+                    public void onLogoutResultFailure(int i, String errorMessage) {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String Message = actContext.getString(R.string.MYA_Offline_message);
+                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        myaLogoutListener.onLogOutFailure();
+                    }
 
-                        @Override
-                        public void onLogoutFailure(int responseCode, String message) {
-                            String title = actContext.getString(R.string.MYA_Offline_title);
-                            String errorMessage = actContext.getString(R.string.MYA_Offline_message);
-                            new DialogView(title, errorMessage).showDialog(getFragmentActivity());
-                        }
-                    });
-                }
-
+                    @Override
+                    public void onNetworkError(String errorMessage) {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String Message = actContext.getString(R.string.MYA_Offline_message);
+                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        myaLogoutListener.onLogOutFailure();
+                    }
+                });
+                User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
+                urLogout.performLogout(actContext,user);
             }
         };
     }

@@ -226,12 +226,12 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setExpirationDate(String timestamp) {
+    public void setExpirationDate(DateTime timestamp) {
         expiration_date = timestamp;
     }
 
     @Override
-    public String getExpirationDate() {
+    public DateTime getExpirationDate() {
         return expiration_date;
     }
 }

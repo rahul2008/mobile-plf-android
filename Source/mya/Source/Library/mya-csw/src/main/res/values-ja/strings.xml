@@ -54,7 +54,7 @@
   <string name="mya_csw_justintime_accept">[ja]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ja]Maybe later</string>
   <string name="mya_csw_justintime_title">[ja]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ja]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ja]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[ja]What do we have to offer?</string>
   <string name="mya_logout_message">アプリケーションをログアウトします。ログアウト後はいつでも再度ログインできます。</string>
   <string name="mya_logout_title">ログアウトしますか？</string>

@@ -18,5 +18,5 @@
     <string name="accent_color_range_text">Accent color range</string>
     <string name="content_desc_close">close</string>
     <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
-
+    <string name="mya_config_tab">Configurable tab</string>
 </resources>

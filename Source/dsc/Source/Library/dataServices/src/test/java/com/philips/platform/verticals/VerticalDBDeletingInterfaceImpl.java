@@ -77,11 +77,6 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteExpiredInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException {
-
-    }
-
-    @Override
     public int deleteSyncBit(SyncType syncType) throws SQLException {
         return 0;
     }

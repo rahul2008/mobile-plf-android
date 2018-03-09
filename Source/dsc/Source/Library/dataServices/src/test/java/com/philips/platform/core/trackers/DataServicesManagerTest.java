@@ -806,6 +806,18 @@ public class DataServicesManagerTest {
         verify(eventingMock).post((DeleteExpiredInsightRequest) any());
     }
 
+    @Test
+    public void resetMigrationFlag_shouldSetGDPRMigrationFlag() {
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(true);
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.resetGDPRMigrationFlag();
+
+        verify(prefsEditorMock).putBoolean(eq(GDPR_MIGRATION_FLAG), eq(false));
+        verify(prefsEditorMock).apply();
+    }
+
     private void givenFailedDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override

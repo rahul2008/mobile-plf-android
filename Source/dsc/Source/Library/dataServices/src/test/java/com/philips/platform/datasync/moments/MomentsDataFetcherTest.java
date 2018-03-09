@@ -199,16 +199,16 @@ public class MomentsDataFetcherTest {
         thenNoEventIsPosted();
     }
 
-    private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE),
-                lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
-    }
-
     @Test
     public void fetchDataByDateRange_givenSyncUrl() {
         givenMomentsFromClient();
         whenFetchDataByDateRange();
         thenVerifyClientIsInvlokedTwice();
+    }
+
+    private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE),
+                lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
     }
 
     private void givenRetrofitErrorFromClient() {

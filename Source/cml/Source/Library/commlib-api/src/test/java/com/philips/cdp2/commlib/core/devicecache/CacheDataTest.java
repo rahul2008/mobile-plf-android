@@ -66,7 +66,7 @@ public class CacheDataTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 callables[0] = invocation.getArgument(0);
-                return null;
+                return futureMock;
             }
         }).when(executorMock).schedule(isA(Callable.class), anyLong(), isA(TimeUnit.class));
         new CacheData(executorMock, expirationCallbackMock, 0L, networkNodeMock);
@@ -88,7 +88,7 @@ public class CacheDataTest {
 
         cacheData.resetTimer();
 
-        verify(futureMock).cancel(false);
+        verify(futureMock).cancel(true);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class CacheDataTest {
 
         cacheData.stopTimer();
 
-        verify(futureMock).cancel(false);
+        verify(futureMock).cancel(true);
     }
 
     @Test

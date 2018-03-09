@@ -74,6 +74,7 @@ ext.philipsdeps = [
         dataServicesUApp                : [group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversionsuffix, changing: true],
         devicepairingUApp               : [group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversionsuffix, changing: true],
         telehealth                      : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
+        telehealthUApp                  : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
         ewsUApp                         : [group: 'com.philips.cdp', name: 'ewsUApp', version: platformversionsuffix, changing: true],
         IconFont                        : [group: 'com.philips.cdp', name: 'IconFont', version: platformversionsuffix, changing: true]
 ]

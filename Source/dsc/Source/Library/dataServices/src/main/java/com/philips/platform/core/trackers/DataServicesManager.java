@@ -634,6 +634,10 @@ public class DataServicesManager {
         return gdprStorage.getBoolean(GDPR_MIGRATION_FLAG, false);
     }
 
+    public void resetGDPRMigrationFlag() {
+        gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, false).apply();
+    }
+
     private void storeGdprMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
     }

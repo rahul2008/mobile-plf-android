@@ -49,4 +49,6 @@ public interface Moment extends BaseAppData, DateData, Serializable {
 
     @NonNull
     String getAnalyticsId();
+
+    void setExpirationDate(DateTime expirationDate);
 }

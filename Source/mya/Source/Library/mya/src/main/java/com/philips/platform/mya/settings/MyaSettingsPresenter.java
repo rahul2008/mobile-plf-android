@@ -14,6 +14,7 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.URL;
@@ -21,12 +22,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
+class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter, MyaListener.MyaLogoutListener {
 
     private MyaSettingsContract.View view;
 
     MyaSettingsPresenter(MyaSettingsContract.View view) {
         this.view = view;
+
     }
 
     @Override
@@ -51,7 +53,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        MyaHelper.getInstance().getMyaListener().onLogoutClicked();
+        MyaHelper.getInstance().getMyaListener().onLogoutClicked(this);
     }
 
     @Override
@@ -86,4 +88,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return profileList;
     }
 
+    @Override
+    public void onLogoutSuccess() {
+        view.exitMyAccounts();
+    }
+
+    @Override
+    public void onLogOutFailure() {
+
+    }
 }
