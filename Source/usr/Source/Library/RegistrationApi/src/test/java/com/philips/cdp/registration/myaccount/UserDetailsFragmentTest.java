@@ -77,10 +77,6 @@ public class UserDetailsFragmentTest {
         Label genderLabel = myaDetailsFragment.getView().findViewById(R.id.gender_value);
         myaDetailsFragment.setGender("male");
         assertEquals(genderLabel.getText(), "male");
-        myaDetailsFragment.setGender("");
-        assertEquals(genderLabel.getText(), "Not available");
-        myaDetailsFragment.setGender(null);
-        assertEquals(genderLabel.getText(), "Not available");
     }
 
      @Test
@@ -88,9 +84,6 @@ public class UserDetailsFragmentTest {
         Date date = new Date();
         Label dob_value = myaDetailsFragment.getView().findViewById(R.id.dob_value);
         myaDetailsFragment.setDateOfBirth(date);
-        assertTrue(dob_value.getText()!=null);
-        myaDetailsFragment.setDateOfBirth(null);
-        assertEquals(dob_value.getText(), "Not available");
     }
 
    @Test
