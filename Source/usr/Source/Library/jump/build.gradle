@@ -174,8 +174,8 @@ configurations.all {
 dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp:okhttp-apache:2.7.5'
     androidTestCompile 'junit:junit:4.12'
     compile('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0')
    // androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
