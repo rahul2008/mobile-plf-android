@@ -160,6 +160,7 @@ public class DataServicesManager {
     ErrorHandlingInterface errorHandlingInterface;
 
     SharedPreferences gdprStorage;
+    private Context dataServiceContext;
 
     @Singleton
     private DataServicesManager() {
@@ -180,6 +181,7 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
         initLogger();
     }
@@ -636,6 +638,14 @@ public class DataServicesManager {
 
     public void resetGDPRMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, false).apply();
+    }
+
+    public Context getDataServiceContext() {
+        return dataServiceContext;
+    }
+
+    public void setDataServiceContext(Context dataServiceContext) {
+        this.dataServiceContext = dataServiceContext;
     }
 
     private void storeGdprMigrationFlag() {

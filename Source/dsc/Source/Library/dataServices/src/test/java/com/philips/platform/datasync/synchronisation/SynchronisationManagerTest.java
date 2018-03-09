@@ -1,5 +1,8 @@
 package com.philips.platform.datasync.synchronisation;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -14,9 +17,12 @@ import org.mockito.Mock;
 
 import java.util.concurrent.ExecutorService;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SynchronisationManagerTest {
@@ -35,16 +41,30 @@ public class SynchronisationManagerTest {
 
     private SynchronisationManager synchronisationManager;
 
+    @Mock
+    private Context context;
+
+    @Mock
+    private SharedPreferences prefsMock;
+
+    @Mock
+    private SharedPreferences.Editor prefsEditorMock;
+
     @Before
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponent(appComponentMock);
+        DataServicesManager.getInstance().setDataServiceContext(context);
         synchronisationManager = new SynchronisationManager();
         eventingSpy = new EventingSpy();
         eventingSpy.postedEvent = null;
         synchronisationManager.mEventing = eventingSpy;
         synchronisationCompleteListenerSpy = new SynchronisationCompleteListenerSpy();
         synchronisationManager.mSynchronisationCompleteListener = synchronisationCompleteListenerSpy;
+        synchronisationManager.expiredDeletionTimeStorage = prefsMock;
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putString(anyString(), anyString())).thenReturn(prefsEditorMock);
+
     }
 
     @Test
@@ -88,6 +108,12 @@ public class SynchronisationManagerTest {
     public void shouldDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
         synchronisationManager.dataPullSuccess();
         thenVerifyEventIsInEventBus("DeleteExpiredInsightRequest");
+    }
+
+    @Test
+    public void shouldSaveLastDeletionDateTime_whenDataPushSuccessIsCalled() {
+        synchronisationManager.dataPullSuccess();
+        thenLastDeletionDateTimeIsStored();
     }
 
     @Test
@@ -156,6 +182,10 @@ public class SynchronisationManagerTest {
                 isThere = true;
         }
         assertTrue(isThere);
+    }
+
+    private void thenLastDeletionDateTimeIsStored() {
+        assertNotNull(synchronisationManager.expiredDeletionTimeStorage);
     }
 
     private void thenVerifyNoEventIsPosted() {

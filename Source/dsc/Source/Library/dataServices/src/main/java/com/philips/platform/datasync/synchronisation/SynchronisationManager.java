@@ -5,7 +5,9 @@
 */
 package com.philips.platform.datasync.synchronisation;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.DeleteExpiredInsightRequest;
@@ -19,11 +21,13 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.exception.SyncException;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import javax.inject.Inject;
 
 public class SynchronisationManager implements SynchronisationChangeListener {
 
+    private static final String LAST_EXPIRED_DELETION_DATE_TIME = "LAST_EXPIRED_DELETION_DATE_TIME";
     private volatile boolean isSyncComplete = true;
 
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -31,10 +35,11 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     @Inject
     Eventing mEventing;
 
-    private SharedPreferences expiredDeletionTimeStorage;
+    SharedPreferences expiredDeletionTimeStorage;
 
     public SynchronisationManager() {
         DataServicesManager.getInstance().getAppComponent().injectSynchronisationManager(this);
+        expiredDeletionTimeStorage = DataServicesManager.getInstance().getDataServiceContext().getSharedPreferences(LAST_EXPIRED_DELETION_DATE_TIME, Context.MODE_PRIVATE);
     }
 
     public void startSync(SynchronisationCompleteListener synchronisationCompleteListener) {
@@ -64,6 +69,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         // TODO Only delete expired data when DEL Timestamp longer than 24 hours ago.
         clearExpiredMoments();
         clearExpiredInsights();
+        expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, DateTime.now(DateTimeZone.UTC).toString()).apply();
         postEventToStartPush();
     }
 
