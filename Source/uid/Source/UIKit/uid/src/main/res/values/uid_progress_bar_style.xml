@@ -93,7 +93,7 @@
             @drawable/uid_circular_progress_bar_big_indeterminate
         </item>
     </style>
-    
+
     <style name="UIDIndeterminateLinearProgress">
         <item name="uidIndeterminateLinearProgressBGColor">?attr/uidTrackDetailNormalOffBackgroundColor</item>
         <item name="uidIndeterminateLinearProgressStartColor">@android:color/transparent</item>

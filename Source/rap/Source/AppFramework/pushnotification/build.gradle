@@ -1,15 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'jacoco'
-
-apply from: "../scripts/task_reporting_pushnotification.gradle"
 apply from: "../scripts/versions.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: "../scripts/flavors_pushnotification.gradle"
 
-jacoco {
-    toolVersion = versions.jacoco
-}
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -31,7 +25,6 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.trickyandroid
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
@@ -79,9 +72,6 @@ allprojects {
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -139,7 +129,7 @@ dependencies {
        debugCompile project(path: ':AppInfra', configuration: 'debug')
        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
     }

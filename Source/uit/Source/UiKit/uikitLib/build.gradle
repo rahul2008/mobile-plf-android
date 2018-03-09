@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply from: './jacoco.gradle'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -65,9 +65,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 configurations.all {
     // check for updates every build

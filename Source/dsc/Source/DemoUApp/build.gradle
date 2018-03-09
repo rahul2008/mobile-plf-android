@@ -6,7 +6,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "dataServicesUApp"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk

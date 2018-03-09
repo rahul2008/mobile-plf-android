@@ -15,9 +15,9 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.catk.model.ConsentDefinition;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
@@ -77,7 +77,7 @@ public class DemoApplication extends MultiDexApplication {
 
     private void initCatk() {
         CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface).setConsentDefinitions(createConsentDefinitions(Locale.US));
-        ConsentAccessToolKit.getInstance().init(catkBuilder.build());
+        ConsentsClient.getInstance().init(catkBuilder.build());
     }
 
     private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {

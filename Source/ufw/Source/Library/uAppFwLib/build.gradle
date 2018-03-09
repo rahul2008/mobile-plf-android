@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 def buildOutputDir
 
 buildscript {
@@ -71,9 +71,6 @@ allprojects {
         group = 'com.philips.cdp'
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -199,10 +196,10 @@ dependencies {
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        compile (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }

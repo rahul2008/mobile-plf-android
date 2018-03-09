@@ -48,6 +48,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
     private AlertDialogFragment alertDialogFragment;
+    private static final long serialVersionUID = -6635233525340545668L;
+
 
     public abstract int getActionbarTitleResId();
 

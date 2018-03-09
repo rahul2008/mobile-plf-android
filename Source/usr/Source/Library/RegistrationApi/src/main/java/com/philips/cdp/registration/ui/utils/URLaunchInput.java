@@ -16,6 +16,9 @@ public class URLaunchInput extends UappLaunchInput {
 
     private RegistrationContentConfiguration registrationContentConfiguration;
 
+    private static final long serialVersionUID = 1128016096756071382L;
+
+
     /**
      * Get status of is current fragment need to add to back stack or not.
      *

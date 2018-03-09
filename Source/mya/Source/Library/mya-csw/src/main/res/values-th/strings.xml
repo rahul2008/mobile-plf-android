@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[th]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">มีปัญหาในการเชื่อมต่อกับเซิร์ฟเวอร์ ตรวจสอบให้แน่ใจว่าตั้งวัน/เวลาบนอุปกรณ์ของคุณถูกต้องแล้ว หากปัญหายังคงอยู่ โปรดล็อกเอาท์และล็อกอิน</string>
+  <string name="csw_offline_message">[th]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[th]You are offline</string>
+  <string name="csw_ok">[th]OK</string>
+  <string name="csw_privacy_settings">[th]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[th]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[th]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[th]Problem occurred</string>
+  <string name="mya_Account_settings">การตั้งค่าบัญชี</string>
+  <string name="mya_Address">ที่อยู่</string>
+  <string name="mya_Cancel">ยกเลิก</string>
+  <string name="mya_Consent_Help_Label">หมายความว่าอย่างไร</string>
+  <string name="mya_Country">ประเทศ</string>
+  <string name="mya_Date_of_birth">วันเกิด</string>
+  <string name="mya_Email_Validation_message">อีเมล์แอดเดรสไม่ได้รับการยืนยัน</string>
+  <string name="mya_Email_address">อีเมล์แอดเดรส</string>
+  <string name="mya_Gender">เพศ</string>
+  <string name="mya_Info">คุณต้องการเปลี่ยน ID ล็อกอินหรือรหัสผ่านหรือไม่ เข้าชมเว็บไซต์ของเรา</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[th]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">รายละเอียดการล็อกอิน</string>
+  <string name="mya_Logout">ล็อกเอาต์</string>
+  <string name="mya_Mobile_number">หมายเลขโทรศัพท์มือถือ</string>
+  <string name="mya_My_account">แอคเคาท์ของฉัน</string>
+  <string name="mya_My_details">ข้อมูลของฉัน</string>
+  <string name="mya_My_orders">คำสั่งซื้อ</string>
+  <string name="mya_My_products">ผลิตภัณฑ์</string>
+  <string name="mya_My_subscriptions">ความเป็นสมาชิกของฉัน</string>
+  <string name="mya_Name">ชื่อ</string>
+  <string name="mya_Not_Available">ไม่มี</string>
+  <string name="mya_Notifications">การแจ้งเตือน</string>
+  <string name="mya_Offline_message">ดูเหมือนว่าการเชื่อมต่ออินเตอร์เน็ตของคุณไม่ทำงาน โปรดตรวจสอบและลองอีกครั้ง</string>
+  <string name="mya_Offline_title">คุณอยู่ในสถานะออฟไลน์</string>
+  <string name="mya_Ok">ตกลง</string>
+  <string name="mya_Personal_details">รายละเอียดส่วนตัว</string>
+  <string name="mya_Privacy_Settings">ค่าความเป็นส่วนตัว</string>
+  <string name="mya_Privacy_Settings_Desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่านประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+  <string name="mya_Problem_Occurred_Error_Message">มีปัญหาใน (error %d) โปรดลองอีกครั้ง</string>
+  <string name="mya_Problem_Occurred_Error_Title">เกิดปัญหาขึ้น</string>
+  <string name="mya_Profile">โปรไฟล์</string>
+  <string name="mya_Settings">การตั้งค่า</string>
+  <string name="mya_change_country">ล็อกเอาท์เพื่อเปลี่ยนประเทศ</string>
+  <string name="mya_change_country_message">โปรดล็อกเอาท์เพื่อเปลี่ยนประเทศที่คุณอาศัยอยู่ ซึ่งจะช่วยให้เราสามารถปรับแต่งการรับประกันและข้อมูลอื่นๆ ให้เข้ากับตำแหน่งของคุณ</string>
+  <string name="mya_csw_justintime_accept">[th]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[th]Maybe later</string>
+  <string name="mya_csw_justintime_title">[th]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[th]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[th]What do we have to offer?</string>
+  <string name="mya_logout_message">คุณจะออกจากแอปพลิเคชัน หลังจากคุณล็อกเอาท์แล้ว คุณสามารถล็อกอินใหม่ได้เสมอ</string>
+  <string name="mya_logout_title">คุณแน่ใจว่าต้องการออกจากระบบหรือไม่</string>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[ar]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">حدثت مشكلة في الاتصال بالخادم. تأكد من أن التاريخ/الوقت على جهازك صحيح. إذا استمرت المشكلة، فيرجى تسجيل الخروج وتسجيل الدخول من جديد.</string>
+  <string name="csw_offline_message">[ar]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[ar]You are offline</string>
+  <string name="csw_ok">[ar]OK</string>
+  <string name="csw_privacy_settings">[ar]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[ar]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[ar]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[ar]Problem occurred</string>
+  <string name="mya_Account_settings">إعدادات الحساب</string>
+  <string name="mya_Address">العنوان</string>
+  <string name="mya_Cancel">إلغاء</string>
+  <string name="mya_Consent_Help_Label">لم أفهم</string>
+  <string name="mya_Country">البلد</string>
+  <string name="mya_Date_of_birth">تاريخ الميلاد</string>
+  <string name="mya_Email_Validation_message">لم يتم تأكيد عنوان البريد الإلكتروني</string>
+  <string name="mya_Email_address">عنوان البريد الإلكتروني</string>
+  <string name="mya_Gender">الجنس</string>
+  <string name="mya_Info">هل تريد تغيير معرّف تسجيل الدخول وكلمة المرور؟ تفضّل بزيارة موقعنا على ويب.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[ar]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">تفاصيل تسجيل الدخول</string>
+  <string name="mya_Logout">تسجيل الخروج</string>
+  <string name="mya_Mobile_number">رقم الهاتف المحمول</string>
+  <string name="mya_My_account">حسابي</string>
+  <string name="mya_My_details">التفاصيل الخاصة بي</string>
+  <string name="mya_My_orders">طلباتي</string>
+  <string name="mya_My_products">منتجاتي</string>
+  <string name="mya_My_subscriptions">اشتراكاتي</string>
+  <string name="mya_Name">الاسم</string>
+  <string name="mya_Not_Available">غير متوفر</string>
+  <string name="mya_Notifications">الإعلامات</string>
+  <string name="mya_Offline_message">يبدو أن اتصال الإنترنت لديك لا يعمل. يُرجى التحقق من الاتصال وإعادة المحاولة</string>
+  <string name="mya_Offline_title">أنت غير متصل</string>
+  <string name="mya_Ok">موافق</string>
+  <string name="mya_Personal_details">التفاصيل الشخصية</string>
+  <string name="mya_Privacy_Settings">إعدادات الخصوصية</string>
+  <string name="mya_Privacy_Settings_Desc">تحكم بخصوصيتك: اقرأ _إشعار الخصوصية_ للحصول على مزيد من المعلومات</string>
+  <string name="mya_Problem_Occurred_Error_Message">حدثت مشكلة (خطأ %d). يرجى إعادة المحاولة.</string>
+  <string name="mya_Problem_Occurred_Error_Title">حدثت مشكلة</string>
+  <string name="mya_Profile">ملف التعريف</string>
+  <string name="mya_Settings">الإعدادات</string>
+  <string name="mya_change_country">تسجيل الخروج لتغيير البلد</string>
+  <string name="mya_change_country_message">يرجى تسجيل الخروج لتغيير البلد حيث تقيم. سيسمح لنا ذلك بتخصيص الضمان ومعلومات أخرى بحسب موقعك.</string>
+  <string name="mya_csw_justintime_accept">[ar]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[ar]Maybe later</string>
+  <string name="mya_csw_justintime_title">[ar]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ar]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[ar]What do we have to offer?</string>
+  <string name="mya_logout_message">سيتم تسجيل خروجك من التطبيق. يمكنك دائمًا تسجيل الدخول من جديد بعد تسجيل الخروج.</string>
+  <string name="mya_logout_title">هل تريد بالتأكيد تسجيل الخروج؟</string>
+</resources>

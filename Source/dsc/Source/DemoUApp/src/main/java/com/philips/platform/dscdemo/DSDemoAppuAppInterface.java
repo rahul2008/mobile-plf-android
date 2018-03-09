@@ -13,13 +13,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
-    private Context mContext;
+    private Context context;
 
     /**
      * @param uappDependencies - App dependencies
@@ -41,13 +42,19 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        mContext = uappSettings.getContext();
+        context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
         JustInTimeConsentDependencies.consentHandlerInterface = dsDependencies.momentConsentHandler;
         JustInTimeConsentDependencies.consentDefinition = dsDependencies.momentConsentDefinition;
         AppInfraInterface appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
-        JustInTimeConsentDependencies.textResources = dsDependencies.textResources;
+        JustInTimeTextResources textResources = new JustInTimeTextResources();
+        textResources.titleTextRes = R.string.DSC_CSW_JustInTime_Title;
+        textResources.acceptTextRes = R.string.DSC_CSW_JustInTime_Accept;
+        textResources.rejectTextRes = R.string.DSC_CSW_JustInTime_Reject;
+        textResources.userBenefitsTitleRes = R.string.mya_csw_justintime_user_benefits_title;
+        textResources.userBenefitsDescriptionRes = R.string.mya_csw_justintime_user_benefits_description;
+        JustInTimeConsentDependencies.textResources = textResources;
 
         DemoAppManager mDemoAppManager = DemoAppManager.getInstance();
         mDemoAppManager.initPreRequisite(uappSettings.getContext(), appInfra);
@@ -86,9 +93,9 @@ public class DSDemoAppuAppInterface implements UappInterface {
     }
 
     private void launchActivity(final Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(mContext, activityClass);
+        Intent intent = new Intent(context, activityClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        context.startActivity(intent);
     }
 
     private void launchAsFragment(UiLauncher uiLauncher) {
@@ -100,7 +107,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     class CheckConsentsListener implements CheckConsentsCallback {
         private UiLauncher uiLauncher;
 
-        public CheckConsentsListener(UiLauncher uiLauncher) {
+        private CheckConsentsListener(UiLauncher uiLauncher) {
             this.uiLauncher = uiLauncher;
         }
 
@@ -115,6 +122,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
         @Override
         public void onGetConsentsFailed(ConsentError error) {
+            launchUApp(uiLauncher);
         }
     }
 

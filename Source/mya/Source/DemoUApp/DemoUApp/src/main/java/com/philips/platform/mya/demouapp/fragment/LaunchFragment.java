@@ -13,6 +13,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,24 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.consents.MarketingConsentHandler;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.csw.CswDependencies;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
+import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.R;
@@ -35,39 +49,33 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 
-public class LaunchFragment extends BaseFragment implements View.OnClickListener {
+
+public class LaunchFragment extends BaseFragment implements View.OnClickListener,MyAccountUIEventListener {
 
     public int checkedId = R.id.radioButton;
+    private ArrayList<ConsentConfiguration> consentConfigurationList;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.demo_u_app_layout, container, false);
         setUp(view);
+        init();
         return view;
     }
 
@@ -89,10 +97,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         launch_my_account.setOnClickListener(this);
     }
 
-    protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
-        return new ThemeConfiguration(context, ColorRange.ORANGE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
-    }
-
     @Override
     public int getPageTitle() {
         return 0;
@@ -102,11 +106,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
 
         try {
-            initCatk();
-            MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
-            MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
+            MyaLaunchInput launchInput = new MyaLaunchInput(getContext());
+            MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
+            String[] profileItems = {"MYA_My_details"};
+            String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
+            launchInput.setProfileMenuList(Arrays.asList(profileItems));
+            launchInput.setSettingsMenuList(Arrays.asList(settingItems));
+            launchInput.setMyaListener(getMyaListener());
+            launchInput.setUserDataInterface(MyAccountDemoUAppInterface.getUserDataInterface());
+            launchInput.setMyaTabConfig(myaTabConfig);
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
+            myaInterface.init(getUappDependencies(), new MyaSettings(getContext()));
             if (checkedId == R.id.radioButton) {
                 ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
                         ((DemoAppActivity) getActivity()).getThemeConfig(),
@@ -127,86 +137,51 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         } catch (CatkInputs.InvalidInputException e) {
             e.printStackTrace();
-
-            initCatk();
-            MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra(), MyaHelper.getInstance().getConsentConfigurationList());
-            MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
-            MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
-            if (checkedId == R.id.radioButton) {
-                ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
-                        ((DemoAppActivity) getActivity()).getThemeConfig(),
-                        ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
-                myaInterface.launch(activityLauncher, launchInput);
-            } else {
-                myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
-                    @Override
-                    public void updateActionBar(@StringRes int i, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(i);
-                    }
-
-                    @Override
-                    public void updateActionBar(String s, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(s);
-                    }
-                }), launchInput);
-            }
         }
 
-    private void initCatk() {
-        List<ConsentDefinition> consentDefinitions = createConsentDefinitions(getLocale(MyAccountDemoUAppInterface.getAppInfra()));
-        ConsentAccessToolKit kit = ConsentAccessToolKit.getInstance();
-
-        CatkInputs.Builder builder = new CatkInputs.Builder();
-        kit.init(builder.setContext(getActivity()
-                .getApplicationContext())
-                .setConsentDefinitions(consentDefinitions)
-                .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
-                .build());
-
-
-        List<ConsentConfiguration> consentConfigurations = new ArrayList<>();
-        consentConfigurations.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
-        MyaHelper.getInstance().setConfigurations(consentConfigurations);
-
-        List<ConsentConfiguration> consentHandlerMappingList = new ArrayList<>();
-        consentHandlerMappingList.add(new ConsentConfiguration(consentDefinitions, new ConsentInteractor(kit)));
-        MyaHelper.getInstance().setConfigurations(consentHandlerMappingList);
     }
 
-    private Locale getLocale(AppInfraInterface appInfra) {
-        Locale locale = Locale.US;
-        if (appInfra != null && appInfra.getInternationalization() != null && appInfra.getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = appInfra.getInternationalization().getUILocaleString().split("_");
-            if (localeComponents.length == 2) {
-                locale = new Locale(localeComponents[0], localeComponents[1]);
-            }
-        }
-        return locale;
-    }
-
-    @NonNull
     private MyaListener getMyaListener() {
         return new MyaListener() {
             @Override
-            public boolean onClickMyaItem(String itemName) {
+            public boolean onSettingsMenuItemSelected(String itemName) {
+                if (itemName.equalsIgnoreCase(getString(com.philips.platform.mya.R.string.mya_log_out))) {
+
+                } else if (itemName.equals("Mya_Privacy_Settings")) {
+                    RestInterface restInterface = getRestClient();
+                    if (restInterface.isInternetReachable()) {
+                        CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra(), consentConfigurationList);
+                        PermissionHelper.getInstance().setMyAccountUIEventListener(LaunchFragment.this);
+                        CswInterface cswInterface = getCswInterface();
+                        UappSettings uappSettings = new UappSettings(getContext());
+                        cswInterface.init(dependencies, uappSettings);
+                        cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), buildLaunchInput(true, getContext()));
+                        return true;
+                    } else {
+                        String title = getString(com.philips.platform.mya.R.string.MYA_Offline_title);
+                        String message = getString(com.philips.platform.mya.R.string.MYA_Offline_message);
+                        showDialog(title, message);
+                    }
+                }
                 return false;
             }
 
             @Override
-
-            public boolean onLogOut() {
+            public boolean onProfileMenuItemSelected(String itemName) {
+                if (itemName.equals(getString(com.philips.platform.mya.R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
+                    URLaunchInput urLaunchInput = new URLaunchInput();
+                    urLaunchInput.enableAddtoBackStack(true);
+                    urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+                    URInterface urInterface = new URInterface();
+                    urInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), urLaunchInput);
+                    return true;
+                }
                 return false;
-            }
-
-            @Override
-            public DataInterface getDataInterface(DataModelType modelType) {
-                return LaunchFragment.this.getDataInterface(modelType);
             }
 
             @Override
             public void onError(MyaError myaError) {
-                if (myaError == MyaError.USER_NOT_SIGNED_IN) {
+                if (myaError == MyaError.USERNOTLOGGEDIN) {
                     Toast.makeText(getActivity(), "User not signed in", Toast.LENGTH_SHORT).show();
                     URDemouAppInterface uAppInterface;
                     uAppInterface = new URDemouAppInterface();
@@ -215,30 +190,92 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
                 }
             }
+
+
+            @Override
+            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
+
+                User user = MyAccountDemoUAppInterface.getUserObject();
+                if (user.isUserSignIn()) {
+                    user.logout(new LogoutHandler() {
+                        @Override
+                        public void onLogoutSuccess() {
+                            myaLogoutListener.onLogoutSuccess();
+                        }
+
+                        @Override
+                        public void onLogoutFailure(int responseCode, String message) {
+                            new DialogView().showDialog(getActivity(), getString(com.philips.platform.mya.R.string.MYA_Offline_title),getString(com.philips.platform.mya.R.string.MYA_Offline_message));
+                        }
+                    });
+                }
+
+            }
         };
     }
 
-    public DataInterface getDataInterface(DataModelType modelType) {
-        if (modelType == DataModelType.USER)
-            return new UserDataModelProvider(this.getActivity());
 
-        return null;
+    @NonNull
+    protected MyaDependencies getUappDependencies() {
+        return new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
     }
 
+    private RestInterface getRestClient() {
+        return MyAccountDemoUAppInterface.getAppInfra().getRestClient();
+    }
 
-    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
+    @Override
+    public void onPrivacyNoticeClicked() {
+
+    }
+
+    private CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    private void init() {
+        CatkInputs catkInputs = new CatkInputs.Builder()
+                .setContext(getContext())
+                .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
+                .setConsentDefinitions(createCatkDefinitions(getContext()))
+                .build();
+        ConsentsClient.getInstance().init(catkInputs);
+        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(getContext());
+        setConsentConfiguration(getContext(), MyAccountDemoUAppInterface.getAppInfra(), catkInputs, urDefinitions);
+    }
+
+    /**
+     * <p>
+     * Creates a list of ConsentDefinitions</p
+     *
+     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @return non-null list (may be empty though)
+     */
+    @VisibleForTesting
+    List<ConsentDefinition> createCatkDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("moment"), 1,
-                currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("coaching"),
-                1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to store binary data", "Giving this consent you are allowing Philips to store information related to you", Collections.singletonList("binary"), 1,
-                currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to use my mobile application usage statistics", "Giving this consent you are allowing Philips to process mobile usage statistics related to you", Collections.singletonList("clickstream"), 1,
-                currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to use my data for Research and Analytics purposes", "Research and Analytics purpose explanation", Arrays.asList("research", "analytics"), 1, currentLocale));
         return definitions;
+    }
 
+    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        return definitions;
+    }
+
+    private void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
+        consentConfigurationList = new ArrayList<>();
+        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
+        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+    }
+
+    private void showDialog(String title, String message) {
+        new DialogView().showDialog(getActivity(), title, message);
+    }
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
     }
 
 }

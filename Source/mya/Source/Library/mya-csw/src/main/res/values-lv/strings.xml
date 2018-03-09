@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[lv]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Radās problēma, veidojot savienojumu ar serveri. Pārliecinieties, vai jūsu ierīcē ir pareizi iestatīts datums/laiks. Ja problēma joprojām pastāv, lūdzu, atsakieties un piesakieties vēlreiz.</string>
+  <string name="csw_offline_message">[lv]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[lv]You are offline</string>
+  <string name="csw_ok">[lv]OK</string>
+  <string name="csw_privacy_settings">[lv]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[lv]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[lv]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[lv]Problem occurred</string>
+  <string name="mya_Account_settings">Konta iestatījumi</string>
+  <string name="mya_Address">Adrese</string>
+  <string name="mya_Cancel">Atcelt</string>
+  <string name="mya_Consent_Help_Label">Ko tas nozīmē?</string>
+  <string name="mya_Country">Valsts</string>
+  <string name="mya_Date_of_birth">Dzimšanas datums</string>
+  <string name="mya_Email_Validation_message">E-pasta adrese nav apstiprināta</string>
+  <string name="mya_Email_address">E-pasta adrese</string>
+  <string name="mya_Gender">Dzimums</string>
+  <string name="mya_Info">Vai vēlaties mainīt savu pieteikšanās ID vai paroli? Apmeklējiet mūsu tīmekļa vietni.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[lv]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Pieteikšanās detaļas</string>
+  <string name="mya_Logout">Atteikties</string>
+  <string name="mya_Mobile_number">Mob. tālruņa numurs</string>
+  <string name="mya_My_account">Mans konts</string>
+  <string name="mya_My_details">Mana informācija</string>
+  <string name="mya_My_orders">Mani pasūtījumi</string>
+  <string name="mya_My_products">Mani produkti</string>
+  <string name="mya_My_subscriptions">Mani abonementi</string>
+  <string name="mya_Name">Vārds</string>
+  <string name="mya_Not_Available">Nav pieejams</string>
+  <string name="mya_Notifications">Paziņojumi</string>
+  <string name="mya_Offline_message">Iespējams, nedarbojas jūsu interneta savienojums. Lūdzu, pārbaudiet un mēģiniet vēlreiz.</string>
+  <string name="mya_Offline_title">Jūs esat bezsaistē</string>
+  <string name="mya_Ok">Labi</string>
+  <string name="mya_Personal_details">Personas informācija</string>
+  <string name="mya_Privacy_Settings">Privātuma iestatījumi</string>
+  <string name="mya_Privacy_Settings_Desc">Kontrolējiet savu privātumu. Lai iegūtu papildinformāciju, izlasiet _privacy notice_.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Ir radusies problēma (error %d). Lūdzu, mēģiniet vēlreiz.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Radās problēma</string>
+  <string name="mya_Profile">Profils</string>
+  <string name="mya_Settings">Iestatījumi</string>
+  <string name="mya_change_country">Atteikties, lai mainītu valsti</string>
+  <string name="mya_change_country_message">Lūdzu, izejiet, lai mainītu valsti, kurā dzīvojat. Tādējādi mēs varēsim pielāgot garantiju un citu informāciju jūsu atrašanās vietai.</string>
+  <string name="mya_csw_justintime_accept">[lv]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[lv]Maybe later</string>
+  <string name="mya_csw_justintime_title">[lv]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[lv]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[lv]What do we have to offer?</string>
+  <string name="mya_logout_message">Tiks veikta jūsu atteikšanās lietotnē. Pēc atteikšanās jūs jebkurā laikā varat pieteikties vēlreiz.</string>
+  <string name="mya_logout_title">Vai tiešām vēlaties atteikties?</string>
+</resources>

@@ -9,7 +9,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "commlib-demouapp"
-version = objcdp.getVersion(platformversion)
 
 android {
     compileSdkVersion versions.sdk
@@ -81,9 +80,9 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'commlib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.cloudcontroller
+        compile philipsdeps.commlib
+        compile philipsdeps.uAppFwLib
     }
 
     compile deps.joda_time

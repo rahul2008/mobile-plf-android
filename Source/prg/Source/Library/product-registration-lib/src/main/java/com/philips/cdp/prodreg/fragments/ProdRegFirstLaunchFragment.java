@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
@@ -39,6 +38,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private ImageView productImage;
     private TextView benefitsMessage;
     private Button registerButton;
+    private static final long serialVersionUID = -6635233525340545669L;
 
 
     @Override
@@ -78,9 +78,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return view;
     }
 
-    @SuppressWarnings("noinspection unchecked")
+    @SuppressWarnings("unchecked")
     @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle    savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         dependencies = getArguments();
         if (dependencies != null) {

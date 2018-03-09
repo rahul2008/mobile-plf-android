@@ -9,7 +9,6 @@ package com.philips.cdp.digitalcare.locatephilips.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -91,6 +90,7 @@ import com.philips.cdp.digitalcare.util.CustomSearchView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.shamanland.fonticon.FontIconDrawable;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -115,7 +115,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
-    protected SharedPreferences mSharedpreferences = null;
     private GoogleMap mMap = null;
     private Marker mCurrentPosition = null;
     private AtosResponseModel mAtosResponse = null;
@@ -144,7 +143,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private Button mButtonCall = null;
     private Button mButtonDirection = null;
     private CustomGeoAdapter mAdapter = null;
-    private ProgressDialog mDialog = null;
+    private ProgressAlertDialog mDialog = null;
     private ProgressBar mLocateNearProgressBar = null;
     private boolean isContactUsScreenLaunched = false;
     private Utils mUtils = null;
@@ -203,11 +202,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         validateAtosResponse(response);
                     }
                 });
-
-                if (!isEulaAccepted()) {
-                    showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
-                    setEulaPreference();
-                }
             }
         }
     };
@@ -314,7 +308,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     protected void startProgressDialog() {
         if (mDialog == null)
-            mDialog = new ProgressDialog(getActivity());
+            mDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
         mDialog.setMessage(getResources().getString(R.string.loading));
         mDialog.setCancelable(true);
         if (!(getActivity().isFinishing())) {
@@ -421,24 +415,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMapFragment.getMapAsync(this);
         }
 
-    }
-
-    protected boolean isEulaAccepted() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-
-        boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
-        editor.commit();
-        return mBoolean;
-    }
-
-    protected void setEulaPreference() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
-                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
-        editor.putBoolean("acceptEula", true);
-        editor.commit();
     }
 
     /*
@@ -626,7 +602,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     }
                 } else {
                     DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" +
-                            permissions.toString());
+                            permissions[0]);
                 }
                 break;
             default:
@@ -980,6 +956,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @SuppressWarnings("deprecation")
     protected void setSearchIcon() {
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null)) {

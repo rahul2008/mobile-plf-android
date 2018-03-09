@@ -41,7 +41,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
             try {
                 THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
 
         } else if (componentID == R.id.vitals_skip) {

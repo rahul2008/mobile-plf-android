@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
 <resources>
-  <string name="csw_privacy_settings">en-GB-Privacy Settings</string>
-  <string name="csw_problem_occurred_error_title">en-GB-Problem Occurred</string>
-  <string name="csw_ok">en-GB-OK</string>
-  <string name="csw_consent_help_label">en-GB-What does this mean?</string>
-  <string name="csw_problem_occurred_error_message">en-GB-There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_invalid_access_token_error_message">en-GB-There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
-  <string name="csw_privacy_settings_desc">en-GB-Control Your Privacy. Read the privacy notice {link to app privacy notice} for more information.</string>
-  <string name="csw_offline_title">en-GB-You are offline</string>
-  <string name="csw_offline_message">en-GB-Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="mya_Account_settings">[en-GB]Account settings</string>
-  <string name="mya_Address">[en-GB]Address</string>
-  <string name="mya_Cancel">[en-GB]Cancel</string>
-  <string name="mya_Consent_Help_Label">[en-GB]What does this mean?</string>
-  <string name="mya_Country">[en-GB]Country</string>
-  <string name="mya_Date_of_birth">[en-GB]Date of birth</string>
-  <string name="mya_Email_Validation_message">[en-GB]Email address not confirmed</string>
-  <string name="mya_Email_address">[en-GB]Email address</string>
-  <string name="mya_Gender">[en-GB]Gender</string>
-  <string name="mya_Info">[en-GB]Do you want to change your login ID or password? Visit our website.</string>
+  <string name="csw_consent_help_label">[en-GB]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please log out and log in again.</string>
+  <string name="csw_offline_message">[en-GB]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[en-GB]You are offline</string>
+  <string name="csw_ok">[en-GB]OK</string>
+  <string name="csw_privacy_settings">[en-GB]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[en-GB]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[en-GB]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[en-GB]Problem occurred</string>
+  <string name="mya_Account_settings">Account settings</string>
+  <string name="mya_Address">Address</string>
+  <string name="mya_Cancel">Cancel</string>
+  <string name="mya_Consent_Help_Label">What does this mean?</string>
+  <string name="mya_Country">Country</string>
+  <string name="mya_Date_of_birth">Date of birth</string>
+  <string name="mya_Email_Validation_message">Email address not confirmed</string>
+  <string name="mya_Email_address">E-mail address</string>
+  <string name="mya_Gender">Gender</string>
+  <string name="mya_Info">Do you want to change your login ID or password? Visit our website.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">[en-GB]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
-  <string name="mya_Login_details">[en-GB]Login details</string>
-  <string name="mya_Logout">[en-GB]Log out</string>
-  <string name="mya_Mobile_number">[en-GB]Mobile number</string>
-  <string name="mya_My_account">[en-GB]My account</string>
-  <string name="mya_My_details">[en-GB]My details</string>
-  <string name="mya_My_orders">[en-GB]My orders</string>
-  <string name="mya_My_products">[en-GB]My products</string>
-  <string name="mya_My_subscriptions">[en-GB]My subscriptions</string>
-  <string name="mya_Name">[en-GB]Name</string>
-  <string name="mya_Not_Available">[en-GB]Not available</string>
-  <string name="mya_Notifications">[en-GB]Notifications</string>
-  <string name="mya_Offline_message">[en-GB]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="mya_Offline_title">[en-GB]You are offline</string>
-  <string name="mya_Ok">[en-GB]OK</string>
-  <string name="mya_Personal_details">[en-GB]Personal details</string>
-  <string name="mya_Privacy_Settings">[en-GB]Privacy settings</string>
-  <string name="mya_Privacy_Settings_Desc">[en-GB]Control your privacy. Read the _privacy notice_ for more information.</string>
-  <string name="mya_Problem_Occurred_Error_Message">[en-GB]There was a problem (error %d). Please try again.</string>
-  <string name="mya_Problem_Occurred_Error_Title">[en-GB]A problem occurred</string>
-  <string name="mya_Profile">[en-GB]Profile</string>
-  <string name="mya_Settings">[en-GB]Settings</string>
-  <string name="mya_change_country">[en-GB]Logout to change country</string>
-  <string name="mya_change_country_message">[en-GB]Please logout to change the country you live in. This will lets us tailor the warranty and other information to your location</string>
-  <string name="mya_logout_message">[en-GB]You will be logged out of the application. After you log out, you can always login again.</string>
-  <string name="mya_logout_title">[en-GB]Are you sure you want to log out?</string>
+  <string name="mya_Login_details">Login details</string>
+  <string name="mya_Logout">Log out</string>
+  <string name="mya_Mobile_number">Mobile number</string>
+  <string name="mya_My_account">My account</string>
+  <string name="mya_My_details">My details</string>
+  <string name="mya_My_orders">My orders</string>
+  <string name="mya_My_products">My products</string>
+  <string name="mya_My_subscriptions">My subscriptions</string>
+  <string name="mya_Name">Name</string>
+  <string name="mya_Not_Available">Not available</string>
+  <string name="mya_Notifications">Notifications</string>
+  <string name="mya_Offline_message">Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="mya_Offline_title">You are offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Personal details</string>
+  <string name="mya_Privacy_Settings">Privacy settings</string>
+  <string name="mya_Privacy_Settings_Desc">Control your privacy. Read the _privacy notice_ for more information.</string>
+  <string name="mya_Problem_Occurred_Error_Message">There was a problem (error %d). Please try again.</string>
+  <string name="mya_Problem_Occurred_Error_Title">A problem occurred</string>
+  <string name="mya_Profile">Profile</string>
+  <string name="mya_Settings">Settings</string>
+  <string name="mya_change_country">Log out to change country</string>
+  <string name="mya_change_country_message">Please log out to change the country you live in. This will let us tailor the warranty and other information to your location</string>
+  <string name="mya_csw_justintime_accept">[en-GB]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[en-GB]Maybe later</string>
+  <string name="mya_csw_justintime_title">[en-GB]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[en-GB]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[en-GB]What do we have to offer?</string>
+  <string name="mya_logout_message">You will be logged out of the application. After you log out, you can always log in again.</string>
+  <string name="mya_logout_title">Are you sure you want to log out?</string>
 </resources>

@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -70,37 +72,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
-        super.onResume();
-        setCurrentTitle();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroyView");
     }
 
     @Override
@@ -170,10 +141,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 if (null != fragment.getUpdateTitleListener()) {
 
 
-                    if(this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment){
+                    if (this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment) {
                         fragment.getUpdateTitleListener().updateActionBar(
                                 getTitleResourceId(), true);
-                    }else{
+                    } else {
 
                         fragment.getUpdateTitleListener().updateActionBar(
                                 getTitleResourceId(), false);
@@ -209,31 +180,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         });
     }
 
-
-    protected void applyParams(Configuration config, View view, int width) {
-        if (width < dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648))) {
-            if (view instanceof RecyclerView) {
-                return;
-            }
-            applyDefaultMargin(view);
-        } else {
-            setMaxWidth(view);
-        }
-    }
-
-    private void setMaxWidth(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648));
-        view.setLayoutParams(params);
-    }
-
-    private void applyDefaultMargin(View view) {
-        ViewGroup.MarginLayoutParams mParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mParams.leftMargin = mParams.rightMargin = dpToPx((int) getResources().getInteger(R.integer.reg_layout_margin_16));
-        view.setLayoutParams(mParams);
-    }
-
-    private int dpToPx(int dp) {
+        private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -359,6 +306,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
                     }
                 }
             });
+        }
+    }
+
+
+    public ProgressAlertDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (this.isVisible()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
 

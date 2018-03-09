@@ -10,12 +10,12 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MyaLocalizationHandler {
 
-    public Map<String, String> getLocalisedList(Context context, ArrayList<?> propertyForKey, Map<String, String> map) {
+    public Map<String, String> getLocalisedList(Context context, List<?> propertyForKey, Map<String, String> map) {
         for (int i = 0; i < propertyForKey.size(); i++) {
             String profileKey = (String) propertyForKey.get(i);
             String stringResourceByName = getStringResourceByName(context, profileKey);

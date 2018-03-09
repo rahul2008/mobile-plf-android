@@ -70,6 +70,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -161,6 +162,18 @@ public class THSManager {
     private boolean mIsReturningUser = true;
     private String ServerURL=null;
     private String mCountry="";
+    ConsentDefinition mConsentDefinition;
+
+
+    public ConsentDefinition getConsentDefinition() {
+        return mConsentDefinition;
+    }
+
+    public void setConsentDefinition(ConsentDefinition mConsentDefinition) {
+        this.mConsentDefinition = mConsentDefinition;
+    }
+
+
 
     public String getCountry() {
         return mCountry;
@@ -191,11 +204,6 @@ public class THSManager {
     private User mUser;
 
     private AppInfraInterface mAppInfra;
-
-
-
-
-
     AppTaggingInterface mAppTaggingInterface;
     LoggingInterface mLoggingInterface;
 
@@ -475,10 +483,9 @@ public class THSManager {
             password.append(firstThreeChars.charAt(index));
         }
 
-        String randomPassowrd = password.toString();
-        //AmwellLog.e(AmwellLog.LOG,"password -> " + randomPassowrd);
-        if(validatePassword(randomPassowrd)){
-            return randomPassowrd;
+        String randomPassword = password.toString();
+        if(validatePassword(randomPassword)){
+            return randomPassword;
         }else {
             return generatePasswordRandomly();
         }
@@ -486,7 +493,6 @@ public class THSManager {
 
     protected boolean validatePassword(String password){
         if(password.matches(".*[a-z].*") && password.matches(".*[A-Z].*") && password.matches(".*[0-9].*")){
-            //AmwellLog.e(AmwellLog.LOG,"password Validated -> " + password);
             return true;
         }
         return false;
@@ -1168,7 +1174,7 @@ public class THSManager {
         try {
             healthplans = getAwsdk(context).getConsumerManager().getHealthPlans();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
         return healthplans;
 

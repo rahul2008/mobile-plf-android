@@ -13,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaPager;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class MyaTabFragment extends MyaBaseFragment {
@@ -24,6 +27,7 @@ public class MyaTabFragment extends MyaBaseFragment {
     private String TAB_BUNDLE = "tab_bundle";
     private String TAB_POSITION = "tab_position";
     private ViewPager viewPager;
+    private MyaLaunchInput myaLaunchInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,18 +37,25 @@ public class MyaTabFragment extends MyaBaseFragment {
             UIDHelper.injectCalligraphyFonts();
             TabLayout tabLayout = view.findViewById(R.id.tab_layout);
             viewPager = view.findViewById(R.id.pager);
-            addTabs(tabLayout);
             MyaPager adapter;
             int tabPosition=0;
-            if (savedInstanceState == null) {
-                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
-                viewPager.setAdapter(adapter);
-            } else {
-                this.setArguments(savedInstanceState.getBundle(TAB_BUNDLE));
-                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
-                viewPager.setAdapter(adapter);
+            addTags(tabPosition);
+            myaLaunchInput = MyaHelper.getInstance().getMyaLaunchInput();
+            if (savedInstanceState != null) {
+                Bundle arguments = savedInstanceState.getBundle(TAB_BUNDLE);
+                this.setArguments(arguments);
                 tabPosition = savedInstanceState.getInt(TAB_POSITION);
             }
+            addTabs(tabLayout);
+            adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
+            if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null) {
+                if (myaLaunchInput.getMyaTabConfig().getFragment() != null)
+                    adapter.setTabConfiguredFragment(myaLaunchInput.getMyaTabConfig().getFragment());
+                else {
+                    MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, " mya ", " Input(MYATabConfig) to configure Proposition specific Tab not provided ");
+                }
+            }
+            viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
             viewPager.setCurrentItem(tabPosition, true);
             tabLayout.setScrollPosition(tabPosition, 0, true);
@@ -62,6 +73,8 @@ public class MyaTabFragment extends MyaBaseFragment {
     private void addTabs(TabLayout tabLayout) {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_profile)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_settings)));
+        if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null && myaLaunchInput.getMyaTabConfig().getTabName() != null && myaLaunchInput.getMyaTabConfig().getFragment() != null)
+            tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTabConfig().getTabName()));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
@@ -69,6 +82,7 @@ public class MyaTabFragment extends MyaBaseFragment {
         return new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                addTags(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -81,6 +95,19 @@ public class MyaTabFragment extends MyaBaseFragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         };
+    }
+
+    private void addTags(int position) {
+        switch (position) {
+            case 0:
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+                break;
+            case 1:
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

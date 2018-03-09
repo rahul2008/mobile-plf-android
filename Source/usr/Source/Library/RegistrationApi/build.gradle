@@ -5,11 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = versions.jacoco
-}
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -87,9 +83,6 @@ allprojects {
     group = 'com.philips.cdp'
 
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -169,7 +162,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-        consumerProguardFiles 'proguard-rules-usr.pro'
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -192,9 +184,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
             consumerProguardFiles 'proguard-rules-usr.pro'
-            proguardFiles 'proguard-rules-usr.pro'
         }
 
         debug {
@@ -221,7 +211,6 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile deps.apache
     compile deps.constraintlayout
 
 
@@ -239,13 +228,12 @@ dependencies {
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: platformversion + objcdp.getVersionSuffix(), changing: true)
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.uid
+        compile philipsdeps.uAppFwLib
         compile project(':jump')
         compile project(':hsdp')
     }
 
-    compile deps.apache
     compile deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
     compile deps.butterknife
@@ -317,25 +305,6 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest"]) {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../RegistrationApi/build/intermediates/classes/debug',
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    //executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
 
 tasks.withType(Test) {
     ignoreFailures = true

@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.utils;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.cdp.registration.injection.AppInfraModule;
 import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
 import com.philips.cdp.registration.injection.NetworkModule;
@@ -19,6 +21,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -27,6 +30,8 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import static com.janrain.android.utils.AndroidUtils.TAG;
 
 /**
  * It is used to initialize and launch USR
@@ -37,6 +42,10 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 public class URInterface implements UappInterface {
 
     private static RegistrationComponent component;
+    private Context context;
+
+    private static final long serialVersionUID = 1128016096756071381L;
+
 
     /**
      * Launches the USR user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -177,6 +186,7 @@ public class URInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         component = initDaggerComponents(uappDependencies, uappSettings);
+        context = uappSettings.getContext();
         RegistrationConfiguration.getInstance().setComponent(component);
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
@@ -192,4 +202,20 @@ public class URInterface implements UappInterface {
                 .build();
     }
 
+    /**
+     * Get the User Data Interface
+     * @since 2018.1.0
+     *
+     */
+    public UserDataInterface getUserDataInterface(){
+        if(context == null) {
+            RLog.d(TAG, "getUserDataInterface: Please call init API before fetching data interface");
+            return null;
+        }
+        else {
+
+            return new UserDataProvider(context);
+        }
+
+    }
 }

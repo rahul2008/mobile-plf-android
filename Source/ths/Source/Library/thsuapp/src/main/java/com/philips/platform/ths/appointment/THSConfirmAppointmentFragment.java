@@ -99,7 +99,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
                                 ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
                         getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");

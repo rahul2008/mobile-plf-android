@@ -69,7 +69,7 @@ import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONS
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
 import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
 
-
+@SuppressWarnings("serial")
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         THSPharmacyListViewListener {
 

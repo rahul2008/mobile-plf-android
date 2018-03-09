@@ -13,6 +13,8 @@ public class URDependancies extends UappDependencies {
      * @param appInfra  pass the instance of AppInfraInterface
      * @since 1.0.0
      */
+    private static final long serialVersionUID = 1128016096756071384L;
+
     public URDependancies(AppInfraInterface appInfra) {
         super(appInfra);
     }

@@ -3,7 +3,16 @@
  * All rights reserved.
  */
 
-ext.platformversion = '2018.1.0'
+def epochTime() {
+    def env_epoch = System.getenv('EPOCH_TIME')
+    long local_epoch = System.currentTimeMillis()/1000
+    def epoch = env_epoch != null ? env_epoch : local_epoch
+    return epoch
+}
+
+ext.baseplatformversion = "1801.0"
+ext.platformversion = baseplatformversion + "." + epochTime()
+ext.platformversionsuffix = baseplatformversion + ".+"
 
 ext.versions = [
         sdk                  : 26,
@@ -20,7 +29,7 @@ ext.builddeps = [
         androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',
         bintrayplugin     : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2',
         buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.0.0', changing: true],
         googleservices    : 'com.google.gms:google-services:3.0.0',
         gradle            : 'com.android.tools.build:gradle:2.3.3',
         hockeyapp         : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
@@ -30,6 +39,45 @@ ext.builddeps = [
         trickyandroid     : 'com.trickyandroid:jacoco-everywhere:0.2.1'
 ]
 
+ext.philipsdeps = [
+        uAppFwLib                       : [group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversionsuffix, changing: true],
+        uAppFwLibUApp                   : [group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversionsuffix, changing: true],
+        AppInfra                        : [group: 'com.philips.cdp', name: 'AppInfra', version: platformversionsuffix, changing: true],
+        pluginreferenceboard            : [group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversionsuffix, changing: true],
+        cloudcontroller                 : [group: 'com.philips.cdp', name: 'cloudcontroller', version: platformversionsuffix, changing: true],
+        commlib                         : [group: 'com.philips.cdp', name: 'commlib', version: platformversionsuffix, changing: true],
+        commlib_lan                     : [group: 'com.philips.cdp', name: 'commlib-lan', version: platformversionsuffix, changing: true],
+        commlib_api                     : [group: 'com.philips.cdp', name: 'commlib-api', version: platformversionsuffix, changing: true],
+        commlib_demouapp                : [group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversionsuffix, changing: true],
+        bluelib                         : [group: 'com.philips.cdp', name: 'bluelib', version: platformversionsuffix, changing: true],
+        bluelib_demouapp                : [group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversionsuffix, changing: true],
+        productselection                : [group: 'com.philips.cdp', name: 'productselection', version: platformversionsuffix, changing: true],
+        uid                             : [group: 'com.philips.cdp', name: 'uid', version: platformversionsuffix, changing: true],
+        registrationApi                 : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
+        UserRegistrationUApp            : [group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversionsuffix, changing: true],
+        mya                             : [group: 'com.philips.cdp', name: 'mya', version: platformversionsuffix, changing: true],
+        mya_mch                         : [group: 'com.philips.cdp', name: 'mya-mch', version: platformversionsuffix, changing: true],
+        mya_catk                        : [group: 'com.philips.cdp', name: 'mya-catk', version: platformversionsuffix, changing: true],
+        mya_csw                         : [group: 'com.philips.cdp', name: 'mya-csw', version: platformversionsuffix, changing: true],
+        mya_chi                         : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
+        uikitLib                        : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
+        iap                             : [group: 'com.philips.cdp', name: 'iap', version: platformversionsuffix, changing: true],
+        iapUApp                         : [group: 'com.philips.cdp', name: 'iapUApp', version: platformversionsuffix, changing: true],
+        pif                             : [group: 'com.philips.cdp', name: 'pif', version: platformversionsuffix, changing: true],
+        prx                             : [group: 'com.philips.cdp', name: 'prx', version: platformversionsuffix, changing: true],
+        jump                            : [group: 'com.philips.cdp', name: 'jump', version: platformversionsuffix, changing: true],
+        product_registration_libUApp    : [group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversionsuffix, changing: true],
+        product_registration_lib        : [group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversionsuffix, changing: true],
+        digitalCare                     : [group: 'com.philips.cdp', name: 'digitalCare', version: platformversionsuffix, changing: true],
+        digitalCareUApp                 : [group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversionsuffix, changing: true],
+        dataServices                    : [group: 'com.philips.cdp', name: 'dataServices', version: platformversionsuffix, changing: true],
+        dataServicesUApp                : [group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversionsuffix, changing: true],
+        devicepairingUApp               : [group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversionsuffix, changing: true],
+        telehealth                      : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
+        telehealthUApp                  : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
+        ewsUApp                         : [group: 'com.philips.cdp', name: 'ewsUApp', version: platformversionsuffix, changing: true],
+        IconFont                        : [group: 'com.philips.cdp', name: 'IconFont', version: platformversionsuffix, changing: true]
+]
 ext.repos = [
         base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
 ]

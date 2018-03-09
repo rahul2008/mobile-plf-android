@@ -3,6 +3,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
 
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -69,9 +70,6 @@ allprojects {
     apply plugin: 'com.jfrog.artifactory'
     group = 'com.philips.cdp'
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -179,7 +177,7 @@ dependencies {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.AppInfra
     }
 
     compile deps.ormlite.core

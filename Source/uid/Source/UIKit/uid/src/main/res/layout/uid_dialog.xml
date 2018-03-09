@@ -2,20 +2,21 @@
 <com.philips.platform.uid.utils.DialogLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/uid_alert"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:minWidth="@dimen/uid_alert_dialog_width">
 
     <LinearLayout
         android:id="@id/uid_dialog_header"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/uid_dialog_top_divider"
-        app:layout_constraintVertical_chainStyle="spread_inside"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/uid_alert_dialog_message_top_margin"
         android:paddingEnd="@dimen/uid_page_margin_left_right"
         android:paddingStart="@dimen/uid_page_margin_left_right"
-        android:orientation="horizontal">
+        app:layout_constraintBottom_toTopOf="@id/uid_dialog_top_divider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside">
 
         <ImageView
             android:id="@id/uid_dialog_icon"
@@ -29,42 +30,40 @@
         <TextView
             android:id="@id/uid_dialog_title"
             style="@style/UIDAlertDialogTitleTextStyle"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-        <View
-            android:id="@id/uid_dialog_top_divider"
-            app:layout_constraintTop_toBottomOf="@id/uid_dialog_header"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/uid_divider_Height"
-            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+    <View
+        android:id="@id/uid_dialog_top_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_divider_Height"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
+        app:layout_constraintTop_toBottomOf="@id/uid_dialog_header" />
 
-        <com.philips.platform.uid.utils.DialogScrollView
-            android:id="@id/uid_dialog_container"
-            style="@style/UIDAlertDialogMessageContainerStyle"
-            app:layout_constraintTop_toBottomOf="@id/uid_dialog_top_divider"
-            app:layout_constraintBottom_toTopOf="@id/uid_dialog_bottom_divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <com.philips.platform.uid.utils.DialogScrollView
+        android:id="@id/uid_dialog_container"
+        style="@style/UIDAlertDialogMessageContainerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/uid_dialog_bottom_divider"
+        app:layout_constraintTop_toBottomOf="@id/uid_dialog_top_divider" />
 
-        <View
-            android:id="@id/uid_dialog_bottom_divider"
-            app:layout_constraintTop_toBottomOf="@id/uid_dialog_container"
-            app:layout_constraintBottom_toTopOf="@id/uid_dialog_control_area"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/uid_divider_Height"
-            android:background="?attr/uidSeparatorContentNormalBackgroundColor"
-            />
+    <View
+        android:id="@id/uid_dialog_bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_divider_Height"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
+        app:layout_constraintBottom_toTopOf="@id/uid_dialog_control_area"
+        app:layout_constraintTop_toBottomOf="@id/uid_dialog_container" />
 
     <LinearLayout
         android:id="@id/uid_dialog_control_area"
-        app:layout_constraintTop_toBottomOf="@id/uid_dialog_bottom_divider"
-        app:layout_constraintBottom_toBottomOf="parent"
         style="@style/UIDDialogActionAreaStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/uid_dialog_bottom_divider">
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_dialog_alternate_button"

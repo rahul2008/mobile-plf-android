@@ -67,9 +67,6 @@ allprojects {
     }
 }
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(platformversion)
-
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -245,14 +242,14 @@ dependencies {
         debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
         releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.UserRegistrationUApp
     }
 
     compile deps.support.design
     compile deps.support.annotations
     compile deps.support.appcompatv7
     compile deps.support.customtabs
-    compile deps.support.multidex
+    compile deps.multidex
 
     compile deps.ormlite.core
     compile deps.ormlite.android

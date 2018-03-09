@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.tabs.MyaTabFragment;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -142,9 +141,11 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        bundle.putSerializable(USER_PLUGIN, MyaHelper.getInstance().getUserDataInterface());
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setFragmentLauncher(fragmentLauncher);
         myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());

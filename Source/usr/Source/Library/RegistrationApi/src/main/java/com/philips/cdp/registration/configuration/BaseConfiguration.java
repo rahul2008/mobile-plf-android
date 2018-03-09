@@ -43,6 +43,7 @@ public class BaseConfiguration {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     private String getPropertyValueFromMap(Map property) {
         String propertyValue = (String) property.get(RegistrationHelper.getInstance().getCountryCode());
         if (propertyValue == null || propertyValue.isEmpty()) {

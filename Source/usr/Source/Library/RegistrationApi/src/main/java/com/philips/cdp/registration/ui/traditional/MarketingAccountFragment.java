@@ -8,7 +8,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -62,10 +61,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.usr_marketingScreen_rootContainer_linearLayout)
     LinearLayout usrMarketingScreenRootContainerLinearLayout;
 
-
-
-    private ProgressDialog mProgressDialog;
-
     private User mUser;
 
     private Context mContext;
@@ -79,7 +74,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -167,7 +162,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // no value
+        // no value
     }
 
     @Override
@@ -178,10 +173,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
-            showRefreshProgress();
+            showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
-            showRefreshProgress();
+            showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
         }
     }
@@ -253,23 +248,9 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private void showRefreshProgress() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        } else {
-            mProgressDialog.show();
-        }
-    }
-
     @Override
     public void hideRefreshProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
+        hideProgressDialog();
     }
 
     @Override

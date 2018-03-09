@@ -7,40 +7,35 @@
 
 package com.philips.platform.mya.settings;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import android.content.Context;
+import android.os.Bundle;
 
-import java.util.ArrayList;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.mya.MyaHelper;
+import com.philips.platform.mya.R;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.mya.MyaHelper;
-import com.philips.platform.mya.R;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
-import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-import android.content.Context;
-import android.os.Bundle;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MyaSettingsPresenterTest {
 
@@ -73,29 +68,9 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context));
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
-    }
-
-    @Test
-    public void testOnClickRecyclerItem() {
-        String key = "MYA_Country";
-        when(context.getString(R.string.MYA_change_country)).thenReturn("some title");
-        when(context.getString(R.string.MYA_change_country_message)).thenReturn("some message");
-        SettingsModel settingsModel = new SettingsModel();
-        myaSettingsPresenter.onClickRecyclerItem(key, settingsModel);
-        verify(view).showDialog("some title", "some message");
-    }
-
-    @Test
-    public void testHandleLogOut() {
-        LogoutHandler logoutHandler = myaSettingsPresenter.getLogoutHandler();
-        Bundle bundle = new Bundle();
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(context);
-        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
-        myaSettingsPresenter.logOut(bundle);
-        logoutHandler.onLogoutSuccess();
-        verify(view).onLogOutSuccess();
     }
 
     @Test
@@ -106,59 +81,15 @@ public class MyaSettingsPresenterTest {
         RestInterface mockRestClient = mock(RestInterface.class);
         when(mockRestClient.isInternetReachable()).thenReturn(true);
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
-        final CswInterface cswInterface = mock(CswInterface.class);
-        final ConsentsClient consentsClient = mock(ConsentsClient.class);
-        final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
-        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
-        myaSettingsPresenter = new MyaSettingsPresenter(view) {
-            @Override
-            CswInterface getCswInterface() {
-                return cswInterface;
-            }
-
-            @Override
-            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-                return cswLaunchInput;
-            }
-
-            @Override
-            ConsentsClient getConsentsClient() {
-                return consentsClient;
-            }
-        };
-        String key = "Mya_Privacy_Settings";
-        assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-        verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
-        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
-    }
-
-    @Test
-    public void testHandleOnClickSettingsWhenDeviceIsOffline() {
-        MyaDependencies mockDependencies = mock(MyaDependencies.class);
-        AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
-        when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
-        RestInterface mockRestClient = mock(RestInterface.class);
-        when(mockRestClient.isInternetReachable()).thenReturn(false);
-        when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
-        String testTitle = "Test title";
-        when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);
-        String testMessage = "Test message";
-        when(context.getString(R.string.MYA_Offline_message)).thenReturn(testMessage);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
+        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
+        when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-        verify(view).showOfflineDialog(testTitle, testMessage);
+        key = "MYA_My_details";
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
     }
-
-    @Test
-    public void shouldNotReturnNullWhenInvoked() {
-        MyaHelper.getInstance().setConfigurations(new ArrayList<ConsentConfiguration>());
-        assertNotNull(myaSettingsPresenter.buildLaunchInput(false, view.getContext()));
-        assertNotNull(myaSettingsPresenter.getCswInterface());
-        assertNotNull(myaSettingsPresenter.getConsentsClient());
-    }
-
 }

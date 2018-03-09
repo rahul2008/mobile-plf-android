@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.URLUtil;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -27,6 +27,8 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
     private WebView mWebView;
 
     private ProgressBar mProgressBar;
+    private static final long serialVersionUID = -6635233525340545673L;
+
 
     @Override
     public int getActionbarTitleResId() {
@@ -62,10 +64,16 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
         ProdRegTagging.getInstance().trackPage("MyPhilipsAccountScreen", "trackPage", "MyPhilipsAccountScreen");
         // Make sure we handle clicked links ourselves
         mWebView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                // we handle the url ourselves if it's a network url (http / https)
+//                return !URLUtil.isNetworkUrl(url);
+//            }
+
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // we handle the url ourselves if it's a network url (http / https)
-                return !URLUtil.isNetworkUrl(url);
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return true;
             }
 
             @Override

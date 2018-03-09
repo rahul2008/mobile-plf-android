@@ -77,6 +77,7 @@ public class MomentsSegregatorTest {
     private List<Moment> momentList = new ArrayList<>();
     private int count;
     private Moment moment, moment2;
+    private Moment momentWithoutExpirationDate;
     private Map<Class, List<?>> dataToSync;
 
     @Before
@@ -95,7 +96,7 @@ public class MomentsSegregatorTest {
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
         moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
-
+        momentWithoutExpirationDate = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
         SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
         moment.setSynchronisationData(ormSynchronisationData);
         momentList.add(moment);
@@ -137,6 +138,13 @@ public class MomentsSegregatorTest {
     @Test
     public void processMomentsReceivedFromBackend_whenDeletedFromBackend() throws SQLException {
         givenMomentsIsDeletedFromBackend();
+        whenProcessMomentsReceivedFromBackendIsInvoked();
+        thenAssertUpdateCountIs(1);
+    }
+
+    @Test
+    public void processMomentsReceivedFromBackend_shouldProcessExpirationDate() throws SQLException {
+        givenMomentsInDataBaseWithoutExpirationDate();
         whenProcessMomentsReceivedFromBackendIsInvoked();
         thenAssertUpdateCountIs(1);
     }
@@ -186,6 +194,15 @@ public class MomentsSegregatorTest {
         givenDateTimeIsNotFixed();
         when2ndMomentIsCreatedAfter5MilliSeconds();
         thenMomentsDoNotHaveSameTimestamp();
+    }
+
+    private void givenMomentsInDataBaseWithoutExpirationDate() throws SQLException {
+        SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
+        momentWithoutExpirationDate.setSynchronisationData(ormSynchronisationData);
+        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(momentWithoutExpirationDate);
+        List momentList = new ArrayList<>();
+        momentList.add(momentWithoutExpirationDate);
+        when((List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
     }
 
     private void givenMomentsIsDeletedFromBackend() throws SQLException {

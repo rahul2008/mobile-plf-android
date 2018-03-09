@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class THSRestClient extends AsyncTask<String, Void, String> {
     THSBasePresenter mThsBasePresenter;
 
@@ -26,9 +28,9 @@ public class THSRestClient extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         String jsonString;
         try {
-            HttpURLConnection urlConnection = null;
+            HttpsURLConnection urlConnection = null;
             URL url = new URL(urls[0]);
-            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);

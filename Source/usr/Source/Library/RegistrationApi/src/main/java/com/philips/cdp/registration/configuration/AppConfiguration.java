@@ -45,12 +45,13 @@ public class AppConfiguration extends BaseConfiguration {
         return getConfigPropertyValue(micrositeIdObject);
     }
 
+    @SuppressWarnings("unchecked")
     public Map<String,String> getServiceDiscoveryCountryMapping() {
         Object serviceDiscoveryCountryMappingObject = appInfraWrapper.getAppInfraProperty(SD_COUNTRYMAPPING_ID_KEY);
-        HashMap<String,String> hashMap = null;
+        Map<String,String> hashMap = null;
         if(serviceDiscoveryCountryMappingObject!=null){
 
-            hashMap= (HashMap<String,String>)serviceDiscoveryCountryMappingObject;
+            hashMap= (Map<String,String>)serviceDiscoveryCountryMappingObject;
             return hashMap;
         }
         return hashMap;
@@ -82,6 +83,7 @@ public class AppConfiguration extends BaseConfiguration {
         return appInfraWrapper.getURProperty(FLOW_MINIMUM_AGE_LIMIT);
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getProvidersForCountry(String countryCode) {
         Object providersObject = appInfraWrapper.getURProperty(SIGNIN_PROVIDERS + countryCode);
         if (providersObject != null) {
@@ -92,7 +94,7 @@ public class AppConfiguration extends BaseConfiguration {
         return (List<String>) providersObject;
     }
 
-
+    @SuppressWarnings("unchecked")
     public List<String> getSupportedHomeCountries() {
         Object providersObject = appInfraWrapper.getURProperty(SUPPORTED_HOME_COUNTRIES);
         List<String> providersObjects=null;

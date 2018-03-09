@@ -1,6 +1,8 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,62 +14,34 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.Country;
-import com.philips.cdp.registration.listener.CountrySelectionListener;
 import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CountrySelectionFragment extends RegistrationBaseFragment implements
-        Comparator<Country> {
+public class CountrySelectionFragment extends RegistrationBaseFragment implements CountrySelectionContract {
     @BindView(R2.id.country_recycler_view)
     RecyclerView countryListView;
 
     private CountrySelectionAdapter countryListAdapter;
 
-    private ArrayList<Country> masterList = new ArrayList<>();
+    private CountrySelectionPresenter countrySelectionPresenter;
 
-    private ArrayList<Country> recentList = new ArrayList<>();
-
-    private ArrayList<Country> filtredList = new ArrayList<>();
-
-    private CountrySelectionListener listener;
-
-    public CountrySelectionFragment() {
-    }
-
-
-    @SuppressLint("ValidFragment")
-    public CountrySelectionFragment(CountrySelectionListener listener,
-                                    List<Country> rawMasterList, List<Country> recentList) {
-        this.listener = listener;
-        this.masterList = removeDuplicatesFromArrayList((ArrayList<Country>) rawMasterList);
-        this.recentList = (ArrayList<Country>) recentList;
-    }
-
+    private Context context;
 
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CountrySelectionFragment : onConfigurationChanged");
-        setCustomParams(config);
     }
 
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config, countryListView, width);
     }
 
     @Override
@@ -87,60 +61,57 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.country_selection_layout, null);
         ButterKnife.bind(this, view);
+        initUI(view);
 
+        countrySelectionPresenter = new CountrySelectionPresenter(this);
+        countrySelectionPresenter.fetchSupportedCountryList(context);
+        return view;
+    }
+
+    private void initUI(View view) {
+        handleOrientationOnView(view);
+        initRecyclerView();
+    }
+
+    @Override
+    public void initRecyclerView() {
         countryListView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         countryListView.setLayoutManager(mLayoutManager);
         RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         countryListView.addItemDecoration(separatorItemDecoration);
         countryListView.setItemAnimator(new DefaultItemAnimator());
-        filtredList = populateList(recentList, masterList);
-        countryListAdapter = new CountrySelectionAdapter(filtredList, this::updateCountryList);
-        countryListView.setAdapter(countryListAdapter);
-        handleOrientationOnView(view);
-        return view;
     }
 
-    private void updateCountryList(int position) {
-        Country country = filtredList.get(position);
-        if (listener != null) {
-            trackPage(AppTaggingPages.COUNTRY);
-            listener.onSelectCountry(country.getName(),
-                    country.getCode());
-        }
-        countryListAdapter.notifyDataSetChanged();
-        countryListView.scrollToPosition(0);
-    }
-    
     @Override
-    public int compare(Country lhs, Country rhs) {
-        return lhs.getName().compareTo(rhs.getName());
+    public void updateRecyclerView(ArrayList<Country> countries) {
+
+        countryListAdapter = new CountrySelectionAdapter(countries, this);
+        countryListView.setAdapter(countryListAdapter);
     }
 
-
-    private ArrayList<Country> populateList(final ArrayList<Country> recentList, ArrayList<Country> masterList) {
-        ArrayList<Country> recentCountryList = new ArrayList<>(removeDuplicatesFromArrayList(recentList));
-        ArrayList<Country> masterCountryList = new ArrayList<>(masterList);
-
-        ArrayList<Country> filteredCountryList = new ArrayList<>();
-        filteredCountryList.addAll(recentCountryList);
-        filteredCountryList.addAll(removeRecentElementsFromMasterList(recentCountryList, masterCountryList));
-        return filteredCountryList;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
-    private ArrayList<Country> removeRecentElementsFromMasterList(final ArrayList<Country> recentList, ArrayList<Country> masterList) {
-        masterList.removeAll(recentList);
-        Collections.sort(masterList, this);
-        return masterList;
-
+    @Override
+    public void popCountrySelectionFragment() {
+        getRegistrationFragment().onBackPressed();
     }
 
-    private ArrayList<Country> removeDuplicatesFromArrayList(ArrayList<Country> rawMasterList) {
-        ArrayList<Country> countryList = new ArrayList<>(rawMasterList);
-        Set<Country> countryHashSet = new LinkedHashSet<>();
-        countryHashSet.addAll(countryList);
-        countryList.clear();
-        countryList.addAll(countryHashSet);
-        return countryList;
+    @Override
+    public void notifyCountryChange(Country country) {
+        Intent intent = new Intent();
+        if (country.getCode().equalsIgnoreCase("TW")) {
+            countrySelectionPresenter.changeCountryNameToTaiwan(context, country);
+        }
+        intent.putExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE, country.getCode());
+        intent.putExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME, country.getName());
+        getTargetFragment().onActivityResult(
+                getTargetRequestCode(),
+                Activity.RESULT_OK,
+                intent);
     }
 }

@@ -15,6 +15,7 @@ import com.philips.platform.mya.base.MyaBaseFragment;
 public class MyaPhilipsLinkFragment extends MyaBaseFragment {
 
     private WebView webview;
+    public static String PHILIPS_LINK = "philips_link";
 
     @Override
     public int getActionbarTitleResId() {
@@ -42,6 +43,9 @@ public class MyaPhilipsLinkFragment extends MyaBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl("https://www.Philips.com");
+        assert getArguments() != null;
+        String philips_link = getArguments().getString(PHILIPS_LINK);
+        if (philips_link != null)
+            webview.loadUrl(philips_link);
     }
 }

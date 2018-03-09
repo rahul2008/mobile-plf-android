@@ -6,9 +6,8 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
-archivesBaseName = "AppInfra"
-version = objcdp.getVersion(platformversion)
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -96,7 +95,7 @@ dependencies {
         releaseCompile project(path: ':pif', configuration: 'release')
 
     } else {
-        compile(group: 'com.philips.cdp', name: 'pif', version: platformversion + objcdp.getVersionSuffix(), changing: true)
+        compile philipsdeps.pif
     }
     compile deps.adobemobilelib
     compile deps.gson
@@ -109,6 +108,9 @@ dependencies {
     testCompile deps.assertj
     testCompile deps.mockito
     testCompile deps.junit
+    testCompile deps.powermock_core
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_junit
 
     androidTestCompile deps.dexmaker_google
     androidTestCompile deps.dexmaker_google_mockito

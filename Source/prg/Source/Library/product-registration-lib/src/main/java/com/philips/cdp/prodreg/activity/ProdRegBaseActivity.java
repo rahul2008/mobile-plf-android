@@ -46,6 +46,8 @@ public class ProdRegBaseActivity extends UIDActivity {
     private Handler mSiteCatListHandler = new Handler();
     private Toolbar mToolbar;
     private ActionBarTextView mActionBarTextView;
+    private static final long serialVersionUID = -6635233525340545682L;
+
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
@@ -105,7 +107,7 @@ public class ProdRegBaseActivity extends UIDActivity {
         super.onResume();
     }
 
-    @SuppressWarnings("noinspection unchecked")
+    @SuppressWarnings("unchecked")
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;

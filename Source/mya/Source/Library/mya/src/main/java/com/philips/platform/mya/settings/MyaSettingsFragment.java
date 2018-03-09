@@ -12,25 +12,31 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.mya.dialogs.DialogView;
-import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.platform.mya.settings.MyaPhilipsLinkFragment.PHILIPS_LINK;
 
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
@@ -46,8 +52,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private DefaultItemAnimator defaultItemAnimator;
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     private LinearLayoutManager linearLayoutManager;
-    private View dialogView;
     private AppConfigurationInterface.AppConfigurationError error;
+    private Button logout;
+    private Label philipsWebsite;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,22 +85,19 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
-        Label philipsWebsite = view.findViewById(R.id.philips_website);
-        philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
-            @Override
-            public boolean interceptClick(CharSequence tag) {
-                showFragment(new MyaPhilipsLinkFragment());
-                return true;
-            }
-        });
+        philipsWebsite = view.findViewById(R.id.philips_website);
         logOutButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
@@ -101,7 +105,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             } else {
                 dismissDialog();
             }
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
+        } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         }
+
+
     }
 
     @Override
@@ -136,18 +145,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    @Override
-    public void showOfflineDialog(String title, String message) {
-        new DialogView(title, message).showDialog(getActivity());
-    }
-
-    @Override
-    public void showDialog(String title, String message) {
+    private void showDialog(String title, String message) {
         this.dialogTitle = title;
         this.dialogMessage = message;
         this.isDialogOpen = true;
         LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        dialogView = inflater.inflate(R.layout.mya_dialog_layout, null);
+        View dialogView = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(dialogView)
@@ -157,7 +160,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
         Label textView = dialogView.findViewById(R.id.message_label);
         Label title_label = dialogView.findViewById(R.id.title_label);
-        ProgressBarButton logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
+        logout = dialogView.findViewById(R.id.mya_dialog_logout_btn);
         Button cancel = dialogView.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
@@ -174,6 +177,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 isDialogOpen = false;
                 dismissDialog();
+                    Map<String,String> map = new HashMap<>();
+                    map.put("inAppNotification","Are you sure you want to log out?");
+                    map.put("inAppNotificationResponse","Cancel");
+                    MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData",map);
             }
         };
     }
@@ -189,24 +196,28 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener onClickLogOut(final ProgressBarButton logout) {
+    private View.OnClickListener onClickLogOut(final Button logout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
+               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
                 }*/
-               //TODO - need to invoke above commented code when introduced call back for log out success
-               logout.showProgressIndicator();
-               presenter.logOut(getArguments());
+                //TODO - need to invoke above commented code when introduced call back for log out success
+                presenter.logOut(getArguments());
+                dismissDialog();
+                Map<String, String> map = new HashMap<>();
+                map.put("inAppNotification", "Are you sure you want to log out?");
+                map.put("inAppNotificationResponse", "Log out");
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", map);
             }
         };
     }
 
     @Override
     public void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap) {
-        MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
+        MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(getContext(),dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = getLinearLayoutManager();
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = getRecyclerViewSeparatorItemDecoration();
         recyclerView.setLayoutManager(mLayoutManager);
@@ -228,23 +239,53 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return linearLayoutManager;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onLogOutSuccess() {
-        dismissDialog();
-        exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
+    public void setLinkUrl(final String url) {
+        final SpannableString myString;
+        if (!TextUtils.isEmpty(url)) {
+            philipsWebsite.setClickable(true);
+            myString = new SpannableString(url);
+            ClickableSpan clickableSpan = getClickableSpan(url);
+            myString.setSpan(clickableSpan, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            String philipsDefaultUrl = getString(R.string.MYA_philips_website);
+            myString = new SpannableString(philipsDefaultUrl);
+            ClickableSpan clickableSpan = getClickableSpan(philipsDefaultUrl);
+            myString.setSpan(clickableSpan, 0, philipsDefaultUrl.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        philipsWebsite.setText(myString);
+        philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
+    ClickableSpan getClickableSpan(final String url) {
+        return new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
+                Bundle args = new Bundle();
+                args.putString(PHILIPS_LINK, url);
+                fragment.setArguments(args);
+                AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
+                String appName = appIdentityInterface.getAppName();
+                String url = getString(R.string.MYA_philips_website)+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", url);
+                showFragment(fragment);
+            }
+        };
+    }
+
 
     private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int viewType = recyclerView.indexOfChild(view);
+                int viewType = recyclerView.getChildAdapterPosition(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key, getFragmentLauncher());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onSettingsMenuItemSelected(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }

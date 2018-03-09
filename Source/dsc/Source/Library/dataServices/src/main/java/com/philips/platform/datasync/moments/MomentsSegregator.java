@@ -48,6 +48,95 @@ public class MomentsSegregator {
         return updatedCount;
     }
 
+    public int processMoments(final List<Moment> momentList, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        List<Moment> momentsToCreate = new ArrayList<>();
+        List<Moment> momentsToUpdate = new ArrayList<>();
+        List<Moment> momentsToDelete = new ArrayList<>();
+
+        for (Moment moment : momentList) {
+            if (moment.getExpirationDate() == null || moment.getExpirationDate().isAfterNow()) {
+                final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
+                if (momentInDatabase == null) {
+                    if (moment.getSynchronisationData() != null && !(moment.getSynchronisationData().isInactive())) {
+                        createNewMomentInDB(momentsToCreate, moment);
+                    }
+                } else if (hasDifferentMomentVersion(moment, momentInDatabase) || hasNoExpirationDate(momentInDatabase)) {
+                    syncAlreadyExistingMomentInDB(momentsToUpdate, momentsToDelete, moment, momentInDatabase);
+                }
+            }
+        }
+        if (momentsToCreate.size() > 0)
+            dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
+        if (momentsToDelete.size() > 0)
+            dbDeletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
+        if (momentsToUpdate.size() > 0)
+            deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
+
+        return momentsToCreate.size() + momentsToDelete.size() + momentsToUpdate.size();
+    }
+
+    public void processCreatedMoment(List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) {
+        for (final Moment moment : moments) {
+            moment.setSynced(true);
+            try {
+                dbSavingInterface.saveMoment(moment, dbRequestListener);
+            } catch (SQLException e) {
+                updatingInterface.updateFailed(e, dbRequestListener);
+            }
+        }
+    }
+
+    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
+        List<? extends Moment> ormMomentList = null;
+        try {
+            ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
+        } catch (SQLException e) {
+            //Debug Log
+        }
+        dataToSync.put(Moment.class, ormMomentList);
+        return dataToSync;
+    }
+
+    protected void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+
+        for (Moment moment : moments) {
+            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
+            deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, moment, dbRequestListener);
+        }
+        dbSavingInterface.saveMoments(moments, null);
+    }
+
+    private void createNewMomentInDB(List<Moment> momentsToCreate, Moment moment) {
+        SynchronisationData synchronisationData =
+                mBaseAppDataCreator.createSynchronisationData(moment.getSynchronisationData().getGuid(), moment.getSynchronisationData().isInactive(),
+                        new DateTime(moment.getDateTime()), moment.getSynchronisationData().getVersion());
+        moment.setSynchronisationData(synchronisationData);
+        moment.setSynced(true);
+        momentsToCreate.add(moment);
+    }
+
+    private void syncAlreadyExistingMomentInDB(List<Moment> momentsToUpdate, List<Moment> momentsToDelete, Moment moment, Moment momentInDatabase) {
+        if (isMomentDeletedFromBackend(moment.getSynchronisationData())) {
+            momentsToDelete.add(momentInDatabase);
+        } else if (isMomentDeletedFromApplicationDB(momentInDatabase)) {
+            moment.setSynced(false);
+            moment.getSynchronisationData().setInactive(true);
+            moment.setId(moment.getId());
+            momentsToUpdate.add(moment);
+        } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
+            moment.setSynced(true);
+            moment.setId(momentInDatabase.getId());
+            momentsToUpdate.add(moment);
+        }
+    }
+
+    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        if (momentInDatabase != null) {
+            dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
+            dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
+        }
+    }
+
     private Moment getOrmMomentFromDatabase(Moment moment) throws SQLException {
         Moment momentInDatabase = null;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
@@ -82,6 +171,14 @@ public class MomentsSegregator {
         return isVersionDifferent;
     }
 
+    private boolean hasNoExpirationDate(Moment momentInDatabase) {
+        if (momentInDatabase.getExpirationDate() == null) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean isMomentDeletedFromBackend(final SynchronisationData synchronisationData) {
         return synchronisationData == null || synchronisationData.isInactive();
     }
@@ -93,86 +190,5 @@ public class MomentsSegregator {
 
     private boolean isMomentUpdatedFromBackend(final Moment moment, final Moment momentInDatabase) {
         return momentInDatabase != null && !moment.getDateTime().equals(momentInDatabase.getDateTime());
-    }
-
-    public int processMoments(final List<Moment> momentList, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        List<Moment> momentsToCreate = new ArrayList<>();
-        List<Moment> momentsToUpdate = new ArrayList<>();
-        List<Moment> momentsToDelete = new ArrayList<>();
-
-        for (Moment moment : momentList) {
-            if (moment.getExpirationDate() == null || moment.getExpirationDate().isAfterNow()) {
-                final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-                if (momentInDatabase == null) {
-                    if (moment.getSynchronisationData() != null && !(moment.getSynchronisationData().isInactive())) {
-                        SynchronisationData synchronisationData =
-                                mBaseAppDataCreator.createSynchronisationData(moment.getSynchronisationData().getGuid(), moment.getSynchronisationData().isInactive(),
-                                        new DateTime(moment.getDateTime()), moment.getSynchronisationData().getVersion());
-                        moment.setSynchronisationData(synchronisationData);
-                        moment.setSynced(true);
-                        momentsToCreate.add(moment);
-                    }
-                } else if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-                    if (isMomentDeletedFromBackend(moment.getSynchronisationData())) {
-                        momentsToDelete.add(momentInDatabase);
-                    } else if (isMomentDeletedFromApplicationDB(momentInDatabase)) {
-                        moment.setSynced(false);
-                        moment.getSynchronisationData().setInactive(true);
-                        moment.setId(moment.getId());
-                        momentsToUpdate.add(moment);
-                    } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
-                        moment.setSynced(true);
-                        moment.setId(momentInDatabase.getId());
-                        momentsToUpdate.add(moment);
-                    }
-                }
-            }
-        }
-        if (momentsToCreate.size() > 0)
-            dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
-        if (momentsToDelete.size() > 0)
-            dbDeletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
-        if (momentsToUpdate.size() > 0)
-            deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
-
-        return momentsToCreate.size() + momentsToDelete.size() + momentsToUpdate.size();
-    }
-
-    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        if (momentInDatabase != null) {
-            dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
-            dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
-        }
-    }
-
-    protected void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-
-        for (Moment moment : moments) {
-            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-            deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, moment, dbRequestListener);
-        }
-        dbSavingInterface.saveMoments(moments, null);
-    }
-
-    public void processCreatedMoment(List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) {
-        for (final Moment moment : moments) {
-            moment.setSynced(true);
-            try {
-                dbSavingInterface.saveMoment(moment, dbRequestListener);
-            } catch (SQLException e) {
-                updatingInterface.updateFailed(e, dbRequestListener);
-            }
-        }
-    }
-
-    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
-        List<? extends Moment> ormMomentList = null;
-        try {
-            ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
-        } catch (SQLException e) {
-            //Debug Log
-        }
-        dataToSync.put(Moment.class, ormMomentList);
-        return dataToSync;
     }
 }
