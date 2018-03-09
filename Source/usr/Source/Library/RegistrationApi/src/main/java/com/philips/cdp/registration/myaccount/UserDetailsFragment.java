@@ -45,9 +45,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     private Label addressHeader;
     private Label addressValue;
 
-    private ActionBarListener mActionBarListener;
-
-
     private final String DETAILS_BUNDLE = "details_bundle";
     private UserDetailPresenter myaDetailPresenter;
     private User user;
@@ -103,26 +100,26 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     }
 
     private void initViews(View view) {
-        nameLabel = view.findViewById(R.id.reg_user_detail_lbl_name);
+        nameLabel = view.findViewById(R.id.usr_myDetailsScreen_label_name);
 
-        email_address_value = view.findViewById(R.id.email_address_value);
-        email_address_header = view.findViewById(R.id.email_address_heading);
+        email_address_value = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressValue);
+        email_address_header = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressHeading);
 
-        mobile_number_value = view.findViewById(R.id.mobile_number_value);
-        mobile_number_header = view.findViewById(R.id.mobile_number_heading);
+        mobile_number_value = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberValue);
+        mobile_number_header = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberHeading);
 
-        gender_value = view.findViewById(R.id.gender_value);
-        gender_header = view.findViewById(R.id.gender_heading);
+        gender_value = view.findViewById(R.id.usr_myDetailsScreen_label_genderValue);
+        gender_header = view.findViewById(R.id.usr_myDetailsScreen_label_genderHeading);
 
-        name_value = view.findViewById(R.id.name_value);
-        name_header = view.findViewById(R.id.name_heading);
+        name_value = view.findViewById(R.id.usr_myDetailsScreen_label_nameValue);
+        name_header = view.findViewById(R.id.usr_myDetailsScreen_label_nameHeading);
 
-        dob_value = view.findViewById(R.id.dob_value);
-        dob_header = view.findViewById(R.id.DOB_heading);
+        dob_value = view.findViewById(R.id.usr_myDetailsScreen_label_dobValue);
+        dob_header = view.findViewById(R.id.usr_myDetailsScreen_label_dobHeading);
 
-        dobDivider=view.findViewById(R.id.dob_divider);
-        addressHeader=view.findViewById(R.id.usr_my_account_address_heading);
-        addressValue=view.findViewById(R.id.MYA_Address_value);
+        dobDivider=view.findViewById(R.id.usr_myDetailsScreen_view_dobDivider);
+        addressHeader=view.findViewById(R.id.usr_myDetailsScreen_label_addressHeading);
+        addressValue=view.findViewById(R.id.usr_myDetailsScreen_label_AddressValue);
     }
 
     @Override
@@ -201,11 +198,4 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         return false;
     }
 
-    public ActionBarListener getActionBarListener() {
-        return mActionBarListener;
-    }
-
-    public void setActionBarListener(ActionBarListener mActionBarListener) {
-        this.mActionBarListener = mActionBarListener;
-    }
 }
