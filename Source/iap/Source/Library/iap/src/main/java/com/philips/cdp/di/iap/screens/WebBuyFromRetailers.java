@@ -35,19 +35,11 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
-
-
         mProgress = createCustomProgressBar(group,MEDIUM);
-        mProgress.setVisibility(View.GONE);
+        mProgress.setVisibility(View.VISIBLE);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
         initializeWebView(group);
         return group;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mWebView.loadUrl(mUrl);
     }
 
     @Override
@@ -67,32 +59,20 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     }
 
     void initializeWebView(View group) {
-
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
-        mWebView.setInitialScale(1);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setJavaScriptEnabled(false);
-        mWebView.getSettings().setAllowFileAccess(true);
-        mWebView.getSettings().setAllowContentAccess(true);
-        mWebView.setScrollbarFadingEnabled(false);
-        mWebView.setWebViewClient(new WebViewClient() {
-            int webViewPreviousState;
-            final int PAGE_STARTED = 0x1;
+        mWebView.getSettings().setJavaScriptEnabled(true);
 
-            @SuppressWarnings("deprecation")
+        mWebView.setWebViewClient(new WebViewClient() {
+
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mProgress.setVisibility(View.GONE);
             }
 
-            @TargetApi(Build.VERSION_CODES.N)
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-
-                final String url = request.getUrl().toString();
-
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
                 if(url == null) return false;
 
                 try {
@@ -112,29 +92,9 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                     return false;
                 }
             }
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // Ignore SSL certificate errors
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                webViewPreviousState = PAGE_STARTED;
-                if (mProgress != null) {
-                    mProgress.setVisibility(View.VISIBLE);
-                }
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (mProgress != null) {
-                    mProgress.setVisibility(View.GONE);
-                }
-                super.onPageFinished(view,url);
-            }
         });
+
+        mWebView.loadUrl(mUrl);
     }
 
     @Override
