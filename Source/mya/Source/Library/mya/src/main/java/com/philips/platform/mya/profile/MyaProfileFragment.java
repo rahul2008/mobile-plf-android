@@ -122,7 +122,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int viewType = recyclerView.indexOfChild(view);
+                int viewType = recyclerView.getChildAdapterPosition(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 String value = profileList.get(key);
                 String profileItem = value != null ? value : key;
