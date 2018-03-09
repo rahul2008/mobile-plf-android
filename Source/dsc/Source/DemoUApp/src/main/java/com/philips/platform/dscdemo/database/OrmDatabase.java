@@ -5,16 +5,16 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-public class OrmDatabaseHelper implements DatabaseTable {
+public class OrmDatabase implements Database {
     private ConnectionSource connectionSource;
 
-    public OrmDatabaseHelper(ConnectionSource connectionSource) {
+    public OrmDatabase(ConnectionSource connectionSource) {
 
         this.connectionSource = connectionSource;
     }
 
     @Override
-    public void createTable(final ConnectionSource connectionSource, final Class<?> dataClass) throws SQLException {
+    public void createTable(final Class<?> dataClass) throws SQLException {
         TableUtils.createTable(connectionSource, dataClass);
 
     }

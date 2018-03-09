@@ -50,7 +50,7 @@ public class DatabaseHelperTest {
     @Test
     public void createsAllTables() {
         ConnectionSource source = new ConnectionSourceStub();
-        DatabaseTableStub database = new DatabaseTableStub();
+        DatabaseStub database = new DatabaseStub();
         databaseHelper.onCreate(source, database, daoProvider);
 
         assertArrayEquals(new Class<?>[]{

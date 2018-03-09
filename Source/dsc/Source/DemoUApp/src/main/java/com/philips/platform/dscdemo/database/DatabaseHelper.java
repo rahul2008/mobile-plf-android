@@ -96,15 +96,15 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-        OrmDatabaseHelper database = new OrmDatabaseHelper(connectionSource);
+        OrmDatabase database = new OrmDatabase(connectionSource);
         OrmDaoProvider daoProvider = new OrmDaoProvider(this);
         onCreate(connectionSource, database, daoProvider);
     }
 
-    public void onCreate(final ConnectionSource connectionSource, final DatabaseTable database, final DaoProvider daoProvider) {
+    public void onCreate(final ConnectionSource connectionSource, final Database database, final DaoProvider daoProvider) {
         this.daoProvider = daoProvider;
         try {
-            createTables(connectionSource, database);
+            createTables(database);
             insertDictionaries();
         } catch (SQLException e) {
         }
@@ -191,25 +191,25 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-    private void createTables(final ConnectionSource connectionSource, final DatabaseTable database) throws SQLException {
-        database.createTable(connectionSource, OrmMoment.class);
-        database.createTable(connectionSource, OrmMomentType.class);
-        database.createTable(connectionSource, OrmMomentDetail.class);
-        database.createTable(connectionSource, OrmMomentDetailType.class);
-        database.createTable(connectionSource, OrmMeasurement.class);
-        database.createTable(connectionSource, OrmMeasurementType.class);
-        database.createTable(connectionSource, OrmMeasurementDetail.class);
-        database.createTable(connectionSource, OrmMeasurementDetailType.class);
-        database.createTable(connectionSource, OrmSynchronisationData.class);
-        database.createTable(connectionSource, OrmConsentDetail.class);
-        database.createTable(connectionSource, OrmMeasurementGroup.class);
-        database.createTable(connectionSource, OrmMeasurementGroupDetail.class);
-        database.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
-        database.createTable(connectionSource, OrmCharacteristics.class);
-        database.createTable(connectionSource, OrmSettings.class);
-        database.createTable(connectionSource, OrmDCSync.class);
-        database.createTable(connectionSource, OrmInsight.class);
-        database.createTable(connectionSource, OrmInsightMetaData.class);
+    private void createTables(final Database database) throws SQLException {
+        database.createTable(OrmMoment.class);
+        database.createTable(OrmMomentType.class);
+        database.createTable(OrmMomentDetail.class);
+        database.createTable(OrmMomentDetailType.class);
+        database.createTable(OrmMeasurement.class);
+        database.createTable(OrmMeasurementType.class);
+        database.createTable(OrmMeasurementDetail.class);
+        database.createTable(OrmMeasurementDetailType.class);
+        database.createTable(OrmSynchronisationData.class);
+        database.createTable(OrmConsentDetail.class);
+        database.createTable(OrmMeasurementGroup.class);
+        database.createTable(OrmMeasurementGroupDetail.class);
+        database.createTable(OrmMeasurementGroupDetailType.class);
+        database.createTable(OrmCharacteristics.class);
+        database.createTable(OrmSettings.class);
+        database.createTable(OrmDCSync.class);
+        database.createTable(OrmInsight.class);
+        database.createTable(OrmInsightMetaData.class);
     }
 
     @Override
