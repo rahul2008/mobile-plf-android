@@ -145,7 +145,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         return new MyaListener() {
             @Override
             public boolean onSettingsMenuItemSelected(String itemName) {
-                if (itemName.equalsIgnoreCase(getString(com.philips.platform.mya.R.string.mya_log_out))) {
+                if (itemName.equalsIgnoreCase(getString(com.philips.platform.mya.R.string.MYA_Log_Out))) {
 
                 } else if (itemName.equals("Mya_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();

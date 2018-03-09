@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">حسابي</string>
+<string name="MYA_Profile">ملف التعريف</string>
+<string name="MYA_Settings">الإعدادات</string>
+<string name="MYA_My_details">التفاصيل الخاصة بي</string>
+<string name="MYA_My_products">منتجاتي</string>
+<string name="MYA_My_subscriptions">اشتراكاتي</string>
+<string name="MYA_My_orders">طلباتي</string>
+<string name="MYA_Logout">تسجيل الخروج</string>
+<string name="MYA_Account_settings">إعدادات الحساب</string>
+<string name="MYA_Country">البلد</string>
+<string name="MYA_Notifications">الإعلامات</string>
+<string name="MYA_Privacy_Settings">إعدادات الخصوصية</string>
+<string name="MYA_Login_details">تفاصيل تسجيل الدخول</string>
+<string name="MYA_Email_address">عنوان البريد الإلكتروني</string>
+<string name="MYA_Mobile_number">رقم الهاتف المحمول</string>
+<string name="MYA_Personal_details">التفاصيل الشخصية</string>
+<string name="MYA_Name">الاسم</string>
+<string name="MYA_Gender">الجنس</string>
+<string name="MYA_Date_of_birth">تاريخ الميلاد</string>
+<string name="MYA_Address">العنوان</string>
+<string name="MYA_Cancel">إلغاء</string>
+<string name="MYA_change_country">تسجيل الخروج لتغيير البلد</string>
+<string name="MYA_change_country_message">يرجى تسجيل الخروج لتغيير البلد حيث تقيم. سيسمح لنا ذلك بتخصيص الضمان ومعلومات أخرى بحسب موقعك.</string>
+<string name="MYA_logout_title">هل تريد بالتأكيد تسجيل الخروج؟</string>
+<string name="MYA_logout_message">سيتم تسجيل خروجك من التطبيق. يمكنك دائمًا تسجيل الدخول من جديد بعد تسجيل الخروج.</string>
+<string name="MYA_Info">هل تريد تغيير معرّف تسجيل الدخول وكلمة المرور؟ تفضّل بزيارة موقعنا على ويب.</string>
+<string name="MYA_Email_Validation_message">لم يتم تأكيد عنوان البريد الإلكتروني</string>
+<string name="MYA_Not_Available">غير متوفر</string>
+<string name="MYA_Ok">موافق</string>
+<string name="MYA_Offline_title">أنت غير متصل</string>
+<string name="MYA_Offline_message">يبدو أن اتصال الإنترنت لديك لا يعمل. يُرجى التحقق من الاتصال وإعادة المحاولة</string>
+<string name="mya_Privacy_Settings_Desc">تحكم بخصوصيتك: اقرأ _إشعار الخصوصية_ للحصول على مزيد من المعلومات</string>
+</resources>
