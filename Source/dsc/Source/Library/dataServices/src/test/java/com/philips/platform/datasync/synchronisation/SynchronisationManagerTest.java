@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.synchronisation;
 
+import com.philips.platform.core.events.Event;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -15,6 +16,7 @@ import java.util.concurrent.ExecutorService;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SynchronisationManagerTest {
@@ -77,6 +79,18 @@ public class SynchronisationManagerTest {
     }
 
     @Test
+    public void shouldDeleteAllExpiredMoments_whenDataPushSuccessIsCalled() {
+        synchronisationManager.dataPullSuccess();
+        thenVerifyEventIsInEventBus("DeleteExpiredMomentRequest");
+    }
+
+    @Test
+    public void shouldDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
+        synchronisationManager.dataPullSuccess();
+        thenVerifyEventIsInEventBus("DeleteExpiredInsightRequest");
+    }
+
+    @Test
     public void startSync_WithNoDateRange() {
         whenStartSyncIsInvoked(synchronisationCompleteListenerSpy);
         thenVerifyEventIsPosted("ReadDataFromBackendRequest");
@@ -133,6 +147,15 @@ public class SynchronisationManagerTest {
 
     private void thenVerifyEventIsPosted(String event) {
         assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
+    }
+
+    private void thenVerifyEventIsInEventBus(final String event) {
+        boolean isThere = false;
+        for (Event e : eventingSpy.eventBus) {
+            if (e.getClass().getSimpleName().equals(event))
+                isThere = true;
+        }
+        assertTrue(isThere);
     }
 
     private void thenVerifyNoEventIsPosted() {

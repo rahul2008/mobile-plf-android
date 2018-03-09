@@ -8,6 +8,8 @@ package com.philips.platform.datasync.synchronisation;
 import android.content.SharedPreferences;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
@@ -60,13 +62,13 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         // TODO Before starting to push, delete all 'expired' data (Moments & Insights)
         // TODO Save flag with latest DEL Timestamp
         // TODO Only delete expired data when DEL Timestamp longer than 24 hours ago.
+        clearExpiredMoments();
+        clearExpiredInsights();
         postEventToStartPush();
     }
 
     @Override
-    public void dataPushSuccess() {
-
-    }
+    public void dataPushSuccess() { }
 
     @Override
     public void dataPullFail(Exception e) {
@@ -82,7 +84,6 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     public void dataSyncComplete() {
         postOnSyncComplete();
     }
-
 
     private boolean isSyncInProcess() {
         synchronized (this) {
@@ -105,6 +106,15 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     private void postEventToStartPush() {
         mEventing.post(new WriteDataToBackendRequest());
+    }
+
+
+    private void clearExpiredMoments() {
+        mEventing.post(new DeleteExpiredMomentRequest(null));
+    }
+
+    private void clearExpiredInsights() {
+        mEventing.post(new DeleteExpiredInsightRequest(null));
     }
 
     private void postOnSyncComplete() {
