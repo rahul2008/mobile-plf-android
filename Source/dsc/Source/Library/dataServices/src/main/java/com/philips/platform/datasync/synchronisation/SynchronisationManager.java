@@ -50,25 +50,10 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postEvent(startDate, endDate, synchronisationCompleteListener);
     }
 
-    private void postEvent(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
-        if (!isSyncInProcess()) {
-            this.mSynchronisationCompleteListener = synchronisationCompleteListener;
-            mEventing.post(new FetchByDateRange(startDate.toString(), endDate.toString()));
-        } else {
-            synchronisationCompleteListener.onSyncFailed(new SyncException("Sync is already in progress"));
-        }
+    public void stopSync() {
+        isSyncComplete = true;
+        mSynchronisationCompleteListener = null;
     }
-
-    private boolean isSyncInProcess() {
-        synchronized (this) {
-            if (isSyncComplete) {
-                isSyncComplete = false;
-                return false;
-            }
-            return true;
-        }
-    }
-
 
     @Override
     public void dataPullSuccess() {
@@ -98,6 +83,26 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postOnSyncComplete();
     }
 
+
+    private boolean isSyncInProcess() {
+        synchronized (this) {
+            if (isSyncComplete) {
+                isSyncComplete = false;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private void postEvent(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+        if (!isSyncInProcess()) {
+            this.mSynchronisationCompleteListener = synchronisationCompleteListener;
+            mEventing.post(new FetchByDateRange(startDate.toString(), endDate.toString()));
+        } else {
+            synchronisationCompleteListener.onSyncFailed(new SyncException("Sync is already in progress"));
+        }
+    }
+
     private void postEventToStartPush() {
         mEventing.post(new WriteDataToBackendRequest());
     }
@@ -113,11 +118,6 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncFailed(exception);
-        mSynchronisationCompleteListener = null;
-    }
-
-    public void stopSync() {
-        isSyncComplete = true;
         mSynchronisationCompleteListener = null;
     }
 }
