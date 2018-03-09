@@ -29,7 +29,7 @@
             android:layout_marginEnd="@dimen/MYA_end_margin"
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginTop="@dimen/MYA_top_margin"
-            android:text="@string/MYA_Log_Out" />
+            android:text="@string/MYA_Logout" />
 
         <LinearLayout
             android:id="@+id/mya_website_layout"
