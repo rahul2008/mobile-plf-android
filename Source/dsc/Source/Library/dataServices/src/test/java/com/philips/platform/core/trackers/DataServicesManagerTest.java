@@ -792,6 +792,18 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void resetMigrationFlag_shouldSetGDPRMigrationFlag() {
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(true);
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.resetGDPRMigrationFlag();
+
+        verify(prefsEditorMock).putBoolean(eq(GDPR_MIGRATION_FLAG), eq(false));
+        verify(prefsEditorMock).apply();
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void clearExpiredInsights_shouldCallPost_whenMethodCalled() {
         mDataServicesManager.clearExpiredInsights(dbRequestListener);
@@ -804,18 +816,6 @@ public class DataServicesManagerTest {
         mDataServicesManager.clearExpiredInsights(null);
 
         verify(eventingMock).post((DeleteExpiredInsightRequest) any());
-    }
-
-    @Test
-    public void resetMigrationFlag_shouldSetGDPRMigrationFlag() {
-        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(true);
-        when(prefsMock.edit()).thenReturn(prefsEditorMock);
-        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
-
-        mDataServicesManager.resetGDPRMigrationFlag();
-
-        verify(prefsEditorMock).putBoolean(eq(GDPR_MIGRATION_FLAG), eq(false));
-        verify(prefsEditorMock).apply();
     }
 
     private void givenFailedDeleteAllInsights() {

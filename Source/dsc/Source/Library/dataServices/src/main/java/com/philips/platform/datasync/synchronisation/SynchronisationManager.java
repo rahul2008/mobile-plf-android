@@ -5,6 +5,8 @@
 */
 package com.philips.platform.datasync.synchronisation;
 
+import android.content.SharedPreferences;
+
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
@@ -26,6 +28,8 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Inject
     Eventing mEventing;
+
+    private SharedPreferences expiredDeletionTimeStorage;
 
     public SynchronisationManager() {
         DataServicesManager.getInstance().getAppComponent().injectSynchronisationManager(this);
@@ -69,6 +73,8 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     @Override
     public void dataPullSuccess() {
         // TODO Before starting to push, delete all 'expired' data (Moments & Insights)
+        // TODO Save flag with latest DEL Timestamp
+        // TODO Only delete expired data when DEL Timestamp longer than 24 hours ago.
         postEventToStartPush();
     }
 
@@ -97,7 +103,6 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     }
 
     private void postOnSyncComplete() {
-        //System.out.println("Sync Complete");
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncComplete();
