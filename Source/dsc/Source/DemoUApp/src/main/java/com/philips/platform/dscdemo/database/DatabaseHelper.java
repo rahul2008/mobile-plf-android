@@ -39,6 +39,7 @@ import com.philips.platform.dscdemo.database.table.OrmMomentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
+import com.philips.platform.securedblibrary.DefaultSqlLiteInitializer;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 import com.philips.platform.securedblibrary.SqlLiteInitializer;
 
@@ -87,22 +88,26 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     }
 
     private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
-        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
+        this(context, appInfraInterface, new DefaultSqlLiteInitializer());
     }
 
     DatabaseHelper(Context context, AppInfraInterface appInfraInterface, SqlLiteInitializer initializer) {
         super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY, initializer);
+        daoProvider = new OrmDaoProvider(this);
+    }
+
+    DatabaseHelper(Context context, AppInfraInterface appInfraInterface, SqlLiteInitializer initializer, DaoProvider daoProvider) {
+        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY, initializer);
+        this.daoProvider = daoProvider;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
         OrmLiteDatabase database = new OrmLiteDatabase(connectionSource);
-        OrmDaoProvider daoProvider = new OrmDaoProvider(this);
-        onCreate(database, daoProvider);
+        onCreate(database);
     }
 
-    public void onCreate(final OrmDatabase database, final DaoProvider daoProvider) {
-        this.daoProvider = daoProvider;
+    public void onCreate(final OrmDatabase database) {
         try {
             createTables(database);
             insertDictionaries();

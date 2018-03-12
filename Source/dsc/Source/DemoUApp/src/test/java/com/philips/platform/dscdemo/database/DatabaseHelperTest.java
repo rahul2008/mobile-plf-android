@@ -55,7 +55,7 @@ public class DatabaseHelperTest {
     }
 
     private void whenCreatingTheOrmDatabase() {
-        databaseHelper.onCreate(database, daoProvider);
+        databaseHelper.onCreate(database);
     }
 
     private void thenTablesAreCreatedFor(final Class<?>... expectedOrmClasses) {
@@ -71,7 +71,7 @@ public class DatabaseHelperTest {
             @Override
             public void loadLibs(final Context context) {
             }
-        });
+        }, daoProvider);
         source = new ConnectionSourceStub();
         database = new OrmDatabaseStub();
     }
