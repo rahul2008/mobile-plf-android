@@ -131,6 +131,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     private ConsentDefinitionState getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentState consentState) {
         ConsentDefinitionState consentDefinitionState = new ConsentDefinitionState();
+        consentDefinitionState.setConsentDefinition(consentDefinition);
         consentDefinitionState.setConsentStatus(consentState.getConsentStatus());
         consentDefinitionState.setConsentVersionStatus(getConsentVersionStatus(consentDefinition.getVersion(), consentState.getVersion()));
         return consentDefinitionState;
