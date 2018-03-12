@@ -3,7 +3,10 @@ package com.philips.platform.datasync.synchronisation;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -11,17 +14,22 @@ import com.philips.platform.datasync.spy.SynchronisationCompleteListenerSpy;
 import com.philips.spy.EventingSpy;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.concurrent.ExecutorService;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -31,13 +39,13 @@ public class SynchronisationManagerTest {
     private static final DateTime END_DATE = new DateTime();
 
     private EventingSpy eventingSpy;
-    SynchronisationCompleteListenerSpy synchronisationCompleteListenerSpy;
+    private SynchronisationCompleteListenerSpy synchronisationCompleteListenerSpy;
 
     @Mock
     private AppComponent appComponentMock;
 
     @Mock
-    ExecutorService executorServiceMock;
+    private ExecutorService executorServiceMock;
 
     private SynchronisationManager synchronisationManager;
 
@@ -68,8 +76,11 @@ public class SynchronisationManagerTest {
 
     @Test
     public void postEventWriteDataToBackendRequest_whenDataPullSuccessIsCalled() throws Exception {
+        givenLastDeletionTimeIsHoursAgo(27);
+
         synchronisationManager.dataPullSuccess();
-        thenVerifyEventIsPosted("WriteDataToBackendRequest");
+
+        thenVerifyEventIsPosted(WriteDataToBackendRequest.class.getSimpleName());
     }
 
     @Test
@@ -99,19 +110,28 @@ public class SynchronisationManagerTest {
 
     @Test
     public void shouldDeleteAllExpiredMoments_whenDataPushSuccessIsCalled() {
+        givenLastDeletionTimeIsHoursAgo(27);
+
         synchronisationManager.dataPullSuccess();
+
         thenVerifyEventIsInEventBus("DeleteExpiredMomentRequest");
     }
 
     @Test
     public void shouldDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
+        givenLastDeletionTimeIsHoursAgo(27);
+
         synchronisationManager.dataPullSuccess();
+
         thenVerifyEventIsInEventBus("DeleteExpiredInsightRequest");
     }
 
     @Test
     public void shouldSaveLastDeletionDateTime_whenDataPushSuccessIsCalled() {
+        givenLastDeletionTimeIsHoursAgo(27);
+
         synchronisationManager.dataPullSuccess();
+
         thenLastDeletionDateTimeIsStored();
     }
 
@@ -157,6 +177,42 @@ public class SynchronisationManagerTest {
         thenVerifyOnSyncFailedIsCalled("Invalid Date Range");
     }
 
+    @Test
+    public void shouldNotUpdateDeletionTime_whenDataPullSuccess_LessThan24hoursAgo() {
+        givenLastDeletionTimeIsHoursAgo(3);
+
+        synchronisationManager.dataPullSuccess();
+
+        verify(prefsEditorMock, never()).putString(anyString(), anyString());
+    }
+
+    @Test
+    public void shouldNotSendDeleteExpiredMomentsEvent_whenDataPullSuccess_LessThan24hoursAgo() {
+        givenLastDeletionTimeIsHoursAgo(3);
+
+        synchronisationManager.dataPullSuccess();
+
+        thenVerifyEventIsNotInEventBus(DeleteExpiredMomentRequest.class.getSimpleName());
+    }
+
+    @Test
+    public void shouldNotSendDeleteExpiredInsightsEvent_whenDataPullSuccess_LessThan24hoursAgo() {
+        givenLastDeletionTimeIsHoursAgo(3);
+
+        synchronisationManager.dataPullSuccess();
+
+        thenVerifyEventIsNotInEventBus(DeleteExpiredInsightRequest.class.getSimpleName());
+    }
+
+    @Test
+    public void shouldSendWriteDataToBackendRequest_whenDataPullSuccess_LessThan24hoursAgo() {
+        givenLastDeletionTimeIsHoursAgo(3);
+
+        synchronisationManager.dataPullSuccess();
+
+        thenVerifyEventIsInEventBus("WriteDataToBackendRequest");
+    }
+
     private void givenSomeSyncInProgress() {
         synchronisationManager.startSync(synchronisationCompleteListenerSpy);
         eventingSpy.postedEvent = null;
@@ -183,6 +239,15 @@ public class SynchronisationManagerTest {
         assertTrue(isThere);
     }
 
+    private void thenVerifyEventIsNotInEventBus(final String event) {
+        boolean isThere = false;
+        for (Event e : eventingSpy.eventBus) {
+            if (e.getClass().getSimpleName().equals(event))
+                isThere = true;
+        }
+        assertFalse(isThere);
+    }
+
     private void thenLastDeletionDateTimeIsStored() {
         assertNotNull(synchronisationManager.expiredDeletionTimeStorage);
     }
@@ -193,5 +258,10 @@ public class SynchronisationManagerTest {
 
     private void thenVerifyOnSyncFailedIsCalled(String message) {
         assertEquals(message, synchronisationCompleteListenerSpy.exception.getMessage());
+    }
+
+    private void givenLastDeletionTimeIsHoursAgo(int hours) {
+        DateTime oldTime = DateTime.now(DateTimeZone.UTC).minusHours(hours);
+        when(prefsMock.getString(eq("LAST_EXPIRED_DELETION_DATE_TIME"), anyString())).thenReturn(oldTime.toString());
     }
 }

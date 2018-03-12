@@ -22,6 +22,7 @@ import com.philips.platform.datasync.exception.SyncException;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
 
 import javax.inject.Inject;
 
@@ -64,7 +65,14 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullSuccess() {
-        // TODO Only delete expired data when DEL Timestamp longer than 24 hours ago.
+        DateTime lastDeletionTime = getLastExpiredDataDeletionDateTime();
+        DateTime now = DateTime.now();
+
+        if(now.isAfter(lastDeletionTime.plusDays(1))) {
+            // 24 hour of more have passed
+        }
+
+
         clearExpiredMoments();
         clearExpiredInsights();
         setLastExpiredDataDeletionDateTime();
@@ -123,6 +131,11 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     private void setLastExpiredDataDeletionDateTime() {
         expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, DateTime.now(DateTimeZone.UTC).toString()).apply();
+    }
+
+    private DateTime getLastExpiredDataDeletionDateTime() {
+        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, "02-01-1970");
+        return DateTime.parse(lastDeletion);
     }
 
     private void postOnSyncComplete() {
