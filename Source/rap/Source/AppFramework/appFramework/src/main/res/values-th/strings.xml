@@ -134,7 +134,6 @@
   <string name="RA_See_a_doctor_Menu_Title">[th]See a doctor</string>
   <string name="RA_Setting_Philips_Promo_Title">รับการแจ้งข่าวสารด้านโปรโมชันของ Philips ตามความต้องการและพฤติกรรมในโลกออนไลน์ของฉัน</string>
   <string name="RA_Setting_Philips_Promo_Title_Only">[th]Receive Philips</string>
-  <string name="RA_SettingsScreen_Title">การตั้งค่าบัญชี</string>
   <string name="RA_Settings_Login">ล็อกอิน</string>
   <string name="RA_Settings_Logout">ล็อกเอาต์</string>
   <string name="RA_Settings_Logout_Alert">คุณแน่ใจหรือไม่ว่าต้องการล็อกเอาท์</string>
