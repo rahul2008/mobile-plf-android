@@ -114,7 +114,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus("DeleteExpiredMomentRequest");
+        thenVerifyEventIsInEventBus(DeleteExpiredMomentRequest.class.getSimpleName());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus("DeleteExpiredInsightRequest");
+        thenVerifyEventIsInEventBus(DeleteExpiredInsightRequest.class.getSimpleName());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager.dataPullSuccess();
 
-        thenLastDeletionDateTimeIsStored();
+        verify(prefsEditorMock).putString(eq("LAST_EXPIRED_DELETION_DATE_TIME"), anyString());
     }
 
     @Test
@@ -210,7 +210,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus("WriteDataToBackendRequest");
+        thenVerifyEventIsInEventBus(WriteDataToBackendRequest.class.getSimpleName());
     }
 
     private void givenSomeSyncInProgress() {
@@ -246,10 +246,6 @@ public class SynchronisationManagerTest {
                 isThere = true;
         }
         assertFalse(isThere);
-    }
-
-    private void thenLastDeletionDateTimeIsStored() {
-        assertNotNull(synchronisationManager.expiredDeletionTimeStorage);
     }
 
     private void thenVerifyNoEventIsPosted() {

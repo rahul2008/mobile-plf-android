@@ -69,13 +69,13 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         DateTime now = DateTime.now();
 
         if(now.isAfter(lastDeletionTime.plusDays(1))) {
-            // 24 hour of more have passed
+            // 24 hour or more have passed
+            clearExpiredMoments();
+            clearExpiredInsights();
+            setLastExpiredDataDeletionDateTime();
         }
 
-
-        clearExpiredMoments();
-        clearExpiredInsights();
-        setLastExpiredDataDeletionDateTime();
+        // Always
         postEventToStartPush();
     }
 
