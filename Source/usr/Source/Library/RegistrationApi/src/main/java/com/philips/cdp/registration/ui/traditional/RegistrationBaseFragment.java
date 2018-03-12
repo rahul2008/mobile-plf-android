@@ -36,10 +36,6 @@ import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
-    protected int mLeftRightMarginPort;
-
-    protected int mLeftRightMarginLand;
-
     protected abstract void setViewParams(Configuration config, int width);
 
     protected abstract void handleOrientation(final View view);
@@ -68,6 +64,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -79,6 +77,12 @@ public abstract class RegistrationBaseFragment extends Fragment {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCurrentTitle();
     }
 
     private void setPrevTiltle() {
@@ -327,5 +331,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
             mProgressDialog.cancel();
         }
     }
+    
 
 }
