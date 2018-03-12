@@ -41,8 +41,10 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     SharedPreferences expiredDeletionTimeStorage;
 
     public SynchronisationManager() {
-        DataServicesManager.getInstance().getAppComponent().injectSynchronisationManager(this);
-        expiredDeletionTimeStorage = DataServicesManager.getInstance().getDataServiceContext().getSharedPreferences(LAST_EXPIRED_DELETION_DATE_TIME, Context.MODE_PRIVATE);
+        DataServicesManager servicesManager = DataServicesManager.getInstance();
+        servicesManager.getAppComponent().injectSynchronisationManager(this);
+        Context dataServiceContext = servicesManager.getDataServiceContext();
+        expiredDeletionTimeStorage = dataServiceContext.getSharedPreferences(LAST_EXPIRED_DELETION_DATE_TIME, Context.MODE_PRIVATE);
     }
 
     public void startSync(SynchronisationCompleteListener synchronisationCompleteListener) {
