@@ -220,6 +220,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
                 try {
                     this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
                 } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }
