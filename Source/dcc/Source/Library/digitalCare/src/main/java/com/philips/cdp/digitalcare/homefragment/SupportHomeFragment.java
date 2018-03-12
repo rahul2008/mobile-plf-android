@@ -141,8 +141,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         View mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
-        ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
-        DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
+        if(DigitalCareConfigManager.getInstance().getConsumerProductInfo() == null){
+            ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
+            DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
+        }
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
         initializeCountry();
