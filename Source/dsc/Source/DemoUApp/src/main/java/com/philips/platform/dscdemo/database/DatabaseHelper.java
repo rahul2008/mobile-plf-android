@@ -215,13 +215,11 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-        if (newVer > oldVer) {
-            if (newVer >= 2 && oldVer == 1) {
-                try {
-                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        if (newVer >= 2 && oldVer == 1) {
+            try {
+                this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
