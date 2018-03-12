@@ -71,15 +71,16 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     }
 
     @Override
-    public boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
+    public void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven, ConsentToggleResponse responseHandler) {
+        // TODO if consentGiven is false, sho
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             handler.storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
-            return consentGiven;
+//            return consentGiven;
         } else {
             permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_offline_title), mContext.getString(R.string.csw_offline_message));
-            return !consentGiven;
+//            return !consentGiven;
         }
     }
 
