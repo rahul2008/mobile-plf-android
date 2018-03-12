@@ -134,7 +134,6 @@
   <string name="RA_See_a_doctor_Menu_Title">[tr]See a doctor</string>
   <string name="RA_Setting_Philips_Promo_Title">Tercihlerime ve çevrimiçi davranışıma göre Philips\'in tanıtım amaçlı bildirimlerini al</string>
   <string name="RA_Setting_Philips_Promo_Title_Only">[tr]Receive Philips</string>
-  <string name="RA_SettingsScreen_Title">Hesap Ayarları</string>
   <string name="RA_Settings_Login">Oturum Aç</string>
   <string name="RA_Settings_Logout">Oturumu Kapat</string>
   <string name="RA_Settings_Logout_Alert">Oturumu kapatmak istediğinizden emin misiniz?</string>

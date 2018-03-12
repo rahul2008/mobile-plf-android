@@ -134,7 +134,6 @@
   <string name="RA_See_a_doctor_Menu_Title">[fi]See a doctor</string>
   <string name="RA_Setting_Philips_Promo_Title">Vastaanota Philipsin markkinointiviestejä omien asetuksien ja internetin käytön perusteella</string>
   <string name="RA_Setting_Philips_Promo_Title_Only">[fi]Receive Philips</string>
-  <string name="RA_SettingsScreen_Title">Tilin asetukset</string>
   <string name="RA_Settings_Login">Kirjaudu</string>
   <string name="RA_Settings_Logout">Kirjaudu ulos</string>
   <string name="RA_Settings_Logout_Alert">Haluatko varmasti kirjautua ulos?</string>
