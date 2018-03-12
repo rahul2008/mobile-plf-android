@@ -7,13 +7,12 @@
 
 package com.philips.platform.mya.catk;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -28,14 +27,14 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-
-import android.support.annotation.NonNull;
+import java.util.Collections;
+import java.util.List;
 
 public class ConsentsClient {
 
@@ -198,7 +197,7 @@ public class ConsentsClient {
         });
     }
 
-    void createConsent(final List<BackendConsent> consents, final CreateConsentListener consentListener) {
+    void createConsent(final BackendConsent consent, final CreateConsentListener consentListener) {
 
         validateAppNameAndPropName();
 
@@ -211,25 +210,21 @@ public class ConsentsClient {
 
             @Override
             public void onConfigurationCompletion(@NonNull String cssUrl) {
-                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getServiceDiscoveryInterface().getHomeCountry(), propositionName,
-                        applicationName);
-                for (BackendConsent consent : consents) {
-                    CreateConsentDto consentDto = mapper.map(consent);
-                    CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, consentDto, new NetworkAbstractModel.DataLoadListener() {
-                        @Override
-                        public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                            if (dtos == null) {
-                                consentListener.onSuccess();
-                            }
+                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getServiceDiscoveryInterface().getHomeCountry(), propositionName, applicationName);
+                CreateConsentDto consentDto = mapper.map(consent);
+                CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, consentDto, new NetworkAbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                        if (dtos == null) {
+                            consentListener.onSuccess();
                         }
-
-                        @Override
-                        public void onModelDataError(ConsentNetworkError error) {
-                            consentListener.onFailure(error);
-                        }
-                    });
-                    sendRequest(model);
-                }
+                    }
+                    @Override
+                    public void onModelDataError(ConsentNetworkError error) {
+                        consentListener.onFailure(error);
+                    }
+                });
+                sendRequest(model);
             }
         });
     }

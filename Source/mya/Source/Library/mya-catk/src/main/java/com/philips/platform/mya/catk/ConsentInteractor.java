@@ -6,13 +6,11 @@
  */
 package com.philips.platform.mya.catk;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -21,8 +19,12 @@ import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentState;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class ConsentInteractor implements ConsentHandlerInterface {
 
@@ -45,8 +47,15 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     @Override
-    public void storeConsentTypeState(String consentType, boolean status, PostConsentTypeCallback callback) {
+    public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+        ConsentStatus consentStatus = status ? ConsentStatus.active : ConsentStatus.rejected;
+        BackendConsent backendConsent = createConsents(consentType, consentStatus, version);
+        consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(backendConsent, callback));
+    }
 
+    private BackendConsent createConsents(String consentType, ConsentStatus status, int version) {
+        String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
+        return new BackendConsent(locale, status, consentType, version);
     }
 
     class GetConsentForTypeResponseListener implements ConsentResponseListener {
@@ -106,29 +115,26 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         }
     }
 
-    /*static class CreateConsentResponseListener implements CreateConsentListener {
+    static class CreateConsentResponseListener implements CreateConsentListener {
 
-        private final ConsentDefinition definition;
+        private final BackendConsent backendConsent;
+        private final PostConsentTypeCallback callback;
 
-        private final List<BackendConsent> backendConsents;
-        private final PostConsentCallback callback;
-
-        public CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, PostConsentCallback postConsentCallback) {
-            this.definition = definition;
-            this.backendConsents = backendConsents;
+        public CreateConsentResponseListener(BackendConsent backendConsent, PostConsentTypeCallback postConsentCallback) {
+            this.backendConsent = backendConsent;
             this.callback = postConsentCallback;
         }
 
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create BackendConsent: ", "Success");
-            callback.onPostConsentSuccess(new Consent(backendConsents, definition));
+            callback.onPostConsentSuccess(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
         }
 
         @Override
         public void onFailure(ConsentNetworkError error) {
             CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
-            callback.onPostConsentFailed(definition, new ConsentError(error.getMessage(), error.getCatkErrorCode()));
+            callback.onPostConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
-    }*/
+    }
 }

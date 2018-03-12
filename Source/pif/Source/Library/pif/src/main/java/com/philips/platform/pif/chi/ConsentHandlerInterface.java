@@ -14,5 +14,5 @@ public interface ConsentHandlerInterface {
 
     void fetchConsentTypeStates(List<String> consentTypes, final FetchConsentTypesStateCallback callback);
 
-    void storeConsentTypeState(final String consentType, boolean status, PostConsentTypeCallback callback);
+    void storeConsentTypeState(final String consentType, boolean status, int version, PostConsentTypeCallback callback);
 }

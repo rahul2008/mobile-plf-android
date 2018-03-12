@@ -98,7 +98,7 @@ public class ConsentManager implements ConsentManagerInterface {
         for (String consentType : consentDefinition.getTypes()) {
             ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
             consentTypeCallbackListeners.add(listener);
-            getHandler(consentType).storeConsentTypeState(consentType, status, listener);
+            getHandler(consentType).storeConsentTypeState(consentType, status, consentDefinition.getVersion(), listener);
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
