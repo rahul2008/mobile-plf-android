@@ -121,6 +121,8 @@ public class SynchronisationManagerTest {
     @Test
     public void shouldDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
         givenLastDeletionTimeIsHoursAgo(27);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+        forceSuccessCallbackWhenDeleteExpiredInsightRequest();
 
         synchronisationManager.dataPullSuccess();
 
@@ -130,6 +132,8 @@ public class SynchronisationManagerTest {
     @Test
     public void shouldSaveLastDeletionDateTime_whenDataPushSuccessIsCalled() {
         givenLastDeletionTimeIsHoursAgo(27);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+        forceSuccessCallbackWhenDeleteExpiredInsightRequest();
 
         synchronisationManager.dataPullSuccess();
 
@@ -243,14 +247,8 @@ public class SynchronisationManagerTest {
 //        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
     }
 
-    private void thenVerifyEventIsInEventBus(final Class event) {
-        verify(eventingMock).post((Event) isA(event));
-//        boolean isThere = false;
-//        for (Event e : eventingSpy.eventBus) {
-//            if (e.getClass().getSimpleName().equals(event))
-//                isThere = true;
-//        }
-//        assertTrue(isThere);
+    private void thenVerifyEventIsInEventBus(final Class<? extends Event> event) {
+        verify(eventingMock).post(isA(event));
     }
 
     private void thenVerifyEventIsNotInEventBus(final Class event) {
@@ -286,7 +284,7 @@ public class SynchronisationManagerTest {
                 listener.onSuccess(null);
                 return null;
             }
-        }).when(eventingMock).post((DeleteExpiredMomentRequest) any());
+        }).when(eventingMock).post(isA(DeleteExpiredMomentRequest.class));
     }
 
     private void forceSuccessCallbackWhenDeleteExpiredInsightRequest() {
@@ -299,7 +297,7 @@ public class SynchronisationManagerTest {
                 listener.onSuccess(null);
                 return null;
             }
-        }).when(eventingMock).post((DeleteExpiredInsightRequest) any());
+        }).when(eventingMock).post(isA(DeleteExpiredInsightRequest.class));
     }
 
     private void verifyDeletionTimeUpdated() {

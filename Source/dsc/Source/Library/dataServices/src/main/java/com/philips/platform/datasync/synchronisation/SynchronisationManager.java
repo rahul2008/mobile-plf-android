@@ -7,14 +7,15 @@ package com.philips.platform.datasync.synchronisation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.DeleteExpiredInsightRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -22,7 +23,8 @@ import com.philips.platform.datasync.exception.SyncException;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -70,9 +72,27 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
         if(now.isAfter(lastDeletionTime.plusDays(1))) {
             // 24 hour or more have passed
-            clearExpiredMoments();
-            clearExpiredInsights();
-            setLastExpiredDataDeletionDateTime();
+            clearExpiredMoments(new DBRequestListener<Integer>() {
+                @Override
+                public void onSuccess(List<? extends Integer> data) {
+                    clearExpiredInsights(new DBRequestListener<Insight>() {
+                        @Override
+                        public void onSuccess(List<? extends Insight> data) {
+                            setLastExpiredDataDeletionDateTime();
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            // NOP
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    // NOP
+                }
+            });
         }
 
         // Always
@@ -120,13 +140,13 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         mEventing.post(new WriteDataToBackendRequest());
     }
 
-    private void clearExpiredMoments() {
-        mEventing.post(new DeleteExpiredMomentRequest(null));
+    private void clearExpiredMoments(DBRequestListener<Integer> listener) {
+        mEventing.post(new DeleteExpiredMomentRequest(listener));
     }
 
 
-    private void clearExpiredInsights() {
-        mEventing.post(new DeleteExpiredInsightRequest(null));
+    private void clearExpiredInsights(DBRequestListener<Insight> listener) {
+        mEventing.post(new DeleteExpiredInsightRequest(listener));
     }
 
     private void setLastExpiredDataDeletionDateTime() {

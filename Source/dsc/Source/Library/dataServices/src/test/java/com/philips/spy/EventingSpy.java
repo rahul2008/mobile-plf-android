@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+/**
+ * Please use Mockito.verify(), Mockito.when() and Mockito.doAnswer() to replace this.
+ */
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class EventingSpy implements Eventing {
     public Event postedEvent;
     public DataPushSynchronise registeredClass;
