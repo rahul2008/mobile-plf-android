@@ -52,7 +52,6 @@ import java.util.List;
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
  */
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
-    private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "DataService.db";
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_PASSWORD_KEY = "dataservices";
