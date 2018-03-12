@@ -32,7 +32,6 @@ public class ConsentManagerTest {
     private ConsentHandlerInterface mReceivedConsentHandlerInterface;
 
     private SampleHandler1 mSampleHandler1;
-    private SampleHandler2 mSampleHandler2;
     private SampleHandler3 mSampleHandler3;
 
     private ConsentState mActiveConsentState;
@@ -181,7 +180,7 @@ public class ConsentManagerTest {
 
     private void givenRegisteredConsent() {
         mSampleHandler1 = new SampleHandler1();
-        mSampleHandler2 = new SampleHandler2();
+        SampleHandler2 mSampleHandler2 = new SampleHandler2();
         mSampleHandler3 = new SampleHandler3();
         mConsentManager.register(Arrays.asList("testConsent1", "testConsent2"), mSampleHandler1);
         mConsentManager.register(Arrays.asList("testConsent3", "testConsent4"), mSampleHandler2);
@@ -189,7 +188,7 @@ public class ConsentManagerTest {
     }
 
     private void whenRegisteringDuplicateConsentType() {
-        mConsentManager.register(Collections.singletonList("testConsent1"), mSampleHandler1);
+        mConsentManager.register(Collections.singletonList("testConsent1"), mSampleHandler3);
     }
 
     private void whenDeRegisterConsentTypeIsInvoked() {
@@ -217,7 +216,6 @@ public class ConsentManagerTest {
 
         @Override
         public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-//            callback.onGetConsentsSuccess();
         }
 
         @Override
