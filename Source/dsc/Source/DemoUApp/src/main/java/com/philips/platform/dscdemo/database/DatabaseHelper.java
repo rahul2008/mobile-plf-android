@@ -107,6 +107,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             createTables(database);
             insertDictionaries();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
