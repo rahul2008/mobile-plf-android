@@ -55,7 +55,7 @@ public class DatabaseHelperTest {
     }
 
     private void whenCreatingTheOrmDatabase() {
-        databaseHelper.onCreate(source, database, daoProvider);
+        databaseHelper.onCreate(database, daoProvider);
     }
 
     private void thenTablesAreCreatedFor(final Class<?>... expectedOrmClasses) {
