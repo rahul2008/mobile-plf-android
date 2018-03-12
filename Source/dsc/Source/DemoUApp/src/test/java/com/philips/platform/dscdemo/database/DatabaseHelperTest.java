@@ -28,32 +28,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class OrmDatabaseHelperTest {
-
-    private DatabaseHelper databaseHelper;
-    private ContextStub context;
-    private AppInfraStub appInfra;
-    private DaoProviderStub daoProvider;
-
-    @Before
-    public void setUp() {
-        context = new ContextStub();
-        appInfra = new AppInfraStub();
-        daoProvider = new DaoProviderStub();
-        databaseHelper = new DatabaseHelper(context, appInfra, new SqlLiteInitializer() {
-            @Override
-            public void loadLibs(final Context context) {
-            }
-        });
-    }
+public class DatabaseHelperTest {
 
     @Test
     public void createsAllTables() {
-        ConnectionSource source = new ConnectionSourceStub();
-        OrmDatabaseStub database = new OrmDatabaseStub();
-        databaseHelper.onCreate(source, database, daoProvider);
-
-        assertArrayEquals(new Class<?>[]{
+        whenCreatingTheOrmDatabase();
+        thenTablesAreCreatedFor(
                 OrmMoment.class
                 , OrmMomentType.class
                 , OrmMomentDetail.class
@@ -71,6 +51,35 @@ public class OrmDatabaseHelperTest {
                 , OrmSettings.class
                 , OrmDCSync.class
                 , OrmInsight.class
-                , OrmInsightMetaData.class}, database.dataClasses.toArray(new Class<?>[database.dataClasses.size()]));
+                , OrmInsightMetaData.class);
     }
+
+    private void whenCreatingTheOrmDatabase() {
+        databaseHelper.onCreate(source, database, daoProvider);
+    }
+
+    private void thenTablesAreCreatedFor(final Class<?>... expectedOrmClasses) {
+        assertArrayEquals(expectedOrmClasses, database.dataClasses.toArray(new Class<?>[database.dataClasses.size()]));
+    }
+
+    @Before
+    public void setUp() {
+        context = new ContextStub();
+        appInfra = new AppInfraStub();
+        daoProvider = new DaoProviderStub();
+        databaseHelper = new DatabaseHelper(context, appInfra, new SqlLiteInitializer() {
+            @Override
+            public void loadLibs(final Context context) {
+            }
+        });
+        source = new ConnectionSourceStub();
+        database = new OrmDatabaseStub();
+    }
+
+    private DatabaseHelper databaseHelper;
+    private ContextStub context;
+    private AppInfraStub appInfra;
+    private DaoProviderStub daoProvider;
+    private OrmDatabaseStub database;
+    private ConnectionSource source;
 }
