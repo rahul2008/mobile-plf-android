@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <string name="app_name">MyAccount</string>
-    <string name="MYA_Ok">en-GB-OK</string>
-    <string name="MYA_Offline_title">en-GB-You are offline</string>
-    <string name="MYA_Offline_message">en-GB-Your internet connection does not seem to be working. Please check and try again</string>
+<string name="MYA_My_account">My account</string>
+<string name="MYA_Profile">Profile</string>
+<string name="MYA_Settings">Settings</string>
+<string name="MYA_My_details">My details</string>
+<string name="MYA_My_products">My products</string>
+<string name="MYA_My_subscriptions">My subscriptions</string>
+<string name="MYA_My_orders">My orders</string>
+<string name="MYA_Logout">Log out</string>
+<string name="MYA_Account_settings">Account settings</string>
+<string name="MYA_Country">Country</string>
+<string name="MYA_Notifications">Notifications</string>
+<string name="MYA_Privacy_Settings">Privacy settings</string>
+<string name="MYA_Login_details">Login details</string>
+<string name="MYA_Email_address">E-mail address</string>
+<string name="MYA_Mobile_number">Mobile number</string>
+<string name="MYA_Personal_details">Personal details</string>
+<string name="MYA_Name">Name</string>
+<string name="MYA_Gender">Gender</string>
+<string name="MYA_Date_of_birth">Date of birth</string>
+<string name="MYA_Address">Address</string>
+<string name="MYA_Cancel">Cancel</string>
+<string name="MYA_change_country">Log out to change country</string>
+<string name="MYA_change_country_message">Please log out to change the country you live in. This will let us tailor the warranty and other information to your location</string>
+<string name="MYA_logout_title">Are you sure you want to log out?</string>
+<string name="MYA_logout_message">You will be logged out of the application. After you log out, you can always log in again.</string>
+<string name="MYA_Info">Do you want to change your login ID or password? Visit our website.</string>
+<string name="MYA_Email_Validation_message">Email address not confirmed</string>
+<string name="MYA_Not_Available">Not available</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">You are offline</string>
+<string name="MYA_Offline_message">Your internet connection does not seem to be working. Please check and try again</string>
+<string name="mya_Privacy_Settings_Desc">Control your privacy. Read the _privacy notice_ for more information.</string>
 </resources>

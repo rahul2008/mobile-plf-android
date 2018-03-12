@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.appframework.connectivitypowersleep;
 
 import android.animation.ObjectAnimator;
@@ -25,7 +24,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
@@ -145,7 +143,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setOnClickListener(this);
         insights.setEnabled(true);
         insights.setAlpha(0.5f);
-        mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
+        mCommCentral = getCommCentral();
 
         setHasOptionsMenu(true);
         startAppTagging(TAG);

@@ -26,6 +26,7 @@ public class UCoreMoment {
     @Expose
     private String type;
 
+    @Expose
     private String guid;
     private boolean inactive;
     private String lastModified;

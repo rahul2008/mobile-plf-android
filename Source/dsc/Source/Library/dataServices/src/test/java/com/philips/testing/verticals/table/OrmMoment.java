@@ -71,6 +71,11 @@ public class OrmMoment implements Moment, Serializable {
         return null;
     }
 
+    @Override
+    public void setExpirationDate(DateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
 
     @Override
     public String getCreatorId() {
@@ -157,7 +162,4 @@ public class OrmMoment implements Moment, Serializable {
         this.synced = synced;
     }
 
-    public void setExpirationDate(DateTime expirationDate){
-        this.expirationDate = expirationDate;
-    }
 }

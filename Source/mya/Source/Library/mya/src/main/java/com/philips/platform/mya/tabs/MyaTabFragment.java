@@ -71,8 +71,8 @@ public class MyaTabFragment extends MyaBaseFragment {
     }
 
     private void addTabs(TabLayout tabLayout) {
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_profile)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.mya_settings)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.MYA_Profile)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.MYA_Settings)));
         if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null && myaLaunchInput.getMyaTabConfig().getTabName() != null && myaLaunchInput.getMyaTabConfig().getFragment() != null)
             tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTabConfig().getTabName()));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
