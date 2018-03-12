@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class DatabaseHelperTest {
+public class OrmDatabaseHelperTest {
 
     private DatabaseHelper databaseHelper;
     private ContextStub context;
@@ -50,7 +50,7 @@ public class DatabaseHelperTest {
     @Test
     public void createsAllTables() {
         ConnectionSource source = new ConnectionSourceStub();
-        DatabaseStub database = new DatabaseStub();
+        OrmDatabaseStub database = new OrmDatabaseStub();
         databaseHelper.onCreate(source, database, daoProvider);
 
         assertArrayEquals(new Class<?>[]{

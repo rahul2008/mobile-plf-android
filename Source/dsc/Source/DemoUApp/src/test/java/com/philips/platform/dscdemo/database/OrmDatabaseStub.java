@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class DatabaseStub implements Database {
+class OrmDatabaseStub implements OrmDatabase {
     public List<Class<?>> dataClasses = new ArrayList<>();
     @Override
     public void createTable(final Class<?> dataClass) throws SQLException {

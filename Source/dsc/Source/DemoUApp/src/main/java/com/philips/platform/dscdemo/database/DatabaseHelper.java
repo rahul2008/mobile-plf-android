@@ -96,12 +96,12 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-        OrmDatabase database = new OrmDatabase(connectionSource);
+        OrmLiteDatabase database = new OrmLiteDatabase(connectionSource);
         OrmDaoProvider daoProvider = new OrmDaoProvider(this);
         onCreate(connectionSource, database, daoProvider);
     }
 
-    public void onCreate(final ConnectionSource connectionSource, final Database database, final DaoProvider daoProvider) {
+    public void onCreate(final ConnectionSource connectionSource, final OrmDatabase database, final DaoProvider daoProvider) {
         this.daoProvider = daoProvider;
         try {
             createTables(database);
@@ -191,7 +191,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-    private void createTables(final Database database) throws SQLException {
+    private void createTables(final OrmDatabase database) throws SQLException {
         database.createTable(OrmMoment.class);
         database.createTable(OrmMomentType.class);
         database.createTable(OrmMomentDetail.class);
