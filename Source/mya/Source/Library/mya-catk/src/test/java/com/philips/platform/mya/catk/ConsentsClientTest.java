@@ -7,34 +7,14 @@
 
 package com.philips.platform.mya.catk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -46,13 +26,33 @@ import com.philips.platform.mya.catk.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.mya.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 public class ConsentsClientTest {
 
@@ -154,7 +154,7 @@ public class ConsentsClientTest {
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenInitIsNotCalledAndTryingToGetConsentStatus() throws Exception {
         givenAppNamePropName("appName", "");
-        consentsClient.getStatusForConsentType(null, -1, null);
+        consentsClient.getStatusForConsentType(null, null);
         verifyZeroInteractions(mockNetworkController);
     }
 
@@ -172,18 +172,18 @@ public class ConsentsClientTest {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
         BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
-        consentsClient.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
+        consentsClient.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
-        thenAssertConsentDto(HSDP_UUID, "moment", "active","nl-NL", "US","myApplication", "myProposition", 1);
+        thenAssertConsentDto(HSDP_UUID, "moment", "active", "nl-NL", "US", "myApplication", "myProposition", 1);
     }
 
     @Test
     public void getStatusForConsentType_shouldFilterByType() {
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(consentDtos);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
         assertEquals(consents, consentResponseListener.responseData);
     }
 
@@ -192,7 +192,7 @@ public class ConsentsClientTest {
         givenStrictConsentCheckIs(null);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
         thenConsentStatusIs(ConsentStatus.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
@@ -202,18 +202,18 @@ public class ConsentsClientTest {
         givenStrictConsentCheckIs(false);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
         thenConsentStatusIs(ConsentStatus.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
 
     @Test
-    public void getStatusForConsentType_returnsNull_whenNotInBackendAndStrictModeIsOn() {
+    public void getStatusForConsentType_returnsEmptyList_whenNotInBackendAndStrictModeIsOn() {
         givenStrictConsentCheckIs(true);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
-        assertNull(consentResponseListener.responseData);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
+        assertEquals(new ArrayList<>(), consentResponseListener.responseData);
     }
 
     @Test
