@@ -27,8 +27,7 @@ class MyaDetailContract {
 
         void setMobileNumber(String number);
 
-        void handleArrowVisibility(String email, String mobileNumber);
-
+        void setAddress(String address);
     }
 
     interface Presenter extends UserDetailPresenterInterface<View> {

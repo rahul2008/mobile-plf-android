@@ -30,6 +30,7 @@ class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> imple
             if(userDataModel.getGender()!=null)
             view.setGender(userDataModel.getGender().toString());
             view.setDateOfBirth(userDataModel.getBirthday());
+            view.setAddress(userDataModel.getAddress());
         }
     }
 
