@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <string name="app_name">MyAccount</string>
-    <string name="MYA_Ok">de-OK</string>
-    <string name="MYA_Offline_title">de-You are offline</string>
-    <string name="MYA_Offline_message">de-Your internet connection does not seem to be working. Please check and try again</string>
+<string name="MYA_My_account">Mein Konto</string>
+<string name="MYA_Profile">Profil</string>
+<string name="MYA_Settings">Einstellungen</string>
+<string name="MYA_My_details">Meine Daten</string>
+<string name="MYA_My_products">Meine Produkte</string>
+<string name="MYA_My_subscriptions">Meine Abonnements</string>
+<string name="MYA_My_orders">Meine Bestellungen</string>
+<string name="MYA_Logout">Abmelden</string>
+<string name="MYA_Account_settings">Kontoeinstellungen</string>
+<string name="MYA_Country">Land</string>
+<string name="MYA_Notifications">Benachrichtig.</string>
+<string name="MYA_Privacy_Settings">Privatsphäreneinstellungen</string>
+<string name="MYA_Login_details">Anmeldetails</string>
+<string name="MYA_Email_address">E-Mail-Adresse</string>
+<string name="MYA_Mobile_number">Handynummer</string>
+<string name="MYA_Personal_details">Persönliche Informationen</string>
+<string name="MYA_Name">Name</string>
+<string name="MYA_Gender">Geschlecht</string>
+<string name="MYA_Date_of_birth">Geburtsdatum</string>
+<string name="MYA_Address">Adresse</string>
+<string name="MYA_Cancel">Abbrechen</string>
+<string name="MYA_change_country">Abmelden, um Land zu ändern</string>
+<string name="MYA_change_country_message">Bitte melden Sie sich ab, um das Land auszuwählen, in dem Sie leben. So können wir die Garantiebestimmungen sowie weitere Informationen an Ihren Standort anpassen.</string>
+<string name="MYA_logout_title">Möchten Sie sich wirklich abmelden?</string>
+<string name="MYA_logout_message">Sie werden von der Anwendung abgemeldet. Nach der Abmeldung können Sie sich jederzeit wieder anmelden.</string>
+<string name="MYA_Info">Möchten Sie Ihre Anmelde-ID oder Ihr Passwort ändern? Besuchen Sie unsere Website.</string>
+<string name="MYA_Email_Validation_message">E-Mail-Adresse nicht bestätigt</string>
+<string name="MYA_Not_Available">Nicht vorhanden</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">Sie sind offline.</string>
+<string name="MYA_Offline_message">Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.</string>
+<string name="mya_Privacy_Settings_Desc">Schützen Sie Ihre Privatspäre. Die Datenschutzrichtlinie enthält weiterführende Informationen.</string>
 </resources>

@@ -15,6 +15,8 @@ import android.view.MotionEvent;
  */
 public class MyaViewPager extends ViewPager {
 
+    private boolean swipeable;
+
     public MyaViewPager(Context context) {
         super(context);
     }
@@ -25,6 +27,11 @@ public class MyaViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
 

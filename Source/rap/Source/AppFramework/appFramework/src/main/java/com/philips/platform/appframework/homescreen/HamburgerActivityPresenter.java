@@ -83,8 +83,6 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
         switch (componentID) {
             case MENU_OPTION_HOME:
                 return HOME_FRAGMENT;
-            case MENU_OPTION_SETTINGS:
-                return HOME_SETTINGS;
             case MENU_OPTION_SHOP:
                 return HOME_IAP;
             case MENU_OPTION_SUPPORT:

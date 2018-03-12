@@ -44,7 +44,7 @@ public class BaseConfiguration {
     }
 
     @SuppressWarnings("unchecked")
-    private String getPropertyValueFromMap(Map property) {
+    private String getPropertyValueFromMap(Map<?,?> property) {
         String propertyValue = (String) property.get(RegistrationHelper.getInstance().getCountryCode());
         if (propertyValue == null || propertyValue.isEmpty()) {
             propertyValue = (String) property.get(DEFAULT_PROPERTY_KEY);

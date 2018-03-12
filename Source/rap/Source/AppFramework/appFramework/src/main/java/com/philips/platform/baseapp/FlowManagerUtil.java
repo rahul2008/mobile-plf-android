@@ -19,15 +19,13 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
-import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
-import com.philips.platform.modularui.stateimpl.EWSFragmentState;
 import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
 
 import java.util.Map;
@@ -43,7 +41,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.HOME_FRAGMENT, new HomeFragmentState());
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
         uiStateMap.put(AppStates.DEBUG, new DebugTestFragmentState());
-        uiStateMap.put(AppStates.SETTINGS, new SettingsFragmentState());
         uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());

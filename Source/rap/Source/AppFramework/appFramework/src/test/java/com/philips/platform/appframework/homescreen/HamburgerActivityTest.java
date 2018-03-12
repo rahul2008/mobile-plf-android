@@ -266,39 +266,12 @@ public class HamburgerActivityTest {
         assertTrue(hamburgerActivity.isFinishing());
     }
 
-    @Config(sdk = 25)
-    @Test
-    public void logoutClickWhenUserLoggedInTest() {
-        LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
-        logoutParent.performClick();
-        assertFalse(sideBar.isDrawerVisible(navigationView));
-        verify(urLogoutInterface).performLogout(any(Context.class), any(User.class));
-    }
-    @Test
-    @Ignore
-    public void logoutClickWhenUserLoggedOutTest() {
-        TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
-        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
-        LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
-        logoutParent.performClick();
-        assertFalse(sideBar.isDrawerVisible(navigationView));
-        verify(hamburgerActivityPresenter, times(1)).onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
-    }
     @Test
     public void logoutResultFailureTest() {
         hamburgerActivity.onLogoutResultFailure(0, "Logout failure");
         assertEquals(ShadowToast.getTextOfLatestToast(), "Logout failure");
     }
 
-    @Test
-    @Ignore
-    public void logoutResultSuccessTest() {
-        assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Logout));
-        TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
-        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject((Context)isNull()).isUserSignIn()).thenReturn(false);
-        hamburgerActivity.onLogoutResultSuccess();
-        assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Login));
-    }
 
     @After
     public void tearDown() {

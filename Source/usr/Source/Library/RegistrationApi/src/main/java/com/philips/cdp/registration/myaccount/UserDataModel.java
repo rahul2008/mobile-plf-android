@@ -25,6 +25,7 @@ public class UserDataModel implements DataModel, Serializable {
     private boolean isEmailVerified;
     private boolean isVerified;
     private String familyName;
+    private String address;
 
 
     public String getGivenName() {
@@ -118,5 +119,13 @@ public class UserDataModel implements DataModel, Serializable {
     @Override
     public DataModelType getDataModelType() {
         return DataModelType.USER;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

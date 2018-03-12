@@ -134,7 +134,6 @@
   <string name="RA_See_a_doctor_Menu_Title">[fr-CA]See a doctor</string>
   <string name="RA_Setting_Philips_Promo_Title">Recevoir des communications promotionnelles de la part de Philips basées sur mes préférences et mon comportement en ligne</string>
   <string name="RA_Setting_Philips_Promo_Title_Only">[fr-CA]Receive Philips</string>
-  <string name="RA_SettingsScreen_Title">Paramètres du compte</string>
   <string name="RA_Settings_Login">Se connecter</string>
   <string name="RA_Settings_Logout">Se déconnecter</string>
   <string name="RA_Settings_Logout_Alert">Êtes-vous sûr de vouloir vous déconnecter?</string>

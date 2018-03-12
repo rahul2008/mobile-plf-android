@@ -7,7 +7,6 @@
 <string name="RA_Cancel">Otkaži</string>
 <string name="RA_Warning">UPOZORENJE</string>
 <string name="RA_HomeScreen_Title">Početna stranica mobilne aplikacije</string>
-<string name="RA_SettingsScreen_Title">Postavke računa</string>
 <string name="RA_SupportScreen_Title">Podrška</string>
 <string name="RA_DataServicesScreen_Title">Usluge prijenosa podataka</string>
 <string name="RA_DebugAndTestScreen_Title">Ispravite greške i testirajte</string>

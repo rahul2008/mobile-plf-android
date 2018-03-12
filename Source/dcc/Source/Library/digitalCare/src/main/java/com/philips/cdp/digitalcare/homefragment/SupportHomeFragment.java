@@ -30,6 +30,7 @@ import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
@@ -140,8 +141,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         View mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
-        ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
-        DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
+        if(DigitalCareConfigManager.getInstance().getConsumerProductInfo() == null){
+            ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
+            DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
+        }
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
         initializeCountry();
@@ -888,8 +891,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             if (getActivity() != null) {
                 JustInTimeLauncher justInTimeLauncher = new JustInTimeLauncher();
                 justInTimeLauncher.addJustInTimeConsentDependencies(getActivity(), this);
-                showFragment(justInTimeLauncher.getJustInTimeFragment(mContainerId, mActionbarUpdateListener));
+                showFragment(justInTimeLauncher.getJustInTimeFragment(getContainerId(), mActionbarUpdateListener));
             }
         }
+    }
+
+    private int getContainerId() {
+        return (mContainerId==0 && getActivity() instanceof DigitalCareBaseActivity)? R.id.mainContainer : mContainerId;
     }
 }

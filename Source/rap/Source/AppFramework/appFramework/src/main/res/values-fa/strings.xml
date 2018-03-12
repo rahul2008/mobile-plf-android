@@ -7,7 +7,6 @@
 <string name="RA_Cancel">لغو</string>
 <string name="RA_Warning">هشدار</string>
 <string name="RA_HomeScreen_Title">صفحه اصلی برنامه تلفن همراه</string>
-<string name="RA_SettingsScreen_Title">تنظیمات حساب</string>
 <string name="RA_SupportScreen_Title">پشتیبانی</string>
 <string name="RA_DataServicesScreen_Title">سرویس‌های اینترنت همراه</string>
 <string name="RA_DebugAndTestScreen_Title">اشکال‌یابی و آزمایش</string>
