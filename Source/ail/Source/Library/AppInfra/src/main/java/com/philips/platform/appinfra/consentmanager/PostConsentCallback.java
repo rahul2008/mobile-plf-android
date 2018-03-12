@@ -6,5 +6,5 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinitionState;
 public interface PostConsentCallback {
     void onPostConsentFailed(ConsentError error);
 
-    void onPostConsentSuccess(ConsentDefinitionState consentDefinitionState);
+    void onPostConsentSuccess();
 }

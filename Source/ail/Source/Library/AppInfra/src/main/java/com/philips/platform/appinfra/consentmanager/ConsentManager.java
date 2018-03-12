@@ -102,7 +102,7 @@ public class ConsentManager implements ConsentManagerInterface {
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnStoreConsent(consentDefinition, consentTypeCallbackListeners, callback);
+        postResultOnStoreConsent(consentTypeCallbackListeners, callback);
     }
 
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
@@ -158,17 +158,14 @@ public class ConsentManager implements ConsentManagerInterface {
         callback.onGetConsentsSuccess(consentDefinitionStateList);
     }
 
-    private void postResultOnStoreConsent(ConsentDefinition consentDefinition,
-                                          List<ConsentTypeCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
-        ConsentDefinitionState consentDefinitionState = null;
+    private void postResultOnStoreConsent(List<ConsentTypeCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
         for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
             if (consentTypeCallbackListener.consentError != null) {
                 postConsentCallback.onPostConsentFailed(consentTypeCallbackListener.consentError);
                 return;
             }
-            consentDefinitionState = getConsentDefinitionState(consentDefinition, consentTypeCallbackListener.consentState);
         }
-        postConsentCallback.onPostConsentSuccess(consentDefinitionState);
+        postConsentCallback.onPostConsentSuccess();
     }
 
     private class ConsentManagerCallbackListener implements FetchConsentCallback {
@@ -210,8 +207,7 @@ public class ConsentManager implements ConsentManagerInterface {
         }
 
         @Override
-        public void onPostConsentSuccess(ConsentState consentState) {
-            this.consentState = consentState;
+        public void onPostConsentSuccess() {
             countDownLatch.countDown();
         }
 
