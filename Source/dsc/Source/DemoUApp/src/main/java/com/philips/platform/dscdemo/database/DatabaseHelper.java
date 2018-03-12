@@ -79,19 +79,19 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     private DaoProvider daoProvider;
 
+    public static synchronized DatabaseHelper getInstance(Context context, AppInfraInterface appInfraInterface) {
+        if (sDatabaseHelper == null) {
+            return sDatabaseHelper = new DatabaseHelper(context, appInfraInterface);
+        }
+        return sDatabaseHelper;
+    }
+
     private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
         super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
     }
 
     DatabaseHelper(Context context, AppInfraInterface appInfraInterface, SqlLiteInitializer initializer) {
         super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY, initializer);
-    }
-
-    public static synchronized DatabaseHelper getInstance(Context context, AppInfraInterface appInfraInterface) {
-        if (sDatabaseHelper == null) {
-            return sDatabaseHelper = new DatabaseHelper(context, appInfraInterface);
-        }
-        return sDatabaseHelper;
     }
 
     @Override
