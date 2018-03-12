@@ -56,6 +56,8 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_PASSWORD_KEY = "dataservices";
 
+    private static DatabaseHelper sDatabaseHelper;
+
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
     private Dao<OrmMomentDetail, Integer> momentDetailDao;
@@ -75,7 +77,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
-    private static DatabaseHelper sDatabaseHelper;
     private DaoProvider daoProvider;
 
     private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
