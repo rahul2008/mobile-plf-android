@@ -107,7 +107,7 @@ public class ProdRegBaseActivity extends UIDActivity {
         super.onResume();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked","serial"})
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
