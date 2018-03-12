@@ -110,23 +110,23 @@ public class SynchronisationManagerTest {
     }
 
     @Test
-    public void shouldDeleteAllExpiredMoments_whenDataPushSuccessIsCalled() {
+    public void shouldDeleteAllExpiredMoments_whenDataPushSuccessIsCalled()  {
         givenLastDeletionTimeIsHoursAgo(27);
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus(DeleteExpiredMomentRequest.class);
+        verify(eventingMock).post(isA(DeleteExpiredMomentRequest.class));
     }
 
     @Test
     public void shouldDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
         givenLastDeletionTimeIsHoursAgo(27);
         forceSuccessCallbackWhenDeleteExpiredMomentRequest();
-        forceSuccessCallbackWhenDeleteExpiredInsightRequest();
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus(DeleteExpiredInsightRequest.class);
+
+        verify(eventingMock).post(isA(DeleteExpiredInsightRequest.class));
     }
 
     @Test
@@ -138,6 +138,58 @@ public class SynchronisationManagerTest {
         synchronisationManager.dataPullSuccess();
 
         verifyDeletionTimeUpdated();
+    }
+
+    @Test
+    public void shouldNotDeleteAllExpiredMoments_whenDataPushSuccessIsCalled()  {
+        givenLastDeletionTimeIsHoursAgo(3);
+
+        synchronisationManager.dataPullSuccess();
+
+        verify(eventingMock, never()).post(isA(DeleteExpiredMomentRequest.class));
+    }
+
+    @Test
+    public void shouldNotDeleteAllExpiredInsights_whenDataPushSuccessIsCalled() {
+        givenLastDeletionTimeIsHoursAgo(3);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+
+        synchronisationManager.dataPullSuccess();
+
+
+        verify(eventingMock, never()).post(isA(DeleteExpiredInsightRequest.class));
+    }
+
+    @Test
+    public void shouldNotSaveLastDeletionDateTime_whenDataPushSuccessIsCalled() {
+        givenLastDeletionTimeIsHoursAgo(3);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+        forceSuccessCallbackWhenDeleteExpiredInsightRequest();
+
+        synchronisationManager.dataPullSuccess();
+
+        verifyDeletionTimeNotUpdated();
+    }
+
+    @Test
+    public void shouldNotUpdateDeletionTime_whenDataPushSuccessIsCalled_butDeletingMomentsFailed()  {
+        givenLastDeletionTimeIsHoursAgo(25);
+        forceFailureCallbackWhenDeleteExpiredMomentRequest();
+
+        synchronisationManager.dataPullSuccess();
+
+        verify(eventingMock, never()).post(isA(DeleteExpiredInsightRequest.class));
+    }
+
+    @Test
+    public void shouldNotUpdateDeletionTime_whenDataPushSuccessIsCalled_butDeletingInsightsFailed()  {
+        givenLastDeletionTimeIsHoursAgo(25);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+        forceFailureCallbackWhenDeleteExpiredInsightRequest();
+
+        synchronisationManager.dataPullSuccess();
+
+        verifyDeletionTimeNotUpdated();
     }
 
     @Test
@@ -215,7 +267,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager.dataPullSuccess();
 
-        thenVerifyEventIsInEventBus(WriteDataToBackendRequest.class);
+        verify(eventingMock).post(isA(WriteDataToBackendRequest.class));
     }
 
     @Test
@@ -245,10 +297,6 @@ public class SynchronisationManagerTest {
     private void thenVerifyEventIsPosted(Class eventClass) {
         verify(eventingMock).post((Event) isA(eventClass));
 //        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
-    }
-
-    private void thenVerifyEventIsInEventBus(final Class<? extends Event> event) {
-        verify(eventingMock).post(isA(event));
     }
 
     private void thenVerifyEventIsNotInEventBus(final Class event) {
@@ -287,6 +335,19 @@ public class SynchronisationManagerTest {
         }).when(eventingMock).post(isA(DeleteExpiredMomentRequest.class));
     }
 
+    private void forceFailureCallbackWhenDeleteExpiredMomentRequest() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteExpiredMomentRequest deleteExpiredMomentRequest = (DeleteExpiredMomentRequest) invocation.getArguments()[0];
+                DBRequestListener<Integer> listener = deleteExpiredMomentRequest.getDbRequestListener();
+
+                listener.onFailure(new Exception());
+                return null;
+            }
+        }).when(eventingMock).post(isA(DeleteExpiredMomentRequest.class));
+    }
+
     private void forceSuccessCallbackWhenDeleteExpiredInsightRequest() {
         doAnswer(new Answer() {
             @Override
@@ -300,7 +361,24 @@ public class SynchronisationManagerTest {
         }).when(eventingMock).post(isA(DeleteExpiredInsightRequest.class));
     }
 
+    private void forceFailureCallbackWhenDeleteExpiredInsightRequest() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                DeleteExpiredInsightRequest deleteExpiredInsightRequest = (DeleteExpiredInsightRequest) invocation.getArguments()[0];
+                DBRequestListener<Insight> listener = deleteExpiredInsightRequest.getDbRequestListener();
+
+                listener.onFailure(new Exception());
+                return null;
+            }
+        }).when(eventingMock).post(isA(DeleteExpiredInsightRequest.class));
+    }
+
     private void verifyDeletionTimeUpdated() {
         verify(prefsEditorMock).putString(eq("LAST_EXPIRED_DELETION_DATE_TIME"), anyString());
+    }
+
+    private void verifyDeletionTimeNotUpdated() {
+        verify(prefsEditorMock, never()).putString(eq("LAST_EXPIRED_DELETION_DATE_TIME"), anyString());
     }
 }
