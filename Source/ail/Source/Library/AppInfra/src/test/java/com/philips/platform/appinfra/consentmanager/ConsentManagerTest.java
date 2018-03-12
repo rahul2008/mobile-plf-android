@@ -36,6 +36,7 @@ public class ConsentManagerTest {
 
     private ConsentState mActiveConsentState;
     private ConsentState mRejectedConsentState;
+    private ConsentState mInactiveConsentState;
     private ConsentError mConsentError;
 
     private ConsentDefinitionState mReceivedConsentDefinitionState;
@@ -182,9 +183,11 @@ public class ConsentManagerTest {
         mSampleHandler1 = new SampleHandler1();
         SampleHandler2 mSampleHandler2 = new SampleHandler2();
         mSampleHandler3 = new SampleHandler3();
+        SampleHandler4 mSampleHandler4 = new SampleHandler4();
         mConsentManager.register(Arrays.asList("testConsent1", "testConsent2"), mSampleHandler1);
         mConsentManager.register(Arrays.asList("testConsent3", "testConsent4"), mSampleHandler2);
-        mConsentManager.register(Arrays.asList("testConsent5", "testConsent6"), mSampleHandler3);
+        mConsentManager.register(Collections.singletonList("testConsent5"), mSampleHandler3);
+        mConsentManager.register(Collections.singletonList("testConsent6"), mSampleHandler4);
     }
 
     private void whenRegisteringDuplicateConsentType() {
@@ -204,7 +207,11 @@ public class ConsentManagerTest {
     }
 
     private void givenRejectedConsentState() {
-        mRejectedConsentState = new ConsentState(ConsentStatus.rejected, 1);
+        mRejectedConsentState = new ConsentState(ConsentStatus.rejected, 2);
+    }
+
+    private void givenInactiveConsentState() {
+        mInactiveConsentState = new ConsentState(ConsentStatus.inactive, 0);
     }
 
     private class SampleHandler1 implements ConsentHandlerInterface {
@@ -262,6 +269,25 @@ public class ConsentManagerTest {
             callback.onPostConsentSuccess();
         }
     }
+
+    private class SampleHandler4 implements ConsentHandlerInterface {
+        @Override
+        public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+            givenInactiveConsentState();
+            callback.onGetConsentsSuccess(mInactiveConsentState);
+        }
+
+        @Override
+        public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
+
+        }
+
+        @Override
+        public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+            callback.onPostConsentSuccess();
+        }
+    }
+
 
     private class FetchConsentCallbackListener implements FetchConsentCallback {
 
