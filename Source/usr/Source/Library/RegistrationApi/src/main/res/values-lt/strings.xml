@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Bandyti prisijungti dar kartą</string>
 <string name="reg_Contact_Customer_Care_Text">Susisiekti su klientų aptarnavimu</string>
 <string name="reg_Update_Email_Button_Text">Atnaujinkite el. pašto adresą</string>
-<string name="reg_Country_Region">Šalis / regionas</string>
+<string name="reg_Country_Region">Šalis/regionas</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prisijunkite dabar</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Kurti „Philips“ paskyrą</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Arba prisijunkite per:</string>

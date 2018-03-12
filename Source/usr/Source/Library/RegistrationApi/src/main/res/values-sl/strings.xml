@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Poskus ponovne prijave</string>
 <string name="reg_Contact_Customer_Care_Text">Obrnite se na center za pomoč uporabnikom.</string>
 <string name="reg_Update_Email_Button_Text">Posodobitev e-poštnega naslova</string>
-<string name="reg_Country_Region">Država / regija</string>
+<string name="reg_Country_Region">Država/regija</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prijavite se zdaj</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Ustvari račun za My Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ali pa se prijavite z:</string>

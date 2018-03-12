@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">다시 로그인</string>
 <string name="reg_Contact_Customer_Care_Text">고객 지원에 문의</string>
 <string name="reg_Update_Email_Button_Text">이메일 주소 업데이트</string>
-<string name="reg_Country_Region">국가 / 지역</string>
+<string name="reg_Country_Region">국가/지역</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">지금 로그인</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">내 필립스 계정 만들기</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">또는 다음으로 로그인:</string>
