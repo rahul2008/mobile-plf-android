@@ -90,8 +90,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 	}
 
 	public void onFailure(SignInError error) {
-		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-		userRegistrationFailureInfo.setError(error.captureApiError);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
 		ThreadUtils.postInMainThread(mContext,()->
@@ -129,6 +128,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		if (mSocialProviderLoginHandler != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
 			userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
 			ThreadUtils.postInMainThread(mContext,()->
 			mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
@@ -180,6 +180,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
 			userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.NETWORK_ERROR);
+			userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
 			socialProviderLoginHandler
 					.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 			AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
