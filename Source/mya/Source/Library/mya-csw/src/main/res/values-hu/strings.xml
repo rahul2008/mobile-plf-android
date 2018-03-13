@@ -51,10 +51,14 @@
   <string name="mya_Settings">Beállítások</string>
   <string name="mya_change_country">Jelentkezzen ki, módosítsa országát</string>
   <string name="mya_change_country_message">Kérjük, jelentkezzen ki, és módosítsa az országot, ahol él. Így a tartózkodási helyéhez igazíthatjuk a garanciát és az egyéb információkat.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[hu]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[hu]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[hu]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[hu]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[hu]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[hu]Maybe later</string>
   <string name="mya_csw_justintime_title">[hu]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[hu]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[hu]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[hu]What do we have to offer?</string>
   <string name="mya_logout_message">Az alkalmazás kijelentkezteti. Miután kijelentkezett, mindig bejelentkezhet újra.</string>
   <string name="mya_logout_title">Biztosan kijelentkezik?</string>

@@ -51,10 +51,14 @@
   <string name="mya_Settings">Indstillinger</string>
   <string name="mya_change_country">Log ud for at ændre land</string>
   <string name="mya_change_country_message">Log ud for at ændre det land, du er bosiddende i. Så kan vi tilpasse garantien og andre oplysninger til din placering</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[da]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[da]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[da]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[da]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[da]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[da]Maybe later</string>
   <string name="mya_csw_justintime_title">[da]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[da]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[da]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[da]What do we have to offer?</string>
   <string name="mya_logout_message">Du bliver logget ud af programmet. Når du har logget ud, kan du altid logge på igen.</string>
   <string name="mya_logout_title">Er du sikker på, at du vil logge ud?</string>

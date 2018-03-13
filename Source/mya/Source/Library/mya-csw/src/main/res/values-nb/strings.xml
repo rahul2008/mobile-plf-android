@@ -51,10 +51,14 @@
   <string name="mya_Settings">Innstillinger</string>
   <string name="mya_change_country">Logg av for å endre land</string>
   <string name="mya_change_country_message">Logg deg av for å endre landet du bor i. Da kan vi tilpasse garantien og annen informasjon etter plasseringen din</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[nb]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[nb]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[nb]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[nb]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[nb]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[nb]Maybe later</string>
   <string name="mya_csw_justintime_title">[nb]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[nb]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[nb]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[nb]What do we have to offer?</string>
   <string name="mya_logout_message">Du logges av programmet. Etter avloggingen kan du selvfølgelig logge deg på igjen.</string>
   <string name="mya_logout_title">Er du sikker på at du vil logge deg av?</string>
