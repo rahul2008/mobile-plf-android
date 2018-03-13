@@ -9,6 +9,7 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -642,12 +643,24 @@ public class DataServicesManager {
         mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
             @Override
             public void onSyncComplete() {
-                resultListener.onSuccess(Collections.<Object>emptyList());
+                // Post on main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultListener.onSuccess(Collections.<Object>emptyList());
+                    }
+                });
             }
 
             @Override
-            public void onSyncFailed(Exception exception) {
-                resultListener.onFailure(exception);
+            public void onSyncFailed(final  Exception exception) {
+                // Post on main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultListener.onFailure(exception);
+                    }
+                });
             }
         });
         storeGdprMigrationFlag();
