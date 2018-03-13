@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/default_screen_side_margin"
+    android:paddingStart="@dimen/default_screen_side_margin">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mya_csw_confirm_dialog_title"
+        style="@style/Txt.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/csw_offline_title" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mya_csw_confirm_dialog_description"
+        style="@style/Txt.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_body_labels_margin"
+        tools:text="@string/csw_offline_message" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/mya_csw_confirm_dialog_button_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_main_button_top_margin"
+        tools:text="@string/csw_ok"
+        app:uidComponentType="Primary" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/mya_csw_confirm_dialog_button_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_between_button_margin"
+        tools:text="@android:string/cancel"
+        app:uidComponentType="Secondary"
+        />
+</LinearLayout>

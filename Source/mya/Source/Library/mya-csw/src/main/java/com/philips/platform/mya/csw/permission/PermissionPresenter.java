@@ -10,11 +10,14 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.view.View;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.pif.chi.CheckConsentsCallback;
@@ -72,15 +75,24 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Override
     public void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven, ConsentToggleResponse responseHandler) {
-        // TODO if consentGiven is false, sho
+        if(!consentGiven) {
+            // User has revoked consent
+            ConfirmDialogView dialog = new ConfirmDialogView();
+            dialog.setupDialog(
+                R.string.mya_csw_consent_revoked_confirm_title,
+                R.string.mya_csw_consent_revoked_confirm_descr,
+                R.string.mya_csw_consent_revoked_confirm_btn_ok,
+                R.string.mya_csw_consent_revoked_confirm_btn_cancel
+            );
+            dialog.showDialog(null); // TODO Get activity somewhere
+        }
+
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             handler.storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
-//            return consentGiven;
         } else {
             permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_offline_title), mContext.getString(R.string.csw_offline_message));
-//            return !consentGiven;
         }
     }
 
