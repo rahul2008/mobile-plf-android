@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">محاولة تسجيل الدخول من جديد</string>
 <string name="reg_Contact_Customer_Care_Text">الاتصال بخدمة المستهلك</string>
 <string name="reg_Update_Email_Button_Text">تحديث عنوان البريد الإلكتروني</string>
-<string name="reg_Country_Region">البلد / المنطقة</string>
+<string name="reg_Country_Region">البلد/المنطقة</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول الآن</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">إنشاء حساب Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">أو تسجيل الدخول بواسطة:</string>

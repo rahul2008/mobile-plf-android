@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Tente iniciar sessão novamente</string>
 <string name="reg_Contact_Customer_Care_Text">Contactar o Apoio ao cliente</string>
 <string name="reg_Update_Email_Button_Text">Atualizar endereço de e-mail</string>
-<string name="reg_Country_Region">País / Região</string>
+<string name="reg_Country_Region">País/Região</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Inicie sessão agora</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Criar a minha conta Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ou inicie sessão com:</string>

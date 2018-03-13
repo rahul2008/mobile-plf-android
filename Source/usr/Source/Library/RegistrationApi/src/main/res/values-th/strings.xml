@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">ลองเข้าสู่ระบบอีกครั้ง</string>
 <string name="reg_Contact_Customer_Care_Text">ติดต่อทีมบริการดูแลลูกค้า</string>
 <string name="reg_Update_Email_Button_Text">อัพเดตอีเมล์แอดเดรส</string>
-<string name="reg_Country_Region">ประเทศ / ภูมิภาค</string>
+<string name="reg_Country_Region">ประเทศ/ภูมิภาค</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">ล็อกอินเลย</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">สร้างแอคเคาท์ Philips ของฉัน</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">หรือล็อกอินด้วย:</string>

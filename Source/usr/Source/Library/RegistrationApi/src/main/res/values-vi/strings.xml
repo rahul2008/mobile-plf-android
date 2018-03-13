@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Thử đăng nhập lại</string>
 <string name="reg_Contact_Customer_Care_Text">Liên hệ với trung tâm chăm sóc khách hàng</string>
 <string name="reg_Update_Email_Button_Text">Cập nhật địa chỉ email</string>
-<string name="reg_Country_Region">Quốc gia / Khu vực</string>
+<string name="reg_Country_Region">Quốc gia/Khu vực</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Đăng nhập ngay</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Tạo tài khoản Philips của tôi</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Hoặc đăng nhập bằng:</string>

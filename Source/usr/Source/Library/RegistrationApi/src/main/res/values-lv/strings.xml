@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Mēģiniet pieteikties vēlreiz</string>
 <string name="reg_Contact_Customer_Care_Text">Sazinieties ar klientu servisu</string>
 <string name="reg_Update_Email_Button_Text">Atjaunināt e-pasta adresi</string>
-<string name="reg_Country_Region">Valsts / reģions</string>
+<string name="reg_Country_Region">Valsts/reģions</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Pieteikties tagad</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Izveidot manu Philips kontu</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Vai pieteikties ar:</string>
