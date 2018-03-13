@@ -234,6 +234,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } else {
             if (mWeightInputLayoutContainer.isShowingError()) {
                 mWeightInputLayoutContainer.hideError();
+
             }
             return true;
         }
