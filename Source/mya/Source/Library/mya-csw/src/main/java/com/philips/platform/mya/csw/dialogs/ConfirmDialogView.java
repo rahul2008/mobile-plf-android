@@ -43,7 +43,7 @@ public class ConfirmDialogView {
         view = LayoutInflater
                 .from(activity)
                 .cloneInContext(popupThemedContext)
-                .inflate(R.layout.csw_dialog_connection, null, false);
+                .inflate(R.layout.csw_dialog_confirm, null, false);
 
         populateViews();
 
@@ -58,6 +58,7 @@ public class ConfirmDialogView {
                 .setCancelable(false);
 
         alertDialogFragment = builder.create(new AlertDialogFragment());
+        alertDialogFragment.show(activity.getSupportFragmentManager(),"Show dialog");
     }
 
     private void validateTextResources() {

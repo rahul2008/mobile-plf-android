@@ -23,6 +23,7 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
@@ -153,6 +154,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getActivity(), title, message);
+    }
+
+    @Override
+    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog) {
+        dialog.showDialog(getActivity());
     }
 
     @Override
