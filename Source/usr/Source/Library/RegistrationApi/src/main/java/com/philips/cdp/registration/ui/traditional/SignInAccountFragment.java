@@ -216,13 +216,14 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
 
             mBtnSignInAccount.showProgressIndicator();
             signIn();
-        } else if (id == R.id.btn_reg_resend) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
-            loginValidationEditText.clearFocus();
-            passwordValidationEditText.clearFocus();
-            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
-            handleResend();
         }
+//        else if (id == R.id.btn_reg_resend) {
+//            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
+//            loginValidationEditText.clearFocus();
+//            passwordValidationEditText.clearFocus();
+//            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
+//            handleResend();
+//        }
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
