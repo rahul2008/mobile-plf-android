@@ -122,7 +122,6 @@ public class DevicePortFragment extends Fragment {
         }
 
         currentAppliance.getDevicePort().addPortListener(portListener);
-        currentAppliance.getDevicePort().reloadProperties();
     }
 
     @Override

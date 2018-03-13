@@ -159,11 +159,18 @@
         </TableLayout>
 
         <Button
-            android:id="@+id/cml_btnUploadFirmware"
+            android:id="@+id/cml_btnCheckUpgrade"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/cml_activity_vertical_margin"
+            android:text="@string/cml_check_canupgrade" />
+
+        <Button
+            android:id="@+id/cml_btnUploadFirmware"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/cml_upload_firmware" />
 
         <Button
