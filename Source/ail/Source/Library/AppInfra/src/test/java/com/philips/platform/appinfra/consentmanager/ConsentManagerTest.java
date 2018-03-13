@@ -221,10 +221,6 @@ public class ConsentManagerTest {
         }
 
         @Override
-        public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-        }
-
-        @Override
         public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
             callback.onPostConsentSuccess();
         }
@@ -233,12 +229,6 @@ public class ConsentManagerTest {
     private class SampleHandler2 implements ConsentHandlerInterface {
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-            givenConsentError();
-            callback.onGetConsentsFailed(mConsentError);
-        }
-
-        @Override
-        public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
             givenConsentError();
             callback.onGetConsentsFailed(mConsentError);
         }
@@ -259,11 +249,6 @@ public class ConsentManagerTest {
         }
 
         @Override
-        public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-
-        }
-
-        @Override
         public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
             callback.onPostConsentSuccess();
         }
@@ -274,11 +259,6 @@ public class ConsentManagerTest {
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
             givenInactiveConsentState();
             callback.onGetConsentsSuccess(mInactiveConsentStatus);
-        }
-
-        @Override
-        public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-
         }
 
         @Override
