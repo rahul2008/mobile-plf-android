@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.csw;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.philips.platform.mya.csw.injection.AppInfraModule;
@@ -25,6 +26,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -79,14 +81,17 @@ public class CswInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher);
+            launchAsFragment((FragmentLauncher) uiLauncher, cswLaunchInput);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput cswLaunchInput) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             PermissionView permissionFragment = new PermissionView();
+            Bundle args = new Bundle();
+            args.putSerializable(CswConstants.CONSENT_DEFINITIONS, (Serializable) cswLaunchInput.getConsentDefinitionList());
+            permissionFragment.setArguments(args);
             permissionFragment.setUpdateTitleListener(fragmentLauncher.getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(PermissionView.TAG);
@@ -101,6 +106,7 @@ public class CswInterface implements UappInterface {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
+            cswIntent.putExtra(CswConstants.CONSENT_DEFINITIONS, (Serializable) uappLaunchInput.getConsentDefinitionList());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
             reference.cswLaunchInput = uappLaunchInput;
@@ -109,10 +115,8 @@ public class CswInterface implements UappInterface {
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
 
-        List<ConsentDefinition> consentDefinitionList = ((CswDependencies) uappDependencies).getConsentDefinitionList();
-
         return DaggerCswComponent.builder()
-                .cswModule(new CswModule(uappSettings.getContext(), ((CswDependencies) uappDependencies).getConsentRegistry(), consentDefinitionList))
+                .cswModule(new CswModule(uappSettings.getContext()))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 

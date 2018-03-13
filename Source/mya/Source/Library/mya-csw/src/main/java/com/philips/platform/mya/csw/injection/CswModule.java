@@ -22,28 +22,14 @@ import dagger.Provides;
 @Module
 public class CswModule {
     private final Context context;
-    private final ConsentManagerInterface consentManagerInterface;
-    private List<ConsentDefinition> consentDefinitionList;
 
-    public CswModule(Context context, ConsentManagerInterface consentManagerInterface, List<ConsentDefinition> consentDefinitionList) {
+    public CswModule(Context context) {
         this.context = context;
-        this.consentManagerInterface = consentManagerInterface;
-        this.consentDefinitionList = consentDefinitionList;
     }
 
     @Singleton
     @Provides
     public Context provideAppContext() {
         return context;
-    }
-
-    @Provides
-    public ConsentManagerInterface provideConsentRegistryInterface() {
-        return consentManagerInterface;
-    }
-
-    @Provides
-    public List<ConsentDefinition> provideConsentDefinition() {
-        return consentDefinitionList;
     }
 }

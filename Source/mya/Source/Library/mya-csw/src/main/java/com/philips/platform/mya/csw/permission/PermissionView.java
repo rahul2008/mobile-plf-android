@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.CswConstants;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
@@ -48,7 +49,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
-    private List<ConsentDefinition> consentDefinitionList;
+    private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
 
     @Override
@@ -70,7 +71,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
+        if (getArguments() != null)
+            consentDefinitionList = (List<ConsentDefinition>) getArguments().getSerializable(CswConstants.CONSENT_DEFINITIONS);
 
         handleOrientation(view);
         return view;
@@ -81,7 +83,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onResume();
         if (getRestClient().isInternetReachable()) {
             PermissionPresenter presenter = getPermissionPresenter();
-            presenter.getConsentStatus();
+            presenter.getConsentStatus(consentDefinitionList);
         } else {
             showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }

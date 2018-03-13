@@ -11,6 +11,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.CswInterface;
@@ -20,15 +22,12 @@ import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class PermissionPresenter implements CheckConsentsCallback, ConsentToggleListener, PostConsentCallback {
+public class PermissionPresenter implements ConsentToggleListener, FetchConsentsCallback, PostConsentCallback {
 
     public Context mContext;
 
@@ -37,8 +36,6 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @NonNull
     private final PermissionAdapter adapter;
-
-    private static final String CONSENT_TYPE_CLICKSTREAM = "clickstream";
 
     PermissionPresenter(
             @NonNull final PermissionInterface permissionInterface, @NonNull final PermissionAdapter adapter) {
@@ -52,13 +49,12 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         return adapter;
     }
 
-    void getConsentStatus() {
-        List<ConsentDefinition> consentDefinitionList = CswInterface.getCswComponent().getConsentDefinitions();
-        ConsentManagerInterface consentManagerInterface = CswInterface.getCswComponent().getConsentRegistry();
+    void getConsentStatus(List<ConsentDefinition> consentDefinitionList) {
+        ConsentManagerInterface consentManager = CswInterface.getCswComponent().getConsentManager();
         if (!consentDefinitionList.isEmpty()) {
             permissionInterface.showProgressDialog();
             try {
-                consentManagerInterface.fetchConsentStates(consentDefinitionList, this);
+                consentManager.fetchConsentStates(consentDefinitionList, this);
             } catch (RuntimeException ex) {
                 CswLogger.e("RuntimeException", ex.getMessage());
             }
@@ -69,7 +65,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     public boolean onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
-            CswInterface.getCswComponent().getConsentRegistry().storeConsentState(definition, consentGiven, this);
+            CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
             return consentGiven;
         } else {
@@ -78,7 +74,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         }
     }
 
-    @Override
+   /* @Override
     public void onGetConsentsSuccess(@NonNull List<Consent> consents) {
         List<ConsentView> consentViews = adapter.getConsentViews();
         Map<String, Consent> consentMap = new HashMap<>();
@@ -96,6 +92,12 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
         }
         adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
+    }*/
+
+
+    @Override
+    public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
+        //TODO update the status wrt the results
     }
 
     @Override
@@ -106,18 +108,18 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     }
 
     @Override
-    public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
-        adapter.onCreateConsentFailed(definition, error);
+    public void onPostConsentFailed(ConsentError error) {
+//        adapter.onCreateConsentFailed(definition, error); //TODO
         permissionInterface.hideProgressDialog();
         permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
     }
 
     @Override
-    public void onPostConsentSuccess(Consent consent) {
-        if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
+    public void onPostConsentSuccess() {
+       /* if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
             updateClickStream(consent.getStatus().name().equals(ConsentStates.active.name()));
-        }
-        adapter.onCreateConsentSuccess(consent);
+        }*/
+//        adapter.onCreateConsentSuccess(consent); //TODO
         permissionInterface.hideProgressDialog();
     }
 

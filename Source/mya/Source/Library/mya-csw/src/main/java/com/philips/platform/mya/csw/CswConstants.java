@@ -10,4 +10,5 @@ package com.philips.platform.mya.csw;
 public class CswConstants {
     public static final String CSWFRAGMENT = "CSWFRAGMENT";
     public static final String DLS_THEME = "dlsTheme";
+    public static final String CONSENT_DEFINITIONS = "consentDefinitions";
 }
