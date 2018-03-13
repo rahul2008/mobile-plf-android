@@ -29,7 +29,7 @@ public interface CswComponent {
 
     AppTaggingInterface getAppTaggingInterface();
 
-    ConsentManagerInterface getConsentRegistry();
+    ConsentManagerInterface getConsentManager();
 
     List<ConsentDefinition> getConsentDefinitions();
 }

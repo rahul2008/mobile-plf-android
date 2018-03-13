@@ -16,21 +16,7 @@ import java.util.List;
 
 public class CswDependencies extends UappDependencies {
 
-    private final ConsentManagerInterface consentManagerInterface;
-    private final List<ConsentDefinition> consentDefinitionList;
-
-
-    public CswDependencies(AppInfraInterface appInfra, ConsentManagerInterface consentManagerInterface, List<ConsentDefinition> consentDefinitionList) {
+    public CswDependencies(AppInfraInterface appInfra) {
         super(appInfra);
-        this.consentManagerInterface = consentManagerInterface;
-        this.consentDefinitionList = consentDefinitionList;
-    }
-
-    public ConsentManagerInterface getConsentRegistry() {
-        return consentManagerInterface;
-    }
-
-    public List<ConsentDefinition> getConsentDefinitionList() {
-        return consentDefinitionList;
     }
 }

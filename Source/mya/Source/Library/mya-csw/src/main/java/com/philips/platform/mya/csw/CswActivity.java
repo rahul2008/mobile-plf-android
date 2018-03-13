@@ -94,7 +94,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(this);
+        return new CswLaunchInput(this, consentDefinitionList);
     }
 
     @Override

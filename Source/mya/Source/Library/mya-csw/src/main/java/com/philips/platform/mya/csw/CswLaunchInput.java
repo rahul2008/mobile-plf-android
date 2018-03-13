@@ -9,7 +9,10 @@ package com.philips.platform.mya.csw;
 
 import android.content.Context;
 
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+
+import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
@@ -19,12 +22,21 @@ public class CswLaunchInput extends UappLaunchInput {
 
     private final Context context;
 
-    public CswLaunchInput(Context context) {
+    private boolean isAddToBackStack;
+
+    private final List<ConsentDefinition> consentDefinitionList;
+
+    public CswLaunchInput(Context context, List<ConsentDefinition> consentDefinitionList) {
         this.context = context;
+        this.consentDefinitionList = consentDefinitionList;
     }
 
     public Context getContext() {
         return context;
+    }
+
+    public List<ConsentDefinition> getConsentDefinitionList() {
+        return consentDefinitionList;
     }
 
     /**
@@ -44,6 +56,4 @@ public class CswLaunchInput extends UappLaunchInput {
     public void addToBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
     }
-
-    private boolean isAddToBackStack;
 }

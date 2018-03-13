@@ -10,7 +10,7 @@ public class LaunchInputMock extends CswLaunchInput {
     public ContextMock context;
 
     public LaunchInputMock() {
-        super(new ContextMock());
+        super(new ContextMock(), consentDefinitionList);
         context = (ContextMock) super.getContext();
     }
 
