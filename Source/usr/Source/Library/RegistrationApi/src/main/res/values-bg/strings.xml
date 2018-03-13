@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Опитайте да влезете отново</string>
 <string name="reg_Contact_Customer_Care_Text">Свържете се с отдела за обслужване на клиенти</string>
 <string name="reg_Update_Email_Button_Text">Актуализация на имейл адрес</string>
-<string name="reg_Country_Region">Държава / област</string>
+<string name="reg_Country_Region">Държава/област</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Влезте сега</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Създай акаунт във Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Или влезте с:</string>

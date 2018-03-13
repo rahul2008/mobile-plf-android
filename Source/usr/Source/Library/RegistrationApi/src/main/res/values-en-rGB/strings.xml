@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Try to log in again</string>
 <string name="reg_Contact_Customer_Care_Text">Contact customer care</string>
 <string name="reg_Update_Email_Button_Text">Update email address</string>
-<string name="reg_Country_Region">Country / Region</string>
+<string name="reg_Country_Region">Country/Region</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log in now</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Create my Philips account</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Or log in with:</string>

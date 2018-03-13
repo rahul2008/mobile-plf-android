@@ -271,7 +271,7 @@
 <string name="reg_Try_To_Login_Button_Text">Προσπαθήστε να συνδεθείτε ξανά</string>
 <string name="reg_Contact_Customer_Care_Text">Επικοινωνήστε με την υποστήριξη πελατών</string>
 <string name="reg_Update_Email_Button_Text">Ενημέρωση διεύθυνσης email</string>
-<string name="reg_Country_Region">Χώρα / Περιοχή</string>
+<string name="reg_Country_Region">Χώρα/Περιοχή</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Σύνδεση τώρα</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Δημιουργία λογαριασμού Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ή σύνδεση με:</string>
