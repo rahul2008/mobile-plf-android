@@ -51,10 +51,14 @@
   <string name="mya_Settings">Nastavenie</string>
   <string name="mya_change_country">Odhláste sa na zmenu krajiny</string>
   <string name="mya_change_country_message">Prosím, odhláste sa, aby ste mohli zmeniť krajinu, v ktorej žijete. Budeme tak môcť prispôsobiť záruku a ďalšie informácie podľa vašej lokality</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sk]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sk]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[sk]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[sk]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sk]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sk]Maybe later</string>
   <string name="mya_csw_justintime_title">[sk]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[sk]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sk]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[sk]What do we have to offer?</string>
   <string name="mya_logout_message">Budete odhlásení z aplikácie. Po odhlásení sa vždy môžete prihlásiť znova.</string>
   <string name="mya_logout_title">Naozaj sa chcete odhlásiť?</string>

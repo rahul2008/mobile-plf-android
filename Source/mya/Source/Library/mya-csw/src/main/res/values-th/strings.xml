@@ -51,10 +51,14 @@
   <string name="mya_Settings">การตั้งค่า</string>
   <string name="mya_change_country">ล็อกเอาท์เพื่อเปลี่ยนประเทศ</string>
   <string name="mya_change_country_message">โปรดล็อกเอาท์เพื่อเปลี่ยนประเทศที่คุณอาศัยอยู่ ซึ่งจะช่วยให้เราสามารถปรับแต่งการรับประกันและข้อมูลอื่นๆ ให้เข้ากับตำแหน่งของคุณ</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[th]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[th]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[th]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[th]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[th]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[th]Maybe later</string>
   <string name="mya_csw_justintime_title">[th]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[th]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[th]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[th]What do we have to offer?</string>
   <string name="mya_logout_message">คุณจะออกจากแอปพลิเคชัน หลังจากคุณล็อกเอาท์แล้ว คุณสามารถล็อกอินใหม่ได้เสมอ</string>
   <string name="mya_logout_title">คุณแน่ใจว่าต้องการออกจากระบบหรือไม่</string>
