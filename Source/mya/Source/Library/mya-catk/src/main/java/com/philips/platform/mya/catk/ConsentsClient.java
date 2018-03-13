@@ -29,7 +29,7 @@ import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,7 +192,7 @@ public class ConsentsClient {
 
             @NonNull
             private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
-                return new BackendConsent(null, ConsentStatus.active, consentType, Integer.MAX_VALUE);
+                return new BackendConsent(null, ConsentStates.active, consentType, Integer.MAX_VALUE);
             }
         });
     }

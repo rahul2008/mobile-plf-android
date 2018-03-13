@@ -28,7 +28,7 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -171,7 +171,7 @@ public class ConsentsClientTest {
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
-        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
+        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
         consentsClient.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
@@ -193,7 +193,7 @@ public class ConsentsClientTest {
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
         consentsClient.getStatusForConsentType("moment", consentResponseListener);
-        thenConsentStatusIs(ConsentStatus.active);
+        thenConsentStatusIs(ConsentStates.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
 
@@ -203,7 +203,7 @@ public class ConsentsClientTest {
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
         consentsClient.getStatusForConsentType("moment", consentResponseListener);
-        thenConsentStatusIs(ConsentStatus.active);
+        thenConsentStatusIs(ConsentStates.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
 
@@ -243,7 +243,7 @@ public class ConsentsClientTest {
         serviceDiscoveryInterface.getHomeCountry_return = homeCountry;
     }
 
-    private void thenConsentStatusIs(final ConsentStatus expectedStatus) {
+    private void thenConsentStatusIs(final ConsentStates expectedStatus) {
         assertEquals(expectedStatus, consentResponseListener.responseData.get(0).getStatus());
     }
 
@@ -298,10 +298,10 @@ public class ConsentsClientTest {
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
     private String HSDP_UUID = "hsdp_user_id";
-    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
-    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
+    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
+    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
-    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
+    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
     private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1);
     private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1);

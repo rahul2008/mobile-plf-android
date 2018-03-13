@@ -9,7 +9,7 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class JustInTimeConsentPresenterTest {
         view = new ViewSpy();
         consentHandlerInterface = new ConsentHandlerInterfaceSpy();
         consentDefinition = new ConsentDefinition("", "", Collections.EMPTY_LIST, 0);
-        backendConsent = new BackendConsent("", ConsentStatus.active, "", 0);
+        backendConsent = new BackendConsent("", ConsentStates.active, "", 0);
         consent = new Consent(backendConsent, consentDefinition);
         consentError = new ConsentError("", 1234);
         completionListener = new JustInTimeWidgetHandlerSpy();

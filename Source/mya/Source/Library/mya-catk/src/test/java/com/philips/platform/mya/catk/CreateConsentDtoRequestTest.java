@@ -12,7 +12,7 @@ import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class CreateConsentDtoRequestTest extends MockitoConfiguration {
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn(SUBJECT);
         String policyRule = buildPolicyRule("moment", 1, "IN", PROPOSITION_NAME, APPLICATION_NAME);
-        CreateConsentDto consent = new CreateConsentDto("af-ZA", policyRule, "Consent", ConsentStatus.active.name(), "17f7ce85-403c-4824-a17f-3b551f325ce0");
+        CreateConsentDto consent = new CreateConsentDto("af-ZA", policyRule, "Consent", ConsentStates.active.name(), "17f7ce85-403c-4824-a17f-3b551f325ce0");
         consentModelRequest = new CreateConsentModelRequest(URL, consent, mockDataLoadListener);
     }
 

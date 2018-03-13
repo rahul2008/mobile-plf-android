@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class DtoToConsentMapperTest {
     public static final String AMERICAN_LOCALE = "en-US";
@@ -31,8 +31,8 @@ public class DtoToConsentMapperTest {
     public void setUp() throws Exception {
         givenMapper = new DtoToConsentMapper();
         getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto(TIMESTAMP, AMERICAN_LOCALE, "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent",
-                ConsentStatus.active, "someSubjectId");
-        getActiveFromIndiaTypeMomentLocaleEnUsModel = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, "moment", 1);
+                ConsentStates.active, "someSubjectId");
+        getActiveFromIndiaTypeMomentLocaleEnUsModel = new BackendConsent(AMERICAN_LOCALE, ConsentStates.active, "moment", 1);
         getActiveFromIndiaTypeMomentLocaleEnUsModel.setTimestamp(new DateTime(TIMESTAMP));
     }
 

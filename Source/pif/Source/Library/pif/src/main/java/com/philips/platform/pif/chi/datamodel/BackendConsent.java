@@ -11,19 +11,19 @@ import org.joda.time.DateTime;
 
 public class BackendConsent {
     private String locale;
-    private ConsentStatus status;
+    private ConsentStates status;
     private String type;
     private int version;
     private DateTime timestamp;
 
-    public BackendConsent(String locale, ConsentStatus status, String type, int version) {
+    public BackendConsent(String locale, ConsentStates status, String type, int version) {
         this.locale = locale;
         this.status = status;
         this.type = type;
         this.version = version;
     }
 
-    public BackendConsent(String locale, ConsentStatus status, String type, int version, DateTime timestamp) {
+    public BackendConsent(String locale, ConsentStates status, String type, int version, DateTime timestamp) {
         this(locale, status, type, version);
         this.timestamp = timestamp;
     }
@@ -36,11 +36,11 @@ public class BackendConsent {
         this.locale = locale;
     }
 
-    public ConsentStatus getStatus() {
+    public ConsentStates getStatus() {
         return status;
     }
 
-    public void setStatus(ConsentStatus status) {
+    public void setStatus(ConsentStates status) {
         this.status = status;
     }
 

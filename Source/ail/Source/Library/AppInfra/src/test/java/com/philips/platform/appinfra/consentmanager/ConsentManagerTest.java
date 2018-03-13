@@ -4,12 +4,11 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionState;
-import com.philips.platform.pif.chi.datamodel.ConsentState;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,13 +33,13 @@ public class ConsentManagerTest {
     private SampleHandler1 mSampleHandler1;
     private SampleHandler3 mSampleHandler3;
 
-    private ConsentState mActiveConsentState;
-    private ConsentState mRejectedConsentState;
-    private ConsentState mInactiveConsentState;
+    private ConsentStatus mActiveConsentStatus;
+    private ConsentStatus mRejectedConsentStatus;
+    private ConsentStatus mInactiveConsentStatus;
     private ConsentError mConsentError;
 
-    private ConsentDefinitionState mReceivedConsentDefinitionState;
-    private List<ConsentDefinitionState> mReceivedConsentDefinitionStateList;
+    private ConsentDefinitionStatus mReceivedConsentDefinitionStatus;
+    private List<ConsentDefinitionStatus> mReceivedConsentDefinitionStatusList;
 
     @Mock
     private AppInfra appInfra;
@@ -132,7 +131,7 @@ public class ConsentManagerTest {
     }
 
     private void verifyCorrectListIsReturned() {
-        assertEquals(2, mReceivedConsentDefinitionStateList.size());
+        assertEquals(2, mReceivedConsentDefinitionStatusList.size());
     }
 
     private void whenFetchConsentStateIsInvokedForSuccessCase() {
@@ -141,7 +140,7 @@ public class ConsentManagerTest {
     }
 
     private void verifyCorrectStatusIsReturned() {
-        assertEquals(ConsentStatus.rejected, mReceivedConsentDefinitionState.getConsentStatus());
+        assertEquals(ConsentStates.rejected, mReceivedConsentDefinitionStatus.getConsentState());
     }
 
     private void whenFetchConsentStateIsInvokedForFailureCase() {
@@ -203,22 +202,22 @@ public class ConsentManagerTest {
     }
 
     private void givenActiveConsentState() {
-        mActiveConsentState = new ConsentState(ConsentStatus.active, 1);
+        mActiveConsentStatus = new ConsentStatus(ConsentStates.active, 1);
     }
 
     private void givenRejectedConsentState() {
-        mRejectedConsentState = new ConsentState(ConsentStatus.rejected, 2);
+        mRejectedConsentStatus = new ConsentStatus(ConsentStates.rejected, 2);
     }
 
     private void givenInactiveConsentState() {
-        mInactiveConsentState = new ConsentState(ConsentStatus.inactive, 0);
+        mInactiveConsentStatus = new ConsentStatus(ConsentStates.inactive, 0);
     }
 
     private class SampleHandler1 implements ConsentHandlerInterface {
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
             givenActiveConsentState();
-            callback.onGetConsentsSuccess(mActiveConsentState);
+            callback.onGetConsentsSuccess(mActiveConsentStatus);
         }
 
         @Override
@@ -256,7 +255,7 @@ public class ConsentManagerTest {
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
             givenRejectedConsentState();
-            callback.onGetConsentsSuccess(mRejectedConsentState);
+            callback.onGetConsentsSuccess(mRejectedConsentStatus);
         }
 
         @Override
@@ -274,7 +273,7 @@ public class ConsentManagerTest {
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
             givenInactiveConsentState();
-            callback.onGetConsentsSuccess(mInactiveConsentState);
+            callback.onGetConsentsSuccess(mInactiveConsentStatus);
         }
 
         @Override
@@ -292,8 +291,8 @@ public class ConsentManagerTest {
     private class FetchConsentCallbackListener implements FetchConsentCallback {
 
         @Override
-        public void onGetConsentsSuccess(ConsentDefinitionState consentDefinitionState) {
-            mReceivedConsentDefinitionState = consentDefinitionState;
+        public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+            mReceivedConsentDefinitionStatus = consentDefinitionStatus;
         }
 
         @Override
@@ -305,8 +304,8 @@ public class ConsentManagerTest {
     private class FetchConsentsCallbackListener implements FetchConsentsCallback {
 
         @Override
-        public void onGetConsentsSuccess(List<ConsentDefinitionState> consentDefinitionStateList) {
-            mReceivedConsentDefinitionStateList = consentDefinitionStateList;
+        public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
+            mReceivedConsentDefinitionStatusList = consentDefinitionStatusList;
         }
 
         @Override

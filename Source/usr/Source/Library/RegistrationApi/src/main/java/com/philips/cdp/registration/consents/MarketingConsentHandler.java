@@ -13,7 +13,7 @@ import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,12 +92,12 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback, definition, toStatus(status), currentLocale), status);
     }
 
-    private ConsentStatus toStatus(boolean recevieMarketingEmail) {
-        return recevieMarketingEmail ? ConsentStatus.active : ConsentStatus.rejected;
+    private ConsentStates toStatus(boolean recevieMarketingEmail) {
+        return recevieMarketingEmail ? ConsentStates.active : ConsentStates.rejected;
     }
 
-    private static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String currentLocale) {
-        final BackendConsent backendConsent = new BackendConsent(currentLocale, consentStatus, definition.getTypes().get(0), definition.getVersion());
+    private static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStates consentStates, String currentLocale) {
+        final BackendConsent backendConsent = new BackendConsent(currentLocale, consentStates, definition.getTypes().get(0), definition.getVersion());
         return new Consent(backendConsent, definition);
     }
 
@@ -106,10 +106,10 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         private final ConsentDefinition definition;
         private final Consent marketingConsent;
 
-        MarketingUpdateCallback(PostConsentCallback callback, ConsentDefinition definition, ConsentStatus consentStatus, String currentLocale) {
+        MarketingUpdateCallback(PostConsentCallback callback, ConsentDefinition definition, ConsentStates consentStates, String currentLocale) {
             this.callback = callback;
             this.definition = definition;
-            marketingConsent = createConsentFromDefinition(definition, consentStatus, currentLocale);
+            marketingConsent = createConsentFromDefinition(definition, consentStates, currentLocale);
         }
 
         @Override

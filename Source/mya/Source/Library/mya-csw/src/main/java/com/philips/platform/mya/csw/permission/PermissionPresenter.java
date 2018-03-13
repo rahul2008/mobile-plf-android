@@ -22,7 +22,7 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.HashMap;
 import java.util.List;
@@ -115,7 +115,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     @Override
     public void onPostConsentSuccess(Consent consent) {
         if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-            updateClickStream(consent.getStatus().name().equals(ConsentStatus.active.name()));
+            updateClickStream(consent.getStatus().name().equals(ConsentStates.active.name()));
         }
         adapter.onCreateConsentSuccess(consent);
         permissionInterface.hideProgressDialog();

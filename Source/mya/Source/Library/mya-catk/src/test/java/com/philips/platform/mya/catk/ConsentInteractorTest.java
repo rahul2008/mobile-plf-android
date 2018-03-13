@@ -14,7 +14,6 @@ import com.philips.platform.mya.catk.listener.CreateConsentListener;
 import com.philips.platform.mya.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

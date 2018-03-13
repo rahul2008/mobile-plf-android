@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -78,7 +78,7 @@ public class MarketingConsentHandlerTest {
         givenConsentDefinition();
         givenMarketingConsentIsGiven(true);
         whenRefreshUser();
-        thenMarketingConsentIsRetrieved(ConsentStatus.active);
+        thenMarketingConsentIsRetrieved(ConsentStates.active);
     }
 
     private void whenRefreshUser() {
@@ -100,7 +100,7 @@ public class MarketingConsentHandlerTest {
         givenMarketingConsentIsGiven(true);
         //whenCheckingConsent();
         whenRefreshUser();
-        thenMarketingConsentIsRetrieved(ConsentStatus.active);
+        thenMarketingConsentIsRetrieved(ConsentStates.active);
     }
 
 
@@ -110,7 +110,7 @@ public class MarketingConsentHandlerTest {
         givenMarketingConsentIsGiven(false);
         whenRefreshUser();
 //        whenCheckingConsents();
-        thenMarketingConsentIsRetrieved(ConsentStatus.rejected);
+        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
     }
 
 
@@ -135,7 +135,7 @@ public class MarketingConsentHandlerTest {
         whenRefreshUser();
         whenCheckingConsentsThrowsException();
         //  thenErrorCallbackIsCalled();
-        thenMarketingConsentIsRetrieved(ConsentStatus.rejected);
+        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
     }
 
 
@@ -145,7 +145,7 @@ public class MarketingConsentHandlerTest {
         givenMarketingConsentIsGiven(false);
         whenRefreshUserOnFetchConsentStates();
         whenCheckingConsentsThrowsException();
-        thenMarketingConsentIsRetrieved(ConsentStatus.rejected);
+        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
     }
 
 
@@ -170,7 +170,7 @@ public class MarketingConsentHandlerTest {
         givenConsentDefinition();
         givenStatusToPost(true);
         whenPostingConsentDefinitionSucceeds();
-        theMarketingConsentIsReportedToCallback(ConsentStatus.active);
+        theMarketingConsentIsReportedToCallback(ConsentStates.active);
     }
 
     @Test
@@ -179,7 +179,7 @@ public class MarketingConsentHandlerTest {
         givenConsentDefinition();
         givenStatusToPost(false);
         whenPostingConsentDefinitionSucceeds();
-        theMarketingConsentIsReportedToCallback(ConsentStatus.rejected);
+        theMarketingConsentIsReportedToCallback(ConsentStates.rejected);
     }
 
     @Test
@@ -263,20 +263,20 @@ public class MarketingConsentHandlerTest {
         marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
     }
 
-    private void theMarketingConsentIsReportedToCallback(ConsentStatus active) {
+    private void theMarketingConsentIsReportedToCallback(ConsentStates active) {
         verify(givenPostConsentCallback).onPostConsentSuccess(consentCaptor.capture());
 
-        if (active == ConsentStatus.active) {
+        if (active == ConsentStates.active) {
             assertTrue(consentCaptor.getValue().isAccepted());
         } else {
             assertFalse(consentCaptor.getValue().isAccepted());
         }
     }
 
-    private void thenMarketingConsentIsRetrieved(ConsentStatus active) {
+    private void thenMarketingConsentIsRetrieved(ConsentStates active) {
         verify(givenCheckConsentCallback).onGetConsentsSuccess(consentGetCaptor.capture());
 
-        if (active == ConsentStatus.active) {
+        if (active == ConsentStates.active) {
             assertTrue(consentGetCaptor.getValue().get(0).isAccepted());
         } else {
             assertFalse(consentGetCaptor.getValue().get(0).isAccepted());

@@ -15,13 +15,11 @@ import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.FetchConsentTypesStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentState;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,19 +39,19 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
     }
 
-    @Override
+   /* @Override
     public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
         consentsClient.getConsentDetails(new GetConsentsResponseListener(consentTypes, callback));
-    }
+    }*/
 
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
-        ConsentStatus consentStatus = status ? ConsentStatus.active : ConsentStatus.rejected;
-        BackendConsent backendConsent = createConsents(consentType, consentStatus, version);
+        ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
+        BackendConsent backendConsent = createConsents(consentType, consentStates, version);
         consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(backendConsent, callback));
     }
 
-    private BackendConsent createConsents(String consentType, ConsentStatus status, int version) {
+    private BackendConsent createConsents(String consentType, ConsentStates status, int version) {
         String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
         return new BackendConsent(locale, status, consentType, version);
     }
@@ -69,7 +67,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<BackendConsent> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 BackendConsent backendConsent = responseData.get(0);
-                callback.onGetConsentsSuccess(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
+                callback.onGetConsentsSuccess(new ConsentStatus(backendConsent.getStatus(), backendConsent.getVersion()));
             } else {
                 callback.onGetConsentsSuccess(null);
             }
@@ -82,7 +80,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         }
     }
 
-    class GetConsentsResponseListener implements ConsentResponseListener {
+  /*  class GetConsentsResponseListener implements ConsentResponseListener {
         private List<String> consentTypes;
         private FetchConsentTypesStateCallback callback;
 
@@ -94,17 +92,17 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onResponseSuccessConsent(List<BackendConsent> responseData) {
             //TODO strict consent check needs to be verified ?
-            List<ConsentState> consentStates = new ArrayList<>();
+            List<ConsentStatus> consentStates = new ArrayList<>();
             if (responseData != null && !responseData.isEmpty()) {
                 for (BackendConsent backendConsent : responseData) {
                     if (consentTypes.contains(backendConsent.getType())) {
-                        consentStates.add(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
+                        consentStates.add(new ConsentStatus(backendConsent.getStatus(), backendConsent.getVersion()));
                     }
                 }
                 callback.onGetConsentsSuccess(consentStates);
             } else {
                 CatkLogger.d(" BackendConsent : ", "no consent for type found on server");
-                callback.onGetConsentsSuccess(new ArrayList<ConsentState>());
+                callback.onGetConsentsSuccess(new ArrayList<ConsentStatus>());
             }
         }
 
@@ -113,7 +111,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
             CatkLogger.d(" BackendConsent : ", "response failure:" + error);
             this.callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
-    }
+    }*/
 
     static class CreateConsentResponseListener implements CreateConsentListener {
 
@@ -128,7 +126,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create BackendConsent: ", "Success");
-            callback.onPostConsentSuccess(new ConsentState(backendConsent.getStatus(), backendConsent.getVersion()));
+            callback.onPostConsentSuccess();
         }
 
         @Override

@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class ConsentViewTest {
 
@@ -21,9 +21,9 @@ public class ConsentViewTest {
     @Before
     public void setUp() throws Exception {
         consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", Collections.singletonList(TYPE_MOMENT), 1);
-        currentConsentRejected = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
-        currentConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
-        oldConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
+        currentConsentRejected = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStates.rejected, TYPE_MOMENT, 1), consentDefinition);
+        currentConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, TYPE_MOMENT, 1), consentDefinition);
+        oldConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, TYPE_MOMENT, 0), consentDefinition);
         consentView = new ConsentView(consentDefinition);
     }
 
@@ -64,7 +64,7 @@ public class ConsentViewTest {
     }
 
     private void whenConsentIsVersion(int version) {
-        consentView.storeConsent(new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, version), consentDefinition));
+        consentView.storeConsent(new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, TYPE_MOMENT, version), consentDefinition));
     }
 
     @Test

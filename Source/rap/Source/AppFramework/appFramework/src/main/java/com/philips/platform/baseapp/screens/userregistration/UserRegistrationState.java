@@ -47,7 +47,7 @@ import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.pif.chi.ConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -265,7 +265,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             @Override
             public void onGetConsentRetrieved(@NonNull Consent consent) {
-                if (consent.isAccepted() && consent.getStatus().equals(ConsentStatus.active)) {
+                if (consent.isAccepted() && consent.getStatus().equals(ConsentStates.active)) {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
                 } else {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);

@@ -11,7 +11,7 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
@@ -223,12 +223,12 @@ public class PermissionPresenterTest {
     }
 
     private void givenActiveClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStates.active, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
     private void givenRejectedClickStreamConsent() {
-        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStatus.rejected, "clickstream", 1);
+        BackendConsent consent = new BackendConsent(AMERICAN_LOCALE, ConsentStates.rejected, "clickstream", 1);
         requiredConsent = new Consent(consent, clickStreamConsentDefinition());
     }
 
