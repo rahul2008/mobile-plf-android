@@ -14,7 +14,6 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
@@ -126,14 +125,6 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     @VisibleForTesting
     protected RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
-    }
-
-    private void updateClickStream(boolean isActive) {
-        if (isActive) {
-            CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        } else {
-            CswInterface.getCswComponent().getAppTaggingInterface().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        }
     }
 
     private String toErrorMessage(ConsentError error) {
