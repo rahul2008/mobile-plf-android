@@ -11,7 +11,6 @@ import android.content.Context;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
@@ -54,7 +53,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
+    public void onValidationFailure(Map<String, String> map) {
         uiView.hideProgressBar();
     }
 

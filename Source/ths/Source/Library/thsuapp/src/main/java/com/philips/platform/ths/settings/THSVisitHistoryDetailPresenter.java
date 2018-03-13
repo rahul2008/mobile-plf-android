@@ -80,7 +80,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
             if (sdkError != null) {
                 AmwellLog.e("downloadReport",sdkError.toString());
-                mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason().name());
+                mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason());
                 return;
             }
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloaded");

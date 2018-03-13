@@ -10,7 +10,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class THSConsumerWrapper implements Parcelable{
         this.consumer = consumer;
     }
 
-    public Gender getGender(){
+    public String getGender(){
         return consumer.getGender();
     }
 

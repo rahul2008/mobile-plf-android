@@ -5,7 +5,7 @@ package com.philips.platform.ths.cost;
  * consent of the copyright holder.
  */
 
-import com.americanwell.sdk.manager.ValidationReason;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
@@ -15,5 +15,5 @@ public interface CreateVisitCallback<THSVisit, THSSDKError>  {
 
     void onCreateVisitFailure(Throwable var1);
 
-    void onCreateVisitValidationFailure(Map<String, ValidationReason> var1);
+    void onCreateVisitValidationFailure(@NonNull Map<String, String> map);
 }

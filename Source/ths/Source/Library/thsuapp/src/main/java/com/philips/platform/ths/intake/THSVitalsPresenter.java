@@ -8,7 +8,6 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -68,7 +67,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     @Override
-    public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
+    public void onUpdateVitalsValidationFailure(Map<String, String> map) {
         if (null != mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
             mPthBaseFragment.showError(map.toString());
         }

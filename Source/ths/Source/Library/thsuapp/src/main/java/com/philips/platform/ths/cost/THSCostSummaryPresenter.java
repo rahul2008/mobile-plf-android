@@ -7,13 +7,13 @@
 package com.philips.platform.ths.cost;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.Subscription;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.insurance.THSInsuranceCallback;
@@ -213,9 +213,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     }
 
     @Override
-    public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
+    public void onCreateVisitValidationFailure(@NonNull Map<String, String> map) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            showCreateVisitError(true, true, var1.toString());
+            showCreateVisitError(true, true, map.toString());
         }
     }
     // end of createVisit callbacks

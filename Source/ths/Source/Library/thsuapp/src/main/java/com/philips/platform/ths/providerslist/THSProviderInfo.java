@@ -10,11 +10,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderType;
-import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 
 public class THSProviderInfo extends THSProviderEntity implements Parcelable{
@@ -48,7 +46,7 @@ public class THSProviderInfo extends THSProviderEntity implements Parcelable{
         this.providerInfo = providerInfo;
     }
 
-    ProviderVisibility getVisibility(){
+    String getVisibility(){
         return providerInfo.getVisibility();
     }
 
@@ -69,7 +67,7 @@ public class THSProviderInfo extends THSProviderEntity implements Parcelable{
         return providerInfo.getWaitingRoomCount();
     }
 
-    Gender getGender(){
+    String getGender(){
         return providerInfo.getGender();
     }
 

@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
@@ -46,7 +45,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     }
 
     @Override
-    public void onAddressValidationFailure(Map<String, ValidationReason> map) {
+    public void onAddressValidationFailure(Map<String, String> map) {
         ((THSBaseFragment) thsBaseView).doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, THSConstants.THS_GENERIC_USER_ERROR, false);
         ((THSBaseFragment) thsBaseView).showError(null);
     }

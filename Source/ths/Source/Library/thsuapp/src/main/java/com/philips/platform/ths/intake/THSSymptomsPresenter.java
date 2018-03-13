@@ -14,7 +14,6 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -162,7 +161,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
 
     @Override
-    public void onUploadValidationFailure(Map<String, ValidationReason> map) {
+    public void onUploadValidationFailure(Map<String, String> map) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsSymptomsFragmentViewInterface.setContinueButtonState(true);
             thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_validation_error_string));

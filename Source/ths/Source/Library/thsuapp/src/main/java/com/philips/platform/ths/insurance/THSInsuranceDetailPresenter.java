@@ -105,7 +105,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                         subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf((dob)));
                     }
                 }
-                Map<String, ValidationReason> errors = new HashMap<>();
+                Map<String, String> errors = new HashMap<>();
                 THSManager.getInstance().validateSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, errors);
                 if (errors.isEmpty()) {
 
@@ -239,7 +239,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
 
     ///////// start update suscription call back
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
 

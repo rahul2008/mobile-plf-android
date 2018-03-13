@@ -12,14 +12,14 @@ public class THSSDKUserError implements THSErrorHandlerInterface{
         return THSConstants.THS_GENERIC_USER_ERROR;
     }
 
-    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
-        if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_MISSING.name())){
+    public boolean validate(String sdkErrorReason, Context context) {
+        if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_MISSING)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCESS_DENIED.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_ACCESS_DENIED)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_NOT_ENROLLED.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_NOT_ENROLLED)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_LOCKED.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_LOCKED)){
             return true;
         }else {
             return false;

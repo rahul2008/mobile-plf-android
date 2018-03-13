@@ -84,7 +84,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
         for (THSProviderInfo thsProviderInfo : providerInfoList) {
-            if (!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())) {
+            if (!ProviderVisibility.OFFLINE.equalsIgnoreCase(thsProviderInfo.getVisibility())) {
                 return true;
             }
         }

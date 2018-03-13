@@ -233,7 +233,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
      */
     private void checkAvailability(Provider provider) {
 
-        if (ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())) {
+        if (ProviderVisibility.ON_CALL.equalsIgnoreCase(provider.getVisibility()) || ProviderVisibility.WEB_BUSY.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
             if (isAvailableProviderData()) {
                 setButtonVisibilityForAvailableProvider();
@@ -249,7 +249,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                     checkForUrgentCare();
                 }
             }
-        } else if (ProviderVisibility.isVideoAvailable(provider.getVisibility())) {
+        } else if (ProviderVisibility.WEB_AVAILABLE.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.VISIBLE);
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
@@ -264,7 +264,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                     checkForUrgentCare();
                 }
             }
-        } else if (ProviderVisibility.isOffline(provider.getVisibility())) {
+        } else if (ProviderVisibility.OFFLINE.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();

@@ -14,9 +14,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.ChatReport;
-import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
@@ -28,7 +26,6 @@ import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
-
 
 import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_VIDEO_VISIT_FAIL;
@@ -166,15 +163,14 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     }
 
     @Override
-    public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-        AmwellLog.v("call end", visitEndReason.toString());
-        if (visitEndReason == PROVIDER_DECLINE) {
+    public void onStartVisitEnded(@NonNull String visitEndReason) {
+        AmwellLog.v("call end", visitEndReason);
+        if (visitEndReason.equalsIgnoreCase(PROVIDER_DECLINE)) {
             mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
             showVisitUnSuccess(true, true, false);
 
         }
-
     }
 
     @Override
@@ -200,10 +196,6 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         }
     }
 
-    @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
-
-    }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -259,4 +251,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     }
 
 
+    @Override
+    public void onValidationFailure(@NonNull Map<String, String> map) {
+
+    }
 }

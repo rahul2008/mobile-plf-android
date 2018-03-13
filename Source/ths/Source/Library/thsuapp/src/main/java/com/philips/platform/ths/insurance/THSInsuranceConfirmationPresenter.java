@@ -11,7 +11,6 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -92,7 +91,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
 
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         mTHSInsuranceConfirmationFragment.hideProgressBar();
     }
 

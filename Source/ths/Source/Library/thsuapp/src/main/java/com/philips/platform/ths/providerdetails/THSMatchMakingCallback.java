@@ -7,11 +7,10 @@ package com.philips.platform.ths.providerdetails;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.visit.VisitContext;
 
 public interface THSMatchMakingCallback {
 
-    public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext);
+    public void onMatchMakingProviderFound(Provider provider);
     public void onMatchMakingProviderListExhausted();
     public void onMatchMakingRequestGone();
     public void onMatchMakingResponse(Void aVoid, SDKError sdkError);

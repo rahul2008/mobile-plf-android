@@ -11,37 +11,33 @@ public class THSSDKServerError implements THSErrorHandlerInterface{
         return THSConstants.THS_GENERIC_SERVER_ERROR;
     }
 
-    public boolean validate(SDKErrorReason sdkErrorReason, Context context) {
+    public boolean validate(String sdkErrorReason, Context context) {
 
-        if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.GENERIC_EXCEPTION.name())){
+        if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.GENERIC_EXCEPTION)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_SCHEDULED_DOWNTIME.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_SCHEDULED_DOWNTIME)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_SYSTEM_UNSTABLE.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_SYSTEM_UNSTABLE)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_INACTIVE.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_INACTIVE)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.MEMBER_NOT_FOUND.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.SDK_CONFIGURATION_ERROR)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.SDK_CONFIGURATION_ERROR.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.AUTH_ACCESS_DENIED)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.MEMBER_NOT_FOUND.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_DATE_FORMAT)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCESS_DENIED.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_DATE)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_DATE_FORMAT.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_FOUND)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_DATE.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.PROVIDER_VIDYO_NOT_ENABLED)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_FOUND.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.ENG_INITIATOR_MISMATCH)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.PROVIDER_VIDYO_NOT_ENABLED.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.FILE_VIRUS_SCAN_FAILED)){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ENG_INITIATOR_MISMATCH.name())){
-            return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.FILE_VIRUS_SCAN_FAILED.name())){
-            return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ENG_NOT_FOUND.name())){
+        }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.ENG_NOT_FOUND)){
             return true;
         }else {
             return false;

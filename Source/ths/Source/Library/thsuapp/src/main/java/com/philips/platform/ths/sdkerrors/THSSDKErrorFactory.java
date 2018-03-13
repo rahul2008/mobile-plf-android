@@ -3,7 +3,6 @@ package com.philips.platform.ths.sdkerrors;
 import android.content.Context;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKErrorReason;
 import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.lang.ref.WeakReference;
@@ -26,7 +25,7 @@ public class THSSDKErrorFactory {
         List<THSErrorHandlerInterface> errorList = null;
         String errorMessage=null;
         if(null!=sdkError) {
-            SDKErrorReason sdkErrorReason = null!=sdkError.getSDKErrorReason()?sdkError.getSDKErrorReason():GENERIC_EXCEPTION;
+            String sdkErrorReason = null!=sdkError.getSDKErrorReason()?sdkError.getSDKErrorReason():GENERIC_EXCEPTION;
             if (weakReference != null) {
                 errorList = weakReference.get();
             }

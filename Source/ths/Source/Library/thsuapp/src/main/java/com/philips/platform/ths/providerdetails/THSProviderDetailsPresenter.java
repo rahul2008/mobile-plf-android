@@ -15,7 +15,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -311,10 +310,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     }
 
     @Override
-    public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
+    public void onMatchMakingProviderFound(Provider provider) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             ((THSProviderDetailsFragment) mThsBaseFragment).displayDODView(false);
-            THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
             ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo = provider.getPracticeInfo();
             THSProviderInfo tHSProviderInfo = new THSProviderInfo();
             tHSProviderInfo.setTHSProviderInfo(provider);

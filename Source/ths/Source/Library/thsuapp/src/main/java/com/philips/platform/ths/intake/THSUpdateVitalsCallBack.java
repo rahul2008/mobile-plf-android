@@ -6,14 +6,15 @@
 
 package com.philips.platform.ths.intake;
 
+import android.support.annotation.NonNull;
+
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.manager.ValidationReason;
 
 import java.util.Map;
 
 public interface THSUpdateVitalsCallBack {
 
-    void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map);
+    void onUpdateVitalsValidationFailure(@NonNull Map<String, String> map);
 
     void onUpdateVitalsResponse(SDKError sdkError);
 
