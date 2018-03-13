@@ -123,7 +123,7 @@ class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
     }
 
 
-    private class ViewHolder {
+    public class ViewHolder {
         private TextView searchItemName;
 
     }
