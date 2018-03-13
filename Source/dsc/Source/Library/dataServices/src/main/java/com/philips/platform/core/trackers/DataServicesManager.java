@@ -644,23 +644,23 @@ public class DataServicesManager {
             @Override
             public void onSyncComplete() {
                 // Post on main thread
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
                         resultListener.onSuccess(Collections.<Object>emptyList());
-                    }
-                });
+//                    }
+//                });
             }
 
             @Override
             public void onSyncFailed(final  Exception exception) {
                 // Post on main thread
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
                         resultListener.onFailure(exception);
-                    }
-                });
+//                    }
+//                });
             }
         });
         storeGdprMigrationFlag();
