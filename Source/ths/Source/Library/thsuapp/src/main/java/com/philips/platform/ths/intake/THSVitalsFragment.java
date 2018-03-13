@@ -235,8 +235,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } else {
             if (mWeightInputLayoutContainer.isShowingError()) {
                 mWeightInputLayoutContainer.hideError();
-                AmwellLog.v("","Testing");
-
             }
             return true;
         }
