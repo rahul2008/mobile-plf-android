@@ -192,7 +192,7 @@ public abstract class BleRequest implements Runnable {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                DICommLog.d(BLEREQUEST, "request (" + this.hashCode() + ") timed out");
+                DICommLog.d(BLEREQUEST, "request (" + BleRequest.this.hashCode() + ") timed out");
                 BleRequest.this.cancel("Timeout occurred.");
             }
         }, REQUEST_TIMEOUT_MS);
