@@ -103,6 +103,8 @@ public class SynchronisationManagerTest {
     @Test
     public void postEventWriteDataToBackendRequest_whenDataPullSuccessIsCalled() throws Exception {
         givenLastDeletionTimeIsHoursAgo(27);
+        forceSuccessCallbackWhenDeleteExpiredMomentRequest();
+        forceSuccessCallbackWhenDeleteExpiredInsightRequest();
 
         synchronisationManager.dataPullSuccess();
 

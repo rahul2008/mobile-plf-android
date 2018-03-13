@@ -81,6 +81,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
                         @Override
                         public void onSuccess(List<? extends Insight> data) {
                             setLastExpiredDataDeletionDateTime();
+                            postEventToStartPush();
                         }
 
                         @Override
@@ -96,9 +97,9 @@ public class SynchronisationManager implements SynchronisationChangeListener {
                 }
             });
         }
-
-        // Always
-        postEventToStartPush();
+        else {
+            postEventToStartPush();
+        }
     }
 
     @Override
