@@ -84,7 +84,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
                 R.string.mya_csw_consent_revoked_confirm_btn_ok,
                 R.string.mya_csw_consent_revoked_confirm_btn_cancel
             );
-            dialog.showDialog(null); // TODO Get activity somewhere
+            this.permissionInterface.showConfirmRevokeConsentDialog(dialog);
         }
 
         boolean isOnline = getRestClient().isInternetReachable();
