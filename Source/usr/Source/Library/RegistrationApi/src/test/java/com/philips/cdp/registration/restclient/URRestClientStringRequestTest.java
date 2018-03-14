@@ -38,7 +38,7 @@ public class URRestClientStringRequestTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        urRestClientStringRequest = new URRestClientStringRequest("", "", null, mResponseListener, mErrorListener);
+        urRestClientStringRequest = new URRestClientStringRequest("", "", null, mResponseListener, mErrorListener, isHeaderRequired);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class URRestClientStringRequestTest {
 
     @Test
     public void testGetBodyIfBodyNull() throws Exception {
-        urRestClientStringRequest = new URRestClientStringRequest("", null, null, null, null);
+        urRestClientStringRequest = new URRestClientStringRequest("", null, null, null, null, isHeaderRequired);
         final byte[] body = urRestClientStringRequest.getBody();
         Assert.assertNotNull(body);
     }

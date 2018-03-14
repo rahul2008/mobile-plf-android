@@ -34,9 +34,10 @@ public class URRestClientStringRequest extends StringRequest {
     private Response.ErrorListener mErrorListener;
     private Map<String, String> mHeaders;
     private Handler mHandler;
+    private boolean mIsContentTypeHeaderRequired;
 
 
-    URRestClientStringRequest(String url, String body, Map<String, String> pHeader, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+    URRestClientStringRequest(String url, String body, Map<String, String> pHeader, Response.Listener<String> successListener, Response.ErrorListener errorListener, boolean pIsContentTypeHeaderRequired) {
         super(Method.POST, url, successListener, errorListener, null, null, null);
 
         mBody = body;
@@ -44,6 +45,7 @@ public class URRestClientStringRequest extends StringRequest {
         mErrorListener = errorListener;
         mHandler = new Handler(Looper.getMainLooper());
         mHeaders = pHeader;
+        mIsContentTypeHeaderRequired = pIsContentTypeHeaderRequired;
     }
 
     @Override
@@ -63,7 +65,8 @@ public class URRestClientStringRequest extends StringRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
-        params.put("Content-type", "application/x-www-form-urlencoded");
+        if (!mIsContentTypeHeaderRequired)
+            params.put("Content-type", "application/x-www-form-urlencoded");
         if (mHeaders != null)
             params.putAll(mHeaders);
 
@@ -98,8 +101,7 @@ public class URRestClientStringRequest extends StringRequest {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
             final String message = new String(volleyError.networkResponse.data);
             RLog.e(TAG, "parseNetworkError =" + message);
-            VolleyError error = new VolleyError(message);
-            volleyError = error;
+            volleyError = new VolleyError(message);
         }
 
         return volleyError;
