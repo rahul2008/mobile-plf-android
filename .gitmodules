@@ -1,3 +1,11 @@
+[submodule "Source/cml/Source/Library/commlib-integration-tests/src/androidTest/assets/features"]
+	path = Source/cml/Source/Library/commlib-integration-tests/src/androidTest/assets/features
+	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/cml-other-commlib-bdd
+[submodule "Source/usr/Documents/Internal/Localization"]
+	path = Source/usr/Documents/Internal/Localization
+	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/usr-other-user-registration-localization
+	branch = develop
+
 [submodule "plf-common"]
 	path = plf-common
 	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-common
