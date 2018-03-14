@@ -1,6 +1,7 @@
 package com.philips.platform.core.trackers;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -76,11 +77,14 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowLooper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,6 +104,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
 public class DataServicesManagerTest {
     private static final DateTime START_DATE = new DateTime();
     private static final DateTime END_DATE = new DateTime();
@@ -177,6 +182,8 @@ public class DataServicesManagerTest {
     private SharedPreferences prefsMock;
     @Mock
     private SharedPreferences.Editor prefsEditorMock;
+    @Mock
+    private Handler handlerMock;
 
     @Before
     public void setUp() {
@@ -711,7 +718,8 @@ public class DataServicesManagerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void migrateGDPR_withResultListener_shouldCallbackWhenDone() {
+    public void migrateGDPR_withResultListener_shouldCallbackWhenDone() throws Exception{
+        givenHandlerExecutesImmediately();
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSyncCompletedOnStartSync();
         givenSuccessfulDeleteAllInsights();
@@ -896,6 +904,10 @@ public class DataServicesManagerTest {
                 return null;
             }
         }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
+    }
+
+    private void givenHandlerExecutesImmediately() throws Exception {
+        ShadowLooper.runUiThreadTasks();
     }
 
     private void whenSynchronizeIsInvoked() {
