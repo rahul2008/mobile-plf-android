@@ -17,7 +17,7 @@ public interface MyaListener extends Serializable {
 
     boolean onProfileMenuItemSelected(FragmentLauncher fragmentLauncher, String itemName);
 
-    void onError(FragmentLauncher fragmentLauncher, MyaError myaError);
+    void onError(MyaError myaError);
 
     void onLogoutClicked(FragmentLauncher fragmentLauncher, MyaLogoutListener myaLogoutListener);
 

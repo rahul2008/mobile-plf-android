@@ -26,6 +26,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -251,6 +252,11 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
         philipsWebsite.setText(myString);
         philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    public void onLogOutClick(MyaListener.MyaLogoutListener myaLogoutListener) {
+        MyaHelper.getInstance().getMyaListener().onLogoutClicked(getFragmentLauncher(),myaLogoutListener);
     }
 
     ClickableSpan getClickableSpan(final String url) {

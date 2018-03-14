@@ -134,12 +134,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onError(final Activity activity, MyaError myaError) {
+            public void onError( MyaError myaError) {
                 Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onLogoutClicked(final Activity activity, final MyaLogoutListener myaLogoutListener) {
+            public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
+
                 URLogout urLogout=new URLogout();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
