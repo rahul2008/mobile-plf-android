@@ -53,7 +53,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        MyaHelper.getInstance().getMyaListener().onLogoutClicked(this);
+        MyaHelper.getInstance().getMyaListener().onLogoutClicked(view.getFragmentActivity(),this);
     }
 
     @Override
@@ -62,7 +62,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
-        List<?> list = null;
+        List<?> list;
         list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
         return getLocalisedList(list, appInfraInterface);
     }
@@ -71,13 +71,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         SettingsModel privacySettingsModel = new SettingsModel();
-        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Privacy_Settings));
+        privacySettingsModel.setFirstItem(view.getFragmentActivity().getString(R.string.MYA_Privacy_Settings));
         profileList.put("MYA_Privacy_Settings", privacySettingsModel);
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) list.get(i);
-                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(), key));
+                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getFragmentActivity(), key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
@@ -95,6 +95,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void onLogOutFailure() {
-
+        // is defined for future use
     }
 }

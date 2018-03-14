@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.demouapp.R;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 
-public class TabTestFragment extends MyaBaseFragment {
+public class TabTestFragment extends MyaBaseFragment implements BackEventListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +32,11 @@ public class TabTestFragment extends MyaBaseFragment {
 
     @Override
     public boolean getBackButtonState() {
+        return false;
+    }
+
+    @Override
+    public boolean handleBackEvent() {
         return false;
     }
 }

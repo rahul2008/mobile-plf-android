@@ -1,5 +1,6 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -52,7 +53,6 @@ import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -98,7 +98,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private MyaListener getMyaListener() {
         return new MyaListener() {
             @Override
-            public boolean onSettingsMenuItemSelected(String itemName) {
+             public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Logout)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("MYA_Privacy_Settings")) {
@@ -121,8 +121,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public boolean onProfileMenuItemSelected(String itemName) {
-                if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
+            public boolean onProfileMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+                if (itemName.equalsIgnoreCase("MYA_My_details")) {
                     URLaunchInput urLaunchInput = new URLaunchInput();
                     urLaunchInput.enableAddtoBackStack(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
@@ -134,12 +134,12 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onError(MyaError myaError) {
+            public void onError(final Activity activity, MyaError myaError) {
                 Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
+            public void onLogoutClicked(final Activity activity, final MyaLogoutListener myaLogoutListener) {
                 URLogout urLogout=new URLogout();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override

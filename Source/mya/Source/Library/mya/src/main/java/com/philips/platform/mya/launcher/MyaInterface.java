@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.launcher;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -69,7 +70,7 @@ public class MyaInterface implements UappInterface {
 
         UserDataInterface userDataInterface = getUserDataInterface();
         if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
-            myaLaunchInput.getMyaListener().onError(MyaError.USERNOTLOGGEDIN);
+            myaLaunchInput.getMyaListener().onError((Activity) myaLaunchInput.getContext(),MyaError.USERNOTLOGGEDIN);
             return;
         }
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);

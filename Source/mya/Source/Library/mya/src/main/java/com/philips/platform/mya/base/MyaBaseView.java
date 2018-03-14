@@ -6,9 +6,9 @@
 package com.philips.platform.mya.base;
 
 
-import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 public interface MyaBaseView {
-    Context getContext();
+    FragmentActivity getFragmentActivity();
     boolean exitMyAccounts();
 }
