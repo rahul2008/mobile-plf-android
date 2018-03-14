@@ -10,15 +10,11 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -35,17 +31,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
-    }
-
-    private ConsentStatus processDefinition(String consentType) {
-        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
-        String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
-        if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
-            logError(storageError, consentType);
-            return new ConsentStatus(ConsentStates.inactive, 0);
-        }
-
-        return new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
     }
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
@@ -85,7 +70,19 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        callback.onGetConsentsSuccess(processDefinition(consentType));
+        ConsentStatus consentStatus;
+
+        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
+        String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
+
+        if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
+            logError(storageError, consentType);
+            consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+        }else {
+            consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
+        }
+
+        callback.onGetConsentsSuccess(consentStatus);
     }
 
     @Override
@@ -98,11 +95,13 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
         SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
         boolean storeStatus = appInfra.getSecureStorage().storeValueForKey(getStoredKey(consentType), storedValue, storageError);
+
         if (!storeStatus) {
             logError(storageError, consentType);
             callback.onPostConsentFailed(new ConsentError(DEVICESTORE_ERROR_UPDATE + storageError.getErrorCode().toString(), -1));
             return;
         }
+
         callback.onPostConsentSuccess();
     }
 }

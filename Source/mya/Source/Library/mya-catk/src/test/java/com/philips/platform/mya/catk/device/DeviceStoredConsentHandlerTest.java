@@ -1,13 +1,16 @@
 package com.philips.platform.mya.catk.device;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
+import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,31 +19,21 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
-
-import android.support.annotation.NonNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeviceStoredConsentHandlerTest {
 
+    @Mock
+    AppInfraInterface appInfra;
     private DeviceStoredConsentHandler handler;
     private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2";
     private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2";
-
-    @Mock
-    AppInfraInterface appInfra;
-
     @Mock
     private SecureStorageInterface storageInterface;
 
@@ -107,13 +100,10 @@ public class DeviceStoredConsentHandlerTest {
 
     @Test
     public void verifyPostSuccess() {
+        PostConsentTypeCallback mockCallback = mock(PostConsentTypeCallback.class);
         when(storageInterface.storeValueForKey(anyString(), anyString(), eq(secureStorageError))).thenReturn(true).thenReturn(true);
-        handler.storeConsentTypeState("type1", true, 1, new TestPostConsentCallback() {
-            @Override
-            public void onPostConsentSuccess() {
-                assertTrue(true);
-            }
-        });
+        handler.storeConsentTypeState("type1", true, 1, mockCallback);
+        verify(mockCallback).onPostConsentSuccess();
     }
 
     @Test
