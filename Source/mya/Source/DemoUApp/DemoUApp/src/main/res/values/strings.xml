@@ -19,5 +19,5 @@
     <string name="content_desc_close">close</string>
     <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
     <string name="mya_config_tab">Configurable tab</string>
-    <string name="mya_login_failed">Login Failed</string>
+    <string name="mya_logout_failed">Logout Failed</string>
 </resources>

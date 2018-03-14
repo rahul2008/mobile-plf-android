@@ -222,7 +222,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
                             @Override
                             public void onLogoutFailure(int responseCode, String message) {
-                                String string = activity.getString(R.string.mya_login_failed);
+                                String string = activity.getString(R.string.mya_logout_failed);
                                 new DialogView().showDialog((FragmentActivity) activity, string, message);
                             }
                         });
