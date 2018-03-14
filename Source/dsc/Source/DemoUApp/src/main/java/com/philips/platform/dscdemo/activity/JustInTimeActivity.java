@@ -43,7 +43,8 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
         JustInTimeConsentFragment justInTimeFragment = JustInTimeConsentFragment.newInstance(containerId);
         justInTimeFragment.setUpdateTitleListener(this);
 
-        new JustInTimeConsentPresenter(justInTimeFragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentManagerInterface, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
+        new JustInTimeConsentPresenter(justInTimeFragment, JustInTimeConsentDependencies.appInfra,
+                JustInTimeConsentDependencies.consentManager, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
 
         FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();

@@ -260,7 +260,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void updateTaggingBasedOnClickStreamConsent() {
-        final ConsentInteractor interactor = new ConsentInteractor(ConsentsClient.getInstance());
+       /* final ConsentInteractor interactor = new ConsentInteractor(ConsentsClient.getInstance());
         interactor.getStatusForConsentType("clickstream", new ConsentCallback() {
 
             @Override
@@ -276,7 +276,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             public void onGetConsentFailed(ConsentError error) {
                 RALog.e("Consent Network Error", error.getError());
             }
-        });
+        });*/
     }
 
     @Override

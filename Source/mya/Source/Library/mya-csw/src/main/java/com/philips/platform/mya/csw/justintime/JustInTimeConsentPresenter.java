@@ -1,24 +1,24 @@
 package com.philips.platform.mya.csw.justintime;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Presenter {
     private final JustInTimeConsentContract.View view;
-    private final ConsentHandlerInterface consentHandlerInterface;
     private final ConsentDefinition consentDefinition;
     private final JustInTimeWidgetHandler completionListener;
     private AppInfraInterface appInfra;
+    private ConsentManagerInterface consentManager;
 
-    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface, ConsentDefinition consentDefinition, JustInTimeWidgetHandler completionListener) {
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentManagerInterface consentManager, ConsentDefinition consentDefinition, JustInTimeWidgetHandler completionListener) {
         this.view = view;
         this.appInfra = appInfra;
+        this.consentManager = consentManager;
         this.view.setPresenter(this);
-        this.consentHandlerInterface = consentHandlerInterface;
         this.consentDefinition = consentDefinition;
         this.completionListener = completionListener;
     }
@@ -51,7 +51,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         boolean isOnline = appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             view.showProgressDialog();
-            consentHandlerInterface.storeConsentState(consentDefinition, status, callback);
+            consentManager.storeConsentState(consentDefinition, status, callback);
         } else {
             view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
         }
@@ -61,18 +61,18 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
 
         private final JustInTimeConsentPresenter.PostConsentSuccessHandler handler;
 
-        public JustInTimePostConsentCallback(JustInTimeConsentPresenter.PostConsentSuccessHandler handler) {
+        private JustInTimePostConsentCallback(JustInTimeConsentPresenter.PostConsentSuccessHandler handler) {
             this.handler = handler;
         }
 
         @Override
-        public void onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
+        public void onPostConsentFailed(ConsentError error) {
             view.hideProgressDialog();
             view.showErrorDialogForCode(R.string.csw_problem_occurred_error_title, error.getErrorCode());
         }
 
         @Override
-        public void onPostConsentSuccess(Consent consent) {
+        public void onPostConsentSuccess() {
             view.hideProgressDialog();
             handler.onSuccess();
         }

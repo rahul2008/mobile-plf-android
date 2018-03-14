@@ -14,14 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +111,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
 
-    public void onCreateConsentFailed(ConsentDefinition definition, ConsentError error) {
-        int position = getIndexOfViewWithDefinition(definition);
+    public void onCreateConsentFailed(int position, ConsentError error) {
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);
             consentView.setError(true);
@@ -119,15 +121,25 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         }
     }
 
-    public void onCreateConsentSuccess(Consent consent) {
-        int position = getIndexOfViewWithDefinition(consent.getDefinition());
+    public void onCreateConsentSuccess(int position, boolean status) {
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);
             consentView.setError(false);
             consentView.setIsLoading(false);
-            consentView.storeConsent(consent);
+            consentView.storeConsent(getConsent(consentView.getDefinition(), status));
             notifyItemChanged(position + HEADER_COUNT);
         }
+    }
+
+    private Consent getConsent(ConsentDefinition definition, boolean status) {
+        ConsentStates consentStatus;
+        String locale = CswInterface.get().getDependencies().getAppInfra().getInternationalization().getBCP47UILocale();
+        if (status)
+            consentStatus = ConsentStates.active;
+        else
+            consentStatus = ConsentStates.rejected;
+        BackendConsent backendConsent = new BackendConsent(locale, consentStatus, definition.getTypes().get(0), definition.getVersion());
+        return new Consent(backendConsent, definition);
     }
 
     private int getIndexOfViewWithDefinition(ConsentDefinition definition) {

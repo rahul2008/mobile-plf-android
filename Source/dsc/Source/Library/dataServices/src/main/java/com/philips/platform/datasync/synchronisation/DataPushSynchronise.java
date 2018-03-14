@@ -147,7 +147,8 @@ public class DataPushSynchronise extends EventMonitor {
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
 
 
-        consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentCallback() {
+
+       /* consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentCallback() {
 
 
             @Override
@@ -173,7 +174,7 @@ public class DataPushSynchronise extends EventMonitor {
                 }
 
             }
-        });
+        });*/
     }
 
     private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {

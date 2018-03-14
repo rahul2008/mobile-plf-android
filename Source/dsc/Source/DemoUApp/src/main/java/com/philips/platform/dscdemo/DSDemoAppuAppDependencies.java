@@ -14,13 +14,13 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 public class DSDemoAppuAppDependencies extends UappDependencies {
     public JustInTimeTextResources textResources;
     public ConsentDefinition momentConsentDefinition;
-    public ConsentManagerInterface consentManagerInterface;
+    public ConsentManagerInterface consentManager;
 
     public DSDemoAppuAppDependencies(final AppInfraInterface appInfra,
-                                     final ConsentManagerInterface consentManagerInterface, final ConsentDefinition momentConsentDefinition,
+                                     final ConsentManagerInterface consentManager, final ConsentDefinition momentConsentDefinition,
                                      final JustInTimeTextResources textResources) {
         super(appInfra);
-        this.consentManagerInterface = consentManagerInterface;
+        this.consentManager = consentManager;
         this.momentConsentDefinition = momentConsentDefinition;
         this.textResources = textResources;
     }

@@ -10,17 +10,16 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-
 public class DevicePairingUappDependencies extends UappDependencies {
 
     private CommCentral commCentral;
-    private ConsentManagerInterface consentManagerInterface;
+    private ConsentManagerInterface consentManager;
     private AppInfraInterface appInfraInterface;
 
-    public DevicePairingUappDependencies(AppInfraInterface appInfra, ConsentManagerInterface consentManagerInterface, CommCentral commCentral) {
+    public DevicePairingUappDependencies(AppInfraInterface appInfra, ConsentManagerInterface consentManager, CommCentral commCentral) {
         super(appInfra);
         this.commCentral = commCentral;
-        this.consentManagerInterface = consentManagerInterface;
+        this.consentManager = consentManager;
         this.appInfraInterface = appInfra;
     }
 
@@ -28,8 +27,8 @@ public class DevicePairingUappDependencies extends UappDependencies {
         return commCentral;
     }
 
-    public ConsentManagerInterface getConsentRegistry() {
-        return consentManagerInterface;
+    public ConsentManagerInterface getConsentManager() {
+        return consentManager;
     }
 
     public AppInfraInterface getAppInfra() {

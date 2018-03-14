@@ -36,6 +36,10 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     @NonNull
     private final PermissionAdapter adapter;
 
+    private int togglePosition;
+
+    private boolean toggleStatus;
+
     PermissionPresenter(
             @NonNull final PermissionInterface permissionInterface, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
@@ -61,8 +65,10 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     }
 
     @Override
-    public boolean onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
+    public boolean onToggledConsent(int position, ConsentDefinition definition, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
+        togglePosition = position;
+        toggleStatus = consentGiven;
         if (isOnline) {
             CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
             permissionInterface.showProgressDialog();
@@ -108,7 +114,7 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
 
     @Override
     public void onPostConsentFailed(ConsentError error) {
-//        adapter.onCreateConsentFailed(definition, error); //TODO
+        adapter.onCreateConsentFailed(togglePosition, error);
         permissionInterface.hideProgressDialog();
         permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
     }
@@ -118,7 +124,7 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
        /* if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
             updateClickStream(consent.getStatus().name().equals(ConsentStates.active.name()));
         }*/
-//        adapter.onCreateConsentSuccess(consent); //TODO
+        adapter.onCreateConsentSuccess(togglePosition, toggleStatus);
         permissionInterface.hideProgressDialog();
     }
 

@@ -185,7 +185,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
         List<ConsentDefinition> catkConsentDefinitions = createCatkDefinitions(context);
-        List<ConsentDefinition> urConsentDefinitions = createUserRegistrationDefinitions(context);
+//        List<ConsentDefinition> urConsentDefinitions = createUserRegistrationDefinitions(context);
 
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
@@ -197,7 +197,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         consentDefinitionList = new ArrayList<>();
         consentDefinitionList.addAll(catkConsentDefinitions);
-        consentDefinitionList.addAll(urConsentDefinitions);
+//        consentDefinitionList.addAll(urConsentDefinitions);
     }
 
     @Override

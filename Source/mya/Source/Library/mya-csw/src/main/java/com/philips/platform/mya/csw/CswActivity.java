@@ -17,10 +17,13 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDActivity;
+
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -28,7 +31,6 @@ public class CswActivity extends UIDActivity implements OnClickListener,
         ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
-
     private TextView ivBack;
 
     @Override
@@ -94,7 +96,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(this, consentDefinitionList);
+        return new CswLaunchInput(this, (List<ConsentDefinition>) this.getIntent().getExtras().getSerializable(CswConstants.CONSENT_DEFINITIONS));
     }
 
     @Override

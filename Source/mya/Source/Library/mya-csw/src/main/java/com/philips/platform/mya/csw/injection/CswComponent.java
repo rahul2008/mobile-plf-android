@@ -12,9 +12,6 @@ import android.content.Context;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-
-import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -30,6 +27,4 @@ public interface CswComponent {
     AppTaggingInterface getAppTaggingInterface();
 
     ConsentManagerInterface getConsentManager();
-
-    List<ConsentDefinition> getConsentDefinitions();
 }
