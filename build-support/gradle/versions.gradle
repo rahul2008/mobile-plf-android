@@ -54,7 +54,6 @@ ext.philipsdeps = [
         registrationApi                 : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
         UserRegistrationUApp            : [group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversionsuffix, changing: true],
         mya                             : [group: 'com.philips.cdp', name: 'mya', version: platformversionsuffix, changing: true],
-        mya_mch                         : [group: 'com.philips.cdp', name: 'mya-mch', version: platformversionsuffix, changing: true],
         mya_catk                        : [group: 'com.philips.cdp', name: 'mya-catk', version: platformversionsuffix, changing: true],
         mya_csw                         : [group: 'com.philips.cdp', name: 'mya-csw', version: platformversionsuffix, changing: true],
         mya_chi                         : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],

@@ -225,7 +225,6 @@ def BuildAndUnitTest() {
             :mya-catk:testReleaseUnitTest \
             :mya-csw:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
-            :mya-mch:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
             :devicepairingUApp:testReleaseUnitTest \
@@ -255,7 +254,6 @@ def BuildLint() {
          :mya-catk:lint \
          :mya-csw:lint \
          :pif:lint \
-         :mya-mch:lint \
          :dataServices:lintRelease \
          :devicepairingUApp:lint \
          :ews-android:lint \
@@ -418,7 +416,6 @@ def PublishUnitTestsresults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-catk'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-mch/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mch'])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
