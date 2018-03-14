@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Bandyti prisijungti dar kartą</string>
 <string name="reg_Contact_Customer_Care_Text">Susisiekti su klientų aptarnavimu</string>
 <string name="reg_Update_Email_Button_Text">Atnaujinkite el. pašto adresą</string>
-<string name="reg_Country_Region">Šalis / regionas</string>
 <string name="reg_MyDetails_TitleTxt">Mano paskyra</string>
 <string name="reg_Login_Details_Txt">Prisijungimo informacija</string>
 <string name="reg_Email_address_TitleTxt">El. pašto adresas</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Lytis</string>
 <string name="reg_DateOfBirth_TitleTxt">Gimimo data</string>
 <string name="reg_Address_TitleTxt">Adresas</string>
+<string name="reg_Country_Region">Šalis/regionas</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prisijunkite dabar</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Kurti „Philips“ paskyrą</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Arba prisijunkite per:</string>

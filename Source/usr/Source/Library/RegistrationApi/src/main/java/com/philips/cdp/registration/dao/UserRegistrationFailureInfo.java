@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.dao;
 
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONObject;
@@ -28,9 +29,37 @@ public class UserRegistrationFailureInfo {
     /* error */
     private CaptureApiError error;
 
+    public void setErrorTagging(String errorTagging) {
+        this.errorTagging = errorTagging;
+    }
+
+    private void setErrorTagging() {
+        if (null != error && null != error.raw_response)
+            this.errorTagging = RegUtility.getTaggingErrorDescription(error.raw_response);
+    }
+
+    private String errorTagging = "";
+
+    public UserRegistrationFailureInfo() {
+
+    }
+
+    /**
+     * {@code setError} constructor to set error
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
+     * @param error error
+     * @since 1.0.0
+     */
+    public UserRegistrationFailureInfo(CaptureApiError error) {
+        this.error = error;
+        setErrorTagging();
+    }
+
 
     /**
      * {@code getErrorDescription } method to get error description
+     *
      * @return errorDescription error description
      * @since 1.0.0
      */
@@ -48,7 +77,19 @@ public class UserRegistrationFailureInfo {
     }
 
     /**
-     *{@code setErrorDescription}method do set error description
+     * {@code getErrorDescription } method to get error non localized description
+     *
+     * @return non localized description error description String
+     * @since 18.1.0
+     */
+
+    public String getErrorTagging() {
+        return this.errorTagging;
+    }
+
+    /**
+     * {@code setErrorDescription}method do set error description
+     *
      * @param errorDescription error description
      * @since 1.0.0
      */
@@ -58,6 +99,7 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code getErrorCode} method to get error code
+     *
      * @return errorCode error code
      * @since 1.0.0
      */
@@ -67,6 +109,7 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code setErrorCode } method to set error code
+     *
      * @param errorCode error code
      * @since 1.0.0
      */
@@ -76,7 +119,8 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code getError}method to get captured api error
-     *{@link com.janrain.android.capture.CaptureApiError}
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
      * @return error
      * @since 1.0.0
      */
@@ -86,12 +130,11 @@ public class UserRegistrationFailureInfo {
 
     /**
      * {@code setError} method to set error
-     *{@link com.janrain.android.capture.CaptureApiError}
+     * {@link com.janrain.android.capture.CaptureApiError}
+     *
      * @param error error
      * @since 1.0.0
      */
-    public void setError(CaptureApiError error) {
-        this.error = error;
-    }
+
 
 }

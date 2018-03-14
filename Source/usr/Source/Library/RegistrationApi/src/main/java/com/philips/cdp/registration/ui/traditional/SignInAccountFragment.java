@@ -216,13 +216,14 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
 
             mBtnSignInAccount.showProgressIndicator();
             signIn();
-        } else if (id == R.id.btn_reg_resend) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
-            loginValidationEditText.clearFocus();
-            passwordValidationEditText.clearFocus();
-            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
-            handleResend();
         }
+//        else if (id == R.id.btn_reg_resend) {
+//            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
+//            loginValidationEditText.clearFocus();
+//            passwordValidationEditText.clearFocus();
+//            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
+//            handleResend();
+//        }
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
@@ -478,11 +479,13 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
             mEtEmail.setErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         } else {
             if (userRegistrationFailureInfo.getErrorCode() == -1) {
                 mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+                userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             }
         }
 
@@ -674,14 +677,7 @@ public class  SignInAccountFragment extends RegistrationBaseFragment implements 
     private void handleResend() {
         mBtnSignInAccount.setEnabled(false);
     }
-
-    private void trackMultipleActionsOnMobileSuccess() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
-        map.put(AppTagingConstants.MOBILE_INAPPNATIFICATION, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
-    }
-
+    
     private void enableAll() {
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);

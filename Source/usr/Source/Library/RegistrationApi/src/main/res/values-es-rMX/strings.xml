@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Intente iniciar sesión de nuevo</string>
 <string name="reg_Contact_Customer_Care_Text">Comunicarse con atención al cliente</string>
 <string name="reg_Update_Email_Button_Text">Actualizar la dirección de correo electrónico</string>
-<string name="reg_Country_Region">País / Región</string>
 <string name="reg_MyDetails_TitleTxt">Mi cuenta</string>
 <string name="reg_Login_Details_Txt">Detalles de inicios de sesión</string>
 <string name="reg_Email_address_TitleTxt">Dirección de correo electrónico</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Sexo</string>
 <string name="reg_DateOfBirth_TitleTxt">Fecha de nacimiento</string>
 <string name="reg_Address_TitleTxt">Dirección</string>
+<string name="reg_Country_Region">País/Región</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Iniciar sesión ahora</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Crear mi cuenta de Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">O iniciar sesión con:</string>

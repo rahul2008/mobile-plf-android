@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Попробовать снова войти в систему</string>
 <string name="reg_Contact_Customer_Care_Text">Обратиться в центр поддержки потребителей</string>
 <string name="reg_Update_Email_Button_Text">Обновить адрес эл. почты</string>
-<string name="reg_Country_Region">Страна /  Область</string>
 <string name="reg_MyDetails_TitleTxt">Моя учетная запись</string>
 <string name="reg_Login_Details_Txt">Данные для входа</string>
 <string name="reg_Email_address_TitleTxt">Адрес электронной почты</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Пол</string>
 <string name="reg_DateOfBirth_TitleTxt">Дата рождения</string>
 <string name="reg_Address_TitleTxt">Адрес</string>
+<string name="reg_Country_Region">Страна/Область</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Войти</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Создать учетную запись Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Или войдите с помощью:</string>

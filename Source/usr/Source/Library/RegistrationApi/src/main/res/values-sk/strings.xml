@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Skúsiť sa znova prihlásiť</string>
 <string name="reg_Contact_Customer_Care_Text">Kontaktovať oddelenie starostlivosti o zákazníkov</string>
 <string name="reg_Update_Email_Button_Text">Aktualizovať e-mailovú adresu</string>
-<string name="reg_Country_Region">Krajina / región</string>
 <string name="reg_MyDetails_TitleTxt">Moje konto</string>
 <string name="reg_Login_Details_Txt">Prihlasovacie údaje</string>
 <string name="reg_Email_address_TitleTxt">E-mailová adresa</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Pohlavie</string>
 <string name="reg_DateOfBirth_TitleTxt">Dátum narodenia</string>
 <string name="reg_Address_TitleTxt">Adresa</string>
+<string name="reg_Country_Region">Krajina/región</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prihlásiť sa teraz</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Vytvoriť moje konto Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Alebo sa prihlásiť cez:</string>

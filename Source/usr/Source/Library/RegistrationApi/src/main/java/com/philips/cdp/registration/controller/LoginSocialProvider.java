@@ -170,6 +170,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         if (mSocialLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext,()->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));

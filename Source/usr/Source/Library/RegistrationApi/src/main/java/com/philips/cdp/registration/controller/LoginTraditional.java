@@ -118,8 +118,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     @Override
     public void onFailure(SignInError error) {
         try {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setError(error.captureApiError);
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             ThreadUtils.postInMainThread(mContext, () ->
@@ -140,6 +139,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         if (mTraditionalLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
