@@ -14,11 +14,16 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
@@ -27,11 +32,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RuntimeEnvironment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -75,25 +83,47 @@ public class MyAccountStateTest {
 
     @Mock
     private Context mockContext;
-    private static final String LANGUAGE_TAG = "en-US";
 
+    @Mock
+    private UserRegistrationState userRegistrationStateMock;
+
+    @Mock
+    private UserDataInterface userDataInterfaceMock;
+
+    @Mock
+    AppFrameworkApplication appFrameworkApplication;
+
+
+
+    private static final String LANGUAGE_TAG = "en-US";
+    private Context context;
+
+    private List<ConsentConfiguration> configurations = new ArrayList<>();
+    @Mock
+    private ConsentHandlerInterface handler1;
+    @Mock
+    private ConsentHandlerInterface handler2;
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         myAccountState = new MyAccountStateMock(myaInterface);
-
+        context = RuntimeEnvironment.application;
         myAccountState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
-
+        when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(hamburgerActivity.getApplicationContext()).thenReturn(application);
         when(hamburgerActivity.getSupportFragmentManager()).thenReturn(fragmentManager);
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
+        when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
+        when(userRegistrationStateMock.getUserDataInterface()).thenReturn(userDataInterfaceMock);
     }
 
     @Test
     public void testLaunchMyAccountState() {
+
         myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
@@ -119,7 +149,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(5, definitions.size());
+        assertEquals(6, definitions.size());
     }
 
     @After
@@ -131,6 +161,7 @@ public class MyAccountStateTest {
         appInfraInterface = null;
         myAccountState = null;
         uiStateData = null;
+        appFrameworkApplication = null;
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
@@ -149,5 +180,54 @@ public class MyAccountStateTest {
         public MyaInterface getInterface() {
             return myaInterface;
         }
+
+        @Override
+        protected AppFrameworkApplication getApplicationContext() {
+            return application;
+        }
+    }
+
+
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_single_configuration() {
+        givenConfigurationsWithTypes(handler1, "moment", "moment");
+        whenSettingConfiguration();
+    }
+
+    @Test(expected = CatkInputs.InvalidInputException.class)
+    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_multiple_configurations() {
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "moment", "coaching");
+        whenSettingConfiguration();
+    }
+
+    @Test
+    public void itShouldNotThrowExceptionWhenSettingConfigurationWithUniquesDuplicateTypes() {
+        givenConfigurationsWithTypes(handler1, "moment", "consent");
+        givenConfigurationsWithTypes(handler2, "coaching", "marketing");
+        whenSettingConfiguration();
+    }
+
+    @Test
+    public void itShouldNotThrowExceptionWhenSettingConfigurationWithoutTypes() {
+        givenConfigurationsWithTypes(handler1);
+        givenConfigurationsWithTypes(handler2);
+        whenSettingConfiguration();
+    }
+
+    private void givenConfigurationsWithTypes(ConsentHandlerInterface handler, String... types) {
+        List<ConsentDefinition> definitions = new ArrayList<>();
+        for (String type : types) {
+            definitions.add(createDefinitionsWithType(type));
+        }
+        configurations.add(new ConsentConfiguration(definitions, handler));
+    }
+
+    private void whenSettingConfiguration() {
+        myAccountState.setConfigurations(configurations);
+    }
+
+    private ConsentDefinition createDefinitionsWithType(String type) {
+        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
     }
 }

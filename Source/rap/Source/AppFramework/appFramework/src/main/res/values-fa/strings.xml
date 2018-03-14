@@ -7,7 +7,6 @@
 <string name="RA_Cancel">لغو</string>
 <string name="RA_Warning">هشدار</string>
 <string name="RA_HomeScreen_Title">صفحه اصلی برنامه تلفن همراه</string>
-<string name="RA_SettingsScreen_Title">تنظیمات حساب</string>
 <string name="RA_SupportScreen_Title">پشتیبانی</string>
 <string name="RA_DataServicesScreen_Title">سرویس‌های اینترنت همراه</string>
 <string name="RA_DebugAndTestScreen_Title">اشکال‌یابی و آزمایش</string>
@@ -58,9 +57,6 @@
 <string name="RA_Invalid_Param_Msg">شما پارامترهای اشتباه را وارد یا انتخاب کرده‌اید. لطفاً پارامترهای مناسب را انتخاب کرده و دوباره اجرا کنید</string>
 <string name="RA_NO_Order_History">تاریخچه سفارشات در دسترس نیست</string>
 <string name="RA_PR_Benefit_Text">ضمانت خود را تا ۲۴ ماه افزایش دهید.  ۱۰ درصد تخفیف از Philips دریافت کنید.  وسایل جانبی محصول را رایگان دریافت کنید</string>
-  <string name="RA_CSW_JustInTime_Accept">[fa]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[fa]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[fa]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">دوره ضمانت شما تا یک سال دیگر تمدید شد</string>
 <string name="RA_PR_Email_Text">یک ایمیل با قرارداد ضمانت تمدید شده به آدرس ایمیل شما ارسال شد</string>
 <string name="RA_UR_Env_Alert">تغییر پیکربندی</string>

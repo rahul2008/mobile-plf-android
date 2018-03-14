@@ -23,13 +23,13 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/mya_settings_logout_btn"
-            style="@style/UIDDefaultButton"
+            style="@style/UIDExtraWideButton.Center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/MYA_end_margin"
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginTop="@dimen/MYA_top_margin"
-            android:text="@string/MYA_Log_Out" />
+            android:text="@string/MYA_Logout" />
 
         <LinearLayout
             android:id="@+id/mya_website_layout"
@@ -46,19 +46,18 @@
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginStart="@dimen/MYA_start_margin"
                 android:paddingTop="@dimen/MYA_top_margin"
-                android:text="@string/MYA_visit_website" />
+                android:text="@string/MYA_Info" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/philips_website"
                 style="@style/UIDLabel.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
                 android:layout_marginBottom="@dimen/MYA_bottom_margin"
                 android:layout_marginEnd="@dimen/MYA_end_margin"
                 android:layout_marginStart="@dimen/MYA_start_margin"
-                android:text="@string/MYA_philips_website" />
+                android:text="@string/MYA_philips_website"
+                 />
         </LinearLayout>
 
     </LinearLayout>

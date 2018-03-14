@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Mans konts</string>
+<string name="MYA_Profile">Profils</string>
+<string name="MYA_Settings">Iestatījumi</string>
+<string name="MYA_My_details">Mana informācija</string>
+<string name="MYA_My_products">Mani produkti</string>
+<string name="MYA_My_subscriptions">Mani abonementi</string>
+<string name="MYA_My_orders">Mani pasūtījumi</string>
+<string name="MYA_Logout">Atteikties</string>
+<string name="MYA_Account_settings">Konta iestatījumi</string>
+<string name="MYA_Country">Valsts</string>
+<string name="MYA_Notifications">Paziņojumi</string>
+<string name="MYA_Privacy_Settings">Privātuma iestatījumi</string>
+<string name="MYA_Login_details">Pieteikšanās detaļas</string>
+<string name="MYA_Email_address">E-pasta adrese</string>
+<string name="MYA_Mobile_number">Mob. tālruņa numurs</string>
+<string name="MYA_Personal_details">Personas informācija</string>
+<string name="MYA_Name">Vārds</string>
+<string name="MYA_Gender">Dzimums</string>
+<string name="MYA_Date_of_birth">Dzimšanas datums</string>
+<string name="MYA_Address">Adrese</string>
+<string name="MYA_Cancel">Atcelt</string>
+<string name="MYA_change_country">Atteikties, lai mainītu valsti</string>
+<string name="MYA_change_country_message">Lūdzu, izejiet, lai mainītu valsti, kurā dzīvojat. Tādējādi mēs varēsim pielāgot garantiju un citu informāciju jūsu atrašanās vietai.</string>
+<string name="MYA_logout_title">Vai tiešām vēlaties atteikties?</string>
+<string name="MYA_logout_message">Tiks veikta jūsu atteikšanās lietotnē. Pēc atteikšanās jūs jebkurā laikā varat pieteikties vēlreiz.</string>
+<string name="MYA_Info">Vai vēlaties mainīt savu pieteikšanās ID vai paroli? Apmeklējiet mūsu tīmekļa vietni.</string>
+<string name="MYA_Email_Validation_message">E-pasta adrese nav apstiprināta</string>
+<string name="MYA_Not_Available">Nav pieejams</string>
+<string name="MYA_Ok">Labi</string>
+<string name="MYA_Offline_title">Jūs esat bezsaistē</string>
+<string name="MYA_Offline_message">Iespējams, nedarbojas jūsu interneta savienojums. Lūdzu, pārbaudiet un mēģiniet vēlreiz.</string>
+<string name="mya_Privacy_Settings_Desc">Kontrolējiet savu privātumu. Lai iegūtu papildinformāciju, izlasiet _privacy notice_.</string>
+</resources>

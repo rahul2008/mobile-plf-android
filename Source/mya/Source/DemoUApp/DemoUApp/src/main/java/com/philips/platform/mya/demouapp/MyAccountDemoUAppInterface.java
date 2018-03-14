@@ -9,7 +9,9 @@ package com.philips.platform.mya.demouapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -19,8 +21,10 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class MyAccountDemoUAppInterface implements UappInterface {
 
+    private static User user;
     private Context mContext;
     private static AppInfraInterface appInfra;
+    private static UserDataInterface userDataInterface;
 
     /**
      * @param uappDependencies - App dependencies
@@ -37,6 +41,9 @@ public class MyAccountDemoUAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+        MyaDemouAppLaunchInput myaDemouAppLaunchInput = (MyaDemouAppLaunchInput) uappLaunchInput;
+        MyAccountDemoUAppInterface.user = myaDemouAppLaunchInput.getUser();
+        MyAccountDemoUAppInterface.userDataInterface = myaDemouAppLaunchInput.getUserDataInterface();
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity();
         }
@@ -50,5 +57,13 @@ public class MyAccountDemoUAppInterface implements UappInterface {
 
     public static AppInfraInterface getAppInfra() {
         return appInfra;
+    }
+
+    public static UserDataInterface getUserDataInterface() {
+        return userDataInterface;
+    }
+
+    public static User getUserObject() {
+        return user;
     }
 }

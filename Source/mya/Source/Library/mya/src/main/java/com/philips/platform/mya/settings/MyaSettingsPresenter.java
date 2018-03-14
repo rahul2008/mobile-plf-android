@@ -5,47 +5,34 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBasePresenter;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.csw.CswDependencies;
-import com.philips.platform.mya.csw.CswInterface;
-import com.philips.platform.mya.csw.CswLaunchInput;
-import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
-class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
+class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter, MyaListener.MyaLogoutListener {
 
     private MyaSettingsContract.View view;
 
     MyaSettingsPresenter(MyaSettingsContract.View view) {
         this.view = view;
+
     }
 
     @Override
-    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error, Bundle arguments) {
+    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
         appInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.landing.myphilips", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -57,7 +44,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
             }
         });
-        view.showSettingsItems(getSettingsMap(appInfra, arguments, error));
+        view.showSettingsItems(getSettingsMap(appInfra));
     }
 
     @Override
@@ -66,87 +53,30 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
-        if (userDataModelProvider != null) {
-            userDataModelProvider.logOut(view.getContext(), getLogoutHandler());
-        }
+        MyaHelper.getInstance().getMyaListener().onLogoutClicked(this);
     }
 
     @Override
     public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
-        if (key.equals("Mya_Privacy_Settings")) {
-            RestInterface restInterface = getRestClient();
-            if (restInterface.isInternetReachable()) {
-                MyaDependencies myaDeps = getDependencies();
-                CswDependencies dependencies = new CswDependencies(myaDeps.getAppInfra(), myaDeps.getConsentConfigurationList());
-                CswInterface cswInterface = getCswInterface();
-                UappSettings uappSettings = new UappSettings(view.getContext());
-                cswInterface.init(dependencies, uappSettings);
-                cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
-                return true;
-            } else {
-                String title = getContext().getString(R.string.MYA_Offline_title);
-                String message = getContext().getString(R.string.MYA_Offline_message);
-                view.showOfflineDialog(title, message);
-            }
-        }
         return false;
     }
 
-    ConsentsClient getConsentsClient() {
-        return ConsentsClient.getInstance();
-    }
-
-    CswInterface getCswInterface() {
-        return new CswInterface();
-    }
-
-    LogoutHandler getLogoutHandler() {
-        return new LogoutHandler() {
-            public void onLogoutSuccess() {
-                view.onLogOutSuccess();
-            }
-
-            public void onLogoutFailure(int responseCode, String message) {
-                // TODO - need to discuss with design team and handle on logout failure
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                view.hideProgressIndicator();
-            }
-        };
-    }
-
-    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
-    }
-
-    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, Bundle arguments, AppConfigurationInterface.AppConfigurationError error) {
-        String settingItems = "settings.menuItems";
+    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
         List<?> list = null;
-        if (arguments != null)
-            list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
-
-        if (list == null || list.isEmpty()) {
-            try {
-                list = (ArrayList<?>) appInfraInterface.getConfigInterface().getPropertyForKey(settingItems, "mya", error);
-            } catch (IllegalArgumentException exception) {
-                exception.getMessage();
-            }
-        }
+        list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
         return getLocalisedList(list, appInfraInterface);
     }
 
-    private LinkedHashMap<String, SettingsModel> getLocalisedList(List<?> propertyForKey, AppInfraInterface appInfraInterface) {
+    private LinkedHashMap<String, SettingsModel> getLocalisedList(List<?> list, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         SettingsModel privacySettingsModel = new SettingsModel();
-        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
-        profileList.put("Mya_Privacy_Settings", privacySettingsModel);
-        if (propertyForKey != null && propertyForKey.size() != 0) {
-            for (int i = 0; i < propertyForKey.size(); i++) {
+        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Privacy_Settings));
+        profileList.put("MYA_Privacy_Settings", privacySettingsModel);
+        if (list != null && list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
-                String key = (String) propertyForKey.get(i);
+                String key = (String) list.get(i);
                 settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(), key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
@@ -158,16 +88,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return profileList;
     }
 
-    private Context getContext() {
-        return view.getContext();
+    @Override
+    public void onLogoutSuccess() {
+        view.exitMyAccounts();
     }
 
-    // Visible for testing
-    protected RestInterface getRestClient() {
-        return getDependencies().getAppInfra().getRestClient();
-    }
+    @Override
+    public void onLogOutFailure() {
 
-    protected MyaDependencies getDependencies() {
-        return MyaInterface.get().getDependencies();
     }
 }

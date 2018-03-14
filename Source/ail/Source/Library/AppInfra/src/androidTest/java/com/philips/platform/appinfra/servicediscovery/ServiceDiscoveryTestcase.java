@@ -3,23 +3,29 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +34,19 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_FETCH_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * ServiceDiscovery Test class.
@@ -51,15 +70,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
 	private AISDResponse aisdResponse;
 
-
-
-
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = getInstrumentation().getContext();
 		assertNotNull(context);
-
 
 		mAppInfra = new AppInfra.Builder().build(context);
 		assertNotNull(mAppInfra);
@@ -101,6 +116,88 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
 	}
 
+	public void testProcessRequest() {
+		AppInfra mAppInfra = getAppInfraMocked();
+		ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
+		serviceDiscovery.setSuccess(true);
+		RestInterface restInterfaceMock = mock(RestInterface.class);
+		RequestQueue requestQueueMock = mock(RequestQueue.class);
+		SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
+		when(mAppInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
+		final RequestManager requestManagerMock = mock(RequestManager.class);
+		String url = "www.philips.com";
+		when(requestManagerMock.execute(url,ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform)).thenReturn(serviceDiscovery);
+		when(restInterfaceMock.getRequestQueue()).thenReturn(requestQueueMock);
+		when(restInterfaceMock.isInternetReachable()).thenReturn(false);
+		when(mAppInfra.getRestClient()).thenReturn(restInterfaceMock);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+
+			@Override
+			RequestManager getRequestManager() {
+				return requestManagerMock;
+			}
+		};
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
+		when(restInterfaceMock.isInternetReachable()).thenReturn(true);
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_SUCCESS);
+		serviceDiscovery.setSuccess(false);
+		ServiceDiscovery.Error error = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT," connection time out");
+		serviceDiscovery.setError(error);
+		mServiceDiscoveryManager.processRequest(url, serviceDiscovery, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform, ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
+	}
+
+	public void testTaggingFetchSD() {
+		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
+		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
+		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			SecureStorageInterface.SecureStorageError getSecureStorageError() {
+				return secureStorageError;
+			}
+
+					@Override
+					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+
+						return appInfraTaggingUtil;
+					}
+				};
+		mServiceDiscoveryManager.getHomeCountry();
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
+
+	}
+
+	public void testTaggingStoreSD() {
+		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
+		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
+		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			SecureStorageInterface.SecureStorageError getSecureStorageError() {
+				return secureStorageError;
+			}
+
+					@Override
+					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+
+						return appInfraTaggingUtil;
+					}
+				};
+		mServiceDiscoveryManager.setHomeCountry("en");
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED);
+
+	}
+
 	public void testConfig() {
 
 		AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
@@ -119,21 +216,90 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
 	}
 
+	public void testSetGetHomeCountryTagging() {
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		AppInfra appInfra = getAppInfraMocked();
+		SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
+		when(appInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
 
-	public void testApplyURLParameters() {
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+		};
+		String en = "gb";
+		mServiceDiscoveryManager.setHomeCountry(en);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SET_HOME_COUNTRY_SUCCESS.concat(en));
 
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("ctn", "HD9740");
-		parameters.put("sector", "B2C");
-		parameters.put("catalog", "shavers");
-		try {
-			URL url = new URL("https://d1lqe9temigv1p.cloudfront.net");
-			assertNotNull(mServiceDiscoveryManager.applyURLParameters(url, parameters));
-		} catch (MalformedURLException e) {
-		}
+		Context context = mock(Context.class);
+		TelephonyManager telephonyManagerMock = mock(TelephonyManager.class);
+		when(telephonyManagerMock.getSimCountryIso()).thenReturn("en");
+		when(context.getSystemService(Context.TELEPHONY_SERVICE)).thenReturn(telephonyManagerMock);
+		when(appInfra.getAppInfraContext()).thenReturn(context);
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(appInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+		};
+		mServiceDiscoveryManager.getHomeCountry();
+		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
+		final String[] homeCountryCode = new String[1];
+		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+			@Override
+			public void onSuccess(String countryCode, SOURCE source) {
+				homeCountryCode[0] = countryCode;
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+
+			}
+		};
+		mServiceDiscoveryManager.getHomeCountry(listenerMock);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS.concat(homeCountryCode[0]));
 	}
 
-	public void testdownloadServices() {
+	public void testForceRefreshTagging() {
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+		};
+		ServiceDiscoveryInterface.OnRefreshListener onRefreshListenerMock = mock(ServiceDiscoveryInterface.OnRefreshListener.class);
+		mServiceDiscoveryManager.refresh(onRefreshListenerMock);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
+	}
+
+	public void testDownloadingServices() {
+		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
+			@Override
+			AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+				return appInfraTaggingUtil;
+			}
+		};
+		mServiceDiscoveryManager.downloadPlatformService(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		String sdurlForType = mServiceDiscoveryManager.getSDURLForType(ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PLATFORM_SERVICES_INVOKED.concat(sdurlForType));
+
+		sdurlForType = mServiceDiscoveryManager.getSDURLForType(ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+		mServiceDiscoveryManager.downloadPropositionService(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh);
+		verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED.concat(sdurlForType));
+	}
+
+	@NonNull
+	private AppInfra getAppInfraMocked() {
+		AppInfra mAppInfra = mock(AppInfra.class);
+		LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
+		when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+		return mAppInfra;
+	}
+
+	public void testDownloadServices() {
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadServices");
 			method.setAccessible(true);
@@ -143,7 +309,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 	}
 
 
-	public void testsetHomeCountry() {
+	public void testSetHomeCountry() {
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("setHomeCountry", String.class);
 			method.setAccessible(true);
@@ -154,7 +320,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 	}
 
 
-	public void testsaveToSecureStore() {
+	public void testSaveToSecureStore() {
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("saveToSecureStore", String.class, String.class);
 			method.setAccessible(true);
@@ -185,7 +351,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		});
 	}
 
-	public void testgetServiceUrlWithLanguagePreference() throws Exception {
+	public void testGetServiceUrlWithLanguagePreference() throws Exception {
 //        //mServiceDiscoveryManager.setServiceDiscovery(loadServiceDiscoveryModel());
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceUrlWithLanguagePreference",
@@ -1342,4 +1508,5 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}
 		});
 	}
+
 }

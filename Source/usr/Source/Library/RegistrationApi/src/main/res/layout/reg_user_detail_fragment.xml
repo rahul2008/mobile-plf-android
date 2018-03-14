@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * Copyright (c) Koninklijke Philips N.V. 2017
+  ~  * All rights are reserved. Reproduction or dissemination in whole or in part
+  ~  * is prohibited without the prior written consent of the copyright holder.
+  ~  */
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/uid_adaptive_layout_width"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/reg_layout_margin_16">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/reg_image_layout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/reg_circle_shape"
+                android:contentDescription="@string/app_name" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/uidColorWhite"
+                android:textSize="@dimen/reg_40sp" />
+
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_myDetailsScreen_label_loginDetails"
+            style="@style/UIDLabel.Header"
+            android:text="@string/reg_Login_Details_Txt" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_emailAddressHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/reg_layout_margin_16"
+                android:layout_marginStart="@dimen/reg_layout_margin_16"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
+                android:visibility="gone"
+                android:text="@string/reg_Email_address_TitleTxt" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_emailAddressValue"
+                android:layout_width="match_parent"
+                android:textDirection="locale"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_emailAddressHeading"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:text="@string/reg_Email_address_TitleTxt"
+                android:visibility="gone"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_mobileNumberHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_emailAddressValue"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_Mobile_number_TitleTxt"
+                android:visibility="gone" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_mobileNumberValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textDirection="locale"
+                android:layout_below="@+id/usr_myDetailsScreen_label_mobileNumberHeading"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:text="@string/reg_Not_Available"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/reg_Personal_Details_Txt" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_dimen_12dp"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_nameHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:visibility="gone"
+                android:text="@string/reg_Name_TitleTxt" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_nameValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textDirection="locale"
+                android:layout_below="@+id/usr_myDetailsScreen_label_nameHeading"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:visibility="gone"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_genderHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_nameValue"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:visibility="gone"
+                android:text="@string/reg_Gender_TitleTxt" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_genderValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_genderHeading"
+                android:textDirection="locale"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:visibility="gone"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_dobHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_genderValue"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:visibility="gone"
+                android:text="@string/reg_DateOfBirth_TitleTxt" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_myDetailsScreen_label_dobValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usr_myDetailsScreen_label_dobHeading"
+                android:textDirection="locale"
+                android:layout_marginEnd="@dimen/reg_dimen_16dp"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:visibility="gone"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/usr_myDetailsScreen_view_dobDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/reg_dimen_1dp"
+            android:layout_marginTop="@dimen/reg_dimen_16dp"
+            android:background="?attr/uidContentSecondaryBackgroundColor"
+            android:visibility="gone" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_myDetailsScreen_label_addressHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/reg_dimen_16dp"
+            android:layout_marginStart="@dimen/reg_dimen_16dp"
+            android:layout_marginTop="@dimen/reg_dimen_16dp"
+            android:text="@string/reg_Address_TitleTxt"
+            android:visibility="gone" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_myDetailsScreen_label_AddressValue"
+            android:layout_width="match_parent"
+            android:textDirection="locale"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/reg_dimen_16dp"
+            android:layout_marginStart="@dimen/reg_dimen_16dp"
+            android:text="@string/reg_Not_Available"
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</ScrollView>

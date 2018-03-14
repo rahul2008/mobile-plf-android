@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[ru]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">При подключению к серверу возникла проблема. Проверьте настройки даты/времени на своем устройстве. Если проблему не удается устранить, выполните выход, а потом войдите в учетную запись снова.</string>
+  <string name="csw_offline_message">[ru]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[ru]You are offline</string>
+  <string name="csw_ok">[ru]OK</string>
+  <string name="csw_privacy_settings">[ru]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[ru]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[ru]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[ru]Problem occurred</string>
+  <string name="mya_Account_settings">Настройки учетной записи</string>
+  <string name="mya_Address">Адрес</string>
+  <string name="mya_Cancel">Отмена</string>
+  <string name="mya_Consent_Help_Label">Что это значит?</string>
+  <string name="mya_Country">Страна</string>
+  <string name="mya_Date_of_birth">Дата рождения</string>
+  <string name="mya_Email_Validation_message">Адрес эл. почты не подтвержден</string>
+  <string name="mya_Email_address">Адрес электронной почты</string>
+  <string name="mya_Gender">Пол</string>
+  <string name="mya_Info">Изменить идентификатор или пароль можно на нашем веб-сайте.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[ru]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Данные для входа</string>
+  <string name="mya_Logout">Выход</string>
+  <string name="mya_Mobile_number">Номер мобильного телефона</string>
+  <string name="mya_My_account">Моя учетная запись</string>
+  <string name="mya_My_details">Мои данные</string>
+  <string name="mya_My_orders">Мои заказы</string>
+  <string name="mya_My_products">Мои продукты</string>
+  <string name="mya_My_subscriptions">Мои подписки</string>
+  <string name="mya_Name">Имя</string>
+  <string name="mya_Not_Available">Недоступно</string>
+  <string name="mya_Notifications">Уведомления</string>
+  <string name="mya_Offline_message">Похоже, у вас нет подключения к Интернету. Проверьте подключение и повторите попытку.</string>
+  <string name="mya_Offline_title">У вас нет соединения с сетью</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Личные данные</string>
+  <string name="mya_Privacy_Settings">Настройки конфиденциальности</string>
+  <string name="mya_Privacy_Settings_Desc">Задайте настройки приватности (см. _privacy notice_).</string>
+  <string name="mya_Problem_Occurred_Error_Message">Возникла проблема (ошибка %d). Повторите попытку.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Возникла проблема</string>
+  <string name="mya_Profile">Профиль</string>
+  <string name="mya_Settings">Настройки</string>
+  <string name="mya_change_country">Выйти, чтобы изменить страну</string>
+  <string name="mya_change_country_message">Выполните выход, чтобы изменить страну проживания. Эта информация необходима для адаптации условий гарантии и других сведений в зависимости от вашего региона.</string>
+  <string name="mya_csw_justintime_accept">[ru]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[ru]Maybe later</string>
+  <string name="mya_csw_justintime_title">[ru]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ru]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[ru]What do we have to offer?</string>
+  <string name="mya_logout_message">Будет выполнен выход из приложения. Выполнив выход, вы в любой момент можете войти в приложение снова.</string>
+  <string name="mya_logout_title">Выйти из учетной записи?</string>
+</resources>

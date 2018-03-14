@@ -45,6 +45,7 @@ public class AppConfiguration extends BaseConfiguration {
         return getConfigPropertyValue(micrositeIdObject);
     }
 
+    @SuppressWarnings("unchecked")
     public Map<String,String> getServiceDiscoveryCountryMapping() {
         Object serviceDiscoveryCountryMappingObject = appInfraWrapper.getAppInfraProperty(SD_COUNTRYMAPPING_ID_KEY);
         Map<String,String> hashMap = null;

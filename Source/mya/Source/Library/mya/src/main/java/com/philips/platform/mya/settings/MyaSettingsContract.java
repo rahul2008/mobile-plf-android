@@ -19,15 +19,12 @@ interface MyaSettingsContract {
 
     interface View extends MyaBaseView {
         void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap);
-        void showOfflineDialog(String title, String message);
-        void onLogOutSuccess();
-        void hideProgressIndicator();
         void setLinkUrl(String url);
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error, Bundle arguments);
+        void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error);
 
         void onClickRecyclerItem(String key, SettingsModel settingsModel);
 

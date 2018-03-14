@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[ro]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">A apărut o problemă la conectarea la server. Asigură-te că data/ora de pe dispozitiv este setată corect. Dacă problema persistă, deconectează-te şi conectează-te din nou.</string>
+  <string name="csw_offline_message">[ro]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[ro]You are offline</string>
+  <string name="csw_ok">[ro]OK</string>
+  <string name="csw_privacy_settings">[ro]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[ro]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[ro]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[ro]Problem occurred</string>
+  <string name="mya_Account_settings">Setările contului</string>
+  <string name="mya_Address">Adresă</string>
+  <string name="mya_Cancel">Anulare</string>
+  <string name="mya_Consent_Help_Label">Ce înseamnă aceasta?</string>
+  <string name="mya_Country">Ţara</string>
+  <string name="mya_Date_of_birth">Data naşterii</string>
+  <string name="mya_Email_Validation_message">Adresa de e-mail nu este confirmată</string>
+  <string name="mya_Email_address">Adresă de e-mail</string>
+  <string name="mya_Gender">Sex</string>
+  <string name="mya_Info">Vrei să îţi schimbi ID-ul sau parola de conectare? Vizitează site-ul nostru web.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[ro]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Detalii conectare</string>
+  <string name="mya_Logout">Deconectare</string>
+  <string name="mya_Mobile_number">Număr telefon mobil</string>
+  <string name="mya_My_account">Contul meu</string>
+  <string name="mya_My_details">Detaliile mele</string>
+  <string name="mya_My_orders">Comenzile mele</string>
+  <string name="mya_My_products">Produsele mele</string>
+  <string name="mya_My_subscriptions">Abonamentele mele</string>
+  <string name="mya_Name">Nume</string>
+  <string name="mya_Not_Available">Nu este disponibil</string>
+  <string name="mya_Notifications">Notificări</string>
+  <string name="mya_Offline_message">Conexiunea la internet nu pare să funcţioneze. Verifică şi încearcă din nou.</string>
+  <string name="mya_Offline_title">Eşti offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Date personale</string>
+  <string name="mya_Privacy_Settings">Setări de confidenţialitate</string>
+  <string name="mya_Privacy_Settings_Desc">Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte notificarea de confidenţialitate.</string>
+  <string name="mya_Problem_Occurred_Error_Message">A apărut o problemă (eroarea %d). Încearcă din nou.</string>
+  <string name="mya_Problem_Occurred_Error_Title">A apărut o problemă</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Setări</string>
+  <string name="mya_change_country">Deconectează-te pentru a schimba ţara</string>
+  <string name="mya_change_country_message">Deconectează-te pentru a schimba ţara în care locuieşti. Aceasta ne va permite să adaptăm garanţia şi alte informaţii la locaţia ta.</string>
+  <string name="mya_csw_justintime_accept">[ro]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[ro]Maybe later</string>
+  <string name="mya_csw_justintime_title">[ro]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ro]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[ro]What do we have to offer?</string>
+  <string name="mya_logout_message">Vei fi deconectat(ă) din aplicaţie. După ce te deconectezi, te poţi reconecta oricând.</string>
+  <string name="mya_logout_title">Sigur vrei să te deconectezi?</string>
+</resources>

@@ -44,8 +44,8 @@ public class MyaPhilipsLinkFragment extends MyaBaseFragment {
         super.onActivityCreated(savedInstanceState);
         webview.setWebViewClient(new WebViewClient());
         assert getArguments() != null;
-        CharSequence philips_link = getArguments().getCharSequence(PHILIPS_LINK);
-        assert philips_link != null;
-        webview.loadUrl(philips_link.toString());
+        String philips_link = getArguments().getString(PHILIPS_LINK);
+        if (philips_link != null)
+            webview.loadUrl(philips_link);
     }
 }

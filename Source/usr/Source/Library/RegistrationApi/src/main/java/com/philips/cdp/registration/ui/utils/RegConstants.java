@@ -22,7 +22,6 @@ public class RegConstants {
     public static final String INVALID_FIELDS = "invalid_fields";
 
 
-
     public static final String NO_SUCH_ACCOUNT = "no_such_account";
 
     public static final String FORGOT_PASSWORD_FORM = "forgotPasswordForm";
@@ -175,29 +174,35 @@ public class RegConstants {
 
     public static final String DOT_RECEIVE_MARKETING_OPT_IN = "DOT-ReceiveMarketingOptIn";
 
-    public static final String HTTPS_CONST ="https://";
+    public static final String HTTPS_CONST = "https://";
 
-    public static final String COMPONENT_TAGS_ID ="PhilipsRegistration";
+    public static final String COMPONENT_TAGS_ID = "PhilipsRegistration";
 
-    public static final String SUCCESS_STATE_RESPONSE ="stat";
+    public static final String SUCCESS_STATE_RESPONSE = "stat";
 
-    public static final String SUCCESS_STATE_RESPONSE_OK ="ok";
+    public static final String SUCCESS_STATE_RESPONSE_OK = "ok";
 
     public static final int FAILURE_TO_CONNECT = -1;
 
     public final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
     public final static String COUNTER_TICK = "COUNTER_TICK";
+
     public final static String COUNTER_FINISH = "COUNTER_FINISH";
 
     public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
-    public static final String SOCIAL_PROVIDER_FACEBOOK= "facebook";
+    public static final String SOCIAL_PROVIDER_FACEBOOK = "facebook";
 
-    public static final String SOCIAL_PROVIDER_WECHAT= "wechat";
+    public static final String SOCIAL_PROVIDER_WECHAT = "wechat";
 
-    public static final String SOCIAL_PROVIDER_GOOGLEPLUS= "googleplus";
+    public static final String SOCIAL_PROVIDER_GOOGLEPLUS = "googleplus";
 
     public static final String TERMS_N_CONDITIONS_ACCEPTED = "TERMS_N_CONDITIONS_ACCEPTED";
 
+    //HomeFragment and CountrySelection Fragment Bundle keys
+
+    public static final String KEY_BUNDLE_COUNTRY_CODE = "KEY_BUNDLE_COUNTRY_CODE";
+
+    public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 }

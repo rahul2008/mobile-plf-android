@@ -28,7 +28,7 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_FAQ_SERVICE_ID;
 
-
+@SuppressWarnings("unchecked")
 public class THSFaqPresenter implements THSBasePresenter{
     THSFaqFragment mThsFaqFragment;
     THSRestClient mTHSRestClient;
@@ -65,13 +65,13 @@ public class THSFaqPresenter implements THSBasePresenter{
     }
 
     public void parseJson(String jsonString) {
-        HashMap<String , List<FaqBeanPojo>> map = new HashMap();
+        HashMap<String , List<FaqBeanPojo>> map = new HashMap<String , List<FaqBeanPojo>>();
         if(jsonString!=null) {
             JSONArray jsonArray = null;
             try {
                 jsonArray = new JSONArray(jsonString);
             } catch (JSONException e) {
-                e.printStackTrace();
+
             }
             Type listType = new TypeToken<ArrayList<THSFaqPojo>>() {
             }.getType();

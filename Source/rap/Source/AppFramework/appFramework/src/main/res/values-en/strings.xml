@@ -7,7 +7,6 @@
 <string name="RA_Cancel">Cancel</string>
 <string name="RA_Warning">WARNING</string>
 <string name="RA_HomeScreen_Title">Mobile App home</string>
-<string name="RA_SettingsScreen_Title">Account Settings</string>
 <string name="RA_SupportScreen_Title">Support</string>
 <string name="RA_DataServicesScreen_Title">Data Services</string>
 <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
@@ -60,9 +59,6 @@
 <string name="RA_PR_Benefit_Text">Extend your warranty for 24 months.
 Receive 10% discount in the Philips.
 Receive free product accessories</string>
-  <string name="RA_CSW_JustInTime_Accept">OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Your warranty period has been extended until next year</string>
 <string name="RA_PR_Email_Text">An email with extended warranty contract  has been sent out to your email address</string>
 <string name="RA_UR_Env_Alert">Change configuration</string>

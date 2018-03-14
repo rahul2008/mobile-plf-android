@@ -6,9 +6,13 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -19,38 +23,45 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.logout.URLogout;
+import com.philips.platform.appframework.logout.URLogoutInterface;
+import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.mya.csw.CswDependencies;
+import com.philips.platform.mya.csw.CswInterface;
+import com.philips.platform.mya.csw.CswLaunchInput;
 import com.philips.platform.mya.csw.permission.MyAccountUIEventListener;
+import com.philips.platform.mya.csw.permission.PermissionHelper;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class MyAccountState extends BaseState implements MyAccountUIEventListener {
 
@@ -61,53 +72,116 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
+    private List<ConsentConfiguration> consentConfigurationList;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
-
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
-        MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
+        MyaInterface myaInterface = getInterface();
+        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
+
+        MyaLaunchInput launchInput = new MyaLaunchInput(actContext);
+        launchInput.setMyaListener(getMyaListener());
+        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
+        launchInput.setMyaTabConfig(myaTabConfig);
+        String[] profileItems = {"MYA_My_details"};
+        String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
+        launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
+        launchInput.setProfileMenuList(Arrays.asList(profileItems));
+        launchInput.setSettingsMenuList(Arrays.asList(settingItems));
+        myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    private MyaListener getMyaListener() {
+        return new MyaListener() {
             @Override
-            public boolean onClickMyaItem(String itemName) {
-                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.mya_log_out)) && actContext instanceof HamburgerActivity) {
+            public boolean onSettingsMenuItemSelected(String itemName) {
+                if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Logout)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                } else if (itemName.equals("MYA_Privacy_Settings")) {
+                    RestInterface restInterface = getRestClient();
+                    if (restInterface.isInternetReachable()) {
+                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(),consentConfigurationList);
+                        PermissionHelper.getInstance().setMyAccountUIEventListener(MyAccountState.this);
+                        CswInterface cswInterface = getCswInterface();
+                        UappSettings uappSettings = new UappSettings(actContext);
+                        cswInterface.init(dependencies, uappSettings);
+                        cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
+                        return true;
+                    } else {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String message = actContext.getString(R.string.MYA_Offline_message);
+                        showDialog(title, message);
+                    }
                 }
                 return false;
             }
 
             @Override
-            public DataInterface getDataInterface(DataModelType modelType) {
-                return new UserDataModelProvider(actContext);
-
+            public boolean onProfileMenuItemSelected(String itemName) {
+                if (itemName.equals(actContext.getString(R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
+                    URLaunchInput urLaunchInput = new URLaunchInput();
+                    urLaunchInput.enableAddtoBackStack(true);
+                    urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+                    URInterface urInterface = new URInterface();
+                    urInterface.launch(fragmentLauncher,urLaunchInput);
+                    return true;
+                }
+                return false;
             }
 
             @Override
             public void onError(MyaError myaError) {
-
+                Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
-        launchInput.addToBackStack(true);
-        launchInput.setMyAccountUIEventListener(this);
 
-        MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab),new TabTestFragment());
-        MyaInterface myaInterface = getInterface();
-        launchInput.setMyaTabConfig(myaTabConfig);
-        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
-        myaInterface.launch(fragmentLauncher, launchInput);
+            @Override
+            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
+                URLogout urLogout=new URLogout();
+                urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
+                    @Override
+                    public void onLogoutResultSuccess() {
+                        ((HamburgerActivity) actContext).onLogoutResultSuccess();
+                        myaLogoutListener.onLogoutSuccess();
+                    }
+
+                    @Override
+                    public void onLogoutResultFailure(int i, String errorMessage) {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String Message = actContext.getString(R.string.MYA_Offline_message);
+                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        myaLogoutListener.onLogOutFailure();
+                    }
+
+                    @Override
+                    public void onNetworkError(String errorMessage) {
+                        String title = actContext.getString(R.string.MYA_Offline_title);
+                        String Message = actContext.getString(R.string.MYA_Offline_message);
+                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        myaLogoutListener.onLogOutFailure();
+                    }
+                });
+                User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
+                urLogout.performLogout(actContext,user);
+            }
+        };
     }
 
-    private Locale getCompleteLocale(AppFrameworkApplication frameworkApplication) {
-        Locale locale = Locale.US;
-        if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
-            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getBCP47UILocale().split("-");
-            if (localeComponents.length == 2) {
-                locale = new Locale(localeComponents[0], localeComponents[1]);
-            }
-        }
-        return locale;
+    private void showDialog(String title, String message) {
+        new DialogView(title, message).showDialog(getFragmentActivity());
+    }
+
+    private CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
     }
 
     /**
@@ -136,10 +210,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Collections.singletonList("clickstream"), 1);
         definitions.add(clickStreamConsentDefinition);
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Text), context.getString(R.string.RA_MYA_Consent_ResearchAnalytics_Help),
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
 
@@ -161,15 +236,16 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setConsentDefinitions(createCatkDefinitions(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
-
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-
-        List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
-        consentHandlerMappings.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentHandlerMappings.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        MyaHelper.getInstance().setConfigurations(consentHandlerMappings);
+        setConsentConfiguration(context, appInfra, catkInputs, urDefinitions);
     }
 
+    private void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
+        consentConfigurationList= new ArrayList<>();
+        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
+        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
+        consentConfigurationList.add(new ConsentConfiguration(Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinition(context)), new DeviceStoredConsentHandler(appInfra)));
+    }
     @Override
     public void updateDataModel() {
 
@@ -182,7 +258,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
-        return new MyaDependencies(appInfra, MyaHelper.getInstance().getConsentConfigurationList());
+        return new MyaDependencies(appInfra);
     }
 
     @Override
@@ -190,7 +266,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         launchWebView(Constants.PRIVACY);
     }
 
-    public void launchWebView(String serviceId) {
+    private void launchWebView(String serviceId) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -213,5 +289,36 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     public FragmentActivity getFragmentActivity() {
         return fragmentLauncher.getFragmentActivity();
+    }
+
+    private RestInterface getRestClient() {
+        return ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra().getRestClient();
+    }
+
+    @VisibleForTesting
+    void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
+        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
+        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
+    }
+
+    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
+        List<String> uniqueTypes = new ArrayList<>();
+        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
+            for (ConsentConfiguration configuration : consentConfigurationList) {
+                if (configuration != null) {
+                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
+                        if (definition != null) {
+                            for (String type : definition.getTypes()) {
+                                if (uniqueTypes.contains(type)) {
+                                    throw new CatkInputs.InvalidInputException(
+                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
+                                }
+                                uniqueTypes.add(type);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

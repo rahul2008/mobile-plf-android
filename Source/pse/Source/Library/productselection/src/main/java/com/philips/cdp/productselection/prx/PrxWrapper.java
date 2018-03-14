@@ -19,6 +19,7 @@ import com.philips.cdp.prxclient.PrxConstants.Sector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This is the wrapper Class , which holds responsibility to hit the PRX component by getting the relevant input's from the
@@ -120,7 +121,8 @@ public class PrxWrapper {
         if (listener == null)
             throw new IllegalStateException("PrxSummaryDataListener listener is null");
 
-        final List<SummaryModel> summaryModelList = new ArrayList<SummaryModel>();
+        final List<SummaryModel> summaryModelList = new ArrayList<>();
+        final CountDownLatch countDownLatch = new CountDownLatch(ctnList.length);
 
         for (int i = 0; i < ctnList.length; i++) {
 
@@ -135,28 +137,37 @@ public class PrxWrapper {
             //PrxLogger.enablePrxLogger(true);
 
             final String finalI = ctnList[i];
-            final int ctnPosition = i;
-            final int ctnListLength = ctnList.length;
+
             requestManager.executeRequest(summaryBuilder, new ResponseListener() {
                 @Override
                 public void onResponseSuccess(ResponseData responseData) {
-
-                    ProductSelectionLogger.d(TAG, "Response Success for the CTN : " + finalI);
+                    countDownLatch.countDown();
+                    ProductSelectionLogger.e(TAG, "Response Success for the CTN : " + finalI);
                     SummaryModel summaryModel = (SummaryModel) responseData;
                     if (summaryModel.isSuccess())
                         summaryModelList.add(summaryModel);
-                    if (ctnPosition == (ctnListLength - 1))
+                    if (countDownLatch.getCount() == 0)
                         listener.onSuccess(summaryModelList);
-
                 }
 
                 @Override
                 public void onResponseError(PrxError error) {
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + finalI);
-                    if ((ctnPosition == ctnListLength - 1))
+                    countDownLatch.countDown();
+                    if (countDownLatch.getCount() == 0)
                         listener.onSuccess(summaryModelList);
                 }
             });
+        }
+        waitForCompletion(countDownLatch);
+
+    }
+
+    private void waitForCompletion(CountDownLatch countDownLatch) {
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            ProductSelectionLogger.e(TAG, "Interrupted Exception while fetching product list");
         }
     }
 }

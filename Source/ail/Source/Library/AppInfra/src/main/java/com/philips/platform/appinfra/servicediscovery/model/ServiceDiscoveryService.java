@@ -14,7 +14,7 @@ public class ServiceDiscoveryService {
     private String mLocale;
     private String mConfigUrl;
     private String mError;
-    private Map kMap;
+    private Map<?, ?> kMap;
     private AIKManager.KError kError;
 
     public void init(String localeParam, String configUrlParam) {
@@ -42,11 +42,11 @@ public class ServiceDiscoveryService {
         this.mConfigUrl = mConfigUrl;
     }
 
-    public Map getKMap() {
+    public Map<?, ?> getKMap() {
         return kMap;
     }
 
-    public void setKMap(Map kMap) {
+    public void setKMap(Map<?, ?> kMap) {
         this.kMap = kMap;
     }
 

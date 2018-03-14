@@ -17,10 +17,13 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 import java.util.Map;
 
 public class AppInfraInterfaceMock implements AppInfraInterface {
+
+    public RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
     @Override
     public SecureStorageInterface getSecureStorage() {
@@ -182,6 +185,16 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             public void registerTaggingData(BroadcastReceiver broadcastReceiver) {
 
             }
+
+            @Override
+            public ConsentHandlerInterface getClickStreamConsentHandler() {
+                return null;
+            }
+
+            @Override
+            public String getClickStreamConsentIdentifier() {
+                return null;
+            }
         };
     }
 
@@ -197,7 +210,7 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public RestInterface getRestClient() {
-        return null;
+        return restInterfaceMock;
     }
 
     @Override

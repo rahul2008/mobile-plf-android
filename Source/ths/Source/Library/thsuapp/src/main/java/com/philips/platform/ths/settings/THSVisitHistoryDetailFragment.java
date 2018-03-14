@@ -75,6 +75,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     private RelativeLayout mLayoutContainer;
     private RelativeLayout mAvailableTimeSlots,ps_pharmacy_list_layout_item;
     static final long serialVersionUID = 143L;
+    public static final String TAG = THSVisitHistoryDetailFragment.class.getSimpleName();
 
 
     @Nullable
@@ -161,7 +162,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
                         newImageLoader(assignedProviderInfo,
                                 mProviderImage, ProviderImageSize.LARGE).placeholder(drawable).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
             mLabelProviderName.setText(assignedProviderInfo.getFullName());
             mLabelPracticeName.setText(assignedProviderInfo.getSpecialty().getName());

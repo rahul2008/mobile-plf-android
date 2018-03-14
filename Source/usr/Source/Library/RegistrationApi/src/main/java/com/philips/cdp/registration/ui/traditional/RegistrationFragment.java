@@ -62,6 +62,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Inject
     NetworkUtility networkUtility;
+    private static final long serialVersionUID = 1128016096756071386L;
+
 
     private FragmentManager mFragmentManager;
 
@@ -118,7 +120,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mActivity = getActivity();
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworkStateListener");
         mFragmentManager = getChildFragmentManager();
@@ -132,37 +133,30 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onStart() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onStart");
         super.onStart();
     }
 
     @Override
     public void onResume() {
         mActivity = getActivity();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onResume");
-
         super.onResume();
         networkUtility.registerNetworkListener(mNetworkReceiver);
     }
 
     @Override
     public void onPause() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onPause");
         super.onPause();
         networkUtility.unRegisterNetworkListener(mNetworkReceiver);
     }
 
     @Override
     public void onStop() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onStop");
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworkStateListener,Context");
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();
@@ -182,12 +176,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
             mActionBarListener.updateActionBar(getPreviousResourceId(), true);
-        //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
     }
 
 
     public boolean onBackPressed() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onBackPressed");
         hideKeyBoard();
         return handleBackStack();
     }
@@ -230,14 +222,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private void trackHandler() {
         int count = mFragmentManager.getBackStackEntryCount();
         if (count > 0) {
-            String prevPage;
             String curPage;
             if (mFragmentManager.getFragments() != null) {
-                Fragment currentFragment = mFragmentManager.getFragments().get(count);
                 Fragment preFragment = mFragmentManager.getFragments().get(count - 1);
-                prevPage = getTackingPageName(currentFragment);
                 curPage = getTackingPageName(preFragment);
-                RLog.d("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
                 trackPage(curPage);
             }
         }
@@ -351,20 +339,13 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     Fragment currentFragment;
 
     public void addFragment(Fragment fragment) {
-        try {
-            if (null != mFragmentManager) {
+
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
                 fragmentTransaction.addToBackStack(fragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
                 currentFragment = fragment;
-            }
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
+                hideKeyBoard();
     }
 
 
@@ -421,11 +402,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         socialAlmostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
         socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
         addFragment(socialAlmostDoneFragment);
-    }
-
-    public void addPlainAlmostDoneFragment() {
-        AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
-        addFragment(almostDoneFragment);
     }
 
     public void addAlmostDoneFragmentforTermsAcceptance() {

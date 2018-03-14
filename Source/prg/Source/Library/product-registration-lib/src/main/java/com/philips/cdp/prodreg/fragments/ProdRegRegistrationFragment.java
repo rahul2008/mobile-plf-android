@@ -6,7 +6,6 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +35,7 @@ import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -80,6 +80,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private boolean isFirstLaunch;
     private String purchaseDateStr="";
     ProdRegUtil prodRegUtil;
+    private static final long serialVersionUID = -6635233525340545671L;
+
 
 
     @SuppressWarnings("SimpleDateFormat")
@@ -624,15 +626,14 @@ String imageURL;
         //dismissDialogs();
     }
 
-    private ProgressDialog mProgressDialog;
+    private ProgressAlertDialog mProgressDialog;
 
 
     private void intiateRegistration() {
         if (isVisible() && registerButton.isClickable()) {
             buttonClickable(false);
             if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setCancelable(false);
             }
             if (!mProgressDialog.isShowing()) {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@id/uid_alert"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_alert"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:minWidth="@dimen/uid_alert_dialog_width">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,14 +27,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/uid_alert_dialog_title_icon_padding"
                 android:minHeight="@dimen/uid_alert_dialog_icon_width_height"
-                android:minWidth="@dimen/uid_alert_dialog_icon_width_height"/>
+                android:minWidth="@dimen/uid_alert_dialog_icon_width_height" />
 
             <TextView
                 android:id="@id/uid_dialog_title"
                 style="@style/UIDAlertDialogTitleTextStyle"
-                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
@@ -47,8 +47,7 @@
                 android:id="@id/uid_alert_message"
                 style="@style/UIDAlertDialogMessageTextStyle"
                 android:layout_width="match_parent"
-                android:textAlignment="viewStart"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </com.philips.platform.uid.utils.MaxHeightScrollView>
     </LinearLayout>
 
@@ -63,7 +62,7 @@
             android:id="@id/uid_dialog_negative_button"
             style="@style/UIDQuietButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_dialog_positive_button"
@@ -71,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:layout_marginStart="@dimen/uid_alert_dialog_positive_button_margin_start"/>
+            android:layout_marginStart="@dimen/uid_alert_dialog_positive_button_margin_start" />
 
     </LinearLayout>
 </LinearLayout>

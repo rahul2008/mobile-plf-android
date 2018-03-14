@@ -207,7 +207,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.appcompatv7
+    compile deps.support.appcompatv7
     testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
@@ -218,9 +218,13 @@ dependencies {
         releaseCompile project(path: ':uid', configuration: 'release')
         debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
         releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
+        debugCompile project(path: ':mya-csw', configuration: 'debug')
+        releaseCompile project(path: ':mya-csw', configuration: 'release')
     } else {
         compile philipsdeps.mya
         compile philipsdeps.uid
         compile philipsdeps.UserRegistrationUApp
+        compile philipsdeps.mya_csw
     }
+
 }

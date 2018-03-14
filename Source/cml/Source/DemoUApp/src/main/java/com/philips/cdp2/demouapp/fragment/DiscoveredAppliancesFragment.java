@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -143,7 +144,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        editFilterModelId = (EditText) view.findViewById(R.id.editFilterModelId);
+        editFilterModelId = view.findViewById(R.id.editFilterModelId);
         editFilterModelId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,7 +162,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        discoverySwitch = (Switch) view.findViewById(R.id.cml_sw_startstop_discovery);
+        discoverySwitch = view.findViewById(R.id.cml_sw_startstop_discovery);
         discoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -173,7 +174,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        final ListView listViewAppliances = (ListView) view.findViewById(R.id.cml_listViewAppliances);
+        final ListView listViewAppliances = view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -184,6 +185,14 @@ public class DiscoveredAppliancesFragment extends Fragment {
                     CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
                     CommlibUapp.get().nextFragment(new ApplianceFragment());
                 }
+            }
+        });
+
+        final FloatingActionButton fab = view.findViewById(R.id.cml_clearAppliancesButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commCentral.clearDiscoveredAppliances();
             }
         });
 

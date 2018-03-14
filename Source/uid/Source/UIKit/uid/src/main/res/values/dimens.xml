@@ -6,6 +6,7 @@
     <item name="uid_adaptive_layout_width" format="integer" type="dimen">-1</item>
 
     <!--Percentage for opacity-->
+    <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
     <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
     <item name="uid_alpha_per_80" format="float" type="dimen">0.80</item>
 

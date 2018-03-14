@@ -2,11 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'de.mobilej.unmock'
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = versions.jacoco
-}
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 def coverageSourceDirs = [
         '../thsuapp/src/main/java'
@@ -33,7 +29,6 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.trickyandroid
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
@@ -222,13 +217,17 @@ dependencies {
     compile deps.support.design
     testCompile deps.opengl
 
-    def dp = project.ext.has('useprojectdependencies')
+    def dp = true
 
     if (dp) {
         debugCompile project(path: ':AppInfra', configuration: 'debug')
         releaseCompile project(path: ':AppInfra', configuration: 'release')
         debugCompile project(path: ':registrationApi', configuration: 'debug')
         releaseCompile project(path: ':registrationApi', configuration: 'release')
+        debugCompile project(path: ':mya-csw', configuration: 'debug')
+        releaseCompile project(path: ':mya-csw', configuration: 'release')
+        debugCompile project(path: ':mya-catk', configuration: 'debug')
+        releaseCompile project(path: ':mya-catk', configuration: 'release')
     } else {
         compile (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
@@ -237,6 +236,14 @@ dependencies {
             exclude group: 'com.android.support'
         }*/
         compile (philipsdeps.registrationApi) {
+            exclude group: 'com.android.support'
+        }
+
+        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+            exclude group: 'com.android.support'
+        }
+
+        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
     }
@@ -264,33 +271,7 @@ dependencies {
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
 
-    classDirectories = fileTree(
-            dir: '../thsuapp/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../thsuapp/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
 
 tasks.withType(Test) {
     ignoreFailures = true

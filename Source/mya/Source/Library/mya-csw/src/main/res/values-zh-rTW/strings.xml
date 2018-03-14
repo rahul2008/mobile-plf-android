@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[zh-TW]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">連接到伺服器時發生問題。請確認您裝置上的日期/時間設定正確無誤。如果問題持續發生，請先登出後再登入試試看。</string>
+  <string name="csw_offline_message">[zh-TW]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[zh-TW]You are offline</string>
+  <string name="csw_ok">[zh-TW]OK</string>
+  <string name="csw_privacy_settings">[zh-TW]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[zh-TW]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[zh-TW]Problem occurred</string>
+  <string name="mya_Account_settings">帳戶設定</string>
+  <string name="mya_Address">地址</string>
+  <string name="mya_Cancel">取消</string>
+  <string name="mya_Consent_Help_Label">這意指甚麼？</string>
+  <string name="mya_Country">國家/地區</string>
+  <string name="mya_Date_of_birth">出生日期</string>
+  <string name="mya_Email_Validation_message">電子郵件地址未確認</string>
+  <string name="mya_Email_address">電子郵件地址</string>
+  <string name="mya_Gender">性別</string>
+  <string name="mya_Info">是否要變更登入 ID 或密碼？請造訪我們的網站。</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[zh-TW]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">登入詳情</string>
+  <string name="mya_Logout">登出</string>
+  <string name="mya_Mobile_number">行動電話號碼</string>
+  <string name="mya_My_account">我的帳戶</string>
+  <string name="mya_My_details">我的詳細資料</string>
+  <string name="mya_My_orders">我的訂單</string>
+  <string name="mya_My_products">我的產品</string>
+  <string name="mya_My_subscriptions">我的訂閱</string>
+  <string name="mya_Name">名稱</string>
+  <string name="mya_Not_Available">無法使用</string>
+  <string name="mya_Notifications">通知</string>
+  <string name="mya_Offline_message">您的網際網路連線似乎未正常運作。請檢查並再試一次</string>
+  <string name="mya_Offline_title">您已離線</string>
+  <string name="mya_Ok">確定</string>
+  <string name="mya_Personal_details">個人詳細資料</string>
+  <string name="mya_Privacy_Settings">隱私設定</string>
+  <string name="mya_Privacy_Settings_Desc">掌握您的隱私資訊。請詳閱_隱私權聲明_以取得更多資訊。</string>
+  <string name="mya_Problem_Occurred_Error_Message">出現問題 (錯誤 %d)。請再試一次。</string>
+  <string name="mya_Problem_Occurred_Error_Title">發生問題</string>
+  <string name="mya_Profile">設定檔</string>
+  <string name="mya_Settings">設定</string>
+  <string name="mya_change_country">登出以變更國家/地區</string>
+  <string name="mya_change_country_message">請先登出，以變更居住的國家/地區。如此可讓我們依據您所在的位置提供特定的保固與其他資訊</string>
+  <string name="mya_csw_justintime_accept">[zh-TW]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[zh-TW]Maybe later</string>
+  <string name="mya_csw_justintime_title">[zh-TW]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[zh-TW]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[zh-TW]What do we have to offer?</string>
+  <string name="mya_logout_message">您即將登出應用程式。登出後，隨時都能再次登入。</string>
+  <string name="mya_logout_title">確定要登出？</string>
+</resources>

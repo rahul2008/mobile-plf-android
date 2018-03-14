@@ -83,7 +83,7 @@ public class UserDataProviderTest {
             }
 
             @Override
-            public String getDisplayName() {
+            public String getGivenName() {
                 return "Name";
             }
 

@@ -81,7 +81,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
             mRatingBar.setRating(mProvider.getRating());
 
             mLabelProviderName.setText(mProvider.getFullName());
-            mLabelPracticeName.setText(mPracticeInfo.getName());
+            mLabelPracticeName.setText(mProvider.getSpecialty().getName());
 
             if (mProvider.hasImage()) {
                 try {
@@ -92,7 +92,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
                             (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).
                             build().load();
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
             }
         }

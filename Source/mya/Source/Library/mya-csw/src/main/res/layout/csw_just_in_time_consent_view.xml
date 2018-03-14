@@ -6,15 +6,43 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/justInTimeView"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/default_screen_side_margin"
-    android:paddingEnd="@dimen/default_screen_side_margin"
-    android:paddingStart="@dimen/default_screen_side_margin">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/justInTimeView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/uidContentPrimaryBackgroundColor"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/default_screen_side_margin"
+              android:paddingEnd="@dimen/default_screen_side_margin"
+              android:paddingStart="@dimen/default_screen_side_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mya_cws_label_in_time_user_benefits_title"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_screen_side_margin"
+            android:layout_marginRight="@dimen/default_screen_side_margin"
+            android:layout_marginTop="@dimen/default_screen_top_margin"
+            android:textSize="21sp"
+            android:textStyle="bold"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mya_cws_label_in_time_user_benefits_description"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_screen_side_margin"
+            android:layout_marginRight="@dimen/default_screen_side_margin"
+            android:layout_marginTop="@dimen/default_screen_top_margin"
+            android:lineSpacingExtra="3dip"
+            android:textSize="18sp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,14 +58,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_screen_side_margin"
-            android:layout_marginTop="@dimen/default_screen_top_margin" />
+            android:layout_marginTop="@dimen/default_screen_top_margin"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mya_cws_label_in_time_consent_helplink"
             style="@style/UIDLabel.Header"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_screen_side_margin"
-            android:gravity="left|center_vertical" />
+            android:gravity="left|center_vertical"/>
     </LinearLayout>
 
     <com.philips.platform.uid.view.widget.Button
@@ -45,13 +73,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_screen_side_margin"
-        app:uidComponentType="Primary" />
+        app:uidButtonCenter="true"
+        app:uidComponentType="Primary"/>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mya_cws_button_in_time_consent_later"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_between_button_margin"
-        app:uidComponentType="Secondary" />
+        app:uidButtonCenter="true"
+        app:uidComponentType="Secondary"/>
 
 </LinearLayout>

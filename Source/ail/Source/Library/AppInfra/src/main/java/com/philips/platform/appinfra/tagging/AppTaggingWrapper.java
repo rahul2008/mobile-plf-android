@@ -8,10 +8,14 @@ package com.philips.platform.appinfra.tagging;
 
 import com.philips.platform.appinfra.AppInfra;
 
+import java.io.Serializable;
+
 /**
  * The Wrapper class for AppTagging.
  */
-class AppTaggingWrapper extends AppTagging {
+class AppTaggingWrapper extends AppTagging implements Serializable {
+
+    private static final long serialVersionUID = -8003744669656795050L;
 
     AppTaggingWrapper(AppInfra aAppInfra, String componentId, String componentVersion) {
         super(aAppInfra);

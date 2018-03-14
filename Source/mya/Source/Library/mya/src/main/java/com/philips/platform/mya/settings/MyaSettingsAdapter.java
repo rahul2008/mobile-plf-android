@@ -1,11 +1,11 @@
 package com.philips.platform.mya.settings;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.mya.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
@@ -19,11 +19,13 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
 
     private final static int DOUBLE_VIEW = 0;
     private final static int SINGLE_VIEW = 1;
+    private final Context context;
 
     private Map<String, SettingsModel> settingsList;
     private View.OnClickListener onClickListener;
 
-    MyaSettingsAdapter(Map<String, SettingsModel> settingsList) {
+    MyaSettingsAdapter(Context context, Map<String, SettingsModel> settingsList) {
+        this.context = context;
         this.settingsList = settingsList;
     }
 
@@ -64,6 +66,8 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
     public void onBindViewHolder(SettingsViewHolder holder, int position) {
         getItemViewType(position);
         String key = (String) settingsList.keySet().toArray()[position];
+        if (!TextUtils.isEmpty(key) && key.equalsIgnoreCase("MYA_Country"))
+            holder.arrow.setVisibility(View.GONE);
         SettingsModel settingsModel = settingsList.get(key);
         holder.settingTitle.setText((settingsModel != null && !TextUtils.isEmpty(settingsModel.getFirstItem())) ? settingsModel.getFirstItem() : key);
         if (holder.settingValue != null && settingsModel != null && settingsModel.getItemCount() == 2) {
@@ -77,10 +81,12 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
 
     class SettingsViewHolder extends RecyclerView.ViewHolder {
         Label settingTitle, settingValue;
+        View arrow;
         SettingsViewHolder(View view) {
             super(view);
             settingTitle = view.findViewById(R.id.item_title);
             settingValue = view.findViewById(R.id.second_item);
+            arrow = view.findViewById(R.id.arrow);
         }
     }
 

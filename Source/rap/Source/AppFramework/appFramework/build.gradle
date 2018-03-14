@@ -1,16 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 apply from: "../scripts/versions.gradle"
 apply from: "../scripts/task_verification.gradle"
-apply from: "../scripts/task_reporting.gradle"
+apply from: "../scripts/task_reporting_logging.gradle"
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
-jacoco {
-    toolVersion = versions.jacoco
-}
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -147,7 +144,7 @@ publishing {
                 classifier = '1stleveldependencies'
             }
 
-            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt") {
+            artifact("$buildDir/outputs/mapping/release/mapping.txt") {
                 classifier = 'mapping'
             }
 
@@ -216,6 +213,12 @@ android {
     apply from: "../scripts/proposition_specific.gradle"
     apply from: "../scripts/flavors.gradle"
     apply from: "../scripts/exclude_files.gradle"
+
+    applicationVariants.all { variant ->
+        def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+        def buildtype = "${variant.buildType.name.capitalize()}"
+        tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
+    }
 
     publishNonDefault true
 }
@@ -381,6 +384,7 @@ dependencies {
             exclude group: 'com.android.support'
         }
         compile philipsdeps.telehealth
+        compile philipsdeps.telehealthUApp
         compile philipsdeps.ewsUApp
         compile philipsdeps.bluelib_demouapp
         compile project(':pushnotification')

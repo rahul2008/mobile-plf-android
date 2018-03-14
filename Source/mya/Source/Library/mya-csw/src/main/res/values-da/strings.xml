@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[da]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Der opstod et problem med at oprette forbindelse til serveren. Sørg for, at dato/klokkeslæt på din enhed er indstillet korrekt. Hvis problemet fortsætter, skal du logge ud og logge på igen.</string>
+  <string name="csw_offline_message">[da]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[da]You are offline</string>
+  <string name="csw_ok">[da]OK</string>
+  <string name="csw_privacy_settings">[da]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[da]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[da]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[da]Problem occurred</string>
+  <string name="mya_Account_settings">Kontoindstillinger</string>
+  <string name="mya_Address">Adresse</string>
+  <string name="mya_Cancel">Annuller</string>
+  <string name="mya_Consent_Help_Label">Hvad betyder dette?</string>
+  <string name="mya_Country">Land</string>
+  <string name="mya_Date_of_birth">Fødselsdato</string>
+  <string name="mya_Email_Validation_message">E-mailadresse ikke bekræftet</string>
+  <string name="mya_Email_address">E-mail-adresse</string>
+  <string name="mya_Gender">Køn</string>
+  <string name="mya_Info">Vil du ændre dit logon-ID eller din adgangskode? Besøg vores hjemmeside.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[da]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Login-oplysninger</string>
+  <string name="mya_Logout">Log af</string>
+  <string name="mya_Mobile_number">Mobilnummer</string>
+  <string name="mya_My_account">Min konto</string>
+  <string name="mya_My_details">Mine oplysn.</string>
+  <string name="mya_My_orders">Mine ordrer</string>
+  <string name="mya_My_products">Mine produkter</string>
+  <string name="mya_My_subscriptions">Mine abonnementer</string>
+  <string name="mya_Name">Navn</string>
+  <string name="mya_Not_Available">Ikke tilgængelig</string>
+  <string name="mya_Notifications">Meddelelser</string>
+  <string name="mya_Offline_message">Din internetforbindelse virker tilsyneladende ikke. Kontrollér forbindelsen, og prøv igen</string>
+  <string name="mya_Offline_title">Du er offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Personlige oplysninger</string>
+  <string name="mya_Privacy_Settings">Fortrolighedsindstillinger</string>
+  <string name="mya_Privacy_Settings_Desc">Styr dine personlige oplysninger. Læs meddelelse om beskyttelse af personlige oplysninger.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Der opstod et problem (error %d). Prøv igen.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Der opstod et problem</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Indstillinger</string>
+  <string name="mya_change_country">Log ud for at ændre land</string>
+  <string name="mya_change_country_message">Log ud for at ændre det land, du er bosiddende i. Så kan vi tilpasse garantien og andre oplysninger til din placering</string>
+  <string name="mya_csw_justintime_accept">[da]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[da]Maybe later</string>
+  <string name="mya_csw_justintime_title">[da]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[da]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[da]What do we have to offer?</string>
+  <string name="mya_logout_message">Du bliver logget ud af programmet. Når du har logget ud, kan du altid logge på igen.</string>
+  <string name="mya_logout_title">Er du sikker på, at du vil logge ud?</string>
+</resources>

@@ -7,6 +7,7 @@
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -38,10 +39,12 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
+import com.philips.platform.core.events.DeleteSyncedMomentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
@@ -92,6 +95,8 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -106,6 +111,8 @@ import javax.inject.Singleton;
 public class DataServicesManager {
 
     private static AppComponent mAppComponent;
+    private static final String GDPR_MIGRATION_FLAG_STORAGE = "dsc_gdpr_migration_flag_storage";
+    private static final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 
     private DBDeletingInterface mDeletingInterface;
     private DBFetchingInterface mFetchingInterface;
@@ -151,6 +158,8 @@ public class DataServicesManager {
     @Inject
     ErrorHandlingInterface errorHandlingInterface;
 
+    SharedPreferences gdprStorage;
+
     @Singleton
     private DataServicesManager() {
     }
@@ -170,6 +179,7 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
         initLogger();
     }
 
@@ -418,6 +428,10 @@ public class DataServicesManager {
         mEventing.post(new DeleteInsightFromDB((List<Insight>) insights, dbRequestListener));
     }
 
+    public void deleteAllInsights(DBRequestListener<Insight> dbRequestListener) {
+        mEventing.post(new DeleteAllInsights(dbRequestListener));
+    }
+
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
@@ -581,5 +595,61 @@ public class DataServicesManager {
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;
+    }
+
+    public void deleteSyncedMoments(final DBRequestListener<Moment> resultListener) {
+        mEventing.post(new DeleteSyncedMomentsRequest(resultListener));
+    }
+
+    public void migrateGDPR(final DBRequestListener<Object> resultListener) {
+        if(isGdprMigrationDone()) {
+            resultListener.onSuccess(Collections.<Object>emptyList());
+        } else {
+            deleteSyncedMoments(new DBRequestListener<Moment>() {
+                @Override
+                public void onSuccess(final List<? extends Moment> momentData) {
+                    deleteAllInsights(new DBRequestListener<Insight>() {
+                        @Override
+                        public void onSuccess(List<? extends Insight> insightData) { runSync(resultListener); }
+
+                        @Override
+                        public void onFailure(Exception exception) { resultListener.onFailure(exception); }
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    resultListener.onFailure(exception);
+                }
+            });
+        }
+    }
+
+    public boolean isGdprMigrationDone() {
+        return gdprStorage.getBoolean(GDPR_MIGRATION_FLAG, false);
+    }
+
+    public void resetGDPRMigrationFlag() {
+        gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, false).apply();
+    }
+
+    private void storeGdprMigrationFlag() {
+        gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
+    }
+
+    private void runSync(final DBRequestListener<Object> resultListener) {
+        mBackendIdProvider.clearSyncTimeCache();
+        mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
+            @Override
+            public void onSyncComplete() {
+                resultListener.onSuccess(Collections.<Object>emptyList());
+            }
+
+            @Override
+            public void onSyncFailed(Exception exception) {
+                resultListener.onFailure(exception);
+            }
+        });
+        storeGdprMigrationFlag();
     }
 }

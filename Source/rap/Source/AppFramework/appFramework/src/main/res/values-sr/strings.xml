@@ -7,7 +7,6 @@
 <string name="RA_Cancel">Otkaži</string>
 <string name="RA_Warning">UPOZORENJE</string>
 <string name="RA_HomeScreen_Title">Početni ekran mobilne aplikacije</string>
-<string name="RA_SettingsScreen_Title">Postavke naloga</string>
 <string name="RA_SupportScreen_Title">Podrška</string>
 <string name="RA_DataServicesScreen_Title">Usluge za podatke</string>
 <string name="RA_DebugAndTestScreen_Title">Otkloni greške i testiraj</string>
@@ -58,9 +57,6 @@
 <string name="RA_Invalid_Param_Msg">Uneli ste ili izabrali nevažeće vrednosti parametra. Izaberite odgovarajuće vrednosti parametra i pokrenite ponovo</string>
 <string name="RA_NO_Order_History">Istorija porudžbina nije dostupna</string>
 <string name="RA_PR_Benefit_Text">Produžite garanciju za 24 meseca.  Ostvarite 10% popusta za Philips.  Besplatna dodatna oprema za proizvode</string>
-  <string name="RA_CSW_JustInTime_Accept">[sr]OK, count me in</string>
-  <string name="RA_CSW_JustInTime_Reject">[sr]Maybe later </string>
-  <string name="RA_CSW_JustInTime_Title">[sr]Be the first to know</string>
 <string name="RA_PR_Extentende_Warranty">Garantni rok je produžen do sledeće godine</string>
 <string name="RA_PR_Email_Text">Na vašu e-adresu poslata je poruka sa ugovorom za produženu garanciju</string>
 <string name="RA_UR_Env_Alert">Promeni konfiguraciju</string>

@@ -125,7 +125,9 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public void showConditionsFragment() {
-        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
+        THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
+        thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(true);
+        addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
     }
 
     @Override
