@@ -197,7 +197,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
 
             @Override
-            public void onError(final Activity activity, MyaError myaError) {
+            public void onError(final FragmentLauncher fragmentLauncher, MyaError myaError) {
+                FragmentActivity activity = fragmentLauncher.getFragmentActivity();
                 if (myaError == MyaError.USERNOTLOGGEDIN && activity != null) {
                     Toast.makeText(activity, "User not signed in", Toast.LENGTH_SHORT).show();
                     URDemouAppInterface uAppInterface;
@@ -210,7 +211,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
 
             @Override
-            public void onLogoutClicked(final Activity activity, final MyaLogoutListener myaLogoutListener) {
+            public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
+                final FragmentActivity activity = fragmentLauncher.getFragmentActivity();
                 if (activity != null) {
                     User user = new User(activity);
                     if (user.isUserSignIn()) {

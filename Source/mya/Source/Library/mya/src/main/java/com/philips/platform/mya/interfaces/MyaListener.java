@@ -6,8 +6,6 @@
 package com.philips.platform.mya.interfaces;
 
 
-import android.app.Activity;
-
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -19,9 +17,9 @@ public interface MyaListener extends Serializable {
 
     boolean onProfileMenuItemSelected(FragmentLauncher fragmentLauncher, String itemName);
 
-    void onError(Activity activity, MyaError myaError);
+    void onError(FragmentLauncher fragmentLauncher, MyaError myaError);
 
-    void onLogoutClicked(Activity activity, MyaLogoutListener myaLogoutListener);
+    void onLogoutClicked(FragmentLauncher fragmentLauncher, MyaLogoutListener myaLogoutListener);
 
     interface MyaLogoutListener{
         void onLogoutSuccess();
