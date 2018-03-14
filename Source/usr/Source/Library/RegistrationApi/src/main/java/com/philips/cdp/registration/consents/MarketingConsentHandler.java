@@ -20,11 +20,9 @@ import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     private final Context context;
-    private final AppInfraInterface appInfra;
 
-    public MarketingConsentHandler(@NonNull final Context context, AppInfraInterface appInfraInterface) {
+    public MarketingConsentHandler(@NonNull final Context context) {
         this.context = context;
-        this.appInfra = appInfraInterface;
     }
 
     @VisibleForTesting
