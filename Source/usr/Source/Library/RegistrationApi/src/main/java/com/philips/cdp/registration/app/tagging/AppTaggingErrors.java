@@ -56,7 +56,7 @@ public class AppTaggingErrors {
 
             default:
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_FORGOT_PASSWORD+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
     }
@@ -71,7 +71,7 @@ public class AppTaggingErrors {
 
             default:
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_RESEND_EMAIL+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
     }
@@ -94,7 +94,7 @@ public class AppTaggingErrors {
                 break;
             default:
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
 
@@ -118,7 +118,7 @@ public class AppTaggingErrors {
                 break;
             default:
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.REGISTRATION_FAILED+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
 

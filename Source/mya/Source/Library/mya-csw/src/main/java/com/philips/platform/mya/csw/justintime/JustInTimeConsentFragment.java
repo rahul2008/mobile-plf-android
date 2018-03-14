@@ -35,6 +35,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     public static JustInTimeConsentFragment newInstance(final int containerId) {
         JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
         fragment.containerId = containerId;
+        new JustInTimeConsentPresenter(fragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentHandlerInterface, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
         return fragment;
     }
 
@@ -106,12 +107,16 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
 
     private void initializeUserBenefitsDescriptionLabel(android.view.View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_description);
-        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
+        if (JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes != 0) {
+            descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsDescriptionRes);
+        }
     }
 
     private void initializeUserBenefitsTitleLabel(android.view.View justInTimeConsentView) {
         Label descriptionLabel = justInTimeConsentView.findViewById(R.id.mya_cws_label_in_time_user_benefits_title);
-        descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
+        if (JustInTimeConsentDependencies.textResources.userBenefitsTitleRes != 0) {
+            descriptionLabel.setText(JustInTimeConsentDependencies.textResources.userBenefitsTitleRes);
+        }
     }
 
     private void initializeHelpLabel(android.view.View justInTimeConsentView) {

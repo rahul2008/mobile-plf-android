@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Oma tili</string>
+<string name="MYA_Profile">Profiili</string>
+<string name="MYA_Settings">Asetukset</string>
+<string name="MYA_My_details">Omat tiedot</string>
+<string name="MYA_My_products">Omat tuotteet</string>
+<string name="MYA_My_subscriptions">Omat palvelutilaukset</string>
+<string name="MYA_My_orders">Omat tilaukset</string>
+<string name="MYA_Logout">Kirjaudu ulos</string>
+<string name="MYA_Account_settings">Tilin asetukset</string>
+<string name="MYA_Country">Maa</string>
+<string name="MYA_Notifications">Ilmoitukset</string>
+<string name="MYA_Privacy_Settings">Yksityisyysasetukset</string>
+<string name="MYA_Login_details">Kirjautumistiedot</string>
+<string name="MYA_Email_address">Sähköpostiosoite</string>
+<string name="MYA_Mobile_number">Puhelinnumero</string>
+<string name="MYA_Personal_details">Henkilötiedot</string>
+<string name="MYA_Name">Nimi</string>
+<string name="MYA_Gender">Sukupuoli</string>
+<string name="MYA_Date_of_birth">Syntymäaika</string>
+<string name="MYA_Address">Osoite</string>
+<string name="MYA_Cancel">Peruuta</string>
+<string name="MYA_change_country">Vaihda maa kirjautumalla ulos</string>
+<string name="MYA_change_country_message">Kirjaudu ulos, jos haluat vaihtaa maa-asetuksen. Valitsemalla asuinmaasi voimme mukauttaa takuun ja muut tiedot sijaintisi mukaan.</string>
+<string name="MYA_logout_title">Haluatko varmasti kirjautua ulos?</string>
+<string name="MYA_logout_message">Sinut kirjataan ulos sovelluksesta. Voit kirjautua sisään uudelleen.</string>
+<string name="MYA_Info">Haluatko vaihtaa kirjautumistunnuksen tai salasanan? Siirry sivustoomme.</string>
+<string name="MYA_Email_Validation_message">Sähköpostiosoitetta ei vahvistettu</string>
+<string name="MYA_Not_Available">Ei saatavilla</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">Olet offline-tilassa</string>
+<string name="MYA_Offline_message">Tarkista verkkoyhteys ja yritä uudelleen.</string>
+<string name="mya_Privacy_Settings_Desc">Suojaa yksityisyytesi. Tutustu tietosuojailmoitukseen.</string>
+</resources>

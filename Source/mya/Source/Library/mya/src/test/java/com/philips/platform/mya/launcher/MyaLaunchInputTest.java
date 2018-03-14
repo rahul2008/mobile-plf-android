@@ -11,12 +11,9 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by philips on 11/22/17.
- */
 public class MyaLaunchInputTest {
 
-    MyaLaunchInput myaLaunchInput;
+    private MyaLaunchInput myaLaunchInput;
     @Mock
     private MyaListener myaListener;
 
@@ -26,8 +23,8 @@ public class MyaLaunchInputTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        myaLaunchInput = new MyaLaunchInput(mContext, myaListener);
-        myaLaunchInput.addToBackStack(true);
+        myaLaunchInput = new MyaLaunchInput(mContext);
+        myaLaunchInput.setMyaListener(myaListener);
     }
 
     @Test
@@ -40,8 +37,4 @@ public class MyaLaunchInputTest {
         assertNotNull(myaLaunchInput.getMyaListener());
     }
 
-    @Test
-    public void shouldNotNull_addToBackStack(){
-        assertNotNull(myaLaunchInput.isAddtoBackStack());
-    }
 }

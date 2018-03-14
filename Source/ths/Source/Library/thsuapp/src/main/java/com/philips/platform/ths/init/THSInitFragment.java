@@ -74,9 +74,11 @@ public class THSInitFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // entry to THS, start tagging
-        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
-        THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            // entry to THS, start tagging
+            THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
+            THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        }
     }
 
     @Override

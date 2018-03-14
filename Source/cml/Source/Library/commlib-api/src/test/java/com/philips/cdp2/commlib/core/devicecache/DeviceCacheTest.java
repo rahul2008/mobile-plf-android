@@ -26,22 +26,22 @@ public class DeviceCacheTest {
     private DeviceCache<CacheData> deviceCache;
 
     @Mock
-    ScheduledExecutorService scheduledExecutorServiceMock;
+    private ScheduledExecutorService scheduledExecutorServiceMock;
 
     @Mock
-    NetworkNode networkNodeMock;
+    private NetworkNode networkNodeMock;
 
     @Mock
-    NetworkNode secondNetworkNodeMock;
+    private NetworkNode secondNetworkNodeMock;
 
     @Mock
-    CacheData cacheDataMock;
+    private CacheData cacheDataMock;
 
     @Mock
-    CacheData secondCacheDataMock;
+    private CacheData secondCacheDataMock;
 
     @Mock
-    DeviceCacheListener<CacheData> listener;
+    private DeviceCacheListener<CacheData> listener;
 
     @Before
     public void setUp() throws Exception {
@@ -137,5 +137,13 @@ public class DeviceCacheTest {
         deviceCache.remove(networkNodeMock.getCppId());
 
         verify(listener).onRemoved(cacheDataMock);
+    }
+
+    @Test
+    public void whenDeviceIsRemoved_ThenTimerIsStopped() {
+        deviceCache.add(cacheDataMock);
+        deviceCache.remove(networkNodeMock.getCppId());
+
+        verify(cacheDataMock).stopTimer();
     }
 }

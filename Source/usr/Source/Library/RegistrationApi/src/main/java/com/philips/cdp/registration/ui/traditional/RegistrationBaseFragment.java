@@ -36,10 +36,6 @@ import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
-    protected int mLeftRightMarginPort;
-
-    protected int mLeftRightMarginLand;
-
     protected abstract void setViewParams(Configuration config, int width);
 
     protected abstract void handleOrientation(final View view);
@@ -68,6 +64,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -75,41 +73,16 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
-        super.onResume();
-        setCurrentTitle();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroyView");
-    }
-
-    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCurrentTitle();
     }
 
     private void setPrevTiltle() {
@@ -211,31 +184,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         });
     }
 
-
-    protected void applyParams(Configuration config, View view, int width) {
-        if (width < dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648))) {
-            if (view instanceof RecyclerView) {
-                return;
-            }
-            applyDefaultMargin(view);
-        } else {
-            setMaxWidth(view);
-        }
-    }
-
-    private void setMaxWidth(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648));
-        view.setLayoutParams(params);
-    }
-
-    private void applyDefaultMargin(View view) {
-        ViewGroup.MarginLayoutParams mParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mParams.leftMargin = mParams.rightMargin = dpToPx((int) getResources().getInteger(R.integer.reg_layout_margin_16));
-        view.setLayoutParams(mParams);
-    }
-
-    private int dpToPx(int dp) {
+        private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -382,5 +331,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
             mProgressDialog.cancel();
         }
     }
+    
 
 }

@@ -18,7 +18,7 @@ public class AIKMService extends ServiceDiscoveryService {
 
     private AIKMapError aiKMapError;
 
-    public Map getAIKMap() {
+    public Map<?,?> getAIKMap() {
         return aiKMap;
     }
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">แอคเคาท์ของฉัน</string>
+<string name="MYA_Profile">โปรไฟล์</string>
+<string name="MYA_Settings">การตั้งค่า</string>
+<string name="MYA_My_details">ข้อมูลของฉัน</string>
+<string name="MYA_My_products">ผลิตภัณฑ์</string>
+<string name="MYA_My_subscriptions">ความเป็นสมาชิกของฉัน</string>
+<string name="MYA_My_orders">คำสั่งซื้อ</string>
+<string name="MYA_Logout">ล็อกเอาต์</string>
+<string name="MYA_Account_settings">การตั้งค่าบัญชี</string>
+<string name="MYA_Country">ประเทศ</string>
+<string name="MYA_Notifications">การแจ้งเตือน</string>
+<string name="MYA_Privacy_Settings">ค่าความเป็นส่วนตัว</string>
+<string name="MYA_Login_details">รายละเอียดการล็อกอิน</string>
+<string name="MYA_Email_address">อีเมล์แอดเดรส</string>
+<string name="MYA_Mobile_number">หมายเลขโทรศัพท์มือถือ</string>
+<string name="MYA_Personal_details">รายละเอียดส่วนตัว</string>
+<string name="MYA_Name">ชื่อ</string>
+<string name="MYA_Gender">เพศ</string>
+<string name="MYA_Date_of_birth">วันเกิด</string>
+<string name="MYA_Address">ที่อยู่</string>
+<string name="MYA_Cancel">ยกเลิก</string>
+<string name="MYA_change_country">ล็อกเอาท์เพื่อเปลี่ยนประเทศ</string>
+<string name="MYA_change_country_message">โปรดล็อกเอาท์เพื่อเปลี่ยนประเทศที่คุณอาศัยอยู่ ซึ่งจะช่วยให้เราสามารถปรับแต่งการรับประกันและข้อมูลอื่นๆ ให้เข้ากับตำแหน่งของคุณ</string>
+<string name="MYA_logout_title">คุณแน่ใจว่าต้องการออกจากระบบหรือไม่</string>
+<string name="MYA_logout_message">คุณจะออกจากแอปพลิเคชัน หลังจากคุณล็อกเอาท์แล้ว คุณสามารถล็อกอินใหม่ได้เสมอ</string>
+<string name="MYA_Info">คุณต้องการเปลี่ยน ID ล็อกอินหรือรหัสผ่านหรือไม่ เข้าชมเว็บไซต์ของเรา</string>
+<string name="MYA_Email_Validation_message">อีเมล์แอดเดรสไม่ได้รับการยืนยัน</string>
+<string name="MYA_Not_Available">ไม่มี</string>
+<string name="MYA_Ok">ตกลง</string>
+<string name="MYA_Offline_title">คุณอยู่ในสถานะออฟไลน์</string>
+<string name="MYA_Offline_message">ดูเหมือนว่าการเชื่อมต่ออินเตอร์เน็ตของคุณไม่ทำงาน โปรดตรวจสอบและลองอีกครั้ง</string>
+<string name="mya_Privacy_Settings_Desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่านประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+</resources>

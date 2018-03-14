@@ -91,7 +91,7 @@ public class ProdRegRegistrationController {
         return new LocalRegisteredProducts(user);
     }
 
-    @SuppressWarnings("noinspection unchecked")
+    @SuppressWarnings("unchecked")
     public void init(final Bundle bundle) {
         if (bundle != null) {
             this.dependencyBundle = bundle;
@@ -262,7 +262,7 @@ public class ProdRegRegistrationController {
     }
 
 
-    @SuppressWarnings("noinspection unchecked")
+    @SuppressWarnings("unchecked")
     public void process(final Bundle arguments) {
         if (arguments != null) {
             registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);

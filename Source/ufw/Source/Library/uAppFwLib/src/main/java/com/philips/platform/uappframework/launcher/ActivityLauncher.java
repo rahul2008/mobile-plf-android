@@ -59,9 +59,9 @@ public class ActivityLauncher extends UiLauncher {
             return this.value;
         }
     }
-    protected static int mUiKitTheme;
+    private int mUiKitTheme;
 
-    protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
+    private ActivityLauncher.ActivityOrientation mScreenOrientation = null;
 
     protected Bundle mBundle;
 

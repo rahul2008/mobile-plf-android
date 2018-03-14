@@ -4,8 +4,10 @@
  */
 
 def epochTime() {
-        long epoch = System.currentTimeMillis()/1000
-        return epoch
+    def env_epoch = System.getenv('EPOCH_TIME')
+    long local_epoch = System.currentTimeMillis()/1000
+    def epoch = env_epoch != null ? env_epoch : local_epoch
+    return epoch
 }
 
 ext.baseplatformversion = "1801.0"
@@ -27,7 +29,7 @@ ext.builddeps = [
         androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',
         bintrayplugin     : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2',
         buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.0.0', changing: true],
         googleservices    : 'com.google.gms:google-services:3.0.0',
         gradle            : 'com.android.tools.build:gradle:2.3.3',
         hockeyapp         : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
@@ -71,6 +73,7 @@ ext.philipsdeps = [
         dataServicesUApp                : [group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversionsuffix, changing: true],
         devicepairingUApp               : [group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversionsuffix, changing: true],
         telehealth                      : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
+        telehealthUApp                  : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
         ewsUApp                         : [group: 'com.philips.cdp', name: 'ewsUApp', version: platformversionsuffix, changing: true],
         IconFont                        : [group: 'com.philips.cdp', name: 'IconFont', version: platformversionsuffix, changing: true]
 ]

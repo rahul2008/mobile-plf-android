@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
@@ -13,7 +12,6 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-//import com.crittercism.app.Crittercism;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -47,6 +45,8 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
+
+//import com.crittercism.app.Crittercism;
 
 /**
  * Application class is used for initialization

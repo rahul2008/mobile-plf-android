@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -35,6 +36,7 @@ import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -155,7 +157,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
 
-        forgotPasswordPresenter = new ForgotPasswordPresenter(user, registrationHelper, eventHelper, this, context);
+        forgotPasswordPresenter = new ForgotPasswordPresenter( registrationHelper, eventHelper, this, context);
         forgotPasswordPresenter.registerListener();
 
         ButterKnife.bind(this, view);
@@ -318,11 +320,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
                 userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
             mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
         }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             sendEmailOrSMSButton.setEnabled(false);
         } else {
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
@@ -357,15 +361,26 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         trackActionStatus(state, key, value);
     }
 
-    @Override
-    public void intiateService(String url) {
-        getActivity().startService(forgotPasswordPresenter.createResendSMSIntent(url));
-
-    }
+//    @Override
+//    public void intiateService(String url) {
+//        getActivity().startService(forgotPasswordPresenter.createResendSMSIntent(url));
+//
+//    }
 
     @Override
     public void addFragment(Fragment fragment) {
         getRegistrationFragment().addFragment(fragment);
+    }
+
+    @Override
+    public void onSuccessResponse(String response) {
+        forgotPasswordPresenter.handleResendSMSRespone(response);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        forgotPasswordErrorMessage(
+                context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
     }
 
     @Override

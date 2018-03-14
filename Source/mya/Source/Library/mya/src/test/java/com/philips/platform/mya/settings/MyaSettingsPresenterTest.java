@@ -10,18 +10,17 @@ package com.philips.platform.mya.settings;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -32,7 +31,6 @@ import org.mockito.ArgumentMatchers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
@@ -70,20 +68,9 @@ public class MyaSettingsPresenterTest {
         when(appConfigurationInterface.getPropertyForKey("settings.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context, null));
-        myaSettingsPresenter.getSettingItems(appInfraInterface, error, getArguments());
+        MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context));
+        myaSettingsPresenter.getSettingItems(appInfraInterface, error);
         verify(view).showSettingsItems(ArgumentMatchers.<String, SettingsModel>anyMap());
-    }
-
-    @Test
-    public void testHandleLogOut() {
-        LogoutHandler logoutHandler = myaSettingsPresenter.getLogoutHandler();
-        Bundle bundle = new Bundle();
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(context);
-        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
-        myaSettingsPresenter.logOut(bundle);
-        logoutHandler.onLogoutSuccess();
-        verify(view).onLogOutSuccess();
     }
 
     @Test
@@ -96,40 +83,13 @@ public class MyaSettingsPresenterTest {
         when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
         when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
+        AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
+        when(mockAppInfra.getTagging()).thenReturn(appTaggingInterfaceMock);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         String key = "Mya_Privacy_Settings";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
-    }
-
-    @Test
-    public void testHandleOnClickSettingsWhenDeviceIsOffline() {
-        MyaDependencies mockDependencies = mock(MyaDependencies.class);
-        AppInfraInterface mockAppInfra = mock(AppInfraInterface.class);
-        when(mockDependencies.getAppInfra()).thenReturn(mockAppInfra);
-        RestInterface mockRestClient = mock(RestInterface.class);
-        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
-        when(mockRestClient.isInternetReachable()).thenReturn(false);
-        when(mockAppInfra.getRestClient()).thenReturn(mockRestClient);
-        when(mockAppInfra.getLogging()).thenReturn(mockLoggingInterface);
-        MyaInterface.get().init(mockDependencies, new UappSettings(view.getContext()));
-        String testTitle = "Test title";
-        when(context.getString(R.string.MYA_Offline_title)).thenReturn(testTitle);
-        String testMessage = "Test message";
-        when(context.getString(R.string.MYA_Offline_message)).thenReturn(testMessage);
-        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
-        myaSettingsPresenter = new MyaSettingsPresenter(view);
-        String key = "Mya_Privacy_Settings";
+        key = "MYA_My_details";
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
-    }
-
-    private Bundle getArguments() {
-        Bundle arguments = new Bundle();
-        MyaLaunchInput value = new MyaLaunchInput(context, null);
-        String[] profileItems = {"profile1","profile2"};
-        value.setProfileMenuList(Arrays.asList(profileItems));
-        return arguments;
     }
 }

@@ -44,6 +44,7 @@ import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.ConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.Consent;
@@ -53,6 +54,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,6 +96,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String CHINA_CODE = "CN";
     protected static final String DEFAULT = "default";
     private String appState;
+    private URInterface urInterface;
 
     /**
      * AppFlowState constructor
@@ -289,6 +292,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return userObject;
     }
 
+    public UserDataInterface getUserDataInterface(){
+
+        return urInterface.getUserDataInterface();
+    }
+
 
     /**
      * Launch registration fragment
@@ -316,7 +324,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         RALog.d(TAG, " initializeUserRegistrationLibrary called ");
         URDependancies urDependancies = new URDependancies(getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
-        URInterface urInterface = new URInterface();
+        urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
     }
 

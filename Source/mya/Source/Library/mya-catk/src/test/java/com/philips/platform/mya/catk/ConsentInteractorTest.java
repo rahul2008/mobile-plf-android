@@ -48,13 +48,6 @@ public class ConsentInteractorTest {
     }
 
     @Test
-    public void fetchConsentTypeStates() throws Exception {
-        givenAccessToolkitWithConsentDefinitions();
-        whenFetchConsentTypeStatesIsCalled();
-        thenGetStatusForConsentTypesIsCalled();
-    }
-
-    @Test
     public void storeConsentTypeState() throws Exception {
         whenStoreConsentTypeStateIsCalled();
         thenCreateConsentIsCalledOnTheCatk();
@@ -69,10 +62,6 @@ public class ConsentInteractorTest {
 
     private void whenFetchConsentTypeStateIsCalled() {
         interactor.fetchConsentTypeState(CONSENT_TYPE, fetchConsentTypeStateCallback);
-    }
-
-    private void whenFetchConsentTypeStatesIsCalled() {
-        interactor.fetchConsentTypeStates(Collections.singletonList(CONSENT_TYPE), fetchConsentTypeStatesCallback);
     }
 
     private void whenStoreConsentTypeStateIsCalled() {
@@ -108,9 +97,6 @@ public class ConsentInteractorTest {
 
     @Mock
     private FetchConsentTypeStateCallback fetchConsentTypeStateCallback;
-
-    @Mock
-    private FetchConsentTypesStateCallback fetchConsentTypeStatesCallback;
 
     @Mock
     private PostConsentTypeCallback postConsentTypeCallback;

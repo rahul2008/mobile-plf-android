@@ -150,7 +150,7 @@ android {
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
         resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
     }
 
@@ -181,7 +181,6 @@ android {
         }
 
         debug {
-            testCoverageEnabled=true
             debuggable true
             minifyEnabled false
             shrinkResources false
@@ -208,6 +207,10 @@ android {
         }
     }
 
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
+    }
+
     publishNonDefault true
 }
 
@@ -221,11 +224,14 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
+        debugCompile project(path: ':mya-csw', configuration: 'debug')
+        releaseCompile project(path: ':mya-csw', configuration: 'release')
         debugCompile project(path: ':productselection', configuration: 'debug')
         releaseCompile project(path: ':productselection', configuration: 'release')
         debugCompile project(path: ':uid', configuration: 'debug')
         releaseCompile project(path: ':uid', configuration: 'release')
     } else {
+        compile philipsdeps.mya-csw
         compile philipsdeps.productselection
         compile philipsdeps.uid
     }

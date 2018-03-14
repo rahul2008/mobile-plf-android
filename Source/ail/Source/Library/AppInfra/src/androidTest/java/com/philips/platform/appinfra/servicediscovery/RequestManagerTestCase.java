@@ -1,10 +1,11 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,14 @@ import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_CLEAR_DATA;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FETCH_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_STORE_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * RequestManager Test class.
@@ -46,8 +55,22 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
         assertNotSame(mRequestItemManager, mRequestManagerTest);
     }
 
-    public void testexecute() {
-        mRequestItemManager.execute("https://acc.philips.com/api/v1/discovery/b2c/77000?locale=en_US&tags=apps%2b%2benv%2bstage&country=IN", ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+    public void testTaggingCacheData() {
+        AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
+        final SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
+        when(sharedPreferencesMock.edit()).thenThrow(new NullPointerException());
+        mRequestItemManager = new RequestManager(context, mAppInfra, appInfraTaggingUtil) {
+            @Override
+            SharedPreferences getServiceDiscoverySharedPreferences() {
+                return sharedPreferencesMock;
+            }
+
+        };
+        context = getInstrumentation().getContext();
+        mAppInfra = new AppInfra.Builder().build(context);
+        mRequestItemManager.cacheServiceDiscovery(null, "https://www.philips.com/api/v1/discovery/B2C/70000?locale=en_US", ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+        verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_STORE_FAILED);
+
     }
 
     public void testexecuteNegetivePath() {
@@ -172,9 +195,23 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
         assertNotNull(list);
     }
 
-    public void testgetCachedData() {
-        AISDResponse response = mRequestItemManager.getCachedData();
-//        assertNotNull(response);
+    public void testGetCachedData() {
+        final SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
+        mRequestItemManager = new RequestManager(context, mAppInfra) {
+            @Override
+            SharedPreferences getServiceDiscoverySharedPreferences() {
+                return sharedPreferencesMock;
+            }
+
+            @Override
+            boolean getPropositionEnabled(AppInfra appInfra) {
+                return true;
+            }
+        };
+        when(sharedPreferencesMock.getString("SDPLATFORM",null)).thenThrow(new NullPointerException());
+        AppInfraTaggingUtil appInfraTaggingAction = mock(AppInfraTaggingUtil.class);
+        mRequestItemManager.getCachedData(appInfraTaggingAction);
+        verify(appInfraTaggingAction).trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
     }
 
     public void testgetUrlProposition() {
@@ -192,6 +229,8 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
     }
 
     public void testclearCacheServiceDiscovery() {
-        mRequestItemManager.clearCacheServiceDiscovery();
+        AppInfraTaggingUtil appInfraTaggingAction = mock(AppInfraTaggingUtil.class);
+        mRequestItemManager.clearCacheServiceDiscovery(appInfraTaggingAction);
+        verify(appInfraTaggingAction).trackSuccessAction(SERVICE_DISCOVERY, SD_CLEAR_DATA);
     }
 }

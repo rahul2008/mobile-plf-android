@@ -210,6 +210,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
+            AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "ForeGround");
         }
     }
 
@@ -235,6 +236,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         RALog.d(TAG, " onPause called");
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+            AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");
         }
     }
 

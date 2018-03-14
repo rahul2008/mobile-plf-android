@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[es-AR]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Hubo un problema con la conexión del servidor. Asegúrese de que la fecha/hora de su dispositivo se configure correctamente. Si el problema persiste, cierre sesión y vuelva a iniciarla.</string>
+  <string name="csw_offline_message">[es-AR]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[es-AR]You are offline</string>
+  <string name="csw_ok">[es-AR]OK</string>
+  <string name="csw_privacy_settings">[es-AR]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[es-AR]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[es-AR]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[es-AR]Problem occurred</string>
+  <string name="mya_Account_settings">Configuración de cuenta</string>
+  <string name="mya_Address">Dirección</string>
+  <string name="mya_Cancel">Cancelar</string>
+  <string name="mya_Consent_Help_Label">¿Qué significa?</string>
+  <string name="mya_Country">País</string>
+  <string name="mya_Date_of_birth">Fecha de nacimiento</string>
+  <string name="mya_Email_Validation_message">Dirección de correo electrónico no confirmada</string>
+  <string name="mya_Email_address">Dirección de correo electrónico</string>
+  <string name="mya_Gender">Sexo</string>
+  <string name="mya_Info">¿Desea cambiar su ID o contraseña de inicio de sesión? Visite nuestro sitio web.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[es-AR]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Detalles de inicios de sesión</string>
+  <string name="mya_Logout">Cerrar sesión</string>
+  <string name="mya_Mobile_number">Número telefónico</string>
+  <string name="mya_My_account">Mi cuenta</string>
+  <string name="mya_My_details">Mis datos</string>
+  <string name="mya_My_orders">Mis pedidos</string>
+  <string name="mya_My_products">Mis productos</string>
+  <string name="mya_My_subscriptions">Mis suscripciones</string>
+  <string name="mya_Name">Nombre</string>
+  <string name="mya_Not_Available">No disponible</string>
+  <string name="mya_Notifications">Notificaciones</string>
+  <string name="mya_Offline_message">Al parecer, su conexión a Internet no está funcionando. Compruébelo e inténtelo nuevamente.</string>
+  <string name="mya_Offline_title">Está desconectado.</string>
+  <string name="mya_Ok">Aceptar</string>
+  <string name="mya_Personal_details">Detalles personales</string>
+  <string name="mya_Privacy_Settings">Ajustes de privacidad</string>
+  <string name="mya_Privacy_Settings_Desc">Controle su privacidad. Lea el aviso de privacidad para obtener más información.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Hubo un problema (error %d). Inténtelo nuevamente.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Se produjo un problema</string>
+  <string name="mya_Profile">Perfil</string>
+  <string name="mya_Settings">Ajustes</string>
+  <string name="mya_change_country">Cerrar sesión para cambiar país</string>
+  <string name="mya_change_country_message">Cierre sesión para cambiar el país en el que reside. Esto nos permitirá personalizar la garantía y otro tipo de información sobre su ubicación</string>
+  <string name="mya_csw_justintime_accept">[es-AR]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[es-AR]Maybe later</string>
+  <string name="mya_csw_justintime_title">[es-AR]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[es-AR]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[es-AR]What do we have to offer?</string>
+  <string name="mya_logout_message">Se cerrará su sesión de la aplicación. Después de cerrar sesión, siempre puede volver a iniciar sesión.</string>
+  <string name="mya_logout_title">¿Está seguro de que desea cerrar sesión?</string>
+</resources>

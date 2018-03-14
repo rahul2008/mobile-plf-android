@@ -146,15 +146,6 @@
             ]
           },
           {
-            "eventId": "settings",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "settings"
-              }
-            ]
-          },
-          {
             "eventId": "support",
             "nextStates": [
               {
@@ -301,47 +292,6 @@
               {
                 "condition": [],
                 "nextState": "pr"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "state": "settings",
-        "events": [
-          {
-            "eventId": "order_history",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "iap"
-              }
-            ]
-          },
-          {
-            "eventId": "logout",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "home_fragment"
-              }
-            ]
-          },
-          {
-            "eventId": "login",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "settings_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "TermsAndConditions",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
               }
             ]
           }

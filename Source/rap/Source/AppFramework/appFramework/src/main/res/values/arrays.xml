@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="metrics" translatable="false">
+        <item>"metric"</item>
+        <item>"imperial"</item>
+        <item>"us-customary"</item>
+    </string-array>
+
+    <string-array name="locals" translatable="false">
+        <item>"en_AU"</item>
+        <item>"en_GB""</item>
+        <item>"en_CA"</item>
+        <item>"en_HK"</item>
+        <item>"en_ID"</item>
+        <item>"en_IE"</item>
+        <item>"en_IN"</item>
+        <item>"en_MY"</item>
+        <item>"en_NZ"</item>
+        <item>"en_PH"</item>
+        <item>"en_PK"</item>
+        <item>"en_SA"</item>
+        <item>"en_SG"</item>
+        <item>"en_US"</item>
+        <item>"en_ZA"</item>
+    </string-array>
+
+
+    <!--UR related starts here.-->
+    <string-array name="country_code" translatable="false">
+        <item>AU</item>
+        <item>BG</item>
+        <item>RW</item>
+        <item>CZ</item>
+        <item>DK</item>
+        <item>AT</item>
+        <item>CH</item>
+        <item>DE</item>
+        <item>GR</item>
+        <item>CA</item>
+        <item>GB</item>
+        <item>ID</item>
+        <item>IE</item>
+        <item>IN</item>
+        <item>MY</item>
+        <item>NZ</item>
+        <item>PH</item>
+        <item>PK</item>
+        <item>SA</item>
+        <item>SG</item>
+        <item>US</item>
+        <item>ZA</item>
+        <item>AR</item>
+        <item>CL</item>
+        <item>CO</item>
+        <item>ES</item>
+        <item>MX</item>
+        <item>PE</item>
+        <item>EE</item>
+        <item>FI</item>
+        <item>BE</item>
+        <item>FR</item>
+        <item>HR</item>
+        <item>HU</item>
+        <item>IT</item>
+        <item>JP</item>
+        <item>KR</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>NL</item>
+        <item>NO</item>
+        <item>PL</item>
+        <item>BR</item>
+        <item>PT</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>UA</item>
+        <item>SI</item>
+        <item>SK</item>
+        <item>SE</item>
+        <item>TH</item>
+        <item>TR</item>
+        <item>VN</item>
+        <item>CN</item>
+        <item>TW</item>
+        <item>HK</item>
+        <item>MO</item>
+        <item>LU</item>
+    </string-array>
+    <!--UR related ends here.-->
+
+    <string-array name="hamburger_drawer_items">
+        <item>@string/RA_HomeTab_Menu_Title</item>
+        <item>@string/RA_Philips_Shop_Menu_Title</item>
+        <item>@string/RA_See_a_doctor_Menu_Title</item>
+        <item>@string/RA_Menu_title_Demo</item>
+        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Support_Menu_Title</item>
+        <item>@string/RA_About_Menu_Title</item>
+    </string-array>
+
+    <array name="hamburger_drawer_items_res">
+        <item>@drawable/rap_home</item>
+        <item>@drawable/rap_shop</item>
+        <item>@drawable/rap_doctor</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_connectivity</item>
+        <item>@drawable/rap_question_mark</item>
+        <item>@drawable/rap_information</item>
+    </array>
+
+</resources>

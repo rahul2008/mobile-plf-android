@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -87,6 +88,11 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public AIKMInterface getAiKmInterface() {
+        return null;
+    }
+
+    @Override
+    public ConsentManagerInterface getConsentManager() {
         return null;
     }
 }

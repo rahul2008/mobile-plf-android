@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[sl]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Pri vzpostavljanju povezave s strežnikom je prišlo do težave. Zagotovite, da sta datum in čas v napravi pravilno nastavljena. Če težave ne odpravite, se odjavite in znova prijavite.</string>
+  <string name="csw_offline_message">[sl]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[sl]You are offline</string>
+  <string name="csw_ok">[sl]OK</string>
+  <string name="csw_privacy_settings">[sl]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[sl]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[sl]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[sl]Problem occurred</string>
+  <string name="mya_Account_settings">Nastavitve računa</string>
+  <string name="mya_Address">Naslov</string>
+  <string name="mya_Cancel">Prekliči</string>
+  <string name="mya_Consent_Help_Label">Kaj to pomeni?</string>
+  <string name="mya_Country">Država</string>
+  <string name="mya_Date_of_birth">Datum rojstva</string>
+  <string name="mya_Email_Validation_message">E-poštni naslov ni potrjen</string>
+  <string name="mya_Email_address">E-poštni naslov</string>
+  <string name="mya_Gender">Spol</string>
+  <string name="mya_Info">Ali želite spremeniti ID za prijavo ali geslo? Obiščite naše spletno mesto.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[sl]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Podrobnosti prijave</string>
+  <string name="mya_Logout">Odjavi</string>
+  <string name="mya_Mobile_number">Številka mobilnega telefona</string>
+  <string name="mya_My_account">Moj račun</string>
+  <string name="mya_My_details">Moji podatki</string>
+  <string name="mya_My_orders">Naročila</string>
+  <string name="mya_My_products">Moji izdelki</string>
+  <string name="mya_My_subscriptions">Moje naročnine</string>
+  <string name="mya_Name">Ime</string>
+  <string name="mya_Not_Available">Ni na voljo</string>
+  <string name="mya_Notifications">Obvestila</string>
+  <string name="mya_Offline_message">Videti je, da vaša internetna povezava ne deluje. Preverite povezavo in poskusite znova.</string>
+  <string name="mya_Offline_title">Nimate vzpostavljene povezave</string>
+  <string name="mya_Ok">V REDU</string>
+  <string name="mya_Personal_details">Osebni podatki</string>
+  <string name="mya_Privacy_Settings">Nastavitve zasebnosti</string>
+  <string name="mya_Privacy_Settings_Desc">Nadzorujte svojo zasebnost. Za več informacij preberite _obvestilo o zasebnosti_.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Prišlo je do težave (napaka %d). Poskusite znova.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Prišlo je do težave</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Nastavitve</string>
+  <string name="mya_change_country">Odjava za spremembo države</string>
+  <string name="mya_change_country_message">Odjavite se, da spremenite državo prebivališča. Tako lahko garancijo in druge informacije prilagodimo glede na vašo lokacijo.</string>
+  <string name="mya_csw_justintime_accept">[sl]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[sl]Maybe later</string>
+  <string name="mya_csw_justintime_title">[sl]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[sl]What do we have to offer?</string>
+  <string name="mya_logout_message">Odjavili se boste iz aplikacije. Ko se odjavite, se lahko kadar koli znova prijavite.</string>
+  <string name="mya_logout_title">Ste prepričani, da se želite odjaviti?</string>
+</resources>

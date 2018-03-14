@@ -16,7 +16,7 @@
         style="@style/UIDAlertDialogTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="@dimen/reg_dimen_20dp"
+        android:layout_marginBottom="@dimen/MYA_end_margin"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/MYA_end_margin"
         android:layout_marginStart="@dimen/MYA_start_margin"
@@ -32,20 +32,19 @@
         android:layout_marginStart="@dimen/MYA_start_margin"
         android:paddingBottom="@dimen/uid_page_margin_left_right" />
 
-    <com.philips.platform.uid.view.widget.ProgressBarButton
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mya_dialog_logout_btn"
+        style="@style/UIDExtraWideButton.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/MYA_end_margin"
         android:layout_marginStart="@dimen/MYA_start_margin"
         android:layout_marginTop="@dimen/MYA_top_margin"
-        app:uidIsIndeterminateProgressIndicator="true"
-        app:uidProgressIndicatorButtonProgressText="@string/MYA_Log_Out"
-        app:uidProgressIndicatorButtonText="@string/MYA_Log_Out" />
+        android:text="@string/MYA_Logout" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mya_dialog_cancel_btn"
-        style="@style/UIDDefaultButton"
+        style="@style/UIDExtraWideButton.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/MYA_end_margin"

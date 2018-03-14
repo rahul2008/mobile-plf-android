@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[sv]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Det uppstod ett problem vid anslutning till servern. Se till att datum/tid på enheten är korrekt inställda. Om problemet kvarstår loggar du ut och sedan in igen.</string>
+  <string name="csw_offline_message">[sv]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[sv]You are offline</string>
+  <string name="csw_ok">[sv]OK</string>
+  <string name="csw_privacy_settings">[sv]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[sv]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[sv]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[sv]Problem occurred</string>
+  <string name="mya_Account_settings">Kontoinställningar</string>
+  <string name="mya_Address">Adress</string>
+  <string name="mya_Cancel">Avbryt</string>
+  <string name="mya_Consent_Help_Label">Vad betyder det?</string>
+  <string name="mya_Country">Land</string>
+  <string name="mya_Date_of_birth">Födelsedatum</string>
+  <string name="mya_Email_Validation_message">E-postadress ej bekräftad</string>
+  <string name="mya_Email_address">E-postadress</string>
+  <string name="mya_Gender">Kön</string>
+  <string name="mya_Info">Vill du ändra ditt inloggnings-ID eller lösenord? Besök vår webbplats.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[sv]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Inloggningsuppgifter</string>
+  <string name="mya_Logout">Logga ut</string>
+  <string name="mya_Mobile_number">Mobilnummer</string>
+  <string name="mya_My_account">Mitt konto</string>
+  <string name="mya_My_details">Mina uppgifter</string>
+  <string name="mya_My_orders">Mina beställningar</string>
+  <string name="mya_My_products">Mina produkter</string>
+  <string name="mya_My_subscriptions">Mina prenumerationer</string>
+  <string name="mya_Name">Namn</string>
+  <string name="mya_Not_Available">Inte tillgänglig</string>
+  <string name="mya_Notifications">Meddelanden</string>
+  <string name="mya_Offline_message">Internetanslutningen verkar inte fungera. Kontrollera och försök igen</string>
+  <string name="mya_Offline_title">Du är offline</string>
+  <string name="mya_Ok">OK</string>
+  <string name="mya_Personal_details">Personuppgifter</string>
+  <string name="mya_Privacy_Settings">Sekretessinställningar</string>
+  <string name="mya_Privacy_Settings_Desc">Kontrollera din sekretess. Läs _privacy notice_för mer information.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Ett fel inträffade (fel %d). Försök igen.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Ett problem uppstod</string>
+  <string name="mya_Profile">Profil</string>
+  <string name="mya_Settings">Inställningar</string>
+  <string name="mya_change_country">Logga ut för att byta land</string>
+  <string name="mya_change_country_message">Logga ut för att byta landet du bor i. Det gör att vi kan anpassa garantier och annan information beroende på var du befinner dig.</string>
+  <string name="mya_csw_justintime_accept">[sv]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[sv]Maybe later</string>
+  <string name="mya_csw_justintime_title">[sv]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sv]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[sv]What do we have to offer?</string>
+  <string name="mya_logout_message">Du loggas ut från programmet. När du har loggat ut kan du alltid logga in igen.</string>
+  <string name="mya_logout_title">Är du säker på att du vill logga ut?</string>
+</resources>

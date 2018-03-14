@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,7 +171,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }
         }else {
-            displayPharmacy();
+            thscheckPharmacyConditionsPresenter.checkForConsent();
         }
     }
 
@@ -210,15 +211,16 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      *  The crash was only in android 6 (Marshmallow) devices. Only way to handle the crash was to spawn a new thread and then post the runnable
      *  on UI thread.
      */
-    private void showPharmacySearch() {
+    public void showPharmacySearch() {
         hideProgressBar();
-        if (isFragmentAttached()) {
+        if (null != getActivity() && null != getContext()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //THSCheckPharmacyConditionsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE
                             getActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);

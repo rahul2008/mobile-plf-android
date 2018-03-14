@@ -143,6 +143,7 @@ class SecureStorageHelper {
             if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
                 // if key is not generated
                 Calendar start = Calendar.getInstance();
+                start.add(Calendar.YEAR, -1);
                 Calendar end = Calendar.getInstance();
                 end.add(Calendar.YEAR, 50);
 
@@ -151,9 +152,9 @@ class SecureStorageHelper {
                     algorithmParameterSpec = new KeyGenParameterSpec.Builder(SINGLE_UNIVERSAL_KEY, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                             .setCertificateSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
                             .setCertificateSerialNumber(BigInteger.ONE)
+                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
                             .setKeyValidityStart(start.getTime())
                             .setKeyValidityEnd(end.getTime())
-                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
                             .build();
 
                 } else {

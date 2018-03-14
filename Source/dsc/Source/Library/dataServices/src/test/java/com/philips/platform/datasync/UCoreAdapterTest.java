@@ -42,7 +42,7 @@ public class UCoreAdapterTest {
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final Class<ConsentsClient> CLIENT_CLASS = ConsentsClient.class;
     private static final Class<InsightClient> INSIGHT_CLASS = InsightClient.class;
-    private static final String EXPECTED_API_VERSION = "15";
+    private static final String EXPECTED_API_VERSION = "16";
     private static final String API_VERSION_CUSTOM_HEADER = "api-version";
     private static final String APP_AGENT_HEADER = "appAgent";
 

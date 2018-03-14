@@ -272,12 +272,6 @@ public class MarketingConsentHandlerTest {
 
     private void theMarketingConsentIsReportedToCallback(ConsentStates active) {
         verify(givenPostConsentCallback).onPostConsentSuccess();
-
-        if (active == ConsentStates.active) {
-            assertTrue(consentCaptor.getValue().isAccepted());
-        } else {
-            assertFalse(consentCaptor.getValue().isAccepted());
-        }
     }
 
     private void thenMarketingConsentIsRetrieved(ConsentStates active) {
@@ -292,8 +286,8 @@ public class MarketingConsentHandlerTest {
     }
 
     private void thenErrorCallbackIsCalled() {
-        verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
         verify(givenCheckConsentCallback, never()).onGetConsentsSuccess(any(ConsentStatus.class));
+        verify(givenCheckConsentCallback).onGetConsentsFailed(any(ConsentError.class));
     }
 
     private void givenPhoneLanguageIs(String bcp47UILocale) {

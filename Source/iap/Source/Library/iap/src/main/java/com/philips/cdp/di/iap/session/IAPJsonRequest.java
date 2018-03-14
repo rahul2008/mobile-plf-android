@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.session;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -57,7 +58,9 @@ public class IAPJsonRequest extends Request<JSONObject> {
     @Override
     public Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
-            String jsonString = new String(response.data);
+            final String encodedString = Base64.encodeToString(response.data, Base64.DEFAULT);
+            final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
+            final String jsonString = new String(decode);
             JSONObject result = null;
             if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);

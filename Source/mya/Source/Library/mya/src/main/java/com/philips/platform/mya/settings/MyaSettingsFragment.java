@@ -12,25 +12,28 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
-import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.mya.settings.MyaPhilipsLinkFragment.PHILIPS_LINK;
@@ -50,7 +53,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
     private LinearLayoutManager linearLayoutManager;
     private AppConfigurationInterface.AppConfigurationError error;
-    private ProgressBarButton logout;
+    private Button logout;
     private Label philipsWebsite;
 
     @Override
@@ -83,18 +86,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         philipsWebsite = view.findViewById(R.id.philips_website);
-        philipsWebsite.setSpanClickInterceptor(new UIDClickableSpanWrapper.ClickInterceptor() {
-            @Override
-            public boolean interceptClick(CharSequence tag) {
-                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
-                Bundle args = new Bundle();
-                args.putCharSequence(PHILIPS_LINK,tag);
-                fragment.setArguments(args);
-                showFragment(fragment);
-                return true;
-            }
-        });
         logOutButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -108,9 +105,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             } else {
                 dismissDialog();
             }
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, savedInstanceState.getBundle(SETTINGS_BUNDLE));
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         } else {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error, getArguments());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), error);
         }
 
 
@@ -180,6 +177,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 isDialogOpen = false;
                 dismissDialog();
+                    Map<String,String> map = new HashMap<>();
+                    map.put("inAppNotification","Are you sure you want to log out?");
+                    map.put("inAppNotificationResponse","Cancel");
+                    MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData",map);
             }
         };
     }
@@ -195,24 +196,28 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private View.OnClickListener onClickLogOut(final ProgressBarButton logout) {
+    private View.OnClickListener onClickLogOut(final Button logout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onClickMyaItem(view.getContext().getString(R.string.mya_log_out));
+               /* boolean onLogOut = MyaHelper.getInstance().getMyaListener().onMenuItemSelected(view.getContext().getString(R.string.mya_log_out));
                 if(!onLogOut) {
                     presenter.logOut(getArguments());
                 }*/
-               //TODO - need to invoke above commented code when introduced call back for log out success
-               logout.showProgressIndicator();
-               presenter.logOut(getArguments());
+                //TODO - need to invoke above commented code when introduced call back for log out success
+                presenter.logOut(getArguments());
+                dismissDialog();
+                Map<String, String> map = new HashMap<>();
+                map.put("inAppNotification", "Are you sure you want to log out?");
+                map.put("inAppNotificationResponse", "Log out");
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", map);
             }
         };
     }
 
     @Override
     public void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap) {
-        MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
+        MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(getContext(),dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = getLinearLayoutManager();
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = getRecyclerViewSeparatorItemDecoration();
         recyclerView.setLayoutManager(mLayoutManager);
@@ -234,25 +239,40 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return linearLayoutManager;
     }
 
-    @Override
-    public void onLogOutSuccess() {
-        dismissDialog();
-        exitMyAccounts();
-        MyaHelper.getInstance().getMyaListener().onClickMyaItem(getContext().getString(R.string.mya_log_out));
-    }
-
-    @Override
-    public void hideProgressIndicator() {
-        if (logout != null)
-            logout.hideProgressIndicator();
-    }
-
     @SuppressWarnings("deprecation")
     @Override
-    public void setLinkUrl(String url) {
-        philipsWebsite.setClickable(true);
-        philipsWebsite.setMovementMethod (LinkMovementMethod.getInstance());
-        philipsWebsite.setText(Html.fromHtml(url));
+    public void setLinkUrl(final String url) {
+        final SpannableString myString;
+        if (!TextUtils.isEmpty(url)) {
+            philipsWebsite.setClickable(true);
+            myString = new SpannableString(url);
+            ClickableSpan clickableSpan = getClickableSpan(url);
+            myString.setSpan(clickableSpan, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            String philipsDefaultUrl = getString(R.string.MYA_philips_website);
+            myString = new SpannableString(philipsDefaultUrl);
+            ClickableSpan clickableSpan = getClickableSpan(philipsDefaultUrl);
+            myString.setSpan(clickableSpan, 0, philipsDefaultUrl.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        philipsWebsite.setText(myString);
+        philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    ClickableSpan getClickableSpan(final String url) {
+        return new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                MyaPhilipsLinkFragment fragment = new MyaPhilipsLinkFragment();
+                Bundle args = new Bundle();
+                args.putString(PHILIPS_LINK, url);
+                fragment.setArguments(args);
+                AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
+                String appName = appIdentityInterface.getAppName();
+                String url = getString(R.string.MYA_philips_website)+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", url);
+                showFragment(fragment);
+            }
+        };
     }
 
 
@@ -260,12 +280,12 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int viewType = recyclerView.indexOfChild(view);
+                int viewType = recyclerView.getChildAdapterPosition(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key, getFragmentLauncher());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onSettingsMenuItemSelected(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }

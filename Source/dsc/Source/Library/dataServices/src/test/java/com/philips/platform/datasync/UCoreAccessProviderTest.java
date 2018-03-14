@@ -210,17 +210,29 @@ public class UCoreAccessProviderTest {
         when(sharedPreferencesMock.edit()).thenReturn(editorMock);
         when(editorMock.putString(anyString(), anyString())).thenReturn(editorMock);
 
-        BaseAppData activeBabyIdEvent = new BaseAppData() {
-            @Override
-            public int getId() {
-                return 0;
-            }
-        };
-
         uCoreAccessProvider.saveLastSyncTimeStamp(MOMENT_LAST_SYNC_URL_KEY, MOMENT_LAST_SYNC_URL_KEY);
 
         verify(editorMock).putString(MOMENT_LAST_SYNC_URL_KEY, MOMENT_LAST_SYNC_URL_KEY);
         verify(editorMock).commit();
+    }
+
+    @Test
+    public void givenPreferencesEmpty_whenClearSyncTimeCache_shouldCallClear() {
+        when(sharedPreferencesMock.edit()).thenReturn(editorMock);
+        when(editorMock.clear()).thenReturn(editorMock);
+
+        uCoreAccessProvider.clearSyncTimeCache();
+        verify(editorMock).clear();
+
+    }
+
+    @Test
+    public void givenPreferencesPopulated_whenClearSyncTimeCache_shouldCallApply() {
+        when(sharedPreferencesMock.edit()).thenReturn(editorMock);
+        when(editorMock.clear()).thenReturn(editorMock);
+
+        uCoreAccessProvider.clearSyncTimeCache();
+        verify(editorMock).apply();
     }
 
 }

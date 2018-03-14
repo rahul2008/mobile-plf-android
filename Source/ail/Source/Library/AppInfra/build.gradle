@@ -8,8 +8,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
-archivesBaseName = "AppInfra"
-
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -83,7 +81,6 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled=true
         }
     }
     publishNonDefault true

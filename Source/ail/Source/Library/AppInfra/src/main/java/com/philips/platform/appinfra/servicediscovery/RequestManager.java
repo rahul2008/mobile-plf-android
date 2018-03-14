@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.LocaleList;
+import android.support.annotation.VisibleForTesting;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -22,6 +23,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONObject;
 
@@ -29,6 +31,11 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_CLEAR_DATA;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FETCH_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_STORE_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 
 /**
  * The RequestManager class for service discovery.
@@ -42,11 +49,19 @@ public class RequestManager {
 	private final Context mContext;
 	private SharedPreferences mSharedPreference;
 	private SharedPreferences.Editor mPrefEditor;
+	private AppInfraTaggingUtil appInfraTaggingUtil;
 
 	public RequestManager(Context context, AppInfra appInfra) {
 		mContext = context;
 		mAppInfra = appInfra;
 		VolleyLog.DEBUG = false;
+	}
+
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	RequestManager(Context context, AppInfra appInfra, AppInfraTaggingUtil appInfraTaggingUtil) {
+		mContext = context;
+		mAppInfra = appInfra;
+		this.appInfraTaggingUtil = appInfraTaggingUtil;
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
@@ -67,7 +82,7 @@ public class RequestManager {
 			result.setSuccess(false);
 		} catch (ExecutionException e) {
 			final Throwable error = e.getCause();
-			ServiceDiscovery.Error volleyError=null;
+			ServiceDiscovery.Error volleyError;
 			if (error instanceof TimeoutError) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
@@ -119,34 +134,40 @@ public class RequestManager {
 		}
 	}
 
-	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		mSharedPreference = getServiceDiscoverySharedPreferences();
-		mPrefEditor = mSharedPreference.edit();
-		final Date currentDate = new Date();
-		final long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
-		switch (urlType) {
-			case AISDURLTypeProposition:
-				mPrefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
-				mPrefEditor.putString("SDPROPOSITIONURL", url);
-				break;
-			case AISDURLTypePlatform:
-				mPrefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
-				mPrefEditor.putString("SDPLATFORMURL", url);
-				break;
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
+		try {
+			mSharedPreference = getServiceDiscoverySharedPreferences();
+			mPrefEditor = mSharedPreference.edit();
+			final Date currentDate = new Date();
+			final long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+			switch (urlType) {
+				case AISDURLTypeProposition:
+					mPrefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
+					mPrefEditor.putString("SDPROPOSITIONURL", url);
+					break;
+				case AISDURLTypePlatform:
+					mPrefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
+					mPrefEditor.putString("SDPLATFORMURL", url);
+					break;
+			}
+			mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+			mPrefEditor.apply();
+		} catch (Exception e) {
+			appInfraTaggingUtil.trackErrorAction(SERVICE_DISCOVERY, SD_STORE_FAILED);
 		}
-		mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
-		mPrefEditor.commit();
 	}
 
 
-	protected AISDResponse getCachedData() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	AISDResponse getCachedData(AppInfraTaggingUtil appInfraTaggingAction) {
 		AISDResponse cachedResponse = null;
 		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
 			if(getPropositionEnabled(mAppInfra))
 			{
-				final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 				try {
+					final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 					if (platformCache != null) {
 
 						final JSONObject platformObject = new JSONObject(platformCache);
@@ -156,14 +177,15 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
+					appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}
 			}
 			else {
-				final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
-				final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 				try {
+					final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
+					final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 					if (propositionCache != null && platformCache != null) {
 						final JSONObject propositionObject = new JSONObject(propositionCache);
 						final ServiceDiscovery propostionService = parseResponse(propositionObject);
@@ -176,6 +198,7 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
+					appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}
@@ -212,14 +235,15 @@ public class RequestManager {
 	}
 
 
-	void clearCacheServiceDiscovery() {
+	void clearCacheServiceDiscovery(AppInfraTaggingUtil appInfraTaggingAction) {
 		mSharedPreference = getServiceDiscoverySharedPreferences();
 		mPrefEditor = mSharedPreference.edit();
 		mPrefEditor.clear();
-		mPrefEditor.commit();
+		mPrefEditor.apply();
+		appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SD_CLEAR_DATA);
 	}
 
-	private SharedPreferences getServiceDiscoverySharedPreferences() {
+	SharedPreferences getServiceDiscoverySharedPreferences() {
 		return mContext.getSharedPreferences(SERVICE_DISCOVERY_CACHE_FILE, Context.MODE_PRIVATE);
 	}
 

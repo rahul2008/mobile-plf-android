@@ -89,6 +89,7 @@ public class DeviceCache<T extends CacheData> {
 
     public T remove(@NonNull final String cppId) {
         final T cacheData = data.remove(cppId);
+        cacheData.stopTimer();
 
         notifyCacheDataRemoved(cacheData);
 

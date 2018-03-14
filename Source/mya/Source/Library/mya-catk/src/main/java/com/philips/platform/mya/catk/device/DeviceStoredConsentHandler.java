@@ -15,6 +15,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 

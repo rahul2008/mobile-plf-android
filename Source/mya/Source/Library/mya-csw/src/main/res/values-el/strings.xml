@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
+
+<resources>
+  <string name="csw_consent_help_label">[el]What does this mean?</string>
+  <string name="csw_invalid_access_token_error_message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
+  <string name="csw_offline_message">[el]Your internet connection does not seem to be working. Please check and try again</string>
+  <string name="csw_offline_title">[el]You are offline</string>
+  <string name="csw_ok">[el]OK</string>
+  <string name="csw_privacy_settings">[el]Privacy Settings</string>
+  <string name="csw_privacy_settings_desc">[el]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_problem_occurred_error_message">[el]There was a problem (error %1$d). Please try again.</string>
+  <string name="csw_problem_occurred_error_title">[el]Problem occurred</string>
+  <string name="mya_Account_settings">Ρυθμίσεις λογαριασμού</string>
+  <string name="mya_Address">Διεύθυνση</string>
+  <string name="mya_Cancel">Άκυρο</string>
+  <string name="mya_Consent_Help_Label">Τι σημαίνει αυτό;</string>
+  <string name="mya_Country">Χώρα</string>
+  <string name="mya_Date_of_birth">Ημερομηνία γέννησης</string>
+  <string name="mya_Email_Validation_message">Η διεύθυνση email δεν επιβεβαιώθηκε</string>
+  <string name="mya_Email_address">Διεύθυνση email</string>
+  <string name="mya_Gender">Φύλο</string>
+  <string name="mya_Info">Αλλαγή ID σύνδεσης ή κωδικού πρόσβασης; Επισκεφθείτε τον ιστότοπό μας.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">[el]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Login_details">Στοιχεία σύνδεσης</string>
+  <string name="mya_Logout">Έξοδος</string>
+  <string name="mya_Mobile_number">Κινητό</string>
+  <string name="mya_My_account">Ο λογαριασμός μου</string>
+  <string name="mya_My_details">Στοιχεία</string>
+  <string name="mya_My_orders">Παραγγελίες</string>
+  <string name="mya_My_products">Τα προϊόντα μου</string>
+  <string name="mya_My_subscriptions">Οι συνδρομές μου</string>
+  <string name="mya_Name">Όνομα</string>
+  <string name="mya_Not_Available">Δεν διατίθεται</string>
+  <string name="mya_Notifications">Ειδοποιήσεις</string>
+  <string name="mya_Offline_message">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
+  <string name="mya_Offline_title">Βρίσκεστε εκτός σύνδεσης</string>
+  <string name="mya_Ok">ΟΚ</string>
+  <string name="mya_Personal_details">Προσωπικά στοιχεία</string>
+  <string name="mya_Privacy_Settings">Ρυθμίσεις απορρήτου</string>
+  <string name="mya_Privacy_Settings_Desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη _δήλωση απορρήτου_ για περισσότερες πληροφορίες.</string>
+  <string name="mya_Problem_Occurred_Error_Message">Προέκυψε πρόβλημα (σφάλμα %d). Δοκιμάστε ξανά.</string>
+  <string name="mya_Problem_Occurred_Error_Title">Προέκυψε πρόβλημα</string>
+  <string name="mya_Profile">Προφίλ</string>
+  <string name="mya_Settings">Ρυθμίσεις</string>
+  <string name="mya_change_country">Κάντε έξοδο για αλλαγή χώρας</string>
+  <string name="mya_change_country_message">Αποσυνδεθείτε για να αλλάξετε τη χώρα στην οποία κατοικείτε. Έτσι, θα μπορούμε να προσαρμόσουμε την εγγύηση και άλλες πληροφορίες ανάλογα με την τοποθεσία σας.</string>
+  <string name="mya_csw_justintime_accept">[el]OK, count me in</string>
+  <string name="mya_csw_justintime_reject">[el]Maybe later</string>
+  <string name="mya_csw_justintime_title">[el]Be the first to know</string>
+  <string name="mya_csw_justintime_user_benefits_description">[el]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[el]What do we have to offer?</string>
+  <string name="mya_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
+  <string name="mya_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>
+</resources>
