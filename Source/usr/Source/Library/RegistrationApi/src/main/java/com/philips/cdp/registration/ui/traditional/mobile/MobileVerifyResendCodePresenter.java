@@ -63,7 +63,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
                 RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
                         , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-                urRequest.makeRequest(true);
+                urRequest.makeRequest();
             }
 
             @Override
@@ -162,7 +162,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             public void onSuccess(URL url) {
                 RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), null, response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-                urRequest.makeRequest(false);
+                urRequest.makeRequest();
             }
 
             @Override

@@ -69,7 +69,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     private String resetPasswordSmsRedirectUri;
 
-    private String mobileNumber;
+    private String userId;
 
     private Context context;
 
@@ -117,12 +117,11 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         forgotPasswordContract.handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
     }
 
-    void forgotPasswordRequest(String emailId, User user) {
-        user.forgotPassword(emailId, this);
+    void forgotPasswordRequest(String userId, User user) {
+        user.forgotPassword(userId, this);
     }
 
     void handleResendSMSRespone(String response) {
-        forgotPasswordContract.hideForgotPasswordSpinner();
         final String mobileNumberKey = "mobileNumber";
         final String tokenKey = "token";
         final String redirectUriKey = "redirectUri";
@@ -160,7 +159,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     private void constructMobileVerifyCodeFragment(String mobileNumberKey, String tokenKey, String redirectUriKey, String verificationSmsCodeURLKey, String token) {
         MobileForgotPassVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPassVerifyCodeFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(mobileNumberKey, mobileNumber);
+        bundle.putString(mobileNumberKey, userId);
         bundle.putString(tokenKey, token);
         bundle.putString(redirectUriKey, getRedirectUri());
         bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
@@ -168,9 +167,8 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         forgotPasswordContract.addFragment(mobileForgotPasswordVerifyCodeFragment);
     }
 
-    @NonNull
     private String getBodyContent() {
-        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(userId) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
     }
@@ -184,13 +182,13 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         return resetPasswordSmsRedirectUri;
     }
 
-    void initateCreateResendSMSIntent(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    void initateCreateResendSMSIntent(String userId) {
+        this.userId = userId;
         String smsServiceID = "userreg.urx.verificationsmscode";
 
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(smsServiceID)
-                .map(serviceUrl -> getBaseUrl(serviceUrl))
+                .map(this::getBaseUrl)
                 .map(baseUrl -> {
                     resetPasswordSmsRedirectUri = baseUrl + USER_REQUEST_RESET_REDIRECT_URI_SMS;
                     verificationSmsCodeURL = baseUrl + USER_REQUEST_RESET_SMS_CODE;
@@ -202,13 +200,13 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                     @Override
                     public void onSuccess(String verificationUrl) {
                         URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
-                        urRequest.makeRequest(true);
+                        urRequest.makeRequest();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.d(TAG, "Error = " + e.getMessage());
                         forgotPasswordContract.hideForgotPasswordSpinner();
+                        RLog.d(TAG, "Error = " + e.getMessage());
                         forgotPasswordContract.forgotPasswordErrorMessage(
                                 context.getString(R.string.reg_Generic_Network_Error));
                     }

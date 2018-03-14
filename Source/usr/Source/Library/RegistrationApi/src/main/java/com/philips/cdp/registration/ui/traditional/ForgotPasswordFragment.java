@@ -36,6 +36,7 @@ import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -378,7 +379,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        hideForgotPasswordSpinner();
         forgotPasswordErrorMessage(
                 context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
     }
