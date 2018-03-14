@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
@@ -41,7 +42,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG,"error while fetching url ",message);
             }
         });
         view.showSettingsItems(getSettingsMap(appInfra));
