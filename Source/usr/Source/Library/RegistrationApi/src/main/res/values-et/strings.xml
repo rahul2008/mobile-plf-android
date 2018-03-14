@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Proovi uuesti sisse logida</string>
 <string name="reg_Contact_Customer_Care_Text">Võta ühendust klienditeenindusega</string>
 <string name="reg_Update_Email_Button_Text">Värskendage e-posti aadressi</string>
-<string name="reg_Country_Region">Riik / regioon</string>
 <string name="reg_MyDetails_TitleTxt">Minu konto</string>
 <string name="reg_Login_Details_Txt">Sisselogimise andmed</string>
 <string name="reg_Email_address_TitleTxt">E-posti aadress</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Sugu</string>
 <string name="reg_DateOfBirth_TitleTxt">Sünniaeg</string>
 <string name="reg_Address_TitleTxt">Aadress</string>
+<string name="reg_Country_Region">Riik/regioon</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logi kohe sisse</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Loo minu Philipsi konto</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Või logige sisse kontoga:</string>

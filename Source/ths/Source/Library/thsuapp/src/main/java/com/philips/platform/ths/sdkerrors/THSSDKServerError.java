@@ -39,6 +39,8 @@ public class THSSDKServerError implements THSErrorHandlerInterface{
             return true;
         }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.ENG_NOT_FOUND)){
             return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_ELIG_INFO.name())){
+            return true;
         }else {
             return false;
         }

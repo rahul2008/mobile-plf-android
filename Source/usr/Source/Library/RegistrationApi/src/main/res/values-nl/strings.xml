@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Probeer u opnieuw aan te melden</string>
 <string name="reg_Contact_Customer_Care_Text">Neem contact op met de klantenservice</string>
 <string name="reg_Update_Email_Button_Text">E-mailadres bijwerken</string>
-<string name="reg_Country_Region">Land / regio</string>
 <string name="reg_MyDetails_TitleTxt">Mijn account</string>
 <string name="reg_Login_Details_Txt">Aanmeldingsgegevens</string>
 <string name="reg_Email_address_TitleTxt">E-mailadres</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Geslacht</string>
 <string name="reg_DateOfBirth_TitleTxt">Geboortedatum</string>
 <string name="reg_Address_TitleTxt">Adres</string>
+<string name="reg_Country_Region">Land/regio</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Nu aanmelden</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Mijn Philips-account maken</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Of meld u aan met:</string>

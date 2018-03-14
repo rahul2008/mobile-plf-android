@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Încearcă să te conectezi din nou</string>
 <string name="reg_Contact_Customer_Care_Text">Contactează asistenţa pentru clienţi</string>
 <string name="reg_Update_Email_Button_Text">Actualizare adresă e-mail</string>
-<string name="reg_Country_Region">Țară / regiune</string>
 <string name="reg_MyDetails_TitleTxt">Contul meu</string>
 <string name="reg_Login_Details_Txt">Detalii conectare</string>
 <string name="reg_Email_address_TitleTxt">Adresă de e-mail</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Sex</string>
 <string name="reg_DateOfBirth_TitleTxt">Data naşterii</string>
 <string name="reg_Address_TitleTxt">Adresă</string>
+<string name="reg_Country_Region">Țară/regiune</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Conectează-te acum</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Creează-mi contul Philips</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Sau conectează-te cu:</string>
