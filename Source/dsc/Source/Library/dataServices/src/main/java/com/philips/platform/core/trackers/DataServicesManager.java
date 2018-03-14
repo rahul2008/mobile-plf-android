@@ -611,10 +611,14 @@ public class DataServicesManager {
                 public void onSuccess(final List<? extends Moment> momentData) {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
-                        public void onSuccess(List<? extends Insight> insightData) { runSync(resultListener); }
+                        public void onSuccess(List<? extends Insight> insightData) {
+                            runSync(resultListener);
+                        }
 
                         @Override
-                        public void onFailure(Exception exception) { resultListener.onFailure(exception); }
+                        public void onFailure(Exception exception) {
+                            resultListener.onFailure(exception);
+                        }
                     });
                 }
 
@@ -644,23 +648,23 @@ public class DataServicesManager {
             @Override
             public void onSyncComplete() {
                 // Post on main thread
-//                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        resultListener.onSuccess(Collections.<Object>emptyList());
-//                    }
-//                });
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultListener.onSuccess(Collections.emptyList());
+                    }
+                });
             }
 
             @Override
             public void onSyncFailed(final  Exception exception) {
                 // Post on main thread
-//                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                    @Override
-//                    public void run() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
                         resultListener.onFailure(exception);
-//                    }
-//                });
+                    }
+                });
             }
         });
         storeGdprMigrationFlag();
