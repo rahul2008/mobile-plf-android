@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Próbáljon újra bejelentkezni</string>
 <string name="reg_Contact_Customer_Care_Text">Lépjen kapcsolatba az ügyfélszolgálattal</string>
 <string name="reg_Update_Email_Button_Text">E-mail-cím frissítése</string>
-<string name="reg_Country_Region">Ország / régió</string>
 <string name="reg_MyDetails_TitleTxt">Saját fiók</string>
 <string name="reg_Login_Details_Txt">Bejelentkezési adatok</string>
 <string name="reg_Email_address_TitleTxt">E-mail cím</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Nem</string>
 <string name="reg_DateOfBirth_TitleTxt">Születési idő</string>
 <string name="reg_Address_TitleTxt">Cím</string>
+<string name="reg_Country_Region">Ország/régió</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Bejelentkezés most</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Saját Philips fiók létrehozása</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Vagy bejelentkezés a következővel:</string>

@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Tekrar oturum açmayı dene</string>
 <string name="reg_Contact_Customer_Care_Text">Müşteri desteği ekibiyle iletişime geç</string>
 <string name="reg_Update_Email_Button_Text">E-posta adresini güncelle</string>
-<string name="reg_Country_Region">Ülke / Bölge</string>
 <string name="reg_MyDetails_TitleTxt">Hesabım</string>
 <string name="reg_Login_Details_Txt">Oturum açma bilgileri</string>
 <string name="reg_Email_address_TitleTxt">E-posta adresi</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Cinsiyet</string>
 <string name="reg_DateOfBirth_TitleTxt">Doğum tarihi</string>
 <string name="reg_Address_TitleTxt">Adres</string>
+<string name="reg_Country_Region">Ülke/Bölge</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Şimdi oturum açın</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Philips hesabımı oluştur</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Alternatif olarak, şununla oturum açın:</string>

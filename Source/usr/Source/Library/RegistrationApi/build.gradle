@@ -188,7 +188,6 @@ android {
         }
 
         debug {
-            minifyEnabled false
             debuggable true
         }
     }
