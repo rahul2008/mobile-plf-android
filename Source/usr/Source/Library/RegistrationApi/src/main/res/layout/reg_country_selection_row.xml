@@ -16,7 +16,7 @@
     <com.philips.cdp.registration.ui.customviews.XTextView
         android:id="@+id/reg_row_title"
         style="@style/reg_textStyle"
-        android:text="@string/reg_Country"
+        android:text="@string/reg_Country_Region"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
