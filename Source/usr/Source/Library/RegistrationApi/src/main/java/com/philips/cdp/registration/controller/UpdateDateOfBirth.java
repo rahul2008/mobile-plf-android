@@ -35,6 +35,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
     private String mBirthDate;
 
     public UpdateDateOfBirth(Context context) {
+        super(context);
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
