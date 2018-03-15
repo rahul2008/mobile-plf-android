@@ -182,7 +182,10 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                         urLaunchInput.enableAddtoBackStack(true);
                         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
                         URInterface urInterface = new URInterface();
-                        urInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), urLaunchInput);
+                        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                                ((DemoAppActivity) getActivity()).getThemeConfig(),
+                                ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                        urInterface.launch(activityLauncher, urLaunchInput);
                         return true;
                     } else if (itemName.equalsIgnoreCase("Test_fragment")) {
                         launchTestFragment(fragmentLauncher);
@@ -200,7 +203,10 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     uAppInterface = new URDemouAppInterface();
                     AppInfraInterface appInfraInterface = MyAccountDemoUAppInterface.getAppInfra();
                     uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(getActivity()));
-                    uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), null);
+                    ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                            ((DemoAppActivity) getActivity()).getThemeConfig(),
+                            ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                    uAppInterface.launch(activityLauncher, null);
                 }
             }
 
