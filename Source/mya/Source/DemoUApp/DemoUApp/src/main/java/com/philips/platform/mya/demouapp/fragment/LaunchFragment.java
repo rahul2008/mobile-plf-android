@@ -159,7 +159,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                             CswInterface cswInterface = getCswInterface();
                             UappSettings uappSettings = new UappSettings(activity);
                             cswInterface.init(dependencies, uappSettings);
-                            cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), buildLaunchInput(true, activity));
+                            cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR,  ((DemoAppActivity) getActivity()).getThemeConfig(),
+                                    ((DemoAppActivity) getActivity()).getThemeResourceId(), null), buildLaunchInput(true, activity));
                             return true;
                         } else {
                             String title = activity.getString(com.philips.platform.mya.R.string.MYA_Offline_title);
