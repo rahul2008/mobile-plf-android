@@ -74,7 +74,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
     }
 
     @Override
-    public void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven, ConsentToggleResponse responseHandler) {
+    public void onToggledConsent(final ConsentDefinition definition, final ConsentHandlerInterface handler, final boolean consentGiven, final ConsentToggleResponse responseHandler) {
         if(!consentGiven) {
             // User has revoked consent
             ConfirmDialogView dialog = new ConfirmDialogView();
@@ -84,9 +84,24 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
                 R.string.mya_csw_consent_revoked_confirm_btn_ok,
                 R.string.mya_csw_consent_revoked_confirm_btn_cancel
             );
-            this.permissionInterface.showConfirmRevokeConsentDialog(dialog);
-        }
+            this.permissionInterface.showConfirmRevokeConsentDialog(dialog, new ConfirmDialogView.ConfirmDialogResultHandler() {
+                @Override
+                public void onOkClicked() {
+                    postConsentChange(definition, handler, false);
+                }
 
+                @Override
+                public void onCancelClicked() {
+                    responseHandler.handleResponse(true);
+                }
+            });
+        }
+        else {
+            postConsentChange(definition, handler, true);
+        }
+    }
+
+    private void postConsentChange(ConsentDefinition definition, ConsentHandlerInterface handler, boolean consentGiven) {
         boolean isOnline = getRestClient().isInternetReachable();
         if (isOnline) {
             handler.storeConsentState(definition, consentGiven, this);

@@ -15,17 +15,31 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class ConfirmDialogView {
 
+    public interface ConfirmDialogResultHandler {
+        void onOkClicked();
+        void onCancelClicked();
+    }
+
     protected View view;
     protected AlertDialogFragment alertDialogFragment;
     private int titleTextRes;
     private int descriptionTextRes;
     private int okButtonTextRes;
     private int cancelButtonTextRes;
+    private ConfirmDialogResultHandler resultHandler;
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if(resultHandler == null) return;
 
+            if(view.getId() == R.id.mya_csw_confirm_dialog_button_ok) {
+                resultHandler.onOkClicked();
+            }
+            else if(view.getId() == R.id.mya_csw_confirm_dialog_button_cancel) {
+                resultHandler.onCancelClicked();
+            }
+            alertDialogFragment.dismiss();
         }
     };
 
@@ -34,6 +48,10 @@ public class ConfirmDialogView {
         this.descriptionTextRes = descriptionRes;
         this.okButtonTextRes = okButtonRes;
         this.cancelButtonTextRes = cancelButtonRes;
+    }
+
+    public void setResultHandler(ConfirmDialogResultHandler resultHandler) {
+        this.resultHandler = resultHandler;
     }
 
     public void showDialog(FragmentActivity activity) {
