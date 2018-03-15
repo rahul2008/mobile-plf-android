@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.justintime;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.text.Spannable;
@@ -55,22 +54,12 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         initializeUserBenefitsDescriptionLabel(justInTimeConsentView);
         initializeUserBenefitsTitleLabel(justInTimeConsentView);
 
-        handleOrientation(justInTimeConsentView);
         return justInTimeConsentView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    @Override
-    protected void setViewParams(Configuration config, int width) {
-    }
-
-    @Override
-    protected void handleOrientation(android.view.View view) {
-        handleOrientationOnView(view);
     }
 
     @Override
