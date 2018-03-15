@@ -111,7 +111,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             MyaLaunchInput launchInput = new MyaLaunchInput(getContext());
             MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
             String[] profileItems = {"MYA_My_details","Test_fragment"};
-            String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
+            String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings","Test_fragment"};
             launchInput.setProfileMenuList(Arrays.asList(profileItems));
             launchInput.setSettingsMenuList(Arrays.asList(settingItems));
             launchInput.setMyaListener(getMyaListener());
@@ -166,6 +166,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                             String message = activity.getString(com.philips.platform.mya.R.string.MYA_Offline_message);
                             showDialog(activity, title, message);
                         }
+                    } else if (itemName.equalsIgnoreCase("Test_fragment")) {
+                        launchTestFragment(fragmentLauncher);
+                        return true;
                     }
                 }
                 return false;
@@ -182,14 +185,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                         urInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), urLaunchInput);
                         return true;
                     } else if (itemName.equalsIgnoreCase("Test_fragment")) {
-                        FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-                        FragmentTransaction fragmentTransaction = fragmentActivity
-                                .getSupportFragmentManager().beginTransaction();
-                        TabTestFragment fragment = new TabTestFragment();
-                        final String simpleName = fragment.getClass().getSimpleName();
-                        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), fragment, simpleName);
-                        fragmentTransaction.addToBackStack(simpleName);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        launchTestFragment(fragmentLauncher);
                         return true;
                     }
                 }
@@ -232,6 +228,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         };
+    }
+
+    void launchTestFragment(FragmentLauncher fragmentLauncher) {
+        FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
+        FragmentTransaction fragmentTransaction = fragmentActivity
+                .getSupportFragmentManager().beginTransaction();
+        TabTestFragment fragment = new TabTestFragment();
+        final String simpleName = fragment.getClass().getSimpleName();
+        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), fragment, simpleName);
+        fragmentTransaction.addToBackStack(simpleName);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
 

@@ -244,14 +244,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             myString = new SpannableString(url);
             ClickableSpan clickableSpan = getClickableSpan(url);
             myString.setSpan(clickableSpan, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            String philipsDefaultUrl = getString(R.string.MYA_philips_website);
-            myString = new SpannableString(philipsDefaultUrl);
-            ClickableSpan clickableSpan = getClickableSpan(philipsDefaultUrl);
-            myString.setSpan(clickableSpan, 0, philipsDefaultUrl.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            philipsWebsite.setText(myString);
+            philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        philipsWebsite.setText(myString);
-        philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -269,8 +264,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 fragment.setArguments(args);
                 AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
                 String appName = appIdentityInterface.getAppName();
-                String url = getString(R.string.MYA_philips_website)+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
-                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", url);
+                String tagUrl = url+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", tagUrl);
                 showFragment(fragment);
             }
         };

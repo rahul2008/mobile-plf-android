@@ -79,20 +79,12 @@ public class MyaTabFragment extends MyaBaseFragment {
     }
 
     private TabLayout.OnTabSelectedListener getTabListener(final ViewPager viewPager) {
-        return new TabLayout.OnTabSelectedListener() {
+        return new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
                 addTags(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
             }
         };
     }

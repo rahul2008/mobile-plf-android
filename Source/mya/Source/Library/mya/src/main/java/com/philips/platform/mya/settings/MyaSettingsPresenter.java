@@ -43,6 +43,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             @Override
             public void onError(ERRORVALUES error, String message) {
                 MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG,"error while fetching url ",message);
+                view.setLinkUrl(view.getFragmentActivity().getString(R.string.MYA_philips_website));
             }
         });
         view.showSettingsItems(getSettingsMap(appInfra));
