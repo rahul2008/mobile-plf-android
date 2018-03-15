@@ -234,7 +234,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
     @Override
     public ConsentManagerInterface getConsentManager() {
-        return null;
+        return consentManager;
     }
 
     public void setConsentManager(ConsentManagerInterface consentMgr) {
