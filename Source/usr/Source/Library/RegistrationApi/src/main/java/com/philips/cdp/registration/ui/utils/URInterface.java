@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.consents.MarketingConsentHandler;
+import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.cdp.registration.dao.UserDataProvider;
 import com.philips.cdp.registration.injection.AppInfraModule;
 import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
@@ -30,6 +32,8 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import java.util.Collections;
 
 import static com.janrain.android.utils.AndroidUtils.TAG;
 
@@ -191,6 +195,7 @@ public class URInterface implements UappInterface {
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
+        uappDependencies.getAppInfra().getConsentManager().register(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), new MarketingConsentHandler(context));
     }
 
     @NonNull

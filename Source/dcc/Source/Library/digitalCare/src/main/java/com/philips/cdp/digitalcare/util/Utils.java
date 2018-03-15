@@ -24,14 +24,6 @@ import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 public class Utils {
 
-    public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
-        return new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
-    }
-
-    public static ConsentManagerInterface fetchConsentManager() {
-        return DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager();
-    }
-
     public boolean isSimAvailable(final Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int SIM_STATE = telephonyManager.getSimState();

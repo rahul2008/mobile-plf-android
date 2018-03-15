@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -344,7 +343,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         launchProductSelectionComponent();
                     } else {
                         homeFragmentPresenter = new SupportHomePresenter(this);
-                        homeFragmentPresenter.checkConsent(Utils.fetchConsentManager(),
+                        homeFragmentPresenter.checkConsent(CcConsentProvider.fetchConsentManager(),
                                 CcConsentProvider.fetchLocationConsentDefinition(getActivity()));
                     }
                 }

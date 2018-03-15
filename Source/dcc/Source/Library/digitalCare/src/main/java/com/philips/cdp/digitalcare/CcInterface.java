@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -46,7 +45,7 @@ public class CcInterface implements UappInterface {
                 , ccDependencies.getAppInfra());
         DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager()
                 .register(Collections.singletonList(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION)
-                , Utils.fetchDeviceStoredConsentHandler());
+                , CcConsentProvider.fetchDeviceStoredConsentHandler());
 
     }
 

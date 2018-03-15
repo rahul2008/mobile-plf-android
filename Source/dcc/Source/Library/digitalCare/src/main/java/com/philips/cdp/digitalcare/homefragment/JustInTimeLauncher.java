@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentPresenter;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -22,7 +20,7 @@ class JustInTimeLauncher {
         this.viewContract = viewContract;
         JustInTimeConsentDependencies.appInfra = DigitalCareConfigManager.getInstance().getAPPInfraInstance();
         JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition(context);
-        JustInTimeConsentDependencies.consentManager = Utils.fetchConsentManager();
+        JustInTimeConsentDependencies.consentManager = CcConsentProvider.fetchConsentManager();
         JustInTimeConsentDependencies.textResources = getJustInTimeTextResources();
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
