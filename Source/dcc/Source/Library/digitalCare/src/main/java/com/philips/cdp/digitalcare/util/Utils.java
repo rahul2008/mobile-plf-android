@@ -24,6 +24,10 @@ import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 public class Utils {
 
+    public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
+        return new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
+    }
+
     public static ConsentManagerInterface fetchConsentManager() {
         return DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager();
     }

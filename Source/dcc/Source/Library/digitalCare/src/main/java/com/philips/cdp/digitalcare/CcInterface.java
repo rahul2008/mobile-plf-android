@@ -4,6 +4,8 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -15,10 +17,11 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
+import java.util.Collections;
+
 /**
- *
  * Interface class for initiating and launching the consumer care library from vertical app
- *
+ * <p>
  * Created by sampath.kumar on 8/16/2016.
  */
 @SuppressWarnings("serial")
@@ -29,6 +32,7 @@ public class CcInterface implements UappInterface {
 
     /**
      * initialise the consumer care library
+     *
      * @param uappDependencies
      * @param uappSettings
      * @since 1.0.0
@@ -40,11 +44,15 @@ public class CcInterface implements UappInterface {
 
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager()
+                .register(Collections.singletonList(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION)
+                , Utils.fetchDeviceStoredConsentHandler());
 
     }
 
     /**
      * launch the support screen through fragment or activity
+     *
      * @param uiLauncher
      * @param uappLaunchInput
      * @since 1.0.0
@@ -65,8 +73,6 @@ public class CcInterface implements UappInterface {
             DigiCareLogger.i(TAG, "Activitylauncher Instance");
 
 
-
-
             ActivityLauncher.ActivityOrientation orientation = ((ActivityLauncher) uiLauncher).getScreenOrientation();
             int orientationvalue = orientation.getOrientationValue();
             int enterAnimation = uiLauncher.getEnterAnimation();
@@ -79,7 +85,7 @@ public class CcInterface implements UappInterface {
             // TODO: Remove local ACTivity and fragment launcher, orientaion needs to be passed as is from uAPP
             ActivityLauncher consumerCarelauncher =
                     new ActivityLauncher(ActivityLauncher.
-                                    ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, themeConfiguration,
+                            ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, themeConfiguration,
                             uiKitTheme, null);
             consumerCarelauncher.setCustomAnimation(enterAnimation, exitAnimation);
 
@@ -124,7 +130,7 @@ public class CcInterface implements UappInterface {
                     actionBarListener.updateActionBar(s, hamburger);
                 }
             });*/
-                    fragLauncher.setCustomAnimation(enterAnimation, exitAnimation);
+            fragLauncher.setCustomAnimation(enterAnimation, exitAnimation);
 
 
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher,
