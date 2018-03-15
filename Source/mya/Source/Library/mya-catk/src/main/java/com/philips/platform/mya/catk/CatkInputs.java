@@ -96,7 +96,7 @@ public class CatkInputs {
             }
 
             if (consentManager == null) {
-                throw new InvalidInputException("Consent Registry not given, we need registry instance to register type for an handler");
+                throw new InvalidInputException("Consent Manager not given, we need consent manager instance to register type for an handler");
             }
 
             if (consentDefinitionList == null) {

@@ -52,11 +52,10 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     protected ConsentHandlerInterface getHandler(String consentType) {
-        for (Map.Entry<String, ConsentHandlerInterface> entry : consentHandlerMapping.entrySet()) {
-            if (entry.getKey().equals(consentType)) {
-                return entry.getValue();
-            }
-        }
+        ConsentHandlerInterface handler = consentHandlerMapping.get(consentType);
+        if (handler != null)
+            return handler;
+
         throw new RuntimeException("Handler is not registered for the type " + consentType);
     }
 
@@ -120,9 +119,6 @@ public class ConsentManager implements ConsentManagerInterface {
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
-            } else if (consentCallbackListener.consentStatus.getConsentState().equals(ConsentStates.inactive)
-                    || consentCallbackListener.consentStatus.getConsentState().equals(ConsentStates.rejected)) {
-                callback.onGetConsentsSuccess(consentDefinitionStatus);
             }
             consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentCallbackListener.consentStatus);
         }
