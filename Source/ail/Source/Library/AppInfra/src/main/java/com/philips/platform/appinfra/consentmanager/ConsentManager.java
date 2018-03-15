@@ -14,7 +14,6 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
 import java.util.ArrayList;
