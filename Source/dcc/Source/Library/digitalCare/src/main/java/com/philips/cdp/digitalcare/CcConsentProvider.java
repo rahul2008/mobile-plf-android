@@ -10,20 +10,15 @@ import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 public class CcConsentProvider {
 
-
     public static ConsentDefinition fetchLocationConsentDefinition(Context context) {
-        return new ConsentDefinition(context.getResources().getString(R.string.dcc_location_consent_definition_text), context.getResources().getString(R.string.dcc_location_consent_definition_help_text), getLocationConsentType(), DigitalCareConstants.CC_LOCATION_CONSENT_VERSION);
-    }
-
-    private static List<String> getLocationConsentType() {
-        List<String> types = new ArrayList<>();
-        types.add(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION);
-        return types;
+        return new ConsentDefinition(context.getResources().getString(R.string.dcc_location_consent_definition_text)
+                , context.getResources().getString(R.string.dcc_location_consent_definition_help_text)
+                , Collections.singletonList(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION)
+                , DigitalCareConstants.CC_LOCATION_CONSENT_VERSION);
     }
 
     public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
