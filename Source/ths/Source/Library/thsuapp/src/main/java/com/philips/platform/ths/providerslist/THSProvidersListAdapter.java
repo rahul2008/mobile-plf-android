@@ -25,6 +25,7 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -54,6 +55,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         public RelativeLayout relativeLayout;
         public NotificationBadge notificationBadge;
         public ImageView isAvailableStatus;
+        private Label provider_isAvailableImage_text;
 
         public MyViewHolder(View view) {
             super(view);
@@ -65,6 +67,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
             notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
             isAvailableStatus = (ImageView) view.findViewById(R.id.isAvailableImage);
+            provider_isAvailableImage_text = (Label) view.findViewById(R.id.details_isAvailableImage_text);
 
         }
     }
@@ -96,6 +99,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
                 holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
+                holder.provider_isAvailableImage_text.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
+                holder.isAvailble.setTextColor(com.philips.platform.uid.R.attr.uidAccentLevel30);
             }
 
             holder.isAvailble.setText(providerAvailabilityString);
