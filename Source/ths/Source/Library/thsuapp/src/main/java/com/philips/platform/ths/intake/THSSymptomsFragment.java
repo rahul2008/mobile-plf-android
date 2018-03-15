@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.google.gson.Gson;
@@ -107,7 +108,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public static long visitStartTime;
     private Label mLabelPatientName;
     protected static int NumberOfConditionSelected = 0;
-    private final String TAG_SYMPTOMS_CHECKED="SymptomsChecked";
+    private final String TAG_SYMPTOMS_CHECKED = "SymptomsChecked";
+    protected Appointment appointment;
 
     @Nullable
     @Override
@@ -115,7 +117,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         visitStartTime = THSTagUtils.getCurrentTime();
 
-        if(THSManager.getInstance().getThsTagging()!=null) {
+        if (THSManager.getInstance().getThsTagging() != null) {
             THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
             THSTagUtils.doTrackActionWithInfo("totalPrepartationTimeStart", null, null);
         }
@@ -128,6 +130,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
+            appointment = bundle.getParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT);
         }
 
 
@@ -196,7 +199,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
-            if (mThsProviderInfo != null || mProvider != null) {
+            if (null != appointment) {
+                thsSymptomsPresenter.getVisitContext(appointment);
+            } else if (mThsProviderInfo != null || mProvider != null) {
                 thsSymptomsPresenter.getVisitContext();
             } else {
                 try {
@@ -283,15 +288,15 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         } else {
             tagActions = tagActions.replace(TAG_SYMPTOMS_CHECKED, "");
         }
-        if(null!=selectedImagePojoList && selectedImagePojoList.size()>0){
+        if (null != selectedImagePojoList && selectedImagePojoList.size() > 0) {
             tagActions = THSTagUtils.addActions(tagActions, "pictureAdded");
         }
-        if(!additional_comments_edittext.getText().toString().isEmpty()){
+        if (!additional_comments_edittext.getText().toString().isEmpty()) {
             tagActions = THSTagUtils.addActions(tagActions, "commentAdded");
         }
         if (!(tagActions.isEmpty())) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
-            if(tagActions.contains(TAG_SYMPTOMS_CHECKED))
+            if (tagActions.contains(TAG_SYMPTOMS_CHECKED))
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
     }
@@ -370,7 +375,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ComponentName componentName = intent.resolveActivity(getActivity().getPackageManager());
         if (componentName != null) {
             startActivityForResult(intent, RESULT_LOAD_IMAGE);
-            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_GALLERY,null,null);
+            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_GALLERY, null, null);
         } else {
             showError(getString(R.string.ths_add_photo_no_app_to_handle));
         }
@@ -388,7 +393,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             takePictureIntent
                     .putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_CAMERA,null,null);
+            THSTagUtils.doTrackPageWithInfo(THS_ANDROID_CAMERA, null, null);
         }
     }
 
