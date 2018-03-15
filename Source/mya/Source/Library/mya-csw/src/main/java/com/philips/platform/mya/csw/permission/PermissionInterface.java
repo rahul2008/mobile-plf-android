@@ -17,5 +17,5 @@ public interface PermissionInterface {
 
     void showErrorDialog(boolean goBack, String title, String message);
 
-    void showConfirmRevokeConsentDialog(ConfirmDialogView dialog);
+    void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler);
 }

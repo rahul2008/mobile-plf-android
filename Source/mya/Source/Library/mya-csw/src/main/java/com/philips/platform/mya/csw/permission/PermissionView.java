@@ -144,7 +144,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog) {
+    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler) {
+        dialog.setResultHandler(handler);
         dialog.showDialog(getActivity());
     }
 
