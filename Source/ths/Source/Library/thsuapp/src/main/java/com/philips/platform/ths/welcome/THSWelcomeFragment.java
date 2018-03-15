@@ -71,7 +71,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
-
+        THSTagUtils.doTrackPageWithInfo(THS_WELCOME,null,null);
         return view;
     }
 
@@ -110,7 +110,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        THSTagUtils.doTrackPageWithInfo(THS_WELCOME,null,null);
     }
 
     @Override
