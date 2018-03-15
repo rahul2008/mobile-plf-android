@@ -100,7 +100,6 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
                 holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
                 holder.provider_isAvailableImage_text.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
-                holder.isAvailble.setTextColor(com.philips.platform.uid.R.attr.uidAccentLevel30);
             }
 
             holder.isAvailble.setText(providerAvailabilityString);
