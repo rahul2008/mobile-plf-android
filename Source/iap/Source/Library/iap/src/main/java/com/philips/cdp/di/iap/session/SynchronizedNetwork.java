@@ -4,8 +4,6 @@
  */
 package com.philips.cdp.di.iap.session;
 
-import android.util.Log;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -13,10 +11,6 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 
 import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-
-import static com.philips.cdp.di.iap.utils.IAPConstant.HTTP_REDIRECT;
 
 public class SynchronizedNetwork {
     private BasicNetwork mBasicNetwork;
@@ -39,20 +33,14 @@ public class SynchronizedNetwork {
         }
     }
 
-    private void retryForUrlRedirection(IAPJsonRequest request, VolleyError error, SynchronizedNetworkListener callBack){
-        try {
-            final int status = error.networkResponse.statusCode;
-            // Handle 30x
-            if(status == HTTP_REDIRECT || HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
-                final String location = error.networkResponse.headers.get("Location");
-                IAPJsonRequest requestNew = new IAPJsonRequest(request.getMethod(), location, request.getParams(),
-                        null, request.getErrorListener());
-                performRequest(requestNew,callBack);
-            }else {
-                callBack.onSyncRequestError(error);
-            }
-        }catch (Exception e){
-
+    private void retryForUrlRedirection(IAPJsonRequest request, VolleyError error, SynchronizedNetworkListener callBack) {
+        IAPUrlRedirectionHandler iapUrlRedirectionHandler = new IAPUrlRedirectionHandler(request, error);
+        // Handle 30x
+        if (iapUrlRedirectionHandler.isRedirectionRequired()) {
+            IAPJsonRequest requestNew = iapUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
+            performRequest(requestNew, callBack);
+        } else {
+            callBack.onSyncRequestError(error);
         }
     }
 

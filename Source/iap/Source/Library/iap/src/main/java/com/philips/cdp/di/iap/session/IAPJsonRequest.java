@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -26,10 +25,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
 import java.util.Map;
-
-import static com.philips.cdp.di.iap.utils.IAPConstant.HTTP_REDIRECT;
 
 public class IAPJsonRequest extends Request<JSONObject> {
 
@@ -83,22 +79,17 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     public void deliverError(VolleyError error) {
-        try {
-            final RequestQueue requestQueue = HybrisDelegate.getInstance().controller.mRequestQueue;
-            final int status = error.networkResponse.statusCode;
-            // Handle 30x
-            if (HTTP_REDIRECT == status || HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
-                final String location = error.networkResponse.headers.get("Location");
-                final IAPJsonRequest iapJsonRequest = new IAPJsonRequest(getMethod(), location,
-                        params, mResponseListener, mErrorListener);
+        final RequestQueue requestQueue = HybrisDelegate.getInstance().controller.mRequestQueue;
+        IAPUrlRedirectionHandler iapUrlRedirectionHandler = new IAPUrlRedirectionHandler(this,error);
 
-                requestQueue.add(iapJsonRequest);
-            } else {
-                handleMiscErrors(error);
-            }
-        } catch (Exception e) {
-
+        // Handle 30x
+        if (iapUrlRedirectionHandler.isRedirectionRequired()) {
+            final IAPJsonRequest iapJsonRequest = iapUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
+            requestQueue.add(iapJsonRequest);
+        } else {
+            handleMiscErrors(error);
         }
+
     }
 
     protected void handleMiscErrors(final VolleyError error) {
