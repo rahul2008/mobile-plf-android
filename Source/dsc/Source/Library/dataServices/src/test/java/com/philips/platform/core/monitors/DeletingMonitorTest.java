@@ -9,6 +9,7 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightResponse;
@@ -36,7 +37,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -248,6 +251,46 @@ public class DeletingMonitorTest {
         deletingMonitor.onEventBackGround(event);
 
         verify(dbDeletingInterface).deleteAllInsights((DBRequestListener<Insight>) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllExpiredInsights_noRequestListener_shouldCallDeletingInterface() throws SQLException {
+        DeleteExpiredInsightRequest event = new DeleteExpiredInsightRequest(null);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteAllExpiredInsights((DBRequestListener<Insight>) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllExpiredInsights_withRequestListener_shouldCallDeletingInterface() throws SQLException {
+        DeleteExpiredInsightRequest event = new DeleteExpiredInsightRequest(dbRequestListener);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteAllExpiredInsights((DBRequestListener<Insight>) any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllExpiredInsights_withRequestListener_whenDeletingFails_shouldDoErrorCallback() throws SQLException {
+        doThrow(new SQLException("test")).when(dbDeletingInterface).deleteAllExpiredInsights(dbRequestListener);
+
+        DeleteExpiredInsightRequest event = new DeleteExpiredInsightRequest(dbRequestListener);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteFailed((Exception) any(), eq(dbRequestListener));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void deleteAllExpiredInsights_noRequestListener_whenDeletingFails_shouldDoErrorCallback() throws SQLException {
+        doThrow(new SQLException("test")).when(dbDeletingInterface).deleteAllExpiredInsights(null);
+
+        DeleteExpiredInsightRequest event = new DeleteExpiredInsightRequest(null);
+        deletingMonitor.onEventBackGround(event);
+
+        verify(dbDeletingInterface).deleteFailed((Exception) any(), (DBRequestListener) isNull());
     }
 
     private void whenDataClearRequestEventIsPosted() {
