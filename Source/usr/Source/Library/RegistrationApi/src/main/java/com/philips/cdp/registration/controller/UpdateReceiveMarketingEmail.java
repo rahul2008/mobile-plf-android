@@ -17,23 +17,18 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
-import com.philips.platform.appinfra.AppInfraInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.inject.Inject;
 
 
 public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
-    private final static String LOCALE = "LOCALE";
-    private final static String TIMESTAMP = "TIMESTAMP";
+    private final static String LOCALE = "locale";
+    private final static String TIMESTAMP = "timestamp";
+    private final static String MARKETING_OPT_IN = "marketingOptIn";
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    @Inject
-    AppInfraInterface appInfraInterface;
 
     private boolean mReceiveMarketingEmail;
 
@@ -62,8 +57,11 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
         try {
             if (null != mUpdatedUserdata) {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
-                mUpdatedUserdata.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext));
-                mUpdatedUserdata.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+
+                JSONObject marketingOptIn = new JSONObject();
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext).toString());
+                marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+                mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
             }
@@ -81,8 +79,11 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
         if (null != mUpdatedUserdata) {
             try {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
-                mUpdatedUserdata.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext));
-                mUpdatedUserdata.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+                JSONObject marketingOptIn = new JSONObject();
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext).toString());
+                marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+
+                mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 mUpdatedUserdata.saveToDisk(mContext);
             } catch (JSONException e) {
                 e.printStackTrace();
