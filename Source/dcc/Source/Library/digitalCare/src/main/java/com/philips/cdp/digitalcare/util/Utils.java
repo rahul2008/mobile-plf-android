@@ -17,14 +17,15 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 
 public class Utils {
 
-    public static ConsentHandlerInterface fetchDeviceStoredConsentHandler() {
-        return new DeviceStoredConsentHandler(DigitalCareConfigManager.getInstance().getAPPInfraInstance());
+    public static ConsentManagerInterface fetchConsentManager() {
+        return DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager();
     }
 
     public boolean isSimAvailable(final Context context) {
