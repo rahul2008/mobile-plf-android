@@ -39,16 +39,11 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
     }
 
-   /* @Override
-    public void fetchConsentTypeStates(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-        consentsClient.getConsentDetails(new GetConsentsResponseListener(consentTypes, callback));
-    }*/
-
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
         ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
         BackendConsent backendConsent = createConsents(consentType, consentStates, version);
-        consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(backendConsent, callback));
+        consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(callback));
     }
 
     private BackendConsent createConsents(String consentType, ConsentStates status, int version) {
@@ -80,46 +75,11 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         }
     }
 
-  /*  class GetConsentsResponseListener implements ConsentResponseListener {
-        private List<String> consentTypes;
-        private FetchConsentTypesStateCallback callback;
-
-        GetConsentsResponseListener(List<String> consentTypes, FetchConsentTypesStateCallback callback) {
-            this.consentTypes = consentTypes;
-            this.callback = callback;
-        }
-
-        @Override
-        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-            //TODO strict consent check needs to be verified ?
-            List<ConsentStatus> consentStates = new ArrayList<>();
-            if (responseData != null && !responseData.isEmpty()) {
-                for (BackendConsent backendConsent : responseData) {
-                    if (consentTypes.contains(backendConsent.getType())) {
-                        consentStates.add(new ConsentStatus(backendConsent.getStatus(), backendConsent.getVersion()));
-                    }
-                }
-                callback.onGetConsentsSuccess(consentStates);
-            } else {
-                CatkLogger.d(" BackendConsent : ", "no consent for type found on server");
-                callback.onGetConsentsSuccess(new ArrayList<ConsentStatus>());
-            }
-        }
-
-        @Override
-        public void onResponseFailureConsent(ConsentNetworkError error) {
-            CatkLogger.d(" BackendConsent : ", "response failure:" + error);
-            this.callback.onGetConsentsFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
-        }
-    }*/
-
     static class CreateConsentResponseListener implements CreateConsentListener {
 
-        private final BackendConsent backendConsent;
         private final PostConsentTypeCallback callback;
 
-        public CreateConsentResponseListener(BackendConsent backendConsent, PostConsentTypeCallback postConsentCallback) {
-            this.backendConsent = backendConsent;
+        CreateConsentResponseListener(PostConsentTypeCallback postConsentCallback) {
             this.callback = postConsentCallback;
         }
 
