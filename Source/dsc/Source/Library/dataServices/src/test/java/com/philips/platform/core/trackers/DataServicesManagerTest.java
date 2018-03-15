@@ -31,6 +31,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
@@ -808,6 +809,21 @@ public class DataServicesManagerTest {
 
         verify(prefsEditorMock).putBoolean(eq(GDPR_MIGRATION_FLAG), eq(false));
         verify(prefsEditorMock).apply();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void clearExpiredInsights_shouldCallPost_whenMethodCalled() {
+        mDataServicesManager.clearExpiredInsights(dbRequestListener);
+
+        verify(eventingMock).post((DeleteExpiredInsightRequest) any());
+    }
+
+    @Test
+    public void clearExpiredInsights_shouldCallPost_whenMethodCalledWithNullParam() {
+        mDataServicesManager.clearExpiredInsights(null);
+
+        verify(eventingMock).post((DeleteExpiredInsightRequest) any());
     }
 
     private void givenFailedDeleteAllInsights() {

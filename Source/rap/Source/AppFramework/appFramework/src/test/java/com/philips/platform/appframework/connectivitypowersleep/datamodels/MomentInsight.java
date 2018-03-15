@@ -6,6 +6,8 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
+import org.joda.time.DateTime;
+
 import java.util.Collection;
 
 /**
@@ -172,5 +174,15 @@ public class MomentInsight implements Insight {
     @Override
     public void addInsightMetaData(InsightMetadata insightMetadata) {
 
+    }
+
+    @Override
+    public void setExpirationDate(DateTime timestamp) {
+
+    }
+
+    @Override
+    public DateTime getExpirationDate() {
+        return null;
     }
 }
