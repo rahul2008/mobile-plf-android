@@ -28,7 +28,6 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -40,12 +39,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_TOO_EARLY_FOR_VISIT;
-import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
@@ -124,6 +119,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
                     bundle.putParcelable(THSConstants.THS_PROVIDER, appointment.getAssignedProvider());
+                    bundle.putParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT, appointment);
                     mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG, bundle, false);
                 }
             }
