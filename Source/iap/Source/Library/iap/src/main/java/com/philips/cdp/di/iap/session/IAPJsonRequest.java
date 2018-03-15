@@ -8,12 +8,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.Map;
 
 public class IAPJsonRequest extends Request<JSONObject> {
@@ -78,7 +81,22 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     public void deliverError(VolleyError error) {
-        handleMiscErrors(error);
+        try {
+            final RequestQueue requestQueue = HybrisDelegate.getInstance().controller.mRequestQueue;
+            final int status = error.networkResponse.statusCode;
+            // Handle 30x
+            if (HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
+                final String location = error.networkResponse.headers.get("Location");
+                final IAPJsonRequest iapJsonRequest = new IAPJsonRequest(getMethod(), location,
+                        params, mResponseListener, mErrorListener);
+
+                requestQueue.add(iapJsonRequest);
+            } else {
+                handleMiscErrors(error);
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     protected void handleMiscErrors(final VolleyError error) {
@@ -97,6 +115,8 @@ public class IAPJsonRequest extends Request<JSONObject> {
         } else {
             postErrorResponseOnUIThread(error);
         }
+
+
     }
 
     private void postSelfAgain() {
