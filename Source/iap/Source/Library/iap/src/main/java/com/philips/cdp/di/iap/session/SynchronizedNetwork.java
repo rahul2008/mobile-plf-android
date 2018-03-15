@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.HTTP_REDIRECT;
+
 public class SynchronizedNetwork {
     private BasicNetwork mBasicNetwork;
 
@@ -41,7 +43,7 @@ public class SynchronizedNetwork {
         try {
             final int status = error.networkResponse.statusCode;
             // Handle 30x
-            if(HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
+            if(status == HTTP_REDIRECT || HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
                 final String location = error.networkResponse.headers.get("Location");
                 IAPJsonRequest requestNew = new IAPJsonRequest(request.getMethod(), location, request.getParams(),
                         null, request.getErrorListener());

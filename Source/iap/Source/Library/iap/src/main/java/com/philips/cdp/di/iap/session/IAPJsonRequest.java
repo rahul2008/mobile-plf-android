@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.util.Map;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.HTTP_REDIRECT;
+
 public class IAPJsonRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> mResponseListener;
@@ -85,7 +87,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
             final RequestQueue requestQueue = HybrisDelegate.getInstance().controller.mRequestQueue;
             final int status = error.networkResponse.statusCode;
             // Handle 30x
-            if (HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
+            if (HTTP_REDIRECT == status || HttpURLConnection.HTTP_MOVED_PERM == status || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER) {
                 final String location = error.networkResponse.headers.get("Location");
                 final IAPJsonRequest iapJsonRequest = new IAPJsonRequest(getMethod(), location,
                         params, mResponseListener, mErrorListener);
