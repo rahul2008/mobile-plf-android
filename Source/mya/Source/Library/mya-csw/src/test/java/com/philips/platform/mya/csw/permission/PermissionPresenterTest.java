@@ -271,7 +271,7 @@ public class PermissionPresenterTest {
     }
 
     private void whenTogglingConsentTo(boolean toggled) {
-        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled);
+        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled, null);
     }
 
     private void whenAppIsOnline() {

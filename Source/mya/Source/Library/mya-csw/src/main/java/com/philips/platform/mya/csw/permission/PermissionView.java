@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -50,18 +49,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
-    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
     private List<ConsentConfiguration> configs;
     private PermissionAdapter adapter;
-
-    @Override
-    protected void setViewParams(Configuration config, int width) {
-    }
-
-    @Override
-    protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
-    }
 
     @Override
     public int getTitleResourceId() {
@@ -77,8 +66,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         if (configs == null) {
             configs = new ArrayList<>();
         }
-
-        handleOrientation(view);
         return view;
     }
 
@@ -118,7 +105,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
     }
