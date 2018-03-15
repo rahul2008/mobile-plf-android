@@ -682,18 +682,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 "redirectUri=" + getRedirectUri();
         RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, error -> {
-
-            RLog.d(TAG,"pabitra");
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mEtEmail.setErrorMessage("pabitra");
-                    mEtEmail.setVisibility(View.VISIBLE);
-                }
-            });
-
             hideForgotPasswordSpinner();
+            mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
+            mEtEmail.showError();
         });
         urRequest.makeRequest(true);
     }
