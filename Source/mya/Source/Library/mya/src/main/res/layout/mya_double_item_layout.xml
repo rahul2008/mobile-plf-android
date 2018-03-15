@@ -22,6 +22,7 @@
         android:layout_marginEnd="@dimen/MYA_end_margin"
         android:layout_marginBottom="@dimen/MYA_bottom_margin"
         android:layout_marginTop="@dimen/MYA_item_top_margin"
+        android:textDirection="locale"
         android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
         android:layout_below="@+id/item_title"
         android:layout_width="match_parent"
