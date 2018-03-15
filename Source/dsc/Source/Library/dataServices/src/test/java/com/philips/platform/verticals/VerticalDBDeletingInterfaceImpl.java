@@ -87,6 +87,11 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void deleteAllExpiredInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
     public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
 
     }

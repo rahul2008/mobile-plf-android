@@ -271,7 +271,6 @@
 <string name="reg_Try_To_Login_Button_Text">Ponovno se pokušajte prijaviti</string>
 <string name="reg_Contact_Customer_Care_Text">Obratite se centru za korisničku podršku</string>
 <string name="reg_Update_Email_Button_Text">Ažuriranje adrese e-pošte</string>
-<string name="reg_Country_Region">Država / Regija</string>
 <string name="reg_MyDetails_TitleTxt">Moj račun</string>
 <string name="reg_Login_Details_Txt">Pojedinosti prijave</string>
 <string name="reg_Email_address_TitleTxt">Adresa e-pošte</string>
@@ -281,6 +280,7 @@
 <string name="reg_Gender_TitleTxt">Spol</string>
 <string name="reg_DateOfBirth_TitleTxt">Datum rođenja</string>
 <string name="reg_Address_TitleTxt">Adresa</string>
+<string name="reg_Country_Region">Država/Regija</string>
 <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prijavite se odmah</string>
 <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">Izrada Philips računa</string>
 <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">Ili se prijavite koristeći:</string>

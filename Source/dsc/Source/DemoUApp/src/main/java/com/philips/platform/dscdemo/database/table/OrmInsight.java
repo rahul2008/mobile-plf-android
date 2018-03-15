@@ -12,6 +12,8 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.dscdemo.database.EmptyForeignCollection;
 import com.philips.platform.dscdemo.database.annotations.DatabaseConstructor;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -68,6 +70,9 @@ public class OrmInsight implements Insight, Serializable {
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
+
+    @DatabaseField(canBeNull = false)
+    private DateTime expiration_date;
 
     @DatabaseConstructor
     public OrmInsight() {
@@ -232,6 +237,16 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void addInsightMetaData(InsightMetadata insightMetadata) {
         ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
+    }
+
+    @Override
+    public void setExpirationDate(DateTime timestamp) {
+        expiration_date = timestamp;
+    }
+
+    @Override
+    public DateTime getExpirationDate() {
+        return expiration_date;
     }
 
     @Override
