@@ -60,7 +60,11 @@ import com.squareup.okhttp.Response;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,12 +76,17 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({DataServicesManager.class})
 public class BackendModuleTest {
 
     private BackendModule backendModule;
 
+    @Mock
+    private DataServicesManager dscMock;
     @Mock
     Eventing eventingMock;
     @Mock
@@ -147,6 +156,12 @@ public class BackendModuleTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        // Static mock for DSC Singleton
+        PowerMockito.mockStatic(DataServicesManager.class);
+        when(DataServicesManager.getInstance()).thenReturn(dscMock);
+        when(dscMock.getDataServiceContext()).thenReturn(context);
+        when(dscMock.getAppComponent()).thenReturn(appComponantMock);
+
         VerticalCreater baseAppDataCreator = new VerticalCreater();
         VerticalUserRegistrationInterfaceImpl userRegistrationInterface = new VerticalUserRegistrationInterfaceImpl();
         VerticalDBDeletingInterfaceImpl dbDeletingInterface = new VerticalDBDeletingInterfaceImpl();
