@@ -11,6 +11,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -20,7 +21,6 @@ import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
@@ -99,10 +99,18 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         permissionInterface.hideProgressDialog();
     }*/
 
-
     @Override
     public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
-        //TODO update the status wrt the results
+        List<ConsentView> consentViews = adapter.getConsentViews();
+        for (ConsentView consentView : consentViews) {
+            for (ConsentDefinitionStatus consentDefinitionStatus : consentDefinitionStatusList) {
+                if (consentDefinitionStatus.getConsentDefinition().getTypes().contains(consentView.getDefinition().getTypes())) {
+                    consentView.setOnline(consentDefinitionStatus.getConsentState().equals("active") ? true : false);
+                }
+            }
+        }
+        adapter.onGetConsentRetrieved(consentViews);
+        permissionInterface.hideProgressDialog();
     }
 
     @Override
