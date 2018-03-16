@@ -9,6 +9,7 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -41,6 +42,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
@@ -159,6 +161,7 @@ public class DataServicesManager {
     ErrorHandlingInterface errorHandlingInterface;
 
     SharedPreferences gdprStorage;
+    private Context dataServiceContext;
 
     @Singleton
     private DataServicesManager() {
@@ -179,6 +182,7 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
         initLogger();
     }
@@ -322,6 +326,10 @@ public class DataServicesManager {
 
     public void clearExpiredMoments(DBRequestListener<Integer> dbRequestListener) {
         mEventing.post(new DeleteExpiredMomentRequest(dbRequestListener));
+    }
+
+    public void clearExpiredInsights(DBRequestListener<Insight> dbRequestListener) {
+        mEventing.post(new DeleteExpiredInsightRequest(dbRequestListener));
     }
 
     public void updateMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) {
@@ -610,10 +618,14 @@ public class DataServicesManager {
                 public void onSuccess(final List<? extends Moment> momentData) {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
-                        public void onSuccess(List<? extends Insight> insightData) { runSync(resultListener); }
+                        public void onSuccess(List<? extends Insight> insightData) {
+                            runSync(resultListener);
+                        }
 
                         @Override
-                        public void onFailure(Exception exception) { resultListener.onFailure(exception); }
+                        public void onFailure(Exception exception) {
+                            resultListener.onFailure(exception);
+                        }
                     });
                 }
 
@@ -633,6 +645,14 @@ public class DataServicesManager {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, false).apply();
     }
 
+    public Context getDataServiceContext() {
+        return dataServiceContext;
+    }
+
+    public void setDataServiceContext(Context dataServiceContext) {
+        this.dataServiceContext = dataServiceContext;
+    }
+
     private void storeGdprMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
     }
@@ -642,12 +662,24 @@ public class DataServicesManager {
         mSynchronisationManager.startSync(new SynchronisationCompleteListener() {
             @Override
             public void onSyncComplete() {
-                resultListener.onSuccess(Collections.<Object>emptyList());
+                // Post on main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultListener.onSuccess(Collections.emptyList());
+                    }
+                });
             }
 
             @Override
-            public void onSyncFailed(Exception exception) {
-                resultListener.onFailure(exception);
+            public void onSyncFailed(final  Exception exception) {
+                // Post on main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultListener.onFailure(exception);
+                    }
+                });
             }
         });
         storeGdprMigrationFlag();

@@ -27,6 +27,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     private boolean mReceiveMarketingEmail;
 
     public UpdateReceiveMarketingEmail(Context context) {
+        super(context);
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }

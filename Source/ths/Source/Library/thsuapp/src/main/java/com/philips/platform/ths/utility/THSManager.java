@@ -657,14 +657,7 @@ public class THSManager {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
 
-                        THSVisitContext THSVisitContext = new THSVisitContext();
-                        THSVisitContext.setVisitContext(visitContext);
-
-                        THSSDKError THSSDKError = new THSSDKError();
-                        THSSDKError.setSdkError(sdkError);
-
-                        THSVisitContextCallBack.onResponse(THSVisitContext, THSSDKError);
-                        setVisitContext(THSVisitContext);
+                        onVisitContextResponse(visitContext, sdkError, THSVisitContextCallBack);
 
                     }
 
@@ -675,6 +668,30 @@ public class THSManager {
                 });
     }
 
+    private void onVisitContextResponse(VisitContext visitContext, SDKError sdkError, THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) {
+            THSVisitContext THSVisitContext = new THSVisitContext();
+            THSVisitContext.setVisitContext(visitContext);
+
+            THSSDKError THSSDKError = new THSSDKError();
+            THSSDKError.setSdkError(sdkError);
+
+            THSVisitContextCallBack.onResponse(THSVisitContext, THSSDKError);
+            setVisitContext(THSVisitContext);
+    }
+
+    public void getVisitContext(Context context, final Appointment appointment,final THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException{
+        getAwsdk(context).getVisitManager().getVisitContext(appointment, new SDKCallback<VisitContext, SDKError>() {
+            @Override
+            public void onResponse(VisitContext visitContext, SDKError sdkError) {
+                onVisitContextResponse(visitContext, sdkError, THSVisitContextCallBack);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                THSVisitContextCallBack.onFailure(throwable);
+            }
+        });
+    }
 
     //TODO: What happens when getConsumer is null
     public void getVitals(Context context, final THSVitalSDKCallback<THSVitals, THSSDKError> thsVitalCallBack) throws AWSDKInstantiationException {
@@ -1244,7 +1261,7 @@ public class THSManager {
     }
 
     public void createVisit(Context context, THSVisitContext thsVisitContext, final CreateVisitCallback<THSVisit, THSSDKError> createVisitCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().createVisit(thsVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
+        getAwsdk(context).getVisitManager().createOrUpdateVisit(thsVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 createVisitCallback.onCreateVisitValidationFailure(map);
