@@ -100,6 +100,7 @@ public  class THSTagUtils {
     }
 
     public static void doExitToPropositionWithCallBack(){
+        mPreviousPageName="previous page name "; // reset THS tag state.
         if(null!=THSManager.getInstance() && THSManager.getInstance().getThsTagging()!=null) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
             THSManager.getInstance().getThsTagging().pauseLifecycleInfo();

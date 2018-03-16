@@ -142,7 +142,6 @@ public class DataPullSynchronise {
         } else {
             synchronisationManager.dataPullSuccess();
         }
-
     }
 
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {

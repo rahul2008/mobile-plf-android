@@ -41,7 +41,7 @@ public class WeChatAuthenticator {
                     weChatAuthenticationListener.onFail();
                 });
 
-                urRequest.makeRequest();
+                urRequest.makeRequest(true);
             } catch (Exception ex) {
                 RLog.e("WECHAT", ex.toString());
                 weChatAuthenticationListener.onFail();

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Insight;
@@ -278,7 +279,6 @@ public class OrmDeleting {
     }
 
 
-
     public int deleteMomentDetails(final int id) throws SQLException {
         DeleteBuilder<OrmMomentDetail, Integer> updateBuilder = momentDetailDao.deleteBuilder();
         updateBuilder.where().eq("ormMoment_id", id);
@@ -342,6 +342,12 @@ public class OrmDeleting {
         return true;
     }
 
+    public int deleteSyncedMoments() throws SQLException {
+        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
+        deleteBuilder.where().eq("synced", true);
+        return deleteBuilder.delete();
+    }
+
     //Insights
     public boolean deleteInsights(final List<? extends Insight> insights, DBRequestListener<? extends Insight> dbRequestListener) {
         try {
@@ -374,15 +380,10 @@ public class OrmDeleting {
         deleteSynchronisationData(insight.getSynchronisationData());
         ormInsightDao.delete(insight);
     }
+
     public int deleteSyncBit(SyncType type) throws SQLException{
         DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
         deleteBuilder.where().eq("tableid",type.getId());
-        return deleteBuilder.delete();
-    }
-
-    public int deleteSyncedMoments() throws SQLException {
-        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
-        deleteBuilder.where().eq("synced", true);
         return deleteBuilder.delete();
     }
 
@@ -392,5 +393,17 @@ public class OrmDeleting {
         deleteAllSyncDataForAllInsights();
         DeleteBuilder<OrmInsight, Integer> ormInsightsDeleteBuilder = ormInsightDao.deleteBuilder();
         ormInsightsDeleteBuilder.delete();
+    }
+
+    public void deleteAllExpiredInsights() throws SQLException {
+        Long currentUnixTimestamp = System.currentTimeMillis();
+
+        QueryBuilder<OrmInsight, Integer> queryBuilder = ormInsightDao.queryBuilder();
+        queryBuilder.where().lt("expiration_date", currentUnixTimestamp);
+        List<OrmInsight> expiredInsights = queryBuilder.query();
+
+        for(OrmInsight expiredInsight : expiredInsights) {
+            deleteInsight(expiredInsight);
+        }
     }
 }

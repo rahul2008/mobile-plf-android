@@ -44,6 +44,11 @@ public class THSInitFragment extends THSBaseFragment {
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_welcome), true);
         }
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            // entry to THS, start tagging
+            THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
+            THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        }
         return view;
     }
 
@@ -74,11 +79,6 @@ public class THSInitFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(THSManager.getInstance().getThsTagging()!=null) {
-            // entry to THS, start tagging
-            THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
-            THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
-        }
     }
 
     @Override

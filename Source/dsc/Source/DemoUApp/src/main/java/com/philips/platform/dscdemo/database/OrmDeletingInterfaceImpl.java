@@ -151,6 +151,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         ormDeleting.deleteCharacteristics();
     }
 
+    @Override
+    public void deleteAllExpiredInsights(DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        ormDeleting.deleteAllExpiredInsights();
+        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+    }
+
     //Insights
     @Override
     public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
