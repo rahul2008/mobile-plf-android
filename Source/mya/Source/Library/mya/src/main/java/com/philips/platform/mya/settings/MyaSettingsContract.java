@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.base.MyaBaseView;
 import com.philips.platform.mya.base.MyaPresenterInterface;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
@@ -20,6 +21,8 @@ interface MyaSettingsContract {
     interface View extends MyaBaseView {
         void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap);
         void setLinkUrl(String url);
+
+        void onLogOutClick(MyaListener.MyaLogoutListener myaLogoutListener);
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
