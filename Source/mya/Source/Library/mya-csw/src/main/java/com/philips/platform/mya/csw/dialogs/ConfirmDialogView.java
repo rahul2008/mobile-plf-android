@@ -57,12 +57,8 @@ public class ConfirmDialogView {
     public void showDialog(FragmentActivity activity) {
         validateTextResources();
 
-        Context popupThemedContext = UIDHelper.getPopupThemedContext(activity);
-        view = LayoutInflater
-                .from(activity)
-                .cloneInContext(popupThemedContext)
-                .inflate(R.layout.csw_dialog_confirm, null, false);
-
+        Context popupThemedContext = getStyledContext(activity);
+        setupView(activity, popupThemedContext);
         populateViews();
 
         view.findViewById(R.id.mya_csw_confirm_dialog_button_ok).setOnClickListener(buttonClickListener);
@@ -75,8 +71,19 @@ public class ConfirmDialogView {
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
 
-        alertDialogFragment = builder.create(new AlertDialogFragment());
+        alertDialogFragment = createDialogFragment(builder);
         alertDialogFragment.show(activity.getSupportFragmentManager(),"Show dialog");
+    }
+
+    protected AlertDialogFragment createDialogFragment(AlertDialogFragment.Builder builder) {
+        return builder.create(new AlertDialogFragment());
+    }
+
+    protected void setupView(FragmentActivity activity, Context popupThemedContext) {
+        view = LayoutInflater
+                .from(activity)
+                .cloneInContext(popupThemedContext)
+                .inflate(R.layout.csw_dialog_confirm, null, false);
     }
 
     private void validateTextResources() {
@@ -85,7 +92,7 @@ public class ConfirmDialogView {
         }
     }
 
-    private void populateViews() {
+    protected void populateViews() {
         Label titleLabel = view.findViewById(R.id.mya_csw_confirm_dialog_title);
         titleLabel.setText(this.titleTextRes);
 
@@ -99,5 +106,8 @@ public class ConfirmDialogView {
         cancelButton.setText(this.cancelButtonTextRes);
     }
 
+    protected Context getStyledContext(FragmentActivity activity) {
+        return UIDHelper.getPopupThemedContext(activity);
+    }
 
 }
