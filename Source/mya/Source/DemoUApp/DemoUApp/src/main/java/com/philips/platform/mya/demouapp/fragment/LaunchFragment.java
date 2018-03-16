@@ -128,12 +128,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
                     @Override
                     public void updateActionBar(@StringRes int i, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(i);
+                        DemoAppActivity activity = (DemoAppActivity) getActivity();
+                        if (activity != null) activity.setTitle(i);
                     }
 
                     @Override
                     public void updateActionBar(String s, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(s);
+                        DemoAppActivity activity = (DemoAppActivity) getActivity();
+                        if (activity != null)
+                            ((DemoAppActivity) getActivity()).setTitle(s);
                     }
                 }), launchInput);
             }
