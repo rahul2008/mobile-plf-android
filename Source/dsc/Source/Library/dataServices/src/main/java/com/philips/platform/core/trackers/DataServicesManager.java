@@ -42,6 +42,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
@@ -160,6 +161,7 @@ public class DataServicesManager {
     ErrorHandlingInterface errorHandlingInterface;
 
     SharedPreferences gdprStorage;
+    private Context dataServiceContext;
 
     @Singleton
     private DataServicesManager() {
@@ -180,6 +182,7 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
         initLogger();
     }
@@ -323,6 +326,10 @@ public class DataServicesManager {
 
     public void clearExpiredMoments(DBRequestListener<Integer> dbRequestListener) {
         mEventing.post(new DeleteExpiredMomentRequest(dbRequestListener));
+    }
+
+    public void clearExpiredInsights(DBRequestListener<Insight> dbRequestListener) {
+        mEventing.post(new DeleteExpiredInsightRequest(dbRequestListener));
     }
 
     public void updateMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) {
@@ -636,6 +643,14 @@ public class DataServicesManager {
 
     public void resetGDPRMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, false).apply();
+    }
+
+    public Context getDataServiceContext() {
+        return dataServiceContext;
+    }
+
+    public void setDataServiceContext(Context dataServiceContext) {
+        this.dataServiceContext = dataServiceContext;
     }
 
     private void storeGdprMigrationFlag() {
