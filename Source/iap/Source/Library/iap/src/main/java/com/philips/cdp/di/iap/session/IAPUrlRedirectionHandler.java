@@ -35,7 +35,7 @@ public class IAPUrlRedirectionHandler {
         return requestWithNewUrl;
     }
 
-    private void logError(AuthFailureError authFailureError) {
+    protected void logError(AuthFailureError authFailureError) {
         final String message = authFailureError.getMessage();
         if(message!=null) {
             IAPLog.e(IAPLog.LOG, authFailureError.getMessage());
@@ -44,7 +44,7 @@ public class IAPUrlRedirectionHandler {
         }
     }
 
-    private String getLocation() {
+    protected String getLocation() {
         String location = null;
         if(volleyError!=null && volleyError.networkResponse!=null && volleyError.networkResponse.headers!=null) {
             location = volleyError.networkResponse.headers.get("Location");
