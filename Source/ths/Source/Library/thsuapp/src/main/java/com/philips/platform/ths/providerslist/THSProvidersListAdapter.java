@@ -8,6 +8,7 @@ package com.philips.platform.ths.providerslist;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.util.List;
+
 
 public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersListAdapter.MyViewHolder> {
 
@@ -92,12 +94,14 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             context = holder.isAvailableStatus.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
+                holder.isAvailble.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_green_level_30));
                 holder.isAvailableStatus.setImageResource(R.mipmap.green_available_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
                 holder.isAvailableStatus.setImageResource(R.mipmap.provider_offline_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
+                holder.isAvailble.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_orange_level_30));
                 holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
                 holder.providerPatientWaitingCount.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
             }
