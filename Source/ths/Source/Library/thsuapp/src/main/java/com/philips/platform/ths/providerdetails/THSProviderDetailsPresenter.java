@@ -27,7 +27,10 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.intake.THSVisitContext;
+import com.philips.platform.ths.intake.THSVisitContextCallBack;
 import com.philips.platform.ths.practice.THSPracticeCallback;
+import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -44,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_MATCHING;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
@@ -51,7 +55,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
+class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback, THSVisitContextCallBack<THSVisitContext, THSSDKError> {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -296,6 +300,29 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         }
     }
 
+    public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
+        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(mThsBaseFragment.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
+            @Override
+            public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
+                if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                    if (null != thssdkError.getSdkError()) {
+                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getFragmentActivity(), ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
+                    } else {
+                        updateSymptoms(pthVisitContext);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                    mThsBaseFragment.hideProgressBar();
+                    mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
+                }
+
+            }
+        });
+    }
 
     void doMatchMaking() {
         showMatchMakingProgressbar();
@@ -387,4 +414,14 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     }
 
 
+    @Override
+    public void onResponse(THSVisitContext thsVisitContext, THSSDKError pthsdkError) {
+        THSManager.getInstance().setVisitContext(thsVisitContext);
+        doMatchMaking();
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
+    }
 }

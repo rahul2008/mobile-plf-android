@@ -20,7 +20,7 @@ import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateF
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
@@ -157,9 +157,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsOnDemandSpeciality = onDemandSpecialties;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-                final THSSymptomsFragment fragment = new THSSymptomsFragment();
-                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
+                THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
+                mThsBaseFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
                 mThsBaseFragment.hideProgressBar();
             }
         }

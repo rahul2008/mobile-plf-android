@@ -92,11 +92,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
             THSManager.getInstance().setPTHConsumer(thsConsumer);
-            if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
-                thsFollowUpViewInterfaces.showProviderDetailsFragment();
-            } else {
-                thsFollowUpViewInterfaces.showConditionsFragment();
-            }
+            thsFollowUpViewInterfaces.showConditionsFragment();
             //update singleton THSManager THSConsumer member
         }
 

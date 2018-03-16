@@ -203,12 +203,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 thsSymptomsPresenter.getVisitContext(appointment);
             } else if (mThsProviderInfo != null || mProvider != null) {
                 thsSymptomsPresenter.getVisitContext();
-            } else {
-                try {
-                    thsSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
-                } catch (AWSDKInstantiationException e) {
-
-                }
             }
         } else {
             mContinue.setEnabled(true);

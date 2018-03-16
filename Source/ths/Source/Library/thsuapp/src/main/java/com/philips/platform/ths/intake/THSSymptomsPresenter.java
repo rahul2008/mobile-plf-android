@@ -20,7 +20,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.selectimage.THSUploadDocumentCallback;
-import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
@@ -34,7 +33,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
 
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
@@ -136,30 +134,6 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
 
         }
-    }
-
-    public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
-        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
-            @Override
-            public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
-                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-                    if (null != thssdkError.getSdkError()) {
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
-                    } else {
-                        updateSymptoms(pthVisitContext);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-                    thsBaseView.hideProgressBar();
-                    thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
-                }
-
-            }
-        });
     }
 
 
