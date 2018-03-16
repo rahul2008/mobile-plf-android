@@ -54,6 +54,7 @@ public class ProdRegRegistrationController {
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
         void buttonClickable(boolean isClickable);
+        void updateProductCache();
     }
     private boolean isProductRegistered = false;
     private RegisterControllerCallBacks registerControllerCallBacks;
@@ -101,6 +102,7 @@ public class ProdRegRegistrationController {
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
             updateProductView();
+            registerControllerCallBacks.updateProductCache();
         } else {
             registerControllerCallBacks.exitProductRegistration();
         }

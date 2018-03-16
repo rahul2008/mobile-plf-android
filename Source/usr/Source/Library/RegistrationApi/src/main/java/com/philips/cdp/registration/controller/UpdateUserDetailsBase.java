@@ -38,6 +38,10 @@ public class UpdateUserDetailsBase implements
 
     protected JanrainInitializer mJanrainInitializer;
 
+    UpdateUserDetailsBase(Context mContext) {
+        this.mContext = mContext;
+    }
+
 
     protected void performActualUpdate() {
     }
@@ -55,9 +59,9 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onJanrainInitializeFailed() {
         if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails
-                    .onUpdateFailedWithError(-1));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails
+                            .onUpdateFailedWithError(-1));
 
     }
 
@@ -70,8 +74,8 @@ public class UpdateUserDetailsBase implements
     public void onUserUpdateSuccess() {
         performLocalUpdate();
         if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails.onUpdateSuccess());
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails.onUpdateSuccess());
     }
 
     @Override
@@ -79,9 +83,9 @@ public class UpdateUserDetailsBase implements
         RLog.d("Error", "Error" + error);
         if (error == -1) {
             if (null != mUpdateUserDetails) {
-                ThreadUtils.postInMainThread(mContext,()->
-                mUpdateUserDetails
-                        .onUpdateFailedWithError(-1));
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mUpdateUserDetails
+                                .onUpdateFailedWithError(-1));
             }
             return;
         }
@@ -91,9 +95,9 @@ public class UpdateUserDetailsBase implements
             user.refreshLoginSession(this);
             return;
         }
-        ThreadUtils.postInMainThread(mContext,()->
-        mUpdateUserDetails
-                .onUpdateFailedWithError(error));
+        ThreadUtils.postInMainThread(mContext, () ->
+                mUpdateUserDetails
+                        .onUpdateFailedWithError(error));
 
     }
 
@@ -105,9 +109,9 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
         if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails
-                    .onUpdateFailedWithError(error));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails
+                            .onUpdateFailedWithError(error));
     }
 
     @Override

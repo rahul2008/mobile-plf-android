@@ -348,6 +348,12 @@ public class OrmDeleting {
         return true;
     }
 
+    public int deleteSyncedMoments() throws SQLException {
+        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
+        deleteBuilder.where().eq("synced", true);
+        return deleteBuilder.delete();
+    }
+
     //Insights
     public boolean deleteInsights(final List<? extends Insight> insights, DBRequestListener<? extends Insight> dbRequestListener) {
         try {
@@ -384,12 +390,6 @@ public class OrmDeleting {
     public int deleteSyncBit(SyncType type) throws SQLException{
         DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
         deleteBuilder.where().eq("tableid",type.getId());
-        return deleteBuilder.delete();
-    }
-
-    public int deleteSyncedMoments() throws SQLException {
-        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
-        deleteBuilder.where().eq("synced", true);
         return deleteBuilder.delete();
     }
 

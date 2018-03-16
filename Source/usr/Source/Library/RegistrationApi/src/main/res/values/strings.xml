@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
     <!-- Profile Listview Strings -->
     <string name="link_another_account">Link Accounts</string>
     <string name="linked_accounts">You have not linked any accounts.</string>
@@ -13,6 +12,7 @@
     <string name="unknown">unknown</string>
     <string name="content_desc">ContentDesc</string>
     <string name="reg_Not_Available">Not available</string>
+
     <string name="reg_Continue_Btntxt">Continue</string>
     <string name="reg_EmptyField_ErrorMsg">Please enter a value</string>
     <string name="reg_ForgotPwdEmailResendMsg">We have sent you an email to reset your password. It may take some time for the email to arrive.</string>
@@ -283,7 +283,7 @@
     <string name="reg_Try_To_Login_Button_Text">Try to log in again</string>
     <string name="reg_Contact_Customer_Care_Text">Contact customer care</string>
     <string name="reg_Update_Email_Button_Text">Update email address</string>
-    <string name="reg_Country_Region">Country / Region</string>
+    <string name="reg_Country_Region">Country/Region</string>
     <string name="reg_MyDetails_TitleTxt">My account</string>
     <string name="reg_Login_Details_Txt">Login details</string>
     <string name="reg_Email_address_TitleTxt">E-mail address</string>

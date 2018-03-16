@@ -79,20 +79,12 @@ public class MyaTabFragment extends MyaBaseFragment {
     }
 
     private TabLayout.OnTabSelectedListener getTabListener(final ViewPager viewPager) {
-        return new TabLayout.OnTabSelectedListener() {
+        return new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
                 addTags(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
             }
         };
     }
@@ -100,10 +92,10 @@ public class MyaTabFragment extends MyaBaseFragment {
     private void addTags(int position) {
         switch (position) {
             case 0:
-                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page",null,null);
                 break;
             case 1:
-                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page",null,null);
                 break;
             default:
                 break;
