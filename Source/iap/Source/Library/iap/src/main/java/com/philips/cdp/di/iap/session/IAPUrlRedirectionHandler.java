@@ -35,7 +35,7 @@ public class IAPUrlRedirectionHandler {
         return requestWithNewUrl;
     }
 
-    protected void logError(AuthFailureError authFailureError) {
+    private void logError(AuthFailureError authFailureError) {
         final String message = authFailureError.getMessage();
         if(message!=null) {
             IAPLog.e(IAPLog.LOG, authFailureError.getMessage());

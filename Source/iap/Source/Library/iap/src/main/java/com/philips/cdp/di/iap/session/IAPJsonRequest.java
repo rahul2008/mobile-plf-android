@@ -32,7 +32,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params;
-    private Handler mHandler;
+    protected Handler mHandler;
 
     public IAPJsonRequest(int method, String url, Map<String, String> params,
                           Listener<JSONObject> responseListener, ErrorListener errorListener) {

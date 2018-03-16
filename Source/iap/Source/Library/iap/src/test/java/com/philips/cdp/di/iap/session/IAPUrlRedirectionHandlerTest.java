@@ -7,9 +7,12 @@
 package com.philips.cdp.di.iap.session;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.janrain.android.engage.JREngageError;
+import com.philips.cdp.di.iap.TestUtils;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +20,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPUrlRedirectionHandlerTest {
@@ -28,6 +37,9 @@ public class IAPUrlRedirectionHandlerTest {
 
     @Mock
     VolleyError volleyErrorMock;
+
+    @Mock
+    AuthFailureError authFailureErrorMock;
 
     @Before
     public void setUp() throws Exception {
@@ -43,21 +55,53 @@ public class IAPUrlRedirectionHandlerTest {
 
     @Test
     public void getNewRequestWithRedirectedUrlWithAuthFailure() throws Exception {
-        doThrow(AuthFailureError.class).when(iapJsonRequestMock.getParams());
+        doThrow(authFailureErrorMock).when(iapJsonRequestMock).getParams();
         final IAPJsonRequest newRequestWithRedirectedUrl = mIAPUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
         assert newRequestWithRedirectedUrl==null;
     }
 
     @Test
-    public void logError() throws Exception {
+    public void getNewRequestWithRedirectedUrlWithAuthFailureWhenAuthObjectHasProperErrorString() throws Exception {
+        when(authFailureErrorMock.getMessage()).thenReturn("auth error");
+        doThrow(authFailureErrorMock).when(iapJsonRequestMock).getParams();
+        final IAPJsonRequest newRequestWithRedirectedUrl = mIAPUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
+        assert newRequestWithRedirectedUrl==null;
     }
 
     @Test
-    public void getLocation() throws Exception {
+    public void getLocationNotNull() throws Exception {
+        getIAPUrlRedirectionHandlerWithNetworkresponseInVolleyError();
+        when(iapJsonRequestMock.getUrl()).thenReturn("ffff");
+        final String location = mIAPUrlRedirectionHandler.getLocation();
+        assert location != null;
     }
 
     @Test
-    public void isRedirectionRequired() throws Exception {
+    public void getLocationNull(){
+        final String location = mIAPUrlRedirectionHandler.getLocation();
+        assert location == null;
+    }
+
+    private void getIAPUrlRedirectionHandlerWithNetworkresponseInVolleyError() {
+        HashMap map = new HashMap();
+        map.put("Location","hh");
+        NetworkResponse networkResponse = new NetworkResponse(301,null,map,false,12L);
+        VolleyError volleyError = new VolleyError(networkResponse);
+        mIAPUrlRedirectionHandler = new IAPUrlRedirectionHandler(iapJsonRequestMock,volleyError);
+    }
+
+    @Test
+    public void isRedirectionRequiredReturnsFalse() throws Exception {
+        final boolean redirectionRequired = mIAPUrlRedirectionHandler.isRedirectionRequired();
+        assertFalse(redirectionRequired);
+    }
+
+    @Test
+    public void isRedirectionRequiredReturnsTrue() throws Exception {
+        when(iapJsonRequestMock.getUrl()).thenReturn("hh");
+        getIAPUrlRedirectionHandlerWithNetworkresponseInVolleyError();
+        final boolean redirectionRequired = mIAPUrlRedirectionHandler.isRedirectionRequired();
+        assertTrue(redirectionRequired);
     }
 
 }
