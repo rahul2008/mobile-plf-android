@@ -75,12 +75,12 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
 
     @Override
     public void onToggledConsent(final ConsentDefinition definition, final ConsentHandlerInterface handler, final boolean consentGiven, final ConsentToggleResponse responseHandler) {
-        if(!consentGiven) {
+        if(definition.hasRevokeWarningText() && !consentGiven) {
             // User has revoked consent
             ConfirmDialogView dialog = new ConfirmDialogView();
             dialog.setupDialog(
                 R.string.mya_csw_consent_revoked_confirm_title,
-                R.string.mya_csw_consent_revoked_confirm_descr,
+                definition.getRevokeWarningText(),
                 R.string.mya_csw_consent_revoked_confirm_btn_ok,
                 R.string.mya_csw_consent_revoked_confirm_btn_cancel
             );
@@ -97,7 +97,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             });
         }
         else {
-            postConsentChange(definition, handler, true);
+            postConsentChange(definition, handler, consentGiven);
         }
     }
 

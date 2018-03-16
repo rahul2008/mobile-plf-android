@@ -6,20 +6,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -44,7 +38,6 @@ public class ConfirmDialogViewTest {
     @Before
     public void setUp() {
         initMocks(this);
-
         confirmDialog = createSUT();
     }
 
