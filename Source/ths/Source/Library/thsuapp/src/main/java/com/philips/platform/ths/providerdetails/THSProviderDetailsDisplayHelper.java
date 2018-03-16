@@ -178,7 +178,6 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
             providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
-            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
             details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
         }

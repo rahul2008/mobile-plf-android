@@ -55,7 +55,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         public RelativeLayout relativeLayout;
         public NotificationBadge notificationBadge;
         public ImageView isAvailableStatus;
-        private Label provider_isAvailableImage_text;
+        public Label providerPatientWaitingCount;
 
         public MyViewHolder(View view) {
             super(view);
@@ -67,7 +67,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
             notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
             isAvailableStatus = (ImageView) view.findViewById(R.id.isAvailableImage);
-            provider_isAvailableImage_text = (Label) view.findViewById(R.id.details_isAvailableImage_text);
+            providerPatientWaitingCount = (Label) view.findViewById(R.id.details_isAvailableImage_text);
 
         }
     }
@@ -99,7 +99,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
                 holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
-                holder.provider_isAvailableImage_text.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
+                holder.providerPatientWaitingCount.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
             }
 
             holder.isAvailble.setText(providerAvailabilityString);
