@@ -184,8 +184,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
                         URInterface urInterface = new URInterface();
                         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
-                                ((DemoAppActivity) getActivity()).getThemeConfig(),
-                                ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                                ((DemoAppActivity) getActivity()) != null ? ((DemoAppActivity) getActivity()).getThemeConfig() : null,
+                                ((DemoAppActivity) getActivity()) != null ? ((DemoAppActivity) getActivity()).getThemeResourceId() : -1, null);
                         urInterface.launch(activityLauncher, urLaunchInput);
                         return true;
                     } else if (itemName.equalsIgnoreCase("Test_fragment")) {
