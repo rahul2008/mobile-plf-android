@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.session;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.android.volley.AuthFailureError;
@@ -40,12 +41,15 @@ public class IAPJsonRequestTest {
     @Mock
     RequestQueue requestQueueMock;
 
+    MockNetworkController networkControllerMock;
+
     @Mock
-    NetworkController networkControllerMock;
+    Context contextMock;
 
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
+        networkControllerMock = (MockNetworkController) TestUtils.getStubbedHybrisDelegate().getNetworkController(contextMock);
         mIAIapJsonRequest = new IAPJsonRequest(1,null,null,null,null);
     }
 
@@ -89,7 +93,7 @@ public class IAPJsonRequestTest {
         assertNotNull(mIAIapJsonRequest.parseNetworkResponse(networkResponse));
     }*/
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testHandleMiscErrorWithAuthFailure(){
         TestUtils.getStubbedHybrisDelegate();
         mIAIapJsonRequest.handleMiscErrors(new AuthFailureError());
