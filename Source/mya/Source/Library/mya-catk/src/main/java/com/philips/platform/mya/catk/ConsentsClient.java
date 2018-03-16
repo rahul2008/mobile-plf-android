@@ -28,7 +28,6 @@ import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
@@ -53,7 +52,6 @@ public class ConsentsClient{
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
     private ConsentManagerInterface consentManagerInterface;
     private AppInfraInterface appInfra;
@@ -76,7 +74,6 @@ public class ConsentsClient{
         this.consentManagerInterface = catkInputs.getConsentManager();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
-        this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
 
         registerBackendPlatformConsent();
@@ -91,7 +88,7 @@ public class ConsentsClient{
 
     private void registerBackendPlatformConsent() {
         try {
-            consentManagerInterface.register(Arrays.asList("moment", "coaching", "binary", "clickstream", "research", "analytics"), new ConsentInteractor(this));
+            consentManagerInterface.register(Arrays.asList("moment", "coaching", "binary", "research", "analytics"), new ConsentInteractor(this));
         } catch (RuntimeException exception) {
             CatkLogger.d("RuntimeException", exception.getMessage());
         }
@@ -227,10 +224,6 @@ public class ConsentsClient{
                 sendRequest(model);
             }
         });
-    }
-
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return Collections.unmodifiableList(consentDefinitionList);
     }
 
     public CatkComponent getCatkComponent() {

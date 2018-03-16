@@ -1,6 +1,5 @@
 package com.philips.platform.ths.intake;
 
-import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -10,8 +9,6 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
-import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
@@ -28,8 +25,6 @@ import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
-
-import java.util.Arrays;
 
 import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition;
 
@@ -78,9 +73,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     }
 
     protected void checkForConsent() {
-        ConsentsClient consentsClient = ConsentsClient.getInstance();
         final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity());
-        initConsentClient(consentsClient, thsConsentDefinition);
         ConsentManagerInterface consentManager = THSManager.getInstance().getAppInfra().getConsentManager();
         consentManager.fetchConsentState(thsConsentDefinition, new FetchConsentCallback() {
             @Override
@@ -146,16 +139,4 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             thsCheckPharmacyConditonsView.showError(thsCheckPharmacyConditonsView.getFragmentActivity().getResources().getString(R.string.ths_se_server_error_toast_message));
         }
     }
-
-    private void initConsentClient(ConsentsClient consentsClient, ConsentDefinition consentDefinition) {
-        Context context = thsCheckPharmacyConditonsView.getFragmentActivity();
-        CatkInputs catkInputs = new CatkInputs.Builder()
-                .setContext(context)
-                .setAppInfraInterface(THSManager.getInstance().getAppInfra())
-                .setConsentDefinitions(Arrays.asList(consentDefinition))
-                .build();
-        ConsentsClient.getInstance().init(catkInputs);
-        consentsClient.init(catkInputs);
-    }
-
 }
