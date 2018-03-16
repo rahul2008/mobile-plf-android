@@ -8,7 +8,7 @@
 package com.philips.platform.mya.settings;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -19,17 +19,14 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaDependencies;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
@@ -47,7 +44,8 @@ public class MyaSettingsPresenterTest {
     public void setup() {
         view = mock(MyaSettingsContract.View.class);
         context = mock(Context.class);
-        when(view.getContext()).thenReturn(context);
+        FragmentActivity fragmentActivityMock = mock(FragmentActivity.class);
+        when(view.getFragmentActivity()).thenReturn(fragmentActivityMock);
         myaSettingsPresenter = new MyaSettingsPresenter(view);
         MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
         myaSettingsPresenter.onViewActive(myaSettingsFragment);
