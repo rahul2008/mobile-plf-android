@@ -126,7 +126,6 @@ android {
         targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        resConfigs "en", "nl", "en-rGB", "zh-rCN"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

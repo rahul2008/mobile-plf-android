@@ -44,6 +44,7 @@ import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -159,6 +160,10 @@ public class THSProvidersListFragmentTest {
     ImageView imageView;
 
     @Mock
+    Label patientWaitingCount;
+
+
+    @Mock
     THSProvidersListAdapter.MyViewHolder myViewHolderMock;
 
     @Mock
@@ -247,6 +252,7 @@ public class THSProvidersListFragmentTest {
         thsProviderInfoMock.setTHSProviderInfo(providerInfoMock);
         list = new ArrayList();
         myViewHolderMock.isAvailableStatus = imageView;
+        myViewHolderMock.providerPatientWaitingCount = patientWaitingCount;
         myViewHolderMock.isAvailble = textViewIsAvailable;
         myViewHolderMock.name = tvName;
         myViewHolderMock.providerRating = ratingBarMock;
@@ -355,6 +361,7 @@ public class THSProvidersListFragmentTest {
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Patient waiting");
+        when(thsProviderInfoMock.getWaitingRoomCount()).thenReturn(1);
         verify(myViewHolderMock.name, atLeastOnce()).setText(anyString());
     }
 

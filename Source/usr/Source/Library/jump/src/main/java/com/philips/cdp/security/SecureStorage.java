@@ -11,7 +11,6 @@ import android.content.Context;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
-import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -36,14 +35,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class SecureStorage {
 
-    private static String TAG = SecureStorage.class.getSimpleName();
-
     private static final String AES = "AES";
 
     private static byte[] secretKey;
 
-    //meant to migrate unencrypted data to encrypted one
-    public static void migrateUserData(Context context, final String pFileName) {
+     //meant to migrate unencrypted data to encrypted one
+    public static void migrateUserData(Context context ,final String pFileName ) {
 
         try {
             //Read from file
@@ -57,10 +54,10 @@ public class SecureStorage {
             context.deleteFile(pFileName);
             fis.close();
             ois.close();
-            Jump.getSecureStorageInterface().storeValueForKey(pFileName, new String(plainBytes),
+            Jump.getSecureStorageInterface().storeValueForKey(pFileName,new String(plainBytes),
                     new SecureStorageInterface.SecureStorageError());
         } catch (ClassNotFoundException | IOException e) {
-            Log.e(TAG, "migrateUserData = " + e.getMessage());
+            e.printStackTrace();
         }
 
 
@@ -76,7 +73,7 @@ public class SecureStorage {
             oos.close();
             return baos.toString("UTF-8");
         } catch (IOException e) {
-            Log.e(TAG, "objectToString = " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -88,13 +85,14 @@ public class SecureStorage {
                     new ByteArrayInputStream(str.getBytes()), Base64.NO_PADDING
                     | Base64.NO_WRAP)).readObject();
         } catch (IOException | ClassNotFoundException e) {
-            Log.e(TAG, "stringToObject = " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
 
 
     public static byte[] decrypt(byte[] encByte) {
+        //storeSecretKey();
         secretKey = SKey.generateSecretKey();
         try {
             final Key key = (Key) new SecretKeySpec(secretKey, AES);
@@ -104,13 +102,14 @@ public class SecureStorage {
 
         } catch (NoSuchAlgorithmException | InvalidKeyException |
                 NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            Log.e(TAG, "decrypt = " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
 
     public static void generateSecretKey() {
         if (secretKey == null) {
+            //storeSecretKey();
             secretKey = SKey.generateSecretKey();
         }
     }
