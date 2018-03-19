@@ -15,12 +15,12 @@ import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -28,12 +28,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class PairingPortTest {
 
-    private static final String CLIENT_PROVIDER = "TODO";
-    private static final String CLIENT_TYPE = "TODO";
-    private static final String CLIENT_ID = "TODO";
-    private static final String SECRET_KEY = "TODO";
-    private static final String TYPE = "TODO";
-    private static final String[] PERMISSIONS = {"TODO"};
+    private static final String CLIENT_PROVIDER = "TestClientProvider";
+    private static final String CLIENT_TYPE = "TestClientType";
+    private static final String CLIENT_ID = "TestClientId";
+    private static final String SECRET_KEY = "TestSecretKey";
+    private static final String TYPE = "TestType";
+    private static final String[] PERMISSIONS = {"TestPermission"};
 
     private PairingPort pairingport;
 
@@ -57,17 +57,33 @@ public class PairingPortTest {
     }
 
     @Test
-    public void givenAPairingPort_whenPairingIsTriggered_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
-        pairingport.triggerPairing(CLIENT_TYPE, CLIENT_ID, SECRET_KEY);
+    public void givenAPairingPort_whenPairingWithDefaults_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
+        pairingport.pair(CLIENT_TYPE, CLIENT_ID, SECRET_KEY);
 
-        verify(communicationStrategyMock).putProperties(ArgumentMatchers.<String, Object>anyMap(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
+        verify(communicationStrategyMock).putProperties(captor.capture(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
+        Map<String, Object> map = captor.getValue();
+
+        assertThat(map.containsKey(PairingPort.METHOD_PAIR)).isTrue();
     }
 
     @Test
-    public void givenAPairingPort_whenPairingIsTriggeredWithTypeAndPermissions_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
-        pairingport.triggerPairing(CLIENT_PROVIDER, CLIENT_TYPE, CLIENT_ID, SECRET_KEY, TYPE, PERMISSIONS);
+    public void givenAPairingPort_whenPairingWithCustomTypeAndPermissions_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
+        pairingport.pair(CLIENT_PROVIDER, CLIENT_TYPE, CLIENT_ID, SECRET_KEY, TYPE, PERMISSIONS);
 
-        verify(communicationStrategyMock).putProperties(ArgumentMatchers.<String, Object>anyMap(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
+        verify(communicationStrategyMock).putProperties(captor.capture(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
+        Map<String, Object> map = captor.getValue();
+
+        assertThat(map.containsKey(PairingPort.METHOD_PAIR)).isTrue();
+    }
+
+    @Test
+    public void givenAPairingPort_whenUnpairingIsTriggeredWithType_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
+        pairingport.unpair(CLIENT_PROVIDER, CLIENT_TYPE, CLIENT_ID, SECRET_KEY, TYPE);
+
+        verify(communicationStrategyMock).putProperties(captor.capture(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
+        Map<String, Object> map = captor.getValue();
+
+        assertThat(map.containsKey(PairingPort.METHOD_UNPAIR)).isTrue();
     }
 
 }

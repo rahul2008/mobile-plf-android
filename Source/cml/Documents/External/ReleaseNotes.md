@@ -1,14 +1,16 @@
 CommLib for Android - Release Notes
-=======================================
+===================================
 
 Version {next}
-----------------
+--------------
 
 ### Functionality Delivered
 * N/A
 
 ### Backwards Compatibility
-* CommLib - Deprecated `com.philips.cdp.dicommclient.port.common.PairingPort.disableDemoMode`
+* CommLib - Deprecated `PairingPort#disableDemoMode()`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String)`, replaced by `PairingPort#pair(String, String, String)`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String, String, String, String[])`, replaced by `PairingPort#pair(String, String, String, String, String, String[])`
 
 ### Features not covered
 * N/A
