@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * The PairingPort is an extension to {@link DICommPort} with the added functionality of pairing.
+ *
  * @param <P> Type of PortProperties
  * @publicApi
  */
@@ -33,6 +34,7 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
 
     /**
      * Instantiates a PairingPort object
+     *
      * @param communicationStrategy CommunicationStrategy The strategy to use for communication during pairing.
      */
     public PairingPort(final @NonNull CommunicationStrategy communicationStrategy) {
@@ -72,10 +74,11 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
     }
 
     /**
+     * Trigger pairing using the default client provider as configured by the backend.
      *
      * @param clientType String The type of client to trigger pairing for
-     * @param clientId String The ID of the client triggering pairing
-     * @param secretKey String A secret key
+     * @param clientId   String The ID of the client triggering pairing
+     * @param secretKey  String A secret key
      */
     public void triggerPairing(String clientType, String clientId, String secretKey) {
         String[] dataArray = {clientType, clientId, secretKey};
@@ -85,13 +88,14 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
     }
 
     /**
+     * Trigger pairing using a custom client provider, custom relation type and permissions.
      *
      * @param clientProvider String The entity to provide the client to pair with
-     * @param clientType String The type of client who wants to start pairing
-     * @param clientId String An ID to indicate who the client is
-     * @param secretKey String A secret key
-     * @param type String The type of pairing the client wants to perform
-     * @param permissions String[] The kind of permissions to set up a pairing relation for
+     * @param clientType     String The type of client who wants to start pairing
+     * @param clientId       String An ID to indicate who the client is
+     * @param secretKey      String A secret key
+     * @param type           String The type of pairing the client wants to perform
+     * @param permissions    String[] The kind of permissions to set up a pairing relation for
      */
     public void triggerPairing(String clientProvider, String clientType, String clientId, String secretKey, String type, String[] permissions) {
         Object[] dataArray = {clientProvider, clientType, clientId, secretKey, type, permissions};
