@@ -84,7 +84,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUser() {
-        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")), givenCheckConsentCallback);
+        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(new Locale("en", "US")), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserSuccess();
     }
@@ -219,7 +219,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUserFailed() {
-        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")), givenCheckConsentCallback);
+        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(new Locale("en", "US")), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserFailed(anyInt());
     }

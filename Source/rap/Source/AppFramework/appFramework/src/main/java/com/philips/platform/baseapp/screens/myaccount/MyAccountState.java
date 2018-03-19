@@ -52,7 +52,6 @@ import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -196,8 +195,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         final List<ConsentDefinition> definitions = new ArrayList<>();
         // Moment consent
         ConsentDefinition momentConsentDefinition = new ConsentDefinition(
-                context.getString(R.string.RA_MYA_Consent_Moment_Text),
-                context.getString(R.string.RA_MYA_Consent_Moment_Help),
+                R.string.RA_MYA_Consent_Moment_Text,
+                R.string.RA_MYA_Consent_Moment_Help,
                 Collections.singletonList("moment"),
                 1,
                 R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
@@ -206,8 +205,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         definitions.add(momentConsentDefinition);
         // Coaching consent
         ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
-                context.getString(R.string.RA_MYA_Consent_Coaching_Text),
-                context.getString(R.string.RA_MYA_Consent_Coaching_Help),
+                R.string.RA_MYA_Consent_Coaching_Text,
+                R.string.RA_MYA_Consent_Coaching_Help,
                 Collections.singletonList("coaching"),
                 1,
                 R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
@@ -216,8 +215,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         definitions.add(coachingConsentDefinition);
         // Binary consent
         ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
-                context.getString(R.string.RA_MYA_Consent_Binary_Text),
-                context.getString(R.string.RA_MYA_Consent_Binary_Help),
+                R.string.RA_MYA_Consent_Binary_Text,
+                R.string.RA_MYA_Consent_Binary_Help,
                 Collections.singletonList("binary"),
                 1,
                 R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
@@ -226,8 +225,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         definitions.add(binaryConsentDefinition);
         // Clickstream consent
         ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(
-                context.getString(R.string.RA_MYA_Consent_Clickstream_Text),
-                context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
+                R.string.RA_MYA_Consent_Clickstream_Text,
+                R.string.RA_MYA_Consent_Clickstream_Help,
                 Collections.singletonList("clickstream"),
                 1,
                 R.string.RA_MYA_Consent_Clickstream_Revoke_Warning_Text
@@ -236,8 +235,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
         // Research & Analytics consent
         ConsentDefinition researchConsentDefinition = new ConsentDefinition(
-                context.getString(R.string.RA_MYA_Research_Analytics_Consent),
-                context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
+                R.string.RA_MYA_Research_Analytics_Consent,
+                R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
                 Arrays.asList("research", "analytics"),
                 1,
                 R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
@@ -245,14 +244,17 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
         // THS Consent
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
         return definitions;
     }
 
     private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), 1));
+        definitions.add(new ConsentDefinition(
+                R.string.RA_Setting_Philips_Promo_Title,
+                R.string.RA_MYA_Marketing_Help_Text,
+                Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT),
+                1));
         return definitions;
     }
 
@@ -275,7 +277,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         consentConfigurationList= new ArrayList<>();
         consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
         consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        consentConfigurationList.add(new ConsentConfiguration(Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinition(context)), new DeviceStoredConsentHandler(appInfra)));
+        consentConfigurationList.add(new ConsentConfiguration(Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinition()), new DeviceStoredConsentHandler(appInfra)));
     }
     @Override
     public void updateDataModel() {
