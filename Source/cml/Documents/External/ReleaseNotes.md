@@ -2,7 +2,31 @@ CommLib for Android - Release Notes
 =======================================
 
 Version {next}
--------------
+----------------
+
+### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
+* CommLib - Deprecated `com.philips.cdp.dicommclient.port.common.PairingPort.disableDemoMode`
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* N/A
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+Version 2017.5.0
+----------------
 
 ### Functionality Delivered
 * CommLib - \#109703 Added ability to clear appliance list

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -22,11 +22,14 @@ import java.util.Map;
  */
 public class PairingPort<P extends PortProperties> extends DICommPort<P> {
 
-    private final String PAIRINGPORT_NAME = "pairing";
-    private final int PAIRINGPORT_PRODUCTID = 0;
+    private static final String PAIRINGPORT_NAME = "pairing";
+    private static final int PAIRINGPORT_PRODUCTID = 0;
 
-    private static final String KEY_SETUP = "setup";
-    private static final String KEY_CONNECTION = "connection";
+    static final String KEY_SETUP = "setup";
+    static final String VALUE_SETUP_INACTIVE = "inactive";
+
+    static final String KEY_CONNECTION = "connection";
+    static final String VALUE_CONNECTION_DISCONNECTED = "disconnected";
 
     /**
      * Instantiates a PairingPort object
@@ -60,10 +63,11 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
      * Disables demo mode.
      * Calls #putProperties internally.
      */
+    @Deprecated
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put(KEY_SETUP, "inactive");
-        dataMap.put(KEY_CONNECTION, "disconnected");
+        dataMap.put(KEY_SETUP, VALUE_SETUP_INACTIVE);
+        dataMap.put(KEY_CONNECTION, VALUE_CONNECTION_DISCONNECTED);
         putProperties(dataMap);
     }
 
