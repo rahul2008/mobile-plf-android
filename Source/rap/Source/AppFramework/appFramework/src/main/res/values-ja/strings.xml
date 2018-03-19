@@ -59,7 +59,7 @@
   <string name="RA_DLS_enable_bluetooth">[ja]Please enable bluetooth</string>
   <string name="RA_DLS_healthy_sleep_title">[ja]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[ja]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[ja]Reference App</string>
+  <string name="RA_DLS_home_page_text">[ja]RA_SettingsScreen_Title</string>
   <string name="RA_DLS_insights_error">[ja]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[ja]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[ja]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
@@ -105,12 +105,17 @@
   <string name="RA_MYA_Click_Stream_Hosting_Consent">[ja]I allow Philips to use my mobile application usage statistics</string>
   <string name="RA_MYA_Coaching_Consent">[ja]I allow Philips to use my data for Coaching purposes</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[ja]The actual content of the binary consent help text here</string>
+  <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">私は、アプリ機能の実現、アプリの改善、アプリのパーソナライズ、ソーシャルメディアとの統合、ならびに関連コンテンツおよび広告の表示を目的として、フィリップスが私のアプリデータを収集することを許可します。</string>
   <string name="RA_MYA_Consent_Click_Stream_Help_Text">cookie に関する通知\n\nこのアプリでは、Adobe Systems Software Ireland Limited（「Adobe」）が提供するアナリティクスサービス（「Adobe Analytics」）を使用します。Adobe Analytics では、アプリを介した全トラフィックパターンを解析するために、アプリ内に保存されるテキストファイルである「cookie」または類似の技術を使用します。cookie によって生成された、アプリの使用に関する情報を Adobe に伝送することにより、IP アドレスがジオローカライズ前に匿名化され、汎用 IP アドレスに置き換えてから保管されるように設定します。Adobe はフィリップスの代理として、アプリの使用の評価、フィリップス向けアプリアクティビティレポートのコンパイル、アプリアクティビティとアプリの使用に関連する他のサービスのフィリップスへの提供を目的として、この情報を使用します。Adobe は、同社が保持するその他のいかなるデータともお客様の IP アドレスを関連付けることはありません。お客様は、この画面を閉じた後で、Adobe およびフィリップスによるデータの収集および使用拒否を選択することができます。\n</string>
+  <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[ja]The actual content of the coaching consent help text here</string>
+  <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Marketing_Help_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して直接ご連絡させていただく場合があります。お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。それらのデータには次が含まれます： \n\nお客様にご提供いただいたデータ\nお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様のご希望でご提供いただいたデータ。\n\nお客様とのやり取りで当社が入手したデータ\nソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックしたやり取り、位置情報の詳細、アクセスしたウェブサイトなども含まれます。\n\nお客様はいつでも同意を取り消すことができます。\n詳細については、当社のプライバシーに関する通知および cookie に関するポリシーをお読みください。</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[ja]The actual content of the moment consent help text here</string>
+  <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[ja]The actual content of the research and analytics consent help text here</string>
+  <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[ja]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[ja]I allow Philips to use my data for Research and Analytics purposes</string>
   <string name="RA_Menu_title_Demo">[ja]Test Demo Apps</string>
