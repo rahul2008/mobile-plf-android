@@ -47,7 +47,7 @@ public class URConsentProviderTest {
         String USR_MARKETING_CONSENT = "USR_MARKETING_CONSENT_UPDATED";
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        ConsentDefinition newConsentDefinition = new ConsentDefinition("", "", types, 1);
+        ConsentDefinition newConsentDefinition = new ConsentDefinition(0, 0, types, 1);
         Assert.assertNotNull(newConsentDefinition);
     }
 }
