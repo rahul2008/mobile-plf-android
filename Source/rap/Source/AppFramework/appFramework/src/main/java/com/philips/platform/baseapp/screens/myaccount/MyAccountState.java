@@ -194,26 +194,57 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @VisibleForTesting
     List<ConsentDefinition> createCatkDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
-                Collections.singletonList("moment"), 1);
+        // Moment consent
+        ConsentDefinition momentConsentDefinition = new ConsentDefinition(
+                context.getString(R.string.RA_MYA_Consent_Moment_Text),
+                context.getString(R.string.RA_MYA_Consent_Moment_Help),
+                Collections.singletonList("moment"),
+                1,
+                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
+        );
         ConsentDefinitionRegistry.add(momentConsentDefinition);
         definitions.add(momentConsentDefinition);
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
-                Collections.singletonList("coaching"), 1);
+        // Coaching consent
+        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
+                context.getString(R.string.RA_MYA_Consent_Coaching_Text),
+                context.getString(R.string.RA_MYA_Consent_Coaching_Help),
+                Collections.singletonList("coaching"),
+                1,
+                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
+        );
         ConsentDefinitionRegistry.add(coachingConsentDefinition);
         definitions.add(coachingConsentDefinition);
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
-                Collections.singletonList("binary"), 1);
+        // Binary consent
+        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
+                context.getString(R.string.RA_MYA_Consent_Binary_Text),
+                context.getString(R.string.RA_MYA_Consent_Binary_Help),
+                Collections.singletonList("binary"),
+                1,
+                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
+        );
         ConsentDefinitionRegistry.add(binaryConsentDefinition);
         definitions.add(binaryConsentDefinition);
-        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList("clickstream"), 1);
+        // Clickstream consent
+        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(
+                context.getString(R.string.RA_MYA_Consent_Clickstream_Text),
+                context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
+                Collections.singletonList("clickstream"),
+                1,
+                R.string.RA_MYA_Consent_Clickstream_Revoke_Warning_Text
+        );
         definitions.add(clickStreamConsentDefinition);
         ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
-                Arrays.asList("research", "analytics"), 1);
+        // Research & Analytics consent
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(
+                context.getString(R.string.RA_MYA_Research_Analytics_Consent),
+                context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
+                Arrays.asList("research", "analytics"),
+                1,
+                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
+        );
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
+        // THS Consent
         definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
