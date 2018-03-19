@@ -241,9 +241,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         final SpannableString myString;
         if (!TextUtils.isEmpty(url)) {
             philipsWebsite.setClickable(true);
-            myString = new SpannableString(url);
+            myString = new SpannableString(getString(R.string.MYA_philips_website));
             ClickableSpan clickableSpan = getClickableSpan(url);
-            myString.setSpan(clickableSpan, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            myString.setSpan(clickableSpan, 0, myString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             philipsWebsite.setText(myString);
             philipsWebsite.setMovementMethod(LinkMovementMethod.getInstance());
         }
