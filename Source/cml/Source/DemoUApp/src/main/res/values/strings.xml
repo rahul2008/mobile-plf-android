@@ -8,7 +8,7 @@
     <string name="cml_light_state">Light state</string>
     <string name="cml_set">Set</string>
     <string name="cml_pair">Pair</string>
-    <string name="cml_unpair">Disengage</string>
+    <string name="cml_unpair">Unpair</string>
     <string name="cml_my_id">My ID:</string>
     <string name="cml_userId">user ID</string>
     <string name="cml_access_token">access token</string>
