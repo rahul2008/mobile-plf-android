@@ -24,7 +24,7 @@ public class ConsentViewTest {
 
     @Before
     public void setUp() throws Exception {
-        consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", Collections.singletonList(TYPE_MOMENT), 1);
+        consentDefinition = new ConsentDefinition(0, 0, Collections.singletonList(TYPE_MOMENT), 1);
         currentConsentRejected = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
         currentConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
         oldConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);

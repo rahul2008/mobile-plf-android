@@ -16,7 +16,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
     private List<String> implicitConsents;
     private int revokeWarningTextRes;
 
-    public ConsentDefinition(String text, String helpText, List<String> types, int version) {
+    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
         this.text = text;
         this.helpText = helpText;
         this.types = types;
@@ -25,7 +25,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         this.revokeWarningTextRes = 0;
     }
 
-    public ConsentDefinition(String text, String helpText, List<String> types, int version, int revokeWarningText) {
+    public ConsentDefinition(int text, int helpText, List<String> types, int version, int revokeWarningText) {
         this(text, helpText, types, version);
         this.revokeWarningTextRes = revokeWarningText;
     }

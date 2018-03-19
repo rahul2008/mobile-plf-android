@@ -15,8 +15,8 @@ import java.util.List;
 public class CcConsentProvider {
 
 
-    public static ConsentDefinition fetchLocationConsentDefinition(Context context) {
-        return new ConsentDefinition(context.getResources().getString(R.string.dcc_location_consent_definition_text), context.getResources().getString(R.string.dcc_location_consent_definition_help_text), getLocationConsentType(), DigitalCareConstants.CC_LOCATION_CONSENT_VERSION);
+    public static ConsentDefinition fetchLocationConsentDefinition() {
+        return new ConsentDefinition(R.string.dcc_location_consent_definition_text, R.string.dcc_location_consent_definition_help_text, getLocationConsentType(), DigitalCareConstants.CC_LOCATION_CONSENT_VERSION);
     }
 
     private static List<String> getLocationConsentType() {
