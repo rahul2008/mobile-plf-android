@@ -172,7 +172,7 @@ public class MomentsDataSender extends DataSender {
                     momentsConverter.convertToUCoreMoment(moment));
 
             moment.getSynchronisationData().setVersion(response.getVersion());
-            // updateExpirationDate(moment, response);
+            updateExpirationDate(moment, response);
             postUpdatedOk(Collections.singletonList(moment));
 
             return false;

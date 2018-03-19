@@ -339,7 +339,6 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    @Ignore
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpOk() {
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
@@ -401,7 +400,6 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    @Ignore
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpAccepted() {
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
