@@ -71,7 +71,7 @@ public class OrmInsight implements Insight, Serializable {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private DateTime expiration_date;
 
     @DatabaseConstructor
