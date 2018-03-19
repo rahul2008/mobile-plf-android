@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 
@@ -25,6 +27,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import android.test.mock.MockContext;
 
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CswInterfaceTest {
 
