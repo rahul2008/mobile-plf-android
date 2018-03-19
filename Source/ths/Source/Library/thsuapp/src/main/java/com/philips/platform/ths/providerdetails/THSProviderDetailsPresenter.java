@@ -25,7 +25,6 @@ import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
-import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
@@ -55,7 +54,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback, THSVisitContextCallBack<THSVisitContext, THSSDKError> {
+class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -112,12 +111,6 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
 
-            if (THSManager.getInstance().isMatchMakingVisit()) {
-                // go to pharmacy and shipping if DOD
-                THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
-                thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(true);
-                mThsBaseFragment.addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
-            } else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
                 THSConsumerWrapper THSConsumer = new THSConsumerWrapper();
                 THSConsumer.setConsumer(viewInterface.getConsumerInfo());
@@ -128,7 +121,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 thsSymptomsFragment.setConsumerObject(THSConsumer);
                 thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                 mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle, true);
-            }
+
 
         } else if (componentID == R.id.detailsButtonTwo) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startSchedulingAnAppointment");
@@ -300,15 +293,16 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         }
     }
 
-    public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
+    public void getFirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
         THSManager.getInstance().getVisitContextWithOnDemandSpeciality(mThsBaseFragment.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
-            public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
+            public void onResponse(THSVisitContext thsVisitContext, THSSDKError thssdkError) {
                 if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
                         mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getFragmentActivity(), ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
                     } else {
-                        updateSymptoms(pthVisitContext);
+                        THSManager.getInstance().setVisitContext(thsVisitContext);
+                        doMatchMaking();
                     }
                 }
             }
@@ -411,17 +405,5 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         } catch (AWSDKInstantiationException e) {
 
         }
-    }
-
-
-    @Override
-    public void onResponse(THSVisitContext thsVisitContext, THSSDKError pthsdkError) {
-        THSManager.getInstance().setVisitContext(thsVisitContext);
-        doMatchMaking();
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
     }
 }

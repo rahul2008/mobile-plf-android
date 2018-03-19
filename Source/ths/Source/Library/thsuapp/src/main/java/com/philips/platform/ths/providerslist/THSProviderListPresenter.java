@@ -157,8 +157,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsOnDemandSpeciality = onDemandSpecialties;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-                THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-                mThsBaseFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
+                THSProviderDetailsFragment thsProviderDetailsFragment = new THSProviderDetailsFragment();
+                mThsBaseFragment.addFragment(thsProviderDetailsFragment, THSProviderDetailsFragment.TAG, bundle, true);
                 mThsBaseFragment.hideProgressBar();
             }
         }

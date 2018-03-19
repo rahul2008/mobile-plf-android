@@ -85,14 +85,13 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
 
         if (THSManager.getInstance().isMatchMakingVisit()) { // if provider is not yet selected
-            mThsProviderDetailsDisplayHelper.setDODVisibility(true);
             final Bundle arguments = getArguments();
             if (arguments != null) {
                 thsOnDemandSpeciality = arguments.getParcelable(THSConstants.THS_ON_DEMAND);
             }
 
             try {
-                providerDetailsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
+                providerDetailsPresenter.getFirstAvailableProvider(thsOnDemandSpeciality);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -270,10 +269,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             alertDialogFragment.setPositiveButtonListener(this);
 
         }
-    }
-
-    protected void showProgressbar() {
-        createCustomProgressBar(mProgressBarWithLabelContainer, BIG);
     }
 
     @Override
