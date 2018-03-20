@@ -156,10 +156,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        RegistrationBaseFragment.mWidth = 0;
-        RegistrationBaseFragment.mHeight = 0;
-        setPrevTiltle();
         super.onDestroy();
     }
 
