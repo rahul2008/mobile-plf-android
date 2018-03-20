@@ -44,7 +44,7 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(canBeNull = false)
     private String subjectID;
 
-    @DatabaseField(canBeNull = true)
+    @DatabaseField()
     private String moment_id;
 
     @DatabaseField(canBeNull = false)
@@ -65,13 +65,13 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField
     private boolean synced;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private OrmSynchronisationData synchronisationData;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
-    @DatabaseField(canBeNull = true)
+    @DatabaseField()
     private DateTime expiration_date;
 
     @DatabaseConstructor
