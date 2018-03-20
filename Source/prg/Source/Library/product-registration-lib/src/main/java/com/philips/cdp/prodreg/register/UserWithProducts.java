@@ -56,7 +56,7 @@ public class UserWithProducts {
     private ProdRegListener appListener;
     private int processCacheProductsCount;
 
-    UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
+    public UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
         this.user = user;
         this.appListener = appListener;
@@ -264,7 +264,7 @@ public class UserWithProducts {
         return purchaseDate != null && purchaseDate.length() > 0;
     }
 
-    protected RegisteredProduct isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
+    public RegisteredProduct isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 return result;

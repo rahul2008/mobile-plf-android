@@ -10,6 +10,7 @@ package com.philips.platform.mya.profile;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -43,7 +44,8 @@ public class MyaProfilePresenterTest {
     public void setup() {
         view = mock(MyaProfileContract.View.class);
         context = mock(Context.class);
-        when(view.getContext()).thenReturn(context);
+        FragmentActivity fragmentActivityMock = mock(FragmentActivity.class);
+        when(view.getFragmentActivity()).thenReturn(fragmentActivityMock);
         myaProfilePresenter = new MyaProfilePresenter(view);
         MyaProfileFragment myaProfileFragment = new MyaProfileFragment();
         myaProfilePresenter.onViewActive(myaProfileFragment);

@@ -309,7 +309,7 @@ public class InputValidationLayout extends LinearLayout {
                 return new SavedState(in);
             }
 
-            public InputValidationLayout.SavedState[] newArray(int size) {
+            public SavedState[] newArray(int size) {
                 return new SavedState[size];
             }
         };
@@ -322,7 +322,7 @@ public class InputValidationLayout extends LinearLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            errorLabelState = in.readParcelable(errorLabelState.getClass().getClassLoader());
+            errorLabelState = in.readParcelable(getClass().getClassLoader());
             isShowingError = in.readByte() != 0;
         }
 

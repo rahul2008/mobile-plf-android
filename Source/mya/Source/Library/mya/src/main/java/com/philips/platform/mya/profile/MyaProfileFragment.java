@@ -42,8 +42,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         userNameTextView = view.findViewById(R.id.mya_user_name);
         presenter = new MyaProfilePresenter(this);
         setRetainInstance(true);
-        init(new DefaultItemAnimator(),new RecyclerViewSeparatorItemDecoration(getContext()),
-                new LinearLayoutManager(getContext()));
+        init(new DefaultItemAnimator(),new RecyclerViewSeparatorItemDecoration(getFragmentActivity()),
+                new LinearLayoutManager(getFragmentActivity()));
         return view;
     }
 
@@ -128,7 +128,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 String profileItem = value != null ? value : key;
                 boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onProfileMenuItemSelected(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onProfileMenuItemSelected(getFragmentLauncher(), key);
                     handleAppProfileEvent(onClickMyaItem, profileItem);
                 }
             }
@@ -152,5 +152,4 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, MyaHelper.MYA_TLA, "Is proposition handling the profile event:" + onClickMyaItem);
         // TODO:code to be added in future
     }
-
 }

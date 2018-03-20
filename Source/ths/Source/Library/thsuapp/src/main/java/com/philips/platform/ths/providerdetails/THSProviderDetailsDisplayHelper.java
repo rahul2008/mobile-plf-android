@@ -9,6 +9,7 @@ package com.philips.platform.ths.providerdetails;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -172,13 +173,14 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         Context context = isAvailable.getContext();
         if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
             providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
+            isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_green_level_30));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
             providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
             providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
-            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+            isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_orange_level_30));
             details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
         }
