@@ -117,4 +117,29 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConsentDefinition that = (ConsentDefinition) o;
+
+        if (version != that.version) return false;
+        if (!identifier.equals(that.identifier)) return false;
+        if (!text.equals(that.text)) return false;
+        if (!helpText.equals(that.helpText)) return false;
+        if (!types.equals(that.types)) return false;
+        return implicitConsents.equals(that.implicitConsents);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier.hashCode();
+        result = 31 * result + text.hashCode();
+        result = 31 * result + helpText.hashCode();
+        result = 31 * result + types.hashCode();
+        result = 31 * result + version;
+        result = 31 * result + implicitConsents.hashCode();
+        return result;
+    }
 }

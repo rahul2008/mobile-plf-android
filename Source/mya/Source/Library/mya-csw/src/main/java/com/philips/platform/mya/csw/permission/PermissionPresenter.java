@@ -79,32 +79,12 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         }
     }
 
-   /* @Override
-    public void onGetConsentsSuccess(@NonNull List<Consent> consents) {
-        List<ConsentView> consentViews = adapter.getConsentViews();
-        Map<String, Consent> consentMap = new HashMap<>();
-        for (Consent consent : consents) {
-            consentMap.put(consent.getType(), consent);
-        }
-        for (ConsentView consentView : consentViews) {
-            Consent consent = consentMap.get(consentView.getType());
-            if (consent != null) {
-                consentView.storeConsent(consent);
-                if (consentView.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-                    updateClickStream(consentView.isChecked());
-                }
-            }
-        }
-        adapter.onGetConsentRetrieved(consentViews);
-        permissionInterface.hideProgressDialog();
-    }*/
-
     @Override
     public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
         List<ConsentView> consentViews = adapter.getConsentViews();
         for (ConsentView consentView : consentViews) {
             for (ConsentDefinitionStatus consentDefinitionStatus : consentDefinitionStatusList) {
-                if (consentDefinitionStatus.getConsentDefinition().getTypes().contains(consentView.getDefinition().getTypes())) {
+                if (consentDefinitionStatus.getConsentDefinition() == consentView.getDefinition()) {
                     consentView.setOnline(consentDefinitionStatus.getConsentState().equals("active") ? true : false);
                 }
             }
