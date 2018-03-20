@@ -19,7 +19,7 @@ Version {next}
 * N/A
 
 ### Defects solved
-* N/A
+* 116302 Added missing API to revoke pairing relations to `PairingPort`
 
 ### Residual anomalies
 * N/A
