@@ -18,7 +18,7 @@ interface MyaProfileContract {
 
     interface View extends MyaBaseView {
 
-        void showProfileItems(Map<String,String> profileList);
+        void showProfileItems(Map<String, String> profileList);
 
         void setUserName(String userName);
 

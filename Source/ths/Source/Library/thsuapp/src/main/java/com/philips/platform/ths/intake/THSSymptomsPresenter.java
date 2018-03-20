@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.UploadAttachment;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -116,6 +117,13 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         }
     }
 
+    void getVisitContext(final Appointment appointment) {
+        try {
+            THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), appointment, this);
+        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
+
+        }
+    }
     void getVisitContext() {
         if (mThsProviderInfo == null) {
             final Provider provider = ((THSSymptomsFragment) thsBaseView).getProvider();
@@ -125,13 +133,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         }
         try {
             THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), mThsProviderInfo, this);
-        } catch (MalformedURLException e) {
-
-        } catch (URISyntaxException e) {
-
-        } catch (AWSDKInstantiationException e) {
-
-        } catch (AWSDKInitializationException e) {
+        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
 
         }
     }

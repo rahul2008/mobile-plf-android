@@ -26,17 +26,22 @@ import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -170,7 +175,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         field_serial = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_serialNumber_validationEditText);
 
         prodRegUtil = new ProdRegUtil();
-
         return view;
     }
 
@@ -617,7 +621,7 @@ String imageURL;
 
     @Override
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt),"prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt),"prg_dialog");
     }
 
     @Override
@@ -632,10 +636,7 @@ String imageURL;
     private void intiateRegistration() {
         if (isVisible() && registerButton.isClickable()) {
             buttonClickable(false);
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setCancelable(false);
-            }
+            intializeProgressAlertDialog();
             if (!mProgressDialog.isShowing()) {
                 mProgressDialog.show();
                 registerButton.setText(getResources().getString(R.string.PRG_Registering_Products_Lbltxt));
@@ -643,6 +644,12 @@ String imageURL;
                         field_serial.getText().toString());
             }
 
+        }
+    }
+    void intializeProgressAlertDialog(){
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setCancelable(false);
         }
     }
 
@@ -653,5 +660,45 @@ String imageURL;
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
+    }
+    UserWithProducts userWithProducts;
+    RegisteredProduct registeredProduct1;
+
+    @Override
+    public void updateProductCache(){
+        intializeProgressAlertDialog();
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.show();
+        }
+
+        userWithProducts = new UserWithProducts(getContext(), new User(getContext()), new ProdRegListener() {
+            @Override
+            public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
+                registeredProduct1 = registeredProduct;
+            }
+
+            @Override
+            public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
+
+            }
+        });
+        userWithProducts.getRegisteredProducts(getRegisteredProductsListener(getRegisteredProduct()));
+    }
+
+    @NonNull
+    RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct) {
+        return new RegisteredProductsListener() {
+            @Override
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+                {
+                    hideProgressDialog();
+                    RegisteredProduct ctnRegistered = userWithProducts.isCtnRegistered(registeredProducts, getRegisteredProduct());
+                    if (ctnRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
+                        showAlreadyRegisteredDialog(ctnRegistered);
+                    }
+                }
+            }
+
+        };
     }
 }
