@@ -105,6 +105,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (componentID == R.id.getStartedButton) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             try {
+                THSManager.getInstance().setVisitContext(null);
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
                         practice, null, this);
             } catch (AWSDKInstantiationException e) {

@@ -163,6 +163,16 @@ public class THSManager {
     private String ServerURL=null;
     private String mCountry="";
     ConsentDefinition mConsentDefinition;
+    private Provider providerObject;
+
+    public Provider getProviderObject() {
+        return providerObject;
+    }
+
+    public void setProviderObject(Provider providerObject) {
+        this.providerObject = providerObject;
+    }
+
 
 
     public ConsentDefinition getConsentDefinition() {

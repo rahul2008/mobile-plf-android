@@ -191,7 +191,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public boolean handleBackEvent() {
-        THSManager.getInstance().setVisitContext(null);
+        if(!THSManager.getInstance().isMatchMakingVisit()) {
+            THSManager.getInstance().setVisitContext(null);
+        }
         return false;
     }
 
