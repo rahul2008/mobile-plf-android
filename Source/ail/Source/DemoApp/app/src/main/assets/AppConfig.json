@@ -24,7 +24,7 @@
     "appidentity.appState": "production",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
-    "tagging.sensitiveData": ["bundleId", "language"] ,
+    "tagging.sensitiveData": ["bundleId"] ,
     "abtest.precache":["DOT-ReceiveMarketingOptIn"],
     "abtest.mapping":{
       "usr.login":"DOT-ReceiveMarketingOptIn"

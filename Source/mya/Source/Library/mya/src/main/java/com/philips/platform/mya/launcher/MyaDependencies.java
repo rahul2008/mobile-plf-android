@@ -11,7 +11,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 /**
- * This class is used to provide dependencies for my account.
+ * This class is used to provide dependencies for My Account.
  * @since 2018.1.0
  */
 public class MyaDependencies extends UappDependencies {

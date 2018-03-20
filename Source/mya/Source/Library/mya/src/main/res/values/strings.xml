@@ -34,6 +34,6 @@
     <string name="MYA_Offline_message">Your internet connection does not seem to be working. Please check and try again</string>
     <string name="mya_Privacy_Settings_Desc">Control your privacy. Read the _privacy notice_ for more information.</string>
 
-    <string name="MYA_philips_website">https://www.philips.com</string>
+    <string name="MYA_philips_website">www.philips.com</string>
     <string name="MYA_Add_mobile_number" translatable="false">Add mobile number</string>
 </resources>

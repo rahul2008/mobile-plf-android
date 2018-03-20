@@ -56,7 +56,6 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
 public class AppTaggingHandler {
     private static String prevPage;
     private final AppInfra mAppInfra;
-    private String mLanguage;
     private String mComponentID;
     private String mComponentVersion;
 
@@ -170,12 +169,11 @@ public class AppTaggingHandler {
     }
 
     private String getLanguage() {
-        if (mLanguage == null) {
+            String mLanguage;
             final String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
             mLanguage = uiLocale.substring(0, 2);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING, "Tagging" + mLanguage);
-        }
         return mLanguage;
     }
 
