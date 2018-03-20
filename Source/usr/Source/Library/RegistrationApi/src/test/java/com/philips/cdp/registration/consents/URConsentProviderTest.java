@@ -18,9 +18,6 @@ import java.util.Locale;
 
 public class URConsentProviderTest {
 
-    @Mock
-    private Context mContext;
-
     private Locale mLocale;
 
     @Before
@@ -29,15 +26,15 @@ public class URConsentProviderTest {
         mLocale = new Locale("en", "US");
     }
 
-    @Test
-    public void ShouldStringsMatch_FetchMarketingConsentDefinition() throws Exception {
-        URConsentProvider.fetchMarketingConsentDefinition(mLocale);
-        Mockito.verify(mContext).getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        Mockito.verify(mContext).getString(R.string.reg_DLS_PhilipsNews_Description_Text);
-    }
 
     @Test
     public void Should_FetchMarketingConsentDefinition() throws Exception {
+        ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition(mLocale);
+        Assert.assertNotNull(consentDefinition);
+    }
+
+    @Test
+    public void Should_FetchMarketingConsentDefinition_TextAsInteger() throws Exception {
         ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition(mLocale);
         Assert.assertNotNull(consentDefinition);
     }
