@@ -619,6 +619,7 @@ public class DataServicesManager {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
                         public void onSuccess(List<? extends Insight> insightData) {
+                            mSynchronisationManager.resetLastExpirationDeletionDateTime();
                             runSync(resultListener);
                         }
 

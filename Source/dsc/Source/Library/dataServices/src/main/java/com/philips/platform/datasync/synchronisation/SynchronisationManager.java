@@ -31,6 +31,7 @@ import javax.inject.Inject;
 public class SynchronisationManager implements SynchronisationChangeListener {
 
     private static final String LAST_EXPIRED_DELETION_DATE_TIME = "LAST_EXPIRED_DELETION_DATE_TIME";
+    private static final String BEGINNING_OF_TIME = "1970-01-01";
     private volatile boolean isSyncComplete = true;
 
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -120,6 +121,10 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postOnSyncComplete();
     }
 
+    public void resetLastExpirationDeletionDateTime() {
+        expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, BEGINNING_OF_TIME).apply();
+    }
+
     private boolean isSyncInProcess() {
         synchronized (this) {
             if (isSyncComplete) {
@@ -143,10 +148,10 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         mEventing.post(new WriteDataToBackendRequest());
     }
 
+
     private void clearExpiredMoments(DBRequestListener<Integer> listener) {
         mEventing.post(new DeleteExpiredMomentRequest(listener));
     }
-
 
     private void clearExpiredInsights(DBRequestListener<Insight> listener) {
         mEventing.post(new DeleteExpiredInsightRequest(listener));
@@ -157,7 +162,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     }
 
     private DateTime getLastExpiredDataDeletionDateTime() {
-        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, "1970-02-01");
+        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, BEGINNING_OF_TIME);
         return DateTime.parse(lastDeletion);
     }
 

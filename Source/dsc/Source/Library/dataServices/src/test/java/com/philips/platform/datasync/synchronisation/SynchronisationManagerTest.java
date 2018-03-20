@@ -283,6 +283,13 @@ public class SynchronisationManagerTest {
         verifyDeletionTimeUpdated();
     }
 
+    @Test
+    public void shouldAbleToSetLastExpiredDeletionDateTime_toTheBeginningOfTime() {
+        givenLastDeletionTimeIsHoursAgo(3);
+        synchronisationManager.resetLastExpirationDeletionDateTime();
+        verify(prefsEditorMock).putString(eq("LAST_EXPIRED_DELETION_DATE_TIME"), eq("1970-01-01"));
+    }
+
     private void givenSomeSyncInProgress() {
         synchronisationManager.startSync(synchronisationCompleteListenerSpy);
         reset(eventingMock);
