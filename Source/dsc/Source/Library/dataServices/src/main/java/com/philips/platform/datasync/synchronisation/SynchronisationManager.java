@@ -157,7 +157,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     }
 
     private DateTime getLastExpiredDataDeletionDateTime() {
-        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, "02-01-1970");
+        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, "1970-02-01");
         return DateTime.parse(lastDeletion);
     }
 

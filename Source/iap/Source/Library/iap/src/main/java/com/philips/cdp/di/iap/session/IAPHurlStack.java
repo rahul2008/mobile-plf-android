@@ -27,6 +27,7 @@ public class IAPHurlStack {
             @Override
             protected HttpURLConnection createConnection(final URL url) throws IOException {
                 HttpURLConnection connection = super.createConnection(url);
+                connection.setInstanceFollowRedirects(true);
                 if (connection instanceof HttpsURLConnection) {
                     ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
                         @Override
