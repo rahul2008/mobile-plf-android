@@ -8,6 +8,8 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 import java.io.Serializable;
@@ -237,6 +239,14 @@ public interface AppTaggingInterface extends Serializable {
 	 * @since 2018.1.0
 	 */
 	String getClickStreamConsentIdentifier();
+
+	/**
+	 * Register ClickStreamHandler.
+	 *
+	 * @param consentManager ConsentManager
+	 * @since 2018.1.0
+	 */
+	void registerClickStreamHandler(ConsentManagerInterface consentManager);
 
 	enum SocialMedium {
 		Facebook("facebook"),

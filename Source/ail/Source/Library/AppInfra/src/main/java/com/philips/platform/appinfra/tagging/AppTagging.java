@@ -13,8 +13,11 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -188,6 +191,11 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public String getClickStreamConsentIdentifier() {
         return CLICKSTREAM_CONSENT_TYPE;
+    }
+
+    @Override
+    public void registerClickStreamHandler(ConsentManagerInterface consentManager) {
+        consentManager.register(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE), getClickStreamConsentHandler());
     }
 
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {

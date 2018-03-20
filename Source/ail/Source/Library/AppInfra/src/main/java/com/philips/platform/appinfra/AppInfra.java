@@ -410,10 +410,9 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
 
-
-
             ai.setConsentManager(consentManager == null ? new ConsentManager(ai) : consentManager);
 
+            ai.getTagging().registerClickStreamHandler(ai.getConsentManager());
 
             new Thread(new Runnable() {
                 @Override
