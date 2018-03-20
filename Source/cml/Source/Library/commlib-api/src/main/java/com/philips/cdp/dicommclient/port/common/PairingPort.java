@@ -132,7 +132,7 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
      * @param secretKey      String A secret key
      * @param type           String The type of pairing the client wants to perform
      * @param permissions    String[] The kind of permissions to set up a pairing relation for
-     * @see #unpair(String, String, String, String, String)
+     * @see #unpair(String, String, String, String)
      */
     public void pair(String clientProvider, String clientType, String clientId, String secretKey, String type, String[] permissions) {
         triggerPairing(clientProvider, clientType, clientId, secretKey, type, permissions);
@@ -144,12 +144,11 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
      * @param clientProvider String The entity to provide the client to pair with
      * @param clientType     String The type of client who wants to start pairing
      * @param clientId       String An ID to indicate who the client is
-     * @param secretKey      String A secret key
      * @param type           String The type of pairing the client wants to perform
      * @see #pair(String, String, String, String, String, String[])
      */
-    public void unpair(String clientProvider, String clientType, String clientId, String secretKey, String type) {
-        final Object[] dataArray = {clientProvider, clientType, clientId, secretKey, type};
+    public void unpair(String clientProvider, String clientType, String clientId, String type) {
+        final Object[] dataArray = {clientProvider, clientType, clientId, type};
         final Map<String, Object> dataMap = new HashMap<>();
         dataMap.put(METHOD_UNPAIR, dataArray);
 

@@ -78,7 +78,7 @@ public class PairingPortTest {
 
     @Test
     public void givenAPairingPort_whenUnpairingIsTriggeredWithType_thenPutPropertiesMustBeCalledOnCommunicationStrategy() {
-        pairingport.unpair(CLIENT_PROVIDER, CLIENT_TYPE, CLIENT_ID, SECRET_KEY, TYPE);
+        pairingport.unpair(CLIENT_PROVIDER, CLIENT_TYPE, CLIENT_ID, TYPE);
 
         verify(communicationStrategyMock).putProperties(captor.capture(), eq(pairingport.getDICommPortName()), eq(pairingport.getDICommProductId()), any(ResponseHandler.class));
         Map<String, Object> map = captor.getValue();

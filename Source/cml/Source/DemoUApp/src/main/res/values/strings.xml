@@ -80,9 +80,10 @@
     <string name="cml_forget_success">Appliance forgotten</string>
     <string name="cml_persist_success">Appliance persisted</string>
     <string name="cml_persist_failed">Appliance not persisted</string>
-    <string name="cml_pairing_failed">Pairing failed</string>
-    <string name="cml_paired_success">Pairing successful</string>
+    <string name="cml_pair_success">Paired successfully</string>
+    <string name="cml_pair_failed">Pairing failed</string>
     <string name="cml_unpair_success">Unpaired successfully</string>
+    <string name="cml_unpair_failed">Unpairing failed</string>
     <string name="cml_cancel">Cancel</string>
     <string name="cml_perform_discovery">Perform discovery</string>
     <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
