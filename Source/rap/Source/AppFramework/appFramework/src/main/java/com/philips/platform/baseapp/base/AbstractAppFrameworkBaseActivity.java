@@ -8,6 +8,8 @@ package com.philips.platform.baseapp.base;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
@@ -64,7 +66,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         initTheme();
         super.onCreate(savedInstanceState);
         RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized()){
             BaseAppUtil.restartApp(getApplicationContext());
             finish();

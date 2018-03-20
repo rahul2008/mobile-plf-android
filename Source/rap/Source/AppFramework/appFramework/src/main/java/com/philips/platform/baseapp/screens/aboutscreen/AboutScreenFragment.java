@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.aboutscreen;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.SpannableString;
@@ -12,6 +13,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -51,6 +53,18 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         aboutScreenActionListener = getPresenter();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     protected AboutScreenContract.Action getPresenter() {
