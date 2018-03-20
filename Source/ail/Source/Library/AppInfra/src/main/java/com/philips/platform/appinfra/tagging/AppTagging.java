@@ -195,6 +195,7 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void registerClickStreamHandler(ConsentManagerInterface consentManager) {
+        consentManager.deregister(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE));
         consentManager.register(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE), getClickStreamConsentHandler());
     }
 

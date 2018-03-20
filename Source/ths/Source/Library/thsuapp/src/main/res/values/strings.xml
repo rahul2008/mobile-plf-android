@@ -474,7 +474,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_invalid_parameter">You have entered an incorrect detail. Please try again.</string>
 
     <!--GDPR Consent-->
-    <string name="ths_location_consent_title">I allow &quot;uGrow&quot; to access my location data to \'Find Pharmacies near you\'</string>
+    <string name="ths_location_consent_fragment_title">Location Consent</string>
+    <string name="ths_location_consent_title">I allow &quot;Amwell&quot; to access my location data to \'Find Pharmacies near you\'</string>
     <string name="ths_location_consent_help">When you allow access to location data, we may collect the geographic location of your mobile device.
 
 When you make use of the \'Find Pharmacies\' functionality, you are requested to share your location data with Amwell. If you use our location features, based on your location data, the pharmacies near you will be shown.</string>

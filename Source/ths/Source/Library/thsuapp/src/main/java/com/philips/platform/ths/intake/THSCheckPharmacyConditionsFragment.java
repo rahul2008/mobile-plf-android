@@ -104,7 +104,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                     .addOnConnectionFailedListener(this)
                     .build();
         }
-        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
+        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this, getActionBarListener());
     }
 
     private boolean isGooglePlayServicesAvailable() {
