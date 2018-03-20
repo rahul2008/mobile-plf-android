@@ -95,7 +95,6 @@
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
                 android:layout_marginStart="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_Not_Available"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:textDirection="locale"
                 android:visibility="gone" />
@@ -206,7 +205,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/reg_dimen_16dp"
             android:layout_marginStart="@dimen/reg_dimen_16dp"
-            android:text="@string/reg_Not_Available"
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:textDirection="locale"
             android:visibility="gone" />
