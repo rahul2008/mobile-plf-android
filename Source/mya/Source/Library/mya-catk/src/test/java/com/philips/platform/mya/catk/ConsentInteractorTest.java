@@ -118,7 +118,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
-        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0));
+        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition(0, 0, Collections.singletonList("moment"), 0));
         whenFetchLatestConsentsCalled();
         andResponseIs(new BackendConsent(CANADIAN_LOCALE, ConsentStatus.active, "type", 0));
 
@@ -129,8 +129,8 @@ public class ConsentInteractorTest {
     @Test
     public void getStatusForConsentType_filtersByType() {
         givenAccessToolkitWithConsentDefinitions(
-                new ConsentDefinition("text1", "help1", Collections.singletonList("type1"), 0),
-                new ConsentDefinition("text2", "help2", Collections.singletonList("type2"), 0));
+                new ConsentDefinition(0, 0, Collections.singletonList("type1"), 0),
+                new ConsentDefinition(0, 0, Collections.singletonList("type2"), 0));
         whenGetStatusForConsentType("type2");
         thenCatkdgetStatusForConsentTypeWasCalledWith("type2");
     }
@@ -171,7 +171,7 @@ public class ConsentInteractorTest {
     }
 
     private void givenConsentDefinition() {
-        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0);
+        givenConsentDefinition = new ConsentDefinition(0, 0, Collections.singletonList("moment"), 0);
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
