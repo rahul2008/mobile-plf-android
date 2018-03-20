@@ -53,7 +53,7 @@ import java.util.List;
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_PASSWORD_KEY = "dataservices";
 
     private Dao<OrmMoment, Integer> momentDao;
@@ -204,11 +204,12 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         if (newVer > oldVer) {
-            if (newVer >= 2 && oldVer == 1) {
-                try {
-                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
-                } catch (SQLException e) {
-                }
+            if (oldVer < 2) {
+                addExpirationDateToMoment();
+            }
+
+            if (oldVer < 3) {
+                addExpirationDateToInsight();
             }
         }
     }
@@ -315,13 +316,13 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         return synchronisationDataDao;
     }
 
-
     public Dao<OrmConsentDetail, Integer> getConsentDetailsDao() throws SQLException {
         if (consentDetailDao == null) {
             consentDetailDao = getDao(OrmConsentDetail.class);
         }
         return consentDetailDao;
     }
+
 
     public Dao<OrmCharacteristics, Integer> getCharacteristicsDao() throws SQLException {
         if (characteristicsDao == null) {
@@ -356,5 +357,19 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             ormInsightMetaDataDao = getDao(OrmInsightMetaData.class);
         }
         return ormInsightMetaDataDao;
+    }
+
+    private void addExpirationDateToInsight() {
+        try {
+            this.getMomentDao().executeRaw("ALTER TABLE `OrmInsight` ADD COLUMN expirationDate INTEGER NULL");
+        } catch (SQLException e) {
+        }
+    }
+
+    private void addExpirationDateToMoment() {
+        try {
+            this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
+        } catch (SQLException e) {
+        }
     }
 }
