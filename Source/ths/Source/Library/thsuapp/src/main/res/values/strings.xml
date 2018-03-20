@@ -159,7 +159,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
-    <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report</string>
+    <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report(s)</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
     <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
@@ -216,7 +216,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
 
     <!-- Available provider strings-->
-    <string name="ths_available_location_specialists_string">available location specialist(s)</string>
+    <string name="ths_available_location_specialists_string">available specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
     <string name="ths_provider_fetch_error">Provider fetch error</string>
     <string name="ths_provider_fetch_error_text">No Doctors available for consultation. Please try after sometime</string>
@@ -363,6 +363,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cancel_visit_string">Cancel visit</string>
     <string name="ths_waiting_room_your_next_in_line">You\'re next in line</string>
     <string name="ths_waiting_room_patients_waiting">patients waiting</string>
+    <string name="ths_waiting_room_patient_waiting">patient waiting</string>
     <string name="ths_waiting_room_cancelling_waiting">Cancelling Visit</string>
     <string name="ths_patient_waiting_do_not_leave_text">Please, do not leave this screen or you might lose your spot in the waiting line</string>
 
