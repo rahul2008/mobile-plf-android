@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.csw.permission.adapter;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -99,7 +100,12 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onGetConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
-        notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
+        ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
+            }
+        });
     }
 
     public void onGetConsentFailed(ConsentError error) {
@@ -121,13 +127,20 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         }
     }
 
-    public void onCreateConsentSuccess(int position, boolean status) {
+    public void onCreateConsentSuccess(final int position, boolean status) {
         if (position != NOT_FOUND) {
-            ConsentView consentView = items.get(position);
+            ConsentView consentView = items.get(position-1);
             consentView.setError(false);
             consentView.setIsLoading(false);
             consentView.storeConsent(getConsent(consentView.getDefinition(), status));
-            notifyItemChanged(position + HEADER_COUNT);
+
+            ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(position);
+                }
+            });
+
         }
     }
 
