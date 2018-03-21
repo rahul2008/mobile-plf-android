@@ -7,18 +7,19 @@ package com.philips.platform.mya.interfaces;
 
 
 import com.philips.platform.mya.error.MyaError;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.io.Serializable;
 
 public interface MyaListener extends Serializable {
 
-    boolean onSettingsMenuItemSelected(String itemName);
+    boolean onSettingsMenuItemSelected(FragmentLauncher fragmentLauncher, String itemName);
 
-    boolean onProfileMenuItemSelected(String itemName);
+    boolean onProfileMenuItemSelected(FragmentLauncher fragmentLauncher, String itemName);
 
     void onError(MyaError myaError);
 
-    void onLogoutClicked(MyaLogoutListener myaLogoutListener);
+    void onLogoutClicked(FragmentLauncher fragmentLauncher, MyaLogoutListener myaLogoutListener);
 
     interface MyaLogoutListener{
         void onLogoutSuccess();

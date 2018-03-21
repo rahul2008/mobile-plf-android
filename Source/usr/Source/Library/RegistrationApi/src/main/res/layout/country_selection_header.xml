@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/reg_text_size_16"
-        android:text="Choose the country you live in. This lets us tailor the warranty and other information to your location"
+        android:text="@string/reg_DLS_Country_Selection_Explainary_Text"
         android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
         />
 

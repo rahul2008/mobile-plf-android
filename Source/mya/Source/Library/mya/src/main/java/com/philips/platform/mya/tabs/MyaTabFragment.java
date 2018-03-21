@@ -20,6 +20,7 @@ import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.Label;
 
 public class MyaTabFragment extends MyaBaseFragment {
 
@@ -59,6 +60,7 @@ public class MyaTabFragment extends MyaBaseFragment {
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
             viewPager.setCurrentItem(tabPosition, true);
             tabLayout.setScrollPosition(tabPosition, 0, true);
+            applyFontTab(tabLayout);
         }
         return view;
     }
@@ -76,23 +78,33 @@ public class MyaTabFragment extends MyaBaseFragment {
         if (myaLaunchInput != null && myaLaunchInput.getMyaTabConfig() != null && myaLaunchInput.getMyaTabConfig().getTabName() != null && myaLaunchInput.getMyaTabConfig().getFragment() != null)
             tabLayout.addTab(tabLayout.newTab().setText(myaLaunchInput.getMyaTabConfig().getTabName()));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+    }
+
+    private void applyFontTab(TabLayout tabLayout) {
+        for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
+            Label tv = (Label) getActivity().getLayoutInflater().inflate(R.layout.mya_tab_label, null);
+            if (i == viewPager.getCurrentItem()) tv.setSelected(true);
+            TabLayout.Tab tabAt = tabLayout.getTabAt(i);
+            tv.setText(tabAt != null ? tabAt.getText() : "");
+            try {
+                if (tabAt != null) {
+                    tabAt.setCustomView(tv);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private TabLayout.OnTabSelectedListener getTabListener(final ViewPager viewPager) {
-        return new TabLayout.OnTabSelectedListener() {
+        return new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
                 addTags(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
             }
         };
     }
@@ -100,10 +112,10 @@ public class MyaTabFragment extends MyaBaseFragment {
     private void addTags(int position) {
         switch (position) {
             case 0:
-                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page","MYA_01_01_profile_page","My Account Profile page");
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_01_profile_page",null,null);
                 break;
             case 1:
-                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page", "MYA_01_06_settings_page", "My Settings page");
+                MyaHelper.getInstance().getAppTaggingInterface().trackPageWithInfo("MYA_01_06_settings_page",null,null);
                 break;
             default:
                 break;

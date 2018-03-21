@@ -19,6 +19,7 @@ import android.text.style.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.*;
@@ -55,7 +56,6 @@ public class RegUtility {
     //Temp: Code (For the existing usage on other fragments)
 
     /**
-     *
      * @param termsAndConditionsAcceptance
      * @param activity
      * @param termsAndConditionClickListener
@@ -74,7 +74,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param termsAndConditionsAcceptance
      * @param activity
      * @param termsAndConditionClickListener
@@ -85,7 +84,7 @@ public class RegUtility {
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
         String termsAndCondition = activity.getString(R.string.reg_DLS_TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition ="\n"+ activity.getString(R.string.reg_DLS_TermsAndConditionsText);
+        String acceptTermsAndCondition = "\n" + activity.getString(R.string.reg_DLS_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
         String terms = activity.getString(R.string.reg_DLS_TermsAndConditionsText);
@@ -93,7 +92,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param receivePhilipsNewsView
      * @param activity
      * @param receivePhilipsNewsClickListener
@@ -103,15 +101,14 @@ public class RegUtility {
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
     /**
-     *
      * @param receivePhilipsNewsView
      * @param activity
      * @param receivePhilipsNewsClickListener
@@ -121,15 +118,14 @@ public class RegUtility {
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
     /**
-     *
      * @param accountSettingPhilipsNews
      * @param activity
      * @param accountSettingsPhilipsClickListener
@@ -148,7 +144,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param accountSettingPhilipsNews
      * @param activity
      * @param accountSettingsPhilipsClickListener
@@ -174,7 +169,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param spanableString
      * @since 1.0.0
      */
@@ -200,7 +194,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param registrationEnv
      * @return Configuration
      * @since 1.0.0
@@ -226,7 +219,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @return UIFlow
      * @since 1.0.0
      */
@@ -246,7 +238,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param providers
      * @since 1.0.0
      */
@@ -266,7 +257,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @return AccountStartTime
      * @since 1.0.0
      */
@@ -291,7 +281,6 @@ public class RegUtility {
     }
 
     /**
-     *
      * @return defaultSupportedHomeCountries
      * @since 1.0.0
      */
@@ -303,7 +292,6 @@ public class RegUtility {
 
 
     /**
-     *
      * @param serverResponse
      * @return error Message
      * @since 1.0.0
@@ -333,8 +321,17 @@ public class RegUtility {
         return null;
     }
 
+    public static String getTaggingErrorDescription(JSONObject serverResponse) {
+
+        try {
+            return serverResponse.getString("error_description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     /**
-     *
      * @return List of Supported Countries
      * @since 1.0.0
      */
@@ -364,8 +361,7 @@ public class RegUtility {
     }
 
     /**
-     *
-     * @return  FallbackCountryCode
+     * @return FallbackCountryCode
      * @since 1.0.0
      */
     @NonNull
@@ -381,10 +377,10 @@ public class RegUtility {
     }
 
     @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html){
+    public static Spanned fromHtml(String html) {
         Spanned result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
         } else {
             result = Html.fromHtml(html);
         }
@@ -392,12 +388,12 @@ public class RegUtility {
     }
 
     public static void showErrorMessage(Activity parentActivity) {
-        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity,parentActivity.getResources().getString(R.string.reg_Generic_Network_Error),Toast.LENGTH_SHORT).show());
+        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.reg_Generic_Network_Error), Toast.LENGTH_SHORT).show());
     }
 
     public static void handleDynamicPermissionChange(Activity registrationActivity) {
         registrationActivity.finishAffinity();
-        Intent i =  registrationActivity.getBaseContext().getPackageManager().getLaunchIntentForPackage( registrationActivity.getBaseContext().getPackageName());
+        Intent i = registrationActivity.getBaseContext().getPackageManager().getLaunchIntentForPackage(registrationActivity.getBaseContext().getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         registrationActivity.startActivity(i);
     }
@@ -414,7 +410,7 @@ public class RegUtility {
                 countryName = mContext.getApplicationContext().getString(identifier);
 
             } catch (Exception resourcesNotFoundException) {
-                RLog.d(RLog.EXCEPTION,resourcesNotFoundException.getMessage());
+                RLog.d(RLog.EXCEPTION, resourcesNotFoundException.getMessage());
             }
         }
 
@@ -425,7 +421,6 @@ public class RegUtility {
     private static String getCountryKey(String mSelectedCountryCode) {
         return "reg_Country" + "_" + mSelectedCountryCode;
     }
-
 
 
 }

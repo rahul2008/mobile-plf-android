@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
@@ -41,7 +42,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG,"error while fetching url ",message);
+                view.setLinkUrl("https://".concat(view.getFragmentActivity().getString(R.string.MYA_philips_website)));
             }
         });
         view.showSettingsItems(getSettingsMap(appInfra));
@@ -53,7 +55,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void logOut(Bundle bundle) {
-        MyaHelper.getInstance().getMyaListener().onLogoutClicked(this);
+        view.onLogOutClick(this);
     }
 
     @Override
@@ -62,7 +64,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
-        List<?> list = null;
+        List<?> list;
         list = MyaHelper.getInstance().getMyaLaunchInput().getSettingsMenuList();
         return getLocalisedList(list, appInfraInterface);
     }
@@ -71,13 +73,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
         SettingsModel privacySettingsModel = new SettingsModel();
-        privacySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Privacy_Settings));
+        privacySettingsModel.setFirstItem(view.getFragmentActivity().getString(R.string.MYA_Privacy_Settings));
         profileList.put("MYA_Privacy_Settings", privacySettingsModel);
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) list.get(i);
-                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getContext(), key));
+                settingsModel.setFirstItem(myaLocalizationHandler.getStringResourceByName(view.getFragmentActivity(), key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
@@ -95,6 +97,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void onLogOutFailure() {
-
+        // is defined for future use
     }
 }

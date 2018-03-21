@@ -271,6 +271,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.EMAIL_VERIFICATION);
             showVerifyAlertDialog();
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
                     AppTagingConstants.EMAIL_NOT_VERIFIED);

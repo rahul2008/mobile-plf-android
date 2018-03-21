@@ -70,9 +70,9 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         try {
             TreeMap<String, String> treeMap = new TreeMap<>();
             MyaLocalizationHandler myaLocalizationHandler = new MyaLocalizationHandler();
-            treeMap.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
+            treeMap.put("MYA_My_details", view.getFragmentActivity().getString(R.string.MYA_My_details));
             if (list != null && list.size() != 0) {
-                myaLocalizationHandler.getLocalisedList(view.getContext(), list, treeMap);
+                myaLocalizationHandler.getLocalisedList(view.getFragmentActivity(), list, treeMap);
             }
             return treeMap;
         } catch (IllegalArgumentException exception) {

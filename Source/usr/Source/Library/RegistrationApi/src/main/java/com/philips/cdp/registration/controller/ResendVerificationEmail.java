@@ -15,6 +15,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
@@ -40,8 +41,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	}
 
 	public void onFailure(CaptureApiError error) {
-		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-		userRegistrationFailureInfo.setError(error);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error);
 		userRegistrationFailureInfo.setErrorCode(error.code);
 		ThreadUtils.postInMainThread(mContext,()->
 		mResendVerificationEmail
@@ -78,6 +78,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 		if(mResendVerificationEmail != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
 			ThreadUtils.postInMainThread(mContext,()->
 			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));

@@ -319,11 +319,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
                 userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
             mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
         }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             sendEmailOrSMSButton.setEnabled(false);
         } else {
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
@@ -376,6 +378,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        hideForgotPasswordSpinner();
         forgotPasswordErrorMessage(
                 context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
     }
