@@ -183,18 +183,18 @@ public class ConsentManagerTest {
         SampleHandler2 mSampleHandler2 = new SampleHandler2();
         mSampleHandler3 = new SampleHandler3();
         SampleHandler4 mSampleHandler4 = new SampleHandler4();
-        mConsentManager.registerHandler(Arrays.asList("testConsent1", "testConsent2"), mSampleHandler1);
-        mConsentManager.registerHandler(Arrays.asList("testConsent3", "testConsent4"), mSampleHandler2);
-        mConsentManager.registerHandler(Collections.singletonList("testConsent5"), mSampleHandler3);
-        mConsentManager.registerHandler(Collections.singletonList("testConsent6"), mSampleHandler4);
+        mConsentManager.register(Arrays.asList("testConsent1", "testConsent2"), mSampleHandler1);
+        mConsentManager.register(Arrays.asList("testConsent3", "testConsent4"), mSampleHandler2);
+        mConsentManager.register(Collections.singletonList("testConsent5"), mSampleHandler3);
+        mConsentManager.register(Collections.singletonList("testConsent6"), mSampleHandler4);
     }
 
     private void whenRegisteringDuplicateConsentType() {
-        mConsentManager.registerHandler(Collections.singletonList("testConsent1"), mSampleHandler3);
+        mConsentManager.register(Collections.singletonList("testConsent1"), mSampleHandler3);
     }
 
     private void whenDeRegisterConsentTypeIsInvoked() {
-        mConsentManager.deregisterHandler(Collections.singletonList("testConsent1"));
+        mConsentManager.deregister(Collections.singletonList("testConsent1"));
     }
 
     private void givenConsentError() {

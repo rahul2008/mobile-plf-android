@@ -48,8 +48,8 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         this.context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
         final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
-        appInfra.getConsentManager().deregisterHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION));
-        appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
+        appInfra.getConsentManager().deregister(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION));
+        appInfra.getConsentManager().register(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
     }
 
     /**

@@ -88,7 +88,7 @@ public class ConsentsClient {
 
     private void registerBackendPlatformConsent() {
         try {
-            consentManagerInterface.registerHandler(Arrays.asList("moment", "coaching", "binary", "research", "analytics"), new ConsentInteractor(this));
+            consentManagerInterface.register(Arrays.asList("moment", "coaching", "binary", "research", "analytics"), new ConsentInteractor(this));
         } catch (RuntimeException exception) {
             CatkLogger.d("RuntimeException", exception.getMessage());
         }

@@ -76,17 +76,17 @@ public class HttpClientTest extends ActivityInstrumentationTestCase2<Registratio
         al.add(p1);
         al.add(p2);
         al.add(p3);
-        httpClient.callPost("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.registerHandler.type.product?",al,"swa7ud5vjx75cqq2");
+        httpClient.callPost("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.register.type.product?",al,"swa7ud5vjx75cqq2");
     }
 
     public void testHttpClientGet(){
         HttpClient httpClient = new HttpClient();
-        httpClient.callGet("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.registerHandler.type.product?","swa7ud5vjx75cqq2");
+        httpClient.callGet("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.register.type.product?","swa7ud5vjx75cqq2");
         URL url = null;
         BufferedReader bufferedReader = null;
         StringBuilder inputResponse = new StringBuilder();
         try {
-            url = new URL("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.registerHandler.type.product?");
+            url = new URL("https://acc.philips.co.uk/prx/registration/B2C/de_DE/CONSUMER/products/HD8978/01.register.type.product?");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestProperty("x-accessToken", "swa7ud5vjx75cqq2");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

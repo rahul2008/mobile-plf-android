@@ -38,7 +38,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import java.util.List;
 
 /**
- * Responsible to registerHandler and fetch products
+ * Responsible to register and fetch products
  */
 public class UserWithProducts {
 
@@ -79,7 +79,7 @@ public class UserWithProducts {
     }
 
     /**
-     * API to registerHandler product
+     * API to register product
      *
      * @param product - instance of product which should include CTN, Serial, Sector and Catalog of product
      */
@@ -102,7 +102,7 @@ public class UserWithProducts {
     }
 
     /**
-     * API to registerHandler products which are cached
+     * API to register products which are cached
      *
      * @param registeredProducts - List of products to be registered
      */

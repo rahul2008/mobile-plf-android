@@ -195,8 +195,8 @@ public class URInterface implements UappInterface {
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
-        uappDependencies.getAppInfra().getConsentManager().deregisterHandler(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT));
-        uappDependencies.getAppInfra().getConsentManager().registerHandler(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), new MarketingConsentHandler(context));
+        uappDependencies.getAppInfra().getConsentManager().deregister(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT));
+        uappDependencies.getAppInfra().getConsentManager().register(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), new MarketingConsentHandler(context));
     }
 
     @NonNull

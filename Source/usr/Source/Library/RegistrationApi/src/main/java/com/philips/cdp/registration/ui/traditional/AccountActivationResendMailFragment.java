@@ -139,7 +139,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
-        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment registerHandler: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();
         if (null != bundle) {

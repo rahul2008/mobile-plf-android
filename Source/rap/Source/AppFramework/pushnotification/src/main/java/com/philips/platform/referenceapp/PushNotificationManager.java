@@ -157,7 +157,7 @@ public class PushNotificationManager {
     void registerTokenWithBackend(final Context applicationContext) {
         PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
-            PNLog.d(TAG, "Token is empty. Trying to registerHandler device with GCM server.....");
+            PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");
             startGCMRegistrationService(applicationContext);
         } else if(tokenRegistrationListener!=null){
             PNLog.d(TAG, "Registering token with backend");

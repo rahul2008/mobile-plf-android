@@ -235,7 +235,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         int strengthMeterMedium=66;
 
         RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment registerHandler: NetworkStateListener,strength " + strength);
+                "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
             passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
@@ -637,7 +637,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @OnClick(R2.id.usr_createscreen_create_button)
     public void progressBar() {
         RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment registerHandler: progresBarButton");
+                "CreateAccountFragment register: progresBarButton");
         RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {

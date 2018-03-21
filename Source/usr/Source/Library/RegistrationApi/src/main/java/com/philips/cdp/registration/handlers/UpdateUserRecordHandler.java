@@ -22,7 +22,7 @@ public interface UpdateUserRecordHandler {
 	public void updateUserRecordLogin();
 
 	/**
-	 * {@code updateUserRecordRegister} method is invoked on update user record registerHandler
+	 * {@code updateUserRecordRegister} method is invoked on update user record register
 	 * @since 1.0.0
 	 */
 	public void updateUserRecordRegister();

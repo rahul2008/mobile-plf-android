@@ -34,7 +34,7 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     @Override
-    public synchronized void registerHandler(List<String> consentTypes, ConsentHandlerInterface consentHandlerInterface) {
+    public synchronized void register(List<String> consentTypes, ConsentHandlerInterface consentHandlerInterface) {
         for (String consentType : consentTypes) {
             if (consentHandlerMapping.containsKey(consentType))
                 throw new RuntimeException("Consent type already exist");
@@ -44,7 +44,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     //TODO throw exception in case of key does not exist ?
     @Override
-    public synchronized void deregisterHandler(List<String> consentTypes) {
+    public synchronized void deregister(List<String> consentTypes) {
         for (String consentType : consentTypes) {
             if (consentHandlerMapping.containsKey(consentType))
                 consentHandlerMapping.remove(consentType);

@@ -18,14 +18,14 @@ public interface ConsentManagerInterface {
      * @param consentType             type of the consent
      * @param consentHandlerInterface Handler which handles the implementation for the given consent type
      */
-    void registerHandler(List<String> consentType, ConsentHandlerInterface consentHandlerInterface);
+    void register(List<String> consentType, ConsentHandlerInterface consentHandlerInterface);
 
     /**
      * Deregister consent type from the handler
      *
      * @param consentType the type that should be removed from the handler
      */
-    void deregisterHandler(List<String> consentType);
+    void deregister(List<String> consentType);
 
     /**
      * Fetch the consent status of the given consent definition by delegating to the corresponding handler

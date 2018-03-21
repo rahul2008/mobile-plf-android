@@ -39,12 +39,12 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
 
 
     @Override
-    public void registerHandler(List<String> consentType, ConsentHandlerInterface consentHandlerInterface) {
+    public void register(List<String> consentType, ConsentHandlerInterface consentHandlerInterface) {
 
     }
 
     @Override
-    public void deregisterHandler(List<String> consentType) {
+    public void deregister(List<String> consentType) {
 
     }
 
