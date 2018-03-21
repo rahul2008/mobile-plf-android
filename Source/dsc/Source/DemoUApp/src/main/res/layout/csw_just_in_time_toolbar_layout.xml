@@ -2,7 +2,7 @@
 
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/jit_toolbar"
+    android:id="@+id/uid_toolbar_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:title="@null">
@@ -15,7 +15,7 @@
     </LinearLayout>
 
     <com.philips.platform.uid.view.widget.ActionBarTextView
-        android:id="@+id/jit_toolbar_title"
+        android:id="@+id/uid_toolbar"
         style="@style/UIDToolbarTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
