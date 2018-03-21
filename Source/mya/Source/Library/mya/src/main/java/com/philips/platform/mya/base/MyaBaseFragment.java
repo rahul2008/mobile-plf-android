@@ -110,8 +110,8 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
     }
 
     @Override
-    public Context getContext() {
-        return context;
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
     }
 
     public final boolean exitMyAccounts() {

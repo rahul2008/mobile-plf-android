@@ -241,7 +241,7 @@
     <string name="reg_Country_VN">越南</string>
     <string name="reg_Country_MO">中国澳门</string>
     <string name="reg_Country_LU">卢森堡</string>
-    <string name="reg_Country_TWGC">中国台北</string>
+    <string name="reg_Country_TWGC">中国台湾</string>
     <string name="reg_Country_Search_Text">搜索..</string>
     <string name="reg_AppNotInstalled_Alert_Title">未安装应用程序</string>
     <string name="reg_App_NotInstalled_AlertMessage">请安装 %s 应用程序以使用该功能。</string>
@@ -272,7 +272,6 @@
     <string name="reg_Contact_Customer_Care_Text">联系客户服务</string>
     <string name="reg_Update_Email_Button_Text">更新电子邮件地址</string>
     <string name="reg_Country_Region">国家/地区</string>
-    <string name="reg_MyDetails_TitleTxt">我的账户</string>
     <string name="reg_Login_Details_Txt">登录详情</string>
     <string name="reg_Email_address_TitleTxt">电子邮件地址</string>
     <string name="reg_Mobile_number_TitleTxt">手机号码</string>
@@ -281,6 +280,7 @@
     <string name="reg_Gender_TitleTxt">性别</string>
     <string name="reg_DateOfBirth_TitleTxt">出生日期</string>
     <string name="reg_Address_TitleTxt">地址</string>
+    <string name="reg_MyDetails_TitleTxt">我的详细信息</string>
     <string name="reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">立即登录</string>
     <string name="reg_DLS_Create_Account_CreateMyPhilips_btntxt">创建我的飞利浦帐户</string>
     <string name="reg_DLS_Welcome_Alternate_SignInAccount_lbltxt">或者用以下帐户登录：</string>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,8 +24,8 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
-import static com.philips.cdp2.commlib.demouapp.R.string.cml_paired_success;
-import static com.philips.cdp2.commlib.demouapp.R.string.cml_pairing_failed;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
@@ -78,7 +78,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(getActivity(), rootview, getString(cml_paired_success));
+                    showMessage(getActivity(), rootview, getString(cml_pair_success));
                 }
             }
 
@@ -88,7 +88,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());
@@ -121,7 +121,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());

@@ -74,7 +74,7 @@ public class MyaBaseFragmentTest {
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         SupportFragmentTestUtil.startFragment(myaBaseFragment);
-        assertNotNull(myaBaseFragment.getContext());
+        assertNotNull(myaBaseFragment.getFragmentActivity());
     }
 
     @Test

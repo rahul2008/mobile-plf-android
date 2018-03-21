@@ -10,6 +10,8 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +48,8 @@ public class OrmInsight implements Insight, Serializable {
     private int program_max_version;
 
     private boolean synced;
+
+    private DateTime expiration_date;
 
     private OrmSynchronisationData synchronisationData;
 
@@ -219,5 +223,15 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void addInsightMetaData(InsightMetadata insightMetadata) {
         ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
+    }
+
+    @Override
+    public void setExpirationDate(DateTime timestamp) {
+        expiration_date = timestamp;
+    }
+
+    @Override
+    public DateTime getExpirationDate() {
+        return expiration_date;
     }
 }

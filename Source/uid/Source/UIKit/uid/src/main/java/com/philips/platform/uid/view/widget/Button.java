@@ -130,7 +130,7 @@ public class Button extends AppCompatButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if(UIDUtils.isLayoutRTL(this) && (isCenterLayoutRequested || isLeftLayoutRequested)){
-            setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+            setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
         } else {
             if(isCenterLayoutRequested || isLeftLayoutRequested) {
                 setGravity(Gravity.START | Gravity.CENTER_VERTICAL);

@@ -21,13 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-
 
 /**
- * App Tagging classs .
+ * App Tagging classes .
  */
 public class AppTagging implements AppTaggingInterface {
 
