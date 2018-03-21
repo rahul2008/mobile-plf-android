@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.devicepair.ui;
 
 import android.Manifest;
@@ -281,7 +280,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         PairingPort pairingPort = appliance.getPairingPort();
         String permission[] = new String[0];
         String secretKeyGen = "";
-        pairingPort.triggerPairing("cphuser", "", new User(mContext).getHsdpUUID(),
+        pairingPort.pair("cphuser", "", new User(mContext).getHsdpUUID(),
                 secretKeyGen, "urn:cdp|datareceiver_stg", permission);
     }
 
