@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
-import com.philips.platform.datasync.consent.DSCConsentProvider;
 import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -151,7 +151,7 @@ public class DataPushSynchronise extends EventMonitor {
 
     @VisibleForTesting
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
-        DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentState(DSCConsentProvider.fetchMomentConsentDefinition(context), new FetchConsentCallback() {
+        DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentState(ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), new FetchConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {
