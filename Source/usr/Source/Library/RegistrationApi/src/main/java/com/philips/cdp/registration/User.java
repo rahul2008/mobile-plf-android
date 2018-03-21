@@ -236,7 +236,7 @@ public class User {
      * @param password   User's password
      * @param olderThanAgeLimit is user older than the defined age limit
      * @param isReceiveMarketingEmail is user opted for ReceiveMarketingEmail
-     * @param traditionalRegisterHandler traditional user register handler
+     * @param traditionalRegisterHandler traditional user registerHandler handler
      * @since 1.0.0
      */
     public void registerUserInfoForTraditional(String firstName, final String givenName, final String userEmail,
@@ -999,7 +999,7 @@ public class User {
     }
 
     /**
-     * register User Registration Listener
+     * registerHandler User Registration Listener
      *
      * @param userRegistrationListener instance of UserRegistrationListener
      *                                 @since 1.0.0

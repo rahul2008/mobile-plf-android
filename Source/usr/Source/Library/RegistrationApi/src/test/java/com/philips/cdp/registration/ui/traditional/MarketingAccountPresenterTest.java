@@ -81,7 +81,7 @@ public class MarketingAccountPresenterTest {
     public void register() throws Exception {
 
        // Mockito.when(RegistrationHelper.getInstance()).thenReturn(registrationHelperMock);
-        //marketingAccountPresenter.register();
+        //marketingAccountPresenter.registerHandler();
     }
 
     @Test

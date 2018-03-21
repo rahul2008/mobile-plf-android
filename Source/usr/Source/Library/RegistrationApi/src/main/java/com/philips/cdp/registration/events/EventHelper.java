@@ -43,7 +43,7 @@ public class EventHelper {
 	private ConcurrentHashMap <String, List<EventListener>> eventMap;
 
 	/**
-	 * {@code registerEventNotification} method to register event notification
+	 * {@code registerEventNotification} method to registerHandler event notification
 	 * @param list list
 	 * @param observer observer
      */
@@ -57,7 +57,7 @@ public class EventHelper {
 	}
 
 	/**
-	 * {@code registerEventNotification}method to register event notification
+	 * {@code registerEventNotification}method to registerHandler event notification
 	 * @param evenName even name
 	 * @param observer observer
      */

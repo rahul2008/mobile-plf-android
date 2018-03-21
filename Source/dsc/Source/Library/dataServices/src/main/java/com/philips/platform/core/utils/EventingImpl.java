@@ -74,7 +74,7 @@ public class EventingImpl implements Eventing {
 
  /*   @Override
     public void registerSticky(@NonNull final Object subscriber) {
-        eventBus.register(subscriber);
+        eventBus.registerHandler(subscriber);
     }*/
 
     @Override

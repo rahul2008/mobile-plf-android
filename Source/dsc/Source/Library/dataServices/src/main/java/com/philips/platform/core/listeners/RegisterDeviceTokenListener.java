@@ -14,7 +14,7 @@ import com.philips.platform.core.utils.DataServicesError;
 public interface RegisterDeviceTokenListener {
      /**
       * Used for Notifying the Propositions in case of RegisterDeviceToken Success.
-      * @param status boolean indicating the register status
+      * @param status boolean indicating the registerHandler status
       */
      void onResponse(boolean status);
 

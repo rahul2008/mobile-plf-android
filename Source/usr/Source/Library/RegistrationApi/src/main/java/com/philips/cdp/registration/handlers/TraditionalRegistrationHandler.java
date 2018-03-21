@@ -18,13 +18,13 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 public interface TraditionalRegistrationHandler {
 
 	/**
-	 * {@code onRegisterSuccess}method is invoked on register success
+	 * {@code onRegisterSuccess}method is invoked on registerHandler success
 	 * @since 1.0.0
 	 */
 	public void onRegisterSuccess();
 
 	/**
-	 *{{@code onRegisterFailedWithFailure} method is invoked when register fails with failure information
+	 *{{@code onRegisterFailedWithFailure} method is invoked when registerHandler fails with failure information
 	 * @param userRegistrationFailureInfo gives user registration failure information when philips login fails
 	 * @since 1.0.0
      */

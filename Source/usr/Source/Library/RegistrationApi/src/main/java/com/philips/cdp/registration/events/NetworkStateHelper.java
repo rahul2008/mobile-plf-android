@@ -45,7 +45,7 @@ public class NetworkStateHelper {
 	}
 
 	/**
-	 * {@code registerEventNotification} method to register event notification
+	 * {@code registerEventNotification} method to registerHandler event notification
 	 * @param observer network state listener
      */
 	public synchronized void registerEventNotification(NetworkStateListener observer) {
