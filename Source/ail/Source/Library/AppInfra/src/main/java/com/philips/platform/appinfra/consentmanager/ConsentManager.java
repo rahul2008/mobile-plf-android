@@ -134,20 +134,29 @@ public class ConsentManager implements ConsentManagerInterface {
     private void postResultOnFetchConsent(ConsentDefinition consentDefinition,
                                           List<ConsentTypeCallbackListener> consentTypeCallbackListeners, FetchConsentCallback callback) {
         ConsentDefinitionStatus consentDefinitionStatus = null;
+
         for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
+
+            ConsentStatus consentStatus = consentCallbackListener.consentStatus;
+            if (consentStatus == null) {
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+            }
+
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
+            } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
+                    || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
+                callback.onGetConsentsSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
+                return;
             }
-            consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentCallbackListener.consentStatus);
+
+            consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
         }
         callback.onGetConsentsSuccess(consentDefinitionStatus);
     }
 
     private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        if (consentStatus == null) {
-            consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
-        }
         ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus();
         consentDefinitionStatus.setConsentDefinition(consentDefinition);
         consentDefinitionStatus.setConsentState(consentStatus.getConsentState());
