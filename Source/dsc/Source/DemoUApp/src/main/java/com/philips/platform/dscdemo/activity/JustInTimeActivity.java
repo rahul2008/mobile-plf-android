@@ -32,8 +32,8 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.csw_just_in_time_activity);
-        Toolbar toolbar = findViewById(R.id.jit_toolbar);
-        mTitle = toolbar.findViewById(R.id.jit_toolbar_title);
+        Toolbar toolbar = findViewById(R.id.uid_toolbar);
+        mTitle = toolbar.findViewById(R.id.uid_toolbar_title);
         showFragment();
     }
 
