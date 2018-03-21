@@ -87,12 +87,16 @@ public class SupportFragmentState extends BaseState implements CcListener {
     }
 
     public AppFrameworkApplication getApplicationContext(){
-        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+        return ((AppFrameworkApplication) activityContext.getApplicationContext());
     }
 
     @Override
     public void init(Context context) {
+
+        activityContext = context;
         ccInterface = getCcInterface();
+        if (ccSettings == null) ccSettings = new CcSettings(activityContext);
+        if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
         CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
         ccInterface.init(ccDependencies, ccSettings);

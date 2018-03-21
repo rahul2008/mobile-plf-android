@@ -17,6 +17,7 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,6 +62,9 @@ public class THSCheckPharmacyConditionsPresenterTest {
     @Mock
     Address addressMock;
 
+    @Mock
+    ActionBarListener actionBarListener;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -68,7 +72,7 @@ public class THSCheckPharmacyConditionsPresenterTest {
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(thsCheckPharmacyConditionsFragmentMock.getContext()).thenReturn(context);
-        mTHSCheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(thsCheckPharmacyConditionsFragmentMock);
+        mTHSCheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(thsCheckPharmacyConditionsFragmentMock, actionBarListener);
     }
 
     @Test

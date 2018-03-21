@@ -56,7 +56,7 @@ public class TeleHealthServicesState extends BaseState implements THSCompletionP
     public void init(Context context) {
         microAppInterface = getMicroAppInterface();
         microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
-                fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
+                context.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(context.getApplicationContext()));
     }
 
     @Override
