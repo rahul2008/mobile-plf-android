@@ -20,7 +20,6 @@ import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.consumer.Gender;
@@ -43,7 +42,6 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.americanwell.sdk.manager.VisitManager;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -656,7 +654,7 @@ public class THSManagerTest {
     Consumer getConsumer() {
         Consumer consumer = new Consumer() {
             @Override
-            public Gender getGender() {
+            public String getGender() {
                 return Gender.MALE;
             }
 
@@ -721,7 +719,7 @@ public class THSManagerTest {
             }
 
             @Override
-            public ConsumerType getConsumerType() {
+            public String getConsumerType() {
                 return null;
             }
 
@@ -808,6 +806,17 @@ public class THSManagerTest {
             @Override
             public boolean isShowAvailableNow() {
                 return false;
+            }
+
+            @Override
+            public boolean isPaymentRequiredForScheduledVisits() {
+                return false;
+            }
+
+            @Nullable
+            @Override
+            public String getPaymentRequiredForScheduledVisitsText() {
+                return null;
             }
 
             @Override
@@ -973,7 +982,7 @@ public class THSManagerTest {
         thsManager.enrollConsumer(contextMock, dateMock, "ss", "ss", Gender.MALE, stateMock, pTHSDKValidatedCallback);
         verify(consumerManagerMock).enrollConsumer(any(ConsumerEnrollment.class), getUpdateConsumerCaptor.capture());
         final SDKValidatedCallback<Consumer, SDKPasswordError> value = getUpdateConsumerCaptor.getValue();
-        value.onValidationFailure(ArgumentMatchers.<String, ValidationReason>anyMap());
+        value.onValidationFailure(ArgumentMatchers.<String, String>anyMap());
         verify(pTHSDKValidatedCallback).onValidationFailure(anyMap());
     }
 
@@ -984,7 +993,7 @@ public class THSManagerTest {
         thsManager.enrollDependent(contextMock, dateMock, "ddd", "sss", Gender.MALE, stateMock, pTHSDKValidatedCallback);
         verify(consumerManagerMock).enrollDependent(any(DependentEnrollment.class), getDependentenrollment.capture());
         final SDKValidatedCallback<Consumer, SDKError> value = getDependentenrollment.getValue();
-        value.onValidationFailure(ArgumentMatchers.<String, ValidationReason>anyMap());
+        value.onValidationFailure(ArgumentMatchers.<String, String>anyMap());
         pTHSDKValidatedCallback.onValidationFailure(anyMap());
     }
 
@@ -1206,7 +1215,7 @@ public class THSManagerTest {
         final SDKValidatedCallback<Void, SDKError> value = updateVitalsCaptor.getValue();
         Map map = new HashMap();
         value.onValidationFailure(map);
-        verify(thsUpdateVitalsCallBackMock).onUpdateVitalsValidationFailure(ArgumentMatchers.<String, ValidationReason>anyMap());
+        verify(thsUpdateVitalsCallBackMock).onUpdateVitalsValidationFailure(ArgumentMatchers.<String, String>anyMap());
     }
 
     @Mock

@@ -177,7 +177,7 @@ public class THSProvidersListFragmentTest {
 
     List list;
 
-    ProviderVisibility pv;
+    String pv;
 
     ProviderTypeImpl pt;
 

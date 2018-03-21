@@ -52,7 +52,7 @@ public class THSSDKSpecificErrorTest {
 
     @Test
     public void validate_member_upgrade() throws Exception {
-        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.VALIDATION_MEMBER_UNDERAGE, context);
+        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.VALIDATION_CONSUMER_UNDERAGE, context);
         assert validate == true;
     }
 
@@ -82,7 +82,7 @@ public class THSSDKSpecificErrorTest {
 
     @Test
     public void validate_pharmacy_not_found() throws Exception {
-        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.MEMBER_PRIMARY_PHARMACY_NOT_FOUND, context);
+        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.CONSUMER_PRIMARY_PHARMACY_NOT_FOUND, context);
         assert validate == true;
     }
 
@@ -112,7 +112,7 @@ public class THSSDKSpecificErrorTest {
 
     @Test
     public void validate_room_license_denied() throws Exception {
-        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.PROVIDER_NOT_LICENSED_FOR_MEMBER_STATE, context);
+        final boolean validate = mThssdkSpecificError.validate(SDKErrorReason.PROVIDER_NOT_LICENSED_FOR_CONSUMER_STATE, context);
         assert validate == true;
     }
 

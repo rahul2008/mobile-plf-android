@@ -9,7 +9,6 @@ package com.philips.platform.ths.registration;
 import android.os.Parcel;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
 
 import org.junit.Before;
@@ -18,11 +17,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 public class THSConsumerWrapperTest {
@@ -55,7 +54,7 @@ public class THSConsumerWrapperTest {
 
     @Test
     public void getGender() throws Exception {
-        Gender gender =  mThsConsumerWrapper.getGender();
+        String gender =  mThsConsumerWrapper.getGender();
         assertNull(gender);
     }
 

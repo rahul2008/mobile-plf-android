@@ -327,7 +327,7 @@ public class THSCostSummaryPresenterTest {
     public void onCreateVisitValidationFailure() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        Map<String, ValidationReason> map= new HashMap();
+        Map<String, String> map= new HashMap();
         map.put("spo",ValidationReason.FIELD_ATTACHMENT_TOO_BIG);
 
         mTHSCostSummaryPresenter.onCreateVisitValidationFailure(map);
