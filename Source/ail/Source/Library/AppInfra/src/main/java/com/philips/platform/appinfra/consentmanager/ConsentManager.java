@@ -18,11 +18,11 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ConsentManager implements ConsentManagerInterface {
@@ -60,30 +60,33 @@ public class ConsentManager implements ConsentManagerInterface {
         throw new RuntimeException("Handler is not registered for the type " + consentType);
     }
 
+    private void executeHandlerToFetchConsentState(final ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
+
+        for (String consentType : consentDefinition.getTypes()) {
+            ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+            consentTypeCallbackListeners.add(listener);
+            getHandler(consentType).fetchConsentTypeState(consentType, listener);
+        }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+    }
+
     @Override
     public void fetchConsentState(final ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
-        Executors.newFixedThreadPool(1).execute(new Runnable() {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
-                List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
-
-                for (String consentType : consentDefinition.getTypes()) {
-                    ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
-                    consentTypeCallbackListeners.add(listener);
-                    getHandler(consentType).fetchConsentTypeState(consentType, listener);
-                }
-
-                waitTillThreadsGetsCompleted(countDownLatch);
-                postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+                executeHandlerToFetchConsentState(consentDefinition, callback);
             }
         });
     }
 
     @Override
     public void fetchConsentStates(final List<ConsentDefinition> consentDefinitions, final FetchConsentsCallback callback) throws RuntimeException {
-
-        Executors.newFixedThreadPool(1).execute(new Runnable() {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
@@ -92,19 +95,18 @@ public class ConsentManager implements ConsentManagerInterface {
                 for (ConsentDefinition consentDefinition : consentDefinitions) {
                     ConsentManagerCallbackListener listener = new ConsentManagerCallbackListener(countDownLatch);
                     consentManagerCallbackListeners.add(listener);
-                    fetchConsentState(consentDefinition, listener);
+                    executeHandlerToFetchConsentState(consentDefinition, listener);
                 }
 
                 waitTillThreadsGetsCompleted(countDownLatch);
                 postResultOnFetchConsents(consentManagerCallbackListeners, callback);
             }
         });
-
     }
 
     @Override
     public void storeConsentState(final ConsentDefinition consentDefinition, final boolean status, final PostConsentCallback callback) throws RuntimeException {
-        Executors.newFixedThreadPool(1).execute(new Runnable() {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
@@ -144,8 +146,9 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        if (consentStatus == null)
+        if (consentStatus == null) {
             consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+        }
         ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus();
         consentDefinitionStatus.setConsentDefinition(consentDefinition);
         consentDefinitionStatus.setConsentState(consentStatus.getConsentState());
@@ -169,7 +172,7 @@ public class ConsentManager implements ConsentManagerInterface {
                 callback.onGetConsentsFailed(consentManagerCallbackListener.consentError);
                 return;
             }
-            consentDefinitionStatusList.addAll(Collections.singletonList(consentManagerCallbackListener.consentDefinitionStatus));
+            consentDefinitionStatusList.add(consentManagerCallbackListener.consentDefinitionStatus);
         }
         callback.onGetConsentsSuccess(consentDefinitionStatusList);
     }
@@ -187,7 +190,7 @@ public class ConsentManager implements ConsentManagerInterface {
     private class ConsentManagerCallbackListener implements FetchConsentCallback {
         CountDownLatch countDownLatch;
         ConsentDefinitionStatus consentDefinitionStatus;
-        ConsentError consentError = null;
+        ConsentError consentError;
 
         ConsentManagerCallbackListener(CountDownLatch countDownLatch) {
             this.countDownLatch = countDownLatch;
@@ -209,34 +212,49 @@ public class ConsentManager implements ConsentManagerInterface {
 
     private class ConsentTypeCallbackListener implements FetchConsentTypeStateCallback, PostConsentTypeCallback {
         CountDownLatch countDownLatch;
-        ConsentError consentError = null;
-        ConsentStatus consentStatus = null;
+        ConsentError consentError;
+        ConsentStatus consentStatus;
+        boolean calledBack;
 
         ConsentTypeCallbackListener(CountDownLatch countDownLatch) {
+            this.calledBack = false;
             this.countDownLatch = countDownLatch;
         }
 
-        @Override
-        public void onPostConsentFailed(ConsentError error) {
-            consentError = error;
+        private void markCalledBack() {
             countDownLatch.countDown();
+            calledBack = true;
         }
 
         @Override
-        public void onPostConsentSuccess() {
-            countDownLatch.countDown();
+        public synchronized void onPostConsentFailed(ConsentError error) {
+            if (!calledBack) {
+                consentError = error;
+                markCalledBack();
+            }
         }
 
         @Override
-        public void onGetConsentsSuccess(ConsentStatus consentStatus) {
-            this.consentStatus = consentStatus;
-            countDownLatch.countDown();
+        public synchronized void onPostConsentSuccess() {
+            if (!calledBack) {
+                markCalledBack();
+            }
         }
 
         @Override
-        public void onGetConsentsFailed(ConsentError error) {
-            consentError = error;
-            countDownLatch.countDown();
+        public synchronized void onGetConsentsSuccess(ConsentStatus consentStatus) {
+            if (!calledBack) {
+                this.consentStatus = consentStatus;
+                markCalledBack();
+            }
+        }
+
+        @Override
+        public synchronized void onGetConsentsFailed(ConsentError error) {
+            if (!calledBack) {
+                consentError = error;
+                markCalledBack();
+            }
         }
     }
 }
