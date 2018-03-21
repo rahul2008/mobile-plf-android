@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -24,15 +23,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static com.philips.cdp.registration.consents.URConsentProvider.USR_MARKETING_CONSENT;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -82,7 +77,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUser() {
-        List<String> types = URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")).getTypes();
+        List<String> types = URConsentProvider.fetchMarketingConsentDefinition(mockContext).getTypes();
         subject.fetchConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserSuccess();
@@ -217,7 +212,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUserFailed() {
-        List<String> types = URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")).getTypes();
+        List<String> types = URConsentProvider.fetchMarketingConsentDefinition(mockContext).getTypes();
         subject.fetchConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserFailed(anyInt());
@@ -261,7 +256,7 @@ public class MarketingConsentHandlerTest {
 
     private void whenPostingConsentDefinitionFails(int errorCode) {
         List<String> types = givenConsentDefinition.getTypes();
-        subject.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(),givenPostConsentCallback);
+        subject.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(), givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
         marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
     }
