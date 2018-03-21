@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/jit_toolbar"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/csw_justInTimeToolbar_consentToolbar_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:title="@null">
@@ -11,11 +10,10 @@
         android:id="@+id/mya_toolbar_left_image_layout"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:orientation="vertical"></LinearLayout>
 
     <com.philips.platform.uid.view.widget.ActionBarTextView
-        android:id="@+id/jit_toolbar_title"
+        android:id="@+id/csw_justInTimeToolbar_consentToolbarTitle_textView"
         style="@style/UIDToolbarTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
