@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ConfirmDialogViewTest {
 
     @Mock

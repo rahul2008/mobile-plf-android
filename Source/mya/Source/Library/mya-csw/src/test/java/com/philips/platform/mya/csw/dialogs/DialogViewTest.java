@@ -22,14 +22,13 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class DialogViewTest {
 
     @Before
     public void setUp() {
         initMocks(this);
     }
-
 
     @Test
     public void onClickingOkayCustomListenerIsCalled() {
