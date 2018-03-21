@@ -27,6 +27,7 @@ public class TeleHealthServicesState extends BaseState implements THSCompletionP
     private static final String TAG = TeleHealthServicesState.class.getSimpleName();
 
     private FragmentLauncher fragmentLauncher;
+    private THSMicroAppInterfaceImpl microAppInterface;
 
     public TeleHealthServicesState() {
         super(AppStates.TELEHEALTHSERVICES);
@@ -44,9 +45,6 @@ public class TeleHealthServicesState extends BaseState implements THSCompletionP
     private void launchTeleHealthServices() {
 
         THSMicroAppLaunchInput microAppLaunchInput = new THSMicroAppLaunchInput("",this);//We are not using this, hence passing empty string
-        THSMicroAppInterfaceImpl microAppInterface = getMicroAppInterface();
-        microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
-                fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
         microAppInterface.launch(fragmentLauncher, microAppLaunchInput);
     }
 
@@ -56,7 +54,9 @@ public class TeleHealthServicesState extends BaseState implements THSCompletionP
 
     @Override
     public void init(Context context) {
-
+        microAppInterface = getMicroAppInterface();
+        microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
+                fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
     }
 
     @Override

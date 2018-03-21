@@ -33,10 +33,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
+import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -70,6 +72,8 @@ public class AppFrameworkApplication extends Application {
     private RefAppApplianceFactory applianceFactory;
     private MyAccountState myAccountState;
     private static boolean appDataInitializationStatus;
+    private SupportFragmentState supportFragmentState;
+    private TeleHealthServicesState teleHealthServicesState;
 
     public static boolean isAppDataInitialized() {
         return appDataInitializationStatus;
@@ -152,6 +156,18 @@ public class AppFrameworkApplication extends Application {
         RALog.d("test", "onCreate end::");
         appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
+        initializeCC();
+        initializeTHS();
+    }
+
+    private void initializeTHS() {
+        teleHealthServicesState = new TeleHealthServicesState();
+        teleHealthServicesState.init(this);
+    }
+
+    private void initializeCC() {
+        supportFragmentState = new SupportFragmentState();
+        supportFragmentState.init(this);
     }
 
     public void initUserRegistrationState() {
