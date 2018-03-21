@@ -217,12 +217,6 @@ public class ConsentsClientTest {
     }
 
     @Test
-    public void init_setsConsentDefinition() {
-        givenInitWasCalled("appName", "propName");
-        assertEquals(consentDefinitions, consentsClient.getConsentDefinitions());
-    }
-
-    @Test
     public void givenCATKcreated_whenGetAppInfra_thenShouldReturnNonNull() {
         givenInitWasCalled("appName", "propName");
 
