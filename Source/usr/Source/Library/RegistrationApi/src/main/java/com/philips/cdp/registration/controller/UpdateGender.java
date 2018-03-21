@@ -27,6 +27,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
     private Gender mGender;
 
     public UpdateGender(Context context) {
+        super(context);
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }

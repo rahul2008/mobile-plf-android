@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya.demouapp.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -14,6 +15,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,12 +67,11 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class LaunchFragment extends BaseFragment implements View.OnClickListener,MyAccountUIEventListener {
 
     public int checkedId = R.id.radioButton;
     private ArrayList<ConsentConfiguration> consentConfigurationList;
-
+    Context context;
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     private void initViews(final View view) {
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
-
+        context = getActivity();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -108,8 +110,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         try {
             MyaLaunchInput launchInput = new MyaLaunchInput(getContext());
             MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
-            String[] profileItems = {"MYA_My_details"};
-            String[] settingItems = {"MYA_Country", "Mya_Privacy_Settings"};
+            String[] profileItems = {"MYA_My_details","Test_fragment"};
+            String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings","Test_fragment"};
             launchInput.setProfileMenuList(Arrays.asList(profileItems));
             launchInput.setSettingsMenuList(Arrays.asList(settingItems));
             launchInput.setMyaListener(getMyaListener());
@@ -126,12 +128,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
                     @Override
                     public void updateActionBar(@StringRes int i, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(i);
+                        DemoAppActivity activity = (DemoAppActivity) getActivity();
+                        if (activity != null) activity.setTitle(i);
                     }
 
                     @Override
                     public void updateActionBar(String s, boolean b) {
-                        ((DemoAppActivity) getActivity()).setTitle(s);
+                        DemoAppActivity activity = (DemoAppActivity) getActivity();
+                        if (activity != null)
+                            ((DemoAppActivity) getActivity()).setTitle(s);
                     }
                 }), launchInput);
             }
@@ -144,37 +149,52 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     private MyaListener getMyaListener() {
         return new MyaListener() {
             @Override
-            public boolean onSettingsMenuItemSelected(String itemName) {
-                if (itemName.equalsIgnoreCase(getString(com.philips.platform.mya.R.string.MYA_Logout))) {
+            public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+                if (fragmentLauncher != null) {
+                    Activity activity = fragmentLauncher.getFragmentActivity();
+                    if (itemName.equalsIgnoreCase(activity.getString(com.philips.platform.mya.R.string.MYA_Logout))) {
 
-                } else if (itemName.equals("Mya_Privacy_Settings")) {
-                    RestInterface restInterface = getRestClient();
-                    if (restInterface.isInternetReachable()) {
-                        CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra(), consentConfigurationList);
-                        PermissionHelper.getInstance().setMyAccountUIEventListener(LaunchFragment.this);
-                        CswInterface cswInterface = getCswInterface();
-                        UappSettings uappSettings = new UappSettings(getContext());
-                        cswInterface.init(dependencies, uappSettings);
-                        cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), buildLaunchInput(true, getContext()));
+                    } else if (itemName.equals("MYA_Privacy_Settings")) {
+                        RestInterface restInterface = getRestClient();
+                        if (restInterface.isInternetReachable()) {
+                            CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra(), consentConfigurationList);
+                            PermissionHelper.getInstance().setMyAccountUIEventListener(LaunchFragment.this);
+                            CswInterface cswInterface = getCswInterface();
+                            UappSettings uappSettings = new UappSettings(activity);
+                            cswInterface.init(dependencies, uappSettings);
+                            cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR,  ((DemoAppActivity) getActivity()).getThemeConfig(),
+                                    ((DemoAppActivity) getActivity()).getThemeResourceId(), null), buildLaunchInput(true, activity));
+                            return true;
+                        } else {
+                            String title = activity.getString(com.philips.platform.mya.R.string.MYA_Offline_title);
+                            String message = activity.getString(com.philips.platform.mya.R.string.MYA_Offline_message);
+                            showDialog(activity, title, message);
+                        }
+                    } else if (itemName.equalsIgnoreCase("Test_fragment")) {
+                        launchTestFragment(fragmentLauncher);
                         return true;
-                    } else {
-                        String title = getString(com.philips.platform.mya.R.string.MYA_Offline_title);
-                        String message = getString(com.philips.platform.mya.R.string.MYA_Offline_message);
-                        showDialog(title, message);
                     }
                 }
                 return false;
             }
 
             @Override
-            public boolean onProfileMenuItemSelected(String itemName) {
-                if (itemName.equals(getString(com.philips.platform.mya.R.string.MYA_My_details)) || itemName.equalsIgnoreCase("MYA_My_details")) {
-                    URLaunchInput urLaunchInput = new URLaunchInput();
-                    urLaunchInput.enableAddtoBackStack(true);
-                    urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
-                    URInterface urInterface = new URInterface();
-                    urInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, null, -1, null), urLaunchInput);
-                    return true;
+            public boolean onProfileMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+                if (fragmentLauncher != null) {
+                    if (itemName.equalsIgnoreCase("MYA_My_details")) {
+                        URLaunchInput urLaunchInput = new URLaunchInput();
+                        urLaunchInput.enableAddtoBackStack(true);
+                        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+                        URInterface urInterface = new URInterface();
+                        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                                ((DemoAppActivity) getActivity()) != null ? ((DemoAppActivity) getActivity()).getThemeConfig() : null,
+                                ((DemoAppActivity) getActivity()) != null ? ((DemoAppActivity) getActivity()).getThemeResourceId() : -1, null);
+                        urInterface.launch(activityLauncher, urLaunchInput);
+                        return true;
+                    } else if (itemName.equalsIgnoreCase("Test_fragment")) {
+                        launchTestFragment(fragmentLauncher);
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -187,31 +207,48 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     uAppInterface = new URDemouAppInterface();
                     AppInfraInterface appInfraInterface = MyAccountDemoUAppInterface.getAppInfra();
                     uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(getActivity()));
-                    uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+                    ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
+                            ((DemoAppActivity) getActivity()).getThemeConfig(),
+                            ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+                    uAppInterface.launch(activityLauncher, null);
                 }
             }
 
 
             @Override
-            public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
+            public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
+                final FragmentActivity activity = fragmentLauncher.getFragmentActivity();
+                if (activity != null) {
+                    User user = new User(activity);
+                    if (user.isUserSignIn()) {
+                        user.logout(new LogoutHandler() {
+                            @Override
+                            public void onLogoutSuccess() {
+                                myaLogoutListener.onLogoutSuccess();
+                            }
 
-                User user = MyAccountDemoUAppInterface.getUserObject();
-                if (user.isUserSignIn()) {
-                    user.logout(new LogoutHandler() {
-                        @Override
-                        public void onLogoutSuccess() {
-                            myaLogoutListener.onLogoutSuccess();
-                        }
+                            @Override
+                            public void onLogoutFailure(int responseCode, String message) {
+                                String string = activity.getString(R.string.mya_logout_failed);
+                                new DialogView().showDialog((FragmentActivity) activity, string, message);
+                            }
+                        });
+                    }
 
-                        @Override
-                        public void onLogoutFailure(int responseCode, String message) {
-                            new DialogView().showDialog(getActivity(), getString(com.philips.platform.mya.R.string.MYA_Offline_title),getString(com.philips.platform.mya.R.string.MYA_Offline_message));
-                        }
-                    });
                 }
-
             }
         };
+    }
+
+    void launchTestFragment(FragmentLauncher fragmentLauncher) {
+        FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
+        FragmentTransaction fragmentTransaction = fragmentActivity
+                .getSupportFragmentManager().beginTransaction();
+        TabTestFragment fragment = new TabTestFragment();
+        final String simpleName = fragment.getClass().getSimpleName();
+        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), fragment, simpleName);
+        fragmentTransaction.addToBackStack(simpleName);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
 
@@ -268,8 +305,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
     }
 
-    private void showDialog(String title, String message) {
-        new DialogView().showDialog(getActivity(), title, message);
+    private void showDialog(Activity activity, String title, String message) {
+        new DialogView().showDialog((FragmentActivity) activity, title, message);
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {

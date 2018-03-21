@@ -1,6 +1,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
@@ -76,8 +77,6 @@ public class DataPushSynchroniseTest {
     @Mock
     ConsentsClient consentsClient;
 
-    ConsentInteractorMock getConsentInteractorMock;
-
     @Mock
     Moment moment;
 
@@ -108,8 +107,6 @@ public class DataPushSynchroniseTest {
         synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.eventing = eventingSpy;
         synchronise.synchronisationManager = synchronisationManagerMock;
-        getConsentInteractorMock = new ConsentInteractorMock(consentsClient);
-        synchronise.consentInteractor = getConsentInteractorMock;
     }
 
     @Test
@@ -155,13 +152,7 @@ public class DataPushSynchroniseTest {
         givenConfigurableMomentSender();
         givenMomentToSink(moment);
         whenSynchronisationIsStarted(EVENT_ID);
-
         whenCallingOnEventAsync();
-        thenMomentConsentWasChecked();
-    }
-
-    private void thenMomentConsentWasChecked() {
-        assertEquals("moment", getConsentInteractorMock.getStatusForConsentType_consentType);
     }
 
     private void givenMomentToSink(Moment moment) {

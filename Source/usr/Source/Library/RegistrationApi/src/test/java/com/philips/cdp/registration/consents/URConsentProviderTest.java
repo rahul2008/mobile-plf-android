@@ -14,31 +14,27 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class URConsentProviderTest {
 
     @Mock
     private Context mContext;
 
-    private Locale mLocale;
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mLocale = new Locale("en", "US");
     }
 
     @Test
     public void ShouldStringsMatch_FetchMarketingConsentDefinition() throws Exception {
-        URConsentProvider.fetchMarketingConsentDefinition(mContext, mLocale);
+        URConsentProvider.fetchMarketingConsentDefinition(mContext);
         Mockito.verify(mContext).getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
         Mockito.verify(mContext).getString(R.string.reg_DLS_PhilipsNews_Description_Text);
     }
 
     @Test
     public void Should_FetchMarketingConsentDefinition() throws Exception {
-        ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition(mContext, mLocale);
+        ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition(mContext);
         Assert.assertNotNull(consentDefinition);
     }
 

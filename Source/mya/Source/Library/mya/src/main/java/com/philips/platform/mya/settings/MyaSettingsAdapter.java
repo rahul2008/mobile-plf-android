@@ -35,7 +35,7 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
     }
 
     @Override
-    public MyaSettingsAdapter.SettingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SettingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutRes = 0;
         switch (viewType) {
             case DOUBLE_VIEW:

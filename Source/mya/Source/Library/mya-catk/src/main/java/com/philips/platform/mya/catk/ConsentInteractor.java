@@ -36,14 +36,26 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
+        if (isInternetAvailable()) {
+            consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
+        } else {
+            callback.onGetConsentsFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+        }
     }
 
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
-        ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
-        BackendConsent backendConsent = createConsents(consentType, consentStates, version);
-        consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(callback));
+        if (isInternetAvailable()) {
+            ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
+            BackendConsent backendConsent = createConsents(consentType, consentStates, version);
+            consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(callback));
+        } else {
+            callback.onPostConsentFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+        }
+    }
+
+    private boolean isInternetAvailable() {
+        return consentsClient.getAppInfra().getRestClient().isInternetReachable();
     }
 
     private BackendConsent createConsents(String consentType, ConsentStates status, int version) {
@@ -76,7 +88,6 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     static class CreateConsentResponseListener implements CreateConsentListener {
-
         private final PostConsentTypeCallback callback;
 
         CreateConsentResponseListener(PostConsentTypeCallback postConsentCallback) {

@@ -7,6 +7,8 @@ package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -81,4 +83,8 @@ public interface Insight extends BaseAppData, Serializable {
     Collection<? extends InsightMetadata> getInsightMetaData();
 
     void addInsightMetaData(InsightMetadata insightMetadata);
+
+    void setExpirationDate(DateTime timestamp);
+
+    DateTime getExpirationDate();
 }

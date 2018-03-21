@@ -13,7 +13,6 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
@@ -21,13 +20,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-
 
 /**
- * App Tagging classs .
+ * App Tagging classes .
  */
 public class AppTagging implements AppTaggingInterface {
 
@@ -195,8 +190,8 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void registerClickStreamHandler(ConsentManagerInterface consentManager) {
-        consentManager.deregister(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE));
-        consentManager.register(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE), getClickStreamConsentHandler());
+        consentManager.deregisterHandler(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE));
+        consentManager.registerHandler(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE), getClickStreamConsentHandler());
     }
 
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {

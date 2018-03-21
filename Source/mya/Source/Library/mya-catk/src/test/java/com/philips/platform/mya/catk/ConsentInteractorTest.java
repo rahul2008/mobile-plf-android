@@ -54,9 +54,6 @@ public class ConsentInteractorTest {
     }
 
     private void givenAccessToolkitWithConsentDefinitions(ConsentDefinition... consentDefinitions) {
-        List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>(consentDefinitions.length);
-        Collections.addAll(givenConsentDefinitions, consentDefinitions);
-        when(mockContentAccessToolkit.getConsentDefinitions()).thenReturn(Arrays.asList(consentDefinitions));
         interactor = new ConsentInteractor(mockContentAccessToolkit);
     }
 

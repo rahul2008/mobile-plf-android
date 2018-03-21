@@ -5,21 +5,32 @@
 */
 package com.philips.platform.datasync.synchronisation;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.events.DeleteExpiredInsightRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.exception.SyncException;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class SynchronisationManager implements SynchronisationChangeListener {
 
+    private static final String LAST_EXPIRED_DELETION_DATE_TIME = "LAST_EXPIRED_DELETION_DATE_TIME";
     private volatile boolean isSyncComplete = true;
 
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -27,8 +38,13 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     @Inject
     Eventing mEventing;
 
+    SharedPreferences expiredDeletionTimeStorage;
+
     public SynchronisationManager() {
-        DataServicesManager.getInstance().getAppComponent().injectSynchronisationManager(this);
+        DataServicesManager servicesManager = DataServicesManager.getInstance();
+        servicesManager.getAppComponent().injectSynchronisationManager(this);
+        Context dataServiceContext = servicesManager.getDataServiceContext();
+        expiredDeletionTimeStorage = dataServiceContext.getSharedPreferences(LAST_EXPIRED_DELETION_DATE_TIME, Context.MODE_PRIVATE);
     }
 
     public void startSync(SynchronisationCompleteListener synchronisationCompleteListener) {
@@ -46,35 +62,48 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postEvent(startDate, endDate, synchronisationCompleteListener);
     }
 
-    private void postEvent(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
-        if (!isSyncInProcess()) {
-            this.mSynchronisationCompleteListener = synchronisationCompleteListener;
-            mEventing.post(new FetchByDateRange(startDate.toString(), endDate.toString()));
-        } else {
-            synchronisationCompleteListener.onSyncFailed(new SyncException("Sync is already in progress"));
-        }
+    public void stopSync() {
+        isSyncComplete = true;
+        mSynchronisationCompleteListener = null;
     }
-
-    private boolean isSyncInProcess() {
-        synchronized (this) {
-            if (isSyncComplete) {
-                isSyncComplete = false;
-                return false;
-            }
-            return true;
-        }
-    }
-
 
     @Override
     public void dataPullSuccess() {
-        postEventToStartPush();
+        DateTime lastDeletionTime = getLastExpiredDataDeletionDateTime();
+        DateTime now = DateTime.now();
+
+        if(now.isAfter(lastDeletionTime.plusDays(1))) {
+            // 24 hour or more have passed
+            clearExpiredMoments(new DBRequestListener<Integer>() {
+                @Override
+                public void onSuccess(List<? extends Integer> data) {
+                    clearExpiredInsights(new DBRequestListener<Insight>() {
+                        @Override
+                        public void onSuccess(List<? extends Insight> data) {
+                            setLastExpiredDataDeletionDateTime();
+                            postEventToStartPush();
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            // NOP
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    // NOP
+                }
+            });
+        }
+        else {
+            postEventToStartPush();
+        }
     }
 
     @Override
-    public void dataPushSuccess() {
-
-    }
+    public void dataPushSuccess() { }
 
     @Override
     public void dataPullFail(Exception e) {
@@ -91,12 +120,48 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postOnSyncComplete();
     }
 
+    private boolean isSyncInProcess() {
+        synchronized (this) {
+            if (isSyncComplete) {
+                isSyncComplete = false;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private void postEvent(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+        if (!isSyncInProcess()) {
+            this.mSynchronisationCompleteListener = synchronisationCompleteListener;
+            mEventing.post(new FetchByDateRange(startDate.toString(), endDate.toString()));
+        } else {
+            synchronisationCompleteListener.onSyncFailed(new SyncException("Sync is already in progress"));
+        }
+    }
+
     private void postEventToStartPush() {
         mEventing.post(new WriteDataToBackendRequest());
     }
 
+    private void clearExpiredMoments(DBRequestListener<Integer> listener) {
+        mEventing.post(new DeleteExpiredMomentRequest(listener));
+    }
+
+
+    private void clearExpiredInsights(DBRequestListener<Insight> listener) {
+        mEventing.post(new DeleteExpiredInsightRequest(listener));
+    }
+
+    private void setLastExpiredDataDeletionDateTime() {
+        expiredDeletionTimeStorage.edit().putString(LAST_EXPIRED_DELETION_DATE_TIME, DateTime.now(DateTimeZone.UTC).toString()).apply();
+    }
+
+    private DateTime getLastExpiredDataDeletionDateTime() {
+        String lastDeletion = expiredDeletionTimeStorage.getString(LAST_EXPIRED_DELETION_DATE_TIME, "1970-02-01");
+        return DateTime.parse(lastDeletion);
+    }
+
     private void postOnSyncComplete() {
-        //System.out.println("Sync Complete");
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncComplete();
@@ -107,11 +172,6 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncFailed(exception);
-        mSynchronisationCompleteListener = null;
-    }
-
-    public void stopSync() {
-        isSyncComplete = true;
         mSynchronisationCompleteListener = null;
     }
 }

@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ConsentManager implements ConsentManagerInterface {
@@ -35,7 +34,7 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     @Override
-    public synchronized void register(List<String> consentTypes, ConsentHandlerInterface consentHandlerInterface) {
+    public synchronized void registerHandler(List<String> consentTypes, ConsentHandlerInterface consentHandlerInterface) {
         for (String consentType : consentTypes) {
             if (consentHandlerMapping.containsKey(consentType))
                 throw new RuntimeException("Consent type already exist");
@@ -45,7 +44,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     //TODO throw exception in case of key does not exist ?
     @Override
-    public synchronized void deregister(List<String> consentTypes) {
+    public synchronized void deregisterHandler(List<String> consentTypes) {
         for (String consentType : consentTypes) {
             if (consentHandlerMapping.containsKey(consentType))
                 consentHandlerMapping.remove(consentType);
@@ -135,20 +134,29 @@ public class ConsentManager implements ConsentManagerInterface {
     private void postResultOnFetchConsent(ConsentDefinition consentDefinition,
                                           List<ConsentTypeCallbackListener> consentTypeCallbackListeners, FetchConsentCallback callback) {
         ConsentDefinitionStatus consentDefinitionStatus = null;
+
         for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
+
+            ConsentStatus consentStatus = consentCallbackListener.consentStatus;
+            if (consentStatus == null) {
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+            }
+
             if (consentCallbackListener.consentError != null) {
                 callback.onGetConsentsFailed(consentCallbackListener.consentError);
                 return;
+            } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
+                    || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
+                callback.onGetConsentsSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
+                return;
             }
-            consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentCallbackListener.consentStatus);
+
+            consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
         }
         callback.onGetConsentsSuccess(consentDefinitionStatus);
     }
 
     private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        if (consentStatus == null) {
-            consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
-        }
         ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus();
         consentDefinitionStatus.setConsentDefinition(consentDefinition);
         consentDefinitionStatus.setConsentState(consentStatus.getConsentState());
