@@ -9,7 +9,6 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;

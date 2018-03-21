@@ -1,22 +1,18 @@
 package com.philips.platform.mya.csw.permission;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.mock.DialogViewMock;
+import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.mock.DialogViewMock;
-import com.philips.platform.mya.csw.mock.RestInterfaceMock;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class PermissionViewTest {
 
