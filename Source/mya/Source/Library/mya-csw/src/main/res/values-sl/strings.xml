@@ -51,10 +51,14 @@
   <string name="mya_Settings">Nastavitve</string>
   <string name="mya_change_country">Odjava za spremembo države</string>
   <string name="mya_change_country_message">Odjavite se, da spremenite državo prebivališča. Tako lahko garancijo in druge informacije prilagodimo glede na vašo lokacijo.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sl]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sl]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[sl]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[sl]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sl]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sl]Maybe later</string>
   <string name="mya_csw_justintime_title">[sl]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[sl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sl]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[sl]What do we have to offer?</string>
   <string name="mya_logout_message">Odjavili se boste iz aplikacije. Ko se odjavite, se lahko kadar koli znova prijavite.</string>
   <string name="mya_logout_title">Ste prepričani, da se želite odjaviti?</string>

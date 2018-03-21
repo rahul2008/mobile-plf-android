@@ -7,6 +7,8 @@
 
 package com.philips.platform.mya.csw.permission;
 
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
+
 public interface PermissionInterface {
 
     void showProgressDialog();
@@ -14,4 +16,6 @@ public interface PermissionInterface {
     void hideProgressDialog();
 
     void showErrorDialog(boolean goBack, String title, String message);
+
+    void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler);
 }

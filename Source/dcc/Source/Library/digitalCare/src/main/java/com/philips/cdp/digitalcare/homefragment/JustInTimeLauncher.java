@@ -21,7 +21,7 @@ class JustInTimeLauncher {
     void addJustInTimeConsentDependencies(Context context, HomeFragmentContract.View viewContract) {
         this.viewContract = viewContract;
         JustInTimeConsentDependencies.appInfra = DigitalCareConfigManager.getInstance().getAPPInfraInstance();
-        JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition(context);
+        JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition();
         JustInTimeConsentDependencies.consentHandlerInterface = Utils.fetchDeviceStoredConsentHandler();
         JustInTimeConsentDependencies.textResources = getJustInTimeTextResources();
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();

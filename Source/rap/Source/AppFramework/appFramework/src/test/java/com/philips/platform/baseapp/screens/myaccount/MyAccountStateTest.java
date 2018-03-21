@@ -228,6 +228,6 @@ public class MyAccountStateTest {
     }
 
     private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition("text:" + type, "help:" + type, Collections.singletonList(type), 0);
+        return new ConsentDefinition(0, 0, Collections.singletonList(type), 0);
     }
 }

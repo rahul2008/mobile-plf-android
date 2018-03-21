@@ -51,10 +51,14 @@
   <string name="mya_Settings">設定</string>
   <string name="mya_change_country">登出以變更國家/地區</string>
   <string name="mya_change_country_message">請先登出，以變更居住的國家/地區。如此可讓我們依據您所在的位置提供特定的保固與其他資訊</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[zh-TW]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[zh-TW]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[zh-TW]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[zh-TW]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[zh-TW]Maybe later</string>
   <string name="mya_csw_justintime_title">[zh-TW]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[zh-TW]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[zh-TW]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[zh-TW]What do we have to offer?</string>
   <string name="mya_logout_message">您即將登出應用程式。登出後，隨時都能再次登入。</string>
   <string name="mya_logout_title">確定要登出？</string>
