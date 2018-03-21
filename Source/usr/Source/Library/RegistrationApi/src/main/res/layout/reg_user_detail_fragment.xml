@@ -42,6 +42,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_myDetailsScreen_label_loginDetails"
             style="@style/UIDLabel.Header"
+            android:textDirection="locale"
             android:text="@string/reg_Login_Details_Txt" />
 
         <RelativeLayout
@@ -52,6 +53,7 @@
                 android:id="@+id/usr_myDetailsScreen_label_emailAddressHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textDirection="locale"
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="@dimen/reg_layout_margin_16"
                 android:layout_marginStart="@dimen/reg_layout_margin_16"
@@ -78,6 +80,7 @@
                 android:id="@+id/usr_myDetailsScreen_label_mobileNumberHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textDirection="locale"
                 android:layout_below="@+id/usr_myDetailsScreen_label_emailAddressValue"
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
                 android:layout_marginStart="@dimen/reg_dimen_16dp"
@@ -92,17 +95,17 @@
                 android:layout_height="wrap_content"
                 android:textDirection="locale"
                 android:layout_below="@+id/usr_myDetailsScreen_label_mobileNumberHeading"
-                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
-                android:layout_marginStart="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_Not_Available"
+                android:layout_marginStart="@dimen/reg_dimen_16dp"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:visibility="gone" />
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
+            android:layout_marginTop="@dimen/reg_dimen_8dp"
             style="@style/UIDLabel.Header"
+            android:textDirection="locale"
             android:text="@string/reg_Personal_Details_Txt" />
 
         <RelativeLayout
@@ -118,6 +121,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
                 android:layout_marginStart="@dimen/reg_dimen_16dp"
+                android:textDirection="locale"
                 android:visibility="gone"
                 android:text="@string/reg_Name_TitleTxt" />
 
@@ -129,13 +133,14 @@
                 android:layout_below="@+id/usr_myDetailsScreen_label_nameHeading"
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
                 android:layout_marginStart="@dimen/reg_dimen_16dp"
-                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:visibility="gone"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
 
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_myDetailsScreen_label_genderHeading"
+                android:textDirection="locale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/usr_myDetailsScreen_label_nameValue"
@@ -166,6 +171,7 @@
                 android:layout_marginEnd="@dimen/reg_dimen_16dp"
                 android:layout_marginStart="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:textDirection="locale"
                 android:visibility="gone"
                 android:text="@string/reg_DateOfBirth_TitleTxt" />
 
@@ -197,6 +203,7 @@
             android:layout_marginEnd="@dimen/reg_dimen_16dp"
             android:layout_marginStart="@dimen/reg_dimen_16dp"
             android:layout_marginTop="@dimen/reg_dimen_16dp"
+            android:textDirection="locale"
             android:text="@string/reg_Address_TitleTxt"
             android:visibility="gone" />
 
@@ -207,7 +214,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/reg_dimen_16dp"
             android:layout_marginStart="@dimen/reg_dimen_16dp"
-            android:text="@string/reg_Not_Available"
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:visibility="gone" />
     </LinearLayout>

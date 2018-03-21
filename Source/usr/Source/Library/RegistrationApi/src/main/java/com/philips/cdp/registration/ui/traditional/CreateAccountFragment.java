@@ -274,8 +274,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onDestroy() {
+
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
+        if(createAccountPresenter!=null)
         createAccountPresenter.unRegisterListener();
 
         RLog.d(RLog.EVENT_LISTENERS,
