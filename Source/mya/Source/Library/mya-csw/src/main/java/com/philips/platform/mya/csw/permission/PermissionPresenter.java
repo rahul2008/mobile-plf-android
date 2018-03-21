@@ -67,17 +67,11 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
 
     @Override
     public boolean onToggledConsent(int position, ConsentDefinition definition, boolean consentGiven) {
-        boolean isOnline = getRestClient().isInternetReachable();
         togglePosition = position;
         toggleStatus = consentGiven;
-        if (isOnline) {
-            CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
-            permissionInterface.showProgressDialog();
-            return consentGiven;
-        } else {
-            permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_offline_title), mContext.getString(R.string.csw_offline_message));
-            return !consentGiven;
-        }
+        permissionInterface.showProgressDialog();
+        CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
+        return consentGiven;
     }
 
     @Override
