@@ -21,17 +21,15 @@ public class URConsentProvider {
 
     /**
      * @param pContext pass instance of context
-     * @param pLocale  pass instace of locale
      * @return ConsentDefinition for USR_MARKETING
      * @since 1.0.0
      */
 
-    public static ConsentDefinition fetchMarketingConsentDefinition(@NonNull Context pContext, Locale pLocale) {
+    public static ConsentDefinition fetchMarketingConsentDefinition(@NonNull Context pContext) {
         String text = pContext.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
         String helpText = pContext.getString(R.string.reg_DLS_PhilipsNews_Description_Text);
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        if (pLocale == null) return null;
         return new ConsentDefinition(text, helpText, types, 1);
     }
 }

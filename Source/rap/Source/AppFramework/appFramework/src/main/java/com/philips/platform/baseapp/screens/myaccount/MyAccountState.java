@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.URConsentProvider;
@@ -200,16 +201,18 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Collections.singletonList("binary"), 1);
         ConsentDefinitionRegistry.add(binaryConsentDefinition);
         definitions.add(binaryConsentDefinition);
-        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList("clickstream"), 1);
-        definitions.add(clickStreamConsentDefinition);
-        ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
         ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
+        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
+                Collections.singletonList(getApplicationContext().appInfra.getTagging().getClickStreamConsentIdentifier()), 1);
+        definitions.add(clickStreamConsentDefinition);
+        ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
 
         definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
+        definitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
+        definitions.add(URConsentProvider.fetchMarketingConsentDefinition(context));
         return definitions;
     }
 
