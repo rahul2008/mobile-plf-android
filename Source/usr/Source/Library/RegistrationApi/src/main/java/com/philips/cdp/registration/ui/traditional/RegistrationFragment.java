@@ -57,8 +57,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworkStateListener,
-        OnClickListener, BackEventListener, CounterListener {
+public class RegistrationFragment extends Fragment implements NetworkStateListener,BackEventListener, CounterListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -151,15 +150,15 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onStop() {
+        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        RegistrationBaseFragment.mWidth = 0;
+        RegistrationBaseFragment.mHeight = 0;
+        setPrevTiltle();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        RegistrationBaseFragment.mWidth = 0;
-        RegistrationBaseFragment.mHeight = 0;
-        setPrevTiltle();
         super.onDestroy();
     }
 
@@ -462,13 +461,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             InputMethodManager inputMethodManager = (InputMethodManager)
                     mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.iv_reg_back) {
-            onBackPressed();
         }
     }
 

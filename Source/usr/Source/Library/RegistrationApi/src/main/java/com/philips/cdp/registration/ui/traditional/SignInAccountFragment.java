@@ -200,10 +200,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
-        super.onDestroy();
     }
 
     @Override
