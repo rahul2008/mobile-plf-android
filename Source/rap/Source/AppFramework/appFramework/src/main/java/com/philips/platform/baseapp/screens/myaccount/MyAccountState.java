@@ -67,7 +67,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
-    private List<ConsentDefinition> consentDefinitionList;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -174,7 +173,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, consentDefinitionList);
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, getConsentDefinitions(context));
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
@@ -187,7 +186,16 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> createCatkDefinitions(Context context) {
+    List<ConsentDefinition> getConsentDefinitions(Context context) {
+        final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
+        consentDefinitions.addAll(getCatkConsentDefinition(context));
+        consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
+        consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
+        consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition(context));
+        return consentDefinitions;
+    }
+
+    private List<ConsentDefinition> getCatkConsentDefinition(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
                 Collections.singletonList("moment"), 1);
@@ -205,14 +213,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
-        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList(getApplicationContext().appInfra.getTagging().getClickStreamConsentIdentifier()), 1);
-        definitions.add(clickStreamConsentDefinition);
-        ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
-        definitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
-        definitions.add(URConsentProvider.fetchMarketingConsentDefinition(context));
         return definitions;
     }
 
@@ -220,18 +220,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
-        List<ConsentDefinition> catkConsentDefinitions = createCatkDefinitions(context);
-
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
                 .setConsentManager(app.getAppInfra().getConsentManager())
-                .setConsentDefinitions(catkConsentDefinitions)
+                .setConsentDefinitions(getCatkConsentDefinition(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
-
-        consentDefinitionList = new ArrayList<>();
-        consentDefinitionList.addAll(catkConsentDefinitions);
     }
 
     @Override

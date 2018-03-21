@@ -15,7 +15,6 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -167,7 +166,7 @@ public class MyAccountStateTest {
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createCatkDefinitions(mockContext);
+        return myAccountState.getConsentDefinitions(mockContext);
     }
 
     class MyAccountStateMock extends MyAccountState {

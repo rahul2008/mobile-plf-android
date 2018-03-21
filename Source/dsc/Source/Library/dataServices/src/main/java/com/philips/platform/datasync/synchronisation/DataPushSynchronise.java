@@ -8,10 +8,10 @@ package com.philips.platform.datasync.synchronisation;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.pif.chi.ConsentCallback;
+import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -24,6 +24,8 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -145,20 +147,10 @@ public class DataPushSynchronise extends EventMonitor {
 
     @VisibleForTesting
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
-
-
-
-       /* consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentCallback() {
-
-
+        DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentState(ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), new FetchConsentCallback() {
             @Override
-            public void onGetConsentFailed(ConsentError error) {
-                countDownLatch.countDown();
-            }
-
-            @Override
-            public void onGetConsentRetrieved(Consent consent) {
-                if (consent.isAccepted()) {
+            public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+                if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {
@@ -172,9 +164,13 @@ public class DataPushSynchronise extends EventMonitor {
                 } else {
                     countDownLatch.countDown();
                 }
-
             }
-        });*/
+
+            @Override
+            public void onGetConsentsFailed(ConsentError error) {
+                countDownLatch.countDown();
+            }
+        });
     }
 
     private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {
