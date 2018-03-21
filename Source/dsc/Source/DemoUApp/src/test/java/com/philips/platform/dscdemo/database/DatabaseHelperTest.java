@@ -40,21 +40,40 @@ public class DatabaseHelperTest {
     @Test
     public void createsDatabaseMomentTable() {
         whenCreatingTheSqlLiteDatabase();
-        thenTableStructureIs(OrmMoment.class, "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"],[\"1\",\"creatorId\",\"VARCHAR\",\"1\",null,\"0\"],[\"2\",\"subjectId\",\"VARCHAR\",\"1\",null,\"0\"],[\"3\",\"type_id\",\"INTEGER\",\"1\",null,\"0\"],[\"4\",\"dateTime\",\"BIGINT\",\"1\",null,\"0\"],[\"5\",\"synced\",\"SMALLINT\",\"0\",null,\"0\"],[\"6\",\"synchronisationData_id\",\"VARCHAR\",\"0\",null,\"0\"],[\"7\",\"expirationDate\",\"BIGINT\",\"0\",null,\"0\"]]");
+        thenTableStructureIs(OrmMoment.class,
+                "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
+                        "[\"1\",\"creatorId\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"2\",\"subjectId\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"3\",\"type_id\",\"INTEGER\",\"1\",null,\"0\"]," +
+                        "[\"4\",\"dateTime\",\"BIGINT\",\"1\",null,\"0\"]," +
+                        "[\"5\",\"synced\",\"SMALLINT\",\"0\",null,\"0\"]," +
+                        "[\"6\",\"synchronisationData_id\",\"VARCHAR\",\"0\",null,\"0\"]," +
+                        "[\"7\",\"expirationDate\",\"BIGINT\",\"0\",null,\"0\"]]");
     }
 
     @Test
     public void createsDatabaseSettingsTable() {
         whenCreatingTheSqlLiteDatabase();
-        thenTableStructureIs(OrmSettings.class, "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"],[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"],[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"],[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
+        thenTableStructureIs(OrmSettings.class,
+                "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
+                        "[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
     }
 
     @Test
     public void migrateToV3_UserSettingsTimeZoneColumnAdded() {
         givenDatabaseContents("dataservicesDbV2.db");
-        thenTableStructureIs(OrmSettings.class, "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"],[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"],[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]]");
+        thenTableStructureIs(OrmSettings.class,
+                "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
+                        "[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]]");
         whenMigratingToVersion(2,3);
-        thenTableStructureIs(OrmSettings.class, "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"],[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"],[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"],[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
+        thenTableStructureIs(OrmSettings.class,
+                "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
+                        "[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
     }
 
     @Test
