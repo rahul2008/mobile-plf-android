@@ -361,7 +361,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     private void addExpirationDateToInsight() {
         try {
-            this.getMomentDao().executeRaw("ALTER TABLE `OrmInsight` ADD COLUMN expirationDate INTEGER NULL");
+            this.getInsightDao().executeRaw("ALTER TABLE `OrmInsight` ADD COLUMN expirationDate INTEGER NULL");
         } catch (SQLException e) {
         }
     }
