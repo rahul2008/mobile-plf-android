@@ -7,7 +7,6 @@ import com.philips.cdp.registration.R;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * provides Consent used in User Registration of USR_MARKETING key type
