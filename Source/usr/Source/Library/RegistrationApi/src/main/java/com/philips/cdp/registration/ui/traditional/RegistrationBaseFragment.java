@@ -73,9 +73,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+        super.onStop();
+
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 

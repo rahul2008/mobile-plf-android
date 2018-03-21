@@ -184,17 +184,25 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(forgotPasswordPresenter!=null)
         forgotPasswordPresenter.clearDisposable();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroyView");
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroy");
+        if(forgotPasswordPresenter!=null)
         forgotPasswordPresenter.unRegisterListener();
 
         RLog.d(RLog.EVENT_LISTENERS,
                 "ResetPasswordFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
+
         super.onDestroy();
     }
 

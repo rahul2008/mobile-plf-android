@@ -44,8 +44,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class RegistrationActivity extends UIDActivity implements
         ActionBarListener {
 
-    private static final long serialVersionUID = 1128016096756071388L;
-
     private RegistrationLaunchMode mRegistrationLaunchMode;
     private RegistrationContentConfiguration registrationContentConfiguration;
 

@@ -127,7 +127,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+        super.onStop();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
         RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
         accountActivationPresenter.unRegisterListener();
@@ -136,6 +137,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 .unregisterCounterEventNotification(RegConstants.COUNTER_TICK, this);
         CounterHelper.getInstance()
                 .unregisterCounterEventNotification(RegConstants.COUNTER_FINISH, this);
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 
