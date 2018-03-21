@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Moment_Consent_Text">I allow Philips to store my data in cloud</string>
+    <string name="Moment_Consent_Help_Text">The actual content of the moment consent help text here</string>
+    <string name="Binary_Consent_Text">I allow Philips to store binary data</string>
+    <string name="Binary_Consent_Help_Text">The actual content of the binary consent help text here</string>
+    <string name="Coaching_Consent_Text">I allow Philips to use my data for Coaching purposes</string>
+    <string name="Coaching_Consent_Help_Text">The actual content of the coaching consent help text here</string>
+    <string name="Research_Analytics_Consent_Text">I allow Philips to use my data for Research and Analytics purposes</string>
+    <string name="Research_Analytics_Consent_Help_Text">The actual content of the research and analytics consent help text here</string>
+</resources>
