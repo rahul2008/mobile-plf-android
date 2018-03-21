@@ -79,7 +79,7 @@ public class PermissionPresenter implements CheckConsentsCallback, ConsentToggle
             // User has revoked consent
             ConfirmDialogView dialog = new ConfirmDialogView();
             dialog.setupDialog(
-                R.string.mya_csw_consent_revoked_confirm_title,
+                R.string.csw_privacy_settings,
                 definition.getRevokeWarningText(),
                 R.string.mya_csw_consent_revoked_confirm_btn_ok,
                 R.string.mya_csw_consent_revoked_confirm_btn_cancel

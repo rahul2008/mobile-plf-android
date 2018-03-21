@@ -17,7 +17,7 @@
         style="@style/Txt.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/csw_offline_title" />
+        tools:text="@string/csw_privacy_settings" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mya_csw_confirm_dialog_description"
