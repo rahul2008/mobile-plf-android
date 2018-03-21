@@ -10,17 +10,25 @@ import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class DialogViewTest {
+
+    @Before
+    public void setUp() {
+        initMocks(this);
+    }
 
 
     @Test
