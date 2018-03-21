@@ -5,6 +5,9 @@
 */
 package com.philips.platform.appinfra.consentmanager;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
@@ -131,29 +134,37 @@ public class ConsentManager implements ConsentManagerInterface {
         }
     }
 
-    private void postResultOnFetchConsent(ConsentDefinition consentDefinition,
-                                          List<ConsentTypeCallbackListener> consentTypeCallbackListeners, FetchConsentCallback callback) {
-        ConsentDefinitionStatus consentDefinitionStatus = null;
+    private void postResultOnFetchConsent(final ConsentDefinition consentDefinition,
+                                          final List<ConsentTypeCallbackListener> consentTypeCallbackListeners, final FetchConsentCallback callback) {
 
-        for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ConsentDefinitionStatus consentDefinitionStatus = null;
 
-            ConsentStatus consentStatus = consentCallbackListener.consentStatus;
-            if (consentStatus == null) {
-                consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+                for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
+
+                    ConsentStatus consentStatus = consentCallbackListener.consentStatus;
+                    if (consentStatus == null) {
+                        consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+                    }
+
+                    if (consentCallbackListener.consentError != null) {
+                        callback.onGetConsentsFailed(consentCallbackListener.consentError);
+                        return;
+                    } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
+                            || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
+                        callback.onGetConsentsSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
+                        return;
+                    }
+
+                    consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
+                }
+                callback.onGetConsentsSuccess(consentDefinitionStatus);
             }
+        });
 
-            if (consentCallbackListener.consentError != null) {
-                callback.onGetConsentsFailed(consentCallbackListener.consentError);
-                return;
-            } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
-                    || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
-                callback.onGetConsentsSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
-                return;
-            }
-
-            consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
-        }
-        callback.onGetConsentsSuccess(consentDefinitionStatus);
     }
 
     private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
@@ -173,26 +184,40 @@ public class ConsentManager implements ConsentManagerInterface {
         return ConsentVersionStates.AppVersionIsHigher;
     }
 
-    private void postResultOnFetchConsents(List<ConsentManagerCallbackListener> consentManagerCallbackListeners, FetchConsentsCallback callback) {
-        List<ConsentDefinitionStatus> consentDefinitionStatusList = new ArrayList<>();
-        for (ConsentManagerCallbackListener consentManagerCallbackListener : consentManagerCallbackListeners) {
-            if (consentManagerCallbackListener.consentError != null) {
-                callback.onGetConsentsFailed(consentManagerCallbackListener.consentError);
-                return;
+    private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners,final FetchConsentsCallback callback) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                List<ConsentDefinitionStatus> consentDefinitionStatusList = new ArrayList<>();
+                for (ConsentManagerCallbackListener consentManagerCallbackListener : consentManagerCallbackListeners) {
+                    if (consentManagerCallbackListener.consentError != null) {
+                        callback.onGetConsentsFailed(consentManagerCallbackListener.consentError);
+                        return;
+                    }
+                    consentDefinitionStatusList.add(consentManagerCallbackListener.consentDefinitionStatus);
+                }
+                callback.onGetConsentsSuccess(consentDefinitionStatusList);
             }
-            consentDefinitionStatusList.add(consentManagerCallbackListener.consentDefinitionStatus);
-        }
-        callback.onGetConsentsSuccess(consentDefinitionStatusList);
+        });
+
     }
 
-    private void postResultOnStoreConsent(List<ConsentTypeCallbackListener> consentCallbackListeners, PostConsentCallback postConsentCallback) {
-        for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
-            if (consentTypeCallbackListener.consentError != null) {
-                postConsentCallback.onPostConsentFailed(consentTypeCallbackListener.consentError);
-                return;
+    private void postResultOnStoreConsent(final List<ConsentTypeCallbackListener> consentCallbackListeners,final PostConsentCallback postConsentCallback) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
+                    if (consentTypeCallbackListener.consentError != null) {
+                        postConsentCallback.onPostConsentFailed(consentTypeCallbackListener.consentError);
+                        return;
+                    }
+                }
+                postConsentCallback.onPostConsentSuccess();
             }
-        }
-        postConsentCallback.onPostConsentSuccess();
+        });
+
     }
 
     private class ConsentManagerCallbackListener implements FetchConsentCallback {
