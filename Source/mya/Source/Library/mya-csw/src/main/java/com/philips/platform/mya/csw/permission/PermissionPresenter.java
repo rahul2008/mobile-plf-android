@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -92,13 +91,7 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
             }
         }
         adapter.onGetConsentRetrieved(consentViews);
-
-        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                permissionInterface.hideProgressDialog();
-            }
-        });
+        permissionInterface.hideProgressDialog();
     }
 
     @Override

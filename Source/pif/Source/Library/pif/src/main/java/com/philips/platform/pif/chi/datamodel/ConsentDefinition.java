@@ -125,21 +125,23 @@ public class ConsentDefinition implements Parcelable, Serializable {
         ConsentDefinition that = (ConsentDefinition) o;
 
         if (version != that.version) return false;
-        if (!identifier.equals(that.identifier)) return false;
-        if (!text.equals(that.text)) return false;
-        if (!helpText.equals(that.helpText)) return false;
-        if (!types.equals(that.types)) return false;
-        return implicitConsents.equals(that.implicitConsents);
+        if (identifier != null ? !identifier.equals(that.identifier) : that.identifier != null)
+            return false;
+        if (text != null ? !text.equals(that.text) : that.text != null) return false;
+        if (helpText != null ? !helpText.equals(that.helpText) : that.helpText != null)
+            return false;
+        if (types != null ? !types.equals(that.types) : that.types != null) return false;
+        return implicitConsents != null ? implicitConsents.equals(that.implicitConsents) : that.implicitConsents == null;
     }
 
     @Override
     public int hashCode() {
-        int result = identifier.hashCode();
-        result = 31 * result + text.hashCode();
-        result = 31 * result + helpText.hashCode();
-        result = 31 * result + types.hashCode();
+        int result = identifier != null ? identifier.hashCode() : 0;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (helpText != null ? helpText.hashCode() : 0);
+        result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
-        result = 31 * result + implicitConsents.hashCode();
+        result = 31 * result + (implicitConsents != null ? implicitConsents.hashCode() : 0);
         return result;
     }
 }

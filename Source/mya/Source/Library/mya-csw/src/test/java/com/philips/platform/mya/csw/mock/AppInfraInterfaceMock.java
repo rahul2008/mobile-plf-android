@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class AppInfraInterfaceMock implements AppInfraInterface {
 
     public RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
+    public ConsentManagerInterface consentManagerInterface;
 
     @Override
     public SecureStorageInterface getSecureStorage() {
@@ -195,6 +197,11 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             public String getClickStreamConsentIdentifier() {
                 return null;
             }
+
+            @Override
+            public void registerClickStreamHandler(ConsentManagerInterface consentManager) {
+
+            }
         };
     }
 
@@ -231,5 +238,10 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
     @Override
     public AIKMInterface getAiKmInterface() {
         return null;
+    }
+
+    @Override
+    public ConsentManagerInterface getConsentManager() {
+        return consentManagerInterface;
     }
 }
