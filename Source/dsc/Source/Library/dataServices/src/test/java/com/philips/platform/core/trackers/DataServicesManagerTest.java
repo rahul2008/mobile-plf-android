@@ -401,7 +401,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createUserSettings_called() throws Exception {
-        Settings settings = mDataServicesManager.createUserSettings("en_us", "metric");
+        Settings settings = mDataServicesManager.createUserSettings("en_us", "metric", null);
         assertThat(settings).isNotNull();
         assertThat(settings).isInstanceOf(Settings.class);
     }

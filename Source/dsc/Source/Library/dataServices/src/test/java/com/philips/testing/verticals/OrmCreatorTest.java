@@ -110,7 +110,7 @@ public class OrmCreatorTest implements BaseAppDataCreator{
 
     @NonNull
     @Override
-    public Settings createSettings(String type, String value) {
+    public Settings createSettings(String type, String value, final String timeZone) {
         return new OrmSettings(type, value);
     }
 

@@ -372,8 +372,8 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
-    public Settings createUserSettings(String locale, String unit) {
-        return mDataCreater.createSettings(unit, locale);
+    public Settings createUserSettings(String locale, String unit, String timeZone) {
+        return mDataCreater.createSettings(unit, locale, timeZone);
     }
 
     public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {

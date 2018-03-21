@@ -105,12 +105,14 @@ public class SettingsFragment extends DSBaseFragment
                     if (data != null) {
                         settings = data.get(0);
                         if (settings == null) {
-                            mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric"), SettingsFragment.this);
+                            // TODO: IVD Add tha TimeZone ya man!
+                            mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", null), SettingsFragment.this);
                         } else {
                             updateUi(settings.getUnit(), settings.getLocale());
                         }
                     } else {
-                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric"), SettingsFragment.this);
+                        // TODO: IVD Add tha TimeZone ya man!
+                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", null), SettingsFragment.this);
                     }
                     dismissProgressDialog();
                 }
@@ -151,8 +153,10 @@ public class SettingsFragment extends DSBaseFragment
         int i = v.getId();
         if (i == R.id.btnOK) {
             if (settings == null) {
-                settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString());
+                // TODO: IVD Don't forget the timeZone
+                settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString(), null);
             } else {
+                // TODO: IVD TimeZone Again
                 settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
                 settings.setLocale(mSpinner_Local.getSelectedItem().toString());
             }

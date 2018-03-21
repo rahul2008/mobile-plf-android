@@ -21,7 +21,8 @@ public class SettingsConverter {
     }
 
     public Settings convertUcoreToAppSettings(UCoreSettings uCoreSettings) {
-        Settings settings = dataCreator.createSettings(uCoreSettings.getUnitSystem(), uCoreSettings.getLocale());
+        // TODO: IVD Fill in tha TimeZone dude!
+        Settings settings = dataCreator.createSettings(uCoreSettings.getUnitSystem(), uCoreSettings.getLocale(), null);
         return settings;
     }
 

@@ -26,15 +26,17 @@ public class OrmSettings implements Settings, Serializable {
     @DatabaseField(canBeNull = false)
     private String unit;
 
+    @DatabaseField
+    private String timeZone;
 
     @DatabaseConstructor
     OrmSettings() {
     }
 
-    public OrmSettings(final String unit, final String locale) {
+    public OrmSettings(final String unit, final String locale, final String timeZone) {
         this.unit = unit;
         this.locale = locale;
-
+        this.timeZone = timeZone;
     }
 
     @Override
@@ -47,6 +49,8 @@ public class OrmSettings implements Settings, Serializable {
         return locale;
     }
 
+    public String getTimeZone() { return timeZone; }
+
     @Override
     public void setUnit(String unit) {
        this.unit=unit;
@@ -55,6 +59,11 @@ public class OrmSettings implements Settings, Serializable {
     @Override
     public void setLocale(String locale) {
        this.locale=locale;
+    }
+
+    @Override
+    public void setTimeZone(final String timeZone) {
+        this.timeZone = timeZone;
     }
 
     @Override
@@ -70,6 +79,6 @@ public class OrmSettings implements Settings, Serializable {
 
     @Override
     public String toString() {
-        return unit + " " + locale;
+        return "" + unit + " " + locale + " " + timeZone;
     }
 }

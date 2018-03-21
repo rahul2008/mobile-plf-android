@@ -4,6 +4,7 @@ apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 archivesBaseName = "dataServicesUApp"
 
@@ -56,6 +57,11 @@ dependencies {
     compile deps.ormlite.android
 
     testCompile deps.junit
+
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'
+    testCompile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

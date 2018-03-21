@@ -123,12 +123,13 @@ public interface BaseAppDataCreator {
     /**
      * Creates the Setting Object
      *
-     * @param type  The Type of the User Setting
-     * @param value The Value of the User Setting
+     * @param unitSystem  The Type of the User Setting
+     * @param locale The Value of the User Setting
+     * @param timeZone
      * @return returns the User Settings Object created.
      */
     @NonNull
-    Settings createSettings(String type, String value);
+    Settings createSettings(String unitSystem, String locale, final String timeZone);
 
     /**
      * Creates the UserCharacteristics Object
