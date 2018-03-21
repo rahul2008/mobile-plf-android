@@ -25,7 +25,7 @@
     <string name="ths_vitals_add_medication_text">Add medication</string>
     <string name="ths_vitals_blood_pressure">Blood pressure </string>
     <string name="ths_vitals_medication_description_text">Please tell us about medication use, if applicable. Otherwise, you can skip this step.</string>
-    <string name="ths_vitals_blood_pressure_text">(in mm HG)</string>
+    <string name="ths_vitals_blood_pressure_text">(in mm Hg)</string>
     <string name="ths_vitals_temp_text">(in \u2109)</string>
     <string name="ths_vitals_medications">Step 3 of 5: Medications</string>
     <string name="ths_vitals_systolic">Systolic</string>
