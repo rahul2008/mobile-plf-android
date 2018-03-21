@@ -134,6 +134,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
+        if(marketingAccountPresenter!=null)
         marketingAccountPresenter.unRegister();
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
