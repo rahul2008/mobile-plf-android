@@ -31,6 +31,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
+import com.philips.platform.datasync.consent.DSCConsentProvider;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.ConsentsClient;
@@ -55,7 +56,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class MyAccountState extends BaseState implements MyAccountUIEventListener {
@@ -188,7 +188,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     @VisibleForTesting
     List<ConsentDefinition> getConsentDefinitions(Context context) {
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
-        consentDefinitions.addAll(getCatkConsentDefinition(context));
+        consentDefinitions.addAll(getDSCConsentDefinitions(context));
         consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         ConsentDefinitionRegistry.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
@@ -198,24 +198,16 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return consentDefinitions;
     }
 
-    private List<ConsentDefinition> getCatkConsentDefinition(Context context) {
+    private List<ConsentDefinition> getDSCConsentDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
-                Collections.singletonList("moment"), 1);
-        ConsentDefinitionRegistry.add(momentConsentDefinition);
-        definitions.add(momentConsentDefinition);
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
-                Collections.singletonList("coaching"), 1);
-        ConsentDefinitionRegistry.add(coachingConsentDefinition);
-        definitions.add(coachingConsentDefinition);
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
-                Collections.singletonList("binary"), 1);
-        ConsentDefinitionRegistry.add(binaryConsentDefinition);
-        definitions.add(binaryConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
-                Arrays.asList("research", "analytics"), 1);
-        ConsentDefinitionRegistry.add(researchConsentDefinition);
-        definitions.add(researchConsentDefinition);
+        definitions.add(DSCConsentProvider.fetchMomentConsentDefinition(context));
+        ConsentDefinitionRegistry.add(DSCConsentProvider.fetchMomentConsentDefinition(context));
+        definitions.add(DSCConsentProvider.fetchCoachingConsentDefinition(context));
+        ConsentDefinitionRegistry.add(DSCConsentProvider.fetchCoachingConsentDefinition(context));
+        definitions.add(DSCConsentProvider.fetchBinaryConsentDefinition(context));
+        ConsentDefinitionRegistry.add(DSCConsentProvider.fetchBinaryConsentDefinition(context));
+        definitions.add(DSCConsentProvider.fetchResearchAndAnalyticsConsentDefinition(context));
+        ConsentDefinitionRegistry.add(DSCConsentProvider.fetchResearchAndAnalyticsConsentDefinition(context));
         return definitions;
     }
 
@@ -227,7 +219,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
                 .setConsentManager(app.getAppInfra().getConsentManager())
-                .setConsentDefinitions(getCatkConsentDefinition(context))
+                .setConsentDefinitions(getDSCConsentDefinitions(context))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
     }
