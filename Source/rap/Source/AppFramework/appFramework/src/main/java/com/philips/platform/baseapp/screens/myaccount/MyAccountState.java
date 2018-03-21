@@ -121,7 +121,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                     urLaunchInput.enableAddtoBackStack(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
                     URInterface urInterface = new URInterface();
-                    urInterface.launch(fragmentLauncher,urLaunchInput);
+                    urInterface.launch(fragmentLauncher, urLaunchInput);
                     return true;
                 }
                 return false;
@@ -134,7 +134,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
             @Override
             public void onLogoutClicked(final MyaLogoutListener myaLogoutListener) {
-                URLogout urLogout=new URLogout();
+                URLogout urLogout = new URLogout();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
@@ -159,7 +159,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                     }
                 });
                 User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
-                urLogout.performLogout(actContext,user);
+                urLogout.performLogout(actContext, user);
             }
         };
     }
@@ -208,14 +208,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 Arrays.asList("research", "analytics"), 1);
         ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
-        return definitions;
-    }
 
-    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_Setting_Philips_Promo_Title), context
-                .getString(R.string.RA_MYA_Marketing_Help_Text), Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), 1));
+        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         return definitions;
     }
 
@@ -224,7 +218,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
         List<ConsentDefinition> catkConsentDefinitions = createCatkDefinitions(context);
-//        List<ConsentDefinition> urConsentDefinitions = createUserRegistrationDefinitions(context);
 
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
@@ -236,8 +229,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
         consentDefinitionList = new ArrayList<>();
         consentDefinitionList.addAll(catkConsentDefinitions);
-//        consentDefinitionList.addAll(urConsentDefinitions);
     }
+
     @Override
     public void updateDataModel() {
 
