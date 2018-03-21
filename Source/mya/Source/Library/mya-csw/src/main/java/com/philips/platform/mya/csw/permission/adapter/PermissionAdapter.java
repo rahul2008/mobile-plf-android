@@ -103,7 +103,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
+                notifyItemRangeChanged(HEADER_COUNT, consentViews.size()  + HEADER_COUNT);
             }
         });
     }
@@ -114,16 +114,28 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
-        notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
+        ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
+            }
+        });
     }
 
-    public void onCreateConsentFailed(int position, ConsentError error) {
+    public void onCreateConsentFailed(final int position, ConsentError error) {
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);
             consentView.setError(true);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
-            notifyItemChanged(position + HEADER_COUNT);
+
+            ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(position + HEADER_COUNT);
+                }
+            });
+
         }
     }
 
@@ -144,7 +156,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         }
     }
 
-    private Consent getConsent(ConsentDefinition definition, boolean status) {
+    public Consent getConsent(ConsentDefinition definition, boolean status) {
         ConsentStates consentStatus;
         String locale = CswInterface.get().getDependencies().getAppInfra().getInternationalization().getBCP47UILocale();
         if (status)

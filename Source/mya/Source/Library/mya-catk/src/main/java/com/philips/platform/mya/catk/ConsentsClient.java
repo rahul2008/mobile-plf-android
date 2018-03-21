@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ConsentsClient{
+public class ConsentsClient {
 
     private static final String PROPOSITION_CONFIG_ERROR = "Missing '%s' -> Please add the following section to AppConfig.json:\n\"hsdp\":\n" +
             "{\n" +
@@ -171,8 +171,6 @@ public class ConsentsClient{
 
             @Override
             public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-
-                consentListener.onResponseSuccessConsent(responseData);
                 for (BackendConsent consent : responseData) {
                     if (consentType.equals(consent.getType())) {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
@@ -216,6 +214,7 @@ public class ConsentsClient{
                             consentListener.onSuccess();
                         }
                     }
+
                     @Override
                     public void onModelDataError(ConsentNetworkError error) {
                         consentListener.onFailure(error);

@@ -24,6 +24,7 @@ import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.List;
 
@@ -86,13 +87,13 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         for (ConsentView consentView : consentViews) {
             for (ConsentDefinitionStatus consentDefinitionStatus : consentDefinitionStatusList) {
                 if (consentDefinitionStatus.getConsentDefinition() == consentView.getDefinition()) {
-                    consentView.setOnline(consentDefinitionStatus.getConsentState().equals("active") ? true : false);
+                    consentView.storeConsent(adapter.getConsent(consentView.getDefinition(), consentDefinitionStatus.getConsentState().equals(ConsentStates.active)));
                 }
             }
         }
         adapter.onGetConsentRetrieved(consentViews);
 
-        ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 permissionInterface.hideProgressDialog();
@@ -116,9 +117,6 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
 
     @Override
     public void onPostConsentSuccess() {
-       /* if (consent != null && consent.getType().equals(CONSENT_TYPE_CLICKSTREAM)) {
-            updateClickStream(consent.getStatus().name().equals(ConsentStates.active.name()));
-        }*/
         adapter.onCreateConsentSuccess(togglePosition, toggleStatus);
         permissionInterface.hideProgressDialog();
     }

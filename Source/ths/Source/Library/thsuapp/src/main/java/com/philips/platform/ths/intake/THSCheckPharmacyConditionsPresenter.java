@@ -25,6 +25,7 @@ import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition;
 
@@ -34,9 +35,11 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     private THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView;
     private Pharmacy pharmacy;
     private static final String CONSENT_FRAGMENT_TAG = "consentFragmentTAG";
+    private ActionBarListener actionBarListener;
 
-    THSCheckPharmacyConditionsPresenter(THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView) {
+    THSCheckPharmacyConditionsPresenter(THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView, ActionBarListener actionBarListener) {
         this.thsCheckPharmacyConditonsView = thsCheckPharmacyConditonsView;
+        this.actionBarListener = actionBarListener;
     }
 
     @Override
@@ -83,7 +86,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                     justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
                     justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
-                    justInTimeTextResources.titleTextRes = R.string.ths_location_consent_title;
+                    justInTimeTextResources.titleTextRes = R.string.ths_location_consent_fragment_title;
                     // justInTimeTextResources.userBenefitsTitleRes = R.string.ths_location_consent_title;
                     // justInTimeTextResources.userBenefitsDescriptionRes = R.string.ths_location_consent_help;
 
@@ -92,6 +95,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
                     JustInTimeConsentDependencies.consentManager = THSManager.getInstance().getAppInfra().getConsentManager();
                     JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
+                    justInTimeConsentFragment.setUpdateTitleListener(actionBarListener);
                     fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
                     //fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
