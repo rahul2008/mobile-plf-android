@@ -190,8 +190,11 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCatkConsentDefinition(context));
         consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
+        ConsentDefinitionRegistry.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
+        ConsentDefinitionRegistry.add(CcConsentProvider.fetchLocationConsentDefinition(context));
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition(context));
+        ConsentDefinitionRegistry.add(URConsentProvider.fetchMarketingConsentDefinition(context));
         return consentDefinitions;
     }
 
