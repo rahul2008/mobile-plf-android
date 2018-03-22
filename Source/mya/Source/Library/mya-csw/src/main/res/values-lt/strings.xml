@@ -51,10 +51,14 @@
   <string name="mya_Settings">nustatymais</string>
   <string name="mya_change_country">Atsijunkite ir pakeiskite šalį</string>
   <string name="mya_change_country_message">Atsijunkite, norėdami pakeisti šalį, kurioje gyvenate. Pritaikysime jums garantiją ir kitą informaciją pagal buvimo vietą.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[lt]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[lt]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[lt]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[lt]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[lt]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[lt]Maybe later</string>
   <string name="mya_csw_justintime_title">[lt]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[lt]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[lt]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[lt]What do we have to offer?</string>
   <string name="mya_logout_message">Jūs atsijungsite nuo programos. Atsijungę visada galėsite vėl prisijungti.</string>
   <string name="mya_logout_title">Ar tikrai norite atsijungti?</string>

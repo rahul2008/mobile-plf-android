@@ -59,7 +59,7 @@
   <string name="RA_DLS_enable_bluetooth">[zh-HK]Please enable bluetooth</string>
   <string name="RA_DLS_healthy_sleep_title">[zh-HK]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[zh-HK]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[zh-HK]Reference App</string>
+  <string name="RA_DLS_home_page_text">[zh-HK]RA_SettingsScreen_Title</string>
   <string name="RA_DLS_insights_error">[zh-HK]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[zh-HK]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[zh-HK]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
@@ -105,12 +105,17 @@
   <string name="RA_MYA_Click_Stream_Hosting_Consent">[zh-HK]I allow Philips to use my mobile application usage statistics</string>
   <string name="RA_MYA_Coaching_Consent">[zh-HK]I allow Philips to use my data for Coaching purposes</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[zh-HK]The actual content of the binary consent help text here</string>
+  <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[zh-HK]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">我允許 Philips 收集我的應用程式資料以協助應用程式運作、改善應用程式、為應用程式作個人化設置、與社交媒體整合並展示相關內容及廣告。</string>
   <string name="RA_MYA_Consent_Click_Stream_Help_Text">Cookie 聲明\n\n此應用程式會使用由 Adobe Systems Software Ireland Limited（「Adobe」）提供的分析服務「Adobe Analytics」。Adobe Analytics 會使用「Cookie」或相似的技術，將文字檔案儲存於您的應用程式中，以協助應用程式分析其中的整體流量模式。向 Adobe 傳輸由 Cookie 產生的應用程式使用資料時，設定會確保 IP 地址經過匿名方式後才用於地理位置定位，而儲存前亦會以一般 IP 地址代替。Adobe 代表 Philips 使用這些資料以評估您使用應用程式的情況、為 Philips 製作應用程式相關的報告，並向 Philips 提供其他與應用程式活動及使用相關的服務。Adobe 不會將您的 IP 地址與其他 Adobe 所擁有的資料混合使用。如您不希望 Adobe 及 Philips 收集並使用您的資料（Cookie 及 IP 地址），您可在關閉此畫面後選擇退出。\n</string>
+  <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[zh-HK]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[zh-HK]The actual content of the coaching consent help text here</string>
+  <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[zh-HK]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Marketing_Help_Text">由於您表示同意，Philips 集團公司可能會透過電郵、短訊及其他數碼渠道（如流動應用程式及社交媒體）就宣傳通訊事宜聯絡您。為令通訊內容更能貼近您的喜好及行為，並向您提供最佳的個人體驗，我們可能會分析並整合您的個人資料，包括： \n\n您提供的資料\n您主動樂意分享的個人資料如：您的姓名、生日、年齡、電郵地址、居住住址、國家、性別、電話號碼以及社交媒體資料。\n\n我們從您與 Philips 交互活動中所取得的資訊\n有關您與 Philips 數碼頻道（例如社交媒體、網站、電子郵件、應用程式和連線的產品）互動和相關使用情況的資料。這些資料可能包括：IP 地址、Cookie、裝置資訊、您點擊的通訊、位置詳細資料和您瀏覽的網站。\n\nPhilips 讓您隨時取消同意以上內容。\n詳情請參閱 Philips 私隱聲明及 Philips Cookie 聲明。</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[zh-HK]The actual content of the moment consent help text here</string>
+  <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[zh-HK]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[zh-HK]The actual content of the research and analytics consent help text here</string>
+  <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[zh-HK]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[zh-HK]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[zh-HK]I allow Philips to use my data for Research and Analytics purposes</string>
   <string name="RA_Menu_title_Demo">[zh-HK]Test Demo Apps</string>

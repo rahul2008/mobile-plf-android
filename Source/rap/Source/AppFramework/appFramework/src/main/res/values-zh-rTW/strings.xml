@@ -59,7 +59,7 @@
   <string name="RA_DLS_enable_bluetooth">[zh-TW]Please enable bluetooth</string>
   <string name="RA_DLS_healthy_sleep_title">[zh-TW]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[zh-TW]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[zh-TW]Reference App</string>
+  <string name="RA_DLS_home_page_text">[zh-TW]RA_SettingsScreen_Title</string>
   <string name="RA_DLS_insights_error">[zh-TW]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[zh-TW]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[zh-TW]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
@@ -105,12 +105,17 @@
   <string name="RA_MYA_Click_Stream_Hosting_Consent">[zh-TW]I allow Philips to use my mobile application usage statistics</string>
   <string name="RA_MYA_Coaching_Consent">[zh-TW]I allow Philips to use my data for Coaching purposes</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[zh-TW]The actual content of the binary consent help text here</string>
+  <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">我允許飛利浦收集我的應用程式資料，以協助應用程式運作、改善應用程式、個人化應用程式、整合社交媒體並顯示相關內容及廣告。</string>
   <string name="RA_MYA_Consent_Click_Stream_Help_Text">Cookie 聲明\n\n此應用程式使用的 Adobe Analytics 是一款由 Adobe Systems Software Ireland Limited (下稱「Adobe」) 提供的分析服務 (下稱「Adobe Analytics」)。Adobe Analytics 使用「cookie」或相似技術，這類技術會放置文字檔案在您的應用程式中，以協助應用程式分析通過應用程式的整體流量模式。cookie 產生關於應用程式使用的資訊後會傳送給 Adobe，我們的設定會確保 IP 位址在地理位置化前匿名處理，並會在儲存前以一個一般性 IP 位址取代。Adobe 將代表飛利浦使用此資訊，用以評估您使用應用程式的情形、為飛利浦彙整應用程式活動報告，以及用以向飛利浦提供與應用程式活動及應用程式使用的其他相關服務。Adobe 不會將您的 IP 位址與任何其他 Adobe 所持有的資料建立關聯。如果您在關閉此畫面後選擇不接受，則 Adobe 和飛利浦便不會收集及使用您的資料 (cookie 和 IP 位址)。\n</string>
+  <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[zh-TW]The actual content of the coaching consent help text here</string>
+  <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Marketing_Help_Text">經取得您的同意，飛利浦集團公司會透過電子郵件、簡訊及其他數位管道 (例如行動應用程式和社交媒體) 與您聯繫，向您提供宣傳通訊。為了提供符合您喜好和行為模式的通訊內容，並給予您最佳的個人化體驗，我們會對您的個人資料進行分析及整合。這些資料可能包含： \n\n您提供給我們的資料\n您主動與我們分享的資料，例如：您的姓名、生日或年齡、電子郵件地址、實體地址、國家、性別、電話號碼、社交媒體個人檔案。\n\n從您與飛利浦互動過程中取得的資料\n您與飛利浦數位管道 (例如社交媒體、網站、電子郵件、應用程式及連結產品) 互動和使用這些管道的相關資料。這些資料可能包含：IP 位址、Cookie、裝置資訊、您點按的通訊內容、詳細位置資料，以及您造訪的網站\n\n飛利浦也提供機會，讓您可隨時撤回同意。\n如需更多資訊，請閱讀飛利浦隱私權聲明及飛利浦 Cookie 聲明。</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[zh-TW]The actual content of the moment consent help text here</string>
+  <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[zh-TW]The actual content of the research and analytics consent help text here</string>
+  <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[zh-TW]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[zh-TW]I allow Philips to use my data for Research and Analytics purposes</string>
   <string name="RA_Menu_title_Demo">[zh-TW]Test Demo Apps</string>
