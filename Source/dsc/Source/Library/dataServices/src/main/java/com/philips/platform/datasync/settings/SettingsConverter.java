@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.BaseAppDataCreator;
@@ -5,10 +11,6 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import javax.inject.Inject;
-
-/**
- * Created by sangamesh on 24/01/17.
- */
 
 public class SettingsConverter {
 
@@ -25,9 +27,7 @@ public class SettingsConverter {
     }
 
     public Settings convertUcoreToAppSettings(UCoreSettings uCoreSettings) {
-        // TODO: IVD Fill in tha TimeZone dude!
-        Settings settings = dataCreator.createSettings(uCoreSettings.getUnitSystem(), uCoreSettings.getLocale(), null);
-        return settings;
+        return dataCreator.createSettings(uCoreSettings.getUnitSystem(), uCoreSettings.getLocale(), uCoreSettings.getTimeZone());
     }
 
     public UCoreSettings convertAppToUcoreSettings(Settings settings) {

@@ -1,12 +1,16 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class UCoreSettings {
 
-    private String locale,unitSystem;
+    private String locale;
+    private String unitSystem;
+    private String timeZone;
 
     public String getLocale() {
         return locale;
@@ -22,5 +26,13 @@ public class UCoreSettings {
 
     public void setUnitSystem(String unitSystem) {
         this.unitSystem = unitSystem;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(final String timeZone) {
+        this.timeZone = timeZone;
     }
 }

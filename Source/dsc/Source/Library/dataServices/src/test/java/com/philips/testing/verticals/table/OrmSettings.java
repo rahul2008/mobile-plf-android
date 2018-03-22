@@ -20,7 +20,7 @@ public class OrmSettings implements Settings, Serializable {
     private String unit;
     private String timeZone;
 
-    OrmSettings() {
+    public OrmSettings() {
     }
 
     public OrmSettings(final String unit, final String locale, final String timeZone) {
