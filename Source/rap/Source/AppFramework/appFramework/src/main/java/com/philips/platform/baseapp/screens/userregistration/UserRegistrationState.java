@@ -261,16 +261,16 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private void updateTaggingBasedOnClickStreamConsent() {
         getApplicationContext().getAppInfra().getConsentManager().fetchConsentTypeState(getApplicationContext().getAppInfra().getTagging().getClickStreamConsentIdentifier(), new FetchConsentCallback() {
             @Override
-            public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-                if(consentDefinitionStatus.getConsentState().equals(ConsentStates.active)){
+            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+                if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-                }else{
+                } else {
                     getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
                 }
             }
 
             @Override
-            public void onGetConsentsFailed(ConsentError error) {
+            public void onGetConsentFailed(ConsentError error) {
                 RALog.e("Consent Network Error", error.getError());
             }
         });
@@ -286,7 +286,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return userObject;
     }
 
-    public UserDataInterface getUserDataInterface(){
+    public UserDataInterface getUserDataInterface() {
 
         return urInterface.getUserDataInterface();
     }

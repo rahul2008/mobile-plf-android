@@ -5,7 +5,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
 public interface FetchConsentCallback {
 
-    void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus);
+    void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus);
 
-    void onGetConsentsFailed(ConsentError error);
+    void onGetConsentFailed(ConsentError error);
 }

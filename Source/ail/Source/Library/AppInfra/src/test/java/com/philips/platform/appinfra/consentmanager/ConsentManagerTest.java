@@ -291,12 +291,12 @@ public class ConsentManagerTest {
     private class FetchConsentCallbackListener implements FetchConsentCallback {
 
         @Override
-        public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+        public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
             mReceivedConsentDefinitionStatus = consentDefinitionStatus;
         }
 
         @Override
-        public void onGetConsentsFailed(ConsentError error) {
+        public void onGetConsentFailed(ConsentError error) {
             mConsentError = error;
         }
     }

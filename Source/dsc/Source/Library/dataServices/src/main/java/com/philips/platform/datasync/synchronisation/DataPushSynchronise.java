@@ -148,7 +148,7 @@ public class DataPushSynchronise extends EventMonitor {
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
         DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentTypeState("moment", new FetchConsentCallback() {
             @Override
-            public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {
                     executor.execute(new Runnable() {
                         @Override
@@ -166,7 +166,7 @@ public class DataPushSynchronise extends EventMonitor {
             }
 
             @Override
-            public void onGetConsentsFailed(ConsentError error) {
+            public void onGetConsentFailed(ConsentError error) {
                 countDownLatch.countDown();
             }
         });

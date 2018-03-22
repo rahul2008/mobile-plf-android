@@ -191,17 +191,17 @@ public class ConsentManager implements ConsentManagerInterface {
                     }
 
                     if (consentCallbackListener.consentError != null) {
-                        callback.onGetConsentsFailed(consentCallbackListener.consentError);
+                        callback.onGetConsentFailed(consentCallbackListener.consentError);
                         return;
                     } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
                             || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
-                        callback.onGetConsentsSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
+                        callback.onGetConsentSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
                         return;
                     }
 
                     consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
                 }
-                callback.onGetConsentsSuccess(consentDefinitionStatus);
+                callback.onGetConsentSuccess(consentDefinitionStatus);
             }
         });
 
@@ -270,13 +270,13 @@ public class ConsentManager implements ConsentManagerInterface {
         }
 
         @Override
-        public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+        public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
             this.consentDefinitionStatus = consentDefinitionStatus;
             countDownLatch.countDown();
         }
 
         @Override
-        public void onGetConsentsFailed(ConsentError error) {
+        public void onGetConsentFailed(ConsentError error) {
             consentError = error;
             countDownLatch.countDown();
         }

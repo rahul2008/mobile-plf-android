@@ -20,12 +20,12 @@ class SupportHomePresenter implements HomeFragmentContract.HomeFragmentPresenter
     public void checkConsent(ConsentManagerInterface consentManager, ConsentDefinition consentDefinition) {
         consentManager.fetchConsentState(consentDefinition, new FetchConsentCallback() {
             @Override
-            public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 viewContract.isConsentAccepted(consentDefinitionStatus.getConsentState() == ConsentStates.active);
             }
 
             @Override
-            public void onGetConsentsFailed(ConsentError error) {
+            public void onGetConsentFailed(ConsentError error) {
                 viewContract.isConsentAccepted(false);
             }
         });

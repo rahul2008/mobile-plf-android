@@ -49,6 +49,11 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
     }
 
     @Override
+    public void registerConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
+
+    }
+
+    @Override
     public void fetchConsentState(ConsentDefinition consentDefinition, FetchConsentCallback callback) {
 
     }
@@ -68,5 +73,10 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
         } else if (shouldFail()) {
             this.callback_storeConsentState.onPostConsentFailed(error);
         }
+    }
+
+    @Override
+    public void fetchConsentTypeState(String type, FetchConsentCallback callback) {
+
     }
 }
