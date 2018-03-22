@@ -10,11 +10,6 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for Consent access tool kit.
@@ -26,12 +21,9 @@ public class CatkInputs {
 
     private final Context context;
 
-    private final List<ConsentDefinition> consentDefinitionList;
-
     private CatkInputs(Builder builder) {
         appInfra = builder.appInfra;
         context = builder.context;
-        consentDefinitionList = builder.consentDefinitionList;
     }
 
     public Context getContext() {
@@ -42,17 +34,11 @@ public class CatkInputs {
         return appInfra;
     }
 
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return Collections.unmodifiableList(consentDefinitionList);
-    }
-
     public static class Builder {
 
         private AppInfraInterface appInfra;
 
         private Context context;
-
-        private List<ConsentDefinition> consentDefinitionList;
 
         public Builder() {
         }
@@ -67,11 +53,6 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-            this.consentDefinitionList = consentDefinitions;
-            return this;
-        }
-
         public CatkInputs build() {
             if (appInfra == null) {
                 throw new InvalidInputException("AppInfraInterface not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
@@ -80,28 +61,13 @@ public class CatkInputs {
                 throw new InvalidInputException("Context not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
             }
 
-            if (consentDefinitionList == null) {
-                throw new InvalidInputException("ConsentDefinitions not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
-            }
-
-            final List<String> types = new ArrayList<>();
-            for (ConsentDefinition definition : consentDefinitionList) {
-                for (String type : definition.getTypes()) {
-                    if (types.contains(type))
-                        throw new InvalidInputException("Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
-                    types.add(type);
-                }
-            }
-
             return new CatkInputs(this);
         }
     }
 
-    public static class InvalidInputException extends RuntimeException {
-
-        public InvalidInputException(String message) {
+    static class InvalidInputException extends RuntimeException {
+        InvalidInputException(String message) {
             super(message);
         }
     }
-
 }

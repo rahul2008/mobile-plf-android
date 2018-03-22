@@ -29,7 +29,7 @@ public class CatkInputsTest {
     public void setup() {
         someContext = new ContextMock();
         someAppInfraInterface = new AppInfraInterfaceMock();
-        someConsentManagerInterface =  mock(ConsentManagerInterface.class);
+        someConsentManagerInterface = mock(ConsentManagerInterface.class);
         this.inputBuilder = new CatkInputs.Builder();
     }
 
@@ -88,13 +88,6 @@ public class CatkInputsTest {
         whenBuilding();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void shouldReturnUnModifiableListWhenGettingConsentDefinitions() throws Exception {
-        givenValidCatkInputs();
-        List<ConsentDefinition> definitions = whenGettingConsentDefinitions();
-        thenModifyingListThrowsException(definitions);
-    }
-
     private void givenConsentDefinitionTypes(String... types) {
         List<ConsentDefinition> definitions = new ArrayList<>();
         for (String type : types) {
@@ -107,7 +100,7 @@ public class CatkInputsTest {
         this.appInfra = appInfra;
     }
 
-    private void givenConsentRegistryInterface(ConsentManagerInterface consentManagerInterface){
+    private void givenConsentRegistryInterface(ConsentManagerInterface consentManagerInterface) {
         this.consentManagerInterface = consentManagerInterface;
     }
 
@@ -124,11 +117,7 @@ public class CatkInputsTest {
     }
 
     private void whenBuilding() {
-        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).setConsentManager(consentManagerInterface).build();
-    }
-
-    private List<ConsentDefinition> whenGettingConsentDefinitions() {
-        return givenCatkInputs.getConsentDefinitions();
+        givenCatkInputs = inputBuilder.setAppInfraInterface(appInfra).setContext(context).setConsentDefinitions(consentDefinitions).build();
     }
 
     private void thenModifyingListThrowsException(List<ConsentDefinition> definitions) {
