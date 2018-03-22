@@ -116,7 +116,7 @@ public class DatabaseHelperTest {
     }
 
     private void thenTableContentsAre(final Class<?> klazz, final String expectedData) {
-        final SQLiteDatabase sqlDatabase = sqlLiteTestDb.getWritableDatabase();
+        final SQLiteDatabase sqlDatabase = sqlLiteTestDb.getReadableDatabase();
         final String sql = "SELECT * FROM `"+ klazz.getSimpleName() + "`";
         final Cursor cursor = sqlDatabase.rawQuery(sql, null);
         String actualData = getTableData(cursor);
