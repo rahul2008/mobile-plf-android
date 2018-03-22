@@ -66,6 +66,7 @@ public class TeleHealthServicesStateTest {
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(hamburgerActivity.getApplicationContext()).thenReturn(application);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
+        when(application.getApplicationContext()).thenReturn(application);
     }
 
     @Test
