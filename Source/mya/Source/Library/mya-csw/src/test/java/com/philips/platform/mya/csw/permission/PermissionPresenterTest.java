@@ -4,13 +4,11 @@ import android.content.Context;
 import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
-import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -39,7 +37,6 @@ public class PermissionPresenterTest {
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>();
-    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
     private ConsentDefinitionStatus consentDefinitionStatus;
 
     @Mock
@@ -125,7 +122,6 @@ public class PermissionPresenterTest {
 
     @Test
     public void testShouldShowLoaderWhenTogglingConsent() throws Exception {
-        whenAppIsOnline();
         whenTogglingConsentTo(true);
         thenProgressIsShown();
     }
@@ -134,7 +130,6 @@ public class PermissionPresenterTest {
     public void testShouldNotShowLoaderWhenTogglingConsent() throws Exception {
         String errorTitle = "test offline error title";
         String errorMessage = "test offline error message";
-        whenAppIsOffline();
         given(mockContext.getString(R.string.csw_offline_title)).willReturn(errorTitle);
         given(mockContext.getString(R.string.csw_offline_message)).willReturn(errorMessage);
         whenTogglingConsentTo(true);
@@ -190,12 +185,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenPresenter() {
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockAdapter) {
-            @Override
-            protected RestInterface getRestClient() {
-                return restInterfaceMock;
-            }
-        };
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockAdapter);
         mPermissionPresenter.mContext = mockContext;
     }
 
@@ -217,14 +207,6 @@ public class PermissionPresenterTest {
 
     private void whenTogglingConsentTo(boolean toggled) {
         mPermissionPresenter.onToggledConsent(1, mockConsentDefinition, toggled);
-    }
-
-    private void whenAppIsOnline() {
-        restInterfaceMock.isInternetAvailable = true;
-    }
-
-    private void whenAppIsOffline() {
-        restInterfaceMock.isInternetAvailable = false;
     }
 
     private void thenErrorIsShown(boolean goBack, String title, String message) {
