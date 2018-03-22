@@ -20,7 +20,6 @@ class JustInTimeLauncher {
         this.viewContract = viewContract;
         JustInTimeConsentDependencies.appInfra = DigitalCareConfigManager.getInstance().getAPPInfraInstance();
         JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition(context);
-        JustInTimeConsentDependencies.consentManager = CcConsentProvider.fetchConsentManager();
         JustInTimeConsentDependencies.textResources = getJustInTimeTextResources();
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }

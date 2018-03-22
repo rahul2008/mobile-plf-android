@@ -11,8 +11,6 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public class JustInTimeConsentDependencies {
-
-    public static ConsentManagerInterface consentManager;
     public static ConsentDefinition consentDefinition;
     public static JustInTimeTextResources textResources;
     public static AppInfraInterface appInfra;

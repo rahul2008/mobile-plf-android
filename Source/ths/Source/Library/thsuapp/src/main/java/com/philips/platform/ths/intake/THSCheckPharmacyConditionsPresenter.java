@@ -93,7 +93,6 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     consentDefinition = thsConsentDefinition;
                     JustInTimeConsentDependencies.textResources = justInTimeTextResources;
                     JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
-                    JustInTimeConsentDependencies.consentManager = THSManager.getInstance().getAppInfra().getConsentManager();
                     JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
                     justInTimeConsentFragment.setUpdateTitleListener(actionBarListener);
                     fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();

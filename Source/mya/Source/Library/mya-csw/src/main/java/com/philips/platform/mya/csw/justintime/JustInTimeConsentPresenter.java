@@ -1,7 +1,6 @@
 package com.philips.platform.mya.csw.justintime;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.pif.chi.ConsentError;
@@ -12,12 +11,10 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
     private final ConsentDefinition consentDefinition;
     private final JustInTimeWidgetHandler completionListener;
     private AppInfraInterface appInfra;
-    private ConsentManagerInterface consentManager;
 
-    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentManagerInterface consentManager, ConsentDefinition consentDefinition, JustInTimeWidgetHandler completionListener) {
+    public JustInTimeConsentPresenter(JustInTimeConsentContract.View view, AppInfraInterface appInfra, ConsentDefinition consentDefinition, JustInTimeWidgetHandler completionListener) {
         this.view = view;
         this.appInfra = appInfra;
-        this.consentManager = consentManager;
         this.view.setPresenter(this);
         this.consentDefinition = consentDefinition;
         this.completionListener = completionListener;
@@ -51,7 +48,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         boolean isOnline = appInfra.getRestClient().isInternetReachable();
         if (isOnline) {
             view.showProgressDialog();
-            consentManager.storeConsentState(consentDefinition, status, callback);
+            appInfra.getConsentManager().storeConsentState(consentDefinition, status, callback);
         } else {
             view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
         }
