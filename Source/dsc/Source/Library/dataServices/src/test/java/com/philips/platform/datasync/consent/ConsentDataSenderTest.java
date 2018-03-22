@@ -3,7 +3,6 @@ package com.philips.platform.datasync.consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 import static org.mockito.Matchers.anyListOf;
@@ -45,13 +43,6 @@ public class ConsentDataSenderTest {
     SynchronisationManager synchronisationManagerMock;
 
     @Mock
-    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
-
-    @Mock
-    private ConsentDetail consentDetailMock;
-
-
-    @Mock
     private AppComponent appComponantMock;
 
     @Mock
@@ -67,14 +58,9 @@ public class ConsentDataSenderTest {
     ConsentsClient consentsClientMock;
 
     @Mock
-    UCoreConsentDetail uCoreConsentDetailMock;
-
-    @Mock
     private List<UCoreConsentDetail> uCoreConsentDetailsMock;
 
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    private static final String TEST_USER_ID = "TEST_USER_ID";
-    private Response response;
 
     @Before
     public void setUp() {
