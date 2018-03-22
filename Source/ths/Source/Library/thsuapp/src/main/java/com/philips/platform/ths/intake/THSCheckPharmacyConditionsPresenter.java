@@ -81,7 +81,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
         consentManager.fetchConsentState(thsConsentDefinition, new FetchConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-                if (consentDefinitionStatus.getConsentState() == ConsentStates.active) {
+                if (consentDefinitionStatus.getConsentState() != ConsentStates.active) {
                     ((THSCheckPharmacyConditionsFragment) thsCheckPharmacyConditonsView).hideProgressBar();
                     JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
                     justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
