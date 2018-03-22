@@ -22,7 +22,6 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
@@ -147,7 +146,7 @@ public class DataPushSynchronise extends EventMonitor {
 
     @VisibleForTesting
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
-        DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentState(ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), new FetchConsentCallback() {
+        DataServicesManager.getInstance().getAppInfra().getConsentManager().fetchConsentTypeState("moment", new FetchConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {

@@ -29,6 +29,13 @@ public interface ConsentManagerInterface {
     void deregisterHandler(List<String> consentType);
 
     /**
+     * Register Consent Definition to the type
+     *
+     * @param consentDefinitions given list of consent definitions
+     */
+    void registerConsentDefinitions(List<ConsentDefinition> consentDefinitions);
+
+    /**
      * Fetch the consent status of the given consent definition by delegating to the corresponding handler
      *
      * @param consentDefinition Consent Definition for which the status has to be fetched
@@ -52,4 +59,11 @@ public interface ConsentManagerInterface {
      * @param callback          The callback that should be invoked after store
      */
     void storeConsentState(final ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback);
+
+    /**
+     * Fetch the consent status of the give type by delegating to the corresponding handler
+     * @param type
+     * @param callback
+     */
+    void fetchConsentTypeState(String type, FetchConsentCallback callback);
 }

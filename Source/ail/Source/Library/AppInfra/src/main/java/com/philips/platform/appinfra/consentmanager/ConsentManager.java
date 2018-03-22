@@ -31,6 +31,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
+    private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
 
     public ConsentManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -54,11 +55,28 @@ public class ConsentManager implements ConsentManagerInterface {
         }
     }
 
+    @Override
+    public synchronized void registerConsentDefinitions(List<ConsentDefinition> consentDefinitionList) {
+        for (ConsentDefinition consentDefinition : consentDefinitionList) {
+            for (String type : consentDefinition.getTypes()) {
+                consentDefinitionMapping.put(type, consentDefinition);
+            }
+        }
+    }
+
+    private ConsentDefinition getConsentDefinitionForType(String consentType) {
+        ConsentDefinition consentDefinition = consentDefinitionMapping.get(consentType);
+        if (consentDefinition != null) {
+            return consentDefinition;
+        }
+        throw new RuntimeException("ConsentDefinition is not registered for the type " + consentType);
+    }
+
     protected ConsentHandlerInterface getHandler(String consentType) {
         ConsentHandlerInterface handler = consentHandlerMapping.get(consentType);
-        if (handler != null)
+        if (handler != null) {
             return handler;
-
+        }
         throw new RuntimeException("Handler is not registered for the type " + consentType);
     }
 
@@ -74,6 +92,18 @@ public class ConsentManager implements ConsentManagerInterface {
 
         waitTillThreadsGetsCompleted(countDownLatch);
         postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+    }
+
+    private void executeHandlerToFetchConsentTypeState(final String type, final FetchConsentCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
+
+        ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+        consentTypeCallbackListeners.add(listener);
+        getHandler(type).fetchConsentTypeState(type, listener);
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
     }
 
     @Override
@@ -122,6 +152,16 @@ public class ConsentManager implements ConsentManagerInterface {
 
                 waitTillThreadsGetsCompleted(countDownLatch);
                 postResultOnStoreConsent(consentTypeCallbackListeners, callback);
+            }
+        });
+    }
+
+    @Override
+    public void fetchConsentTypeState(final String type, final FetchConsentCallback callback) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                executeHandlerToFetchConsentTypeState(type, callback);
             }
         });
     }
@@ -184,7 +224,7 @@ public class ConsentManager implements ConsentManagerInterface {
         return ConsentVersionStates.AppVersionIsHigher;
     }
 
-    private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners,final FetchConsentsCallback callback) {
+    private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners, final FetchConsentsCallback callback) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(new Runnable() {
             @Override
@@ -203,7 +243,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     }
 
-    private void postResultOnStoreConsent(final List<ConsentTypeCallbackListener> consentCallbackListeners,final PostConsentCallback postConsentCallback) {
+    private void postResultOnStoreConsent(final List<ConsentTypeCallbackListener> consentCallbackListeners, final PostConsentCallback postConsentCallback) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(new Runnable() {
             @Override

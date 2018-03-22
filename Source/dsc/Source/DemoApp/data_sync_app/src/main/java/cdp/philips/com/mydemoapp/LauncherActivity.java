@@ -11,7 +11,6 @@ import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -39,8 +38,7 @@ public class LauncherActivity extends Activity {
         AppInfraInterface ail = DemoApplication.getInstance().getAppInfra();
         JustInTimeTextResources jitTextRes = new JustInTimeTextResources();
         ConsentInteractor momentConsentHandler = new ConsentInteractor(ConsentsClient.getInstance());
-        ConsentDefinition consentDefinition = ConsentDefinitionRegistry.getDefinitionByConsentType("moment");
-        return new DSDemoAppuAppDependencies(ail, momentConsentHandler, consentDefinition, jitTextRes);
+        return new DSDemoAppuAppDependencies(ail, jitTextRes);
     }
 
     private UappSettings createSettings() {

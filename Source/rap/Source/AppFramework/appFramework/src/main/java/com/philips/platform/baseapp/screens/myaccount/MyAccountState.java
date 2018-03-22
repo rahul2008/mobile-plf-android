@@ -45,7 +45,7 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
+import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -92,7 +92,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private MyaListener getMyaListener() {
         return new MyaListener() {
             @Override
-             public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+            public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Logout)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("MYA_Privacy_Settings")) {
@@ -128,14 +128,14 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
             }
 
             @Override
-            public void onError( MyaError myaError) {
+            public void onError(MyaError myaError) {
                 Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
 
-                URLogout urLogout=new URLogout();
+                URLogout urLogout = new URLogout();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
@@ -188,14 +188,14 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      */
     @VisibleForTesting
     List<ConsentDefinition> getConsentDefinitions(Context context) {
+        AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCATKConsentDefinitions(context));
         consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
-        ConsentDefinitionRegistry.add(THSLocationConsentProvider.getTHSConsentDefinition(context));
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition(context));
-        ConsentDefinitionRegistry.add(CcConsentProvider.fetchLocationConsentDefinition(context));
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition(context));
-        ConsentDefinitionRegistry.add(URConsentProvider.fetchMarketingConsentDefinition(context));
+        consentDefinitions.add(getClickStreamConsentDefinition(context));
+        app.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);
         return consentDefinitions;
     }
 
@@ -203,21 +203,22 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         final List<ConsentDefinition> definitions = new ArrayList<>();
         ConsentDefinition momentConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help),
                 Collections.singletonList("moment"), 1);
-        ConsentDefinitionRegistry.add(momentConsentDefinition);
         definitions.add(momentConsentDefinition);
         ConsentDefinition coachingConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help),
                 Collections.singletonList("coaching"), 1);
-        ConsentDefinitionRegistry.add(coachingConsentDefinition);
         definitions.add(coachingConsentDefinition);
         ConsentDefinition binaryConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Binary_Text), context.getString(R.string.RA_MYA_Consent_Binary_Help),
                 Collections.singletonList("binary"), 1);
-        ConsentDefinitionRegistry.add(binaryConsentDefinition);
         definitions.add(binaryConsentDefinition);
         ConsentDefinition researchConsentDefinition = new ConsentDefinition(context.getString(R.string.RA_MYA_Research_Analytics_Consent), context.getString(R.string.RA_MYA_Consent_Research_Analytics_Help_Text),
                 Arrays.asList("research", "analytics"), 1);
-        ConsentDefinitionRegistry.add(researchConsentDefinition);
         definitions.add(researchConsentDefinition);
         return definitions;
+    }
+
+    private ConsentDefinition getClickStreamConsentDefinition(Context context) {
+        return new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
+                Collections.singletonList(getApplicationContext().appInfra.getTagging().getClickStreamConsentIdentifier()), 1);
     }
 
     @Override

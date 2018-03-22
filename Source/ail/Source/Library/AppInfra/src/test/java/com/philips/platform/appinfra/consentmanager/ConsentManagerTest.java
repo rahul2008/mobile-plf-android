@@ -120,6 +120,22 @@ public class ConsentManagerTest {
         verify(mPostConsentCallback).onPostConsentFailed(mConsentError);
     }
 
+    @Test
+    public void fetchConsentTypeState_ShouldReturnStatus() {
+        givenRegisteredConsent();
+        givenRegisteredConsentDefinitions();
+        whenFetchConsentTypeStateIsInvokedForSuccess();
+        verifyActiveStatusIsReturned();
+    }
+
+    private void whenFetchConsentTypeStateIsInvokedForSuccess() {
+        mConsentManager.fetchConsentTypeState("testConsent1", new FetchConsentCallbackListener());
+    }
+
+    private void givenRegisteredConsentDefinitions() {
+        mConsentManager.registerConsentDefinitions(Collections.singletonList(new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1)));
+    }
+
     private void whenStoreConsentIsInvokedForFailureCase() {
         ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1);
         mConsentManager.storeConsentState(consentDefinition, true, mPostConsentCallback);
@@ -141,6 +157,10 @@ public class ConsentManagerTest {
 
     private void verifyCorrectStatusIsReturned() {
         assertEquals(ConsentStates.rejected, mReceivedConsentDefinitionStatus.getConsentState());
+    }
+
+    private void verifyActiveStatusIsReturned() {
+        assertEquals(ConsentStates.active, mReceivedConsentDefinitionStatus.getConsentState());
     }
 
     private void whenFetchConsentStateIsInvokedForFailureCase() {

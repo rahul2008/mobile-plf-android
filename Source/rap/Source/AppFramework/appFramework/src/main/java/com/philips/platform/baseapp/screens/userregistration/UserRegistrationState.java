@@ -8,7 +8,6 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -43,13 +42,8 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.ConsentCallback;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.referenceapp.PushNotificationManager;
@@ -57,7 +51,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -266,7 +259,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void updateTaggingBasedOnClickStreamConsent() {
-        getApplicationContext().getAppInfra().getConsentManager().fetchConsentState(ConsentDefinitionRegistry.getDefinitionByConsentType("clickstream"), new FetchConsentCallback() {
+        getApplicationContext().getAppInfra().getConsentManager().fetchConsentTypeState(getApplicationContext().getAppInfra().getTagging().getClickStreamConsentIdentifier(), new FetchConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 if(consentDefinitionStatus.getConsentState().equals(ConsentStates.active)){

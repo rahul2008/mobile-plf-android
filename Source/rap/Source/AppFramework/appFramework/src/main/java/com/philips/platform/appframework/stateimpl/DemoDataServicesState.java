@@ -35,7 +35,6 @@ import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
@@ -102,8 +101,7 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(),
-                ConsentDefinitionRegistry.getDefinitionByConsentType("moment"), textResources);
+        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(), textResources);
     }
 
     @NonNull
