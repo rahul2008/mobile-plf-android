@@ -1,14 +1,14 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.testing.verticals.table;
 
 import com.philips.platform.core.datatypes.Settings;
 
 import java.io.Serializable;
-
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 
 public class OrmSettings implements Settings, Serializable {
 
@@ -46,12 +46,12 @@ public class OrmSettings implements Settings, Serializable {
 
     @Override
     public void setUnit(String unit) {
-       this.unit=unit;
+        this.unit = unit;
     }
 
     @Override
     public void setLocale(String locale) {
-       this.locale=locale;
+        this.locale = locale;
     }
 
     @Override

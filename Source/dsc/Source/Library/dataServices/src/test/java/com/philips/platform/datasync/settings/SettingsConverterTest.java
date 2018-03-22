@@ -53,8 +53,11 @@ public class SettingsConverterTest {
         thenDtoSettingsLocaleIs("de_DE");
     }
 
-    private void whenConvertingToDtoSettings() {
-        dtoSettings = settingsConverter.convertAppToUcoreSettings(appSettings);
+    @Test
+    public void convertAppSettingsConvertsTimeZone() {
+        givenAppSettingsTimeZone("Asia/Beijing");
+        whenConvertingToDtoSettings();
+        thenDtoSettingsTimeZoneIs("Asia/Beijing");
     }
 
     private void givenDtoSettingsTimeZone(final String timeZone) {
@@ -77,8 +80,16 @@ public class SettingsConverterTest {
         appSettings.setLocale(locale);
     }
 
+    private void givenAppSettingsTimeZone(final String timeZone) {
+        appSettings.setTimeZone(timeZone);
+    }
+
     private void whenConvertingToAppSettings() {
         appSettings = settingsConverter.convertUcoreToAppSettings(dtoSettings);
+    }
+
+    private void whenConvertingToDtoSettings() {
+        dtoSettings = settingsConverter.convertAppToUcoreSettings(appSettings);
     }
 
     private void thenAppSettingsTimeZoneIs(final String expectedTimeZone) {
@@ -99,6 +110,10 @@ public class SettingsConverterTest {
 
     private void thenDtoSettingsLocaleIs(final String expectedLocale) {
         assertEquals(expectedLocale, dtoSettings.getLocale());
+    }
+
+    private void thenDtoSettingsTimeZoneIs(final String expectedTimeZone) {
+        assertEquals(expectedTimeZone, dtoSettings.getTimeZone());
     }
 
     @Before

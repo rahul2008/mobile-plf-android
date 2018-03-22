@@ -34,6 +34,7 @@ public class SettingsConverter {
         UCoreSettings uCoreSettings = new UCoreSettings();
         uCoreSettings.setUnitSystem(settings.getUnit());
         uCoreSettings.setLocale(settings.getLocale());
+        uCoreSettings.setTimeZone(settings.getTimeZone());
         return uCoreSettings;
     }
 }
