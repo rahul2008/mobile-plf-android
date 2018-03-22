@@ -34,7 +34,6 @@ public class SettingsSegregator {
         try {
             settingsList = (List<? extends Settings>) dbFetchingInterface.fetchNonSyncSettings();
         } catch (SQLException e) {
-            //Debug Log
         }
         dataToSync.put(Settings.class, settingsList);
         return dataToSync;

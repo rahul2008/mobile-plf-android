@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DBFetchingInterfaceSpy implements DBFetchingInterface {
-    public boolean fetchNonSyncSettingsCalled;
+    public List<?> settingsToSync;
 
     @Override
     public List<? extends Moment> fetchMoments(final DBFetchRequestListner<Moment> dbFetchRequestListner) throws SQLException {
@@ -112,8 +112,7 @@ public class DBFetchingInterfaceSpy implements DBFetchingInterface {
 
     @Override
     public List<?> fetchNonSyncSettings() throws SQLException {
-        fetchNonSyncSettingsCalled = true;
-        return null;
+        return settingsToSync;
     }
 
     @Override
