@@ -29,6 +29,7 @@ import com.philips.platform.dscdemo.R;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 
 public class SettingsFragment extends DSBaseFragment
         implements DBFetchRequestListner<Settings>, DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
@@ -105,19 +106,21 @@ public class SettingsFragment extends DSBaseFragment
                     if (data != null) {
                         settings = data.get(0);
                         if (settings == null) {
-                            // TODO: IVD Add tha TimeZone ya man!
-                            mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", null), SettingsFragment.this);
+                            createDefaultSettings();
                         } else {
                             updateUi(settings.getUnit(), settings.getLocale());
                         }
                     } else {
-                        // TODO: IVD Add tha TimeZone ya man!
-                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", null), SettingsFragment.this);
+                        createDefaultSettings();
                     }
                     dismissProgressDialog();
                 }
             });
         }
+    }
+
+    private void createDefaultSettings() {
+        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", TimeZone.getDefault().getID()), SettingsFragment.this);
     }
 
     private void updateUi(String unit, String locale) {
