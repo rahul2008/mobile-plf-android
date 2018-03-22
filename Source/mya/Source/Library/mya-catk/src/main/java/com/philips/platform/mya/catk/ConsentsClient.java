@@ -71,7 +71,7 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        this.consentManagerInterface = catkInputs.getConsentManager();
+        this.consentManagerInterface = catkInputs.getAppInfra().getConsentManager();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
         validateAppNameAndPropName();

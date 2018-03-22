@@ -10,7 +10,6 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
@@ -25,8 +24,6 @@ public class CatkInputs {
 
     private final AppInfraInterface appInfra;
 
-    private final ConsentManagerInterface consentManager;
-
     private final Context context;
 
     private final List<ConsentDefinition> consentDefinitionList;
@@ -34,7 +31,6 @@ public class CatkInputs {
     private CatkInputs(Builder builder) {
         appInfra = builder.appInfra;
         context = builder.context;
-        consentManager = builder.consentManager;
         consentDefinitionList = builder.consentDefinitionList;
     }
 
@@ -50,15 +46,9 @@ public class CatkInputs {
         return Collections.unmodifiableList(consentDefinitionList);
     }
 
-    public ConsentManagerInterface getConsentManager() {
-        return consentManager;
-    }
-
     public static class Builder {
 
         private AppInfraInterface appInfra;
-
-        private ConsentManagerInterface consentManager;
 
         private Context context;
 
@@ -69,11 +59,6 @@ public class CatkInputs {
 
         public Builder setAppInfraInterface(AppInfraInterface appInfra) {
             this.appInfra = appInfra;
-            return this;
-        }
-
-        public Builder setConsentManager(ConsentManagerInterface consentManager) {
-            this.consentManager = consentManager;
             return this;
         }
 
@@ -93,10 +78,6 @@ public class CatkInputs {
             }
             if (context == null) {
                 throw new InvalidInputException("Context not given, we need:\n-AppInfra\n-Context\n-ConsentDefinitions");
-            }
-
-            if (consentManager == null) {
-                throw new InvalidInputException("Consent Manager not given, we need consent manager instance to register type for an handler");
             }
 
             if (consentDefinitionList == null) {
