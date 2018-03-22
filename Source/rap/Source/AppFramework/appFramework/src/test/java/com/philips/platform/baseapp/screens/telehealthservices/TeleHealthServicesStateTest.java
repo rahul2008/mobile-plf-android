@@ -62,11 +62,10 @@ public class TeleHealthServicesStateTest {
         teleHealthServicesState = new TeleHealthServiceStateMock();
         teleHealthServicesState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
-        teleHealthServicesState.init(application);
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(hamburgerActivity.getApplicationContext()).thenReturn(application);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
-        when(application.getApplicationContext()).thenReturn(application);
+        teleHealthServicesState.init(hamburgerActivity);
     }
 
     @Test
