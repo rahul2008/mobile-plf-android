@@ -127,16 +127,6 @@ public class PermissionPresenterTest {
     }
 
     @Test
-    public void testShouldNotShowLoaderWhenTogglingConsent() throws Exception {
-        String errorTitle = "test offline error title";
-        String errorMessage = "test offline error message";
-        given(mockContext.getString(R.string.csw_offline_title)).willReturn(errorTitle);
-        given(mockContext.getString(R.string.csw_offline_message)).willReturn(errorMessage);
-        whenTogglingConsentTo(true);
-        thenOfflineErrorIsShown(false, errorTitle, errorMessage);
-    }
-
-    @Test
     public void testShouldHideLoaderWhenCreateConsentFails() throws Exception {
         givenCswComponent();
         givenConsentError();
@@ -212,11 +202,7 @@ public class PermissionPresenterTest {
     private void thenErrorIsShown(boolean goBack, String title, String message) {
         verify(mockPermissionInterface).showErrorDialog(goBack, title, message);
     }
-
-    private void thenOfflineErrorIsShown(boolean goBack, String title, String message) {
-        verify(mockPermissionInterface).showErrorDialog(goBack, title, message);
-    }
-
+    
     private void thenProgressIsShown() {
         verify(mockPermissionInterface).showProgressDialog();
     }
