@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -81,8 +80,6 @@ public class ConsentsClientTest {
     ArgumentCaptor<NetworkAbstractModel> captorNetworkAbstractModel;
     @Mock
     private AppInfraInterface mockAppInfra;
-    @Mock
-    private ConsentManagerInterface mockConsentManagerInterface;
     @Mock
     private Context mockContext;
     @Mock
@@ -280,7 +277,7 @@ public class ConsentsClientTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).setConsentManager(mockConsentManagerInterface).build();
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {
