@@ -25,6 +25,7 @@ public interface ConsentManagerInterface {
      * Deregister consent type from the handler
      *
      * @param consentType the type that should be removed from the handler
+     * @since 2018.1.0
      */
     void deregisterHandler(List<String> consentType);
 
@@ -32,6 +33,7 @@ public interface ConsentManagerInterface {
      * Register Consent Definition to the type
      *
      * @param consentDefinitions given list of consent definitions
+     * @since 2018.1.0
      */
     void registerConsentDefinitions(List<ConsentDefinition> consentDefinitions);
 
@@ -40,6 +42,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentDefinition Consent Definition for which the status has to be fetched
      * @param callback          The callback that should be invoked after fetch
+     * @since 2018.1.0
      */
     void fetchConsentState(ConsentDefinition consentDefinition, final FetchConsentCallback callback);
 
@@ -48,6 +51,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentDefinitions Consent Definition for which the status has to be fetched
      * @param callback           The callback that should be invoked after fetch
+     * @since 2018.1.0
      */
     void fetchConsentStates(List<ConsentDefinition> consentDefinitions, final FetchConsentsCallback callback);
 
@@ -57,6 +61,7 @@ public interface ConsentManagerInterface {
      * @param consentDefinition Consent Definition for which the status has to be stored
      * @param status            Consent status i.e, active, rejected or Inactive
      * @param callback          The callback that should be invoked after store
+     * @since 2018.1.0
      */
     void storeConsentState(final ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback);
 
@@ -64,6 +69,7 @@ public interface ConsentManagerInterface {
      * Fetch the consent status of the give type by delegating to the corresponding handler
      * @param type
      * @param callback
+     * @since 2018.1.0
      */
     void fetchConsentTypeState(String type, FetchConsentCallback callback);
 }
