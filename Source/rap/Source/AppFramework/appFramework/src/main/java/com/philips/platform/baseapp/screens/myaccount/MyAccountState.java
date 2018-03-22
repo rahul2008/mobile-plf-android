@@ -217,7 +217,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     private ConsentDefinition getClickStreamConsentDefinition(Context context) {
         return new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Clickstream_Text), context.getString(R.string.RA_MYA_Consent_Clickstream_Help),
-                Collections.singletonList(getApplicationContext().appInfra.getTagging().getClickStreamConsentIdentifier()), 1);
+                Collections.singletonList(((AppFrameworkApplication) context.getApplicationContext()).appInfra.getTagging().getClickStreamConsentIdentifier()), 1);
     }
 
     @Override
