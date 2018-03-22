@@ -198,7 +198,6 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
-            AmwellLog.e("videoCall", throwable.toString());
             mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
@@ -212,7 +211,6 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onResponse(Void aVoid, SDKError sdkError) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                AmwellLog.e("videoCall", sdkError.toString());
                 mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(mTHSWaitingRoomFragment.getContext(), ANALYTIC_VIDEO_VISIT_FAIL, sdkError), true, true);
                 return;
             } else {
@@ -229,7 +227,6 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onFailure(Throwable throwable) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != throwable && null != throwable.getMessage()) {
-                AmwellLog.e("videoCall", throwable.toString());
                 mTHSWaitingRoomFragment.doTagging(ANALYTIC_VIDEO_VISIT_FAIL, throwable.getMessage(), false);
                 mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true, false);
             }
@@ -243,7 +240,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
                     .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful)).
-                            setPositiveButton(" Ok ", new View.OnClickListener() {
+                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_ok), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
@@ -252,7 +249,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                             });
 
             if (isWithTitle) {
-                builder.setTitle("Error");
+                builder.setTitle(mTHSWaitingRoomFragment.getString(R.string.ths_matchmaking_error));
 
             }
             mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
