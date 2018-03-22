@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +42,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -102,6 +104,9 @@ public class MyAccountStateTest {
     @Mock
     private ConsentHandlerInterface handler2;
 
+    @Mock
+    private Resources resources;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -118,6 +123,8 @@ public class MyAccountStateTest {
         when(application.getAppInfra()).thenReturn(appInfraInterface);
         when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
         when(userRegistrationStateMock.getUserDataInterface()).thenReturn(userDataInterfaceMock);
+        when(mockContext.getResources()).thenReturn(resources);
+        when(resources.getString(anyInt())).thenReturn("ABC");
     }
 
     @Test
@@ -136,7 +143,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(6, definitions.size());
+        assertEquals(7, definitions.size());
     }
 
     @After
