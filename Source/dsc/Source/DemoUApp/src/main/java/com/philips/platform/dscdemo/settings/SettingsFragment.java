@@ -37,7 +37,7 @@ public class SettingsFragment extends DSBaseFragment
     private Context mContext;
     private SettingsPresenter mSettingsPresenter;
     private DataServicesManager mDataServicesManager;
-    private Spinner mSpinner_Unit, mSpinner_Local;
+    private Spinner mSpinner_Unit, mSpinner_Local, mSpinner_TimeZone;
     private Settings settings;
     private ProgressDialog mProgressDialog;
 
@@ -64,15 +64,16 @@ public class SettingsFragment extends DSBaseFragment
         mDataServicesManager = DataServicesManager.getInstance();
         mProgressDialog = new ProgressDialog(mContext);
 
-        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        Button mBtnOk = rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
 
-        Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
+        Button mBtnCancel = rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
 
         mSettingsPresenter = new SettingsPresenter(this);
-        mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
-        mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
+        mSpinner_Unit = rootView.findViewById(R.id.spinner_metrics);
+        mSpinner_Local = rootView.findViewById(R.id.spinner_locale);
+        mSpinner_TimeZone = rootView.findViewById(R.id.spinner_timezone);
         ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
                 R.array.metrics, android.R.layout.simple_spinner_item);
         adapterMetrics.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -83,9 +84,11 @@ public class SettingsFragment extends DSBaseFragment
         adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner_Local.setAdapter(adapterLocale);
 
+        ArrayAdapter<String> adapterTimeZone = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, TimeZone.getAvailableIDs());
+        mSpinner_TimeZone.setAdapter(adapterTimeZone);
+
         fetchSettings();
         return rootView;
-
     }
 
     @Override
@@ -156,12 +159,11 @@ public class SettingsFragment extends DSBaseFragment
         int i = v.getId();
         if (i == R.id.btnOK) {
             if (settings == null) {
-                // TODO: IVD Don't forget the timeZone
-                settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString(), null);
+                settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString(), TimeZone.getDefault().getID());
             } else {
-                // TODO: IVD TimeZone Again
                 settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
                 settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                settings.setTimeZone(mSpinner_TimeZone.getSelectedItem().toString());
             }
             mSettingsPresenter.updateSettings(settings);
             getFragmentManager().popBackStack();
