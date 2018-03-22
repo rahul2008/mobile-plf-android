@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -21,16 +22,19 @@ import com.philips.cdp2.commlib.core.util.GsonProvider;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.fromString;
 import static java.lang.Math.min;
+import static java.lang.System.currentTimeMillis;
 
 /**
  * This type can be used to upload a binary firmware image to the {@link FirmwarePort} of an {@link Appliance}.
@@ -38,6 +42,8 @@ import static java.lang.Math.min;
  * is set, see {@link FirmwarePortProperties#getMaxChunkSize()}.
  */
 public class FirmwareUploader {
+
+    private static final String TAG = "FirmwareUploader";
 
     private final FirmwarePort firmwarePort;
     private final CommunicationStrategy communicationStrategy;
@@ -50,6 +56,7 @@ public class FirmwareUploader {
 
     private int progress;
     private Future<Void> uploadTask;
+    private long startTimeMillis;
 
     public interface UploadListener {
         void onSuccess();
@@ -85,6 +92,8 @@ public class FirmwareUploader {
 
                 progress = 0;
                 listener.onProgress(progress);
+
+                startTimeMillis = currentTimeMillis();
                 uploadNextChunk(progress);
 
                 return null;
@@ -103,6 +112,8 @@ public class FirmwareUploader {
         Map<String, Object> properties = new HashMap<>();
         int nextChunkSize = min(maxChunkSize, this.firmwareData.length - offset);
         properties.put(FirmwarePortProperties.FirmwarePortKey.DATA.toString(), Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
+
+        calculateThroughputInBytesPerSecond(offset);
 
         communicationStrategy.putProperties(properties, firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
 
@@ -149,5 +160,16 @@ public class FirmwareUploader {
                 listener.onError(t.getMessage(), t);
             }
         });
+    }
+
+    private void calculateThroughputInBytesPerSecond(int progressInBytes) {
+        if (startTimeMillis <= 0) {
+            return;
+        }
+        final long timeDiffInMillis = currentTimeMillis() - startTimeMillis;
+        final int throughputInBytesPerSecond = Math.round(1000 * progressInBytes / timeDiffInMillis);
+
+        // Comma-separated line, easy for use in Excel
+        DICommLog.v(TAG, String.format(Locale.US, "%d,%d,%d", TimeUnit.MILLISECONDS.toSeconds(timeDiffInMillis), progressInBytes, throughputInBytesPerSecond));
     }
 }
