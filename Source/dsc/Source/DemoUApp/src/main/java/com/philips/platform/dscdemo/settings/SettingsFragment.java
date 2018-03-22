@@ -111,7 +111,7 @@ public class SettingsFragment extends DSBaseFragment
                         if (settings == null) {
                             createDefaultSettings();
                         } else {
-                            updateUi(settings.getUnit(), settings.getLocale());
+                            updateUi(settings.getUnit(), settings.getLocale(), settings.getTimeZone());
                         }
                     } else {
                         createDefaultSettings();
@@ -126,9 +126,16 @@ public class SettingsFragment extends DSBaseFragment
         mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric", TimeZone.getDefault().getID()), SettingsFragment.this);
     }
 
-    private void updateUi(String unit, String locale) {
-        mSpinner_Unit.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(unit));
-        mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(locale));
+    private void updateUi(String unit, String locale, final String timeZone) {
+        if (unit != null) {
+            mSpinner_Unit.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(unit));
+        }
+        if (locale != null) {
+            mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(locale));
+        }
+        if (timeZone != null) {
+            mSpinner_TimeZone.setSelection(Arrays.asList(TimeZone.getAvailableIDs()).indexOf(timeZone));
+        }
     }
 
     @Override
