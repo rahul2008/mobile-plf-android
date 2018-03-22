@@ -25,7 +25,8 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     static final String DEVICESTORE_VALUE_DELIMITER = "@#$^";
     private static final int LIST_POS_STATUS = 0;
     private static final int LIST_POS_VERSION = 1;
-    private static final int LIST_POS_TIMESTAMP = 2;
+    private static final int LIST_POS_LOCALE = 2;
+    private static final int LIST_POS_TIMESTAMP = 3;
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
@@ -91,6 +92,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         List<String> storeValues = new ArrayList<>();
         storeValues.add(LIST_POS_STATUS, String.valueOf(status));
         storeValues.add(LIST_POS_VERSION, String.valueOf(version));
+        storeValues.add(LIST_POS_LOCALE, appInfra.getInternationalization().getBCP47UILocale());
         storeValues.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
 
         String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
