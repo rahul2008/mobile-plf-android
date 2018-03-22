@@ -47,7 +47,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
-        int version = Integer.valueOf(appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError()));
+        String valueForKey = appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError());
+        int version = valueForKey == null? 0: Integer.valueOf(valueForKey);
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
         callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version));
