@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="uidDialogActionAreaStyle" format="reference"/>
+    <attr name="uidDialogAlternativeButtonStyle" format="reference"/>
+    <attr name="uidDialogPositiveButtonStyle" format="reference"/>
+    <attr name="uidDialogNegativeButtonStyle" format="reference"/>
+</resources>
