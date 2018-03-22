@@ -54,7 +54,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     private Label providerName, practiceName, isAvailable, spokenLanguageValueLabel, yearsOfExpValueLabel,
-            graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue;
+            graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue, dodProviderFoundMessage;
     protected RatingBar providerRating;
     protected Button detailsButtonOne, detailsButtonTwo, detailsButtonContinue;
     private RelativeLayout mTimeSlotContainer,ths_match_making_ProgressBarWithLabel;
@@ -85,6 +85,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         ths_match_making_ProgressBarWithLabel_container = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
         ths_match_making_ProgressBarWithLabel = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel);
         bottomLayout = view.findViewById(R.id.bottomLayout);
+        dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
         available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
@@ -130,6 +131,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     public void updateView(Provider provider, List<Date> dates) {
         available_provider_details_container.setVisibility(View.VISIBLE);
         setDODProgressVisibility(View.GONE);
+        if(THSManager.getInstance().isMatchMakingVisit()){
+            dodProviderFoundMessage.setVisibility(View.VISIBLE);
+        }
         swipeRefreshLayout.setVisibility(View.VISIBLE);
         bottomLayout.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
