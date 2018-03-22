@@ -1,42 +1,34 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
-import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.spy.DBFetchingInterfaceSpy;
 import com.philips.testing.verticals.table.OrmSettings;
 import com.squareup.okhttp.internal.framed.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Created by sangamesh on 31/01/17.
- */
 public class SettingsSegregatorTest {
-
     SettingsSegregator settingsSegregator;
 
-    @Mock
-    DBFetchingInterface mockDBDbFetchingInterface;
-
-    @Mock
-    private AppComponent appComponantMock;
+    DBFetchingInterfaceSpy dbSpy;
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
-        DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        settingsSegregator = new SettingsSegregator();
-        settingsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
+        dbSpy = new DBFetchingInterfaceSpy();
+        settingsSegregator = new SettingsSegregator(dbSpy);
     }
 
     @Test
@@ -45,7 +37,6 @@ public class SettingsSegregatorTest {
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Settings.class, Arrays.asList(ormSettings));
         settingsSegregator.putSettingsForSync(dataToSync);
-        verify(mockDBDbFetchingInterface).fetchNonSyncSettings();
+        assertTrue(dbSpy.fetchNonSyncSettingsCalled);
     }
-
 }
