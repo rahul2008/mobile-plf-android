@@ -20,6 +20,10 @@ public class SettingsConverter {
         DataServicesManager.getInstance().getAppComponent().injectSettingsConverter(this);
     }
 
+    SettingsConverter(BaseAppDataCreator dataCreator) {
+        this.dataCreator = dataCreator;
+    }
+
     public Settings convertUcoreToAppSettings(UCoreSettings uCoreSettings) {
         // TODO: IVD Fill in tha TimeZone dude!
         Settings settings = dataCreator.createSettings(uCoreSettings.getUnitSystem(), uCoreSettings.getLocale(), null);

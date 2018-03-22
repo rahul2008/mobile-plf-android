@@ -41,7 +41,7 @@ public class SettingsSegregatorTest {
 
     @Test
     public void shouldReturnDataToSyn_WhenPutSettingsForSyncIsCalled() throws Exception {
-        OrmSettings ormSettings=new OrmSettings("Metric","en_US");
+        OrmSettings ormSettings=new OrmSettings("Metric","en_US", null);
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Settings.class, Arrays.asList(ormSettings));
         settingsSegregator.putSettingsForSync(dataToSync);
