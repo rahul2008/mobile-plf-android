@@ -50,7 +50,7 @@ public class SettingsConverterTest {
     @Test
     public void shouldReturnUcoreSettings_whenConvertAppToUcoreSettingsIsCalled() throws Exception {
 
-       Settings settings=verticalDataCreater.createSettings("en_Us","metric", timeZone);
+       Settings settings=verticalDataCreater.createSettings("en_Us","metric", null);
        UCoreSettings uCoreSettings=settingsConverter.convertAppToUcoreSettings(settings);
         assertThat(uCoreSettings).isNotNull();
     }
