@@ -17,6 +17,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentType             type of the consent
      * @param consentHandlerInterface Handler which handles the implementation for the given consent type
+     * @since 2018.1.0
      */
     void registerHandler(List<String> consentType, ConsentHandlerInterface consentHandlerInterface);
 
