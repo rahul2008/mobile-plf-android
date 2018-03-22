@@ -22,6 +22,8 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -64,6 +66,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Mock
     SecureStorageInterface secureStorageInterface;
+
+    @Mock
+    ConsentManagerInterface consentManager;
 
     @Mock
     AppIdentityInterface appIdentityInterface;
@@ -133,6 +138,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         when(appInfraInterface.getSecureStorage()).thenReturn(secureStorageInterface);
+        when(appInfraInterface.getConsentManager()).thenReturn(consentManager);
         when(appInfraInterface.getTime()).thenReturn(timeInterface);
         when(taggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(taggingInterface);
         when(loggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(loggingInterface);
