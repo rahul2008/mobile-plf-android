@@ -51,10 +51,14 @@
   <string name="mya_Settings">Definições</string>
   <string name="mya_change_country">Sair para trocar de país</string>
   <string name="mya_change_country_message">Saia para trocar de país. Com essa informação, personalizaremos a garantia e outras informações, conforme sua localização.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[pt-BR]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[pt-BR]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[pt-BR]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[pt-BR]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[pt-BR]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt-BR]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt-BR]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[pt-BR]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[pt-BR]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[pt-BR]What do we have to offer?</string>
   <string name="mya_logout_message">Você sairá do aplicativo agora. É possível conectar-se novamente depois.</string>
   <string name="mya_logout_title">Tem certeza de que deseja sair?</string>

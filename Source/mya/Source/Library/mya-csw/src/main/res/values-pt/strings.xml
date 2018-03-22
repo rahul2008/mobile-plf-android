@@ -51,10 +51,14 @@
   <string name="mya_Settings">Definições</string>
   <string name="mya_change_country">Termine sessão para mudar o país</string>
   <string name="mya_change_country_message">Termine a sessão para mudar o país onde reside. Isto permite-nos adaptar a garantia e outras informações à sua localização</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[pt]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[pt]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[pt]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[pt]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[pt]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[pt]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[pt]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[pt]What do we have to offer?</string>
   <string name="mya_logout_message">Irá terminar a sessão na aplicação. Depois de terminar a sessão, pode sempre voltar a iniciar a sessão.</string>
   <string name="mya_logout_title">Tem a certeza que deseja terminar a sessão?</string>

@@ -84,7 +84,7 @@ public class CatkInputsTest {
     private void givenConsentDefinitionTypes(String... types) {
         List<ConsentDefinition> definitions = new ArrayList<>();
         for (String type : types) {
-            definitions.add(new ConsentDefinition("", "", Collections.singletonList(type), 2));
+            definitions.add(new ConsentDefinition(0, 0, Collections.singletonList(type), 2));
         }
         consentDefinitions = definitions;
     }

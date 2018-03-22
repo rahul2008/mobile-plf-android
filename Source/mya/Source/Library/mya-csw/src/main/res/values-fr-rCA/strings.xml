@@ -51,10 +51,14 @@
   <string name="mya_Settings">Réglages</string>
   <string name="mya_change_country">Fermeture pour changer de pays</string>
   <string name="mya_change_country_message">Veuillez fermer la session pour changer de pays de résidence. Cela nous permet d’adapter l’information qui vous concerne, dont celle au sujet de la garantie.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[fr-CA]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[fr-CA]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[fr-CA]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[fr-CA]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[fr-CA]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[fr-CA]Maybe later</string>
   <string name="mya_csw_justintime_title">[fr-CA]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[fr-CA]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[fr-CA]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[fr-CA]What do we have to offer?</string>
   <string name="mya_logout_message">Vous allez être déconnecté de l’application. Après la fermeture, vous pouvez toujours ouvrir une nouvelle session.</string>
   <string name="mya_logout_title">Êtes-vous sûr de vouloir vous déconnecter?</string>

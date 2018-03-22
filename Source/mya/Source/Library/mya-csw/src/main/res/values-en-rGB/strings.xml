@@ -51,10 +51,14 @@
   <string name="mya_Settings">Settings</string>
   <string name="mya_change_country">Log out to change country</string>
   <string name="mya_change_country_message">Please log out to change the country you live in. This will let us tailor the warranty and other information to your location</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[en-GB]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[en-GB]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[en-GB]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[en-GB]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[en-GB]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[en-GB]Maybe later</string>
   <string name="mya_csw_justintime_title">[en-GB]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[en-GB]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[en-GB]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[en-GB]What do we have to offer?</string>
   <string name="mya_logout_message">You will be logged out of the application. After you log out, you can always log in again.</string>
   <string name="mya_logout_title">Are you sure you want to log out?</string>

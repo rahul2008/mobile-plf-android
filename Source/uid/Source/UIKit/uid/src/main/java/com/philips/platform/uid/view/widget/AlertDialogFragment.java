@@ -76,7 +76,9 @@ public class AlertDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
+        LayoutInflater layoutInflater = inflater.cloneInContext(popupThemedContext);
+        popupThemedContext.getTheme().applyStyle(dialogParams.overrideStyleRes, true);
 
         if (savedInstanceState != null) {
             dialogParams.setMessage(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_MESSAGE_KEY));
@@ -533,7 +535,7 @@ public class AlertDialogFragment extends DialogFragment {
          */
         public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
             params.setDimLayer(dimLayer);
-            if(theme == DEFAULT_DIALOG_THEME && dimLayer == DialogConstants.DIM_STRONG) {
+            if (theme == DEFAULT_DIALOG_THEME && dimLayer == DialogConstants.DIM_STRONG) {
                 theme = R.style.UIDAlertDialog_Strong;
             }
             return this;
@@ -600,6 +602,30 @@ public class AlertDialogFragment extends DialogFragment {
          */
         public AlertDialogFragment.Builder setDividers(boolean showDividers) {
             params.setShowDividers(showDividers);
+            return this;
+        }
+
+        /**
+         * Overrides properties related to dialog.
+         * New Style should be create extending <pre> {@code UIDDialogStylesOverrides}</pre>
+         * Example
+         * <pre>
+         * {@code
+         *  <style name="CustomDialogOverride" parent="UIDDialogStylesOverrides">
+         *           <item name="uidAlertDialogActionArea">@style/UIDDialogActionAreaStyle</item> Override style should extend UIDDialogActionAreaStyle
+         *           <item name="uidDialogAlternativeButton">@style/UIDQuietButton</item>
+         *           <item name="uidDialogNegativeButton">@style/UIDQuietButton</item>
+         *           <item name="uidDialogPositiveButton">@style/UIDDefaultButton</item>
+         *   </style>
+         * }
+         * </pre>
+         *
+         * @param overrideStyle Style resource which overrides properties for dialog dimensions
+         * @return This Builder object to allow for chaining of calls to set methods
+         * @since 2017.5.1
+         */
+        public AlertDialogFragment.Builder setDialogActionAreaOverrideStyle(@StyleRes int overrideStyle) {
+            params.setDialogActionAreaOverrideStyle(overrideStyle);
             return this;
         }
 

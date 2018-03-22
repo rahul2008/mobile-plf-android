@@ -82,7 +82,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     protected void checkForConsent() {
         ConsentsClient consentsClient = ConsentsClient.getInstance();
         final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(consentsClient);
-        final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition(thsCheckPharmacyConditonsView.getFragmentActivity());
+        final ConsentDefinition thsConsentDefinition = THSManager.getInstance().getConsentDefinition() != null ? THSManager.getInstance().getConsentDefinition() : THSLocationConsentProvider.getTHSConsentDefinition();
         initConsentClient(consentsClient, thsConsentDefinition);
         consentHandlerInterface.fetchConsentStates(Arrays.asList(thsConsentDefinition), new CheckConsentsCallback() {
             @Override
