@@ -45,7 +45,6 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -174,7 +173,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, getConsentDefinitions(context));
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, createConsentDefinitions(context));
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
@@ -187,7 +186,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> getConsentDefinitions(Context context) {
+    List<ConsentDefinition> createConsentDefinitions(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCATKConsentDefinitions(context));
@@ -225,12 +224,15 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
+        createConsentDefinitions(context);
+
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
     }
+
 
     @Override
     public void updateDataModel() {

@@ -37,7 +37,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RuntimeEnvironment;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -160,7 +159,7 @@ public class MyAccountStateTest {
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.getConsentDefinitions(mockContext);
+        return myAccountState.createConsentDefinitions(mockContext);
     }
 
     class MyAccountStateMock extends MyAccountState {
