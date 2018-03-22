@@ -44,7 +44,6 @@ public class DSDemoAppuAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
-        JustInTimeConsentDependencies.consentDefinition = dsDependencies.momentConsentDefinition;
         AppInfraInterface appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
         JustInTimeTextResources textResources = new JustInTimeTextResources();
