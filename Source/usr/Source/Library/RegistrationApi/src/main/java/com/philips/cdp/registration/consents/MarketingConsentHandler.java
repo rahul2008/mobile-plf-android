@@ -16,11 +16,18 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
-
+/**
+ * Implement ConsentHandler Interface to receive marketing email consent on refresh user callback
+ * @since 2018.1.0
+ */
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     private final Context context;
 
+    /**
+     *
+     * @param context
+     */
     public MarketingConsentHandler(@NonNull final Context context) {
         this.context = context;
     }
@@ -48,6 +55,11 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         return recevieMarketingEmail ? ConsentStates.active : ConsentStates.rejected;
     }
 
+    /**
+     *
+     * @param consentType given type
+     * @param callback callback to be invoked after fetch
+     */
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         getUser().refreshUser(new RefreshUserHandler() {
@@ -63,6 +75,13 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         });
     }
 
+    /**
+     *
+     * @param consentType given consent type
+     * @param status given status to store
+     * @param version given version
+     * @param callback callback to be invoked after store
+     */
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
         getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);

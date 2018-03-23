@@ -17,7 +17,7 @@ public class URConsentProvider {
 
     /**
      * @return ConsentDefinition for USR_MARKETING
-     * @since 1.0.0
+     * @since 2018.1.0
      */
 
     public static ConsentDefinition fetchMarketingConsentDefinition() {
