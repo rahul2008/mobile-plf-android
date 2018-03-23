@@ -103,12 +103,10 @@ public class MyAccountStateTest {
     private Context context;
 
     @Mock
-    private ConsentHandlerInterface handler1;
-    @Mock
-    private ConsentHandlerInterface handler2;
+    private Resources resources;
 
     @Mock
-    private Resources resources;
+    private ConsentManagerInterface consentManagerInterfaceMock;
 
     @Before
     public void setUp() {
@@ -129,6 +127,7 @@ public class MyAccountStateTest {
         when(mockContext.getResources()).thenReturn(resources);
         when(mockContext.getApplicationContext()).thenReturn(application);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
+        when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
     }
 
@@ -148,7 +147,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(7, definitions.size());
+        assertEquals(8, definitions.size());
     }
 
     @After
