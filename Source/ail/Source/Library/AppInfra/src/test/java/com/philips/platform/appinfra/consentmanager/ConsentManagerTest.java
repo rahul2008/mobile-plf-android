@@ -133,16 +133,16 @@ public class ConsentManagerTest {
     }
 
     private void givenRegisteredConsentDefinitions() {
-        mConsentManager.registerConsentDefinitions(Collections.singletonList(new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1)));
+        mConsentManager.registerConsentDefinitions(Collections.singletonList(new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent3"), 1)));
     }
 
     private void whenStoreConsentIsInvokedForFailureCase() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1);
+        ConsentDefinition consentDefinition = new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent3"), 1);
         mConsentManager.storeConsentState(consentDefinition, true, mPostConsentCallback);
     }
 
     private void whenStoreConsentIsInvokedForSuccessCase() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent5"), 1);
+        ConsentDefinition consentDefinition = new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent5"), 1);
         mConsentManager.storeConsentState(consentDefinition, true, mPostConsentCallback);
     }
 
@@ -151,7 +151,7 @@ public class ConsentManagerTest {
     }
 
     private void whenFetchConsentStateIsInvokedForSuccessCase() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent5"), 1);
+        ConsentDefinition consentDefinition = new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent5"), 1);
         mConsentManager.fetchConsentState(consentDefinition, new FetchConsentCallbackListener());
     }
 
@@ -164,7 +164,7 @@ public class ConsentManagerTest {
     }
 
     private void whenFetchConsentStateIsInvokedForFailureCase() {
-        ConsentDefinition consentDefinition = new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1);
+        ConsentDefinition consentDefinition = new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent3"), 1);
         mConsentManager.fetchConsentState(consentDefinition, new FetchConsentCallbackListener());
     }
 
@@ -174,15 +174,15 @@ public class ConsentManagerTest {
 
     private void whenFetchConsentStatesIsInvokedForSuccessCase() {
         List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
-        consentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent5"), 1));
-        consentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent2", "testConsent6"), 1));
+        consentDefinitionList.add(new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent5"), 1));
+        consentDefinitionList.add(new ConsentDefinition(0,0, Arrays.asList("testConsent2", "testConsent6"), 1));
         mConsentManager.fetchConsentStates(consentDefinitionList, new FetchConsentsCallbackListener());
     }
 
     private void whenFetchConsentStatesIsInvokedForFailureCase() {
         List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
-        consentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent1", "testConsent3"), 1));
-        consentDefinitionList.add(new ConsentDefinition("text", "help", Arrays.asList("testConsent2", "testConsent6"), 1));
+        consentDefinitionList.add(new ConsentDefinition(0,0, Arrays.asList("testConsent1", "testConsent3"), 1));
+        consentDefinitionList.add(new ConsentDefinition(0,0, Arrays.asList("testConsent2", "testConsent6"), 1));
         mConsentManager.fetchConsentStates(consentDefinitionList, new FetchConsentsCallbackListener());
     }
 

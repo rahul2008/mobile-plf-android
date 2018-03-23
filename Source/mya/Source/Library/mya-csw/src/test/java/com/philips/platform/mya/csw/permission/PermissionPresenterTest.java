@@ -3,7 +3,9 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.test.mock.MockContext;
 
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
@@ -56,6 +58,8 @@ public class PermissionPresenterTest {
     private ConsentManagerInterface consentManagerInterface;
     @Mock
     private ConsentToggleListener.ConsentToggleResponse responseMock;
+    @Mock
+    private ConsentManager consentManager;
 
 
     @Before
@@ -155,36 +159,28 @@ public class PermissionPresenterTest {
     @Test
     public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentGiven_thenShouldCallStoreConsentState() {
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
-
         mPermissionPresenter.onToggledConsent(1, oldDefinition,  true, responseMock);
-
-        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
+        verify(consentManager).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
     }
 
     @Test
     public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentGiven_thenShouldNotCallShowDialog() {
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  true, responseMock);
-
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  true, responseMock);
         verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
     }
 
     @Test
     public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentNotGiven_thenShouldCallStoreConsentState() {
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  false, responseMock);
-
-        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  false, responseMock);
+        verify(consentManager).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
     }
 
     @Test
     public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentNotGiven_thenShouldNotCallShowDialog() {
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  false, responseMock);
-
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  false, responseMock);
         verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
     }
 
@@ -193,10 +189,8 @@ public class PermissionPresenterTest {
         int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
                 revokeWarningTextRes);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  true, responseMock);
-
-        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  true, responseMock);
+        verify(consentManager).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
     }
 
     @Test
@@ -204,9 +198,7 @@ public class PermissionPresenterTest {
         int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
                 revokeWarningTextRes);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  true, responseMock);
-
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  true, responseMock);
         verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
     }
 
@@ -215,10 +207,8 @@ public class PermissionPresenterTest {
         int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
                 revokeWarningTextRes);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition,  false, responseMock);
-
-        verify(mockConsentHandler, never()).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
+        mPermissionPresenter.onToggledConsent(1, oldDefinition,  false, responseMock);
+        verify(consentManager, never()).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
     }
 
     @Test
@@ -226,9 +216,7 @@ public class PermissionPresenterTest {
         int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
                 revokeWarningTextRes);
-
-        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, false, responseMock);
-
+        mPermissionPresenter.onToggledConsent(1, oldDefinition, false, responseMock);
         verify(mockPermissionInterface).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
     }
 
