@@ -17,19 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.mya.csw.CswConstants;
-import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.CswConstants;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -150,7 +150,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
 
     @Override
-    public void onHelpClicked(String helpText) {
+    public void onHelpClicked(int helpText) {
         DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
     }
 

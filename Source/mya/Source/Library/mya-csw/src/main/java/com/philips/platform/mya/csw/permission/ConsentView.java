@@ -26,11 +26,11 @@ public class ConsentView {
         this.definition = definition;
     }
 
-    public String getConsentText() {
+    public int getConsentText() {
         return definition.getText();
     }
 
-    public String getHelpText() {
+    public int getHelpText() {
         return definition.getHelpText();
     }
 
