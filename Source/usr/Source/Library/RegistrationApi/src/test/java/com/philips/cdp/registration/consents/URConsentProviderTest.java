@@ -27,14 +27,14 @@ public class URConsentProviderTest {
 
     @Test
     public void ShouldStringsMatch_FetchMarketingConsentDefinition() throws Exception {
-        URConsentProvider.fetchMarketingConsentDefinition(mContext);
+        URConsentProvider.fetchMarketingConsentDefinition();
         Mockito.verify(mContext).getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
         Mockito.verify(mContext).getString(R.string.reg_DLS_PhilipsNews_Description_Text);
     }
 
     @Test
     public void Should_FetchMarketingConsentDefinition() throws Exception {
-        ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition(mContext);
+        ConsentDefinition consentDefinition = URConsentProvider.fetchMarketingConsentDefinition();
         Assert.assertNotNull(consentDefinition);
     }
 
@@ -43,7 +43,7 @@ public class URConsentProviderTest {
         String USR_MARKETING_CONSENT = "USR_MARKETING_CONSENT_UPDATED";
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        ConsentDefinition newConsentDefinition = new ConsentDefinition("", "", types, 1);
+        ConsentDefinition newConsentDefinition = new ConsentDefinition(0, 0, types, 1);
         Assert.assertNotNull(newConsentDefinition);
     }
 }

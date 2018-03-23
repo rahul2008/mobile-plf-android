@@ -51,10 +51,14 @@
   <string name="mya_Settings">Ρυθμίσεις</string>
   <string name="mya_change_country">Κάντε έξοδο για αλλαγή χώρας</string>
   <string name="mya_change_country_message">Αποσυνδεθείτε για να αλλάξετε τη χώρα στην οποία κατοικείτε. Έτσι, θα μπορούμε να προσαρμόσουμε την εγγύηση και άλλες πληροφορίες ανάλογα με την τοποθεσία σας.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[el]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[el]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[el]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[el]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[el]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[el]Maybe later</string>
   <string name="mya_csw_justintime_title">[el]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[el]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[el]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[el]What do we have to offer?</string>
   <string name="mya_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
   <string name="mya_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>

@@ -1,5 +1,8 @@
 package com.philips.platform.pif.chi.datamodel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +16,19 @@ public class ConsentDefinition implements Parcelable, Serializable {
     private String helpText;
     private List<String> types;
     private int version;
+    private int revokeWarningTextRes;
 
-    public ConsentDefinition(String text, String helpText, List<String> types, int version) {
+    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
         this.text = text;
         this.helpText = helpText;
         this.types = types;
         this.version = version;
+        this.revokeWarningTextRes = 0;
+    }
+
+    public ConsentDefinition(int text, int helpText, List<String> types, int version, int revokeWarningText) {
+        this(text, helpText, types, version);
+        this.revokeWarningTextRes = revokeWarningText;
     }
 
     public String getText() {
@@ -88,6 +98,13 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
+    public boolean hasRevokeWarningText() {
+        return this.revokeWarningTextRes > 0;
+    }
+
+    public int getRevokeWarningText() {
+        return revokeWarningTextRes;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

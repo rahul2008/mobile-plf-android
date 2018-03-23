@@ -10,13 +10,13 @@ package com.philips.platform.mya.csw.permission;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
@@ -66,12 +66,39 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     }
 
     @Override
-    public boolean onToggledConsent(int position, ConsentDefinition definition, boolean consentGiven) {
+    public void onToggledConsent(int position, final ConsentDefinition definition, final boolean consentGiven, final ConsentToggleResponse responseHandler) {
         togglePosition = position;
+        if(definition.hasRevokeWarningText() && !consentGiven) {
+            // User has revoked consent
+            ConfirmDialogView dialog = new ConfirmDialogView();
+            dialog.setupDialog(
+                R.string.csw_privacy_settings,
+                definition.getRevokeWarningText(),
+                R.string.mya_csw_consent_revoked_confirm_btn_ok,
+                R.string.mya_csw_consent_revoked_confirm_btn_cancel
+            );
+            this.permissionInterface.showConfirmRevokeConsentDialog(dialog, new ConfirmDialogView.ConfirmDialogResultHandler() {
+                @Override
+                public void onOkClicked() {
+                    postConsentChange(definition, false);
+                }
+
+                @Override
+                public void onCancelClicked() {
+                    responseHandler.handleResponse(true);
+                }
+            });
+        }
+        else {
+            postConsentChange(definition, consentGiven);
+        }
+    }
+
+    private void postConsentChange(ConsentDefinition definition, boolean consentGiven) {
+
         toggleStatus = consentGiven;
         permissionInterface.showProgressDialog();
         CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
-        return consentGiven;
     }
 
     @Override

@@ -14,9 +14,9 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -41,8 +41,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

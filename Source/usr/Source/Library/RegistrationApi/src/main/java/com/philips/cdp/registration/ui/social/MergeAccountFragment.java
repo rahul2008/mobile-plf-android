@@ -102,6 +102,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void onDestroy() {
+        if(mergeAccountPresenter!=null)
         mergeAccountPresenter.cleanUp();
         super.onDestroy();
     }

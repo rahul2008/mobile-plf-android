@@ -127,6 +127,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
     private void initView(View view) {
         mWebView = view.findViewById(R.id.webView);
+        mWebView.getSettings().setSaveFormData(false);
         mProgressBar = view
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);

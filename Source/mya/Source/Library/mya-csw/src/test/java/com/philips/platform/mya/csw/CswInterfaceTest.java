@@ -1,8 +1,7 @@
 package com.philips.platform.mya.csw;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import android.content.Intent;
+import android.test.mock.MockContext;
 
 import java.util.List;
 
@@ -23,9 +22,23 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import android.test.mock.MockContext;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.annotation.Config;
 
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+@RunWith(PowerMockRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
+@PrepareForTest({ CswInterface.class, Intent.class})
 public class CswInterfaceTest {
 
     @Mock
@@ -34,14 +47,21 @@ public class CswInterfaceTest {
     @Mock
     private ConsentManagerInterface consentManagerInterface;
 
+    @Mock
+    private Intent intentMock;
+
     @Before
-    public void setup() {
+    public void setup() throws Exception {
+        initMocks(this);
+
+        PowerMockito.whenNew(Intent.class).withAnyArguments().thenReturn(intentMock);
+
         fragmentTransaction = new FragmentTransactionMock();
-        fragmentManager = new FragmentManagerMock(fragmentTransaction);
+        FragmentManagerMock fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);
         cswInterface = new CswInterface();
-        appInfraInterface = new AppInfraInterfaceMock();
-        context = new MockContext();
+        AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
+        MockContext context = new MockContext();
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
@@ -52,7 +72,7 @@ public class CswInterfaceTest {
         givenFragmentLauncherWithParentContainerId(A_SPECIFIC_CONTAINER_ID);
         givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
-        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, PermissionView.class, PermissionView.TAG);
+        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, PermissionView.class);
         thenAddToBackStackWasCalled(PermissionView.TAG);
         thenCommitAllowingStateLossWasCalled();
     }
@@ -70,13 +90,11 @@ public class CswInterfaceTest {
     }
 
     private void givenActivityLauncher() {
-        givenActivityLauncher = new ActivityLauncherMock(null, null, 0, null);
-        givenUiLauncher = givenActivityLauncher;
+        givenUiLauncher = new ActivityLauncherMock(null, null, 0, null);
     }
 
     public void givenFragmentLauncherWithParentContainerId(int parentContainerId) {
-        givenFragmentLauncher = new FragmentLauncherMock(fragmentActivity, parentContainerId, null);
-        givenUiLauncher = givenFragmentLauncher;
+        givenUiLauncher = new FragmentLauncherMock(fragmentActivity, parentContainerId, null);
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
@@ -89,7 +107,7 @@ public class CswInterfaceTest {
         cswInterface.launch(givenUiLauncher, givenLaunchInput);
     }
 
-    private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass, String expectedTag) {
+    private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass) {
         assertEquals(expectedParentContainerId, fragmentTransaction.replace_containerId);
         assertTrue(fragmentTransaction.replace_fragment.getClass().isAssignableFrom(expectedFragmentClass));
     }
@@ -107,21 +125,10 @@ public class CswInterfaceTest {
     }
 
     private UiLauncher givenUiLauncher;
-
-    private ActivityLauncherMock givenActivityLauncher;
-    private FragmentLauncherMock givenFragmentLauncher;
     private LaunchInputMock givenLaunchInput;
-    private AppInfraInterfaceMock appInfraInterface;
-    private MockContext context;
-
     private FragmentActivityMock fragmentActivity;
     private FragmentTransactionMock fragmentTransaction;
-    private FragmentManagerMock fragmentManager;
-
-    private static final String CSWFRAGMENT = "CSWFRAGMENT";
-
     private CswInterface cswInterface;
-
     private static final int A_SPECIFIC_CONTAINER_ID = 938462837;
 
 }

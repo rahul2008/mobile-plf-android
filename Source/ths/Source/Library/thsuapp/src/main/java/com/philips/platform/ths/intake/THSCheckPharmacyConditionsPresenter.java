@@ -3,12 +3,9 @@ package com.philips.platform.ths.intake;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
+import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;

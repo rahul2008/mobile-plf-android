@@ -51,10 +51,14 @@
   <string name="mya_Settings">הגדרות</string>
   <string name="mya_change_country">כדי להחליף מדינה, צא מהמערכת</string>
   <string name="mya_change_country_message">כדי להחליף את מדינת מגוריך, צא מהמערכת. באופן זה נוכל להתאים את האחריות ומידע נוסף למיקום שלך.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[he]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[he]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[he]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[he]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[he]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[he]Maybe later</string>
   <string name="mya_csw_justintime_title">[he]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[he]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[he]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[he]What do we have to offer?</string>
   <string name="mya_logout_message">כעת תנותק מהאפליקציה. לאחר היציאה, תמיד תוכל להיכנס מחדש.</string>
   <string name="mya_logout_title">אתה בטוח שברצונך לצאת מהמערכת?</string>

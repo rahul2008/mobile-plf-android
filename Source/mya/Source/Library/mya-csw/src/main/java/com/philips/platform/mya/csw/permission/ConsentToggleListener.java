@@ -10,5 +10,10 @@ package com.philips.platform.mya.csw.permission;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public interface ConsentToggleListener {
-    boolean onToggledConsent(int position, ConsentDefinition definition, boolean on);
+    void onToggledConsent(int position, ConsentDefinition definition,
+                          boolean consentGiven, ConsentToggleResponse responseHandler);
+
+    interface ConsentToggleResponse {
+        void handleResponse(boolean result);
+    }
 }

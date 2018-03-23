@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.CswConstants;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
@@ -53,15 +53,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private PermissionAdapter adapter;
 
     @Override
-    protected void setViewParams(Configuration config, int width) {
-    }
-
-    @Override
-    protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
-    }
-
-    @Override
     public int getTitleResourceId() {
         return R.string.csw_privacy_settings;
     }
@@ -74,7 +65,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         if (getArguments() != null)
             consentDefinitionList = (List<ConsentDefinition>) getArguments().getSerializable(CswConstants.CONSENT_DEFINITIONS);
 
-        handleOrientation(view);
         return view;
     }
 
@@ -105,7 +95,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        adapter = new PermissionAdapter(new ArrayList<ConsentView>(), this);
         adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
@@ -152,6 +141,13 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getActivity(), title, message);
     }
+
+    @Override
+    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler) {
+        dialog.setResultHandler(handler);
+        dialog.showDialog(getActivity());
+    }
+
 
     @Override
     public void onHelpClicked(String helpText) {
