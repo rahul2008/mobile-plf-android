@@ -53,24 +53,23 @@
 
     <LinearLayout
         android:id="@id/uid_dialog_control_area"
-        style="@style/UIDAlertDialogActionAreaStyle"
+        style="?attr/uidDialogActionAreaStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_alert_dialog_control_area_height"
+        android:layout_marginTop="@dimen/uid_page_margin_left_right"
         android:layout_marginBottom="0dp">
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_dialog_negative_button"
-            style="@style/UIDQuietButton"
+            style="?attr/uidDialogNegativeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_dialog_positive_button"
-            style="@style/UIDDefaultButton"
+            style="?attr/uidDialogPositiveButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="@dimen/uid_alert_dialog_positive_button_margin_start" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </LinearLayout>

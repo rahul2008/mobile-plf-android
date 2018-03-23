@@ -96,7 +96,7 @@ ext.robolectric = "https://mvnrepository.com/artifact/org.robolectric/shadows-co
 
 ext.deps = [
         adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.14.0',
-        americanwell                  : 'com.americanwell:awsdk:3.1.5',
+        americanwell                  : 'com.americanwell:awsdk:3.1.6',
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.0.2',
