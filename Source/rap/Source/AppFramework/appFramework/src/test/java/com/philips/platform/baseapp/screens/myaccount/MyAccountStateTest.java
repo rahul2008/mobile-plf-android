@@ -15,6 +15,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -95,6 +96,9 @@ public class MyAccountStateTest {
     @Mock
     AppFrameworkApplication appFrameworkApplication;
 
+    @Mock
+    AppTaggingInterface appTaggingInterfaceMock;
+
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
 
@@ -123,6 +127,8 @@ public class MyAccountStateTest {
         when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
         when(userRegistrationStateMock.getUserDataInterface()).thenReturn(userDataInterfaceMock);
         when(mockContext.getResources()).thenReturn(resources);
+        when(mockContext.getApplicationContext()).thenReturn(application);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
     }
 
