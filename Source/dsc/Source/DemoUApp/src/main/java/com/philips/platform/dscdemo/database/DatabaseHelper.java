@@ -39,7 +39,9 @@ import com.philips.platform.dscdemo.database.table.OrmMomentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
+import com.philips.platform.securedblibrary.DefaultSqlLiteInitializer;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.securedblibrary.SqlLiteInitializer;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -51,10 +53,11 @@ import java.util.List;
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
  */
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
-    private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_PASSWORD_KEY = "dataservices";
+    private static final int DATABASE_VERSION = 3;
+    public static final String DATABASE_PASSWORD_KEY = "dataservices";
+
+    private static DatabaseHelper sDatabaseHelper;
 
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
@@ -75,18 +78,19 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
-
-    private static DatabaseHelper sDatabaseHelper;
-
-    private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
-        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
-    }
-
     public static synchronized DatabaseHelper getInstance(Context context, AppInfraInterface appInfraInterface) {
         if (sDatabaseHelper == null) {
             return sDatabaseHelper = new DatabaseHelper(context, appInfraInterface);
         }
         return sDatabaseHelper;
+    }
+
+    DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
+        this(context, appInfraInterface, new DefaultSqlLiteInitializer());
+    }
+
+    DatabaseHelper(Context context, AppInfraInterface appInfraInterface, SqlLiteInitializer initializer) {
+        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY, initializer);
     }
 
     @Override
@@ -95,6 +99,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             createTables(connectionSource);
             insertDictionaries();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -179,7 +184,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-
     private void createTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.createTable(connectionSource, OrmMoment.class);
         TableUtils.createTable(connectionSource, OrmMomentType.class);
@@ -203,13 +207,19 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-        if (newVer > oldVer) {
-            if (newVer >= 2 && oldVer == 1) {
-                try {
-                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
-                } catch (SQLException e) {
-                }
+        try {
+            if (newVer >= 2 && oldVer < 2) {
+                final Dao<OrmMoment, Integer> dao = this.getMomentDao();
+                final String tableName = dao.getTableName();
+                dao.executeRaw("ALTER TABLE `" + tableName + "` ADD COLUMN expirationDate INTEGER NULL");
             }
+            if (newVer >= 3 && oldVer < 3) {
+                final Dao<OrmSettings, Integer> dao = getSettingsDao();
+                final String tableName = dao.getTableName();
+                dao.executeRaw("ALTER TABLE `" + tableName + "` ADD COLUMN timeZone VARCHAR NULL");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

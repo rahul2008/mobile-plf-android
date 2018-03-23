@@ -1,15 +1,16 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
