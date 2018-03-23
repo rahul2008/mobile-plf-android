@@ -14,7 +14,6 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.WindowManager;
 
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.R;
@@ -64,7 +63,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         initTheme();
         super.onCreate(savedInstanceState);
         RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized()){
             BaseAppUtil.restartApp(getApplicationContext());
             finish();
