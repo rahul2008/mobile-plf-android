@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
@@ -18,7 +18,6 @@ import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.UappInterface;
@@ -28,9 +27,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-
-import java.util.Collections;
-import java.util.List;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
@@ -63,8 +59,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        List<ConsentDefinition> consentDefinitionsToCheck = Collections.singletonList(JustInTimeConsentDependencies.consentDefinition);
-        JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentStates(consentDefinitionsToCheck, new CheckConsentsListener(uiLauncher));
+        JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
     }
 
     private void launchUApp(UiLauncher uiLauncher) {
@@ -102,7 +97,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
         momentsFragment.showFragment(momentsFragment, fragmentLauncher);
     }
 
-    class CheckConsentsListener implements FetchConsentsCallback {
+    class CheckConsentsListener implements FetchConsentCallback {
         private UiLauncher uiLauncher;
 
         private CheckConsentsListener(UiLauncher uiLauncher) {
@@ -110,8 +105,8 @@ public class DSDemoAppuAppInterface implements UappInterface {
         }
 
         @Override
-        public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
-            if (isMomentConsentNotGiven(consentDefinitionStatusList)) {
+        public void onGetConsentSuccess(final ConsentDefinitionStatus consentDefinitionStatus) {
+            if (isMomentConsentNotGiven(consentDefinitionStatus)) {
                 launchJustInTimeConsent(uiLauncher);
             } else {
                 launchUApp(uiLauncher);
@@ -119,20 +114,12 @@ public class DSDemoAppuAppInterface implements UappInterface {
         }
 
         @Override
-        public void onGetConsentsFailed(ConsentError error) {
+        public void onGetConsentFailed(final ConsentError error) {
             launchUApp(uiLauncher);
         }
     }
 
-    private boolean isMomentConsentNotGiven(final List<ConsentDefinitionStatus> consents) {
-        for (ConsentDefinitionStatus consent : consents) {
-            if (consent.getConsentState().equals(ConsentStates.active)) {
-                for (String type : consent.getConsentDefinition().getTypes()) {
-                    if (type.equals("moment"))
-                        return false;
-                }
-            }
-        }
-        return true;
+    private boolean isMomentConsentNotGiven(ConsentDefinitionStatus status) {
+        return status.getConsentState().equals(ConsentStates.inactive);
     }
 }
