@@ -16,10 +16,10 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 class JustInTimeLauncher {
     HomeFragmentContract.View viewContract;
 
-    void addJustInTimeConsentDependencies(Context context, HomeFragmentContract.View viewContract) {
+    void addJustInTimeConsentDependencies(HomeFragmentContract.View viewContract) {
         this.viewContract = viewContract;
         JustInTimeConsentDependencies.appInfra = DigitalCareConfigManager.getInstance().getAPPInfraInstance();
-        JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition(context);
+        JustInTimeConsentDependencies.consentDefinition = CcConsentProvider.fetchLocationConsentDefinition();
         JustInTimeConsentDependencies.textResources = getJustInTimeTextResources();
         JustInTimeConsentDependencies.completionListener = getJustInTimeWidgetHandler();
     }
