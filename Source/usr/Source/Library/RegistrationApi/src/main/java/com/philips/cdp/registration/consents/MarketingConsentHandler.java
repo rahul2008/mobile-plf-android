@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
+/**
+ * Implement ConsentHandler Interface to receive marketing email consent on refresh user callback
+ * @since 2018.1.0
+ */
 
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
@@ -33,12 +37,23 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         return new User(context);
     }
 
+    /**
+     *
+     * @param context
+     * @param definitions list of consent definition
+     * @param appInfraInterface instance of AppInfra
+     */
     public MarketingConsentHandler(@NonNull final Context context, final List<ConsentDefinition> definitions, AppInfraInterface appInfraInterface) {
         this.context = context;
         this.definitions = definitions == null ? new ArrayList<>() : definitions;
         this.appInfra = appInfraInterface;
     }
 
+    /**
+     *
+     * @param consentDefinition instance of consentDefinition
+     * @param callback instance of CheckConsentsCallback
+     */
     @Override
     public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
         getUser().refreshUser(new RefreshUserHandler() {
@@ -54,6 +69,11 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         });
     }
 
+    /**
+     *
+     * @param consentDefinitions list of consent definition
+     * @param callback instance of CheckConsentsCallback
+     */
     public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
         getUser().refreshUser(new RefreshUserHandler() {
             @Override
@@ -88,6 +108,12 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         }
     }
 
+    /**
+     *
+     * @param definition instance of ConsentDefinition
+     * @param status status of consent
+     * @param callback instance of PostConsentCallback
+     */
     @Override
     public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
         String currentLocale = appInfra.getInternationalization().getBCP47UILocale();
@@ -103,7 +129,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         return new Consent(backendConsent, definition);
     }
 
-    static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
+    private static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
         private final PostConsentCallback callback;
         private final ConsentDefinition definition;
         private final Consent marketingConsent;

@@ -19,7 +19,7 @@ public class URConsentProvider {
     /**
      * @param pLocale  pass instace of locale
      * @return ConsentDefinition for USR_MARKETING
-     * @since 1.0.0
+     * @since 2018.1.0
      */
 
     public static ConsentDefinition fetchMarketingConsentDefinition(Locale pLocale) {
