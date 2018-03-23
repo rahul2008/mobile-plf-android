@@ -5,11 +5,10 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya.csw.permission;
+package com.philips.platform.pif.chi.datamodel;
 
-import dagger.Component;
-
-@Component(modules = PermissionModule.class)
-public interface PermissionComponent {
-    PermissionPresenter presenter();
+public enum ConsentStates {
+    active,
+    rejected,
+    inactive
 }
