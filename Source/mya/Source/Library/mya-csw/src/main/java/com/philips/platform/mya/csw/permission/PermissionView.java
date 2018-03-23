@@ -17,19 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.mya.csw.CswConstants;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
-import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
-    private List<ConsentConfiguration> configs;
+    private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
 
     @Override
@@ -62,10 +62,9 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        configs = CswInterface.getCswComponent().getConsentConfigurations();
-        if (configs == null) {
-            configs = new ArrayList<>();
-        }
+        if (getArguments() != null)
+            consentDefinitionList = (List<ConsentDefinition>) getArguments().getSerializable(CswConstants.CONSENT_DEFINITIONS);
+
         return view;
     }
 
@@ -74,7 +73,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         super.onResume();
         if (getRestClient().isInternetReachable()) {
             PermissionPresenter presenter = getPermissionPresenter();
-            presenter.getConsentStatus();
+            presenter.getConsentStatus(consentDefinitionList);
         } else {
             showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
         }
@@ -149,6 +148,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         dialog.showDialog(getActivity());
     }
 
+
     @Override
     public void onHelpClicked(String helpText) {
         DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
@@ -166,7 +166,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @VisibleForTesting
     protected PermissionPresenter getPermissionPresenter() {
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, configs, adapter);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, adapter);
         permissionPresenter.mContext = getContext();
         return permissionPresenter;
     }
@@ -182,9 +182,11 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     private List<ConsentView> createConsentsList() {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for (ConsentConfiguration configuration : configs) {
-            for (final ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                consentViewList.add(new ConsentView(definition, configuration.getHandlerInterface()));
+        for (ConsentDefinition consentDefinition : consentDefinitionList) {
+            try {
+                consentViewList.add(new ConsentView(consentDefinition));
+            } catch (RuntimeException exception) {
+                CswLogger.d("RuntimeException", exception.getMessage());
             }
         }
         return consentViewList;

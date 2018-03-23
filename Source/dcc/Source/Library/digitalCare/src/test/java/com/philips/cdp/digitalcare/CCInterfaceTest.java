@@ -7,17 +7,14 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import junit.framework.Assert;
 
-import org.apache.tools.ant.taskdefs.Length;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,16 +22,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RuntimeEnvironment;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
-
-/**
- * Created by philips on 23/11/17.
- */
 
 @RunWith(CustomRobolectricRunnerCC.class)
 public class CCInterfaceTest {
@@ -77,11 +69,14 @@ public class CCInterfaceTest {
     @Mock
     private DigitalCareConfigManager mockDigitalCareConfigManager;
 
+    @Mock
+    private ConsentManager consentManager;
+
     private Context mContext;
 
     private DigitalCareConfigManager digitalCareConfigManager;
 
-    private  AppInfraInterface appInfraInterface;
+    private AppInfraInterface appInfraInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -90,6 +85,8 @@ public class CCInterfaceTest {
         appInfraInterface = Mockito.mock(AppInfraInterface.class);
         digitalCareConfigManager = DigitalCareConfigManager.getInstance();
         ccInterface = new CcInterface();
+        digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
+        when(appInfraInterface.getConsentManager()).thenReturn(consentManager);
         ccInterface.init(ccDependenciesMock, ccSettingsMock);
 
 
@@ -117,15 +114,15 @@ public class CCInterfaceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         mContext = null;
         appInfraInterface = null;
         digitalCareConfigManager = null;
     }
-    @Test
-    public void testActivityLaunch() throws IllegalArgumentException{
 
-        digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
+    @Test
+    public void testActivityLaunch() throws IllegalArgumentException {
+
         when(activityLauncherMock.getScreenOrientation()).thenReturn(com.philips.platform.uappframework.
                 launcher.ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -134,22 +131,19 @@ public class CCInterfaceTest {
     }
 
     @Test
-    public void testActivityLaunchNull() throws IllegalArgumentException{
+    public void testActivityLaunchNull() throws IllegalArgumentException {
         ccInterface = mock(CcInterface.class);
         digitalCareConfigManager.initializeDigitalCareLibrary(null, null);
         when(activityLauncherMock.getScreenOrientation()).thenReturn(com.philips.platform.uappframework.
                 launcher.ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 
-       verify(ccInterface, never()).launch(activityLauncherMock, ccLaunchInputMock);
+        verify(ccInterface, never()).launch(activityLauncherMock, ccLaunchInputMock);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testFragmentLaunch() throws IllegalArgumentException{
-
-        digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
+    public void testFragmentLaunch() throws IllegalArgumentException {
         when(fragmentLauncherMock.getActionbarListener()).thenReturn(actionBarListenerMock);
-
         ccInterface.launch(fragmentLauncherMock, ccLaunchInputMock);
     }
 }

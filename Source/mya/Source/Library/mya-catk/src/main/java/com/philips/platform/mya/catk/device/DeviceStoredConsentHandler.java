@@ -6,13 +6,11 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.pif.chi.CheckConsentsCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
@@ -23,58 +21,18 @@ import java.util.regex.Pattern;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
-    private final AppInfraInterface appInfra;
-    private static final int LIST_POS_STATUS = 0;
-    private static final int LIST_POS_VERSION = 1;
-    private static final int LIST_POS_TIMESTAMP = 2;
-
     @VisibleForTesting
     static final String DEVICESTORE_VALUE_DELIMITER = "@#$^";
+    private static final int LIST_POS_STATUS = 0;
+    private static final int LIST_POS_VERSION = 1;
+    private static final int LIST_POS_LOCALE = 2;
+    private static final int LIST_POS_TIMESTAMP = 3;
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
+    private final AppInfraInterface appInfra;
 
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
-    }
-
-    @Override
-    public void fetchConsentState(ConsentDefinition consentDefinition, CheckConsentsCallback callback) {
-        callback.onGetConsentsSuccess(getSuccessConsentForStatus(consentDefinition, processDefinition(consentDefinition)));
-    }
-
-    private ConsentStatus processDefinition(ConsentDefinition consentDefinition) {
-        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
-        String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getConsentKey(consentDefinition.getTypes().get(0)), storageError);
-        if (consentInfo == null || storageError.getErrorCode() != null) {
-            logError(storageError, consentDefinition.getTypes().get(0));
-            return ConsentStatus.inactive;
-        }
-
-        List<String> consentInfos = split(consentInfo, DEVICESTORE_VALUE_DELIMITER);
-        if (isVersionMismatch(consentDefinition, consentInfos)) {
-            return ConsentStatus.inactive;
-        }
-
-        for (String type : consentDefinition.getTypes()) {
-            String status = appInfra.getSecureStorage().fetchValueForKey(getConsentKey(type), storageError);
-            if (status == null || status.toUpperCase().startsWith("FALSE")) {
-                logError(storageError, type);
-                return ConsentStatus.inactive;
-            }
-        }
-        return ConsentStatus.active;
-    }
-
-    @Override
-    public void fetchConsentStates(List<ConsentDefinition> consentDefinitions, CheckConsentsCallback callback) {
-        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
-
-        List<Consent> consents = new ArrayList<>(consentDefinitions.size());
-        for (ConsentDefinition definition : consentDefinitions) {
-            ConsentStatus consentStatus = processDefinition(definition);
-            consents.add(createConsentFromDefinition(definition, consentStatus, consentLanguage));
-        }
-        callback.onGetConsentsSuccess(consents);
     }
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
@@ -83,45 +41,10 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         }
     }
 
-    private List<Consent> getSuccessConsentForStatus(ConsentDefinition consentDefinition, ConsentStatus status) {
-        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
-        return Collections.singletonList(createConsentFromDefinition(consentDefinition, status, consentLanguage));
-    }
-
-    private boolean isVersionMismatch(ConsentDefinition consentDefinition, List<String> definitionValues) {
-        return consentDefinition.getVersion() > Integer.valueOf(definitionValues.get(LIST_POS_VERSION));
-    }
-
     @VisibleForTesting
     @NonNull
     SecureStorageInterface.SecureStorageError getSecureStorageError() {
         return new SecureStorageInterface.SecureStorageError();
-    }
-
-    @Override
-    public void storeConsentState(ConsentDefinition definition, boolean status, PostConsentCallback callback) {
-        String storedValue = join(extractStringsFromDefinition(definition, status), DEVICESTORE_VALUE_DELIMITER);
-        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
-        for (String type : definition.getTypes()) {
-            boolean storeStatus = appInfra.getSecureStorage().storeValueForKey(getConsentKey(type), storedValue, storageError);
-            if (!storeStatus) {
-                logError(storageError, type);
-                callback.onPostConsentFailed(definition, new ConsentError(DEVICESTORE_ERROR_UPDATE + storageError.getErrorCode().toString(), -1));
-                return;
-            }
-        }
-
-        String consentLanguage = appInfra.getInternationalization().getBCP47UILocale();
-        callback.onPostConsentSuccess(createConsentFromDefinition(definition, toStatus(status), consentLanguage));
-    }
-
-    @NonNull
-    private List<String> extractStringsFromDefinition(ConsentDefinition definition, boolean status) {
-        List<String> definitionString = new ArrayList<>();
-        definitionString.add(LIST_POS_STATUS, String.valueOf(status));
-        definitionString.add(LIST_POS_VERSION, String.valueOf(definition.getVersion()));
-        definitionString.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
-        return definitionString;
     }
 
     @VisibleForTesting
@@ -143,16 +66,45 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     }
 
     @NonNull
-    private String getConsentKey(String type) {
+    private String getStoredKey(String type) {
         return DEVICESTORE_TLA + "_" + type;
     }
 
-    public static Consent createConsentFromDefinition(ConsentDefinition definition, ConsentStatus consentStatus, String consentLanguage) {
-        final BackendConsent backendConsent = new BackendConsent(consentLanguage, consentStatus, definition.getTypes().get(0), definition.getVersion());
-        return new Consent(backendConsent, definition);
+    @Override
+    public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+        ConsentStatus consentStatus;
+
+        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
+        String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
+
+        if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
+            logError(storageError, consentType);
+            consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+        }else {
+            consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
+        }
+
+        callback.onGetConsentsSuccess(consentStatus);
     }
 
-    private ConsentStatus toStatus(boolean status) {
-        return status ? ConsentStatus.active : ConsentStatus.rejected;
+    @Override
+    public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+        List<String> storeValues = new ArrayList<>();
+        storeValues.add(LIST_POS_STATUS, String.valueOf(status));
+        storeValues.add(LIST_POS_VERSION, String.valueOf(version));
+        storeValues.add(LIST_POS_LOCALE, appInfra.getInternationalization().getBCP47UILocale());
+        storeValues.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
+
+        String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
+        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
+        boolean storeStatus = appInfra.getSecureStorage().storeValueForKey(getStoredKey(consentType), storedValue, storageError);
+
+        if (!storeStatus) {
+            logError(storageError, consentType);
+            callback.onPostConsentFailed(new ConsentError(DEVICESTORE_ERROR_UPDATE + storageError.getErrorCode().toString(), -1));
+            return;
+        }
+
+        callback.onPostConsentSuccess();
     }
 }

@@ -24,7 +24,6 @@ import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -35,9 +34,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
@@ -65,8 +61,6 @@ public class MyaInterfaceTest {
     private final int A_SPECIFIC_CONTAINER_ID = 12345678;
     public static final String MYAFRAGMENT = MY_ACCOUNTS_INVOKE_TAG;
 
-    @Mock
-    private List<ConsentConfiguration> consentHandlerMappings = new ArrayList<>();
     private MyaLaunchInput launchInput;
 
     @Before

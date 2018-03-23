@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
@@ -67,14 +66,6 @@ public class DemoAppManager {
     }
 
     private void initDataServicesLibrary(Context context) {
-
-        if(ConsentsClient.getInstance().getConsentDefinitions() == null){
-            throw new RuntimeException("Consent Access Toolkit must be initialized first ->\n\n" +
-                    "ConsentsClient.getInstance().init(new CatkInputs.Builder()\n" +
-                    "                .setContext(context)\n" +
-                    "                .setAppInfraInterface(app.getAppInfra())\n" +
-                    "                .setConsentDefinitions(<list of your consentDefinitions>).build());");
-        }
 
         mDataServicesManager = DataServicesManager.getInstance();
 

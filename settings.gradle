@@ -53,7 +53,6 @@ include ':mya-catk'
 include ':pif'
 include ':ews-android'
 include ':ewsUApp'
-include ':mya-mch'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
@@ -101,7 +100,6 @@ project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
 project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
 project(':pif').projectDir = new File('./Source/pif/Source/Library/pif')
-project(':mya-mch').projectDir = new File('./Source/mya/Source/Library/mya-mch')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 

@@ -7,5 +7,3 @@ include 'ConsentWidgets'
 project(':ConsentWidgets').projectDir = new File('../Library/mya-csw')
 include 'ConsentHandlerInterface'
 project(':ConsentHandlerInterface').projectDir = new File('./Source/pif/Source/Library/pif')
-include 'MarketingConsentHandler'
-project(':MarketingConsentHandler').projectDir = new File('../../../Library/mya-mch')

@@ -50,7 +50,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
 
     public FragmentLauncher mFragmentLauncher;
     public com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
-    private ActionBarListener actionBarListener;
+    protected ActionBarListener actionBarListener;
     protected final int SMALL = 0;
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
