@@ -123,7 +123,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void givenConsentDefinition() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
+        givenConsentDefinition = new ConsentDefinition(0, 0, Collections.singletonList("type"), 42);
         subject = new MarketingConsentHandler(mockUser, Collections.singletonList(givenConsentDefinition), appInfraMock);
     }
 

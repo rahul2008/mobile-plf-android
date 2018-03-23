@@ -10,7 +10,6 @@ package com.philips.platform.mya.csw.description;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.R;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,15 +23,6 @@ public class DescriptionView extends CswBaseFragment implements DescriptionInter
     public static final String HELP = "help";
 
     @Override
-    protected void setViewParams(Configuration config, int width) {
-    }
-
-    @Override
-    protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
-    }
-
-    @Override
     public int getTitleResourceId() {
         return R.string.csw_consent_help_label;
     }
@@ -41,7 +31,6 @@ public class DescriptionView extends CswBaseFragment implements DescriptionInter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_description_view, container, false);
         ((TextView) view.findViewById(R.id.description)).setText(getArguments().getString(HELP, "please specify helptext in ConsentDefinition"));
-        handleOrientation(view);
         return view;
     }
 

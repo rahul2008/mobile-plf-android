@@ -11,5 +11,10 @@ import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 public interface ConsentToggleListener {
-    boolean onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler, boolean on);
+    void onToggledConsent(ConsentDefinition definition, ConsentHandlerInterface handler,
+                          boolean consentGiven, ConsentToggleResponse responseHandler);
+
+    interface ConsentToggleResponse {
+        void handleResponse(boolean result);
+    }
 }

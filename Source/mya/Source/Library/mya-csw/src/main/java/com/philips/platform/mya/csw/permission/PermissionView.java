@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -23,6 +22,7 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
@@ -49,18 +49,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentsRecycler)
     RecyclerView recyclerView;
 
-    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
     private List<ConsentConfiguration> configs;
     private PermissionAdapter adapter;
-
-    @Override
-    protected void setViewParams(Configuration config, int width) {
-    }
-
-    @Override
-    protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
-    }
 
     @Override
     public int getTitleResourceId() {
@@ -76,8 +66,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         if (configs == null) {
             configs = new ArrayList<>();
         }
-
-        handleOrientation(view);
         return view;
     }
 
@@ -108,7 +96,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        adapter = new PermissionAdapter(new ArrayList<ConsentView>(), this);
         adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
@@ -118,7 +105,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
     }
@@ -154,6 +141,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getActivity(), title, message);
+    }
+
+    @Override
+    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler) {
+        dialog.setResultHandler(handler);
+        dialog.showDialog(getActivity());
     }
 
     @Override

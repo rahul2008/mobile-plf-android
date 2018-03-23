@@ -38,7 +38,7 @@ public class JustInTimeConsentPresenterTest {
         appInfraMock = new AppInfraInterfaceMock();
         view = new ViewSpy();
         consentHandlerInterface = new ConsentHandlerInterfaceSpy();
-        consentDefinition = new ConsentDefinition("", "", Collections.EMPTY_LIST, 0);
+        consentDefinition = new ConsentDefinition(0, 0, Collections.EMPTY_LIST, 0);
         backendConsent = new BackendConsent("", ConsentStatus.active, "", 0);
         consent = new Consent(backendConsent, consentDefinition);
         consentError = new ConsentError("", 1234);

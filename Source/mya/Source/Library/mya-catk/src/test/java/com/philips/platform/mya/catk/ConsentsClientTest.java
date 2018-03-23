@@ -300,8 +300,8 @@ public class ConsentsClientTest {
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
     private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
-    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1);
-    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1);
+    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition(0, 0, Collections.singletonList("type1"), 1);
+    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition(0, 0, Arrays.asList("type2", "type3"), 1);
     private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {

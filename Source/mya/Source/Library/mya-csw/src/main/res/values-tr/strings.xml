@@ -51,10 +51,14 @@
   <string name="mya_Settings">Ayarlar</string>
   <string name="mya_change_country">Ülkeyi değiştirmek için oturumu kapatın</string>
   <string name="mya_change_country_message">Lütfen yaşadığınız ülkeyi değiştirmek için oturumunuzu kapatın. Böylece garantiyi ve diğer bilgileri konumunuza göre güncelleyebiliriz</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[tr]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[tr]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[tr]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[tr]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[tr]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[tr]Maybe later</string>
   <string name="mya_csw_justintime_title">[tr]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[tr]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[tr]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[tr]What do we have to offer?</string>
   <string name="mya_logout_message">Bu uygulamada oturumunuz kapatılacaktır. Oturum kapatıldıktan sonra dilediğiniz zaman yeniden oturumu açabilirsiniz.</string>
   <string name="mya_logout_title">Oturumu kapatmak mı istiyorsunuz?</string>

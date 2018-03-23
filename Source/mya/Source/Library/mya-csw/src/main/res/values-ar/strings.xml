@@ -51,10 +51,14 @@
   <string name="mya_Settings">الإعدادات</string>
   <string name="mya_change_country">تسجيل الخروج لتغيير البلد</string>
   <string name="mya_change_country_message">يرجى تسجيل الخروج لتغيير البلد حيث تقيم. سيسمح لنا ذلك بتخصيص الضمان ومعلومات أخرى بحسب موقعك.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ar]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ar]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[ar]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[ar]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ar]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ar]Maybe later</string>
   <string name="mya_csw_justintime_title">[ar]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ar]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ar]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[ar]What do we have to offer?</string>
   <string name="mya_logout_message">سيتم تسجيل خروجك من التطبيق. يمكنك دائمًا تسجيل الدخول من جديد بعد تسجيل الخروج.</string>
   <string name="mya_logout_title">هل تريد بالتأكيد تسجيل الخروج؟</string>

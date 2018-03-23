@@ -84,7 +84,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUser() {
-        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")), givenCheckConsentCallback);
+        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(new Locale("en", "US")), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserSuccess();
     }
@@ -126,7 +126,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void givenConsentDefinitionTypeNotSame() {
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", Collections.singletonList("type"), 42);
+        givenConsentDefinition = new ConsentDefinition(0, 0, Collections.singletonList("type"), 42);
         subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
     }
 
@@ -219,7 +219,7 @@ public class MarketingConsentHandlerTest {
     }
 
     private void whenRefreshUserFailed() {
-        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(mockContext, new Locale("en", "US")), givenCheckConsentCallback);
+        subject.fetchConsentState(URConsentProvider.fetchMarketingConsentDefinition(new Locale("en", "US")), givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserFailed(anyInt());
     }
@@ -234,7 +234,7 @@ public class MarketingConsentHandlerTest {
     private void givenConsentDefinition() {
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        givenConsentDefinition = new ConsentDefinition("txt", "help me", types, 42);
+        givenConsentDefinition = new ConsentDefinition(0, 0, types, 42);
         subject = new TestMarketingConsentHandler(mockContext, Collections.singletonList(givenConsentDefinition));
 
     }

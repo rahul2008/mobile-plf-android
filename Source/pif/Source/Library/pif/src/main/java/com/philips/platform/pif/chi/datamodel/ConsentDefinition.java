@@ -1,14 +1,12 @@
 package com.philips.platform.pif.chi.datamodel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.philips.platform.pif.chi.ConsentDefinitionException;
-import java.util.Locale;
 public class ConsentDefinition implements Parcelable, Serializable {
     private String identifier;
     private String text;
@@ -16,27 +14,20 @@ public class ConsentDefinition implements Parcelable, Serializable {
     private List<String> types;
     private int version;
     private List<String> implicitConsents;
+    private int revokeWarningTextRes;
 
-    public ConsentDefinition(String text, String helpText, List<String> types, int version) {
+    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
         this.text = text;
         this.helpText = helpText;
         this.types = types;
         this.version = version;
         this.implicitConsents = new ArrayList<>();
+        this.revokeWarningTextRes = 0;
     }
 
-    private void validate(Locale locale) {
-        if (locale == null) {
-            throw new ConsentDefinitionException("locale not defined");
-        }
-        String country = locale.getCountry();
-        if (country == null || country.isEmpty()) {
-            throw new ConsentDefinitionException("incorrect locale country");
-        }
-        String language = locale.getLanguage();
-        if (language == null || language.isEmpty()) {
-            throw new ConsentDefinitionException("incorrect locale language");
-        }
+    public ConsentDefinition(int text, int helpText, List<String> types, int version, int revokeWarningText) {
+        this(text, helpText, types, version);
+        this.revokeWarningTextRes = revokeWarningText;
     }
 
     public String getText() {
@@ -117,4 +108,11 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
+    public boolean hasRevokeWarningText() {
+        return this.revokeWarningTextRes > 0;
+    }
+
+    public int getRevokeWarningText() {
+        return revokeWarningTextRes;
+    }
 }

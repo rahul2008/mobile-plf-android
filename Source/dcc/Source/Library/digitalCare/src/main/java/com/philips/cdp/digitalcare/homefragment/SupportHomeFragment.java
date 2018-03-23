@@ -345,7 +345,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     } else {
                         homeFragmentPresenter = new SupportHomePresenter(this);
                         homeFragmentPresenter.checkConsent(Utils.fetchDeviceStoredConsentHandler(),
-                                CcConsentProvider.fetchLocationConsentDefinition(getActivity()));
+                                CcConsentProvider.fetchLocationConsentDefinition());
                     }
                 }
             }

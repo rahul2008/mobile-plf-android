@@ -7,6 +7,7 @@ public class FragmentActivityMock extends FragmentActivity {
 
     FragmentManagerMock fragmentManagerMock;
     public boolean finishWasCalled = false;
+    public boolean isFinishing = false;
 
     public FragmentActivityMock(FragmentManagerMock fragmentManagerMock) {
         this.fragmentManagerMock = fragmentManagerMock;
@@ -21,4 +22,8 @@ public class FragmentActivityMock extends FragmentActivity {
         finishWasCalled = true;
     }
 
+    @Override
+    public boolean isFinishing() {
+        return isFinishing;
+    }
 }

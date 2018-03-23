@@ -5,17 +5,18 @@ import android.test.mock.MockContext;
 
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswSettings;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.csw.mock.RestInterfaceMock;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
 import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.chi.PostConsentCallback;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -33,6 +34,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -40,7 +43,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
-    private static final String AMERICAN_LOCALE = "en-US";
     private PermissionPresenter mPermissionPresenter;
     private ConsentError givenError;
     private Consent requiredConsent;
@@ -61,6 +63,8 @@ public class PermissionPresenterTest {
     private ConsentHandlerInterface mockConsentHandler;
     @Mock
     private Context mockContext;
+    @Mock
+    private ConsentToggleListener.ConsentToggleResponse responseMock;
 
     @Before
     public void setUp() throws Exception {
@@ -199,11 +203,90 @@ public class PermissionPresenterTest {
         thenProgressIsHidden();
     }
 
+    @Test
+    public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentGiven_thenShouldCallStoreConsentState() {
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, true, responseMock);
+
+        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentGiven_thenShouldNotCallShowDialog() {
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, true, responseMock);
+
+        verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentNotGiven_thenShouldCallStoreConsentState() {
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, false, responseMock);
+
+        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentNotGiven_thenShouldNotCallShowDialog() {
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, false, responseMock);
+
+        verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasRevokeWarning_andToggleChanged_consentGiven_thenShouldCallStoreConsentState() {
+        int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
+                revokeWarningTextRes);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, true, responseMock);
+
+        verify(mockConsentHandler).storeConsentState((ConsentDefinition)any(), eq(true), (PostConsentCallback) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasRevokeWarning_andToggleChanged_consentGiven_thenShouldNotCallShowDialog() {
+        int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
+                revokeWarningTextRes);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, true, responseMock);
+
+        verify(mockPermissionInterface, never()).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasRevokeWarning_andToggleChanged_consentNotGiven_thenShouldCallStoreConsentState() {
+        int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
+                revokeWarningTextRes);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, false, responseMock);
+
+        verify(mockConsentHandler, never()).storeConsentState((ConsentDefinition)any(), eq(false), (PostConsentCallback) any());
+    }
+
+    @Test
+    public void test_givenDefinitionHasRevokeWarning_andToggleChanged_consentNotGiven_thenShouldNotCallShowDialog() {
+        int revokeWarningTextRes = R.string.mya_csw_consent_revoked_confirm_descr;
+        ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, new ArrayList<String>(), 1,
+                revokeWarningTextRes);
+
+        mPermissionPresenter.onToggledConsent(oldDefinition, mockConsentHandler, false, responseMock);
+
+        verify(mockPermissionInterface).showConfirmRevokeConsentDialog((ConfirmDialogView) any(), (ConfirmDialogView.ConfirmDialogResultHandler) any());
+    }
+
     private void givenCswComponent() {
         CswInterface cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
         MockContext context = new MockContext();
-        ConsentAccessToolKitEmulator consentAccessToolKit = new ConsentAccessToolKitEmulator();
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface, givenConsentConfigurations);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
@@ -231,7 +314,7 @@ public class PermissionPresenterTest {
     }
 
     private void givenConsentConfigurations() {
-        ConsentDefinition definition = new ConsentDefinition("", "", Collections.singletonList("moment"), 0);
+        ConsentDefinition definition = new ConsentDefinition(0, 0, Collections.singletonList("moment"), 0);
         ConsentConfiguration configuration = new ConsentConfiguration(Collections.singletonList(definition), mockHandlerInterface);
         givenConsentConfigurations = Collections.singletonList(configuration);
         givenPresenter();
@@ -271,7 +354,7 @@ public class PermissionPresenterTest {
     }
 
     private void whenTogglingConsentTo(boolean toggled) {
-        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled);
+        mPermissionPresenter.onToggledConsent(mockConsentDefinition, mockHandlerInterface, toggled, null);
     }
 
     private void whenAppIsOnline() {
@@ -307,7 +390,7 @@ public class PermissionPresenterTest {
     }
 
     private ConsentDefinition clickStreamConsentDefinition() {
-        return new ConsentDefinition("SomeText", "SomeHelpText", Collections.singletonList("clickstream"),
+        return new ConsentDefinition(0,0 , Collections.singletonList("clickstream"),
                 1);
     }
 }

@@ -59,7 +59,7 @@
   <string name="RA_DLS_enable_bluetooth">[zh-CN]Please enable bluetooth</string>
   <string name="RA_DLS_healthy_sleep_title">[zh-CN]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[zh-CN]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[zh-CN]Reference App</string>
+  <string name="RA_DLS_home_page_text">[zh-CN]RA_SettingsScreen_Title</string>
   <string name="RA_DLS_insights_error">[zh-CN]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[zh-CN]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[zh-CN]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
@@ -105,12 +105,17 @@
   <string name="RA_MYA_Click_Stream_Hosting_Consent">[zh-CN]I allow Philips to use my mobile application usage statistics</string>
   <string name="RA_MYA_Coaching_Consent">[zh-CN]I allow Philips to use my data for Coaching purposes</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[zh-CN]The actual content of the binary consent help text here</string>
+  <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">我允许飞利浦收集我的应用程序资料，以帮助改进应用程序功能、完善应用程序、个性化应用程序、整合社交媒体并显示相关内容和广告。</string>
   <string name="RA_MYA_Consent_Click_Stream_Help_Text">Cookie 声明\n\n本应用程序使用 Adobe Analytics，它是由 Adobe Systems Software Ireland Limited (“Adobe”) 提供的分析服务。Adobe Analytics 使用“cookies”或类似技术（位于应用程序中的文本文件），以帮助应用程序分析其总体流量特征。通过将 cookie 所产生有关该应用程序使用情况的信息传达给 Adobe，其设置确保在地理定位之前将 IP 地址匿名化，且在存储之前由某通用 IP 地址代替。Adobe 将代表飞利浦使用这一信息来评估您对该应用程序的使用情况，编写应用程序活动相关报告，并向飞利浦提供与该应用程序活动相关的其他服务以及应用程序的使用情况。Adobe 不会将您的 IP 地址与 Adobe 所持有的任何其他资料相关联。如果您在关闭此屏幕后选择退出，就可以防止 Adobe 和飞利浦收集并使用资料（cookie 和 IP 地址）。\n</string>
+  <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[zh-CN]The actual content of the coaching consent help text here</string>
+  <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Marketing_Help_Text">在您同意的前提下，飞利浦集团公司可能会通过电子邮件、短信以及移动应用程序和社交媒体等其他数字渠道与您联系，向您提供促销宣传。为了能够根据您的偏好和行为量身定制宣传内容并提供最佳个性化体验，我们可能会分析和合并您的个人资料。这些资料可能包括： \n\n您向我们提供的资料\n您想主动与我们分享的资料，如：您的姓名、出生日期或年龄、电子邮件地址、实际地址、国家/地区、性别、电话号码、社交媒体个人资料。\n\n我们通过您与飞利浦的互动获得的资料\n有关您的交互和使用飞利浦数字频道的资料，如社交媒体、网站、电子邮件、应用程序和互联产品。该数据可能包括：IP 地址、Cookie、设备信息、您点击的信息、位置详情以及您访问的网站\n\n飞利浦将为您提供随时撤回同意的机会。\n有关详细信息，请阅读飞利浦隐私声明和飞利浦 Cookie 声明。</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[zh-CN]The actual content of the moment consent help text here</string>
+  <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[zh-CN]The actual content of the research and analytics consent help text here</string>
+  <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[zh-CN]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[zh-CN]I allow Philips to use my data for Research and Analytics purposes</string>
   <string name="RA_Menu_title_Demo">[zh-CN]Test Demo Apps</string>

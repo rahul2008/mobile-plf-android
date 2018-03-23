@@ -51,10 +51,14 @@
   <string name="mya_Settings">Setări</string>
   <string name="mya_change_country">Deconectează-te pentru a schimba ţara</string>
   <string name="mya_change_country_message">Deconectează-te pentru a schimba ţara în care locuieşti. Aceasta ne va permite să adaptăm garanţia şi alte informaţii la locaţia ta.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ro]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ro]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[ro]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[ro]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ro]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ro]Maybe later</string>
   <string name="mya_csw_justintime_title">[ro]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ro]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[ro]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[ro]What do we have to offer?</string>
   <string name="mya_logout_message">Vei fi deconectat(ă) din aplicaţie. După ce te deconectezi, te poţi reconecta oricând.</string>
   <string name="mya_logout_title">Sigur vrei să te deconectezi?</string>
