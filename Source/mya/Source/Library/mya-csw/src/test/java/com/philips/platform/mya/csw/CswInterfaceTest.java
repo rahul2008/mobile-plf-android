@@ -1,14 +1,8 @@
 package com.philips.platform.mya.csw;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.test.mock.MockContext;
-
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.robolectric.annotation.Config;
 
 import com.philips.platform.mya.csw.mock.ActivityLauncherMock;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
@@ -18,8 +12,6 @@ import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
 import com.philips.platform.mya.csw.permission.PermissionView;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.Before;
@@ -31,30 +23,28 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-@PrepareForTest({ CswInterface.class, Intent.class})
+@PrepareForTest({CswInterface.class, Intent.class})
 public class CswInterfaceTest {
 
     @Mock
-    private List<ConsentDefinition> consentDefinitionList;
-
-    @Mock
-    private ConsentManagerInterface consentManagerInterface;
-
-    @Mock
     private Intent intentMock;
+
+    @Mock
+    private Bundle bundle;
 
     @Before
     public void setup() throws Exception {
         initMocks(this);
 
         PowerMockito.whenNew(Intent.class).withAnyArguments().thenReturn(intentMock);
+        PowerMockito.whenNew(Bundle.class).withAnyArguments().thenReturn(bundle);
 
         fragmentTransaction = new FragmentTransactionMock();
         FragmentManagerMock fragmentManager = new FragmentManagerMock(fragmentTransaction);
