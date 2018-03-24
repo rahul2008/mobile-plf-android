@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,19 +20,26 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
@@ -97,6 +105,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @BindView(R.id.hamburger_list)
     RecyclerView hamburgerMenuRecyclerView;
+
+    private ImageView cartIcon;
+    private TextView cartCount;
+    private FrameLayout shoppingCartLayout;
+    protected TextView actionBarTitle;
+    private boolean isCartVisible = true;
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
@@ -200,7 +214,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private void initViews() {
         RALog.d(TAG, " initViews");
-        toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,9 +225,53 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         setUserNameAndLogoutText();
         initSidebarComponents();
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
-        UIDHelper.setupToolbar(this);
+      //  UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
+        setSupportActionBar(toolbar);
+        final ActionBar supportActionBar = getSupportActionBar();
+        setActionBar(supportActionBar);
+    }
+
+    /**
+     * To set the actionbar
+     * @param actionBar : Requires the actionbar obejct
+     */
+    private void setActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+        //hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
+        //hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+        //hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
+        /*hamburgerClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                philipsDrawerLayout.openDrawer(navigationView);
+            }
+        });*/
+        actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
+        setTitle(getResources().getString(R.string.app_name));
+        cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
+        Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
+        cartIcon.setBackground(mCartIconDrawable);
+        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
+        cartCount.setVisibility(View.GONE);
+        actionBar.setCustomView(mCustomView, params);
+        Toolbar parent = (Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
     }
 
     public void setUserNameAndLogoutText() {
@@ -238,7 +296,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        UIDHelper.setTitle(this, title);
+//        UIDHelper.setTitle(this, title);
+        actionBarTitle.setText(title);
+        actionBarTitle.setSelected(true);
     }
 
     protected ActionBarDrawerToggle configureDrawer() {
@@ -321,7 +381,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        UIDHelper.setTitle(this, i);
+        //UIDHelper.setTitle(this, i);
+        actionBarTitle.setText(i);
+        actionBarTitle.setSelected(true);
         updateActionBarIcon(b);
     }
 
@@ -332,7 +394,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(String s, boolean b) {
-        UIDHelper.setTitle(this, s);
+        //UIDHelper.setTitle(this, s);
+        actionBarTitle.setText(s);
+        actionBarTitle.setSelected(true);
         updateActionBarIcon(b);
 
     }
@@ -352,7 +416,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         this.isBackButtonVisible = isBackButtonVisible;
     }
 
-    /*public void cartIconVisibility(boolean shouldShow) {
+   /* *//*public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
             cartIcon.setVisibility(View.VISIBLE);
             int cartItemsCount = getCartItemCount();

@@ -21,7 +21,16 @@
                 android:background="?attr/uidNavigationSecondaryBackgroundColor"
                 app:elevation="0dp">
 
-                <include layout="@layout/uid_toolbar_layout" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/uidNavigationSecondaryBackgroundColor"
+                    android:elevation="@dimen/uikit_toolbar_elevation"
+                    android:gravity="center"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetStart="0dp"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
             </android.support.design.widget.AppBarLayout>
 
             <FrameLayout

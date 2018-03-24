@@ -7,6 +7,8 @@ package com.philips.platform.baseapp.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
+
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
@@ -19,7 +21,7 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
 
     protected AbstractUIBasePresenter fragmentPresenter;
 
-    private ActionBarTextView actionBarTitle = null;
+    private TextView actionBarTitle = null;
 
     public abstract String getActionbarTitle();
 
@@ -44,7 +46,7 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
         RALog.d(TAG," setActionbarTitle called");
 
         if (actionBarTitle == null) {
-            actionBarTitle = (ActionBarTextView) getActivity().findViewById(R.id.uid_toolbar_title);
+            actionBarTitle = getActivity().findViewById(R.id.af_actionbar_title);
         }
         String titleText = null;
         if (getActionbarTitle() == null) {
