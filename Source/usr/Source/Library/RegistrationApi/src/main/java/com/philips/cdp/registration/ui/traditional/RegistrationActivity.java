@@ -24,7 +24,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -210,7 +209,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     private void launchRegistrationFragment(RegistrationLaunchMode registrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(registrationLaunchMode);
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationFunction(RegistrationConfiguration.getInstance().getPrioritisedFunction());
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener());
         urLaunchInput.setUIFlow(uiFlow);

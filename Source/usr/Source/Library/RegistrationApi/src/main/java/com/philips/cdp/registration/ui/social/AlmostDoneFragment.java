@@ -43,7 +43,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -238,7 +237,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Text));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Email_Text));
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Mobile_Text));
+        }
         continueButton.setEnabled(false);
 
     }
