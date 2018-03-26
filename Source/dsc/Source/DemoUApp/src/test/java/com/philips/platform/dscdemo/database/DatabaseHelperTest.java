@@ -56,8 +56,8 @@ public class DatabaseHelperTest {
         whenCreatingTheSqlLiteDatabase();
         thenTableStructureIs(OrmSettings.class,
                 "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
-                        "[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"]," +
-                        "[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"1\",\"locale\",\"VARCHAR\",\"0\",null,\"0\"]," +
+                        "[\"2\",\"unit\",\"VARCHAR\",\"0\",null,\"0\"]," +
                         "[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
     }
 
@@ -71,8 +71,8 @@ public class DatabaseHelperTest {
         whenMigratingToVersion(2,3);
         thenTableStructureIs(OrmSettings.class,
                 "[[\"0\",\"id\",\"INTEGER\",\"0\",null,\"1\"]," +
-                        "[\"1\",\"locale\",\"VARCHAR\",\"1\",null,\"0\"]," +
-                        "[\"2\",\"unit\",\"VARCHAR\",\"1\",null,\"0\"]," +
+                        "[\"1\",\"locale\",\"VARCHAR\",\"0\",null,\"0\"]," +
+                        "[\"2\",\"unit\",\"VARCHAR\",\"0\",null,\"0\"]," +
                         "[\"3\",\"timeZone\",\"VARCHAR\",\"0\",null,\"0\"]]");
     }
 

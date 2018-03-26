@@ -20,10 +20,10 @@ public class OrmSettings implements Settings, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String locale;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String unit;
 
     @DatabaseField

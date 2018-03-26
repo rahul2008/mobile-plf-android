@@ -216,7 +216,10 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             if (newVer >= 3 && oldVer < 3) {
                 final Dao<OrmSettings, Integer> dao = getSettingsDao();
                 final String tableName = dao.getTableName();
-                dao.executeRaw("ALTER TABLE `" + tableName + "` ADD COLUMN timeZone VARCHAR NULL");
+                dao.executeRaw("ALTER TABLE `" + tableName + "` RENAME TO `settings_old`");
+                TableUtils.createTable(getConnectionSource(), OrmSettings.class);
+                dao.executeRaw("INSERT INTO `" + tableName + "` (locale, unit) SELECT locale, unit FROM `settings_old`");
+                dao.executeRaw("DROP TABLE `settings_old`");
             }
         } catch (SQLException e) {
             e.printStackTrace();
