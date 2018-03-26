@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
@@ -77,7 +78,7 @@ import static com.philips.platform.prdemoapp.activity.MainActivity.THEMESETTINGS
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private LinearLayout navigationView;
@@ -110,7 +111,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private TextView cartCount;
     private FrameLayout shoppingCartLayout;
     protected TextView actionBarTitle;
-    private boolean isCartVisible = true;
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
@@ -131,7 +131,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
+        RALog.d(TAG,"App initialization status:"+AppFrameworkApplication.isAppDataInitialized());
         if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())){
             presenter = getActivityPresenter();
             sharedPreferenceUtility = new SharedPreferenceUtility(this);
@@ -233,6 +233,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         setActionBar(supportActionBar);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartCount.setVisibility(View.GONE);
+        cartIcon.setVisibility(View.GONE);
+    }
+
     /**
      * To set the actionbar
      * @param actionBar : Requires the actionbar obejct
@@ -246,15 +253,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
         View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
-        //hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
-        //hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        //hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
-        /*hamburgerClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                philipsDrawerLayout.openDrawer(navigationView);
-            }
-        });*/
+
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(R.string.app_name));
         cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
@@ -269,6 +268,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
         cartCount.setVisibility(View.GONE);
+        cartIcon.setVisibility(View.GONE);
         actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -416,10 +416,28 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         this.isBackButtonVisible = isBackButtonVisible;
     }
 
-   /* *//*public void cartIconVisibility(boolean shouldShow) {
-        if(shouldShow){
+    public boolean isIAPInstance(){
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+            String str = backEntry.getName();
+            if(null != str){
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
+                if(fragment instanceof InAppBaseFragment){
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void cartIconVisibility(boolean shouldShow, int count) {
+
+        if(shouldShow && isIAPInstance()){
             cartIcon.setVisibility(View.VISIBLE);
-            int cartItemsCount = getCartItemCount();
+            int cartItemsCount = count;
                 if (cartItemsCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
                         cartCount.setText(String.valueOf(cartItemsCount));
@@ -430,45 +448,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 cartIcon.setVisibility(View.GONE);
                 cartCount.setVisibility(View.GONE);
         }
-    }*/
-    @Override
-    public void onGetCartCount(int cartCount) {
-        /*setCartItemCount(cartCount);
-        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
-            cartIconVisibility(true);
-        }*/
-    }
-
-    @Override
-    public void onUpdateCartCount() {
-        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
-            addIapCartCount();
-        }*/
-    }
-
-    @Override
-    public void updateCartIconVisibility(boolean shouldShow) {
-      //  isCartVisible = shouldShow;
-    }
-
-    @Override
-    public void onGetCompleteProductList(ArrayList<String> arrayList) {
-
-    }
-
-    @Override
-    public void onSuccess() {
-
-    }
-
-    @Override
-    public void onSuccess(boolean isCartVisible) {
-
-    }
-
-    @Override
-    public void onFailure(int i) {
-     //   showToast(i);
     }
 
     /*private void showToast(int errorCode) {

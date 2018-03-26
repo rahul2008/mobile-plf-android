@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
@@ -44,6 +45,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
+    private boolean isCartVisible = false;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -100,7 +102,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
-        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+        iapLaunchInput.setIapListener(this);
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
@@ -146,14 +148,17 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
     @Override
     public void onGetCartCount(int i) {
+        ((HamburgerActivity) activityContext).cartIconVisibility(isCartVisible,i);
     }
 
     @Override
     public void onUpdateCartCount() {
+
     }
 
     @Override
     public void updateCartIconVisibility(boolean b) {
+        isCartVisible = b;
     }
 
     @Override
@@ -168,6 +173,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onSuccess(boolean isCartVisible) {
+        this.isCartVisible = isCartVisible;
         ((AppFrameworkApplication) applicationContext).setShopingCartVisible((isCartVisible));
     }
 
