@@ -206,7 +206,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         super.onResume();
         RALog.d(TAG, " onResume called");
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        if(getWindow() != null) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
@@ -234,7 +236,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG, " onPause called");
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
+        if(getWindow() != null) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
             AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");
