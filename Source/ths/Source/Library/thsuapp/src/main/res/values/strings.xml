@@ -62,7 +62,10 @@
     <string name="ths_no_availability">No availability</string>
     <string name="ths_provider_details">Your provider</string>
     <string name="ths_with">With:</string>
+    <string name="ths_appointment_with">with</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>
+    <string name="ths_appointment_for_yourself">Appointment for yourself</string>
+    <string name="ths_appointment_for_your_child">Appointment for your child</string>
 
     <string name="ths_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
@@ -252,6 +255,15 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_visit_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
     <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
+
+    <string name="ths_appointment_confirm_cancel_visit">Do you really want to cancel this appointment?</string>
+    <string name="ths_appointment_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
+    <string name="ths_appointment_yes_cancel_appointment">Yes, cancel appointment</string>
+    <string name="ths_appointment_no_cancel_appointment">No, do not cancel</string>
+    <string name="ths_appointment_cancelled">Your appointment has been cancelled.</string>
+    <string name="ths_appointment_cancelled_help">Do you need any assistance?</string>
+    <string name="ths_appointment_cancelled_goto_start">Go back to start</string>
+
     <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
     <string name="ths_insurance_fields_required">Please enter all details to continue</string>
     <string name="ths_insurance_invalid_subscription_info">Invalid Subscription Info</string>

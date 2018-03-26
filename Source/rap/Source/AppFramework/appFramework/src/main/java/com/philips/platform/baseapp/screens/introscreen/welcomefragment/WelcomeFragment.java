@@ -7,6 +7,7 @@
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -139,6 +140,18 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
         startAppTagging();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Uri uri = getActivity().getIntent().getData();
+        if(uri!=null&&uri.toString().contains("telehealth.com")){
+            if (presenter != null) {
+                skipButton.performClick();
+                //presenter.onEvent(com.philips.platform.uappdemolibrary.R.id.ufw_welcome_skip_button);
+            }
+        }
     }
 
     private void setEnviromentSelectionVisibility(int position) {

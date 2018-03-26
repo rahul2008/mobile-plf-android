@@ -169,6 +169,7 @@ public class THSConstants {
     public static final String THS_CONSUMER = "THS_CONSUMER";
 
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    public static final String KEY_DEEP_LINKING_FLOW = "deepLinkingFlow";
     public static final String KEY_COLOR_RANGE = "KEY_COLOR_RANGE";
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";

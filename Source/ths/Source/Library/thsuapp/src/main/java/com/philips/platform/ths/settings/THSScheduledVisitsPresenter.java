@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.settings;
 
+import android.support.v4.app.FragmentManager;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
@@ -17,6 +19,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
@@ -31,6 +34,9 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppointmentsCallback<List<Appointment>, THSSDKError>, THSInitializeCallBack<Void, THSSDKError> {
 
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
+
+
+
     Appointment mAppointment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {
@@ -64,11 +70,14 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            if(null==sdkError){
+
+            }
             mThsScheduledVisitsFragment.stopRefreshing();
-            AmwellLog.i(AmwellLog.LOG, "appoint response");
+            AmwellLog.i(AmwellLog.LOG, "appointment response");
             mThsScheduledVisitsFragment.updateList(appointments);
             stopRefreshing();
-        }
+           }
     }
 
     @Override
@@ -92,7 +101,9 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
                 }
             }else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
-                mThsScheduledVisitsFragment.onRefresh();
+               // mThsScheduledVisitsFragment.onRefresh();
+                mThsScheduledVisitsFragment.popSelfBeforeTransition();
+                mThsScheduledVisitsFragment.addFragment(new THSAppointmentCancelledConfirmation(),THSAppointmentCancelledConfirmation.TAG,null,true );
             }
         }
     }
@@ -108,5 +119,9 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     public void setAppointment(Appointment mAppointment) {
         this.mAppointment = mAppointment;
+    }
+
+    public Appointment getAppointment() {
+        return mAppointment;
     }
 }
