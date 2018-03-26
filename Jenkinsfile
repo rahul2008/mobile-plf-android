@@ -131,8 +131,12 @@ pipeline {
                     APK_NAME = readFile("apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
 
-                    def jobBranchName = BranchName.replace('/', '_')
-                    echo "jobBranchName = ${jobBranchName}"
+                    def jobBranchName = "release_platform_1802.0.0"
+                    if (BranchName =~ /develop.*/) {
+                       jobBranchName = "develop"
+                    }
+                    echo "BranchName changed to ${jobBranchName}"
+
                     sh """#!/bin/bash -le
                         curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
                     """
