@@ -11,7 +11,6 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -22,13 +21,11 @@ import com.philips.cdp2.commlib.core.util.GsonProvider;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
@@ -113,8 +110,6 @@ public class FirmwareUploader {
         int nextChunkSize = min(maxChunkSize, this.firmwareData.length - offset);
         properties.put(FirmwarePortProperties.FirmwarePortKey.DATA.toString(), Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
 
-        calculateThroughputInBytesPerSecond(offset);
-
         communicationStrategy.putProperties(properties, firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
 
             @Override
@@ -160,16 +155,5 @@ public class FirmwareUploader {
                 listener.onError(t.getMessage(), t);
             }
         });
-    }
-
-    private void calculateThroughputInBytesPerSecond(int progressInBytes) {
-        if (startTimeMillis <= 0) {
-            return;
-        }
-        final long timeDiffInMillis = currentTimeMillis() - startTimeMillis;
-        final int throughputInBytesPerSecond = Math.round(1000 * progressInBytes / timeDiffInMillis);
-
-        // Comma-separated line, easy for use in Excel
-        DICommLog.v(TAG, String.format(Locale.US, "%d,%d,%d", TimeUnit.MILLISECONDS.toSeconds(timeDiffInMillis), progressInBytes, throughputInBytesPerSecond));
     }
 }
