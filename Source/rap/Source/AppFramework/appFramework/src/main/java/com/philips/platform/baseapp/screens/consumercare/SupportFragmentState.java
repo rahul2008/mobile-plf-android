@@ -49,6 +49,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
     private String[] ctnList;
+    private CcInterface ccInterface;
     public SupportFragmentState() {
         super(AppStates.SUPPORT);
     }
@@ -86,11 +87,19 @@ public class SupportFragmentState extends BaseState implements CcListener {
     }
 
     public AppFrameworkApplication getApplicationContext(){
-        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+        return ((AppFrameworkApplication) activityContext.getApplicationContext());
     }
 
     @Override
     public void init(Context context) {
+
+        activityContext = context;
+        ccInterface = getCcInterface();
+        if (ccSettings == null) ccSettings = new CcSettings(activityContext);
+        if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
+        AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
+        CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
+        ccInterface.init(ccDependencies, ccSettings);
     }
 
     //TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
@@ -115,17 +124,13 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
         productsSelection.setCatalog(PrxConstants.Catalog.CARE);
         productsSelection.setSector(PrxConstants.Sector.B2C);
-        final CcInterface ccInterface = getCcInterface();
-
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
 
-        AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
-        CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
 
-        ccInterface.init(ccDependencies, ccSettings);
+
 
         if(getApplicationContext().isChinaFlow()) {
             ccLaunchInput.setLiveChatUrl("https://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");

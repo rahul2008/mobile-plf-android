@@ -28,7 +28,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import static com.philips.platform.mya.activity.MyaActivity.MYA_DLS_THEME;
 
 /**
- * This class is used to launch myaccount either as fragment or activity.
+ * This class is used to launch My Account either as fragment or activity.
  *
  * @since 2018.1.0
  */

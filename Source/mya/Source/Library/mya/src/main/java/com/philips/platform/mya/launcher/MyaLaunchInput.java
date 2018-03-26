@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * This class is used to provide input parameters and customizations for myaccount.
+ * This class is used to provide input parameters and customizations for My Account.
  *
  * @since 2018.1.0
  */
@@ -34,7 +34,7 @@ public class MyaLaunchInput extends UappLaunchInput implements Serializable {
     private UserDataInterface userDataInterface;
 
     /**
-     * Constructor for My account launch input
+     * Constructor for My Account launch input
      * @since 2018.1.0
      * @param context need to pass the activity context
      */

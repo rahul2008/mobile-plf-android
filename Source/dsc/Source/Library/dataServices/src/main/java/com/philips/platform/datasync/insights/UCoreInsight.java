@@ -22,6 +22,7 @@ public class UCoreInsight {
     private int program_minversion;
     private int program_maxversion;
     private Map<String, String> metadata;
+    private String expirationDate;
 
     public void setGuid(String guid) {
         this.guid = guid;
@@ -125,5 +126,13 @@ public class UCoreInsight {
 
     public void setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

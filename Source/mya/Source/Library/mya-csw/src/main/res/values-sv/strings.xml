@@ -51,10 +51,14 @@
   <string name="mya_Settings">Inställningar</string>
   <string name="mya_change_country">Logga ut för att byta land</string>
   <string name="mya_change_country_message">Logga ut för att byta landet du bor i. Det gör att vi kan anpassa garantier och annan information beroende på var du befinner dig.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sv]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sv]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[sv]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[sv]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sv]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sv]Maybe later</string>
   <string name="mya_csw_justintime_title">[sv]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[sv]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sv]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[sv]What do we have to offer?</string>
   <string name="mya_logout_message">Du loggas ut från programmet. När du har loggat ut kan du alltid logga in igen.</string>
   <string name="mya_logout_title">Är du säker på att du vill logga ut?</string>

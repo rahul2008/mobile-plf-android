@@ -51,10 +51,14 @@
   <string name="mya_Settings">Cài đặt</string>
   <string name="mya_change_country">Đăng xuất để thay đổi quốc gia</string>
   <string name="mya_change_country_message">Vui lòng đăng xuất để thay đổi quốc gia nơi bạn sinh sống. Việc này sẽ cho phép chúng tôi điều chỉnh bảo hành và thông tin khác thích hợp với khu vực của bạn hơn</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[vi]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[vi]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[vi]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[vi]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[vi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[vi]Maybe later</string>
   <string name="mya_csw_justintime_title">[vi]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[vi]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[vi]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[vi]What do we have to offer?</string>
   <string name="mya_logout_message">Bạn sẽ được đăng xuất khỏi ứng dụng. Sau khi đăng xuất, bạn vẫn luôn có thể đăng nhập lại.</string>
   <string name="mya_logout_title">Bạn có chắc chắn muốn đăng xuất không?</string>

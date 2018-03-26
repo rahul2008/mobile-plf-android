@@ -10,6 +10,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.testing.verticals.OrmCreatorTest;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -107,5 +108,115 @@ public class InsightConverterTest {
         UCoreInsightList uCoreInsightList = mInsightConverter.convertToUCoreInsights(insightList);
         assertThat(uCoreInsightList).isNotNull();
         assertThat(uCoreInsightList).isInstanceOf(UCoreInsightList.class);
+    }
+
+    @Test
+    public void givenConverterExists_whenConvertToAppInsights_andExpirationDateNull_thenShouldReturnNonNull() {
+        UCoreInsightList uCoreInsightList = new UCoreInsightList();
+        List<UCoreInsight> uCoreInsights = new ArrayList<>();
+        UCoreInsight uCoreInsight = new UCoreInsight();
+        uCoreInsight.setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        uCoreInsight.setLastModified("2017-03-21T10:19:51.706Z");
+        uCoreInsight.setInactive(false);
+        uCoreInsight.setVersion(2);
+        uCoreInsight.setRuleId("ruleID");
+        uCoreInsight.setSubjectId("subjectID");
+        uCoreInsight.setMomentId("momentID");
+        uCoreInsight.setType("type");
+        uCoreInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
+        uCoreInsight.setTitle("title");
+        uCoreInsight.setProgram_maxversion(2);
+        uCoreInsight.setProgram_minversion(1);
+        uCoreInsight.setExpirationDate(null);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("avg", "200");
+        data.put("max", "300");
+        data.put("min", "100");
+        uCoreInsight.setMetadata(data);
+        uCoreInsights.add(uCoreInsight);
+        uCoreInsightList.setSyncurl("Url");
+        assertTrue(uCoreInsightList.getSyncurl().equals("Url"));
+        uCoreInsightList.setInsights(uCoreInsights);
+
+        List<Insight> appInsightList = mInsightConverter.convertToAppInsights(uCoreInsightList);
+        assertThat(appInsightList).isNotNull();
+        assertThat(appInsightList.get(0).getExpirationDate()).isNotNull();
+    }
+
+    @Test
+    public void givenConverterExists_whenConvertToAppInsights_andExpirationDateSet_thenShouldReturnNonNull() {
+        // Given
+        UCoreInsightList uCoreInsightList = new UCoreInsightList();
+        List<UCoreInsight> uCoreInsights = new ArrayList<>();
+        UCoreInsight uCoreInsight = new UCoreInsight();
+        uCoreInsight.setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        uCoreInsight.setLastModified("2017-03-21T10:19:51.706Z");
+        uCoreInsight.setInactive(false);
+        uCoreInsight.setVersion(2);
+        uCoreInsight.setRuleId("ruleID");
+        uCoreInsight.setSubjectId("subjectID");
+        uCoreInsight.setMomentId("momentID");
+        uCoreInsight.setType("type");
+        uCoreInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
+        uCoreInsight.setTitle("title");
+        uCoreInsight.setProgram_maxversion(2);
+        uCoreInsight.setProgram_minversion(1);
+        uCoreInsight.setExpirationDate("1993-03-22");
+
+        Map<String, String> data = new HashMap<>();
+        data.put("avg", "200");
+        data.put("max", "300");
+        data.put("min", "100");
+        uCoreInsight.setMetadata(data);
+        uCoreInsights.add(uCoreInsight);
+        uCoreInsightList.setSyncurl("Url");
+        assertTrue(uCoreInsightList.getSyncurl().equals("Url"));
+        uCoreInsightList.setInsights(uCoreInsights);
+
+        // When
+        List<Insight> appInsightList = mInsightConverter.convertToAppInsights(uCoreInsightList);
+
+        // Then
+        assertThat(appInsightList).isNotNull();
+        assertThat(appInsightList.get(0).getExpirationDate()).isInstanceOf(DateTime.class);
+    }
+
+    @Test
+    public void givenConverterExists_whenConvertToAppInsights_andExpirationDateSetWithTime_thenShouldReturnNonNull() {
+        // Given
+        UCoreInsightList uCoreInsightList = new UCoreInsightList();
+        List<UCoreInsight> uCoreInsights = new ArrayList<>();
+        UCoreInsight uCoreInsight = new UCoreInsight();
+        uCoreInsight.setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        uCoreInsight.setLastModified("2017-03-21T10:19:51.706Z");
+        uCoreInsight.setInactive(false);
+        uCoreInsight.setVersion(2);
+        uCoreInsight.setRuleId("ruleID");
+        uCoreInsight.setSubjectId("subjectID");
+        uCoreInsight.setMomentId("momentID");
+        uCoreInsight.setType("type");
+        uCoreInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
+        uCoreInsight.setTitle("title");
+        uCoreInsight.setProgram_maxversion(2);
+        uCoreInsight.setProgram_minversion(1);
+        uCoreInsight.setExpirationDate("2019-04-23T10:47:10.853Z");
+
+        Map<String, String> data = new HashMap<>();
+        data.put("avg", "200");
+        data.put("max", "300");
+        data.put("min", "100");
+        uCoreInsight.setMetadata(data);
+        uCoreInsights.add(uCoreInsight);
+        uCoreInsightList.setSyncurl("Url");
+        assertTrue(uCoreInsightList.getSyncurl().equals("Url"));
+        uCoreInsightList.setInsights(uCoreInsights);
+
+        // When
+        List<Insight> appInsightList = mInsightConverter.convertToAppInsights(uCoreInsightList);
+
+        // Then
+        assertThat(appInsightList).isNotNull();
+        assertThat(appInsightList.get(0).getExpirationDate()).isInstanceOf(DateTime.class);
     }
 }

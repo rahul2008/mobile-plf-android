@@ -62,6 +62,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
             mSyncViewHolder.mExpirationDate.setText(helper.getExpirationDate(moment));
+            mSyncViewHolder.mIsSynced.setText(moment.getSynchronisationData() != null ? "Yes" : "No");
 
             if (mIsOptions) {
                 mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);

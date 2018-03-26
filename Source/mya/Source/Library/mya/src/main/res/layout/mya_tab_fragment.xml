@@ -13,7 +13,6 @@
             android:layout_height="wrap_content"
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
-            app:tabBackground="?attr/uidContentPrimaryBackgroundColor"
             app:tabIndicatorColor="?attr/uidTabsDefaultNormalOnIndicatorColor"
             app:tabSelectedTextColor="?attr/uidTabsDefaultNormalOnTextColor"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"

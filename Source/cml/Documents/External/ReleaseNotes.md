@@ -1,8 +1,34 @@
 CommLib for Android - Release Notes
-=======================================
+===================================
 
 Version {next}
--------------
+--------------
+
+### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
+* CommLib - Deprecated `PairingPort#disableDemoMode()`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String)`, replaced by `PairingPort#pair(String, String, String)`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String, String, String, String[])`, replaced by `PairingPort#pair(String, String, String, String, String, String[])`
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* 116302 Added missing API to revoke pairing relations to `PairingPort`
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+Version 2017.5.0
+----------------
 
 ### Functionality Delivered
 * CommLib - \#109703 Added ability to clear appliance list

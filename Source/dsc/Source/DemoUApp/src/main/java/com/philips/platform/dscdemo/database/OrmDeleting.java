@@ -34,6 +34,8 @@ import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
+import org.joda.time.DateTime;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -85,6 +87,7 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao;
 
+    private static final String EXPIRATION_DATE = "expiration_date";
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
@@ -94,7 +97,10 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> syncDao, @NonNull Dao<OrmInsight, Integer> ormInsightDao,
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao,
+                       Dao<OrmSettings, Integer> settingsDao,
+                       Dao<OrmDCSync, Integer> syncDao,
+                       @NonNull Dao<OrmInsight, Integer> ormInsightDao,
                        @NonNull Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao) {
 
         this.momentDao = momentDao;
@@ -396,10 +402,8 @@ public class OrmDeleting {
     }
 
     public void deleteAllExpiredInsights() throws SQLException {
-        Long currentUnixTimestamp = System.currentTimeMillis();
-
         QueryBuilder<OrmInsight, Integer> queryBuilder = ormInsightDao.queryBuilder();
-        queryBuilder.where().lt("expiration_date", currentUnixTimestamp);
+        queryBuilder.where().lt(EXPIRATION_DATE, DateTime.now());
         List<OrmInsight> expiredInsights = queryBuilder.query();
 
         for(OrmInsight expiredInsight : expiredInsights) {

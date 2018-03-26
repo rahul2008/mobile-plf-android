@@ -123,4 +123,7 @@ public class IAPConstant {
     public static final String IAP_SHIPING_ADDRESS = "IAP_SHIPING_ADDRESS";
     public static final String UPDATE_BILLING_ADDRESS_KEY = "UPDATE_BILLING_ADDRESS_KEY";
     public static final String IAP_IGNORE_RETAILER_LIST = "IAP_IGNORE_RETAILER_LIST";
+
+    //For handling 307 - Temporary redirect
+    public static final int HTTP_REDIRECT = 307;
 }

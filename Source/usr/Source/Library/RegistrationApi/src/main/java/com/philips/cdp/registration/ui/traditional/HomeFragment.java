@@ -181,7 +181,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-            if(!getRegistrationFragment().isHomeFragment()) {
+            if (!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -246,7 +246,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void handleCountrySelection() {
-        if(!getRegistrationFragment().isHomeFragment()) {
+        if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         if (homePresenter.isNetworkAvailable()) {
@@ -314,7 +314,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void showCreateAccountFragment() {
-        if(!getRegistrationFragment().isHomeFragment()) {
+        if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
         getRegistrationFragment().addFragment(new CreateAccountFragment());
@@ -391,7 +391,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handlePrivacyPolicy() {
-        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
 
             if (!getRegistrationFragment().isHomeFragment()) {
                 return;
@@ -565,7 +565,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
-
+        handleOrientation(view);
     }
 
     @Override

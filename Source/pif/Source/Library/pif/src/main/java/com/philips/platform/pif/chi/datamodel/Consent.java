@@ -42,9 +42,9 @@ public class Consent {
         return consent != null ? consent.getType() : null;
     }
 
-    public ConsentStatus getStatus() {
+    public ConsentStates getStatus() {
         BackendConsent consent = getRepresentingConsent();
-        return consent != null ? consent.getStatus() : ConsentStatus.inactive;
+        return consent != null ? consent.getStatus() : ConsentStates.inactive;
     }
 
     public ConsentDefinition getDefinition() {
@@ -56,6 +56,6 @@ public class Consent {
     }
 
     private boolean isConsentActive(BackendConsent consent) {
-        return consent.getStatus().equals(ConsentStatus.active) && definition.getVersion() <= consent.getVersion();
+        return consent.getStatus().equals(ConsentStates.active) && definition.getVersion() <= consent.getVersion();
     }
 }

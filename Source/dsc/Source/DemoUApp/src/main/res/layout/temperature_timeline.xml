@@ -174,8 +174,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@id/expiration_date_container"
         android:text="@string/synced"
-        android:textColor="#CD202C"
-        android:visibility="gone" />
+        android:textColor="#CD202C" />
 
     <View
         android:id="@+id/divider"

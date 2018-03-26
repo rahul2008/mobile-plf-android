@@ -8,7 +8,7 @@
 package com.philips.platform.mya.error;
 
 /**
- * Class to get the type of errors in My account
+ * Class to get the type of errors in My Account
  * @since 2018.1.0
  */
 public enum MyaError {

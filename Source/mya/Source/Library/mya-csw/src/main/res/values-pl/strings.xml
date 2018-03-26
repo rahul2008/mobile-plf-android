@@ -51,10 +51,14 @@
   <string name="mya_Settings">Ustawienia</string>
   <string name="mya_change_country">Wyloguj się, aby zmienić kraj</string>
   <string name="mya_change_country_message">Wyloguj się, aby zmienić ustawienie kraju. Pozwoli nam to dostosować warunki gwarancji i inne informacje do Twojej lokalizacji</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[pl]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[pl]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[pl]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[pl]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[pl]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pl]Maybe later</string>
   <string name="mya_csw_justintime_title">[pl]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[pl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[pl]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="mya_csw_justintime_user_benefits_title">[pl]What do we have to offer?</string>
   <string name="mya_logout_message">Nastąpi wylogowanie z aplikacji. Po wylogowaniu zawsze możesz zalogować się ponownie.</string>
   <string name="mya_logout_title">Czy na pewno chcesz się wylogować?</string>

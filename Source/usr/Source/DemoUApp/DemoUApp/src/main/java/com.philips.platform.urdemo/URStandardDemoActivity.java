@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.adobe.mobile.Config;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
@@ -77,6 +78,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Config.setDebugLogging(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
