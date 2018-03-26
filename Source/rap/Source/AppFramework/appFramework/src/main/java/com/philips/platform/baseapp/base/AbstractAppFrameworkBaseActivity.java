@@ -8,8 +8,6 @@ package com.philips.platform.baseapp.base;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
@@ -208,7 +206,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         super.onResume();
         RALog.d(TAG, " onResume called");
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
@@ -236,6 +234,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG, " onPause called");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
             AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");
