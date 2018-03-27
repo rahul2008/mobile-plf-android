@@ -47,6 +47,7 @@ include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
+include ':thsUapp'
 include ':mya'
 include ':mya-csw'
 include ':mya-catk'
@@ -96,6 +97,7 @@ project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
+project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
 project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
 project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
@@ -108,8 +110,6 @@ include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 //include ':telehealthApp'
 //project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
-//include ':thsUapp'
-//project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':mya-demoapp'
