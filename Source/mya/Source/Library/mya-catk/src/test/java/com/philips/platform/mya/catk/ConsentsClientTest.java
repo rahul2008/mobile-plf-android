@@ -7,29 +7,8 @@
 
 package com.philips.platform.mya.catk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
@@ -48,10 +27,31 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 public class ConsentsClientTest {
 
@@ -151,7 +151,7 @@ public class ConsentsClientTest {
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionWhenInitIsNotCalledAndTryingToGetConsentStatus() throws Exception {
         givenAppNamePropName("appName", "");
-        consentsClient.getStatusForConsentType(null, -1, null);
+        consentsClient.getStatusForConsentType(null, null);
         verifyZeroInteractions(mockNetworkController);
     }
 
@@ -168,19 +168,19 @@ public class ConsentsClientTest {
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
-        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
-        consentsClient.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
+        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
+        consentsClient.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
-        thenAssertConsentDto(HSDP_UUID, "moment", "active","nl-NL", "US","myApplication", "myProposition", 1);
+        thenAssertConsentDto(HSDP_UUID, "moment", "active", "nl-NL", "US", "myApplication", "myProposition", 1);
     }
 
     @Test
     public void getStatusForConsentType_shouldFilterByType() {
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(consentDtos);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
         assertEquals(consents, consentResponseListener.responseData);
     }
 
@@ -189,8 +189,8 @@ public class ConsentsClientTest {
         givenStrictConsentCheckIs(null);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
-        thenConsentStatusIs(ConsentStatus.active);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
+        thenConsentStatusIs(ConsentStates.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
 
@@ -199,24 +199,18 @@ public class ConsentsClientTest {
         givenStrictConsentCheckIs(false);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
-        thenConsentStatusIs(ConsentStatus.active);
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
+        thenConsentStatusIs(ConsentStates.active);
         thenConsentVersionIs(Integer.MAX_VALUE);
     }
 
     @Test
-    public void getStatusForConsentType_returnsNull_whenNotInBackendAndStrictModeIsOn() {
+    public void getStatusForConsentType_returnsEmptyList_whenNotInBackendAndStrictModeIsOn() {
         givenStrictConsentCheckIs(true);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", 0, consentResponseListener);
-        assertNull(consentResponseListener.responseData);
-    }
-
-    @Test
-    public void init_setsConsentDefinition() {
-        givenInitWasCalled("appName", "propName");
-        assertEquals(consentDefinitions, consentsClient.getConsentDefinitions());
+        consentsClient.getStatusForConsentType("moment", consentResponseListener);
+        assertEquals(new ArrayList<>(), consentResponseListener.responseData);
     }
 
     @Test
@@ -240,7 +234,7 @@ public class ConsentsClientTest {
         serviceDiscoveryInterface.getHomeCountry_return = homeCountry;
     }
 
-    private void thenConsentStatusIs(final ConsentStatus expectedStatus) {
+    private void thenConsentStatusIs(final ConsentStates expectedStatus) {
         assertEquals(expectedStatus, consentResponseListener.responseData.get(0).getStatus());
     }
 
@@ -283,7 +277,7 @@ public class ConsentsClientTest {
 
     @NonNull
     private CatkInputs validCatkInputs() {
-        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).setConsentDefinitions(consentDefinitions).build();
+        return new CatkInputs.Builder().setAppInfraInterface(mockAppInfra).setContext(mockContext).build();
     }
 
     private static String buildPolicyRule(String type, int version, String country, String propositionName, String applicationName) {
@@ -295,10 +289,10 @@ public class ConsentsClientTest {
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
     private String HSDP_UUID = "hsdp_user_id";
-    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
-    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStatus.active, "Subject1");
+    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
+    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
-    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
+    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
     private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition(0, 0, Collections.singletonList("type1"), 1);
     private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition(0, 0, Arrays.asList("type2", "type3"), 1);

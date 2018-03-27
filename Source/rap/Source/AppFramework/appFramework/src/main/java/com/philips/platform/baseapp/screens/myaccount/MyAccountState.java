@@ -1,6 +1,5 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.consents.MarketingConsentHandler;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -35,9 +33,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -49,8 +45,6 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.ConsentConfiguration;
-import com.philips.platform.pif.chi.ConsentDefinitionRegistry;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -72,7 +66,6 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
-    private List<ConsentConfiguration> consentConfigurationList;
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -98,13 +91,13 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     private MyaListener getMyaListener() {
         return new MyaListener() {
             @Override
-             public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+            public boolean onSettingsMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
                 if (itemName.equalsIgnoreCase(actContext.getString(com.philips.platform.mya.R.string.MYA_Logout)) && actContext instanceof HamburgerActivity) {
                     ((HamburgerActivity) actContext).onLogoutResultSuccess();
                 } else if (itemName.equals("MYA_Privacy_Settings")) {
                     RestInterface restInterface = getRestClient();
                     if (restInterface.isInternetReachable()) {
-                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra(),consentConfigurationList);
+                        CswDependencies dependencies = new CswDependencies(getApplicationContext().getAppInfra());
                         PermissionHelper.getInstance().setMyAccountUIEventListener(MyAccountState.this);
                         CswInterface cswInterface = getCswInterface();
                         UappSettings uappSettings = new UappSettings(actContext);
@@ -127,21 +120,21 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                     urLaunchInput.enableAddtoBackStack(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
                     URInterface urInterface = new URInterface();
-                    urInterface.launch(fragmentLauncher,urLaunchInput);
+                    urInterface.launch(fragmentLauncher, urLaunchInput);
                     return true;
                 }
                 return false;
             }
 
             @Override
-            public void onError( MyaError myaError) {
+            public void onError(MyaError myaError) {
                 Toast.makeText(actContext, myaError.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
 
-                URLogout urLogout=new URLogout();
+                URLogout urLogout = new URLogout();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
@@ -166,7 +159,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                     }
                 });
                 User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
-                urLogout.performLogout(actContext,user);
+                urLogout.performLogout(actContext, user);
             }
         };
     }
@@ -180,7 +173,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context, createConsentDefinitions(context));
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
@@ -189,98 +182,58 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
      * <p>
      * Creates a list of ConsentDefinitions</p
      *
-     * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
      * @return non-null list (may be empty though)
      */
     @VisibleForTesting
-    List<ConsentDefinition> createCatkDefinitions(Context context) {
+    List<ConsentDefinition> createConsentDefinitions(Context context) {
+        AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
+        final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
+        consentDefinitions.addAll(getCATKConsentDefinitions(context));
+        consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
+        consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
+        consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
+        consentDefinitions.add(getClickStreamConsentDefinition(context));
+        app.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);
+        return consentDefinitions;
+    }
+
+    private List<ConsentDefinition> getCATKConsentDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        // Moment consent
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(
-                R.string.RA_MYA_Consent_Moment_Text,
-                R.string.RA_MYA_Consent_Moment_Help,
-                Collections.singletonList("moment"),
-                1,
-                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
-        );
-        ConsentDefinitionRegistry.add(momentConsentDefinition);
+        ConsentDefinition momentConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Moment_Text, R.string.RA_MYA_Consent_Moment_Help,
+                Collections.singletonList("moment"), 1);
         definitions.add(momentConsentDefinition);
-        // Coaching consent
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
-                R.string.RA_MYA_Consent_Coaching_Text,
-                R.string.RA_MYA_Consent_Coaching_Help,
-                Collections.singletonList("coaching"),
-                1,
-                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
-        );
-        ConsentDefinitionRegistry.add(coachingConsentDefinition);
+        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Coaching_Text, R.string.RA_MYA_Consent_Coaching_Help,
+                Collections.singletonList("coaching"), 1);
         definitions.add(coachingConsentDefinition);
-        // Binary consent
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
-                R.string.RA_MYA_Consent_Binary_Text,
-                R.string.RA_MYA_Consent_Binary_Help,
-                Collections.singletonList("binary"),
-                1,
-                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
-        );
-        ConsentDefinitionRegistry.add(binaryConsentDefinition);
+        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Binary_Text, R.string.RA_MYA_Consent_Binary_Help,
+                Collections.singletonList("binary"), 1);
         definitions.add(binaryConsentDefinition);
-        // Clickstream consent
-        ConsentDefinition clickStreamConsentDefinition = new ConsentDefinition(
-                R.string.RA_MYA_Consent_Clickstream_Text,
-                R.string.RA_MYA_Consent_Clickstream_Help,
-                Collections.singletonList("clickstream"),
-                1,
-                R.string.RA_MYA_Consent_Clickstream_Revoke_Warning_Text
-        );
-        definitions.add(clickStreamConsentDefinition);
-        ConsentDefinitionRegistry.add(clickStreamConsentDefinition);
-        // Research & Analytics consent
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(
-                R.string.RA_MYA_Research_Analytics_Consent,
-                R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
-                Arrays.asList("research", "analytics"),
-                1,
-                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
-        );
-        ConsentDefinitionRegistry.add(researchConsentDefinition);
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Research_Analytics_Consent, R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
+                Arrays.asList("research", "analytics"), 1);
         definitions.add(researchConsentDefinition);
-        // THS Consent
-        definitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
         return definitions;
     }
 
-    private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(
-                R.string.RA_Setting_Philips_Promo_Title,
-                R.string.RA_MYA_Marketing_Help_Text,
-                Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT),
-                1));
-        return definitions;
+    private ConsentDefinition getClickStreamConsentDefinition(Context context) {
+        return new ConsentDefinition(R.string.RA_MYA_Consent_Clickstream_Text, R.string.RA_MYA_Consent_Clickstream_Help,
+                Collections.singletonList(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getTagging().getClickStreamConsentIdentifier()), 1);
     }
 
     @Override
     public void init(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
-        AppInfraInterface appInfra = app.getAppInfra();
+
+        createConsentDefinitions(context);
 
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(context)
-                .setAppInfraInterface(appInfra)
-                .setConsentDefinitions(createCatkDefinitions(context))
+                .setAppInfraInterface(app.getAppInfra())
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
-        List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(context);
-        setConsentConfiguration(context, appInfra, catkInputs, urDefinitions);
     }
 
-    private void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
-        consentConfigurationList= new ArrayList<>();
-        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
-        consentConfigurationList.add(new ConsentConfiguration(Collections.singletonList(CcConsentProvider.fetchLocationConsentDefinition()), new DeviceStoredConsentHandler(appInfra)));
-    }
+
     @Override
     public void updateDataModel() {
 
@@ -328,32 +281,5 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     private RestInterface getRestClient() {
         return ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra().getRestClient();
-    }
-
-    @VisibleForTesting
-    void setConfigurations(List<ConsentConfiguration> consentConfigurationList) {
-        throwExceptionWhenDuplicateTypesExist(consentConfigurationList);
-        this.consentConfigurationList = consentConfigurationList == null ? new ArrayList<ConsentConfiguration>() : consentConfigurationList;
-    }
-
-    private void throwExceptionWhenDuplicateTypesExist(List<ConsentConfiguration> consentConfigurationList) {
-        List<String> uniqueTypes = new ArrayList<>();
-        if (consentConfigurationList != null && !consentConfigurationList.isEmpty()) {
-            for (ConsentConfiguration configuration : consentConfigurationList) {
-                if (configuration != null) {
-                    for (ConsentDefinition definition : configuration.getConsentDefinitionList()) {
-                        if (definition != null) {
-                            for (String type : definition.getTypes()) {
-                                if (uniqueTypes.contains(type)) {
-                                    throw new CatkInputs.InvalidInputException(
-                                            "Not allowed to have duplicate types in your Definitions, type:" + type + " occurs in multiple times");
-                                }
-                                uniqueTypes.add(type);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

@@ -7,9 +7,6 @@
 
 package com.philips.platform.mya.csw.description;
 
-import com.philips.platform.mya.csw.CswBaseFragment;
-import com.philips.platform.mya.csw.R;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.philips.platform.mya.csw.CswBaseFragment;
+import com.philips.platform.mya.csw.R;
 
 public class DescriptionView extends CswBaseFragment implements DescriptionInterface {
 
@@ -34,9 +34,9 @@ public class DescriptionView extends CswBaseFragment implements DescriptionInter
         return view;
     }
 
-    public static void show(FragmentManager fragmentManager, String helpText, int containerViewId) {
+    public static void show(FragmentManager fragmentManager, int helpText, int containerViewId) {
         Bundle args = new Bundle();
-        args.putString(HELP, helpText);
+        args.putInt(HELP, helpText);
 
         DescriptionView fragment = new DescriptionView();
         fragment.setArguments(args);

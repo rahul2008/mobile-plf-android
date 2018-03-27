@@ -7,13 +7,12 @@
 
 package com.philips.platform.mya.catk;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -29,10 +28,12 @@ import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ConsentsClient {
 
@@ -51,8 +52,8 @@ public class ConsentsClient {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitionList = new ArrayList<>();
     private Boolean strictConsentCheck;
+    private ConsentManagerInterface consentManagerInterface;
     private AppInfraInterface appInfra;
 
     ConsentsClient() {
@@ -70,17 +71,27 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
+        this.consentManagerInterface = catkInputs.getAppInfra().getConsentManager();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
-        this.consentDefinitionList = catkInputs.getConsentDefinitions();
         validateAppNameAndPropName();
+
+        registerBackendPlatformConsent();
 
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                 .AppConfigurationError();
 
         final Object strictConsentCheck = catkInputs.getAppInfra().getConfigInterface().getPropertyForKey("strictConsentCheck", "mya", configError);
-        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean)strictConsentCheck);
+        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean) strictConsentCheck);
 
+    }
+
+    private void registerBackendPlatformConsent() {
+        try {
+            consentManagerInterface.registerHandler(Arrays.asList("moment", "coaching", "binary", "research", "analytics"), new ConsentInteractor(this));
+        } catch (RuntimeException exception) {
+            CatkLogger.d("RuntimeException", exception.getMessage());
+        }
     }
 
     private void initLogging() {
@@ -121,10 +132,6 @@ public class ConsentsClient {
         serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);
     }
 
-    public CatkComponent getCatkComponent() {
-        return catkComponent;
-    }
-
     void getConsentDetails(final ConsentResponseListener consentListener) {
 
         validateAppNameAndPropName();
@@ -158,7 +165,34 @@ public class ConsentsClient {
         });
     }
 
-    void createConsent(final List<BackendConsent> consents, final CreateConsentListener consentListener) {
+    void getStatusForConsentType(final String consentType, final ConsentResponseListener consentListener) {
+
+        getConsentDetails(new ConsentResponseListener() {
+
+            @Override
+            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+                for (BackendConsent consent : responseData) {
+                    if (consentType.equals(consent.getType())) {
+                        consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
+                        return;
+                    }
+                }
+                consentListener.onResponseSuccessConsent(strictConsentCheck ? new ArrayList<BackendConsent>() : Collections.singletonList(createAlwaysAcceptedBackendConsent(consentType)));
+            }
+
+            @Override
+            public void onResponseFailureConsent(ConsentNetworkError consentError) {
+                consentListener.onResponseFailureConsent(consentError);
+            }
+
+            @NonNull
+            private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
+                return new BackendConsent(null, ConsentStates.active, consentType, Integer.MAX_VALUE);
+            }
+        });
+    }
+
+    void createConsent(final BackendConsent consent, final CreateConsentListener consentListener) {
 
         validateAppNameAndPropName();
 
@@ -171,68 +205,32 @@ public class ConsentsClient {
 
             @Override
             public void onConfigurationCompletion(@NonNull String cssUrl) {
-                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getServiceDiscoveryInterface().getHomeCountry(), propositionName,
-                        applicationName);
-                for (BackendConsent consent : consents) {
-                    CreateConsentDto consentDto = mapper.map(consent);
-                    CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, consentDto, new NetworkAbstractModel.DataLoadListener() {
-                        @Override
-                        public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                            if (dtos == null) {
-                                consentListener.onSuccess();
-                            }
+                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getServiceDiscoveryInterface().getHomeCountry(), propositionName, applicationName);
+                CreateConsentDto consentDto = mapper.map(consent);
+                CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, consentDto, new NetworkAbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                        if (dtos == null) {
+                            consentListener.onSuccess();
                         }
-
-                        @Override
-                        public void onModelDataError(ConsentNetworkError error) {
-                            consentListener.onFailure(error);
-                        }
-                    });
-                    sendRequest(model);
-                }
-            }
-        });
-    }
-
-    void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
-
-        getConsentDetails(new ConsentResponseListener() {
-
-            @Override
-            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-                for (BackendConsent consent : responseData) {
-                    if (consentType.equals(consent.getType())) {
-                        consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
-                        return;
                     }
-                }
-                consentListener.onResponseSuccessConsent(strictConsentCheck ? null : Collections.singletonList(createAlwaysAcceptedBackendConsent(consentType)));
-            }
 
-            @Override
-            public void onResponseFailureConsent(ConsentNetworkError consentError) {
-                consentListener.onResponseFailureConsent(consentError);
-            }
-
-            @NonNull
-            private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
-                return new BackendConsent(null, ConsentStatus.active, consentType, Integer.MAX_VALUE);
+                    @Override
+                    public void onModelDataError(ConsentNetworkError error) {
+                        consentListener.onFailure(error);
+                    }
+                });
+                sendRequest(model);
             }
         });
     }
 
-    public List<ConsentDefinition> getConsentDefinitions() {
-        return Collections.unmodifiableList(consentDefinitionList);
+    public CatkComponent getCatkComponent() {
+        return catkComponent;
     }
 
     public AppInfraInterface getAppInfra() {
         return appInfra;
-    }
-
-    interface ConfigCompletionListener {
-        void onConfigurationCompletion(@NonNull String cssUrl);
-
-        void onConfigurationError(String message);
     }
 
     void setCatkComponent(CatkComponent component) {
@@ -260,5 +258,11 @@ public class ConsentsClient {
 
     void setNetworkController(NetworkController networkController) {
         controller = networkController;
+    }
+
+    interface ConfigCompletionListener {
+        void onConfigurationCompletion(@NonNull String cssUrl);
+
+        void onConfigurationError(String message);
     }
 }

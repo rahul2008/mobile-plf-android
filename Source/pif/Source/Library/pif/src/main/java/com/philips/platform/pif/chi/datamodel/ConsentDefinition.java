@@ -7,21 +7,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 public class ConsentDefinition implements Parcelable, Serializable {
     private String identifier;
-    private String text;
-    private String helpText;
+    private int text;
+    private int helpText;
     private List<String> types;
     private int version;
-    private List<String> implicitConsents;
     private int revokeWarningTextRes;
 
     public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
-        this.text = text;
-        this.helpText = helpText;
+        this.text = textRes;
+        this.helpText = helpTextRes;
         this.types = types;
         this.version = version;
-        this.implicitConsents = new ArrayList<>();
         this.revokeWarningTextRes = 0;
     }
 
@@ -30,19 +31,19 @@ public class ConsentDefinition implements Parcelable, Serializable {
         this.revokeWarningTextRes = revokeWarningText;
     }
 
-    public String getText() {
+    public int getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(int text) {
         this.text = text;
     }
 
-    public String getHelpText() {
+    public int getHelpText() {
         return helpText;
     }
 
-    public void setHelpText(String helpText) {
+    public void setHelpText(int helpText) {
         this.helpText = helpText;
     }
 
@@ -62,14 +63,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
         this.version = version;
     }
 
-    public List<String> getImplicitConsents() {
-        return implicitConsents;
-    }
-
-    public void setImplicitConsents(List<String> implicitConsents) {
-        this.implicitConsents = implicitConsents;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -78,22 +71,19 @@ public class ConsentDefinition implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(identifier);
-        parcel.writeString(text);
-        parcel.writeString(helpText);
+        parcel.writeInt(text);
+        parcel.writeInt(helpText);
         parcel.writeStringList(types);
         parcel.writeInt(version);
-        parcel.writeStringList(implicitConsents);
     }
 
     protected ConsentDefinition(Parcel in) {
         identifier = in.readString();
-        text = in.readString();
-        helpText = in.readString();
+        text = in.readInt();
+        helpText = in.readInt();
         types = new ArrayList<>();
         in.readStringList(types);
         version = in.readInt();
-        implicitConsents = new ArrayList<>();
-        in.readStringList(implicitConsents);
     }
 
     public static final Creator<ConsentDefinition> CREATOR = new Creator<ConsentDefinition>() {
@@ -114,5 +104,30 @@ public class ConsentDefinition implements Parcelable, Serializable {
 
     public int getRevokeWarningText() {
         return revokeWarningTextRes;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConsentDefinition that = (ConsentDefinition) o;
+
+        if (version != that.version) return false;
+        if (identifier != null ? !identifier.equals(that.identifier) : that.identifier != null)
+            return false;
+        if (text != that.text) return false;
+        if (helpText != that.helpText)
+            return false;
+        return types != null ? types.equals(that.types) : that.types == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier != null ? identifier.hashCode() : 0;
+        result = 31 * result + text;
+        result = 31 * result + helpText;
+        result = 31 * result + (types != null ? types.hashCode() : 0);
+        result = 31 * result + version;
+        return result;
     }
 }
