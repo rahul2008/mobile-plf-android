@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.injection.CatkComponent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -110,5 +110,5 @@ public class GetConsentDtoRequestTest extends MockitoConfiguration {
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private GetConsentDto[] expectedConsentModelRequest = new GetConsentDto[]{new GetConsentDto(dateTime, "en-GB", policyRule, resourceType, ConsentStatus.valueOf(status), subject)};
+    private GetConsentDto[] expectedConsentModelRequest = new GetConsentDto[]{new GetConsentDto(dateTime, "en-GB", policyRule, resourceType, ConsentStates.valueOf(status), subject)};
 }

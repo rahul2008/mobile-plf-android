@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[nl]What does this mean?</string>
+  <string name="csw_consent_help_label">Wat betekent dit?</string>
   <string name="csw_invalid_access_token_error_message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
-  <string name="csw_offline_message">[nl]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[nl]You are offline</string>
+  <string name="csw_offline_message">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
+  <string name="csw_offline_title">U bent offline</string>
   <string name="csw_ok">[nl]OK</string>
+  <string name="csw_privacy_notice">[nl]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">Beheer uw privacy. Lees onze _privacyverklaring_ voor meer informatie.</string>
   <string name="csw_privacy_settings">[nl]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[nl]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[nl]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[nl]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Er is een probleem opgetreden (error %1$d). Probeer het opnieuw.</string>
+  <string name="csw_problem_occurred_error_title">Probleem opgetreden</string>
   <string name="mya_Account_settings">Accountinstellingen</string>
   <string name="mya_Address">Adres</string>
   <string name="mya_Cancel">Annuleren</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">E-mailadres</string>
   <string name="mya_Gender">Geslacht</string>
   <string name="mya_Info">Wilt u uw aanmeldings-ID of wachtwoord wijzigen? Ga naar onze website.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[nl]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
   <string name="mya_Login_details">Aanmeldingsgegevens</string>
   <string name="mya_Logout">Afmelden</string>
   <string name="mya_Mobile_number">Mobiele nummer</string>
@@ -58,7 +60,7 @@
   <string name="mya_csw_justintime_accept">[nl]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[nl]Maybe later</string>
   <string name="mya_csw_justintime_title">[nl]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[nl]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[nl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[nl]What do we have to offer?</string>
   <string name="mya_logout_message">U wordt afgemeld bij de app. Nadat u zich hebt afgemeld, kunt u zich altijd weer aanmelden.</string>
   <string name="mya_logout_title">Weet u zeker dat u zich wilt afmelden?</string>

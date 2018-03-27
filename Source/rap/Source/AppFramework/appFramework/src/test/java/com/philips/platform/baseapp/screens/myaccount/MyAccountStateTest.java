@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,17 +14,17 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
@@ -37,13 +38,12 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RuntimeEnvironment;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -75,6 +75,9 @@ public class MyAccountStateTest {
     @Mock
     private FragmentTransaction fragmentTransaction;
 
+    @Mock
+    private ConsentManagerInterface consentManagerInterface;
+
     private MyAccountState myAccountState;
 
 
@@ -93,16 +96,18 @@ public class MyAccountStateTest {
     @Mock
     AppFrameworkApplication appFrameworkApplication;
 
-
+    @Mock
+    AppTaggingInterface appTaggingInterfaceMock;
 
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
 
-    private List<ConsentConfiguration> configurations = new ArrayList<>();
     @Mock
-    private ConsentHandlerInterface handler1;
+    private Resources resources;
+
     @Mock
-    private ConsentHandlerInterface handler2;
+    private ConsentManagerInterface consentManagerInterfaceMock;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -119,27 +124,20 @@ public class MyAccountStateTest {
         when(application.getAppInfra()).thenReturn(appInfraInterface);
         when(application.getUserRegistrationState()).thenReturn(userRegistrationStateMock);
         when(userRegistrationStateMock.getUserDataInterface()).thenReturn(userDataInterfaceMock);
+        when(mockContext.getResources()).thenReturn(resources);
+        when(mockContext.getApplicationContext()).thenReturn(application);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
+        when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
+        when(resources.getString(anyInt())).thenReturn("ABC");
     }
 
     @Test
     public void testLaunchMyAccountState() {
-
         myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
     }
-
-//    @Test
-//    public void init_testApplicationAndPropositionName() {
-//        ArgumentCaptor<CswDependencies> cswDependencies = ArgumentCaptor.forClass(CswDependencies.class);
-//        myAccountState.setUiStateData(uiStateData);
-//        myAccountState.navigate(fragmentLauncher);
-//        // TODO: Deepthi, OBE to take care of this verification
-//        //verify(myaInterface).init(cswDependencies.capture(), any(CswSettings.class));
-//        assertEquals("OneBackend", cswDependencies.getValue().getApplicationName());
-//        assertEquals("OneBackendProp", cswDependencies.getValue().getPropositionName());
-//    }
 
     @Test
     public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
@@ -149,7 +147,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(6, definitions.size());
+        assertEquals(8, definitions.size());
     }
 
     @After
@@ -159,13 +157,14 @@ public class MyAccountStateTest {
         hamburgerActivity = null;
         application = null;
         appInfraInterface = null;
+        consentManagerInterface = null;
         myAccountState = null;
         uiStateData = null;
         appFrameworkApplication = null;
     }
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createCatkDefinitions(mockContext);
+        return myAccountState.createConsentDefinitions(mockContext);
     }
 
     class MyAccountStateMock extends MyAccountState {
@@ -185,49 +184,5 @@ public class MyAccountStateTest {
         protected AppFrameworkApplication getApplicationContext() {
             return application;
         }
-    }
-
-
-    @Test(expected = CatkInputs.InvalidInputException.class)
-    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_single_configuration() {
-        givenConfigurationsWithTypes(handler1, "moment", "moment");
-        whenSettingConfiguration();
-    }
-
-    @Test(expected = CatkInputs.InvalidInputException.class)
-    public void itShouldThrowExceptionWhenSettingConfigurationsWithDuplicateTypes_in_multiple_configurations() {
-        givenConfigurationsWithTypes(handler1, "moment", "consent");
-        givenConfigurationsWithTypes(handler2, "moment", "coaching");
-        whenSettingConfiguration();
-    }
-
-    @Test
-    public void itShouldNotThrowExceptionWhenSettingConfigurationWithUniquesDuplicateTypes() {
-        givenConfigurationsWithTypes(handler1, "moment", "consent");
-        givenConfigurationsWithTypes(handler2, "coaching", "marketing");
-        whenSettingConfiguration();
-    }
-
-    @Test
-    public void itShouldNotThrowExceptionWhenSettingConfigurationWithoutTypes() {
-        givenConfigurationsWithTypes(handler1);
-        givenConfigurationsWithTypes(handler2);
-        whenSettingConfiguration();
-    }
-
-    private void givenConfigurationsWithTypes(ConsentHandlerInterface handler, String... types) {
-        List<ConsentDefinition> definitions = new ArrayList<>();
-        for (String type : types) {
-            definitions.add(createDefinitionsWithType(type));
-        }
-        configurations.add(new ConsentConfiguration(definitions, handler));
-    }
-
-    private void whenSettingConfiguration() {
-        myAccountState.setConfigurations(configurations);
-    }
-
-    private ConsentDefinition createDefinitionsWithType(String type) {
-        return new ConsentDefinition(0, 0, Collections.singletonList(type), 0);
     }
 }

@@ -9,7 +9,7 @@ package com.philips.platform.mya.catk.dto;
 
 import org.junit.*;
 
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class GetConsentDtoTest {
 
@@ -45,7 +45,7 @@ public class GetConsentDtoTest {
 
     @Test
     public void getStatus() throws Exception {
-        getConsentModel.setStatus(ConsentStatus.active);
+        getConsentModel.setStatus(ConsentStates.active);
         Assert.assertNotNull(getConsentModel.getStatus());
     }
 

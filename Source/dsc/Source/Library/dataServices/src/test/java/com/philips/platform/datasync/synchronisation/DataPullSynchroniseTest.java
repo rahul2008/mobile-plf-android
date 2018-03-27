@@ -24,7 +24,9 @@ import java.util.Set;
 import retrofit.RetrofitError;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -49,25 +51,25 @@ public class DataPullSynchroniseTest {
     private DataFetcher firstFetcherMock;
 
     @Mock
-    SynchronisationManager synchronisationManagerMock;
+    private SynchronisationManager synchronisationManagerMock;
 
     @Mock
     private AppComponent appComponentMock;
 
     @Mock
-    MomentsDataFetcher momentsDataFetcherMock;
+    private MomentsDataFetcher momentsDataFetcherMock;
 
     @Mock
-    ConsentsDataFetcher consentsDataFetcherMock;
+    private ConsentsDataFetcher consentsDataFetcherMock;
 
     @Mock
-    UserCharacteristicsFetcher userCharacteristicsFetcherMock;
+    private UserCharacteristicsFetcher userCharacteristicsFetcherMock;
 
     @Mock
-    SettingsDataFetcher settingsDataFetcherMock;
+    private SettingsDataFetcher settingsDataFetcherMock;
 
     @Mock
-    InsightDataFetcher insightDataFetcherMock;
+    private InsightDataFetcher insightDataFetcherMock;
 
     @Before
     public void setUp() {
@@ -174,10 +176,79 @@ public class DataPullSynchroniseTest {
         thenDataPullIsFailed();
     }
 
-    private RetrofitError givenRetrofitErrorWhileFetchingData() {
+    @Test
+    public void givenSynchroniseExists_andUsingReferenceSync_whenRequestFailedDueToTokenExpired_andSecondTimeSuccessful_thenShouldCallbackWithSuccess() {
+        // First call
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchingData();
+        whenSynchronisationIsStarted(EVENT_ID);
+        reset(synchronisationManagerMock);
+
+        // Second call
+        givenSuccessWhileFetchingData();
+        whenSynchronisationIsStarted(EVENT_ID);
+
+        thenDataPullIsCompleted();
+    }
+
+    @Test
+    public void givenSynchronizeExists_andUsingReferenceSync_whenRequestFailedDueToTokenExpired_andSecondTimeSuccessful_thenShouldHaveNoError() {
+        // First call
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchingData();
+        whenSynchronisationIsStarted(EVENT_ID);
+        reset(synchronisationManagerMock);
+
+        // Second call
+        givenSuccessWhileFetchingData();
+        whenSynchronisationIsStarted(EVENT_ID);
+
+        thenThereIsNoError();
+    }
+
+    @Test
+    public void givenSynchroniseExists_andUsingDateRangeSync_whenRequestFailedDueToTokenExpired_andSecondTimeSuccessful_thenShouldCallbackWithSuccess() {
+        // First call
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchingData();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        reset(synchronisationManagerMock);
+
+        // Second call
+        givenSuccessWhileFetchingData();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+
+        thenDataPullIsCompleted();
+    }
+
+    @Test
+    public void givenSynchronizeExists_andUsingDateRangeSync_whenRequestFailedDueToTokenExpired_andSecondTimeSuccessful_thenShouldHaveNoError() {
+        // First call
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchingData();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        reset(synchronisationManagerMock);
+
+        // Second call
+        givenSuccessWhileFetchingData();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+
+        thenThereIsNoError();
+    }
+
+    private void thenThereIsNoError() {
+        RetrofitError err = synchronise.getRetrofitError();
+        assertNull(err);
+    }
+
+    private void givenRetrofitErrorWhileFetchingData() {
         error = mock(RetrofitError.class);
         when(momentsDataFetcherMock.fetchData()).thenReturn(error);
-        return error;
+    }
+
+    private void givenSuccessWhileFetchingData() {
+        error = null;
+        when(momentsDataFetcherMock.fetchData()).thenReturn(error);
     }
 
     private void givenRetrofitErrorWhileFetchDataByDateRange() {

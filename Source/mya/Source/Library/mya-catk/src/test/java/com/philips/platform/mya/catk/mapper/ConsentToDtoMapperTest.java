@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class ConsentToDtoMapperTest {
     private static final String DUTCH_LOCALE = "nl-NL";
@@ -28,9 +28,9 @@ public class ConsentToDtoMapperTest {
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
-        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(DUTCH_LOCALE, ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingLanguage = new BackendConsent("-NL", ConsentStatus.active, "moment", 1);
-        activityTypeWithMissingCountry = new BackendConsent("nl-", ConsentStatus.active, "moment", 1);
+        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
+        activityTypeWithMissingLanguage = new BackendConsent("-NL", ConsentStates.active, "moment", 1);
+        activityTypeWithMissingCountry = new BackendConsent("nl-", ConsentStates.active, "moment", 1);
     }
 
     @Test

@@ -1,11 +1,15 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
-import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -52,13 +56,7 @@ public class SettingsDataSenderTest {
     SynchronisationManager synchronisationManagerMock;
 
     @Mock
-    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
-
-    @Mock
     private Settings settingsMock;
-
-    @Mock
-    private SettingsBackendSaveResponse settingsBackendSaveResponseMock;
 
     @Captor
     private ArgumentCaptor<SettingsBackendSaveRequest> settingsBackendSaveRequestEventCaptor;
@@ -108,12 +106,9 @@ public class SettingsDataSenderTest {
 
     @Test
     public void ShouldPostSettingsBackendSaveRequest_WhenSettingsIsNotNull() throws Exception {
-
         settingsDataSender.sendDataToBackend(Collections.singletonList(settingsMock));
 
         verify(eventingMock).post(settingsBackendSaveRequestEventCaptor.capture());
-//        assertThat(settingsBackendSaveRequestEventCaptor.getValue().getSettings()).isNotNull();
-
     }
 
     @Test
@@ -121,7 +116,6 @@ public class SettingsDataSenderTest {
         when(settingsDataSender.uCoreAccessProvider.getAccessToken()).thenReturn("ACCESS_TOKEN");
         settingsDataSender.sendDataToBackend(Collections.singletonList(settingsMock));
     }
-
 
     @Test
     public void ShouldPostSettingsBackendSaveRequest_WhenSettingsIsLoggedIn() throws Exception {
@@ -156,7 +150,6 @@ public class SettingsDataSenderTest {
         when(uCoreClientMock.updateSettings(eq(TEST_USER_ID), eq(TEST_USER_ID),
                 (UCoreSettings) any())).thenReturn(response);
 
-
         settingsDataSender.sendDataToBackend(Collections.singletonList(settingsMock));
 
         verify(eventingMock).post(isA(SyncBitUpdateRequest.class));
@@ -174,7 +167,6 @@ public class SettingsDataSenderTest {
         when(settingsDataSender.uCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(uCoreClientMock.updateSettings(eq(TEST_USER_ID), eq(TEST_USER_ID), (UCoreSettings) any())).thenThrow(retrofitErrorMock);
 
-
         settingsDataSender.sendDataToBackend(Collections.singletonList(settingsMock));
 
         verify(eventingMock).post(isA(BackendResponse.class));
@@ -187,7 +179,6 @@ public class SettingsDataSenderTest {
 
     @Test
     public void shouldReturnFaleIfAccessProviderIsNull_WhenisUserInvalidIsCalled() throws Exception {
-
         settingsDataSender.uCoreAccessProvider=null;
         settingsDataSender.isUserInvalid();
     }

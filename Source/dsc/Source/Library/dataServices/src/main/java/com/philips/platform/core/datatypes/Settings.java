@@ -13,16 +13,17 @@ import java.io.Serializable;
  */
 public interface Settings extends BaseAppData, Serializable {
 
-    String UNIT = "Unit";
-    String LOCALE = "Locale";
-
     String getUnit();
 
     String getLocale();
 
+    String getTimeZone();
+
     void setUnit(String unit);
 
     void setLocale(String locale);
+
+    void setTimeZone(String timeZone);
 
     int getId();
 

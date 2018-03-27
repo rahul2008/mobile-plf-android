@@ -25,14 +25,15 @@ public class SettingsSegregator {
         DataServicesManager.getInstance().getAppComponent().injectSettingsSegregator(this);
     }
 
+    public SettingsSegregator(DBFetchingInterface dbFetchingInterface) {
+        this.dbFetchingInterface = dbFetchingInterface;
+    }
+
     public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync) {
-        List<? extends Settings> settingsList = null;
         try {
-            settingsList = (List<? extends Settings>) dbFetchingInterface.fetchNonSyncSettings();
+            dataToSync.put(Settings.class, dbFetchingInterface.fetchNonSyncSettings());
         } catch (SQLException e) {
-            //Debug Log
         }
-        dataToSync.put(Settings.class, settingsList);
         return dataToSync;
     }
 

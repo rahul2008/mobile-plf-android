@@ -33,10 +33,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
+import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -70,6 +72,8 @@ public class AppFrameworkApplication extends Application {
     private RefAppApplianceFactory applianceFactory;
     private MyAccountState myAccountState;
     private static boolean appDataInitializationStatus;
+    private SupportFragmentState supportFragmentState;
+    private TeleHealthServicesState teleHealthServicesState;
 
     public static boolean isAppDataInitialized() {
         return appDataInitializationStatus;
@@ -114,7 +118,6 @@ public class AppFrameworkApplication extends Application {
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
-
         RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
@@ -125,7 +128,7 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-      //  determineHybrisFlow();
+        //  determineHybrisFlow();
         RALog.d(LOG, "Mya state begin::");
         initializeMya();
         RALog.d(LOG, "Mya state end::");
@@ -151,8 +154,20 @@ public class AppFrameworkApplication extends Application {
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
         RALog.d("test", "onCreate end::");
-        appDataInitializationStatus=true;
+        appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
+        initializeCC();
+        initializeTHS();
+    }
+
+    private void initializeTHS() {
+        teleHealthServicesState = new TeleHealthServicesState();
+        teleHealthServicesState.init(this);
+    }
+
+    private void initializeCC() {
+        supportFragmentState = new SupportFragmentState();
+        supportFragmentState.init(this);
     }
 
     public void initUserRegistrationState() {
@@ -238,12 +253,10 @@ public class AppFrameworkApplication extends Application {
         RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
-        try{
+        try {
             getIap().isCartVisible();
 
-        }
-        catch (RuntimeException rte)
-        {
+        } catch (RuntimeException rte) {
             setShopingCartVisible(false);
         }
         RALog.d(LOG, "IAP state end::");
@@ -273,10 +286,10 @@ public class AppFrameworkApplication extends Application {
     }
 
     public synchronized CommCentral getCommCentralInstance() {
-        if(commCentral == null) {
+        if (commCentral == null) {
             commCentral = createCommCentral(getApplicationContext(), getAppInfra());
         }
-        RALog.i(TAG,"getCommCentralInstance - " + commCentral);
+        RALog.i(TAG, "getCommCentralInstance - " + commCentral);
         return commCentral;
     }
 
@@ -302,10 +315,11 @@ public class AppFrameworkApplication extends Application {
         final CloudController cloudController = new DefaultCloudController(context, new RefAppKpsConfigurationInfo());
 
         String ICPClientVersion = cloudController.getICPClientVersion();
-        RALog.d(TAG,"ICPClientVersion - " + ICPClientVersion);
+        RALog.d(TAG, "ICPClientVersion - " + ICPClientVersion);
 
         return cloudController;
     }
+
     /***
      * Initializar app infra
      *
@@ -322,7 +336,7 @@ public class AppFrameworkApplication extends Application {
         languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
             @Override
             public void onError(AILPRefreshResult ailpRefreshResult, String s) {
-                RALog.e(LOG,ailpRefreshResult.toString()+"---"+s);
+                RALog.e(LOG, ailpRefreshResult.toString() + "---" + s);
             }
 
             @Override
@@ -331,12 +345,12 @@ public class AppFrameworkApplication extends Application {
                     @Override
                     public void onSuccess(String filePath) {
                         UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
-                        RALog.d(LOG,"Success langauge pack activate "+"---"+filePath);
+                        RALog.d(LOG, "Success langauge pack activate " + "---" + filePath);
                     }
 
                     @Override
                     public void onError(AILPActivateResult ailpActivateResult, String s) {
-                        RALog.e(LOG,ailpActivateResult.toString()+"---"+s);
+                        RALog.e(LOG, ailpActivateResult.toString() + "---" + s);
                     }
                 });
             }

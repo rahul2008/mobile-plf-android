@@ -140,8 +140,8 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Settings createSettings(String type, String value) {
-        return new OrmSettings(type, value);
+    public Settings createSettings(String unitSystem, String locale, String timeZone) {
+        return new OrmSettings(unitSystem, locale, timeZone);
     }
 
     @NonNull
