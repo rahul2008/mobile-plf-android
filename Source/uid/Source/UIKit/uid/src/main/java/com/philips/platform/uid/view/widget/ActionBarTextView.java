@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
 
+import com.philips.platform.uid.utils.UIDUtils;
+
 /**
  * Text view suitable for keeping the text center relative to its parent size.
  * Suitable for using for title in actionbar or toolbar.
@@ -58,16 +60,19 @@ public class ActionBarTextView extends AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         float translateX = getTranslateX();
-        if (translateX > 0) {
+        /*if (translateX > 0) {
             canvas.save();
             canvas.translate(translateX, 0);
-        }
+        }*/
 
+        canvas.save();
+        canvas.translate(translateX, 0);
         super.onDraw(canvas);
+        canvas.restore();
 
-        if (translateX > 0) {
+        /*if (translateX > 0) {
             canvas.restore();
-        }
+        }*/
     }
 
     private float getTranslateX() {
@@ -89,12 +94,26 @@ public class ActionBarTextView extends AppCompatTextView {
             int width = parent.getWidth();
             float startDistance = getX();
             float endDistance = width - (startDistance + textViewWidth);
-            float leftAdjustment = endDistance - startDistance;
+            float leftAdjustment;
+            if(UIDUtils.isLayoutRTL(this)){
+                leftAdjustment = startDistance - endDistance;
+            } else {
+                leftAdjustment = endDistance - startDistance;
+            }
             if (textPaintLength - (leftAdjustment + textViewWidth) < 0) {
-                translateX = leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2;
-                //Reduce translation to fit the text window
-                if (translateX + textPaintLength > textViewWidth) {
-                    translateX = textViewWidth - textPaintLength;
+
+                if(UIDUtils.isLayoutRTL(this)){
+                    translateX = -(leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2);
+                    //Reduce translation to fit the text window
+                    if (translateX + textPaintLength < 0) {
+                        translateX = textViewWidth - textPaintLength;
+                    }
+                } else {
+                    translateX = leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2;
+                    //Reduce translation to fit the text window
+                    if (translateX + textPaintLength > textViewWidth) {
+                        translateX = textViewWidth - textPaintLength;
+                    }
                 }
             }
         }
