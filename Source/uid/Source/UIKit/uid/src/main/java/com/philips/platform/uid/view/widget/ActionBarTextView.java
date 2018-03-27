@@ -117,16 +117,12 @@ public class ActionBarTextView extends AppCompatTextView {
 
                 if(UIDUtils.isLayoutRTL(this)){
                     translateX = -(leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2);
-                    //Increase translation to fit the text window
-                    if (translateX + textPaintLength < 0) {
-                        translateX = textViewWidth - textPaintLength;
-                    }
                 } else {
                     translateX = leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2;
-                    //Reduce translation to fit the text window
-                    if (translateX + textPaintLength > textViewWidth) {
-                        translateX = textViewWidth - textPaintLength;
-                    }
+                }
+                //Reduce translation to fit the text window
+                if (translateX + textPaintLength > textViewWidth) {
+                    translateX = textViewWidth - textPaintLength;
                 }
             }
         }
