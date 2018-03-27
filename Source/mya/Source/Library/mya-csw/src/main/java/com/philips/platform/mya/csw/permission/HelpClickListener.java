@@ -8,5 +8,5 @@
 package com.philips.platform.mya.csw.permission;
 
 public interface HelpClickListener {
-    void onHelpClicked(String helpText);
+    void onHelpClicked(int helpText);
 }

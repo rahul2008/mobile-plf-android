@@ -9,9 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentPresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -32,8 +30,8 @@ public class JustInTimeActivity extends AppCompatActivity implements ActionBarLi
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.csw_just_in_time_activity);
-        Toolbar toolbar = findViewById(R.id.jit_toolbar);
-        mTitle = toolbar.findViewById(R.id.jit_toolbar_title);
+        Toolbar toolbar = findViewById(R.id.csw_justInTimeToolbar_consentToolbar_toolbar);
+        mTitle = toolbar.findViewById(R.id.csw_justInTimeToolbar_consentToolbarTitle_textView);
         showFragment();
     }
 

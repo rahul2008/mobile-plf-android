@@ -8,21 +8,15 @@
 package com.philips.platform.mya.csw;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.pif.chi.ConsentConfiguration;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.List;
 
 public class CswDependencies extends UappDependencies {
 
-    private final List<ConsentConfiguration> consentConfigurationList;
-
-    public CswDependencies(AppInfraInterface appInfra, List<ConsentConfiguration> consentConfigurationList) {
+    public CswDependencies(AppInfraInterface appInfra) {
         super(appInfra);
-        this.consentConfigurationList = consentConfigurationList;
-    }
-
-    public List<ConsentConfiguration> getConsentConfigurationList() {
-        return consentConfigurationList;
     }
 }

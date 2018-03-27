@@ -59,7 +59,7 @@
   <string name="RA_DLS_enable_bluetooth">[ar]Please enable bluetooth</string>
   <string name="RA_DLS_healthy_sleep_title">[ar]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[ar]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[ar]Reference App</string>
+  <string name="RA_DLS_home_page_text">[ar]RA_SettingsScreen_Title</string>
   <string name="RA_DLS_insights_error">[ar]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[ar]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[ar]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
@@ -105,12 +105,17 @@
   <string name="RA_MYA_Click_Stream_Hosting_Consent">[ar]I allow Philips to use my mobile application usage statistics</string>
   <string name="RA_MYA_Coaching_Consent">[ar]I allow Philips to use my data for Coaching purposes</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[ar]The actual content of the binary consent help text here</string>
+  <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">أسمح لـ Philips بمجمع بيانات التطبيق الخاصة بي، للمساعدة في عمل التطبيق بطريقة صحيحة، ولتحسين التطبيق وتخصيصه وللدمج مع وسائل التواصل الاجتماعي ولعرض المحتويات والإعلانات ذات الصلة.</string>
   <string name="RA_MYA_Consent_Click_Stream_Help_Text">إشعار ملفات تعريف الارتباط\n\nيستخدم هذا التطبيق Adobe Analytics، وهي خدمة تحليلات (\"Adobe Analytics\") تقدّمها شركة Adobe Systems Software Ireland Limited ‏(\"Adobe\"). تستخدم Adobe Analytics \"ملفات تعريف الارتباط\" أو تقنيات مشابهة، وهي كناية عن ملفات نصية يتم وضعها في التطبيق الخاص بك، بهدف مساعدة التطبيق في تحليل أنماط نسبة استخدام الشبكة الإجمالية من خلال التطبيق الخاص بنا. ومن خلال نقل البيانات التي تم توليدها من ملف تعريف الارتباط حول استخدام التطبيق إلى Adobe، يضمن الإعداد إبقاء عنوان IP مجهول المصدر قبل تحديد الموقع واستبداله بعنوان IP عام قبل التخزين. بالنيابة عن Philips، ستستخدم Adobe هذه المعلومات لتقييم استخدامك للتطبيق، ولتجميع التقارير حول نشاط التطبيق لشركة Philips، وبهدف توفير خدمات أخرى متعلّقة بنشاط التطبيق واستخدامه لشركة Philips. لن تربط Adobe عنوان IP الخاص بك بأي بيانات أخرى تملكها شركة Adobe. يمكنك أن تمنع شركتَي Adobe وPhilips من جمع البيانات واستخدامها (ملفات تعريف الارتباط وعنوان IP) من خلال إلغاء الاشتراك بعد إغلاق هذه الشاشة.\n</string>
+  <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[ar]The actual content of the coaching consent help text here</string>
+  <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Marketing_Help_Text">نتيجة لموافقتك، قد تتواصل معك شركات مجموعة Philips بمراسلات ترويجية عبر البريد الإلكتروني ورسائل SMS وغيرها من القنوات الرقمية مثل تطبيقات الهاتف المحمول ووسائل التواصل الاجتماعي. وبهدف تخصيص المراسلات بحسب تفضيلاتك وسلكوك وتزويدك بأفضل تجربة مخصصة، قد نحلل بياناتك الشخصية ونجمعها. وقد تتضمن هذه البيانات: \n\nالبيانات التي تزوّدنا بها\nبيانات تريد مشاركتها معنا مثل: اسمك وتاريخ ولادتك أو عمرك وعنوان بريدك الإلكتروني وعنوانك الفعلي وبلدك وجنسك ورقم هاتفك وحسابك على وسائل التواصل الاجتماعي.\n\nبيانات نحصل عليها نتيجة لتفاعلاتك مع Philips\nبيانات حول تفاعلاتك مع قنوات Philips الرقمية واستخدامك لها، مثل وسائل التواصل الاجتماعي ومواقع الويب ورسائل البريد الإلكتروني والتطبيقات والمنتجات المتصلة. قد تتضمن هذه البيانات: عنوان IP وملفات تعريف الارتباط ومعلومات حول الجهاز والمراسلات التي تنقر فوقها وتفاصيل حول الموقع ومواقع الويب التي تزورها.\n\nتسمح لك Philips بسحب موافقتك في أي وقت.\nللحصول على مزيد من المعلومات، يرجى قراءة إشعار الخصوصية من Philips وإشعار ملفات تعريف الارتباط من Philips.</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[ar]The actual content of the moment consent help text here</string>
+  <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[ar]The actual content of the research and analytics consent help text here</string>
+  <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[ar]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[ar]I allow Philips to use my data for Research and Analytics purposes</string>
   <string name="RA_Menu_title_Demo">[ar]Test Demo Apps</string>

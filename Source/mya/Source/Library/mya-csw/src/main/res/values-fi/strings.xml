@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[fi]What does this mean?</string>
+  <string name="csw_consent_help_label">Mitä tämä tarkoittaa?</string>
   <string name="csw_invalid_access_token_error_message">Virhe yhdistettäessä palvelimeen. Tarkista laitteen päivämäärä ja kellonaika. Jos ongelma toistuu, kirjaudu uudelleen.</string>
-  <string name="csw_offline_message">[fi]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[fi]You are offline</string>
+  <string name="csw_offline_message">Tarkista verkkoyhteys ja yritä uudelleen.</string>
+  <string name="csw_offline_title">Olet offline-tilassa</string>
   <string name="csw_ok">[fi]OK</string>
+  <string name="csw_privacy_notice">[fi]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">Suojaa yksityisyytesi. Tutustu tietosuojailmoitukseen.</string>
   <string name="csw_privacy_settings">[fi]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[fi]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[fi]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[fi]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Tapahtui virhe (virhe %1$d). Yritä uudelleen.</string>
+  <string name="csw_problem_occurred_error_title">Tapahtui virhe</string>
   <string name="mya_Account_settings">Tilin asetukset</string>
   <string name="mya_Address">Osoite</string>
   <string name="mya_Cancel">Peruuta</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">Sähköpostiosoite</string>
   <string name="mya_Gender">Sukupuoli</string>
   <string name="mya_Info">Haluatko vaihtaa kirjautumistunnuksen tai salasanan? Siirry sivustoomme.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[fi]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Virhe yhdistettäessä palvelimeen. Tarkista laitteen päivämäärä ja kellonaika. Jos ongelma toistuu, kirjaudu uudelleen.</string>
   <string name="mya_Login_details">Kirjautumistiedot</string>
   <string name="mya_Logout">Kirjaudu ulos</string>
   <string name="mya_Mobile_number">Puhelinnumero</string>
@@ -51,6 +53,10 @@
   <string name="mya_Settings">Asetukset</string>
   <string name="mya_change_country">Vaihda maa kirjautumalla ulos</string>
   <string name="mya_change_country_message">Kirjaudu ulos, jos haluat vaihtaa maa-asetuksen. Valitsemalla asuinmaasi voimme mukauttaa takuun ja muut tiedot sijaintisi mukaan.</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[fi]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[fi]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[fi]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[fi]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[fi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[fi]Maybe later</string>
   <string name="mya_csw_justintime_title">[fi]Be the first to know</string>

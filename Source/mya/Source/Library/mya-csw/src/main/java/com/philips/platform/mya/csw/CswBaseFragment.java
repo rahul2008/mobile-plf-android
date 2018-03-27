@@ -24,39 +24,9 @@ import android.widget.ScrollView;
 
 public abstract class CswBaseFragment extends Fragment {
 
-    protected int mLeftRightMarginPort;
-
-    protected int mLeftRightMarginLand;
-
     private ActionBarListener mActionBarListener;
 
-    protected abstract void setViewParams(Configuration config, int width);
-
-    protected abstract void handleOrientation(final View view);
-
     public abstract int getTitleResourceId();
-
-    protected static int mWidth = 0;
-    protected static int mHeight = 0;
-
-    private final int JELLY_BEAN = 16;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mLeftRightMarginPort = (int) getResources().getDimension(com.philips.cdp.registration.R.dimen.reg_layout_margin_port);
-        mLeftRightMarginLand = (int) getResources().getDimension(com.philips.cdp.registration.R.dimen.reg_layout_margin_land);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 
     @Override
     public void onResume() {
@@ -69,7 +39,6 @@ public abstract class CswBaseFragment extends Fragment {
             getUpdateTitleListener().updateActionBar(getTitleResourceId(),
                     getFragmentManager().getBackStackEntryCount() > 0);
         }
-        setResourceID(getTitleResourceId());
     }
 
     public ActionBarListener getUpdateTitleListener() {
@@ -78,123 +47,5 @@ public abstract class CswBaseFragment extends Fragment {
 
     public void setUpdateTitleListener(ActionBarListener actionBarListener) {
         mActionBarListener = actionBarListener;
-    }
-
-    protected void consumeTouch(View view) {
-        if (view == null)
-            return;
-        view.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-    }
-
-    protected void applyParams(Configuration config, View view, int width) {
-        if (width < dpToPx((int) getResources().getInteger(com.philips.cdp.registration.R.integer.reg_layout_max_width_648))) {
-            applyDefaultMargin(view);
-        } else {
-            setMaxWidth(view);
-        }
-    }
-
-    private int titleResourceID = -99;
-
-    public void setResourceID(int titleResourceId) {
-        titleResourceID = titleResourceId;
-    }
-
-    private void setMaxWidth(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = dpToPx((int) getResources().getInteger(com.philips.cdp.registration.R.integer.reg_layout_max_width_648));
-        view.setLayoutParams(params);
-    }
-
-    private void applyDefaultMargin(View view) {
-        ViewGroup.MarginLayoutParams mParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mParams.leftMargin = mParams.rightMargin = dpToPx((int) getResources().getInteger(com.philips.cdp.registration.R.integer.reg_layout_margin_16));
-        view.setLayoutParams(mParams);
-    }
-
-    private int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    protected void handleOrientationOnView(final View view) {
-        if (null == view) {
-            return;
-        }
-        if (mWidth == 0 && mHeight == 0) {
-            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @SuppressWarnings("deprecation")
-                @Override
-                public void onGlobalLayout() {
-                    if (isAdded()) {
-                        Configuration config = getResources().getConfiguration();
-                        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            mWidth = view.getWidth();
-                            mHeight = view.getHeight();
-                        } else {
-                            mWidth = view.getHeight();
-                            mHeight = view.getWidth();
-                        }
-
-                        if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                        setViewParams(getResources().getConfiguration(), view.getWidth());
-                    }
-                }
-            });
-        } else {
-            if (isAdded()) {
-                Configuration config = getResources().getConfiguration();
-                if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setViewParams(getResources().getConfiguration(), mWidth);
-                } else {
-                    setViewParams(getResources().getConfiguration(), mHeight);
-                }
-            }
-        }
-    }
-
-    public void setCustomParams(Configuration config) {
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setViewParams(config, mWidth);
-        } else {
-            setViewParams(config, mHeight);
-        }
-    }
-
-    protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        view.requestFocus();
-        if (scrollView != null) {
-            scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                @SuppressWarnings("deprecation")
-                @Override
-                public void onGlobalLayout() {
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollView.scrollTo(0, view.getTop());
-                        }
-                    });
-                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    } else {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-            });
-        }
-    }
-
-    protected Fragment overridableGetParentFragment() {
-        return getParentFragment();
     }
 }

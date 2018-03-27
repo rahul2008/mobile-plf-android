@@ -4,6 +4,7 @@ apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 archivesBaseName = "dataServicesUApp"
 
@@ -21,7 +22,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
 
     buildTypes {
@@ -60,6 +60,10 @@ dependencies {
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.powermock_api_mockito
+
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'
 
     androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'

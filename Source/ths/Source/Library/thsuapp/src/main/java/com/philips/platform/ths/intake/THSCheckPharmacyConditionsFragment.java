@@ -14,7 +14,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +103,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                     .addOnConnectionFailedListener(this)
                     .build();
         }
-        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
+        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this, getActionBarListener());
     }
 
     private boolean isGooglePlayServicesAvailable() {

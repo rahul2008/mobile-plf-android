@@ -106,15 +106,15 @@ public class ConsentTest {
     }
 
     private void givenInactiveBackendConsentOfVersion(int version) {
-        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStatus.inactive, TYPE, version));
+        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStates.inactive, TYPE, version));
     }
 
     private void givenConsentDefinitionOfVersion(int version) {
-        consentDefinition = new ConsentDefinition("someText1", "someHelpText1", Collections.singletonList(TYPE), version);
+        consentDefinition = new ConsentDefinition(0, 0, Collections.singletonList(TYPE), version);
     }
 
     private void givenActiveBackendConsentOfVersion(int version) {
-        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStatus.active, TYPE, version));
+        backendConsent.add(new BackendConsent(AMERICAN_LOCALE, ConsentStates.active, TYPE, version));
     }
 
     private void whenRequiredConsentIsCreated() {

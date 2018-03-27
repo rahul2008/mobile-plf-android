@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -144,7 +144,7 @@ public class PairingHandlerTest {
         pairingHandler.startPairing();
         verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
     }
 
     @Test
@@ -182,7 +182,7 @@ public class PairingHandlerTest {
 
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -216,7 +216,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onPairingError(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT);
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -240,7 +240,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onRelationshipAdd(RELATION_STATUS_FAILED);
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -273,7 +273,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onPairingError(Commands.PAIRING_ADD_RELATIONSHIP, Errors.FORBIDDEN_ERROR);
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -284,7 +284,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onRelationshipAdd(RELATION_STATUS_FAILED);
 
-        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingPortMock).pair(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -307,7 +307,7 @@ public class PairingHandlerTest {
         pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
 
         verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
-        verify(pairingPortMock).triggerPairing(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
+        verify(pairingPortMock).pair(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
     }
 
     @Test
@@ -333,7 +333,7 @@ public class PairingHandlerTest {
 
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
 
-        verify(pairingPortMock).triggerPairing(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
+        verify(pairingPortMock).pair(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -353,7 +353,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onPairingError(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT);
 
-        verify(pairingPortMock).triggerPairing(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
+        verify(pairingPortMock).pair(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 
@@ -377,7 +377,7 @@ public class PairingHandlerTest {
 
         pairingHandler.mPairingCallback.onRelationshipAdd(RELATION_STATUS_FAILED);
 
-        verify(pairingPortMock).triggerPairing(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
+        verify(pairingPortMock).pair(eq(USER_PROVIDER_TYPE), eq(USER_ID), anyString());
         verify(pairingListenerMock, never()).onPairingFailed(applianceMock);
     }
 

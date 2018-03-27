@@ -25,9 +25,9 @@ android {
         abortOnError false
     }
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//    }
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -35,8 +35,8 @@ android {
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testApplicationId "com.philips.platform.mya.csw.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+//        testApplicationId "com.philips.platform.mya.csw.test"
+//        testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml

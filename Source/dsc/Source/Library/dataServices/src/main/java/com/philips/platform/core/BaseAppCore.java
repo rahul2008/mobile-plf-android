@@ -116,8 +116,8 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Settings createSettings(String type, String value) {
-        return database.createSettings(type, value);
+    public Settings createSettings(String type, String value, final String timeZone) {
+        return database.createSettings(type, value, timeZone);
     }
 
     @NonNull

@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[pt]What does this mean?</string>
+  <string name="csw_consent_help_label">O que significa isto?</string>
   <string name="csw_invalid_access_token_error_message">Ocorreu um problema ao ligar ao servidor. Certifique-se de que a data/hora no dispositivo está correta. Se o problema persistir, termine a sessão e inicie-a novamente.</string>
-  <string name="csw_offline_message">[pt]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[pt]You are offline</string>
+  <string name="csw_offline_message">A sua ligação à Internet parece não estar a funcionar. Verifique e tente novamente</string>
+  <string name="csw_offline_title">Está offline</string>
   <string name="csw_ok">[pt]OK</string>
+  <string name="csw_privacy_notice">[pt]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">Controle a sua privacidade. Leia a _declaração de privacidade_ para mais informações.</string>
   <string name="csw_privacy_settings">[pt]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[pt]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[pt]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[pt]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Ocorreu um problema (error %1$d). Tente novamente.</string>
+  <string name="csw_problem_occurred_error_title">Ocorreu um problema</string>
   <string name="mya_Account_settings">Definições da conta</string>
   <string name="mya_Address">Morada</string>
   <string name="mya_Cancel">Cancelar</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">Endereço de correio electrónico</string>
   <string name="mya_Gender">Género</string>
   <string name="mya_Info">Pretende alterar o seu ID ou palavra-passe de início de sessão? Visite o nosso website.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[pt]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Ocorreu um problema ao ligar ao servidor. Certifique-se de que a data/hora no dispositivo está correta. Se o problema persistir, termine a sessão e inicie-a novamente.</string>
   <string name="mya_Login_details">Detalhes de início de sessão</string>
   <string name="mya_Logout">Terminar sessão</string>
   <string name="mya_Mobile_number">Número de telemóvel</string>
@@ -51,6 +53,10 @@
   <string name="mya_Settings">Definições</string>
   <string name="mya_change_country">Termine sessão para mudar o país</string>
   <string name="mya_change_country_message">Termine a sessão para mudar o país onde reside. Isto permite-nos adaptar a garantia e outras informações à sua localização</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[pt]Cancel</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">[pt]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_descr">[pt]By revoking consent your data will be deleted from our servers.</string>
+  <string name="mya_csw_consent_revoked_confirm_title">[pt]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[pt]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt]Be the first to know</string>
