@@ -14,7 +14,7 @@
   <string name="csw_offline_title">您已離線</string>
   <string name="csw_ok">[zh-TW]OK</string>
   <string name="csw_privacy_notice">[zh-TW]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">掌握您的隱私資訊。請詳閱_隱私權聲明_以取得更多資訊。</string>
+  <string name="csw_privacy_notice_message">[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[zh-TW]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">出現問題 (錯誤 %1$d)。請再試一次。</string>

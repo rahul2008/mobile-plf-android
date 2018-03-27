@@ -14,7 +14,7 @@
   <string name="csw_offline_title">Jūs esate atsijungęs</string>
   <string name="csw_ok">[lt]OK</string>
   <string name="csw_privacy_notice">[lt]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Valdykite privatumą. Norėdami sužinoti daugiau informacijos, žr. _privatumo pranešimą_.</string>
+  <string name="csw_privacy_notice_message">[lt]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[lt]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[lt]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Atsirado problema (error %1$d). Bandykite dar kartą.</string>

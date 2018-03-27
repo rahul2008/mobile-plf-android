@@ -14,7 +14,7 @@
   <string name="csw_offline_title">У вас нет соединения с сетью</string>
   <string name="csw_ok">[ru]OK</string>
   <string name="csw_privacy_notice">[ru]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Задайте настройки приватности (см. _privacy notice_).</string>
+  <string name="csw_privacy_notice_message">[ru]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[ru]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[ru]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Возникла проблема (ошибка %1$d). Повторите попытку.</string>
