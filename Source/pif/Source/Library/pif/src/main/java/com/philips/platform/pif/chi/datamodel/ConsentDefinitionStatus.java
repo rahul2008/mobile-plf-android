@@ -5,6 +5,15 @@ public class ConsentDefinitionStatus {
     private ConsentVersionStates consentVersionState;
     private ConsentDefinition consentDefinition;
 
+    public ConsentDefinitionStatus() {
+    }
+
+    public ConsentDefinitionStatus(ConsentStates consentState, ConsentVersionStates consentVersionState, ConsentDefinition consentDefinition) {
+        this.consentState = consentState;
+        this.consentVersionState = consentVersionState;
+        this.consentDefinition = consentDefinition;
+    }
+
     public ConsentStates getConsentState() {
         return consentState;
     }

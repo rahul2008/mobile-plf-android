@@ -22,10 +22,10 @@ import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,10 +100,10 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onGetConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
-        ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, consentViews.size()  + HEADER_COUNT);
+                notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
             }
         });
     }
@@ -114,7 +114,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
-        ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
@@ -124,29 +124,11 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
 
     public void onCreateConsentFailed(final int position, ConsentError error) {
         if (position != NOT_FOUND) {
-            ConsentView consentView = items.get(position);
+            ConsentView consentView = items.get(position - 1);
             consentView.setError(true);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
-
-            ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(position + HEADER_COUNT);
-                }
-            });
-
-        }
-    }
-
-    public void onCreateConsentSuccess(final int position, boolean status) {
-        if (position != NOT_FOUND) {
-            ConsentView consentView = items.get(position-1);
-            consentView.setError(false);
-            consentView.setIsLoading(false);
-            consentView.storeConsent(getConsent(consentView.getDefinition(), status));
-
-            ((Activity)CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     notifyItemChanged(position);
@@ -156,25 +138,27 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         }
     }
 
-    public Consent getConsent(ConsentDefinition definition, boolean status) {
-        ConsentStates consentStatus;
-        String locale = CswInterface.get().getDependencies().getAppInfra().getInternationalization().getBCP47UILocale();
-        if (status)
-            consentStatus = ConsentStates.active;
-        else
-            consentStatus = ConsentStates.rejected;
-        BackendConsent backendConsent = new BackendConsent(locale, consentStatus, definition.getTypes().get(0), definition.getVersion());
-        return new Consent(backendConsent, definition);
+    public void onCreateConsentSuccess(final int position, boolean status) {
+        if (position != NOT_FOUND) {
+            ConsentView consentView = items.get(position - 1);
+            consentView.setError(false);
+            consentView.setIsLoading(false);
+            consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status));
+
+            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(position);
+                }
+            });
+
+        }
     }
 
-    private int getIndexOfViewWithDefinition(ConsentDefinition definition) {
-        for (int index = 0; index < items.size(); index++) {
-            final ConsentView consentView = items.get(index);
-            if (consentView.getDefinition().equals(definition)) {
-                return index;
-            }
-        }
-        return NOT_FOUND;
+    public ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status) {
+        ConsentStates consentStatus = status ? ConsentStates.active : ConsentStates.rejected;
+        ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition);
+        return consentDefinitionStatus;
     }
 
     @NonNull
