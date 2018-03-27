@@ -54,10 +54,10 @@ pipeline {
 
         stage('PSRAbuild') {
             when {
-				allOf {
-					expression { return params.buildType == 'PSRA' }
-					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-				}
+                allOf {
+                    expression { return params.buildType == 'PSRA' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -69,10 +69,10 @@ pipeline {
 
         stage('LeakCanarybuild') {
             when {
-				allOf {
-					expression { return params.buildType == 'LeakCanary' }
-					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-				}
+                allOf {
+                    expression { return params.buildType == 'LeakCanary' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -93,38 +93,38 @@ pipeline {
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
-				DeployingConnectedTestsLogs()
+                DeployingConnectedTestsLogs()
             }
         }
 
-		stage('Publish PSRA apk') {
+        stage('Publish PSRA apk') {
             when {
-				allOf {
-					expression { return params.buildType == 'PSRA' }
-					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-				}
+                allOf {
+                    expression { return params.buildType == 'PSRA' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
             }
             steps {
                 script {
-					APK_NAME = readFile("apkname.txt").trim()
+                    APK_NAME = readFile("apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
                     APK_INFO = APK_NAME.split("referenceApp-")
-					APK_PATH = APK_INFO[0]
+                    APK_PATH = APK_INFO[0]
                     PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
                     echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
-					sh """#!/bin/bash -le
-						curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
-					"""
+                    sh """#!/bin/bash -le
+                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+                    """
                 }
             }
         }
 
         stage('Trigger E2E Test') {
             when {
-				allOf {
-					not { expression { return params.buildType == 'LeakCanary' } }
-					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-				}
+                allOf {
+                    not { expression { return params.buildType == 'LeakCanary' } }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
             }
             steps {
                 script {
@@ -142,10 +142,10 @@ pipeline {
 
         stage('LeakCanary E2E Test') {
             when {
-				allOf {
-					expression { return params.buildType == 'LeakCanary' }
-					anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-				}
+                allOf {
+                    expression { return params.buildType == 'LeakCanary' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
             }
             steps {
                 script {
@@ -160,7 +160,6 @@ pipeline {
                 }
             }
         }
-
     }
     post {
         always{
@@ -343,12 +342,10 @@ def DeployingConnectedTestsLogs() {
             echo "Not published as build is not on a master, develop or release branch" . $BranchName
         fi
 
-
         find . -name *logs.zip | while read LOGS;
-		do
-			curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
-		done
-
+        do
+            curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
+        done
 
         if [ $? != 0 ]
         then
@@ -371,15 +368,12 @@ def PublishUnitTestsresults() {
     junit allowEmptyResults: true,  testResults: 'Source/bll/**/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/prg/Source/Library/*/build/test-results/**/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/iap/Source/Library/*/build/test-results/**/*.xml'
-    junit allowEmptyResults: true,  testResults: 'Source/dcc/Source/DemoApp/launchDigitalCare/build/reports/lint-results.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dcc/Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dcc/Source/Library/digitalCare/build/test-results/**/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/cml/**/testReleaseUnitTest/*.xml'
-    junit allowEmptyResults: true,  testResults: 'Source/mya/Source/DemoApp/app/build/test-results/**/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/mya/Source/DemoUApp/DemoUApp/build/test-results/**/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/*/build/test-results/**/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/dsc/Source/Library/*/build/test-results/**/*.xml'
-    junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
     step([$class: 'JUnitResultArchiver', testResults: 'Source/ews/Source/Library/ews-android/build/test-results/*/*.xml'])
     junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml'
@@ -413,14 +407,12 @@ def PublishUnitTestsresults() {
         echo 'No Cucumber result found, nothing to publish'
     }
 
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoApp - release test'])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-catk'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
-    publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap Release UnitTest'])
 }
 
