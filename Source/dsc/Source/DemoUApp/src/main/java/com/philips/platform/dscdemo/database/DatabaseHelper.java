@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     public static final String DATABASE_PASSWORD_KEY = "dataservices";
 
     private static DatabaseHelper sDatabaseHelper;
@@ -209,21 +209,26 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         try {
             if (newVer >= 2 && oldVer < 2) {
-                final Dao<OrmMoment, Integer> dao = this.getMomentDao();
-                final String tableName = dao.getTableName();
-                dao.executeRaw("ALTER TABLE `" + tableName + "` ADD COLUMN expirationDate INTEGER NULL");
+                addExpirationDateToMoment();
             }
             if (newVer >= 3 && oldVer < 3) {
-                final Dao<OrmSettings, Integer> dao = getSettingsDao();
-                final String tableName = dao.getTableName();
-                dao.executeRaw("ALTER TABLE `" + tableName + "` RENAME TO `settings_old`");
-                TableUtils.createTable(getConnectionSource(), OrmSettings.class);
-                dao.executeRaw("INSERT INTO `" + tableName + "` (locale, unit) SELECT locale, unit FROM `settings_old`");
-                dao.executeRaw("DROP TABLE `settings_old`");
+                migrateUserSettings();
+            }
+            if (newVer >= 4 && oldVer < 4) {
+               addExpirationDateToInsight();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void migrateUserSettings() throws SQLException {
+        final Dao<OrmSettings, Integer> dao = getSettingsDao();
+        final String tableName = dao.getTableName();
+        dao.executeRaw("ALTER TABLE `" + tableName + "` RENAME TO `settings_old`");
+        TableUtils.createTable(getConnectionSource(), OrmSettings.class);
+        dao.executeRaw("INSERT INTO `" + tableName + "` (locale, unit) SELECT locale, unit FROM `settings_old`");
+        dao.executeRaw("DROP TABLE `settings_old`");
     }
 
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {
@@ -328,13 +333,13 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         return synchronisationDataDao;
     }
 
-
     public Dao<OrmConsentDetail, Integer> getConsentDetailsDao() throws SQLException {
         if (consentDetailDao == null) {
             consentDetailDao = getDao(OrmConsentDetail.class);
         }
         return consentDetailDao;
     }
+
 
     public Dao<OrmCharacteristics, Integer> getCharacteristicsDao() throws SQLException {
         if (characteristicsDao == null) {
@@ -369,5 +374,19 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             ormInsightMetaDataDao = getDao(OrmInsightMetaData.class);
         }
         return ormInsightMetaDataDao;
+    }
+
+    private void addExpirationDateToInsight() {
+        try {
+            this.getInsightDao().executeRaw("ALTER TABLE `OrmInsight` ADD COLUMN expirationDate INTEGER NULL");
+        } catch (SQLException e) {
+        }
+    }
+
+    private void addExpirationDateToMoment() {
+        try {
+            this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
+        } catch (SQLException e) {
+        }
     }
 }

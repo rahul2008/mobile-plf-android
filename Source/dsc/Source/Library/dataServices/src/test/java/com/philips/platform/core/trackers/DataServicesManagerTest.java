@@ -717,6 +717,19 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void migrateGDPR_withResultListener_shouldSetLastExpiredDeletionDateTimeToTheBeginningOfTime() {
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false);
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(synchronisationManagerMock).resetLastExpirationDeletionDateTime();
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void migrateGDPR_withResultListener_shouldCallbackWhenDone() throws Exception{
         givenHandlerExecutesImmediately();
