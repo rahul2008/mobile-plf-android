@@ -18,10 +18,8 @@ import android.widget.EditText;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
-import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
@@ -37,7 +35,6 @@ public class PairingFragment extends Fragment {
     private EditText editTextUserToken;
     private Appliance currentAppliance;
 
-    private ApplianceManager applianceManager;
     private View rootview;
 
     @Nullable
@@ -45,10 +42,8 @@ public class PairingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
 
-        applianceManager = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager();
-
-        editTextUserId = (EditText) rootview.findViewById(R.id.cml_userId);
-        editTextUserToken = (EditText) rootview.findViewById(R.id.cml_userToken);
+        editTextUserId = rootview.findViewById(R.id.cml_userId);
+        editTextUserToken = rootview.findViewById(R.id.cml_userToken);
 
         rootview.findViewById(R.id.cml_buttonPair).setOnClickListener(new View.OnClickListener() {
             @Override

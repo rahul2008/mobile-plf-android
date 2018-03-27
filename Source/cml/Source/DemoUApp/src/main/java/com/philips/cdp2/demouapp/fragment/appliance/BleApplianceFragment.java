@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -29,7 +29,7 @@ public class BleApplianceFragment extends Fragment {
 
         currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
-        switchContinuousConnection = ((CompoundButton) rootView.findViewById(R.id.cml_switch_continuous_connection));
+        switchContinuousConnection = rootView.findViewById(R.id.cml_switch_continuous_connection);
         switchContinuousConnection.setChecked(true);
         handleContinuousConnectionChanged();
 

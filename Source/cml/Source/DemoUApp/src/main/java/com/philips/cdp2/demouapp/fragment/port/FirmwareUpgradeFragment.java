@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,7 +30,6 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.demouapp.R;
-import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.util.SelectorDialog;
 
@@ -197,18 +196,18 @@ public class FirmwareUpgradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
-        firmwareSearchLocationTextView = (TextView) rootView.findViewById(R.id.cml_tvFirmwareSearchLocation);
-        firmwareImageNameTextView = (TextView) rootView.findViewById(R.id.cml_tvFirmwareImageName);
+        firmwareSearchLocationTextView = rootView.findViewById(R.id.cml_tvFirmwareSearchLocation);
+        firmwareImageNameTextView = rootView.findViewById(R.id.cml_tvFirmwareImageName);
 
-        btnSelect = (Button) rootView.findViewById(R.id.cml_btnSelectFirmware);
-        btnUpload = (Button) rootView.findViewById(R.id.cml_btnUploadFirmware);
-        btnDeploy = (Button) rootView.findViewById(R.id.cml_btnDeployFirmware);
-        btnCancel = (Button) rootView.findViewById(R.id.cml_btnCancelFirmware);
+        btnSelect = rootView.findViewById(R.id.cml_btnSelectFirmware);
+        btnUpload = rootView.findViewById(R.id.cml_btnUploadFirmware);
+        btnDeploy = rootView.findViewById(R.id.cml_btnDeployFirmware);
+        btnCancel = rootView.findViewById(R.id.cml_btnCancelFirmware);
 
-        stateTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareState);
-        versionTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareVersion);
-        statusTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareStatusMsg);
-        timeoutEditText = (EditText) rootView.findViewById(R.id.cml_timeoutEditText);
+        stateTextView = rootView.findViewById(R.id.cml_txtFirmwareState);
+        versionTextView = rootView.findViewById(R.id.cml_txtFirmwareVersion);
+        statusTextView = rootView.findViewById(R.id.cml_txtFirmwareStatusMsg);
+        timeoutEditText = rootView.findViewById(R.id.cml_timeoutEditText);
 
         btnSelect.setOnClickListener(clickListener);
         btnUpload.setOnClickListener(clickListener);
@@ -216,7 +215,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         btnCancel.setOnClickListener(clickListener);
         updateButtons(true, false, false);
 
-        firmwareUploadProgressBar = (ProgressBar) rootView.findViewById(R.id.cml_progressUploadFirmware);
+        firmwareUploadProgressBar = rootView.findViewById(R.id.cml_progressUploadFirmware);
         firmwareUploadProgressBar.setProgress(0);
 
         return rootView;

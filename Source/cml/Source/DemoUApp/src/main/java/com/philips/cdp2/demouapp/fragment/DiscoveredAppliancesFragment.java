@@ -67,7 +67,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private View view;
     private ApplianceAdapter applianceAdapter;
 
-    private EditText editFilterModelId;
     private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
     private Switch discoverySwitch;
@@ -144,7 +143,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        editFilterModelId = view.findViewById(R.id.editFilterModelId);
+        final EditText editFilterModelId = view.findViewById(R.id.editFilterModelId);
         editFilterModelId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
