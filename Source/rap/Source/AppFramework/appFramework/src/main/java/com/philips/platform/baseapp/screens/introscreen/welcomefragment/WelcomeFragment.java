@@ -31,7 +31,9 @@ import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
@@ -148,8 +150,9 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
         Uri uri = getActivity().getIntent().getData();
         if(uri!=null&&uri.toString().contains("telehealth.com")){
             if (presenter != null) {
-                skipButton.performClick();
-                //presenter.onEvent(com.philips.platform.uappdemolibrary.R.id.ufw_welcome_skip_button);
+                SharedPreferenceUtility sharedPreferenceUtility =  new SharedPreferenceUtility(getFragmentActivity().getApplicationContext());
+                sharedPreferenceUtility.writePreferenceBoolean(Constants.THS_DEEP_LINK_FLOW,true);
+                presenter.onEvent(R.id.welcome_skip_button);
             }
         }
     }

@@ -20,6 +20,7 @@ import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeS
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
+import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
@@ -29,6 +30,8 @@ import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
 
 import java.util.Map;
+
+import static com.philips.platform.appframework.flowmanager.AppStates.TELE_HEALTHSERVICES_DEEP_LINKING;
 
 public class FlowManagerUtil {
     private static final String TAG = FlowManagerUtil.class.getSimpleName();
@@ -54,5 +57,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
+        uiStateMap.put(TELE_HEALTHSERVICES_DEEP_LINKING, new TeleHealthServicesDeepLinkingState());
     }
 }
