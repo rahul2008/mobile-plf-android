@@ -44,10 +44,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
-        stateContext = new StateContext(, btDevice, shnCentral, shnBondInitiator);
+        stateContext = new StateContext(btDevice, shnCentral, shnBondInitiator, this, this);
         DisconnectedState state = new DisconnectedState(stateContext);
         stateContext.setState(state);
-
     }
 
     @Override
@@ -205,5 +204,4 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         public void onMtuChanged(BTGatt gatt, int mtu, int status) {
         }
     };
-
 }

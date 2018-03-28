@@ -311,11 +311,13 @@ public class SHNCentral {
         shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
     }
 
-    /* package */ void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    /* package */
+    public void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.remove(address);
     }
 
-    /* package */ int getBluetoothAdapterState() {
+    /* package */
+    public int getBluetoothAdapterState() {
         return bluetoothAdapterState;
     }
 

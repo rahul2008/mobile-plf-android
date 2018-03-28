@@ -16,16 +16,29 @@ public class StateContext {
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
     private final com.philips.pins.shinelib.statemachine.SHNDeviceImpl.SHNBondInitiator shnBondInitiator;
+    private final SHNCentral.SHNBondStatusListener shnBondStatusListener;
+    private final SHNCentral.SHNCentralListener shnCentralListener;
     private BTGatt.BTGattCallback btGattCallback;
+    private long lastDisconnectedTimeMillis;
 
     private SHNDevice.SHNDeviceListener shnDeviceListener;
     private SHNDevice.DiscoveryListener discoveryListener;
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
 
-    StateContext(BTDevice btDevice, SHNCentral shnCentral, com.philips.pins.shinelib.statemachine.SHNDeviceImpl.SHNBondInitiator shnBondInitiator) {
+    StateContext(BTDevice btDevice, SHNCentral shnCentral, com.philips.pins.shinelib.statemachine.SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNBondStatusListener shnBondStatusListener, SHNCentral.SHNCentralListener shnCentralListener) {
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.shnBondInitiator = shnBondInitiator;
+        this.shnBondStatusListener = shnBondStatusListener;
+        this.shnCentralListener = shnCentralListener;
+    }
+
+    public SHNCentral.SHNBondStatusListener getShnBondStatusListener() {
+        return shnBondStatusListener;
+    }
+
+    public SHNCentral.SHNCentralListener getShnCentralListener() {
+        return shnCentralListener;
     }
 
     public void setState(State state) {
@@ -100,4 +113,11 @@ public class StateContext {
         this.btGattCallback = btGattCallback;
     }
 
+    public void setLastDisconnectedTimeMillis(long lastDisconnectedTimeMillis) {
+        this.lastDisconnectedTimeMillis = lastDisconnectedTimeMillis;
+    }
+
+    public long getLastDisconnectedTimeMillis() {
+        return lastDisconnectedTimeMillis;
+    }
 }

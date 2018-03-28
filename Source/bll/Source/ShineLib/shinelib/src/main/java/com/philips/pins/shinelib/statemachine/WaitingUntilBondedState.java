@@ -2,7 +2,6 @@ package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
 
-import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -27,7 +26,7 @@ public class WaitingUntilBondedState extends State {
         waitingUntilBondingStartedTimer.restart();
 
         // Start create bond
-        if (context.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
+        if (context.getShnBondInitiator() == com.philips.pins.shinelib.statemachine.SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!context.getBtDevice().createBond()) {
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
                 waitingUntilBondingStartedTimer.stop();

@@ -148,7 +148,8 @@ public class SHNService {
         updateState(newState);
     }
 
-    /* package */ void disconnectFromBLELayer() {
+    /* package */
+    public void disconnectFromBLELayer() {
         if (bluetoothGattServiceWeakReference != null) {
             bluetoothGattServiceWeakReference.clear();
         }
