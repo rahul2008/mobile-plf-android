@@ -35,7 +35,6 @@ import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInitializer;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.mya.catk.CatkInterface;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.CswLaunchInput;
@@ -191,7 +190,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     List<ConsentDefinition> createConsentDefinitions(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
-        consentDefinitions.addAll(getCATKConsentDefinitions(context));
+        consentDefinitions.addAll(getCATKConsentDefinitions());
         consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
@@ -200,19 +199,39 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return consentDefinitions;
     }
 
-    private List<ConsentDefinition> getCATKConsentDefinitions(Context context) {
+    private List<ConsentDefinition> getCATKConsentDefinitions() {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Moment_Text, R.string.RA_MYA_Consent_Moment_Help,
-                Collections.singletonList("moment"), 1);
+        // Moments
+        ConsentDefinition momentConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Moment_Text,
+                R.string.RA_MYA_Consent_Moment_Help,
+                Collections.singletonList("moment"),
+                1,
+                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text);
         definitions.add(momentConsentDefinition);
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Coaching_Text, R.string.RA_MYA_Consent_Coaching_Help,
-                Collections.singletonList("coaching"), 1);
+        // Coaching
+        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Coaching_Text,
+                R.string.RA_MYA_Consent_Coaching_Help,
+                Collections.singletonList("coaching"),
+                1,
+                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text);
         definitions.add(coachingConsentDefinition);
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Consent_Binary_Text, R.string.RA_MYA_Consent_Binary_Help,
-                Collections.singletonList("binary"), 1);
+        // Binary
+        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Binary_Text,
+                R.string.RA_MYA_Consent_Binary_Help,
+                Collections.singletonList("binary"),
+                1,
+                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text);
         definitions.add(binaryConsentDefinition);
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(R.string.RA_MYA_Research_Analytics_Consent, R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
-                Arrays.asList("research", "analytics"), 1);
+        // Research & analytics
+        ConsentDefinition researchConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Research_Analytics_Consent,
+                R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
+                Arrays.asList("research", "analytics"),
+                1,
+                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text);
         definitions.add(researchConsentDefinition);
         return definitions;
     }
