@@ -58,4 +58,10 @@ public class WaitingUntilBondedState extends State {
             context.setState(new DisconnectingState(context));
         }
     }
+
+    @Override
+    void disconnect() {
+        waitingUntilBondingStartedTimer.stop();
+        context.setState(new DisconnectingState(context));
+    }
 }

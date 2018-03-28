@@ -3,36 +3,11 @@
  * All rights reserved.
  */
 
-/*
-@startuml
-Disconnected: Disconnected
-[*] --> Disconnected
-Disconnected --> GattConnecting : connect /\nconnectGatt, restartConnectTimer, onStateChange(GattConnecting)
-GattConnecting: Connecting
-GattConnecting --> Disconnected : onConnectionStateChange(Disconnected) no timer or timer expired/\nclose, stopConnectTimer, onFailedToConnect, onStateChange(Disconnected)
-GattConnecting --> GattConnecting : onConnectionStateChange(Disconnected) timer not expired/\nclose, connectGatt
-GattConnecting --> Disconnecting : connectTimeout /\ndisconnect, onFailedToConnect, onStateChange(Disconnecting)
-GattConnecting --> WaitingUntilBonded : onConnectionStateChange(Connected) & waitForBond /\nstopConnectTimer, startBondCreationTimer
-WaitingUntilBonded: Connecting
-WaitingUntilBonded --> DiscoveringServices : bondCreated | bondCreationTimeout /\ndiscoverServices, stopBondCreationTimer, restartConnectionTimer
-GattConnecting --> DiscoveringServices : onConnectionStateChange(Connected) & !waitForBond /\ndiscoverServices, restartConnectionTimer
-DiscoveringServices: Connecting
-DiscoveringServices --> InitializingServices : onServicesDiscovered /\nconnectToBle, restartConnectionTimer
-InitializingServices: Connecting
-InitializingServices --> Ready : all services ready /\nstopConnectionTimer, onStateChange(Connected)
-DiscoveringServices --> Disconnecting : connectTimeout /\ndisconnect, onFailedToConnect, onStateChange(Disconnecting)
-InitializingServices --> Disconnecting : connectTimeout /\ndisconnect, disconnectFromBle, onFailedToConnect, onStateChange(Disconnecting)
-Ready: Connected
-Ready --> Disconnecting : disconnect /\ndisconnect, disconnectFromBle, onStateChange(Disconnecting)
-Disconnecting --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
-Disconnecting: Disconnecting
-Ready --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
-@enduml
- */
-
 package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -42,6 +17,8 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
+import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 
 import java.util.Set;
 import java.util.UUID;
@@ -52,6 +29,26 @@ import java.util.UUID;
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener, SHNService.CharacteristicDiscoveryListener {
 
     private StateContext stateContext;
+
+    public enum SHNBondInitiator {
+        NONE, PERIPHERAL, APP
+    }
+
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
+        this(btDevice, shnCentral, deviceTypeName, false);
+    }
+
+    @Deprecated
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
+        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
+    }
+
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
+        stateContext = new StateContext(, btDevice, shnCentral, shnBondInitiator);
+        DisconnectedState state = new DisconnectedState(stateContext);
+        stateContext.setState(state);
+
+    }
 
     @Override
     public State getState() {
@@ -83,6 +80,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         stateContext.getState().connect(connectTimeOut);
     }
 
+    void connect(final boolean withTimeout, final long timeoutInMS) {
+        stateContext.getState().connect(withTimeout, timeoutInMS);
+    }
+
     @Override
     public void disconnect() {
         stateContext.getState().disconnect();
@@ -95,22 +96,22 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-
+        stateContext.registerSHNDeviceListener(shnDeviceListener);
     }
 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-
+        stateContext.unregisterSHNDeviceListener();
     }
 
     @Override
     public void registerDiscoveryListener(DiscoveryListener discoveryListener) {
-
+        stateContext.registerDiscoveryListener(discoveryListener);
     }
 
     @Override
     public void unregisterDiscoveryListener(DiscoveryListener discoveryListener) {
-
+        stateContext.unregisterDiscoveryListener();
     }
 
     @Override
@@ -155,4 +156,54 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState) {
         stateContext.getState().onBondStatusChanged(device, bondState, previousBondState);
     }
+
+    public void registerService(SHNService shnService) {
+        stateContext.registerService(shnService);
+        shnService.registerSHNServiceListener(this);
+        shnService.registerCharacteristicDiscoveryListener(this);
+    }
+
+    private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
+
+        @Override
+        public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        }
+
+        @Override
+        public void onServicesDiscovered(BTGatt gatt, int status) {
+        }
+
+        @Override
+        public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+        }
+
+        @Override
+        public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        }
+
+        @Override
+        public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
+        }
+
+        @Override
+        public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+        }
+
+        @Override
+        public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        }
+
+        @Override
+        public void onReliableWriteCompleted(BTGatt gatt, int status) {
+        }
+
+        @Override
+        public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
+        }
+
+        @Override
+        public void onMtuChanged(BTGatt gatt, int mtu, int status) {
+        }
+    };
+
 }

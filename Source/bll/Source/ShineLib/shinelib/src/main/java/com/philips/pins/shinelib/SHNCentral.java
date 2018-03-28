@@ -306,7 +306,8 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
-    /* package */ void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    //TEMP!!
+    public void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
     }
 
