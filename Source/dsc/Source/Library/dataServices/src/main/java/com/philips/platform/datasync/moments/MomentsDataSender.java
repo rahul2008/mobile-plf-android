@@ -34,7 +34,6 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
-import retrofit.client.Header;
 import retrofit.client.Response;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -60,7 +59,7 @@ public class MomentsDataSender extends DataSender {
     @Inject
     Eventing eventing;
 
-    protected final Set<Integer> momentIds = new HashSet<>();
+    private final Set<Integer> momentIds = new HashSet<>();
 
     @Inject
     public MomentsDataSender(
@@ -73,7 +72,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull final List dataToSend) {
+    public boolean sendDataToBackend(final List dataToSend) {
         if (dataToSend == null || dataToSend.size() == 0) return false;
         if (!accessProvider.isLoggedIn()) {
             return false;
@@ -127,10 +126,7 @@ public class MomentsDataSender extends DataSender {
 
     private boolean shouldCreateMoment(final Moment moment) {
         SynchronisationData synchronisationData = moment.getSynchronisationData();
-        if (isMomentNeverSynced(synchronisationData) || isMomentNeverSyncedAndDeleted(synchronisationData)) {
-            return true;
-        }
-        return false;
+        return isMomentNeverSynced(synchronisationData) || isMomentNeverSyncedAndDeleted(synchronisationData);
     }
 
     private boolean isMomentNeverSyncedAndDeleted(final SynchronisationData synchronisationData) {
@@ -168,8 +164,12 @@ public class MomentsDataSender extends DataSender {
     private boolean updateMoment(MomentsClient client, final Moment moment) {
         try {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
-            UCoreMoment response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
-                    momentsConverter.convertToUCoreMoment(moment));
+            UCoreMoment convertedMoment = momentsConverter.convertToUCoreMoment(moment);
+            UCoreMoment response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(), convertedMoment);
+
+            if(response == null) {
+                return true;
+            }
 
             moment.getSynchronisationData().setVersion(response.getVersion());
             updateExpirationDate(moment, response);
@@ -177,7 +177,7 @@ public class MomentsDataSender extends DataSender {
 
             return false;
         } catch (RetrofitError error) {
-            if (error != null && isConflict(error.getResponse())) {
+            if (isConflict(error.getResponse())) {
             } else {
                 eventing.post(new BackendResponse(1, error));
                 onError(error);
@@ -214,8 +214,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean isConflict(final Response response) {
-        boolean isconflict = response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-        return isconflict;
+        return response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
     }
 
     private boolean shouldMomentContainCreatorIdAndSubjectId(final Moment moment) {

@@ -16,12 +16,13 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.table.OrmMoment;
+import com.philips.testing.verticals.table.OrmMomentType;
+import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -35,7 +36,6 @@ import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 
-import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -49,10 +49,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class MomentsDataSenderTest {
 
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    public static final String USER_ID = "TEST_GUID";
-    public static final String BABY_ID = "BABY_ID";
-    public static final DateTime DATE_TIME = DateTime.now();
+    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    private static final String USER_ID = "TEST_GUID";
+    private static final String BABY_ID = "BABY_ID";
+    private static final DateTime DATE_TIME = DateTime.now();
+    private static final String CREATOR_ID = "1234";
+    private static final String SUBJECT_ID = "5678";
+    private static final int MOMENT_TYPE_ID = 1;
+    private static final String MOMENT_TYPE = "Temperature";
+    public static final String GUID = "someGuidGoesHere";
     private final String TEST_MOMENT_ID = "TEST_MOMENT_ID";
     private final String TEST_MOMENT_URL = "http://xyx";
 
@@ -77,13 +82,10 @@ public class MomentsDataSenderTest {
     private MomentsClient clientMock;
 
     @Mock
-    TypedByteArray typedByteArrayMock;
+    private TypedByteArray typedByteArrayMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorEventCaptor;
-
-    @Mock
-    private BackendResponse networkCommunicationErrorEventMock;
 
     @Mock
     private Moment momentMock;
@@ -95,7 +97,7 @@ public class MomentsDataSenderTest {
     private SynchronisationData synchronisationDataMock;
 
     @Mock
-    SynchronisationManager synchronisationManagerMock;
+    private SynchronisationManager synchronisationManagerMock;
 
     @Mock
     private MomentGsonConverter momentGsonConverterMock;
@@ -112,9 +114,6 @@ public class MomentsDataSenderTest {
     @Mock
     private RetrofitError retrofitErrorMock;
 
-    ErrorHandlerImplTest errorHandler;
-    //Context context;
-    DataServicesManager dataServicesManager;
     private OrmCreatorTest verticalDataCreater;
 
     @Mock
@@ -128,9 +127,7 @@ public class MomentsDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        errorHandler = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         DataServicesManager.getInstance().setServiceDiscoveryInterface(serviceDiscoveryInterface);
         DataServicesManager.getInstance().mDataServicesBaseUrl = TEST_MOMENT_URL;
@@ -155,7 +152,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldNotCallSendMoments_WhenUserIsNotLoggedIn() throws Exception {
+    public void ShouldNotCallSendMoments_WhenUserIsNotLoggedIn() {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
@@ -165,7 +162,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldNotCallSendMoments_When_Moments_isNull() throws Exception {
+    public void ShouldNotCallSendMoments_When_Moments_isNull() {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(null);
@@ -175,7 +172,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsNull() throws Exception {
+    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsNull() {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
 
@@ -189,7 +186,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsEmpty() throws Exception {
+    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsEmpty() {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(uCoreAdapterMock.getAppFrameworkClient(MomentsClient.class, "", momentGsonConverterMock)).thenReturn(clientMock);
@@ -198,7 +195,7 @@ public class MomentsDataSenderTest {
         assertThat(sendDataToBackend).isFalse();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotSendToBE_WhenMomentSyncDataIsNotNull() {
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
         when(synchronisationDataMock.getGuid()).thenReturn("1");
@@ -211,13 +208,37 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldNotSendToBE_WhenMomentSubjectIdIsNull() {
-        when(momentMock.getSubjectId()).thenReturn(null);
+    public void ShouldNotSendUpdateToBE_WhenMomentSyncDataIsNotNull() {
+        when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
+        when(synchronisationDataMock.getGuid()).thenReturn("1");
+        when(momentMock.getSubjectId()).thenReturn("2");
         when(momentMock.getCreatorId()).thenReturn("1");
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(clientMock, never()).saveMoment((String) any(), (String) any(), any(UCoreMoment.class));
+        verify(clientMock).updateMoment(anyString(), anyString(), anyString(), (UCoreMoment) any());
+    }
+
+    @Test
+    public void ShouldSendSaveToBE_WhenMomentSyncDataIsNull() {
+        when(momentMock.getSynchronisationData()).thenReturn(null);
+        when(momentMock.getSubjectId()).thenReturn("2");
+        when(momentMock.getCreatorId()).thenReturn("1");
+
+        momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+
+        verify(clientMock).saveMoment(anyString(), anyString(), (UCoreMoment) any());
+    }
+
+    @Test
+    public void ShouldNotSendUpdateToBE_WhenMomentSyncDataIsNull() {
+        when(momentMock.getSynchronisationData()).thenReturn(null);
+        when(momentMock.getSubjectId()).thenReturn("2");
+        when(momentMock.getCreatorId()).thenReturn("1");
+
+        momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+
+        verify(clientMock, never()).updateMoment(anyString(), anyString(), anyString(), (UCoreMoment) any());
     }
 
     @Test
@@ -300,7 +321,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldPostNetworkErrorEvent_WhenRetrofitHttpErrorHappens() throws Exception {
+    public void ShouldPostNetworkErrorEvent_WhenRetrofitHttpErrorHappens() {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
         when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
@@ -313,7 +334,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenRetrofitUnexpectedErrorHappens() throws Exception {
+    public void ShouldPostExceptionEvent_WhenRetrofitUnexpectedErrorHappens() {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.UNEXPECTED);
         when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
@@ -326,7 +347,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenRetrofitConversionErrorHappens() throws Exception {
+    public void ShouldPostExceptionEvent_WhenRetrofitConversionErrorHappens() {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
         when(clientMock.saveMoment((String) any(), (String) any(), (UCoreMoment) any())).
                 thenThrow(retrofitErrorMock);
@@ -382,20 +403,13 @@ public class MomentsDataSenderTest {
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
         when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_ID);
         when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
-
-        String string = "not able to connect";
-        ArrayList<Header> headers = new ArrayList<>();
-        headers.add(new Header("test", "test"));
-
-        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
-        //    Response response = new Response("http://localhost", 409, string, headers, typedByteArrayMock);
+        when((typedByteArrayMock).getBytes()).thenReturn("not able to connect".getBytes());
         Response response = new Response("", 409, "CONFLICT", new ArrayList<Header>(), null);
-
         when(retrofitErrorMock.getResponse()).thenReturn(response);
-
         when(clientMock.updateMoment(BABY_ID, TEST_MOMENT_ID, USER_ID, uCoreMomentMock)).thenThrow(retrofitErrorMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+        
         verifyNoMoreInteractions(eventingMock);
     }
 
@@ -417,7 +431,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldPostExceptionEventDuringUpdate_WhenRetrofitErrorHappens() throws Exception {
+    public void ShouldPostExceptionEventDuringUpdate_WhenRetrofitErrorHappens() {
         Response response = new Response("", 409, "CONFLICT", new ArrayList<Header>(), null);
 
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
@@ -450,7 +464,7 @@ public class MomentsDataSenderTest {
     }
 
     @Test
-    public void ShouldPostExceptionEventDuringDelete_WhenRetrofitErrorHappens() throws Exception {
+    public void ShouldPostExceptionEventDuringDelete_WhenRetrofitErrorHappens() {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
@@ -470,5 +484,31 @@ public class MomentsDataSenderTest {
     @Test
     public void testgetClassForSyncData() {
         Class<? extends Moment> classType = momentsDataSender.getClassForSyncData();
+        assertThat(classType).isNotNull();
+    }
+
+    @Test
+    public void test_givenMockedMomentsToUpdate_whenRetrofitReturnsNullOnUpdate_thenShouldReturnTrue() {
+        when(momentMock.getDateTime()).thenReturn(DATE_TIME);
+        when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
+        when(synchronisationDataMock.getGuid()).thenReturn(TEST_MOMENT_ID);
+        when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
+        when(clientMock.updateMoment(anyString(), anyString(), anyString(), (UCoreMoment) any())).thenReturn(null);
+
+        boolean outcome = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+
+        assertThat(outcome).isTrue();
+    }
+
+    @Test
+    public void test_givenRealMomentsToUpdate_whenRetrofitReturnsNullOnUpdate_thenShouldReturnTrue() {
+        when(clientMock.updateMoment(anyString(), anyString(), anyString(), (UCoreMoment) any())).thenReturn(null);
+
+        Moment moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(MOMENT_TYPE_ID, MOMENT_TYPE), new DateTime());
+        OrmSynchronisationData syncData = new OrmSynchronisationData(GUID, false, new DateTime(), 1);
+        moment.setSynchronisationData(syncData);
+        boolean outcome = momentsDataSender.sendDataToBackend(Collections.singletonList(moment));
+
+        assertThat(outcome).isTrue();
     }
 }
