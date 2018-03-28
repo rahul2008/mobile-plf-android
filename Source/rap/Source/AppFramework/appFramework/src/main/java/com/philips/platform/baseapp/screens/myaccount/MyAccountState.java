@@ -201,38 +201,34 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
 
     private List<ConsentDefinition> getCATKConsentDefinitions() {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        // Moments
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Moment_Text,
                 R.string.RA_MYA_Consent_Moment_Help,
                 Collections.singletonList("moment"),
                 1,
-                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text);
-        definitions.add(momentConsentDefinition);
-        // Coaching
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Coaching_Text,
                 R.string.RA_MYA_Consent_Coaching_Help,
                 Collections.singletonList("coaching"),
                 1,
-                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text);
-        definitions.add(coachingConsentDefinition);
-        // Binary
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Binary_Text,
                 R.string.RA_MYA_Consent_Binary_Help,
                 Collections.singletonList("binary"),
                 1,
-                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text);
-        definitions.add(binaryConsentDefinition);
-        // Research & analytics
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(
+                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Research_Analytics_Consent,
                 R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
                 Arrays.asList("research", "analytics"),
                 1,
-                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text);
-        definitions.add(researchConsentDefinition);
+                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
+        ));
         return definitions;
     }
 
