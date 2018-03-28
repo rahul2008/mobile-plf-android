@@ -123,7 +123,6 @@ public class SHNService {
         }
     }
 
-    //TEMP!!
     public void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         this.btGatt = gatt;
@@ -148,7 +147,6 @@ public class SHNService {
         updateState(newState);
     }
 
-    /* package */
     public void disconnectFromBLELayer() {
         if (bluetoothGattServiceWeakReference != null) {
             bluetoothGattServiceWeakReference.clear();

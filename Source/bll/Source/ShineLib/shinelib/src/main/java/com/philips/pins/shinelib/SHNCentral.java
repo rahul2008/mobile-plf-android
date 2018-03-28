@@ -306,17 +306,14 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
-    //TEMP!!
     public void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
     }
 
-    /* package */
     public void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.remove(address);
     }
 
-    /* package */
     public int getBluetoothAdapterState() {
         return bluetoothAdapterState;
     }
