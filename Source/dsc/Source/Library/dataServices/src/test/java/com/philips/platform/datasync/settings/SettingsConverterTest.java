@@ -1,57 +1,132 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.table.OrmSettings;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Created by sangamesh on 01/02/17.
- */
 public class SettingsConverterTest {
+    @Test
+    public void convertToAppSettingsConvertsTimeZone() {
+        givenDtoSettingsTimeZone("Europe/Paris");
+        whenConvertingToAppSettings();
+        thenAppSettingsTimeZoneIs("Europe/Paris");
+    }
 
+    @Test
+    public void convertToAppSettingsConvertsLocale() {
+        givenDtoSettingsLocale("nl_NL");
+        whenConvertingToAppSettings();
+        thenAppSettingsLocaleIs("nl_NL");
+    }
 
-    private BaseAppDataCreator verticalDataCreater;
+    @Test
+    public void convertToAppSettingsConvertsUnitSystem() {
+        givenDtoSettingsUnitSystem("imperial");
+        whenConvertingToAppSettings();
+        thenAppSettingsUnitSystemIs("imperial");
+    }
 
-    @Mock
-    private AppComponent appComponantMock;
+    @Test
+    public void convertAppSettingsConvertsUnitSystem() {
+        givenAppSettingsUnitSystem("us-customary");
+        whenConvertingToDtoSettings();
+        thenDtoSettingsUnitSystemIs("us-customary");
+    }
 
-    SettingsConverter settingsConverter;
+    @Test
+    public void convertAppSettingsConvertsLocale() {
+        givenAppSettingsLocale("de_DE");
+        whenConvertingToDtoSettings();
+        thenDtoSettingsLocaleIs("de_DE");
+    }
+
+    @Test
+    public void convertAppSettingsConvertsTimeZone() {
+        givenAppSettingsTimeZone("Asia/Beijing");
+        whenConvertingToDtoSettings();
+        thenDtoSettingsTimeZoneIs("Asia/Beijing");
+    }
+
+    private void givenDtoSettingsTimeZone(final String timeZone) {
+        dtoSettings.setTimeZone(timeZone);
+    }
+
+    private void givenDtoSettingsLocale(final String locale) {
+        dtoSettings.setLocale(locale);
+    }
+
+    private void givenDtoSettingsUnitSystem(final String unitSystem) {
+        dtoSettings.setUnitSystem(unitSystem);
+    }
+
+    private void givenAppSettingsUnitSystem(final String unitSystem) {
+        appSettings.setUnit(unitSystem);
+    }
+
+    private void givenAppSettingsLocale(final String locale) {
+        appSettings.setLocale(locale);
+    }
+
+    private void givenAppSettingsTimeZone(final String timeZone) {
+        appSettings.setTimeZone(timeZone);
+    }
+
+    private void whenConvertingToAppSettings() {
+        appSettings = settingsConverter.convertUcoreToAppSettings(dtoSettings);
+    }
+
+    private void whenConvertingToDtoSettings() {
+        dtoSettings = settingsConverter.convertAppToUcoreSettings(appSettings);
+    }
+
+    private void thenAppSettingsTimeZoneIs(final String expectedTimeZone) {
+        assertEquals(expectedTimeZone, appSettings.getTimeZone());
+    }
+
+    private void thenAppSettingsLocaleIs(final String expectedLocale) {
+        assertEquals(expectedLocale, appSettings.getLocale());
+    }
+
+    private void thenAppSettingsUnitSystemIs(final String expectedUnitSystem) {
+        assertEquals(expectedUnitSystem, appSettings.getUnit());
+    }
+
+    private void thenDtoSettingsUnitSystemIs(final String expectedUnitSystem) {
+        assertEquals(expectedUnitSystem, dtoSettings.getUnitSystem());
+    }
+
+    private void thenDtoSettingsLocaleIs(final String expectedLocale) {
+        assertEquals(expectedLocale, dtoSettings.getLocale());
+    }
+
+    private void thenDtoSettingsTimeZoneIs(final String expectedTimeZone) {
+        assertEquals(expectedTimeZone, dtoSettings.getTimeZone());
+    }
 
     @Before
     public void setUp() {
-        initMocks(this);
-
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        settingsConverter = new SettingsConverter();
-        settingsConverter.dataCreator = verticalDataCreater;
+        verticalDataCreator = new OrmCreatorTest(new UuidGenerator());
+        settingsConverter = new SettingsConverter(verticalDataCreator);
+        dtoSettings = new UCoreSettings();
+        appSettings = new OrmSettings();
     }
 
-    @Test
-    public void shouldReturnSettings_whenConvertUcoreToAppSettingsIsCalled() throws Exception {
+    private UCoreSettings dtoSettings;
+    private Settings appSettings;
 
-        UCoreSettings uCoreSettings=new UCoreSettings();
-        uCoreSettings.setLocale("en_US");
-        uCoreSettings.setUnitSystem("metric");
-        Settings settings=settingsConverter.convertUcoreToAppSettings(uCoreSettings);
-        assertThat(settings).isNotNull();
-    }
-
-    @Test
-    public void shouldReturnUcoreSettings_whenConvertAppToUcoreSettingsIsCalled() throws Exception {
-
-       Settings settings=verticalDataCreater.createSettings("en_Us","metric");
-       UCoreSettings uCoreSettings=settingsConverter.convertAppToUcoreSettings(settings);
-        assertThat(uCoreSettings).isNotNull();
-    }
+    private BaseAppDataCreator verticalDataCreator;
+    private SettingsConverter settingsConverter;
 }

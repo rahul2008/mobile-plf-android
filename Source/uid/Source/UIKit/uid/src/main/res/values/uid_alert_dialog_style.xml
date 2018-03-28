@@ -47,13 +47,6 @@
         <item name="android:textSize">@dimen/uid_alert_dialog_message_text_size</item>
     </style>
 
-    <style name="UIDAlertDialogActionAreaStyle">
-        <item name="android:layout_marginTop">@dimen/uid_page_margin_left_right</item>
-        <item name="android:layout_gravity">end|center_vertical</item>
-        <item name="android:layout_height">@dimen/uid_alert_dialog_control_area_height</item>
-        <item name="android:gravity">end|center_vertical</item>
-    </style>
-
     <style name="UIDDialogActionAreaStyle">
         <item name="android:paddingTop">@dimen/uid_dialog_padding</item>
         <item name="android:paddingBottom">@dimen/uid_dialog_padding</item>
@@ -78,5 +71,12 @@
     <style name="UIDAlertAnimation">
         <item name="android:windowEnterAnimation">@anim/uid_alert_dialog_fade_in</item>
         <item name="android:windowExitAnimation">@anim/uid_alert_dialog_fade_out</item>
+    </style>
+
+    <style name="UIDDialogStylesOverrides">
+        <item name="uidDialogActionAreaStyle">@style/UIDDialogActionAreaStyle</item>
+        <item name="uidDialogAlternativeButtonStyle">@style/UIDQuietButton</item>
+        <item name="uidDialogNegativeButtonStyle">@style/UIDQuietButton</item>
+        <item name="uidDialogPositiveButtonStyle">@style/UIDDefaultButton</item>
     </style>
 </resources>

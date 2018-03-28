@@ -76,19 +76,10 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     private void initCatk() {
-        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface).setConsentDefinitions(createConsentDefinitions(Locale.US));
+        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface));
         ConsentsClient.getInstance().init(catkBuilder.build());
     }
 
-    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
-                currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Coaching purpose explanation", Collections.singletonList("coaching"),
-                1, currentLocale));
-        return definitions;
-
-    }
     private void initAppInfra() {
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
     }

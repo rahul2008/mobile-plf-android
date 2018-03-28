@@ -1,34 +1,29 @@
 package com.philips.platform.mya.csw.permission;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collections;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import java.util.Collections;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ConsentViewTest {
 
-    public static final String ENGLISH_LOCALE = "en-UK";
     private String TYPE_MOMENT = "moment";
-    @Mock
-    private ConsentHandlerInterface mockConsentHandler;
 
     @Before
     public void setUp() throws Exception {
         consentDefinition = new ConsentDefinition(0, 0, Collections.singletonList(TYPE_MOMENT), 1);
-        currentConsentRejected = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
-        currentConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
-        oldConsentAccepted = new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
-        consentView = new ConsentView(consentDefinition, mockConsentHandler);
+        rejectedConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.rejected, ConsentVersionStates.InSync, consentDefinition);
+        activeConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.InSync, consentDefinition);
+        oldVersionConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.AppVersionIsLower, consentDefinition);
+        consentView = new ConsentView(consentDefinition);
     }
 
     @Test
@@ -57,7 +52,7 @@ public class ConsentViewTest {
 
     @Test
     public void isEnabled_falseWhenCurrentVersionHigherThanDefinition() {
-        whenConsentIsVersion(2);
+        whenConsentIsVersion(ConsentVersionStates.AppVersionIsLower);
         thenSwitchIsDisabled();
     }
 
@@ -67,30 +62,40 @@ public class ConsentViewTest {
         thenSwitchIsEnabled();
     }
 
-    private void whenConsentIsVersion(int version) {
-        consentView.storeConsent(new Consent(new BackendConsent(ENGLISH_LOCALE, ConsentStatus.active, TYPE_MOMENT, version), consentDefinition));
+    @Test
+    public void isEnabled_falseWhenPostConsentFails() {
+        whenConsentIsVersion(ConsentVersionStates.InSync);
+        andIsError(true);
+        thenSwitchIsEnabled();
     }
 
     @Test
     public void isEnabled_trueWhenCurrentVersionLowerThanDefinition() {
-        whenConsentIsVersion(0);
+        whenConsentIsVersion(ConsentVersionStates.InSync);
         thenSwitchIsEnabled();
     }
 
+    private void whenConsentIsVersion(ConsentVersionStates version) {
+        consentView.storeConsentDefnitionStatus(new ConsentDefinitionStatus(ConsentStates.active, version, consentDefinition));
+    }
+
     private void whenConsentIsAccepted() {
-        consentView.storeConsent(currentConsentAccepted);
+        consentView.storeConsentDefnitionStatus(activeConsentDefinitionStatus);
     }
 
     private void whenConsentIsAcceptedButVersionIsOld() {
-        consentView.storeConsent(oldConsentAccepted);
+        consentView.storeConsentDefnitionStatus(oldVersionConsentDefinitionStatus);
     }
 
     private void whenThereIsNoConsent() {
-        consentView.storeConsent(null);
+        consentView.storeConsentDefnitionStatus(null);
     }
 
     private void whenConsentIsRejected() {
-        consentView.storeConsent(currentConsentRejected);
+        consentView.storeConsentDefnitionStatus(rejectedConsentDefinitionStatus);
+    }
+    private void andIsError(boolean isError) {
+        consentView.setError(isError);
     }
 
     private void thenSwitchIsOff() {
@@ -110,9 +115,9 @@ public class ConsentViewTest {
     }
 
     private ConsentDefinition consentDefinition;
-    private Consent currentConsentRejected;
-    private Consent currentConsentAccepted;
-    private Consent oldConsentAccepted;
+    private ConsentDefinitionStatus rejectedConsentDefinitionStatus;
+    private ConsentDefinitionStatus activeConsentDefinitionStatus;
+    private ConsentDefinitionStatus oldVersionConsentDefinitionStatus;
     private ConsentView consentView;
 
 }

@@ -165,6 +165,17 @@ public class ViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<? super View> isMinHeight(final int height) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(view.getMinimumHeight(), height);
+                return view.getMinimumHeight() <= height;
+            }
+        };
+    }
+
+
     public static Matcher<? super View> isSameViewMinWidth(final int expectedIconWidth) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override

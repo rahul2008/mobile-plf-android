@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -47,6 +48,7 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             url = (String) getIntent().getSerializableExtra(URL_TO_LOAD);
             serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
             webView = (WebView) findViewById(R.id.web_view);
+            webView.setWebViewClient(new WebViewClient());
             webViewActions = getWebViewPresenter();
             if (TextUtils.isEmpty(url)) {
                 webViewActions.loadUrl(serviceId);

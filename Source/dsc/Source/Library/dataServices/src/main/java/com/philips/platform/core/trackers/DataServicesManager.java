@@ -390,8 +390,8 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
-    public Settings createUserSettings(String locale, String unit) {
-        return mDataCreater.createSettings(unit, locale);
+    public Settings createUserSettings(String locale, String unit, String timeZone) {
+        return mDataCreater.createSettings(unit, locale, timeZone);
     }
 
     public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
@@ -619,6 +619,7 @@ public class DataServicesManager {
                     deleteAllInsights(new DBRequestListener<Insight>() {
                         @Override
                         public void onSuccess(List<? extends Insight> insightData) {
+                            mSynchronisationManager.resetLastExpirationDeletionDateTime();
                             runSync(resultListener);
                         }
 

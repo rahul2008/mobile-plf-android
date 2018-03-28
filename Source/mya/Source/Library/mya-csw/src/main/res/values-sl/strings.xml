@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[sl]What does this mean?</string>
+  <string name="csw_consent_help_label">Kaj to pomeni?</string>
   <string name="csw_invalid_access_token_error_message">Pri vzpostavljanju povezave s strežnikom je prišlo do težave. Zagotovite, da sta datum in čas v napravi pravilno nastavljena. Če težave ne odpravite, se odjavite in znova prijavite.</string>
-  <string name="csw_offline_message">[sl]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[sl]You are offline</string>
+  <string name="csw_offline_message">Videti je, da vaša internetna povezava ne deluje. Preverite povezavo in poskusite znova.</string>
+  <string name="csw_offline_title">Nimate vzpostavljene povezave</string>
   <string name="csw_ok">[sl]OK</string>
+  <string name="csw_privacy_notice">[sl]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">[sl]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[sl]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[sl]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[sl]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[sl]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Prišlo je do težave (napaka %1$d). Poskusite znova.</string>
+  <string name="csw_problem_occurred_error_title">Prišlo je do težave</string>
   <string name="mya_Account_settings">Nastavitve računa</string>
   <string name="mya_Address">Naslov</string>
   <string name="mya_Cancel">Prekliči</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">E-poštni naslov</string>
   <string name="mya_Gender">Spol</string>
   <string name="mya_Info">Ali želite spremeniti ID za prijavo ali geslo? Obiščite naše spletno mesto.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[sl]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Pri vzpostavljanju povezave s strežnikom je prišlo do težave. Zagotovite, da sta datum in čas v napravi pravilno nastavljena. Če težave ne odpravite, se odjavite in znova prijavite.</string>
   <string name="mya_Login_details">Podrobnosti prijave</string>
   <string name="mya_Logout">Odjavi</string>
   <string name="mya_Mobile_number">Številka mobilnega telefona</string>
@@ -58,7 +60,7 @@
   <string name="mya_csw_justintime_accept">[sl]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sl]Maybe later</string>
   <string name="mya_csw_justintime_title">[sl]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[sl]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[sl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[sl]What do we have to offer?</string>
   <string name="mya_logout_message">Odjavili se boste iz aplikacije. Ko se odjavite, se lahko kadar koli znova prijavite.</string>
   <string name="mya_logout_title">Ste prepričani, da se želite odjaviti?</string>

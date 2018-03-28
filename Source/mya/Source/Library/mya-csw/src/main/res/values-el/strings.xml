@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[el]What does this mean?</string>
+  <string name="csw_consent_help_label">Τι σημαίνει αυτό;</string>
   <string name="csw_invalid_access_token_error_message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
-  <string name="csw_offline_message">[el]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[el]You are offline</string>
+  <string name="csw_offline_message">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
+  <string name="csw_offline_title">Βρίσκεστε εκτός σύνδεσης</string>
   <string name="csw_ok">[el]OK</string>
+  <string name="csw_privacy_notice">[el]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">[el]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[el]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[el]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[el]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[el]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Προέκυψε πρόβλημα (σφάλμα %1$d). Δοκιμάστε ξανά.</string>
+  <string name="csw_problem_occurred_error_title">Προέκυψε πρόβλημα</string>
   <string name="mya_Account_settings">Ρυθμίσεις λογαριασμού</string>
   <string name="mya_Address">Διεύθυνση</string>
   <string name="mya_Cancel">Άκυρο</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">Διεύθυνση email</string>
   <string name="mya_Gender">Φύλο</string>
   <string name="mya_Info">Αλλαγή ID σύνδεσης ή κωδικού πρόσβασης; Επισκεφθείτε τον ιστότοπό μας.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[el]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="mya_Login_details">Στοιχεία σύνδεσης</string>
   <string name="mya_Logout">Έξοδος</string>
   <string name="mya_Mobile_number">Κινητό</string>
@@ -58,7 +60,7 @@
   <string name="mya_csw_justintime_accept">[el]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[el]Maybe later</string>
   <string name="mya_csw_justintime_title">[el]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[el]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[el]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[el]What do we have to offer?</string>
   <string name="mya_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
   <string name="mya_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>

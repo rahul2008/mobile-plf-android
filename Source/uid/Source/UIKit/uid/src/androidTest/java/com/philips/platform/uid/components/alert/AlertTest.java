@@ -48,7 +48,7 @@ public class AlertTest extends BaseTest {
     public void verifyAlertWidth() {
 
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alert_width);
-        getAlert().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
+        getAlert().check(matches(ViewPropertiesMatchers.isMinHeight(expectedWidth)));
     }
 
     /******************************
@@ -170,13 +170,6 @@ public class AlertTest extends BaseTest {
 
         int expectedButtonsMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertaction_buttons_padding);
         getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedButtonsMargin)));
-    }
-
-    @Test
-    public void verifyRightPaddingOfActionButtonView() {
-
-        int expectedButtonRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertaction_button_rightpadding);
-        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedButtonRightMargin)));
     }
 
     @Test

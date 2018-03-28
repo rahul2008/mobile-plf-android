@@ -370,7 +370,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createUserSettings_called() throws Exception {
-        Settings settings = mDataServicesManager.createUserSettings("en_us", "metric");
+        Settings settings = mDataServicesManager.createUserSettings("en_us", "metric", null);
         assertThat(settings).isNotNull();
         assertThat(settings).isInstanceOf(Settings.class);
     }
@@ -714,6 +714,19 @@ public class DataServicesManagerTest {
         mDataServicesManager.migrateGDPR(dbRequestListener);
 
         verify(synchronisationManagerMock).startSync(any(SynchronisationCompleteListener.class));
+    }
+
+    @Test
+    public void migrateGDPR_withResultListener_shouldSetLastExpiredDeletionDateTimeToTheBeginningOfTime() {
+        givenSuccessfulDeleteSyncedMomentsRequest();
+        givenSuccessfulDeleteAllInsights();
+        when(prefsMock.getBoolean(eq(GDPR_MIGRATION_FLAG), eq(false))).thenReturn(false);
+        when(prefsMock.edit()).thenReturn(prefsEditorMock);
+        when(prefsEditorMock.putBoolean(anyString(), anyBoolean())).thenReturn(prefsEditorMock);
+
+        mDataServicesManager.migrateGDPR(dbRequestListener);
+
+        verify(synchronisationManagerMock).resetLastExpirationDeletionDateTime();
     }
 
     @Test

@@ -60,9 +60,13 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @since 1.0.0
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
+        this(context, mAppInfraInterface, dataBaseName, factory, databaseVersion, databaseKey, new DefaultSqlLiteInitializer());
+    }
+
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey, SqlLiteInitializer initializer) {
         super(context, dataBaseName, factory, databaseVersion);
         this.context = context;
-        SQLiteDatabase.loadLibs(context);
+        initializer.loadLibs(context);
         this.mAppInfraInterface = mAppInfraInterface;
         this.databaseKey = databaseKey;
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",

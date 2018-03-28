@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[zh-CN]What does this mean?</string>
+  <string name="csw_consent_help_label">这意味着什么？</string>
   <string name="csw_invalid_access_token_error_message">连接到服务器过程中出错。请确保您设备上的日期/时间设置正确。如果问题仍存在，请退出并重新登录。</string>
-  <string name="csw_offline_message">[zh-CN]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[zh-CN]You are offline</string>
+  <string name="csw_offline_message">您的互联网似乎无法正常连接。请检查并重试</string>
+  <string name="csw_offline_title">您处于脱机状态</string>
   <string name="csw_ok">[zh-CN]OK</string>
+  <string name="csw_privacy_notice">[zh-CN]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">[zh-CN]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[zh-CN]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[zh-CN]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[zh-CN]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[zh-CN]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">出现了一个问题（错误 %1$d）。请重试。</string>
+  <string name="csw_problem_occurred_error_title">出现了一个问题</string>
   <string name="mya_Account_settings">帐户设置</string>
   <string name="mya_Address">地址</string>
   <string name="mya_Cancel">取消</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">电子邮件地址</string>
   <string name="mya_Gender">性别</string>
   <string name="mya_Info">是否要更改您的登录 ID 或密码？请访问我们的网站。</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[zh-CN]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">连接到服务器过程中出错。请确保您设备上的日期/时间设置正确。如果问题仍存在，请退出并重新登录。</string>
   <string name="mya_Login_details">登录详情</string>
   <string name="mya_Logout">注销</string>
   <string name="mya_Mobile_number">手机号码</string>
@@ -58,7 +60,7 @@
   <string name="mya_csw_justintime_accept">[zh-CN]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[zh-CN]Maybe later</string>
   <string name="mya_csw_justintime_title">[zh-CN]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[zh-CN]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[zh-CN]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[zh-CN]What do we have to offer?</string>
   <string name="mya_logout_message">您将退出应用程序。退出后，您始终可以再次登录。</string>
   <string name="mya_logout_title">确定要退出？</string>

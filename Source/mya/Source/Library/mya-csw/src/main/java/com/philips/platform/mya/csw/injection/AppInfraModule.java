@@ -8,6 +8,7 @@
 package com.philips.platform.mya.csw.injection;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -35,5 +36,11 @@ public class AppInfraModule {
     @Provides
     public AppTaggingInterface providesAppTaggingInterface() {
         return appInfraInterface.getTagging();
+    }
+
+    @Singleton
+    @Provides
+    public ConsentManagerInterface providesConsentManagerInterface() {
+        return appInfraInterface.getConsentManager();
     }
 }

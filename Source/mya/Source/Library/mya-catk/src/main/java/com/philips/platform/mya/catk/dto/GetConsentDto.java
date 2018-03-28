@@ -9,7 +9,7 @@ package com.philips.platform.mya.catk.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class GetConsentDto {
 
@@ -27,7 +27,7 @@ public class GetConsentDto {
     private String resourceType;
     @SerializedName("status")
     @Expose
-    private ConsentStatus status;
+    private ConsentStates status;
 
     @SerializedName("subject")
     @Expose
@@ -36,7 +36,7 @@ public class GetConsentDto {
     public GetConsentDto() {
     }
     
-    public GetConsentDto(String dateTime, String language, String policyRule, String resourceType, ConsentStatus status, String subject) {
+    public GetConsentDto(String dateTime, String language, String policyRule, String resourceType, ConsentStates status, String subject) {
         this.dateTime = dateTime;
         this.language = language;
         this.policyRule = policyRule;
@@ -77,11 +77,11 @@ public class GetConsentDto {
         this.resourceType = resourceType;
     }
 
-    public ConsentStatus getStatus() {
+    public ConsentStates getStatus() {
         return status;
     }
 
-    public void setStatus(ConsentStatus status) {
+    public void setStatus(ConsentStates status) {
         this.status = status;
     }
 

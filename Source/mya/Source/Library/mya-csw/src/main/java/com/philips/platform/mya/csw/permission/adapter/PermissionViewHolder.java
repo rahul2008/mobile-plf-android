@@ -22,7 +22,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
@@ -65,10 +64,9 @@ class PermissionViewHolder extends BasePermissionViewHolder {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                final ConsentHandlerInterface handler = consentView.getHandler();
-                if (consentToggleListener != null && handler != null) {
+                if (consentToggleListener != null) {
                     setLoading(consentView);
-                    consentToggleListener.onToggledConsent(consentView.getDefinition(), handler, b, new ConsentToggleListener.ConsentToggleResponse() {
+                    consentToggleListener.onToggledConsent(getLayoutPosition(), consentView.getDefinition(), b, new ConsentToggleListener.ConsentToggleResponse() {
                         @Override
                         public void handleResponse(boolean result) {
                             toggle.setChecked(result);
