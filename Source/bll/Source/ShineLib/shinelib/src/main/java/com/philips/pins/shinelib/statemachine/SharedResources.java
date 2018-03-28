@@ -13,7 +13,6 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
-import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;
@@ -21,12 +20,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class StateContext {
+public class SharedResources {
 
-    private static final String TAG = StateContext.class.getName();
-
-    private State state;
-    private final SHNDevice parent;
+    private final SHNDevice shnDevice;
     private BTGatt btGatt;
     private final BTDevice btDevice;
     private final String deviceTypeName;
@@ -43,8 +39,8 @@ public class StateContext {
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
 
-    public StateContext(SHNDevice parent, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
-        this.parent = parent;
+    public SharedResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
+        this.shnDevice = shnDevice;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
@@ -58,27 +54,16 @@ public class StateContext {
         return shnCentralListener;
     }
 
-    public void setState(State state) {
-        SHNLogger.e(TAG, String.format("State changed to %s", state.getClass().getName()));
-
-        this.state = state;
-        notifyStateToListener();
-    }
-
     public void notifyFailureToListener(SHNResult result) {
         if (shnDeviceListener != null) {
-            shnDeviceListener.onFailedToConnect(parent, result);
+            shnDeviceListener.onFailedToConnect(shnDevice, result);
         }
     }
 
     public void notifyStateToListener() {
         if (shnDeviceListener != null) {
-            shnDeviceListener.onStateUpdated(parent);
+            shnDeviceListener.onStateUpdated(shnDevice);
         }
-    }
-
-    public State getState() {
-        return state;
     }
 
     public BTDevice getBtDevice() {

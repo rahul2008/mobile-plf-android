@@ -4,12 +4,19 @@ import com.philips.pins.shinelib.SHNDevice;
 
 public class DisconnectedState extends State {
 
-    public DisconnectedState(StateContext context) {
-        super(context);
+    public DisconnectedState(StateMachine stateMachine) {
+        super(stateMachine);
+    }
 
-        context.setLastDisconnectedTimeMillis(System.currentTimeMillis());
+    @Override
+    public void setup() {
+        sharedResources.setLastDisconnectedTimeMillis(System.currentTimeMillis());
+        sharedResources.getShnCentral().unregisterSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
+    }
 
-        context.getShnCentral().unregisterSHNCentralStatusListenerForAddress(context.getShnCentralListener(), context.getBtDevice().getAddress());
+    @Override
+    public void breakdown() {
+
     }
 
     @Override
@@ -19,16 +26,16 @@ public class DisconnectedState extends State {
 
     @Override
     public void connect() {
-        context.setState(new GattConnectingState(context));
+        stateMachine.setState(this, new GattConnectingState(stateMachine));
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        context.setState(new GattConnectingState(context, connectTimeOut));
+        stateMachine.setState(this, new GattConnectingState(stateMachine, connectTimeOut));
     }
 
     @Override
     public void connect(final boolean withTimeout, final long timeoutInMS) {
-        context.setState(new GattConnectingState(context, withTimeout, timeoutInMS));
+        stateMachine.setState(this, new GattConnectingState(stateMachine, withTimeout, timeoutInMS));
     }
 }

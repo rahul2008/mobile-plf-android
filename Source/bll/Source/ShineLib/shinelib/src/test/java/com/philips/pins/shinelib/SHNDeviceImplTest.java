@@ -223,12 +223,12 @@ public class SHNDeviceImplTest {
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
-    @Test
-    public void whenInStateDisconnectedConnectIsCalledThenRegisterBondStatusListenerForAddressIsCalled() {
-        shnDevice.connect();
-
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
-    }
+//    @Test
+//    public void whenInStateDisconnectedConnectIsCalledThenRegisterBondStatusListenerForAddressIsCalled() {
+//        shnDevice.connect();
+//
+//        verify(mockedSHNCentral).registerBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
+//    }
 
     // State GattConnecting
     @Test
@@ -650,16 +650,16 @@ public class SHNDeviceImplTest {
         verify(mockedBTGatt).close();
     }
 
-    @Test
-    public void whenInStateDisconnectingTheCallbackIndicatesDisconnectedThenBondStatusListenerIsUnregistered() {
-        getDeviceInConnectedState();
-        shnDevice.disconnect();
-
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
-
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
-    }
+//    @Test
+//    public void whenInStateDisconnectingTheCallbackIndicatesDisconnectedThenBondStatusListenerIsUnregistered() {
+//        getDeviceInConnectedState();
+//        shnDevice.disconnect();
+//
+//        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
+//                BluetoothGatt.STATE_DISCONNECTED);
+//
+//        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
+//    }
 
     @Test
     public void whenInStateDisconnectingTheServiceIndicatesUnavailableThenTheStateIsDisconnecting() {
@@ -821,47 +821,47 @@ public class SHNDeviceImplTest {
         verify(mockedBTDevice).createBond();
     }
 
-    @Test
-    public void whenBondingSHNDeviceInStateConnectingAndStateIsBondingThenWaitingUntilBondingStartedTimerIsStopped() {
-        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
-        reset(mockedSHNDeviceListener);
+//    @Test
+//    public void whenBondingSHNDeviceInStateConnectingAndStateIsBondingThenWaitingUntilBondingStartedTimerIsStopped() {
+//        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+//        reset(mockedSHNDeviceListener);
+//
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+//
+//        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+//    }
 
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+//    @Test
+//    public void whenBondingSHNDeviceInStateConnectingAndBondIsCreatedThenServicesAreDiscovered() {
+//        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+//        reset(mockedSHNDeviceListener);
+//
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDED, BluetoothDevice.BOND_BONDING);
+//
+//        assertEquals(2, mockedInternalHandler.getScheduledExecutionCount());
+//        mockedInternalHandler.executeFirstScheduledExecution();
+//
+//        verify(mockedBTGatt).discoverServices();
+//        assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
+//        verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
+//        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+//    }
 
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
-    }
-
-    @Test
-    public void whenBondingSHNDeviceInStateConnectingAndBondIsCreatedThenServicesAreDiscovered() {
-        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
-        reset(mockedSHNDeviceListener);
-
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDED, BluetoothDevice.BOND_BONDING);
-
-        assertEquals(2, mockedInternalHandler.getScheduledExecutionCount());
-        mockedInternalHandler.executeFirstScheduledExecution();
-
-        verify(mockedBTGatt).discoverServices();
-        assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
-        verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
-    }
-
-    @Test
-    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedThenDeviceIsDisonnected() {
-        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
-        reset(mockedSHNDeviceListener);
-
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
-
-        verify(mockedBTGatt).disconnect();
-        verify(mockedBTGatt, never()).close();
-        assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
-        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
-        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
-    }
+//    @Test
+//    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedThenDeviceIsDisonnected() {
+//        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+//        reset(mockedSHNDeviceListener);
+//
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+//
+//        verify(mockedBTGatt).disconnect();
+//        verify(mockedBTGatt, never()).close();
+//        assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
+//        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+//        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+//    }
 
     @Test
     public void whenBondingSHNDeviceInStateConnectingAndBondTimerExpiresThenServicesAreDiscovered() {
@@ -894,22 +894,22 @@ public class SHNDeviceImplTest {
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
-    @Test
-    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedAndDeviceIsDisdconnectenThenFailedErrorIsGiven() {
-        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
-        reset(mockedSHNDeviceListener);
-
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
-        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
-
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
-
-        verify(mockedBTGatt).disconnect();
-        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
-        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorBondLost);
-    }
+//    @Test
+//    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedAndDeviceIsDisdconnectenThenFailedErrorIsGiven() {
+//        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+//        reset(mockedSHNDeviceListener);
+//
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+//        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+//
+//        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
+//                BluetoothGatt.STATE_DISCONNECTED);
+//
+//        verify(mockedBTGatt).disconnect();
+//        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+//        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+//        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorBondLost);
+//    }
 
     @Test
     public void whenBondingSHNDeviceInStateConnectingAndDisconnectIsCalledThenStateIsDisconnecting() {
@@ -1109,12 +1109,12 @@ public class SHNDeviceImplTest {
         verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
-    @Test
-    public void whenConnectWithTimeOutCalledThenRegisterBondStatusListenerForAddressIsCalled() {
-        shnDevice.connect(1L);
-
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
-    }
+//    @Test
+//    public void whenConnectWithTimeOutCalledThenRegisterBondStatusListenerForAddressIsCalled() {
+//        shnDevice.connect(1L);
+//
+//        verify(mockedSHNCentral).registerBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
+//    }
 
     @Test
     public void whenConnectWithTimeOutCalledThenRegisterSHNCentralStatusListenerForAddressIsCalled() {

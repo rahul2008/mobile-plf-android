@@ -23,6 +23,9 @@ public class GattConnectingState extends State {
 
     private static final long CONNECT_TIMEOUT = 20_000L;
 
+    private final boolean withTimeout;
+    private final long timeoutInMS;
+
     private long timeOut;
     private long startTimerTime;
     private long minimumConnectionIdleTime;
@@ -30,35 +33,41 @@ public class GattConnectingState extends State {
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            context.notifyFailureToListener(SHNResult.SHNErrorTimeout);
+            sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             disconnect();
         }
     }, CONNECT_TIMEOUT);
 
-    public GattConnectingState(StateContext context) {
-        this(context, true, -1L);
+    public GattConnectingState(StateMachine stateMachine) {
+        this(stateMachine, true, -1L);
     }
 
-    public GattConnectingState(StateContext context, long connectTimeOut) {
-        super(context);
-
-        setMinimumConnectionIdleTime();
+    public GattConnectingState(StateMachine stateMachine, long connectTimeOut) {
+        this(stateMachine, true, -1L);
 
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
         } else {
             this.startTimerTime = System.currentTimeMillis();
             this.timeOut = connectTimeOut;
-            startConnect(true, -1L);
         }
     }
 
-    public GattConnectingState(StateContext context, final boolean withTimeout, final long timeoutInMS) {
-        super(context);
+    public GattConnectingState(StateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
+        super(stateMachine);
+        this.withTimeout = withTimeout;
+        this.timeoutInMS = timeoutInMS;
+    }
 
+    @Override
+    public void setup() {
         setMinimumConnectionIdleTime();
-
         startConnect(withTimeout, timeoutInMS);
+    }
+
+    @Override
+    public void breakdown() {
+        connectTimer.stop();
     }
 
     @Override
@@ -69,29 +78,28 @@ public class GattConnectingState extends State {
     @Override
     public void disconnect() {
         SHNLogger.w(TAG, "to disconnect state");
-        connectTimer.stop();
-        context.setState(new DisconnectingState(context));
+        stateMachine.setState(this, new DisconnectingState(stateMachine));
     }
 
     private void startConnect(final boolean withTimeout, final long timeoutInMS) {
-        final long timeDiff = System.currentTimeMillis() - context.getLastDisconnectedTimeMillis();
+        final long timeDiff = System.currentTimeMillis() - sharedResources.getLastDisconnectedTimeMillis();
         if (stackNeedsTimeToPrepareForConnect(timeDiff)) {
             postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
             return;
         }
 
-        if (context.getShnCentral().isBluetoothAdapterEnabled()) {
-            context.getShnCentral().registerSHNCentralStatusListenerForAddress(context.getShnCentralListener(), context.getBtDevice().getAddress());
+        if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
+            sharedResources.getShnCentral().registerSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
             if (withTimeout) {
                 if (timeoutInMS > 0) {
                     connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
                 }
-                context.setBtGatt(context.getBtDevice().connectGatt(context.getShnCentral().getApplicationContext(), false, context.getShnCentral(), context.getBTGattCallback()));
+                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
             } else {
-                context.setBtGatt(context.getBtDevice().connectGatt(context.getShnCentral().getApplicationContext(), true, context.getShnCentral(), context.getBTGattCallback()));
+                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), true, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
             }
         } else {
-            context.notifyStateToListener();
+            sharedResources.notifyStateToListener();
         }
     }
 
@@ -113,43 +121,40 @@ public class GattConnectingState extends State {
     }
 
     private void handleGattConnectEvent(int status) {
-        connectTimer.stop();
-
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
-                context.setState(new WaitingUntilBondedState(context));
+                stateMachine.setState(this, new WaitingUntilBondedState(stateMachine));
             } else {
-                context.setState(new DiscoveringServicesState(context));
+                stateMachine.setState(this, new DiscoveringServicesState(stateMachine));
             }
         } else {
-            context.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
-            context.setState(new DisconnectingState(context));
+            sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
+            stateMachine.setState(this, new DisconnectingState(stateMachine));
         }
     }
 
     private void handleGattDisconnectEvent() {
-        BTGatt btGatt = context.getBtGatt();
+        BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
             btGatt.close();
         }
-        context.setBtGatt(null);
+        sharedResources.setBtGatt(null);
 
         long delta = System.currentTimeMillis() - startTimerTime;
 
         if (delta < timeOut) {
-            context.setBtGatt(context.getBtDevice().connectGatt(context.getShnCentral().getApplicationContext(), false, context.getShnCentral(), context.getBTGattCallback()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
-            connectTimer.stop();
-            context.setState(new DisconnectingState(context));
+            stateMachine.setState(this, new DisconnectingState(stateMachine));
         }
     }
 
     private boolean shouldWaitUntilBonded() {
-        return context.getShnBondInitiator() != SHNDeviceImpl.SHNBondInitiator.NONE && !isBonded();
+        return sharedResources.getShnBondInitiator() != SHNDeviceImpl.SHNBondInitiator.NONE && !isBonded();
     }
 
     public boolean isBonded() {
-        return context.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
+        return sharedResources.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
     private void setMinimumConnectionIdleTime() {
@@ -163,7 +168,7 @@ public class GattConnectingState extends State {
     private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
         SHNLogger.w(TAG, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
 
-        context.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
+        sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startConnect(withTimeout, timeoutInMS);
@@ -172,6 +177,6 @@ public class GattConnectingState extends State {
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
-        return context.getLastDisconnectedTimeMillis() != 0L && timeDiff < minimumConnectionIdleTime;
+        return sharedResources.getLastDisconnectedTimeMillis() != 0L && timeDiff < minimumConnectionIdleTime;
     }
 }

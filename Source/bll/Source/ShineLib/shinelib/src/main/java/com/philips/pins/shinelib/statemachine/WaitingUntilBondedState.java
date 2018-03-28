@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothProfile;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -19,25 +18,33 @@ public class WaitingUntilBondedState extends State implements SHNCentral.SHNBond
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            goToState(new DiscoveringServicesState(context));
+            stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine));
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
-    public WaitingUntilBondedState(StateContext context) {
-        super(context);
+    public WaitingUntilBondedState(StateMachine stateMachine) {
+        super(stateMachine);
+    }
 
-        context.getShnCentral().registerBondStatusListenerForAddress(this, context.getBtDevice().getAddress());
+    @Override
+    public void setup() {
+        sharedResources.getShnCentral().registerBondStatusListenerForAddress(this, sharedResources.getBtDevice().getAddress());
 
         waitingUntilBondingStartedTimer.restart();
 
         // Start create bond
-        if (context.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
-            if (!context.getBtDevice().createBond()) {
+        if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
+            if (!sharedResources.getBtDevice().createBond()) {
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                waitingUntilBondingStartedTimer.stop();
-                goToState(new DiscoveringServicesState(context));
+                stateMachine.setState(this, new DiscoveringServicesState(stateMachine));
             }
         }
+    }
+
+    @Override
+    public void breakdown() {
+        sharedResources.getShnCentral().unregisterBondStatusListenerForAddress(this, sharedResources.getBtDevice().getAddress());
+        waitingUntilBondingStartedTimer.stop();
     }
 
     @Override
@@ -47,7 +54,7 @@ public class WaitingUntilBondedState extends State implements SHNCentral.SHNBond
 
     @Override
     public void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState) {
-        if (context.getBtDevice().getAddress().equals(device.getAddress())) {
+        if (sharedResources.getBtDevice().getAddress().equals(device.getAddress())) {
             SHNLogger.i(TAG, "Bond state changed ('" + bondStateToString(previousBondState) + "' -> '" + bondStateToString(bondState) + "')");
 
             if (bondState == BluetoothDevice.BOND_BONDING) {
@@ -55,30 +62,22 @@ public class WaitingUntilBondedState extends State implements SHNCentral.SHNBond
             } else if (bondState == BluetoothDevice.BOND_BONDED) {
                 waitingUntilBondingStartedTimer.stop();
 
-                context.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
+                sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        goToState(new DiscoveringServicesState(context));
+                        stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine));
                     }
                 }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
             }
         } else if (bondState == BluetoothDevice.BOND_NONE) {
-            waitingUntilBondingStartedTimer.stop();
-            goToState(new DisconnectingState(context));
+            stateMachine.setState(this, new DisconnectingState(stateMachine));
         }
     }
 
     @Override
     public void disconnect() {
-        waitingUntilBondingStartedTimer.stop();
-        goToState(new DisconnectingState(context));
+        stateMachine.setState(this, new DisconnectingState(stateMachine));
     }
-
-    private void goToState(State state) {
-        context.getShnCentral().unregisterBondStatusListenerForAddress(this, context.getBtDevice().getAddress());
-        context.setState(state);
-    }
-
     private static String bondStateToString(int bondState) {
         return (bondState == BluetoothDevice.BOND_NONE) ? "None" :
                 (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :

@@ -22,18 +22,26 @@ public class DisconnectingState extends State {
         }
     }, DISCONNECT_TIMEOUT);
 
-    public DisconnectingState(StateContext context) {
-        super(context);
+    public DisconnectingState(StateMachine stateMachine) {
+        super(stateMachine);
+    }
 
+    @Override
+    public void setup() {
         disconnectTimer.restart();
 
-        BTGatt btGatt = context.getBtGatt();
+        BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
             SHNLogger.e("DisconnectingState", "Called disconnect");
             btGatt.disconnect();
         } else {
             handleGattDisconnectEvent();
         }
+    }
+
+    @Override
+    public void breakdown() {
+        disconnectTimer.stop();
     }
 
     @Override
@@ -46,7 +54,7 @@ public class DisconnectingState extends State {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             handleGattDisconnectEvent();
         } else if (newState == BluetoothProfile.STATE_CONNECTED) {
-            BTGatt btGatt = context.getBtGatt();
+            BTGatt btGatt = sharedResources.getBtGatt();
             if(btGatt != null) {
                 btGatt.disconnect();
             }
@@ -63,18 +71,16 @@ public class DisconnectingState extends State {
     private void handleGattDisconnectEvent() {
         SHNLogger.e("DisconnectingState", "handleGattDisconnectEvent");
 
-        disconnectTimer.stop();
-
-        BTGatt btGatt = context.getBtGatt();
+        BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
             btGatt.close();
         }
-        context.setBtGatt(null);
+        sharedResources.setBtGatt(null);
 
-        for (SHNService shnService : context.getSHNServices().values()) {
+        for (SHNService shnService : sharedResources.getSHNServices().values()) {
             shnService.disconnectFromBLELayer();
         }
 
-        context.setState(new DisconnectedState(context));
+        stateMachine.setState(this, new DisconnectedState(stateMachine));
     }
 }

@@ -1,8 +1,6 @@
 package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -15,11 +13,17 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import java.util.UUID;
 
 public abstract class State {
-    protected StateContext context;
+    protected  StateMachine stateMachine;
+    protected SharedResources sharedResources;
 
-    public State(StateContext context) {
-        this.context = context;
+    public State(StateMachine stateMachine) {
+        this.stateMachine = stateMachine;
+        this.sharedResources = stateMachine.getSharedResources();
     }
+
+    public abstract void setup();
+
+    public abstract void breakdown();
 
     public abstract SHNDevice.State getExternalState();
 

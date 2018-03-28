@@ -18,17 +18,24 @@ public class InitializingServicesState extends State {
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            context.notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            context.setState(new DisconnectingState(context));
+            sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
+            stateMachine.setState(InitializingServicesState.this, new DisconnectingState(stateMachine));
         }
     }, CONNECT_TIMEOUT);
 
-    public InitializingServicesState(StateContext context) {
-        super(context);
+    public InitializingServicesState(StateMachine stateMachine) {
+        super(stateMachine);
+    }
 
+    @Override
+    public void setup() {
         connectUsedServicesToBleLayer();
-
         connectTimer.restart();
+    }
+
+    @Override
+    public void breakdown() {
+
     }
 
     @Override
@@ -43,26 +50,26 @@ public class InitializingServicesState extends State {
         connectTimer.stop();
 
         if (areAllRegisteredServicesReady()) {
-            context.setState(new ReadyState(context));
+            stateMachine.setState(this, new ReadyState(stateMachine));
         }
 
         if (state == SHNService.State.Error) {
-            context.setState(new DisconnectingState(context));
+            stateMachine.setState(this, new DisconnectingState(stateMachine));
         }
     }
 
     private void connectUsedServicesToBleLayer() {
-        BTGatt btGatt = context.getBtGatt();
+        BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt == null) {
             return;
         }
 
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
-            SHNService shnService = context.getSHNService(bluetoothGattService.getUuid());
+            SHNService shnService = sharedResources.getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
 
-            if (context.getDiscoveryListener() != null) {
-                context.getDiscoveryListener().onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
+            if (sharedResources.getDiscoveryListener() != null) {
+                sharedResources.getDiscoveryListener().onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
             }
 
             if (shnService != null) {
@@ -74,12 +81,12 @@ public class InitializingServicesState extends State {
     @Override
     public void disconnect() {
         connectTimer.stop();
-        context.setState(new DisconnectingState(context));
+        stateMachine.setState(this, new DisconnectingState(stateMachine));
     }
 
     private boolean areAllRegisteredServicesReady() {
         Boolean allReady = true;
-        for (SHNService service : context.getSHNServices().values()) {
+        for (SHNService service : sharedResources.getSHNServices().values()) {
             if (service.getState() != SHNService.State.Ready) {
                 allReady = false;
                 break;

@@ -4,8 +4,18 @@ import com.philips.pins.shinelib.SHNDevice;
 
 public class ReadyState extends State {
 
-    public ReadyState(StateContext context) {
-        super(context);
+    public ReadyState(StateMachine stateMachine) {
+        super(stateMachine);
+    }
+
+    @Override
+    public void setup() {
+
+    }
+
+    @Override
+    public void breakdown() {
+
     }
 
     @Override
@@ -15,6 +25,6 @@ public class ReadyState extends State {
 
     @Override
     public void disconnect() {
-        context.setState(new DisconnectingState(context));
+        stateMachine.setState(this, new DisconnectingState(stateMachine));
     }
 }
