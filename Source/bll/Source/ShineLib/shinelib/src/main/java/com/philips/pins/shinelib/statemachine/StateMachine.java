@@ -2,45 +2,34 @@ package com.philips.pins.shinelib.statemachine;
 
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNDeviceImpl;
-import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
-import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
-import com.philips.pins.shinelib.utility.SHNLogger;
+public class StateMachine<T extends State> {
 
-public class StateMachine {
+    private T state;
+    private StateChangedListener<T> stateChangedListener;
 
-    private static final String TAG = StateMachine.class.getSimpleName();
-
-    private State state;
-    private SharedResources sharedResources;
-
-    public StateMachine(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
-        this.sharedResources = new SharedResources(shnDevice, btDevice, shnCentral, deviceTypeName, shnBondInitiator, shnCentralListener ,btGattCallback);
-        this.state = new DisconnectedState(this);
+    public StateMachine(StateChangedListener<T> stateChangedListener) {
+        this.stateChangedListener = stateChangedListener;
     }
 
-    public void setState(@NonNull State oldState, @NonNull  State newState) {
-        if(this.state != oldState) {
+    public void setInitialState(T initialState) {
+        if(this.state == null) {
+            this.state = initialState;
+        }
+    }
+
+    public synchronized void setState(@NonNull T oldState, @NonNull  T newState) {
+        if(this.state != oldState || newState == null) {
             return;
         }
 
-        SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
-
-        this.state.breakdown();
+        this.state.onExit();
         this.state = newState;
-        this.state.setup();
+        this.state.onEnter();
 
-        this.sharedResources.notifyStateToListener();
+        this.stateChangedListener.onStateChanged(oldState, newState);
     }
 
-    public State getState() {
+    public T getState() {
         return state;
-    }
-
-    public SharedResources getSharedResources() {
-        return sharedResources;
     }
 }

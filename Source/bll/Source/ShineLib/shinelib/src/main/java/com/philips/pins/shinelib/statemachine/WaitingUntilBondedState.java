@@ -1,14 +1,19 @@
 package com.philips.pins.shinelib.statemachine;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothProfile;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
+import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class WaitingUntilBondedState extends State implements SHNCentral.SHNBondStatusListener {
+public class WaitingUntilBondedState extends SHNDeviceState implements SHNCentral.SHNBondStatusListener {
+
     private static final String TAG = WaitingUntilBondedState.class.getSimpleName();
 
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3_000L;
@@ -18,31 +23,30 @@ public class WaitingUntilBondedState extends State implements SHNCentral.SHNBond
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine));
+            stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine, sharedResources));
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
-    public WaitingUntilBondedState(StateMachine stateMachine) {
-        super(stateMachine);
+    public WaitingUntilBondedState(StateMachine stateMachine, SharedResources sharedResources) {
+        super(stateMachine, sharedResources);
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
         sharedResources.getShnCentral().registerBondStatusListenerForAddress(this, sharedResources.getBtDevice().getAddress());
 
         waitingUntilBondingStartedTimer.restart();
 
-        // Start create bond
         if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!sharedResources.getBtDevice().createBond()) {
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                stateMachine.setState(this, new DiscoveringServicesState(stateMachine));
+                stateMachine.setState(this, new DiscoveringServicesState(stateMachine, sharedResources));
             }
         }
     }
 
     @Override
-    public void breakdown() {
+    protected void onExit() {
         sharedResources.getShnCentral().unregisterBondStatusListenerForAddress(this, sharedResources.getBtDevice().getAddress());
         waitingUntilBondingStartedTimer.stop();
     }
@@ -65,19 +69,35 @@ public class WaitingUntilBondedState extends State implements SHNCentral.SHNBond
                 sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine));
+                        stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine, sharedResources));
                     }
                 }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
             }
         } else if (bondState == BluetoothDevice.BOND_NONE) {
-            stateMachine.setState(this, new DisconnectingState(stateMachine));
+            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        }
+    }
+
+    @Override
+    public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            disconnect();
+        }
+    }
+
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            disconnect();
         }
     }
 
     @Override
     public void disconnect() {
-        stateMachine.setState(this, new DisconnectingState(stateMachine));
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
+
     private static String bondStateToString(int bondState) {
         return (bondState == BluetoothDevice.BOND_NONE) ? "None" :
                 (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :

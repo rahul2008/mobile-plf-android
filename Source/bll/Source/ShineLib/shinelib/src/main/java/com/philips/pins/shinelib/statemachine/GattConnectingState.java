@@ -17,7 +17,7 @@ import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
 
-public class GattConnectingState extends State {
+public class GattConnectingState extends SHNDeviceState {
 
     private static final String TAG = GattConnectingState.class.getName();
 
@@ -33,17 +33,18 @@ public class GattConnectingState extends State {
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
+            SHNLogger.e(TAG, "connect timeout in GattConnectingState");
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             disconnect();
         }
     }, CONNECT_TIMEOUT);
 
-    public GattConnectingState(StateMachine stateMachine) {
-        this(stateMachine, true, -1L);
+    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources) {
+        this(stateMachine, sharedResources, true, -1L);
     }
 
-    public GattConnectingState(StateMachine stateMachine, long connectTimeOut) {
-        this(stateMachine, true, -1L);
+    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources, long connectTimeOut) {
+        this(stateMachine, sharedResources, true, -1L);
 
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
@@ -53,20 +54,20 @@ public class GattConnectingState extends State {
         }
     }
 
-    public GattConnectingState(StateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
-        super(stateMachine);
+    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources, final boolean withTimeout, final long timeoutInMS) {
+        super(stateMachine, sharedResources);
         this.withTimeout = withTimeout;
         this.timeoutInMS = timeoutInMS;
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
         setMinimumConnectionIdleTime();
         startConnect(withTimeout, timeoutInMS);
     }
 
     @Override
-    public void breakdown() {
+    protected void onExit() {
         connectTimer.stop();
     }
 
@@ -77,8 +78,7 @@ public class GattConnectingState extends State {
 
     @Override
     public void disconnect() {
-        SHNLogger.w(TAG, "to disconnect state");
-        stateMachine.setState(this, new DisconnectingState(stateMachine));
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 
     private void startConnect(final boolean withTimeout, final long timeoutInMS) {
@@ -123,13 +123,13 @@ public class GattConnectingState extends State {
     private void handleGattConnectEvent(int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
-                stateMachine.setState(this, new WaitingUntilBondedState(stateMachine));
+                stateMachine.setState(this, new WaitingUntilBondedState(stateMachine, sharedResources));
             } else {
-                stateMachine.setState(this, new DiscoveringServicesState(stateMachine));
+                stateMachine.setState(this, new DiscoveringServicesState(stateMachine, sharedResources));
             }
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
-            stateMachine.setState(this, new DisconnectingState(stateMachine));
+            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
         }
     }
 
@@ -145,7 +145,7 @@ public class GattConnectingState extends State {
         if (delta < timeOut) {
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
-            stateMachine.setState(this, new DisconnectingState(stateMachine));
+            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
         }
     }
 

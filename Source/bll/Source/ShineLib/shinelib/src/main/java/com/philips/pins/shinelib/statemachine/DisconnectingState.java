@@ -6,27 +6,32 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class DisconnectingState extends State {
+public class DisconnectingState extends SHNDeviceState {
 
-    private static final long DISCONNECT_TIMEOUT = 10_000L;
+    private static final String TAG = DisconnectingState.class.getSimpleName();
+
+    private static final long DISCONNECT_TIMEOUT = 1_000L;
 
     private Timer disconnectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
+            SHNLogger.e(TAG, "disconnect timeout in DisconnectingState");
             handleGattDisconnectEvent();
         }
     }, DISCONNECT_TIMEOUT);
 
-    public DisconnectingState(StateMachine stateMachine) {
-        super(stateMachine);
+    public DisconnectingState(StateMachine stateMachine, SharedResources sharedResources) {
+        super(stateMachine, sharedResources);
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
         disconnectTimer.restart();
 
         BTGatt btGatt = sharedResources.getBtGatt();
@@ -38,7 +43,7 @@ public class DisconnectingState extends State {
     }
 
     @Override
-    public void breakdown() {
+    protected void onExit() {
         disconnectTimer.stop();
     }
 
@@ -62,6 +67,7 @@ public class DisconnectingState extends State {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
             handleGattDisconnectEvent();
         }
     }
@@ -77,6 +83,6 @@ public class DisconnectingState extends State {
             shnService.disconnectFromBLELayer();
         }
 
-        stateMachine.setState(this, new DisconnectedState(stateMachine));
+        stateMachine.setState(this, new DisconnectedState(stateMachine, sharedResources));
     }
 }

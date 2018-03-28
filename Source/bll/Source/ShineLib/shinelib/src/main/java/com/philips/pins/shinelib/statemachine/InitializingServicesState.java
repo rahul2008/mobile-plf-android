@@ -1,7 +1,11 @@
 package com.philips.pins.shinelib.statemachine;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
@@ -9,33 +13,35 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class InitializingServicesState extends State {
+public class InitializingServicesState extends SHNDeviceState {
 
     private static final String TAG = InitializingServicesState.class.getSimpleName();
 
     private static final long CONNECT_TIMEOUT = 20_000L;
 
-    private Timer connectTimer = Timer.createTimer(new Runnable() {
+    private Timer initializingTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
+            SHNLogger.e(TAG, "initializing timeout in InitializingServicesState");
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            stateMachine.setState(InitializingServicesState.this, new DisconnectingState(stateMachine));
+            stateMachine.setState(InitializingServicesState.this, new DisconnectingState(stateMachine, sharedResources));
         }
     }, CONNECT_TIMEOUT);
 
-    public InitializingServicesState(StateMachine stateMachine) {
-        super(stateMachine);
+    public InitializingServicesState(StateMachine stateMachine, SharedResources sharedResources) {
+        super(stateMachine, sharedResources);
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
+        initializingTimer.restart();
+
         connectUsedServicesToBleLayer();
-        connectTimer.restart();
     }
 
     @Override
-    public void breakdown() {
-
+    protected void onExit() {
+        initializingTimer.stop();
     }
 
     @Override
@@ -47,14 +53,12 @@ public class InitializingServicesState extends State {
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
-        connectTimer.stop();
-
         if (areAllRegisteredServicesReady()) {
-            stateMachine.setState(this, new ReadyState(stateMachine));
+            stateMachine.setState(this, new ReadyState(stateMachine, sharedResources));
         }
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(this, new DisconnectingState(stateMachine));
+            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
         }
     }
 
@@ -79,9 +83,23 @@ public class InitializingServicesState extends State {
     }
 
     @Override
+    public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            disconnect();
+        }
+    }
+
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            disconnect();
+        }
+    }
+
+    @Override
     public void disconnect() {
-        connectTimer.stop();
-        stateMachine.setState(this, new DisconnectingState(stateMachine));
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 
     private boolean areAllRegisteredServicesReady() {

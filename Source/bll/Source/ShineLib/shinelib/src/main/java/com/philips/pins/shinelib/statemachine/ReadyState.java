@@ -1,20 +1,29 @@
 package com.philips.pins.shinelib.statemachine;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothProfile;
+import android.support.annotation.NonNull;
+
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class ReadyState extends State {
+public class ReadyState extends SHNDeviceState {
 
-    public ReadyState(StateMachine stateMachine) {
-        super(stateMachine);
+    private static final String TAG = ReadyState.class.getSimpleName();
+
+    public ReadyState(StateMachine stateMachine, SharedResources sharedResources) {
+        super(stateMachine, sharedResources);
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
 
     }
 
     @Override
-    public void breakdown() {
+    protected void onExit() {
 
     }
 
@@ -24,7 +33,22 @@ public class ReadyState extends State {
     }
 
     @Override
+    public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            disconnect();
+        }
+    }
+
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            disconnect();
+        }
+    }
+
+    @Override
     public void disconnect() {
-        stateMachine.setState(this, new DisconnectingState(stateMachine));
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 }

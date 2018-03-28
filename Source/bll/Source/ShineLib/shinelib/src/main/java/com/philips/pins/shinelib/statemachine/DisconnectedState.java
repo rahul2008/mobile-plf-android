@@ -2,20 +2,22 @@ package com.philips.pins.shinelib.statemachine;
 
 import com.philips.pins.shinelib.SHNDevice;
 
-public class DisconnectedState extends State {
+public class DisconnectedState extends SHNDeviceState {
 
-    public DisconnectedState(StateMachine stateMachine) {
-        super(stateMachine);
+    private static final String TAG = DisconnectedState.class.getSimpleName();
+
+    public DisconnectedState(StateMachine stateMachine, SharedResources sharedResources) {
+        super(stateMachine, sharedResources);
     }
 
     @Override
-    public void setup() {
+    protected void onEnter() {
         sharedResources.setLastDisconnectedTimeMillis(System.currentTimeMillis());
         sharedResources.getShnCentral().unregisterSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
     }
 
     @Override
-    public void breakdown() {
+    protected void onExit() {
 
     }
 
@@ -26,16 +28,21 @@ public class DisconnectedState extends State {
 
     @Override
     public void connect() {
-        stateMachine.setState(this, new GattConnectingState(stateMachine));
+        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources));
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        stateMachine.setState(this, new GattConnectingState(stateMachine, connectTimeOut));
+        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources, connectTimeOut));
     }
 
     @Override
     public void connect(final boolean withTimeout, final long timeoutInMS) {
-        stateMachine.setState(this, new GattConnectingState(stateMachine, withTimeout, timeoutInMS));
+        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources, withTimeout, timeoutInMS));
+    }
+
+    @Override
+    public void disconnect() {
+        sharedResources.notifyStateToListener();
     }
 }

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.*;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Set;
 import java.util.UUID;
@@ -25,7 +26,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public static final int GATT_ERROR = 0x0085;
 
-    private StateMachine stateMachine;
+    private static final String TAG = SHNDeviceImpl.class.getSimpleName();
+
+    private StateMachine<SHNDeviceState> stateMachine;
+    private SharedResources sharedResources;
+
+    private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
+        @Override
+        public void onStateChanged(SHNDeviceState oldState, SHNDeviceState newState) {
+            SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
+            sharedResources.notifyStateToListener();
+        }
+    };
 
     public enum SHNBondInitiator {
         NONE, PERIPHERAL, APP
@@ -41,7 +53,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
-        stateMachine = new StateMachine(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
+        sharedResources = new SharedResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
+        stateMachine = new StateMachine(stateStateChangedListener);
+
+        SHNDeviceState initialState = new DisconnectedState(stateMachine, sharedResources);
+        stateMachine.setInitialState(initialState);
     }
 
     @Override
@@ -51,22 +67,22 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public String getAddress() {
-        return stateMachine.getSharedResources().getBtDevice().getAddress();
+        return sharedResources.getBtDevice().getAddress();
     }
 
     @Override
     public String getName() {
-        return stateMachine.getSharedResources().getName();
+        return sharedResources.getName();
     }
 
     @Override
     public void setName(String name) {
-        stateMachine.getSharedResources().setName(name);
+        sharedResources.setName(name);
     }
 
     @Override
     public String getDeviceTypeName() {
-        return stateMachine.getSharedResources().getDeviceTypeName();
+        return sharedResources.getDeviceTypeName();
     }
 
     @Override
@@ -89,12 +105,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public boolean isBonded() {
-        return stateMachine.getSharedResources().getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
+        return sharedResources.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
     @Override
     public void readRSSI() {
-        BTGatt btGatt = stateMachine.getSharedResources().getBtGatt();
+        BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
             btGatt.readRSSI();
         }
@@ -102,52 +118,52 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        stateMachine.getSharedResources().registerSHNDeviceListener(shnDeviceListener);
+        sharedResources.registerSHNDeviceListener(shnDeviceListener);
     }
 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        stateMachine.getSharedResources().unregisterSHNDeviceListener();
+        sharedResources.unregisterSHNDeviceListener();
     }
 
     @Override
     public void registerDiscoveryListener(DiscoveryListener discoveryListener) {
-        stateMachine.getSharedResources().registerDiscoveryListener(discoveryListener);
+        sharedResources.registerDiscoveryListener(discoveryListener);
     }
 
     @Override
     public void unregisterDiscoveryListener(DiscoveryListener discoveryListener) {
-        stateMachine.getSharedResources().unregisterDiscoveryListener();
+        sharedResources.unregisterDiscoveryListener();
     }
 
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
-        return stateMachine.getSharedResources().getSupportedCapabilityTypes();
+        return sharedResources.getSupportedCapabilityTypes();
     }
 
     @Override
     public Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses() {
-        return stateMachine.getSharedResources().getSupportedCapabilityClasses();
+        return sharedResources.getSupportedCapabilityClasses();
     }
 
     @Nullable
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
-        return stateMachine.getSharedResources().getCapabilityForType(type);
+        return sharedResources.getCapabilityForType(type);
     }
 
     @Nullable
     @Override
     public <T extends SHNCapability> T getCapability(@NonNull Class<T> type) {
-        return stateMachine.getSharedResources().getCapability(type);
+        return sharedResources.getCapability(type);
     }
 
     public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType type) {
-        stateMachine.getSharedResources().registerCapability(shnCapability, type);
+        sharedResources.registerCapability(shnCapability, type);
     }
 
     public <T extends SHNCapability> void registerCapability(@NonNull final Class<? extends SHNCapability> type, @NonNull final T capability) {
-        stateMachine.getSharedResources().registerCapability(type, capability);
+        sharedResources.registerCapability(type, capability);
     }
 
     @Override
@@ -157,8 +173,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic characteristic) {
-        stateMachine.getState().onCharacteristicDiscovered(characteristicUuid, data, characteristic);
-
+        sharedResources.getDiscoveryListener().onCharacteristicDiscovered(characteristicUuid, data, characteristic);
     }
 
     @Override
@@ -167,14 +182,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public void registerService(SHNService shnService) {
-        stateMachine.getSharedResources().registerService(shnService);
+        sharedResources.registerService(shnService);
         shnService.registerSHNServiceListener(this);
         shnService.registerCharacteristicDiscoveryListener(this);
     }
 
     @Override
     public String toString() {
-        return "SHNDevice - " + stateMachine.getSharedResources().getName() + " [" + stateMachine.getSharedResources().getBtDevice().getAddress() + "]";
+        return "SHNDevice - " + sharedResources.getName() + " [" + sharedResources.getBtDevice().getAddress() + "]";
     }
 
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
@@ -191,31 +206,31 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
-            SHNService shnService = stateMachine.getSharedResources().getSHNService(characteristic.getService().getUuid());
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicReadWithData(gatt, characteristic, status, data);
         }
 
         @Override
         public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            SHNService shnService = stateMachine.getSharedResources().getSHNService(characteristic.getService().getUuid());
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicWrite(gatt, characteristic, status);
         }
 
         @Override
         public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
-            SHNService shnService = stateMachine.getSharedResources().getSHNService(characteristic.getService().getUuid());
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicChangedWithData(gatt, characteristic, data);
         }
 
         @Override
         public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
-            SHNService shnService = stateMachine.getSharedResources().getSHNService(descriptor.getCharacteristic().getService().getUuid());
+            SHNService shnService = sharedResources.getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorReadWithData(gatt, descriptor, status, data);
         }
 
         @Override
         public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            SHNService shnService = stateMachine.getSharedResources().getSHNService(descriptor.getCharacteristic().getService().getUuid());
+            SHNService shnService = sharedResources.getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorWrite(gatt, descriptor, status);
         }
 
@@ -226,7 +241,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            stateMachine.getSharedResources().getDeviceListener().onReadRSSI(rssi);
+            SHNDevice.SHNDeviceListener deviceListener = sharedResources.getDeviceListener();
+            if(deviceListener != null) {
+                deviceListener.onReadRSSI(rssi);
+            }
         }
 
         @Override
