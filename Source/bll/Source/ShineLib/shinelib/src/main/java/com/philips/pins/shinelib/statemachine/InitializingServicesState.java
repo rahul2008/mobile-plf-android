@@ -17,7 +17,7 @@ public class InitializingServicesState extends SHNDeviceState {
 
     private static final String TAG = InitializingServicesState.class.getSimpleName();
 
-    private static final long CONNECT_TIMEOUT = 20_000L;
+    private static final long INITIALIZING_TIMEOUT = 20_000L;
 
     private Timer initializingTimer = Timer.createTimer(new Runnable() {
         @Override
@@ -26,7 +26,7 @@ public class InitializingServicesState extends SHNDeviceState {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             stateMachine.setState(InitializingServicesState.this, new DisconnectingState(stateMachine, sharedResources));
         }
-    }, CONNECT_TIMEOUT);
+    }, INITIALIZING_TIMEOUT);
 
     public InitializingServicesState(StateMachine stateMachine, SharedResources sharedResources) {
         super(stateMachine, sharedResources);
@@ -62,6 +62,27 @@ public class InitializingServicesState extends SHNDeviceState {
         }
     }
 
+    @Override
+    public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            disconnect();
+        }
+    }
+
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            disconnect();
+        }
+    }
+
+    @Override
+    public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state InitializingServicesState");
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+    }
+
     private void connectUsedServicesToBleLayer() {
         BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt == null) {
@@ -80,26 +101,6 @@ public class InitializingServicesState extends SHNDeviceState {
                 shnService.connectToBLELayer(btGatt, bluetoothGattService);
             }
         }
-    }
-
-    @Override
-    public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
-        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            disconnect();
-        }
-    }
-
-    @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
-            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            disconnect();
-        }
-    }
-
-    @Override
-    public void disconnect() {
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 
     private boolean areAllRegisteredServicesReady() {

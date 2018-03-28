@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -26,10 +27,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public static final int GATT_ERROR = 0x0085;
 
-    private static final String TAG = SHNDeviceImpl.class.getSimpleName();
-
+    private static final String TAG = StateMachine.class.getSimpleName();
     private StateMachine<SHNDeviceState> stateMachine;
     private SharedResources sharedResources;
+    private SHNDeviceListener shnDeviceListener;
 
     private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
@@ -58,6 +59,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         SHNDeviceState initialState = new DisconnectedState(stateMachine, sharedResources);
         stateMachine.setInitialState(initialState);
+
+        SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }
 
     @Override
@@ -196,6 +199,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+            SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
             stateMachine.getState().onConnectionStateChange(gatt, status, newState);
         }
 
@@ -252,4 +256,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         }
     };
+
+    private static String bluetoothStateToString(int bluetoothState) {
+        return (bluetoothState == BluetoothProfile.STATE_CONNECTED) ? "Connected" :
+                (bluetoothState == BluetoothProfile.STATE_CONNECTING) ? "Connecting" :
+                        (bluetoothState == BluetoothProfile.STATE_DISCONNECTED) ? "Disconnected" :
+                                (bluetoothState == BluetoothProfile.STATE_DISCONNECTING) ? "Disconnecting" : "Unknown";
+    }
 }

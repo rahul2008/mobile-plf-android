@@ -95,6 +95,7 @@ public class WaitingUntilBondedState extends SHNDeviceState implements SHNCentra
 
     @Override
     public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state WaitingUntilBondedState");
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 

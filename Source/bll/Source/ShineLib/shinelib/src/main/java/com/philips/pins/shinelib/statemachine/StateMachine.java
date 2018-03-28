@@ -24,9 +24,8 @@ public class StateMachine<T extends State> {
 
         this.state.onExit();
         this.state = newState;
-        this.state.onEnter();
-
         this.stateChangedListener.onStateChanged(oldState, newState);
+        this.state.onEnter();
     }
 
     public T getState() {

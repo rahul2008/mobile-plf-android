@@ -49,6 +49,7 @@ public class ReadyState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state ReadyState");
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 }

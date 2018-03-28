@@ -16,7 +16,7 @@ public class DiscoveringServicesState extends SHNDeviceState {
 
     private static final String TAG = DiscoveringServicesState.class.getSimpleName();
 
-    private static final long CONNECT_TIMEOUT = 20000L;
+    private static final long DISCOVER_TIMEOUT = 20_000L;
 
     private Timer discoverTimer = Timer.createTimer(new Runnable() {
         @Override
@@ -25,7 +25,7 @@ public class DiscoveringServicesState extends SHNDeviceState {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             stateMachine.setState(DiscoveringServicesState.this, new DisconnectingState(stateMachine, sharedResources));
         }
-    }, CONNECT_TIMEOUT);
+    }, DISCOVER_TIMEOUT);
 
     public DiscoveringServicesState(StateMachine stateMachine, SharedResources sharedResources) {
         super(stateMachine, sharedResources);
@@ -61,6 +61,14 @@ public class DiscoveringServicesState extends SHNDeviceState {
     @Override
     public void onServicesDiscovered(BTGatt gatt, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
+
+            if (gatt.getServices().size() == 0) {
+                SHNLogger.i(TAG, "No services found, rediscovery the services");
+                gatt.disconnect();
+                stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources));
+                return;
+            }
+
             stateMachine.setState(this, new InitializingServicesState(stateMachine, sharedResources));
         } else {
             SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
@@ -78,6 +86,7 @@ public class DiscoveringServicesState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state DiscoveringServicesState");
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 }

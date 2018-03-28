@@ -78,6 +78,7 @@ public class GattConnectingState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state GattConnectingState");
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 
@@ -96,9 +97,11 @@ public class GattConnectingState extends SHNDeviceState {
                 }
                 sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
             } else {
+                //TODO: why is autoConnect true here??
                 sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), true, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
             }
         } else {
+            //TODO: make this a transition to disconnected state instead of a notify??
             sharedResources.notifyStateToListener();
         }
     }
@@ -121,6 +124,7 @@ public class GattConnectingState extends SHNDeviceState {
     }
 
     private void handleGattConnectEvent(int status) {
+        SHNLogger.d(TAG, "Handle connect event in GattConnectingState");
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
                 stateMachine.setState(this, new WaitingUntilBondedState(stateMachine, sharedResources));
@@ -141,8 +145,10 @@ public class GattConnectingState extends SHNDeviceState {
         sharedResources.setBtGatt(null);
 
         long delta = System.currentTimeMillis() - startTimerTime;
+        SHNLogger.d(TAG, "delta: " + delta);
 
         if (delta < timeOut) {
+            SHNLogger.d(TAG, "Retrying to connect GATT in GattConnectingState");
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
@@ -153,7 +159,7 @@ public class GattConnectingState extends SHNDeviceState {
         return sharedResources.getShnBondInitiator() != SHNDeviceImpl.SHNBondInitiator.NONE && !isBonded();
     }
 
-    public boolean isBonded() {
+    private boolean isBonded() {
         return sharedResources.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 

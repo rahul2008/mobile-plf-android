@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
