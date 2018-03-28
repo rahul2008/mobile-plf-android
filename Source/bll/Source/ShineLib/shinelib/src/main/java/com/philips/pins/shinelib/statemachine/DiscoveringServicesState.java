@@ -2,6 +2,8 @@ package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothGatt;
 
+import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -15,8 +17,7 @@ public class DiscoveringServicesState extends State {
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            //SHNLogger.e(TAG, "connect timeout in state: " + internalState);
-            //failedToConnectResult = SHNResult.SHNErrorTimeout;
+            context.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             context.setState(new DisconnectingState(context));
         }
     }, CONNECT_TIMEOUT);
@@ -24,8 +25,16 @@ public class DiscoveringServicesState extends State {
     public DiscoveringServicesState(StateContext context) {
         super(context);
 
-        context.getBtGatt().discoverServices();
+        BTGatt btGatt = context.getBtGatt();
+        if(btGatt != null) {
+            btGatt.discoverServices();
+        }
         connectTimer.restart();
+    }
+
+    @Override
+    public SHNDevice.State getExternalState() {
+        return SHNDevice.State.Connecting;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class DiscoveringServicesState extends State {
     }
 
     @Override
-    void disconnect() {
+    public void disconnect() {
         connectTimer.stop();
         context.setState(new DisconnectingState(context));
     }

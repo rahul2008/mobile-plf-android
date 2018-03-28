@@ -7,24 +7,30 @@ import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDeviceImpl;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
 
 public class GattConnectingState extends State {
 
-    public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
-    private static final long CONNECT_TIMEOUT = 20000L;
+    private static final String TAG = GattConnectingState.class.getName();
+
+    private static final long CONNECT_TIMEOUT = 20_000L;
 
     private long timeOut;
     private long startTimerTime;
+    private long minimumConnectionIdleTime;
 
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            //SHNLogger.e(TAG, "connect timeout in state: " + internalState);
-            //failedToConnectResult = SHNResult.SHNErrorTimeout;
+            context.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             disconnect();
         }
     }, CONNECT_TIMEOUT);
@@ -35,6 +41,8 @@ public class GattConnectingState extends State {
 
     public GattConnectingState(StateContext context, long connectTimeOut) {
         super(context);
+
+        setMinimumConnectionIdleTime();
 
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
@@ -48,11 +56,19 @@ public class GattConnectingState extends State {
     public GattConnectingState(StateContext context, final boolean withTimeout, final long timeoutInMS) {
         super(context);
 
+        setMinimumConnectionIdleTime();
+
         startConnect(withTimeout, timeoutInMS);
     }
 
     @Override
-    void disconnect() {
+    public SHNDevice.State getExternalState() {
+        return SHNDevice.State.Connecting;
+    }
+
+    @Override
+    public void disconnect() {
+        SHNLogger.w(TAG, "to disconnect state");
         connectTimer.stop();
         context.setState(new DisconnectingState(context));
     }
@@ -65,7 +81,6 @@ public class GattConnectingState extends State {
         }
 
         if (context.getShnCentral().isBluetoothAdapterEnabled()) {
-            context.getShnCentral().registerBondStatusListenerForAddress(context.getShnBondStatusListener(), context.getBtDevice().getAddress());
             context.getShnCentral().registerSHNCentralStatusListenerForAddress(context.getShnCentralListener(), context.getBtDevice().getAddress());
             if (withTimeout) {
                 if (timeoutInMS > 0) {
@@ -76,7 +91,7 @@ public class GattConnectingState extends State {
                 context.setBtGatt(context.getBtDevice().connectGatt(context.getShnCentral().getApplicationContext(), true, context.getShnCentral(), context.getBTGattCallback()));
             }
         } else {
-            //notifyStateToListener();
+            context.notifyStateToListener();
         }
     }
 
@@ -107,14 +122,16 @@ public class GattConnectingState extends State {
                 context.setState(new DiscoveringServicesState(context));
             }
         } else {
-            //failedToConnectResult = SHNResult.SHNErrorConnectionLost;
-            //setInternalStateReportStateUpdateAndSetTimers(SHNDeviceImpl2.InternalState.Disconnecting);
+            context.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
             context.setState(new DisconnectingState(context));
         }
     }
 
     private void handleGattDisconnectEvent() {
-        context.getBtGatt().close();
+        BTGatt btGatt = context.getBtGatt();
+        if(btGatt != null) {
+            btGatt.close();
+        }
         context.setBtGatt(null);
 
         long delta = System.currentTimeMillis() - startTimerTime;
@@ -135,16 +152,26 @@ public class GattConnectingState extends State {
         return context.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
+    private void setMinimumConnectionIdleTime() {
+        if(Workaround.EXTENDED_MINIMUM_CONNECTION_IDLE_TIME.isRequiredOnThisDevice()) {
+            this.minimumConnectionIdleTime = 2000L;
+        } else {
+            this.minimumConnectionIdleTime = 1000L;
+        }
+    }
+
     private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
+        SHNLogger.w(TAG, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
+
         context.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                connect(withTimeout, timeoutInMS);
+                startConnect(withTimeout, timeoutInMS);
             }
-        }, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
+        }, minimumConnectionIdleTime - timeDiff);
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
-        return context.getLastDisconnectedTimeMillis() != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME;
+        return context.getLastDisconnectedTimeMillis() != 0L && timeDiff < minimumConnectionIdleTime;
     }
 }

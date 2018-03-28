@@ -2,7 +2,10 @@ package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothGattService;
 
+import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -10,13 +13,12 @@ public class InitializingServicesState extends State {
 
     private static final String TAG = InitializingServicesState.class.getSimpleName();
 
-    private static final long CONNECT_TIMEOUT = 20000L;
+    private static final long CONNECT_TIMEOUT = 20_000L;
 
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            //SHNLogger.e(TAG, "connect timeout in state: " + internalState);
-            //failedToConnectResult = SHNResult.SHNErrorTimeout;
+            context.notifyFailureToListener(SHNResult.SHNErrorTimeout);
             context.setState(new DisconnectingState(context));
         }
     }, CONNECT_TIMEOUT);
@@ -27,6 +29,11 @@ public class InitializingServicesState extends State {
         connectUsedServicesToBleLayer();
 
         connectTimer.restart();
+    }
+
+    @Override
+    public SHNDevice.State getExternalState() {
+        return SHNDevice.State.Connecting;
     }
 
     @Override
@@ -45,7 +52,12 @@ public class InitializingServicesState extends State {
     }
 
     private void connectUsedServicesToBleLayer() {
-        for (BluetoothGattService bluetoothGattService : context.getBtGatt().getServices()) {
+        BTGatt btGatt = context.getBtGatt();
+        if(btGatt == null) {
+            return;
+        }
+
+        for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = context.getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
 
@@ -54,13 +66,13 @@ public class InitializingServicesState extends State {
             }
 
             if (shnService != null) {
-                shnService.connectToBLELayer(context.getBtGatt(), bluetoothGattService);
+                shnService.connectToBLELayer(btGatt, bluetoothGattService);
             }
         }
     }
 
     @Override
-    void disconnect() {
+    public void disconnect() {
         connectTimer.stop();
         context.setState(new DisconnectingState(context));
     }
