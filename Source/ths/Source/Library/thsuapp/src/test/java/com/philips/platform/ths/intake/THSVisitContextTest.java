@@ -1,7 +1,6 @@
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.entity.visit.TriageQuestion;
@@ -14,12 +13,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -194,13 +194,13 @@ public class THSVisitContextTest {
         assertEquals(callbackNumber,"1234");
     }
 
-    @Test
+    /*@Test
     public void getAuthenticatedConsumer() throws Exception {
         when(visitContextMock.getAuthenticatedConsumer()).thenReturn(consumerMock);
         Consumer authenticatedConsumer = pthVisitContext.getAuthenticatedConsumer();
         assertNotNull(authenticatedConsumer);
         assertThat(authenticatedConsumer).isInstanceOf(Consumer.class);
-    }
+    }*/
 
 
     @Test

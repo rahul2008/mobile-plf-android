@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -66,7 +65,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
+    public void onValidationFailure(Map<String, String> map) {
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_validation_error));

@@ -49,11 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.platform.ths.R.id.with;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -293,17 +290,6 @@ public class THSSymptomsPresenterTest {
         THSManager.getInstance().setVisitContext(pthVisitContext);
         pthSymptomsPresenter.getVisitContext();
         verify(visitManagerMock).getVisitContext(any(Consumer.class),(ProviderInfo)isNull(),any(SDKCallback.class));
-    }
-
-    @Test
-    public void getfirstAvailableProvider() throws AWSDKInstantiationException {
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
-        when(thsOnDemandSpeciality.getOnDemandSpecialty()).thenReturn(onDemandSpecialtyMock);
-        when(pTHBaseViewMock.getContext()).thenReturn(fragmentActivity);
-        when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
-        pthSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
-        verify(visitManagerMock).getVisitContext(any(Consumer.class),any(OnDemandSpecialty.class),any(SDKCallback.class));
     }
 
     @Test

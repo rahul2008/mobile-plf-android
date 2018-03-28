@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
@@ -51,11 +50,9 @@ import java.util.Map;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSAvailableProviderDetailPresenterTest {
@@ -251,7 +248,7 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void scheduleAppointmentOnError() throws Exception {
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),anyString(),any(RemindOptions.class),any(RemindOptions.class),any(SDKValidatedCallback.class));
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),anyString(),any(String.class),any(String.class),any(SDKValidatedCallback.class));
         when(thsAvailableProviderDetailFragmentMock.getTHSProviderInfo()).thenReturn(thsProviderInfoMock);
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         mThsAvailableProviderDetailPresenter.dateList = new ArrayList<>();
@@ -259,7 +256,7 @@ public class THSAvailableProviderDetailPresenterTest {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getReminderOptions()).thenReturn(RemindOptions.EIGHT_HOURS);
         mThsAvailableProviderDetailPresenter.scheduleAppointment(0);
-        verify(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),(String)isNull(),any(RemindOptions.class),any(RemindOptions.class),any(SDKValidatedCallback.class));
+        verify(consumerManagerMock).scheduleAppointment(any(Consumer.class),any(ProviderInfo.class),any(Date.class),(String)isNull(),any(String.class),any(String.class),any(SDKValidatedCallback.class));
     }
 
     @Test

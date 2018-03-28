@@ -124,7 +124,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
         return rowView;
     }
 
-    private class ViewHolder {
+    public class ViewHolder {
         private TextView MedicineName;
         private Label DeleteButton;
 

@@ -156,7 +156,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_DATE_VALIDATION,mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid),false);
                 return;
             }
-            Map<String, ValidationReason> errors = new HashMap<>();
+            Map<String, String> errors = new HashMap<>();
             try {
                 mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
                 CreatePaymentRequest createPaymentRequest = mTHSCreatePaymentRequest.getCreatePaymentRequest();

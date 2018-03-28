@@ -230,7 +230,7 @@ public class THSPharmacyListFragmentTest {
         SupportFragmentTestUtil.startFragment(thsPharmacyListFragment);
         thsPharmacyListFragment.mFragmentLauncher = fragmentLauncherMock;
         when(fragmentLauncherMock.getParentContainerResourceID()).thenReturn(R.id.conditions_container);
-        when(pharmacy.getType()).thenReturn(PharmacyType.MailOrder);
+        when(pharmacy.getType()).thenReturn(PharmacyType.MAIL_ORDER);
         thsPharmacyListFragment.validateForMailOrder(pharmacy);
         assertTrue(thsPharmacyListFragment.getActivity().getSupportFragmentManager().findFragmentByTag(THSShippingAddressFragment.TAG) != null);
     }
