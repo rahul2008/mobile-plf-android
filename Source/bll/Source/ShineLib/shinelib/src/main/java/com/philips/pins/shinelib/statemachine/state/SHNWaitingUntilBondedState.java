@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothDevice;
 
@@ -6,11 +6,12 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class WaitingUntilBondedState extends ConnectingState implements SHNCentral.SHNBondStatusListener {
+public class SHNWaitingUntilBondedState extends SHNConnectingState implements SHNCentral.SHNBondStatusListener {
 
-    private static final String TAG = WaitingUntilBondedState.class.getSimpleName();
+    private static final String TAG = SHNWaitingUntilBondedState.class.getSimpleName();
 
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3_000L;
     private static final long BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS = 1_000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
@@ -19,12 +20,12 @@ public class WaitingUntilBondedState extends ConnectingState implements SHNCentr
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine, sharedResources));
+            stateMachine.setState(SHNWaitingUntilBondedState.this, new SHNDiscoveringServicesState(stateMachine));
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
-    public WaitingUntilBondedState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNWaitingUntilBondedState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class WaitingUntilBondedState extends ConnectingState implements SHNCentr
         if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!sharedResources.getBtDevice().createBond()) {
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                stateMachine.setState(this, new DiscoveringServicesState(stateMachine, sharedResources));
+                stateMachine.setState(this, new SHNDiscoveringServicesState(stateMachine));
             }
         }
     }
@@ -60,12 +61,12 @@ public class WaitingUntilBondedState extends ConnectingState implements SHNCentr
                 sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        stateMachine.setState(WaitingUntilBondedState.this, new DiscoveringServicesState(stateMachine, sharedResources));
+                        stateMachine.setState(SHNWaitingUntilBondedState.this, new SHNDiscoveringServicesState(stateMachine));
                     }
                 }, BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS);
             } else if (bondState == BluetoothDevice.BOND_NONE) {
                 sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);
-                stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+                stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,14 +10,15 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
 
-public class GattConnectingState extends ConnectingState {
+public class SHNGattConnectingState extends SHNConnectingState {
 
-    private static final String TAG = GattConnectingState.class.getName();
+    private static final String TAG = SHNGattConnectingState.class.getName();
 
     private final boolean withTimeout;
     private final long timeoutInMS;
@@ -26,12 +27,12 @@ public class GattConnectingState extends ConnectingState {
     private long startTimerTime;
     private long minimumConnectionIdleTime;
 
-    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources) {
-        this(stateMachine, sharedResources, true, -1L);
+    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine) {
+        this(stateMachine, true, -1L);
     }
 
-    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources, long connectTimeOut) {
-        this(stateMachine, sharedResources, true, -1L);
+    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine, long connectTimeOut) {
+        this(stateMachine, true, -1L);
 
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
@@ -41,8 +42,8 @@ public class GattConnectingState extends ConnectingState {
         }
     }
 
-    public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources, final boolean withTimeout, final long timeoutInMS) {
-        super(stateMachine, sharedResources);
+    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
+        super(stateMachine);
         this.withTimeout = withTimeout;
         this.timeoutInMS = timeoutInMS;
     }
@@ -94,21 +95,21 @@ public class GattConnectingState extends ConnectingState {
             }
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 
     private void handleGattConnectEvent(int status) {
-        SHNLogger.d(TAG, "Handle connect event in GattConnectingState");
+        SHNLogger.d(TAG, "Handle connect event in SHNGattConnectingState");
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
-                stateMachine.setState(this, new WaitingUntilBondedState(stateMachine, sharedResources));
+                stateMachine.setState(this, new SHNWaitingUntilBondedState(stateMachine));
             } else {
-                stateMachine.setState(this, new DiscoveringServicesState(stateMachine, sharedResources));
+                stateMachine.setState(this, new SHNDiscoveringServicesState(stateMachine));
             }
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 
@@ -123,11 +124,11 @@ public class GattConnectingState extends ConnectingState {
         SHNLogger.d(TAG, "delta: " + delta);
 
         if (delta < timeOut) {
-            SHNLogger.d(TAG, "Retrying to connect GATT in GattConnectingState");
+            SHNLogger.d(TAG, "Retrying to connect GATT in SHNGattConnectingState");
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 

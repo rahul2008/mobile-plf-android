@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SharedResources {
+public class SHNDeviceResources {
 
     private final SHNDevice shnDevice;
     private BTGatt btGatt;
@@ -39,7 +39,7 @@ public class SharedResources {
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
 
-    public SharedResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
+    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
         this.shnDevice = shnDevice;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;

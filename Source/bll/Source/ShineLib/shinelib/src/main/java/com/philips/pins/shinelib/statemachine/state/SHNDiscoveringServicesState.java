@@ -1,17 +1,18 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGatt;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class DiscoveringServicesState extends ConnectingState {
+public class SHNDiscoveringServicesState extends SHNConnectingState {
 
-    private static final String TAG = DiscoveringServicesState.class.getSimpleName();
+    private static final String TAG = SHNDiscoveringServicesState.class.getSimpleName();
 
 
-    public DiscoveringServicesState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNDiscoveringServicesState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -30,14 +31,14 @@ public class DiscoveringServicesState extends ConnectingState {
             if (gatt.getServices().size() == 0) {
                 SHNLogger.i(TAG, "No services found, rediscovery the services");
                 gatt.disconnect();
-                stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources));
+                stateMachine.setState(this, new SHNGattConnectingState(stateMachine));
                 return;
             }
 
-            stateMachine.setState(this, new InitializingServicesState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNInitializingServicesState(stateMachine));
         } else {
             SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 }

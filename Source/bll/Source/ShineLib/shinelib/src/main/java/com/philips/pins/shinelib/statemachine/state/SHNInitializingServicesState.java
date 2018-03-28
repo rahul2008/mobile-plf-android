@@ -1,18 +1,19 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGattService;
 
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class InitializingServicesState extends ConnectingState {
+public class SHNInitializingServicesState extends SHNConnectingState {
 
-    private static final String TAG = InitializingServicesState.class.getSimpleName();
+    private static final String TAG = SHNInitializingServicesState.class.getSimpleName();
 
-    public InitializingServicesState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNInitializingServicesState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -27,11 +28,11 @@ public class InitializingServicesState extends ConnectingState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
         if (areAllRegisteredServicesReady()) {
-            stateMachine.setState(this, new ReadyState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNReadyState(stateMachine));
         }
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 

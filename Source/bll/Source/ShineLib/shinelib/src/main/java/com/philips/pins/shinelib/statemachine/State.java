@@ -1,13 +1,11 @@
 package com.philips.pins.shinelib.statemachine;
 
-public abstract class State<T> {
+public abstract class State<T extends StateMachine> {
 
-    protected  StateMachine stateMachine;
-    protected T sharedResources;
+    protected  T stateMachine;
 
-    public State(StateMachine stateMachine, T sharedResources) {
+    public State(T stateMachine) {
         this.stateMachine = stateMachine;
-        this.sharedResources = sharedResources;
     }
 
     protected abstract void onEnter();

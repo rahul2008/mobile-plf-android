@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothProfile;
@@ -10,24 +10,26 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class DisconnectingState extends SHNDeviceState {
+public class SHNDisconnectingState extends SHNDeviceState {
 
-    private static final String TAG = DisconnectingState.class.getSimpleName();
+    private static final String TAG = SHNDisconnectingState.class.getSimpleName();
 
     private static final long DISCONNECT_TIMEOUT = 1_000L;
 
     private Timer disconnectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            SHNLogger.e(TAG, "disconnect timeout in DisconnectingState");
+            SHNLogger.e(TAG, "disconnect timeout in SHNDisconnectingState");
             handleGattDisconnectEvent();
         }
     }, DISCONNECT_TIMEOUT);
 
-    public DisconnectingState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNDisconnectingState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -98,6 +100,6 @@ public class DisconnectingState extends SHNDeviceState {
             shnService.disconnectFromBLELayer();
         }
 
-        stateMachine.setState(this, new DisconnectedState(stateMachine, sharedResources));
+        stateMachine.setState(this, new SHNDisconnectedState(stateMachine));
     }
 }

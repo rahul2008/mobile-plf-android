@@ -1,11 +1,13 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 
-public class DisconnectedState extends SHNDeviceState {
+public class SHNDisconnectedState extends SHNDeviceState {
 
-    public DisconnectedState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNDisconnectedState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -26,17 +28,17 @@ public class DisconnectedState extends SHNDeviceState {
 
     @Override
     public void connect() {
-        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources));
+        stateMachine.setState(this, new SHNGattConnectingState(stateMachine));
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources, connectTimeOut));
+        stateMachine.setState(this, new SHNGattConnectingState(stateMachine, connectTimeOut));
     }
 
     @Override
     public void connect(final boolean withTimeout, final long timeoutInMS) {
-        stateMachine.setState(this, new GattConnectingState(stateMachine, sharedResources, withTimeout, timeoutInMS));
+        stateMachine.setState(this, new SHNGattConnectingState(stateMachine, withTimeout, timeoutInMS));
     }
 
     @Override

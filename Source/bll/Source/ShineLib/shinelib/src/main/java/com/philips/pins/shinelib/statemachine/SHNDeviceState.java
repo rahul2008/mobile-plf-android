@@ -9,12 +9,15 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public abstract class SHNDeviceState extends State<SharedResources> {
+public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
 
     private static final String TAG = SHNDeviceState.class.getSimpleName();
 
-    public SHNDeviceState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    protected final SHNDeviceResources sharedResources;
+
+    public SHNDeviceState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
+        sharedResources = stateMachine.getSharedResources();
     }
 
     public abstract SHNDevice.State getExternalState();

@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothProfile;
@@ -9,24 +9,26 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public abstract class ConnectingState extends SHNDeviceState {
+public abstract class SHNConnectingState extends SHNDeviceState {
 
-    private static final String TAG = ConnectingState.class.getName();
+    private static final String TAG = SHNConnectingState.class.getName();
     private static final long CONNECT_TIMEOUT = 20_000L;
 
     protected Timer connectingTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            SHNLogger.e(TAG, "connect timeout in ConnectingState");
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            stateMachine.setState(ConnectingState.this, new DisconnectingState(stateMachine, sharedResources));
+            SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
+            stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
+            stateMachine.setState(SHNConnectingState.this, new SHNDisconnectingState(stateMachine));
         }
     }, CONNECT_TIMEOUT);
 
-    public ConnectingState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNConnectingState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -46,8 +48,8 @@ public abstract class ConnectingState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
-        SHNLogger.d(TAG, "Disconnect call in state ConnectingState");
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        SHNLogger.d(TAG, "Disconnect call in state SHNConnectingState");
+        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
     }
 
     @Override
@@ -66,14 +68,14 @@ public abstract class ConnectingState extends SHNDeviceState {
     }
 
     private void handleGattDisconnectEvent() {
-        BTGatt btGatt = sharedResources.getBtGatt();
+        BTGatt btGatt = stateMachine.getSharedResources().getBtGatt();
         if (btGatt != null) {
             btGatt.close();
         }
-        sharedResources.setBtGatt(null);
+        stateMachine.getSharedResources().setBtGatt(null);
 
-        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorInvalidState);
 
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
     }
 }

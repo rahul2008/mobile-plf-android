@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.*;
+import com.philips.pins.shinelib.statemachine.state.SHNDisconnectedState;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Set;
@@ -28,8 +29,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public static final int GATT_ERROR = 0x0085;
 
     private static final String TAG = StateMachine.class.getSimpleName();
-    private StateMachine<SHNDeviceState> stateMachine;
-    private SharedResources sharedResources;
+    private SHNDeviceStateMachine stateMachine;
+    private SHNDeviceResources sharedResources;
 
     private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
@@ -55,10 +56,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
-        sharedResources = new SharedResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
-        stateMachine = new StateMachine(stateStateChangedListener);
+        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
+        stateMachine = new SHNDeviceStateMachine(stateStateChangedListener, sharedResources);
 
-        SHNDeviceState initialState = new DisconnectedState(stateMachine, sharedResources);
+        SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
         stateMachine.setInitialState(initialState);
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());

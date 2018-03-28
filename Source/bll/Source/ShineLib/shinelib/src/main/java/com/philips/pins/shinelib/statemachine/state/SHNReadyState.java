@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.statemachine;
+package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothProfile;
@@ -8,14 +8,16 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class ReadyState extends SHNDeviceState {
+public class SHNReadyState extends SHNDeviceState {
 
-    private static final String TAG = ReadyState.class.getSimpleName();
+    private static final String TAG = SHNReadyState.class.getSimpleName();
 
-    public ReadyState(StateMachine stateMachine, SharedResources sharedResources) {
-        super(stateMachine, sharedResources);
+    public SHNReadyState(SHNDeviceStateMachine stateMachine) {
+        super(stateMachine);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class ReadyState extends SHNDeviceState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
         }
     }
 
@@ -74,8 +76,8 @@ public class ReadyState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
-        SHNLogger.d(TAG, "Disconnect call in state ReadyState");
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        SHNLogger.d(TAG, "Disconnect call in state SHNReadyState");
+        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
     }
 
     private void handleGattDisconnectEvent() {
@@ -84,6 +86,6 @@ public class ReadyState extends SHNDeviceState {
             btGatt.close();
         }
         sharedResources.setBtGatt(null);
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
     }
 }
