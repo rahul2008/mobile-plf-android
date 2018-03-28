@@ -35,7 +35,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         @Override
         public void onStateChanged(SHNDeviceState oldState, SHNDeviceState newState) {
             SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
-            if(oldState.getExternalState() != newState.getExternalState()) {
+            if (oldState.getExternalState() != newState.getExternalState()) {
                 sharedResources.notifyStateToListener();
             }
         }
@@ -115,7 +115,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public void readRSSI() {
         BTGatt btGatt = sharedResources.getBtGatt();
-        if(btGatt != null) {
+        if (btGatt != null) {
             btGatt.readRSSI();
         }
     }
@@ -250,7 +250,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
             SHNDevice.SHNDeviceListener deviceListener = sharedResources.getDeviceListener();
-            if(deviceListener != null) {
+            if (deviceListener != null) {
                 deviceListener.onReadRSSI(rssi);
             }
         }

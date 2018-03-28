@@ -4,8 +4,6 @@ import com.philips.pins.shinelib.SHNDevice;
 
 public class DisconnectedState extends SHNDeviceState {
 
-    private static final String TAG = DisconnectedState.class.getSimpleName();
-
     public DisconnectedState(StateMachine stateMachine, SharedResources sharedResources) {
         super(stateMachine, sharedResources);
     }

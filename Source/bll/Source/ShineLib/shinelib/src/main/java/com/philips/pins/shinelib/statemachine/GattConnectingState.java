@@ -7,21 +7,17 @@ import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
-import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
 
-public class GattConnectingState extends SHNDeviceState {
+public class GattConnectingState extends ConnectingState {
 
     private static final String TAG = GattConnectingState.class.getName();
-
-    private static final long CONNECT_TIMEOUT = 20_000L;
 
     private final boolean withTimeout;
     private final long timeoutInMS;
@@ -29,15 +25,6 @@ public class GattConnectingState extends SHNDeviceState {
     private long timeOut;
     private long startTimerTime;
     private long minimumConnectionIdleTime;
-
-    private Timer connectTimer = Timer.createTimer(new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.e(TAG, "connect timeout in GattConnectingState");
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            disconnect();
-        }
-    }, CONNECT_TIMEOUT);
 
     public GattConnectingState(StateMachine stateMachine, SharedResources sharedResources) {
         this(stateMachine, sharedResources, true, -1L);
@@ -68,42 +55,7 @@ public class GattConnectingState extends SHNDeviceState {
 
     @Override
     protected void onExit() {
-        connectTimer.stop();
-    }
-
-    @Override
-    public SHNDevice.State getExternalState() {
-        return SHNDevice.State.Connecting;
-    }
-
-    @Override
-    public void disconnect() {
-        SHNLogger.d(TAG, "Disconnect call in state GattConnectingState");
-        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
-    }
-
-    private void startConnect(final boolean withTimeout, final long timeoutInMS) {
-        final long timeDiff = System.currentTimeMillis() - sharedResources.getLastDisconnectedTimeMillis();
-        if (stackNeedsTimeToPrepareForConnect(timeDiff)) {
-            postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
-            return;
-        }
-
-        if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
-            sharedResources.getShnCentral().registerSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
-            if (withTimeout) {
-                if (timeoutInMS > 0) {
-                    connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
-                }
-                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
-            } else {
-                //TODO: why is autoConnect true here??
-                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), true, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
-            }
-        } else {
-            //TODO: make this a transition to disconnected state instead of a notify??
-            sharedResources.notifyStateToListener();
-        }
+        connectingTimer.stop();
     }
 
     @Override
@@ -123,6 +75,29 @@ public class GattConnectingState extends SHNDeviceState {
         }
     }
 
+    private void startConnect(final boolean withTimeout, final long timeoutInMS) {
+        final long timeDiff = System.currentTimeMillis() - sharedResources.getLastDisconnectedTimeMillis();
+        if (stackNeedsTimeToPrepareForConnect(timeDiff)) {
+            postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
+            return;
+        }
+
+        if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
+            sharedResources.getShnCentral().registerSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
+            if (withTimeout) {
+                if (timeoutInMS > 0) {
+                    connectingTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+                }
+                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            } else {
+                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), true, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            }
+        } else {
+            sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+            stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+        }
+    }
+
     private void handleGattConnectEvent(int status) {
         SHNLogger.d(TAG, "Handle connect event in GattConnectingState");
         if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -139,7 +114,7 @@ public class GattConnectingState extends SHNDeviceState {
 
     private void handleGattDisconnectEvent() {
         BTGatt btGatt = sharedResources.getBtGatt();
-        if(btGatt != null) {
+        if (btGatt != null) {
             btGatt.close();
         }
         sharedResources.setBtGatt(null);
@@ -165,7 +140,7 @@ public class GattConnectingState extends SHNDeviceState {
     }
 
     private void setMinimumConnectionIdleTime() {
-        if(Workaround.EXTENDED_MINIMUM_CONNECTION_IDLE_TIME.isRequiredOnThisDevice()) {
+        if (Workaround.EXTENDED_MINIMUM_CONNECTION_IDLE_TIME.isRequiredOnThisDevice()) {
             this.minimumConnectionIdleTime = 2000L;
         } else {
             this.minimumConnectionIdleTime = 1000L;
