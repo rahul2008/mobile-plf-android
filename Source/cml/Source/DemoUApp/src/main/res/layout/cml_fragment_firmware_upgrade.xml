@@ -164,7 +164,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/cml_activity_vertical_margin"
-            android:text="@string/cml_check_canupgrade" />
+            android:text="@string/cml_refresh_props" />
 
         <Button
             android:id="@+id/cml_btnUploadFirmware"
