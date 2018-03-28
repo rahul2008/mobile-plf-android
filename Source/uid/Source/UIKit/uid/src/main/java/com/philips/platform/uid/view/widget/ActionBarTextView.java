@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
 
+import com.philips.platform.uid.utils.UIDUtils;
+
 /**
  * Text view suitable for keeping the text center relative to its parent size.
  * Suitable for using for title in actionbar or toolbar.
@@ -16,17 +18,14 @@ public class ActionBarTextView extends AppCompatTextView {
 
     public ActionBarTextView(Context context) {
         super(context);
-        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
     }
 
     public ActionBarTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
     }
 
     public ActionBarTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
     }
 
     /**
@@ -46,26 +45,45 @@ public class ActionBarTextView extends AppCompatTextView {
      */
     @SuppressWarnings("unused")
     public void removeForcedGravity() {
-        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        if(UIDUtils.isLayoutRTL(this)) {
+            setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        } else {
+            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        }
         this.forceGravity = false;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(UIDUtils.isLayoutRTL(this)) {
+            setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        } else {
+            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         float translateX = getTranslateX();
-        if (translateX > 0) {
+
+        if(UIDUtils.isLayoutRTL(this)){
+            if(translateX < 0) {
+                canvas.save();
+                canvas.translate(translateX, 0);
+            }
+        } else if (translateX > 0) {
             canvas.save();
             canvas.translate(translateX, 0);
         }
 
         super.onDraw(canvas);
 
-        if (translateX > 0) {
+        if(UIDUtils.isLayoutRTL(this)){
+            if(translateX < 0) {
+                canvas.restore();
+            }
+        } else if (translateX > 0) {
             canvas.restore();
         }
     }
@@ -89,9 +107,19 @@ public class ActionBarTextView extends AppCompatTextView {
             int width = parent.getWidth();
             float startDistance = getX();
             float endDistance = width - (startDistance + textViewWidth);
-            float leftAdjustment = endDistance - startDistance;
+            float leftAdjustment;
+            if(UIDUtils.isLayoutRTL(this)){
+                leftAdjustment = startDistance - endDistance;
+            } else {
+                leftAdjustment = endDistance - startDistance;
+            }
             if (textPaintLength - (leftAdjustment + textViewWidth) < 0) {
-                translateX = leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2;
+
+                if(UIDUtils.isLayoutRTL(this)){
+                    translateX = -(leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2);
+                } else {
+                    translateX = leftAdjustment + ((textViewWidth - leftAdjustment) - textPaintLength) / 2;
+                }
                 //Reduce translation to fit the text window
                 if (translateX + textPaintLength > textViewWidth) {
                     translateX = textViewWidth - textPaintLength;
