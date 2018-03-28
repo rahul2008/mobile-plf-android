@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -54,7 +55,7 @@ public class DiscoveringServicesState extends SHNDeviceState {
     @Override
     public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            disconnect();
+            handleGattDisconnectEvent();
         }
     }
 
@@ -80,13 +81,25 @@ public class DiscoveringServicesState extends SHNDeviceState {
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            disconnect();
+            handleGattDisconnectEvent();
         }
     }
 
     @Override
     public void disconnect() {
         SHNLogger.d(TAG, "Disconnect call in state DiscoveringServicesState");
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+    }
+
+    private void handleGattDisconnectEvent() {
+        BTGatt btGatt = sharedResources.getBtGatt();
+        if(btGatt != null) {
+            btGatt.close();
+        }
+        sharedResources.setBtGatt(null);
+
+        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 }

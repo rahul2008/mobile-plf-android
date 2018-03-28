@@ -65,7 +65,7 @@ public class InitializingServicesState extends SHNDeviceState {
     @Override
     public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            disconnect();
+            handleGattDisconnectEvent();
         }
     }
 
@@ -73,13 +73,25 @@ public class InitializingServicesState extends SHNDeviceState {
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            disconnect();
+            handleGattDisconnectEvent();
         }
     }
 
     @Override
     public void disconnect() {
         SHNLogger.d(TAG, "Disconnect call in state InitializingServicesState");
+        stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
+    }
+
+    private void handleGattDisconnectEvent() {
+        BTGatt btGatt = sharedResources.getBtGatt();
+        if(btGatt != null) {
+            btGatt.close();
+        }
+        sharedResources.setBtGatt(null);
+
+        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+
         stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
     }
 
@@ -93,8 +105,9 @@ public class InitializingServicesState extends SHNDeviceState {
             SHNService shnService = sharedResources.getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
 
-            if (sharedResources.getDiscoveryListener() != null) {
-                sharedResources.getDiscoveryListener().onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
+            SHNDevice.DiscoveryListener discoveryListener = sharedResources.getDiscoveryListener();
+            if (discoveryListener != null) {
+                discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
             }
 
             if (shnService != null) {

@@ -111,18 +111,22 @@ public class SharedResources {
         return registeredServices;
     }
 
+    @Nullable
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
         return registeredCapabilities.keySet();
     }
 
+    @Nullable
     public Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses() {
         return registeredByClassCapabilities.keySet();
     }
 
+    @Nullable
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return registeredCapabilities.get(type);
     }
 
+    @Nullable
     public <T extends SHNCapability> T getCapability(@NonNull Class<T> type) {
         return (T) registeredByClassCapabilities.get(type);
     }
@@ -162,6 +166,7 @@ public class SharedResources {
         this.shnDeviceListener = null;
     }
 
+    @Nullable
     public SHNDevice.SHNDeviceListener getDeviceListener() {
         return this.shnDeviceListener;
     }
@@ -174,6 +179,7 @@ public class SharedResources {
         this.discoveryListener = null;
     }
 
+    @Nullable
     public SHNDevice.DiscoveryListener getDiscoveryListener() {
         return this.discoveryListener;
     }

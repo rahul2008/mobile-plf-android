@@ -30,13 +30,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final String TAG = StateMachine.class.getSimpleName();
     private StateMachine<SHNDeviceState> stateMachine;
     private SharedResources sharedResources;
-    private SHNDeviceListener shnDeviceListener;
 
     private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
         public void onStateChanged(SHNDeviceState oldState, SHNDeviceState newState) {
             SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
-            sharedResources.notifyStateToListener();
+            if(oldState.getExternalState() != newState.getExternalState()) {
+                sharedResources.notifyStateToListener();
+            }
         }
     };
 
@@ -176,7 +177,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic characteristic) {
-        sharedResources.getDiscoveryListener().onCharacteristicDiscovered(characteristicUuid, data, characteristic);
+        SHNDevice.DiscoveryListener discoveryListener = sharedResources.getDiscoveryListener();
+        if (discoveryListener != null) {
+            discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
+        }
     }
 
     @Override

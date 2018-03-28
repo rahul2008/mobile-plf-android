@@ -151,6 +151,7 @@ public class GattConnectingState extends SHNDeviceState {
             SHNLogger.d(TAG, "Retrying to connect GATT in GattConnectingState");
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
+            sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
             stateMachine.setState(this, new DisconnectingState(stateMachine, sharedResources));
         }
     }
