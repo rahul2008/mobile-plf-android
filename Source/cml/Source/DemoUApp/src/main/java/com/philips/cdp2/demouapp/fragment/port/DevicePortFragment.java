@@ -125,8 +125,8 @@ public class DevicePortFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
 
         if (currentAppliance != null) {
             currentAppliance.getDevicePort().removePortListener(portListener);

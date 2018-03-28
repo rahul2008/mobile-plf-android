@@ -42,6 +42,12 @@ public class BleApplianceFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        handleContinuousConnectionChanged();
+    }
+
     private void handleContinuousConnectionChanged() {
         if (currentAppliance == null) {
             return;
