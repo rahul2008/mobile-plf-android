@@ -62,14 +62,21 @@ public class ConsentViewTest {
         thenSwitchIsEnabled();
     }
 
-    private void whenConsentIsVersion(ConsentVersionStates version) {
-        consentView.storeConsentDefnitionStatus(new ConsentDefinitionStatus(ConsentStates.active, version, consentDefinition));
+    @Test
+    public void isEnabled_falseWhenPostConsentFails() {
+        whenConsentIsVersion(ConsentVersionStates.InSync);
+        andIsError(true);
+        thenSwitchIsEnabled();
     }
 
     @Test
     public void isEnabled_trueWhenCurrentVersionLowerThanDefinition() {
         whenConsentIsVersion(ConsentVersionStates.InSync);
         thenSwitchIsEnabled();
+    }
+
+    private void whenConsentIsVersion(ConsentVersionStates version) {
+        consentView.storeConsentDefnitionStatus(new ConsentDefinitionStatus(ConsentStates.active, version, consentDefinition));
     }
 
     private void whenConsentIsAccepted() {
@@ -86,6 +93,9 @@ public class ConsentViewTest {
 
     private void whenConsentIsRejected() {
         consentView.storeConsentDefnitionStatus(rejectedConsentDefinitionStatus);
+    }
+    private void andIsError(boolean isError) {
+        consentView.setError(isError);
     }
 
     private void thenSwitchIsOff() {

@@ -63,7 +63,7 @@ public class ConsentView {
     }
 
     public boolean isEnabled() {
-        return (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower) && !isError);
+        return (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
     }
 
     public boolean isChecked() {
