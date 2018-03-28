@@ -14,10 +14,14 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_APPOINTMENT_CANCEL_CONFIRMATION;
+
 
 
 /**
@@ -46,9 +50,9 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_appointments), false);
+            actionBarListener.updateActionBar(getString(R.string.ths_appointments), true);
         }
-        //THSTagUtils.doTrackPageWithInfo(THS_CUSTOMER_SUPPORT,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_APPOINTMENT_CANCEL_CONFIRMATION,null,null);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
             if (fragment != null && fragment instanceof THSWelcomeFragment) {
                 fragmentManager.popBackStack(THSWelcomeFragment.TAG, 0);
             }else {
-
+                popSelfBeforeTransition();
                 THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
                 addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
             }
@@ -73,4 +77,8 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
 
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
 }

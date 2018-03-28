@@ -161,7 +161,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Settings Strings -->
-    <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
+    <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
@@ -206,6 +206,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_customer_support_can_we_help_you_with_something">Can we help you with something?</string>
     <string name="ths_customer_support_call_or_mail">If you need any assistance you can call or mail the amwell support team.</string>
     <string name="ths_customer_support_for_support">For support:</string>
+    <string name="ths_call">Call</string>
     <string name="ths_customer_support_phone_number">800-552-4111</string>
     <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
     <string name="ths_loading_text">Loading...</string>

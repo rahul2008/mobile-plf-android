@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/ths_margin_between_buttons"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:layout_marginTop="@dimen/ths_margin_between_buttons"
         android:text="@string/ths_appointment_cancelled"
         android:textSize="@dimen/ths_body_text" />
 
@@ -28,19 +28,34 @@
         android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_appointment_cancelled_help"
         android:textSize="@dimen/ths_body_text" />
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/ths_appointment_cancelled_help_phone"
+
+    <LinearLayout
+        android:id="@+id/ths_appointment_cancelled_help_phone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_appointment_cancelled_help_message"
-        android:paddingLeft="@dimen/ths_fab_margin"
         android:layout_marginTop="4dp"
-        android:text="@string/ths_customer_support_phone_number"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        android:autoLink="phone"
-        android:textSize="18sp"
-        fontPath="fonts/centralesansbook.ttf"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <com.philips.platform.uid.view.widget.Label
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:text="@string/ths_call"
+            android:textSize="@dimen/ths_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_appointment_cancelled_help_phone"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="phone"
+            android:paddingLeft="8dp"
+            android:text="@string/ths_customer_support_phone_number"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/ths_body_text" />
+    </LinearLayout>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_appointment_cancelled_button"
@@ -51,7 +66,6 @@
         android:text="@string/ths_appointment_cancelled_goto_start"
 
         />
-
 
 
 </RelativeLayout>

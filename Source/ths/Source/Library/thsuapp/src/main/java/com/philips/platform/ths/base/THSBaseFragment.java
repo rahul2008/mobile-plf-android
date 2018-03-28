@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
@@ -303,6 +304,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
             Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
             Fragment thsPreWelcomeFragment = fragmentManager.findFragmentByTag(THSPreWelcomeFragment.TAG);
+            Fragment thsTHSScheduledVisitsFragment = fragmentManager.findFragmentByTag(THSScheduledVisitsFragment.TAG);
 
             if (welComeFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -312,6 +314,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (thsPreWelcomeFragment != null) {
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }else if (thsTHSScheduledVisitsFragment != null) {
+                fragmentManager.popBackStack(THSScheduledVisitsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         THSTagUtils.doExitToPropositionWithCallBack();
