@@ -161,7 +161,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Settings Strings -->
-    <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
+    <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report(s)</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
