@@ -25,6 +25,7 @@
         android:layout_below="@+id/ths_appointment_for"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingBottom="4dp"
         android:text="@string/ths_select_date_and_time" />
 
     <View
