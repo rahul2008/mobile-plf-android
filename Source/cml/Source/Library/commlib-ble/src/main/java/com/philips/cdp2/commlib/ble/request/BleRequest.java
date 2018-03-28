@@ -11,6 +11,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
@@ -38,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
+import static com.philips.cdp.dicommclient.util.DICommLog.BLEREQUEST;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
@@ -186,9 +188,11 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void addTimeoutToRequest() {
+        DICommLog.d(BLEREQUEST, "adding timeout (" + REQUEST_TIMEOUT_MS + "ms) to request (" + this.hashCode() + ")");
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
+                DICommLog.d(BLEREQUEST, "request (" + BleRequest.this.hashCode() + ") timed out");
                 BleRequest.this.cancel("Timeout occurred.");
             }
         }, REQUEST_TIMEOUT_MS);
