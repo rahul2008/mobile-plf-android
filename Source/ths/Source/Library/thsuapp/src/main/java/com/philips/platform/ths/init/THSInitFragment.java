@@ -52,7 +52,9 @@ public class THSInitFragment extends THSBaseFragment {
             THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
         }
         Bundle bundle=getArguments();
-        deepLinkingFlow = bundle.getBoolean(KEY_DEEP_LINKING_FLOW);
+        if(null!=bundle) {
+            deepLinkingFlow = bundle.getBoolean(KEY_DEEP_LINKING_FLOW);
+        }
         return view;
     }
 
