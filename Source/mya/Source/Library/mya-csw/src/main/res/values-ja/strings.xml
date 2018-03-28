@@ -14,7 +14,7 @@
   <string name="csw_offline_title">オフラインです</string>
   <string name="csw_ok">[ja]OK</string>
   <string name="csw_privacy_notice">[ja]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">ご自分のプライバシーを管理しましょう。詳細については _privacy notice_ をお読みください。</string>
+  <string name="csw_privacy_notice_message">[ja]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[ja]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[ja]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">問題が発生しました（エラー %1$d）。再試行してください。</string>
