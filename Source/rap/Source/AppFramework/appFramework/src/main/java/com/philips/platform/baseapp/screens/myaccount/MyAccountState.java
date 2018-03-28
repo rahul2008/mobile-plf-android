@@ -32,7 +32,9 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.mya.MyaTabConfig;
+import com.philips.platform.mya.catk.CatkInitializer;
 import com.philips.platform.mya.catk.CatkInputs;
+import com.philips.platform.mya.catk.CatkInterface;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
@@ -230,7 +232,8 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
                 .setContext(context)
                 .setAppInfraInterface(app.getAppInfra())
                 .build();
-        ConsentsClient.getInstance().init(catkInputs);
+        CatkInterface catkInterface = new CatkInitializer();
+        catkInterface.initCatk(catkInputs);
     }
 
 
