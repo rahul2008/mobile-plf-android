@@ -190,7 +190,7 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
     List<ConsentDefinition> createConsentDefinitions(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
-        consentDefinitions.addAll(getCATKConsentDefinitions(context));
+        consentDefinitions.addAll(getCATKConsentDefinitions());
         consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
@@ -199,47 +199,36 @@ public class MyAccountState extends BaseState implements MyAccountUIEventListene
         return consentDefinitions;
     }
 
-    private List<ConsentDefinition> getCATKConsentDefinitions(Context context) {
-
+    private List<ConsentDefinition> getCATKConsentDefinitions() {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        // Moment consent
-        ConsentDefinition momentConsentDefinition = new ConsentDefinition(
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Moment_Text,
                 R.string.RA_MYA_Consent_Moment_Help,
                 Collections.singletonList("moment"),
                 1,
                 R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
-        );
-        definitions.add(momentConsentDefinition);
-        // Coaching consent
-        ConsentDefinition coachingConsentDefinition = new ConsentDefinition(
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Coaching_Text,
                 R.string.RA_MYA_Consent_Coaching_Help,
                 Collections.singletonList("coaching"),
                 1,
                 R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
-        );
-        definitions.add(coachingConsentDefinition);
-        // Binary consent
-        ConsentDefinition binaryConsentDefinition = new ConsentDefinition(
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Consent_Binary_Text,
                 R.string.RA_MYA_Consent_Binary_Help,
                 Collections.singletonList("binary"),
                 1,
                 R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
-        );
-        definitions.add(binaryConsentDefinition);
-
-        // Research & Analytics consent
-        ConsentDefinition researchConsentDefinition = new ConsentDefinition(
+        ));
+        definitions.add(new ConsentDefinition(
                 R.string.RA_MYA_Research_Analytics_Consent,
                 R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
                 Arrays.asList("research", "analytics"),
                 1,
                 R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
-        );
-
-        definitions.add(researchConsentDefinition);
+        ));
         return definitions;
     }
 
