@@ -9,7 +9,6 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
-import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class DisconnectingState extends State {
 
@@ -32,7 +31,6 @@ public class DisconnectingState extends State {
 
         BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
-            SHNLogger.e("DisconnectingState", "Called disconnect");
             btGatt.disconnect();
         } else {
             handleGattDisconnectEvent();
@@ -69,8 +67,6 @@ public class DisconnectingState extends State {
     }
 
     private void handleGattDisconnectEvent() {
-        SHNLogger.e("DisconnectingState", "handleGattDisconnectEvent");
-
         BTGatt btGatt = sharedResources.getBtGatt();
         if(btGatt != null) {
             btGatt.close();

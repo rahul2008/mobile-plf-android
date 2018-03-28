@@ -12,14 +12,14 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class StateMachine {
 
-    private static final String TAG = StateMachine.class.getName();
+    private static final String TAG = StateMachine.class.getSimpleName();
 
     private State state;
     private SharedResources sharedResources;
 
     public StateMachine(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
         this.sharedResources = new SharedResources(shnDevice, btDevice, shnCentral, deviceTypeName, shnBondInitiator, shnCentralListener ,btGattCallback);
-        this.state = new DisconnectedState(sharedResources);
+        this.state = new DisconnectedState(this);
     }
 
     public void setState(@NonNull State oldState, @NonNull  State newState) {
@@ -27,7 +27,7 @@ public class StateMachine {
             return;
         }
 
-        SHNLogger.e(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getName(), newState.getClass().getName()));
+        SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
 
         this.state.breakdown();
         this.state = newState;
