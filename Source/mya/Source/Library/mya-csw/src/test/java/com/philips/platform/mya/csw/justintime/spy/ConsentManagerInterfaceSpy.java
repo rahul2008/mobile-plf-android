@@ -6,7 +6,7 @@ import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.mya.catk.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;

@@ -8,7 +8,6 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
@@ -46,8 +45,6 @@ public class MarketingConsentHandlerTest {
     private User mockUser;
     @Captor
     private ArgumentCaptor<MarketingConsentHandler.MarketingUpdateCallback> marketingCallbackCaptor;
-    @Captor
-    private ArgumentCaptor<Consent> consentCaptor;
     @Captor
     private ArgumentCaptor<ConsentStatus> consentGetCaptor;
     @Captor

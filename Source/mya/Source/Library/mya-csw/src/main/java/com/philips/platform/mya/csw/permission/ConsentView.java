@@ -7,10 +7,11 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.support.annotation.Nullable;
-
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+
+import static com.philips.platform.pif.chi.datamodel.ConsentStates.active;
+import static com.philips.platform.pif.chi.datamodel.ConsentVersionStates.AppVersionIsLower;
 
 public class ConsentView {
 
@@ -18,9 +19,7 @@ public class ConsentView {
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
-
-    @Nullable
-    private Consent consent;
+    private ConsentDefinitionStatus consentDefinitionStatus;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
@@ -42,8 +41,8 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    public ConsentView storeConsent(Consent consent) {
-        this.consent = consent;
+    public ConsentView storeConsentDefnitionStatus(ConsentDefinitionStatus consentDefinitionStatus) {
+        this.consentDefinitionStatus = consentDefinitionStatus;
         this.isLoading = false;
         this.isError = false;
         this.isOnline = true;
@@ -64,11 +63,11 @@ public class ConsentView {
     }
 
     public boolean isEnabled() {
-        return (consent == null || consent.isChangeable()) && !isError;
+        return (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
     }
 
     public boolean isChecked() {
-        return consent != null && consent.isAccepted();
+        return consentDefinitionStatus != null && consentDefinitionStatus.getConsentState().equals(active) && !consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower);
     }
 
     public boolean isError() {
@@ -83,28 +82,27 @@ public class ConsentView {
         return isLoading;
     }
 
-    public void setNotFound() {
-        isLoading = false;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         ConsentView that = (ConsentView) o;
 
-        if (!definition.equals(that.definition))
-            return false;
-        return consent != null ? consent.equals(that.consent) : that.consent == null;
+        if (isLoading != that.isLoading) return false;
+        if (isError != that.isError) return false;
+        if (isOnline != that.isOnline) return false;
+        if (!definition.equals(that.definition)) return false;
+        return consentDefinitionStatus.equals(that.consentDefinitionStatus);
     }
 
     @Override
     public int hashCode() {
         int result = definition.hashCode();
-        result = 31 * result + (consent != null ? consent.hashCode() : 0);
+        result = 31 * result + (isLoading ? 1 : 0);
+        result = 31 * result + (isError ? 1 : 0);
+        result = 31 * result + (isOnline ? 1 : 0);
+        result = 31 * result + consentDefinitionStatus.hashCode();
         return result;
     }
 }
