@@ -41,7 +41,7 @@ public class ConsentViewTest {
     @Test
     public void isChecked_falseWhenConsentGivenButOldVersion() {
         whenConsentIsAcceptedButVersionIsOld();
-        thenSwitchIsOff();
+        thenSwitchIsOn();
     }
 
     @Test
