@@ -27,7 +27,7 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;

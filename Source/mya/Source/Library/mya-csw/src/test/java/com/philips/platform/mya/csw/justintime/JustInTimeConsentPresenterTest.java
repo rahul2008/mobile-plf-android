@@ -6,8 +6,8 @@ import com.philips.platform.mya.csw.justintime.spy.JustInTimeWidgetHandlerSpy;
 import com.philips.platform.mya.csw.justintime.spy.ViewSpy;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
