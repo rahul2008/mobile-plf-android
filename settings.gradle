@@ -47,6 +47,7 @@ include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
+include ':thsUapp'
 include ':mya'
 include ':mya-csw'
 include ':mya-catk'
@@ -96,6 +97,7 @@ project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
+project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
 project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
 project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
 project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
@@ -108,12 +110,8 @@ include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 //include ':telehealthApp'
 //project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
-
-include ':thsUapp'
-project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
-
-include ':uidApp'
-project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+//include ':uidApp'
+//project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':mya-demoapp'
 //project(':mya-demoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 //include ':uAppFwLibApp'
@@ -135,12 +133,11 @@ project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-// DO NOT DISABLE bll and cml demoapp
-include ':commlib-demoapp'
-project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-include ':bluelib-demoapp'
-project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
-include ':dcc-demoapp'
-project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include ':commlib-demoapp'
+//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+//include ':bluelib-demoapp'
+//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+//include ':dcc-demoapp'
+//project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include ':ail-demoapp'
 //project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')
