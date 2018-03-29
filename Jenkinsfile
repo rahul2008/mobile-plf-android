@@ -4,7 +4,6 @@ BranchName = env.BRANCH_NAME
  String cron_string = BRANCH_NAME == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
-def stage_tics = "false"
 
 pipeline {
     agent {
@@ -127,7 +126,6 @@ pipeline {
             steps {
                 script {
                     echo "Running TICS..."
-                    stage_tics = "true"
                     sh """#!/bin/bash -le
                         TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         TICSQServer -project OPA-Android -nosanity
@@ -186,13 +184,6 @@ pipeline {
         always{
             deleteDir()
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-        }
-        failure {
-            steps {
-                if(stage_tics == "true") {
-                    currentBuild.result = 'UNSTABLE'
-                }
-            }
         }
     }
 }
