@@ -96,7 +96,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(request.getUrl().toString()));
                     startActivity(intent);
-                    view.reload();
                     return true;
                 }
                 view.loadUrl(request.getUrl().toString());
