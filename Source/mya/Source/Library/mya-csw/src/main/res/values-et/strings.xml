@@ -15,7 +15,7 @@
   <string name="csw_ok">[et]OK</string>
   <string name="csw_privacy_notice">[et]Privacy Notice</string>
   <string name="csw_privacy_notice_message">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">[et]Privacy Settings</string>
+  <string name="csw_privacy_settings">Privaatsussätted</string>
   <string name="csw_privacy_settings_desc">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Esines probleem (viga %1$d). Palun proovige uuesti.</string>
   <string name="csw_problem_occurred_error_title">Esines probleem</string>
