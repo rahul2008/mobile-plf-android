@@ -161,6 +161,7 @@ public class THSConstants {
     public static final String THS_PAYMENT_METHOD_INVALID_CVV = "createPaymentRequest.creditCardSecCode";
     public static final String THS_PAYMENT_METHOD_INVALID_ZIP = "createPaymentRequest.creditCardZip";
     public static final String THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1 ="createPaymentRequest.address1";
+    public static final String THS_PAYMENT_METHOD_INVALID_MONTH ="createPaymentRequest.creditCardMonth";
 
 
     public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
