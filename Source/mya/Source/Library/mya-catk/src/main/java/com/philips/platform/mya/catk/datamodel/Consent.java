@@ -1,5 +1,8 @@
-package com.philips.platform.pif.chi.datamodel;
+package com.philips.platform.mya.catk.datamodel;
 
+
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
 import java.util.List;

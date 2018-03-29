@@ -97,7 +97,7 @@ public class OrmDeletingTest {
 
         ormDeleting.deleteAllExpiredInsights();
 
-        verify(whereMock).lt(eq("expiration_date"), isA(DateTime.class));
+        verify(whereMock).lt(eq("expirationDate"), isA(DateTime.class));
         verify(ormInsightDaoMock, times(1)).delete(isA(OrmInsight.class));
     }
 }

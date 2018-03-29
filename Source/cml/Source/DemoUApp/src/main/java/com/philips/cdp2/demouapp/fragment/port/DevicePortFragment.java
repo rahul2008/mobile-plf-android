@@ -122,12 +122,11 @@ public class DevicePortFragment extends Fragment {
         }
 
         currentAppliance.getDevicePort().addPortListener(portListener);
-        currentAppliance.getDevicePort().reloadProperties();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
 
         if (currentAppliance != null) {
             currentAppliance.getDevicePort().removePortListener(portListener);

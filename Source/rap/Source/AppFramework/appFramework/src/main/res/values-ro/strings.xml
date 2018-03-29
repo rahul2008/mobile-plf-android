@@ -91,7 +91,7 @@
   <string name="RA_DLS_power_sleep_time_sleep">[ro]Time asleep</string>
   <string name="RA_DLS_ps_tips_title">[ro]Tips</string>
   <string name="RA_DLS_sleep_element">[ro]Sleep element</string>
-  <string name="RA_DLS_splash_title">[ro]&lt;html&gt;&lt;b&gt;CDP&lt;sup&gt;&lt;small&gt;2&lt;/small&gt;&lt;/sup&gt;&lt;/b&gt; Reference App&lt;/html&gt;</string>
+  <string name="RA_DLS_splash_title">[ro]CDP2 Reference App</string>
   <string name="RA_DLS_theme_title">[ro]Theme Setting</string>
   <string name="RA_Demo_Menu_Title">[ro]Test Demo Apps</string>
   <string name="RA_Done_Button_Text">Finalizat</string>

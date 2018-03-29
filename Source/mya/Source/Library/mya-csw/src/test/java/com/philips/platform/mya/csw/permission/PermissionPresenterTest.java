@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -35,6 +36,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -42,6 +45,8 @@ public class PermissionPresenterTest {
     private ConsentError givenError;
     private List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>();
     private ConsentDefinitionStatus consentDefinitionStatus;
+    private ConsentDefinition consentDefinition;
+    private ConsentView consentView;
 
     @Mock
     private PermissionInterface mockPermissionInterface;
@@ -60,6 +65,9 @@ public class PermissionPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        consentDefinition = new ConsentDefinition(0, 0, Collections.singletonList("moment"), 1);
+        consentView = Mockito.spy(new ConsentView(consentDefinition));
+        when(mockAdapter.getConsentViews()).thenReturn(Collections.singletonList(consentView));
         givenPresenter();
         givenConsentDefinitions();
     }
@@ -102,6 +110,7 @@ public class PermissionPresenterTest {
     public void testHideProgressDialog_onSuccess() throws Exception {
         givenCswComponent();
         mPermissionPresenter.onGetConsentsSuccess(givenConsentDefinitionStatusList());
+        verify(consentView).storeConsentDefnitionStatus(consentDefinitionStatus);
         verify(mockPermissionInterface).hideProgressDialog();
     }
 
@@ -221,7 +230,7 @@ public class PermissionPresenterTest {
     private ArrayList<ConsentDefinitionStatus> givenConsentDefinitionStatusList() {
         ArrayList<ConsentDefinitionStatus> consentArrayList = new ArrayList<>();
         consentDefinitionStatus = new ConsentDefinitionStatus();
-        consentDefinitionStatus.setConsentDefinition(mockConsentDefinition);
+        consentDefinitionStatus.setConsentDefinition(consentDefinition);
         consentDefinitionStatus.setConsentState(ConsentStates.active);
         consentDefinitionStatus.setConsentVersionState(ConsentVersionStates.AppVersionIsHigher);
         consentArrayList.add(consentDefinitionStatus);

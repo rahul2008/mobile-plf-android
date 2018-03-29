@@ -18,13 +18,12 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
@@ -42,6 +41,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -75,9 +76,6 @@ public class MyAccountStateTest {
     @Mock
     private FragmentTransaction fragmentTransaction;
 
-    @Mock
-    private ConsentManagerInterface consentManagerInterface;
-
     private MyAccountState myAccountState;
 
 
@@ -101,6 +99,7 @@ public class MyAccountStateTest {
 
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
+    private List<ConsentDefinition> consentDefinitionList;
 
     @Mock
     private Resources resources;
@@ -150,6 +149,16 @@ public class MyAccountStateTest {
         assertEquals(8, definitions.size());
     }
 
+    @Test
+    public void shouldContainRevokeWarningConsentDefinition() throws Exception {
+        consentDefinitionList = givenListOfConsentDefinitions();
+        thenDefnitionsShouldContainRevokeWarning("moment");
+        thenDefnitionsShouldContainRevokeWarning("coaching");
+        thenDefnitionsShouldContainRevokeWarning("binary");
+        thenDefnitionsShouldContainRevokeWarning("research");
+        thenDefnitionsShouldContainRevokeWarning("analytics");
+    }
+
     @After
     public void tearDown() {
         myaInterface = null;
@@ -157,7 +166,6 @@ public class MyAccountStateTest {
         hamburgerActivity = null;
         application = null;
         appInfraInterface = null;
-        consentManagerInterface = null;
         myAccountState = null;
         uiStateData = null;
         appFrameworkApplication = null;
@@ -165,6 +173,15 @@ public class MyAccountStateTest {
 
     private List<ConsentDefinition> givenListOfConsentDefinitions() {
         return myAccountState.createConsentDefinitions(mockContext);
+    }
+
+    private void thenDefnitionsShouldContainRevokeWarning(String consentType) {
+        for (ConsentDefinition consentDefinition : consentDefinitionList) {
+            if (consentDefinition.getTypes().contains(consentType)) {
+                assertTrue(consentDefinition.hasRevokeWarningText());
+                return;
+            }
+        }
     }
 
     class MyAccountStateMock extends MyAccountState {
@@ -185,4 +202,5 @@ public class MyAccountStateTest {
             return application;
         }
     }
+
 }

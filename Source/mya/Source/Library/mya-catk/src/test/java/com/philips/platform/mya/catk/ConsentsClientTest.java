@@ -25,7 +25,7 @@ import com.philips.platform.mya.catk.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.mya.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -185,28 +185,7 @@ public class ConsentsClientTest {
     }
 
     @Test
-    public void getStatusForConsentType_returnsAccepted_whenNotInBackendAndStrictModeIsNotSet() {
-        givenStrictConsentCheckIs(null);
-        givenInitWasCalled("myApplication", "myProposition");
-        givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", consentResponseListener);
-        thenConsentStatusIs(ConsentStates.active);
-        thenConsentVersionIs(Integer.MAX_VALUE);
-    }
-
-    @Test
-    public void getStatusForConsentType_returnsAccepted_whenNotInBackendAndStrictModeIsOff() {
-        givenStrictConsentCheckIs(false);
-        givenInitWasCalled("myApplication", "myProposition");
-        givenConsentSuccessResponse(Collections.EMPTY_LIST);
-        consentsClient.getStatusForConsentType("moment", consentResponseListener);
-        thenConsentStatusIs(ConsentStates.active);
-        thenConsentVersionIs(Integer.MAX_VALUE);
-    }
-
-    @Test
     public void getStatusForConsentType_returnsEmptyList_whenNotInBackendAndStrictModeIsOn() {
-        givenStrictConsentCheckIs(true);
         givenInitWasCalled("myApplication", "myProposition");
         givenConsentSuccessResponse(Collections.EMPTY_LIST);
         consentsClient.getStatusForConsentType("moment", consentResponseListener);
@@ -220,10 +199,6 @@ public class ConsentsClientTest {
         assertNotNull(consentsClient.getAppInfra());
     }
 
-    private void givenStrictConsentCheckIs(final Boolean strictConsentCheckEnabled) {
-        when(mockConfigInterface.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(strictConsentCheckEnabled);
-    }
-
     private void givenConsentSuccessResponse(final List consentResponse) {
         networkControllerMock = new NetworkControllerMock();
         consentsClient.setNetworkController(networkControllerMock);
@@ -232,14 +207,6 @@ public class ConsentsClientTest {
 
     private void givenServiceDiscoveryReturnsHomeCountry(String homeCountry) {
         serviceDiscoveryInterface.getHomeCountry_return = homeCountry;
-    }
-
-    private void thenConsentStatusIs(final ConsentStates expectedStatus) {
-        assertEquals(expectedStatus, consentResponseListener.responseData.get(0).getStatus());
-    }
-
-    private void thenConsentVersionIs(final int expectedVersion) {
-        assertEquals(expectedVersion, consentResponseListener.responseData.get(0).getVersion());
     }
 
     private void givenAppNamePropName(String appName, String propName) {
@@ -294,9 +261,6 @@ public class ConsentsClientTest {
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
     private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
-    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition(0, 0, Collections.singletonList("type1"), 1);
-    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition(0, 0, Arrays.asList("type2", "type3"), 1);
-    private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {
         public List<BackendConsent> responseData;

@@ -245,15 +245,19 @@ public class DiscoveredAppliancesFragment extends Fragment {
         super.onPause();
 
         commCentral.getApplianceManager().removeApplianceListener(applianceListener);
-        stopDiscovery();
 
         appIdProvider.removeAppIdListener(appIdListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopDiscovery();
     }
 
     public static DiscoveredAppliancesFragment newInstance() {
         return new DiscoveredAppliancesFragment();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {

@@ -107,6 +107,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
         @Override
         public void onGetConsentSuccess(final ConsentDefinitionStatus consentDefinitionStatus) {
             if (isMomentConsentNotGiven(consentDefinitionStatus)) {
+                JustInTimeConsentDependencies.consentDefinition = consentDefinitionStatus.getConsentDefinition();
                 launchJustInTimeConsent(uiLauncher);
             } else {
                 launchUApp(uiLauncher);
