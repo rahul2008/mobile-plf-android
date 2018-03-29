@@ -55,7 +55,7 @@ public class SHNReadyState extends SHNDeviceState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 
@@ -77,7 +77,7 @@ public class SHNReadyState extends SHNDeviceState {
     @Override
     public void disconnect() {
         SHNLogger.d(TAG, "Disconnect call in state SHNReadyState");
-        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+        stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 
     private void handleGattDisconnectEvent() {
@@ -86,6 +86,6 @@ public class SHNReadyState extends SHNDeviceState {
             btGatt.close();
         }
         sharedResources.setBtGatt(null);
-        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+        stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 }

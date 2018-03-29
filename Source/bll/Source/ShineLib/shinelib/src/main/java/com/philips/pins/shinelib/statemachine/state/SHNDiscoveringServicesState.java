@@ -31,14 +31,14 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
             if (gatt.getServices().size() == 0) {
                 SHNLogger.i(TAG, "No services found, rediscovery the services");
                 gatt.disconnect();
-                stateMachine.setState(this, new SHNGattConnectingState(stateMachine));
+                stateMachine.setState(new SHNGattConnectingState(stateMachine));
                 return;
             }
 
-            stateMachine.setState(this, new SHNInitializingServicesState(stateMachine));
+            stateMachine.setState(new SHNInitializingServicesState(stateMachine));
         } else {
             SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 }

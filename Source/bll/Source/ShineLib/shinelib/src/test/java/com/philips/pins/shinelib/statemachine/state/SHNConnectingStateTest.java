@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,6 +47,6 @@ public class SHNConnectingStateTest {
     public void whenGattCallbackIndicatesConnectedThenDiscoverServicesIsCalled() {
         state.onConnectionStateChange(gattMock, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
 
-        verify(stateMachineMock).setState(any(state.getClass()), isA(SHNDiscoveringServicesState.class));
+        verify(stateMachineMock).setState(isA(SHNDiscoveringServicesState.class));
     }
 }

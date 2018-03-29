@@ -28,11 +28,11 @@ public class SHNInitializingServicesState extends SHNConnectingState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
         if (areAllRegisteredServicesReady()) {
-            stateMachine.setState(this, new SHNReadyState(stateMachine));
+            stateMachine.setState(new SHNReadyState(stateMachine));
         }
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 

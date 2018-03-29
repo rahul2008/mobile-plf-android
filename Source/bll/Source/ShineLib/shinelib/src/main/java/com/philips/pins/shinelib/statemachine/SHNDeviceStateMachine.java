@@ -4,8 +4,8 @@ public class SHNDeviceStateMachine extends StateMachine<SHNDeviceState> {
 
     private SHNDeviceResources sharedResources;
 
-    public SHNDeviceStateMachine(StateChangedListener<SHNDeviceState> stateChangedListener, SHNDeviceResources sharedResources) {
-        super(stateChangedListener);
+    public SHNDeviceStateMachine(SHNDeviceResources sharedResources) {
+        super();
         this.sharedResources = sharedResources;
     }
 

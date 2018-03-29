@@ -28,7 +28,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public static final int GATT_ERROR = 0x0085;
 
-    private static final String TAG = StateMachine.class.getSimpleName();
+    private static final String TAG = "SHNDeviceImpl";
     private SHNDeviceStateMachine stateMachine;
     private SHNDeviceResources sharedResources;
 
@@ -57,10 +57,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
         sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
-        stateMachine = new SHNDeviceStateMachine(stateStateChangedListener, sharedResources);
+        stateMachine = new SHNDeviceStateMachine(sharedResources);
+        stateMachine.addStateListener(stateStateChangedListener);
 
         SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
-        stateMachine.setInitialState(initialState);
+        stateMachine.setState(initialState);
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }

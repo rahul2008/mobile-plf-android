@@ -23,7 +23,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
         public void run() {
             SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
             stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            stateMachine.setState(SHNConnectingState.this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }, CONNECT_TIMEOUT);
 
@@ -49,7 +49,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
     @Override
     public void disconnect() {
         SHNLogger.d(TAG, "Disconnect call in state SHNConnectingState");
-        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+        stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 
     @Override
@@ -76,6 +76,6 @@ public abstract class SHNConnectingState extends SHNDeviceState {
 
         stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorInvalidState);
 
-        stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+        stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 }

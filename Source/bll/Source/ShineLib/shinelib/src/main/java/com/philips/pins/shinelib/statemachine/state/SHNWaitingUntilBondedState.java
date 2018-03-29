@@ -20,7 +20,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            stateMachine.setState(SHNWaitingUntilBondedState.this, new SHNDiscoveringServicesState(stateMachine));
+            stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
@@ -37,7 +37,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
         if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!sharedResources.getBtDevice().createBond()) {
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                stateMachine.setState(this, new SHNDiscoveringServicesState(stateMachine));
+                stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
         }
     }
@@ -61,12 +61,12 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
                 sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        stateMachine.setState(SHNWaitingUntilBondedState.this, new SHNDiscoveringServicesState(stateMachine));
+                        stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
                     }
                 }, BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS);
             } else if (bondState == BluetoothDevice.BOND_NONE) {
                 sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);
-                stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+                stateMachine.setState(new SHNDisconnectingState(stateMachine));
             }
         }
     }

@@ -95,7 +95,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             }
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 
@@ -103,13 +103,13 @@ public class SHNGattConnectingState extends SHNConnectingState {
         SHNLogger.d(TAG, "Handle connect event in SHNGattConnectingState");
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
-                stateMachine.setState(this, new SHNWaitingUntilBondedState(stateMachine));
+                stateMachine.setState(new SHNWaitingUntilBondedState(stateMachine));
             } else {
-                stateMachine.setState(this, new SHNDiscoveringServicesState(stateMachine));
+                stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 
@@ -128,7 +128,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
-            stateMachine.setState(this, new SHNDisconnectingState(stateMachine));
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 

@@ -100,6 +100,6 @@ public class SHNDisconnectingState extends SHNDeviceState {
             shnService.disconnectFromBLELayer();
         }
 
-        stateMachine.setState(this, new SHNDisconnectedState(stateMachine));
+        stateMachine.setState(new SHNDisconnectedState(stateMachine));
     }
 }

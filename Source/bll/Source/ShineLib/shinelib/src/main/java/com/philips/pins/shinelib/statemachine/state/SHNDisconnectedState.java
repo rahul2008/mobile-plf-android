@@ -28,17 +28,17 @@ public class SHNDisconnectedState extends SHNDeviceState {
 
     @Override
     public void connect() {
-        stateMachine.setState(this, new SHNGattConnectingState(stateMachine));
+        stateMachine.setState(new SHNGattConnectingState(stateMachine));
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        stateMachine.setState(this, new SHNGattConnectingState(stateMachine, connectTimeOut));
+        stateMachine.setState(new SHNGattConnectingState(stateMachine, connectTimeOut));
     }
 
     @Override
     public void connect(final boolean withTimeout, final long timeoutInMS) {
-        stateMachine.setState(this, new SHNGattConnectingState(stateMachine, withTimeout, timeoutInMS));
+        stateMachine.setState(new SHNGattConnectingState(stateMachine, withTimeout, timeoutInMS));
     }
 
     @Override
