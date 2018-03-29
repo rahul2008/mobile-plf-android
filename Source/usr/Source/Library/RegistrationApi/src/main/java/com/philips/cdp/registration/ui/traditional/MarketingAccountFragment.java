@@ -43,6 +43,7 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
+    private static final String TAG = MarketingAccountFragment.class.getSimpleName();
     @BindView(R2.id.usr_marketingScreen_countMe_button)
     ProgressBarButton countMeButton;
 
@@ -75,10 +76,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        RLog.i(TAG,"onAttach : is called");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RLog.i(TAG,"onCreateView : is called");
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -95,6 +98,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void setContentConfig(View view) {
+        RLog.i(TAG,"setContentConfig : is called");
         if (getRegistrationFragment().getContentConfiguration() != null) {
             updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
@@ -108,10 +112,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             }
         } else {
             defalutBannerText(view);
+            RLog.d(TAG,"setContentConfig : getContentConfiguration : is null");
         }
     }
 
     void defalutBannerText(View view) {
+        RLog.i(TAG,"defalutBannerText : is called");
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
         String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         joinNow = String.format(joinNow, updateJoinNowText);
@@ -126,37 +132,32 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onActivityCreated");
+    public void onStop() {
+        super.onStop();
+        RLog.i(TAG, "onStop : is called");
+        if (marketingAccountPresenter != null) {
+            marketingAccountPresenter.unRegister();
+            RLog.d(TAG, "onStop : unregister NetworStateListener,JANRAIN_INIT_SUCCESS");
+        }
     }
-
-    @Override
-    public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        if(marketingAccountPresenter!=null)
-        marketingAccountPresenter.unRegister();
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        super.onDestroy();
-    }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        RLog.i(TAG, "onSaveInstanceState : is called");
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
+        RLog.d(TAG, "onViewStateRestored : is called");
         super.onViewStateRestored(savedInstanceState);
         mBundle = null;
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+        RLog.d(TAG, "onConfigurationChanged : is called");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
