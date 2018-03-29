@@ -15,7 +15,7 @@
   <string name="csw_ok">[nb]OK</string>
   <string name="csw_privacy_notice">[nb]Privacy Notice</string>
   <string name="csw_privacy_notice_message">[nb]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">[nb]Privacy Settings</string>
+  <string name="csw_privacy_settings">Innstillinger for privatliv</string>
   <string name="csw_privacy_settings_desc">[nb]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Det oppstod et problem (feil %1$d). Prøv på nytt.</string>
   <string name="csw_problem_occurred_error_title">Det oppstod et problem</string>
