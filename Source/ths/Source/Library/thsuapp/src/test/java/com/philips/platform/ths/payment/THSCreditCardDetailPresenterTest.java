@@ -35,7 +35,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
@@ -91,10 +90,13 @@ public class THSCreditCardDetailPresenterTest {
     THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    THSCreditCardBillingAddressPresenter mThsWelcomeBackPresenterMock;
+    THSCreditCardDetailPresenter mThsWelcomeBackPresenterMock;
 
     @Mock
     Address addressMock;
+
+    @Mock
+    THSCreditCardDetailViewInterface thsCreditCardDetailViewInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -121,7 +123,7 @@ public class THSCreditCardDetailPresenterTest {
         mThsCreditCardDetailFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mThsCreditCardDetailFragment);
 
-        mThsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(mThsCreditCardDetailFragment);
+        mThsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(mThsCreditCardDetailFragment,thsCreditCardDetailViewInterfaceMock);
     }
 
     @Test(expected = NullPointerException.class)

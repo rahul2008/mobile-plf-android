@@ -42,7 +42,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, THSPaymentCallback.THSUpdatePaymentMethodCallBack<THSPaymentMethod, THSSDKError>, THSPaymentCallback.THSUpdatePaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError>,THSConsumerShippingAddressCallback {
 
-    private THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
+    protected THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
     private THSCreatePaymentRequest mTHSCreatePaymentRequest;
     private String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
     private Pattern pattern = Pattern.compile(regex);

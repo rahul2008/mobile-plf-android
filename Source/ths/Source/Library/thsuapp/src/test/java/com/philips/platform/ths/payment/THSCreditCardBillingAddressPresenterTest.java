@@ -22,7 +22,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -31,21 +30,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSCreditCardBillingAddressPresenterTest {
-    THSCreditCardBillingAddressPresenter mTHSCreditCardBillingAddressPresenter;
+    THSCreditCardDetailPresenter mTHSCreditCardBillingAddressPresenter;
 
     @Mock
-    THSCreditCardBillingAddressFragment thsCreditCardBillingAddressFragment;
+    THSCreditCardDetailFragment thsCreditCardBillingAddressFragmentMock;
 
     @Mock
     FragmentActivity fragmentActivityMock;
@@ -106,6 +102,10 @@ public class THSCreditCardBillingAddressPresenterTest {
 
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
+    @Mock
+    THSCreditCardDetailViewInterface thsCreditCardDetailViewInterfaceMock;
+
+    THSCreditCardDetailFragment thsCreditCardDetailFragment;
 
 
     @Before
@@ -120,55 +120,28 @@ public class THSCreditCardBillingAddressPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
+        when(thsCreditCardBillingAddressFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         THSManager.getInstance().setPTHConsumer(thsConsumermock);
         when(thsConsumermock.getConsumer()).thenReturn(consumerMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
-        mTHSCreditCardBillingAddressPresenter = new THSCreditCardBillingAddressPresenter(thsCreditCardBillingAddressFragment);
-        when(thsCreditCardBillingAddressFragment.isFragmentAttached()).thenReturn(true);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onEvent() throws Exception {
-        thsCreditCardBillingAddressFragment.mBundle = bundle;
-        when(consumerManagerMock.getNewCreatePaymentRequest(consumerMock)).thenReturn(createPaymentRequestMock);
-        when(thsCreatePaymentRequest.getCreatePaymentRequest()).thenReturn(createPaymentRequestMock);
-
-        when(bundle.getString("cardHolderName")).thenReturn("123");
-        when(bundle.getString("cardNumber")).thenReturn("sss");
-        when(bundle.getInt("expirationMonth")).thenReturn(123);
-        when(bundle.getInt("expirationYear")).thenReturn(456);
-        when(bundle.getString("CVVcode")).thenReturn("380");
-
-        mTHSCreditCardBillingAddressPresenter.onEvent(R.id.update_shipping_address);
-    }
-
-    @Test
-    public void onGetPaymentMethodResponse() throws Exception {
-        when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
-        when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
-        mTHSCreditCardBillingAddressPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkError);
-        verifyNoMoreInteractions(awsdk);
-    }
-
-    @Test
-    public void onGetPaymentMethodResponseNullSDKError() throws Exception {
-        when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
-        when(thssdkError.getSdkError()).thenReturn(null);
-        when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        when(fragmentActivityMock.getSupportFragmentManager()).thenReturn(fragmentManagerMock);
-        mTHSCreditCardBillingAddressPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkError);
-        //verify(fragmentManagerMock).popBackStack(anyString(),anyInt());
+        mTHSCreditCardBillingAddressPresenter = new THSCreditCardDetailPresenter(thsCreditCardBillingAddressFragmentMock,thsCreditCardDetailViewInterfaceMock);
+        when(thsCreditCardBillingAddressFragmentMock.isFragmentAttached()).thenReturn(true);
+        thsCreditCardDetailFragment = new THSCreditCardDetailFragment();
     }
 
     @Test
     public void onGetPaymentFailure() throws Exception {
-        when(thsCreditCardBillingAddressFragment.isFragmentAttached()).thenReturn(false);
+        SupportFragmentTestUtil.startFragment(thsCreditCardDetailFragment);
+        mTHSCreditCardBillingAddressPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragment;
+        when(thsCreditCardBillingAddressFragmentMock.isFragmentAttached()).thenReturn(false);
         mTHSCreditCardBillingAddressPresenter.onGetPaymentFailure(throwableMock);
     }
 
     @Test
     public void onValidationFailure() throws Exception {
+        SupportFragmentTestUtil.startFragment(thsCreditCardDetailFragment);
+        mTHSCreditCardBillingAddressPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragment;
+        when(thsCreditCardBillingAddressFragmentMock.isFragmentAttached()).thenReturn(false);
         mTHSCreditCardBillingAddressPresenter.onValidationFailure(mapMock);
     }
 

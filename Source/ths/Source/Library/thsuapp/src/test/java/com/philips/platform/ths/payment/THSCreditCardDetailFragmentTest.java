@@ -6,7 +6,6 @@
 
 package com.philips.platform.ths.payment;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
@@ -36,10 +35,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.util.List;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -94,7 +90,7 @@ public class THSCreditCardDetailFragmentTest {
     THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    THSCreditCardBillingAddressPresenter mThsWelcomeBackPresenterMock;
+    THSCreditCardDetailPresenter mThsWelcomeBackPresenterMock;
 
     @Mock
     Address addressMock;
