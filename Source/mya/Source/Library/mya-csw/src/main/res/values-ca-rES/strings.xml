@@ -15,7 +15,7 @@
   <string name="csw_ok">|[zh-TW]OK|</string>
   <string name="csw_privacy_notice">|[zh-TW]Privacy Notice|</string>
   <string name="csw_privacy_notice_message">|[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.|</string>
-  <string name="csw_privacy_settings">|[zh-TW]Privacy Settings|</string>
+  <string name="csw_privacy_settings">|Настройки конфиденциальности|</string>
   <string name="csw_privacy_settings_desc">|[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.|</string>
   <string name="csw_problem_occurred_error_message">|Es ist ein Problem (error %1$d) aufgetreten. Versuchen Sie es erneut.|</string>
   <string name="csw_problem_occurred_error_title">|Es ist ein Problem aufgetreten|</string>
