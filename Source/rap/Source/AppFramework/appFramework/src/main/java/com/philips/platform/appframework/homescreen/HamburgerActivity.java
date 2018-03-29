@@ -37,7 +37,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -233,13 +232,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         setActionBar(supportActionBar);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        cartCount.setVisibility(View.GONE);
-        cartIcon.setVisibility(View.GONE);
-    }
-
     /**
      * To set the actionbar
      * @param actionBar : Requires the actionbar obejct
@@ -414,6 +406,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
         toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
+        cartIconVisibility(false,0);
     }
 
     public boolean isIAPInstance(){
@@ -441,12 +434,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 if (cartItemsCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
                         cartCount.setText(String.valueOf(cartItemsCount));
+                        shoppingCartLayout.setVisibility(View.VISIBLE);
                 }else {
                     cartCount.setVisibility(View.GONE);
                 }
         } else {
                 cartIcon.setVisibility(View.GONE);
                 cartCount.setVisibility(View.GONE);
+                shoppingCartLayout.setVisibility(View.GONE);
         }
     }
 
