@@ -23,7 +23,6 @@ import com.philips.platform.mya.csw.utils.CswLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.List;
 
@@ -95,7 +94,6 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     }
 
     private void postConsentChange(ConsentDefinition definition, boolean consentGiven) {
-
         toggleStatus = consentGiven;
         permissionInterface.showProgressDialog();
         CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
@@ -107,7 +105,7 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         for (ConsentView consentView : consentViews) {
             for (ConsentDefinitionStatus consentDefinitionStatus : consentDefinitionStatusList) {
                 if (consentDefinitionStatus.getConsentDefinition() == consentView.getDefinition()) {
-                    consentView.storeConsent(adapter.getConsent(consentView.getDefinition(), consentDefinitionStatus.getConsentState().equals(ConsentStates.active)));
+                    consentView.storeConsentDefnitionStatus(consentDefinitionStatus);
                 }
             }
         }

@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -27,11 +27,8 @@ import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
 import com.philips.platform.mya.catk.provider.ServiceInfoProvider;
 import com.philips.platform.mya.catk.utils.CatkLogger;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,8 +49,6 @@ public class ConsentsClient {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private Boolean strictConsentCheck;
-    private ConsentManagerInterface consentManagerInterface;
     private AppInfraInterface appInfra;
 
     ConsentsClient() {
@@ -71,27 +66,9 @@ public class ConsentsClient {
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
-        this.consentManagerInterface = catkInputs.getAppInfra().getConsentManager();
         appInfra = catkInputs.getAppInfra();
         extractContextNames();
         validateAppNameAndPropName();
-
-        registerBackendPlatformConsent();
-
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                .AppConfigurationError();
-
-        final Object strictConsentCheck = catkInputs.getAppInfra().getConfigInterface().getPropertyForKey("strictConsentCheck", "mya", configError);
-        this.strictConsentCheck = (strictConsentCheck == null ? false : (Boolean) strictConsentCheck);
-
-    }
-
-    private void registerBackendPlatformConsent() {
-        try {
-            consentManagerInterface.registerHandler(Arrays.asList("moment", "coaching", "binary", "research", "analytics"), new ConsentInteractor(this));
-        } catch (RuntimeException exception) {
-            CatkLogger.d("RuntimeException", exception.getMessage());
-        }
     }
 
     private void initLogging() {
@@ -177,7 +154,7 @@ public class ConsentsClient {
                         return;
                     }
                 }
-                consentListener.onResponseSuccessConsent(strictConsentCheck ? new ArrayList<BackendConsent>() : Collections.singletonList(createAlwaysAcceptedBackendConsent(consentType)));
+                consentListener.onResponseSuccessConsent(new ArrayList<BackendConsent>());
             }
 
             @Override
@@ -185,10 +162,6 @@ public class ConsentsClient {
                 consentListener.onResponseFailureConsent(consentError);
             }
 
-            @NonNull
-            private BackendConsent createAlwaysAcceptedBackendConsent(final String consentType) {
-                return new BackendConsent(null, ConsentStates.active, consentType, Integer.MAX_VALUE);
-            }
         });
     }
 

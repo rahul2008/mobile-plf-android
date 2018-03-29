@@ -14,7 +14,7 @@
   <string name="csw_offline_title">오프라인 상태입니다.</string>
   <string name="csw_ok">[ko]OK</string>
   <string name="csw_privacy_notice">[ko]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
+  <string name="csw_privacy_notice_message">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_privacy_settings">[ko]Privacy Settings</string>
   <string name="csw_privacy_settings_desc">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">문제가 있습니다(오류 %1$d). 다시 시도하십시오.</string>

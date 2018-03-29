@@ -87,7 +87,7 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao;
 
-    private static final String EXPIRATION_DATE = "expiration_date";
+    private static final String EXPIRATION_DATE = "expirationDate";
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,

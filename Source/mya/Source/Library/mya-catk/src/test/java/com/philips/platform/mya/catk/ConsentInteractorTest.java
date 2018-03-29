@@ -19,7 +19,7 @@ import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 

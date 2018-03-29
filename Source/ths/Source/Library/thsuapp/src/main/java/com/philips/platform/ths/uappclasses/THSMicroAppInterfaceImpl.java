@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.mya.catk.CatkInitializer;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
@@ -39,6 +37,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     protected Context context;
     protected AppInfraInterface appInfra;
     static final long serialVersionUID = 1153L;
+
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
@@ -47,9 +46,8 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     public void init(@NonNull final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
-        final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
         appInfra.getConsentManager().deregisterHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION));
-        appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
+        appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), CatkInitializer.fetchCatkConsentHandler());
     }
 
     /**
@@ -57,18 +55,18 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        if( uappLaunchInput instanceof THSMicroAppLaunchInput){
-            THSMicroAppLaunchInput thsMicroAppLaunchInput=(THSMicroAppLaunchInput)uappLaunchInput;
+        if (uappLaunchInput instanceof THSMicroAppLaunchInput) {
+            THSMicroAppLaunchInput thsMicroAppLaunchInput = (THSMicroAppLaunchInput) uappLaunchInput;
             THSManager.getInstance().setThsCompletionProtocol(thsMicroAppLaunchInput.getThsCompletionProtocol());
         }
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
             intent.putExtra(THSConstants.KEY_ACTIVITY_THEME, ((ActivityLauncher) uiLauncher).getUiKitTheme());
-            if(themeConfigurationExists((ActivityLauncher) uiLauncher)) {
+            if (themeConfigurationExists((ActivityLauncher) uiLauncher)) {
                 intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
             }
-            if(null != ((ActivityLauncher) uiLauncher).getScreenOrientation()) {
+            if (null != ((ActivityLauncher) uiLauncher).getScreenOrientation()) {
                 ActivityLauncher.ActivityOrientation activityOrientation = ((ActivityLauncher) uiLauncher).getScreenOrientation();
                 intent.putExtra(THSConstants.KEY_ORIENTATION, activityOrientation);
             }
@@ -79,7 +77,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
             THSBaseFragment thsBaseFragment;
             thsBaseFragment = new THSInitFragment();
-            lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
+            lauchFirstFragment(thsBaseFragment, fragmentLauncher, fragmentTransaction);
         }
     }
 
@@ -96,16 +94,16 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     private Intent getConfigurationIntent(List<ThemeConfig> configurations) {
         Intent intent = new Intent();
         for (ThemeConfig config : configurations) {
-            if(config instanceof ColorRange) {
+            if (config instanceof ColorRange) {
                 intent.putExtra(THSConstants.KEY_COLOR_RANGE, getConfigElement(config));
             }
             if (config instanceof ContentColor) {
                 intent.putExtra(THSConstants.KEY_CONTENT_COLOR, getConfigElement(config));
             }
-            if(config instanceof NavigationColor) {
+            if (config instanceof NavigationColor) {
                 intent.putExtra(THSConstants.KEY_NAVIGATION_COLOR, getConfigElement(config));
             }
-            if(config instanceof AccentRange) {
+            if (config instanceof AccentRange) {
                 intent.putExtra(THSConstants.KEY_ACCENT_RANGE, getConfigElement(config));
             }
         }
@@ -117,7 +115,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         return configElement;
     }
 
-    private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction) {
+    private void lauchFirstFragment(THSBaseFragment thsBaseFragment, FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction) {
         Bundle bundle = new Bundle();
         thsBaseFragment.setArguments(bundle);
         thsBaseFragment.setActionBarListener(fragmentLauncher.getActionbarListener());

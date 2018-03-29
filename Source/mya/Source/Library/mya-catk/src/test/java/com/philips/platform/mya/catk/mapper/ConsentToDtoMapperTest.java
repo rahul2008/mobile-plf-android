@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class ConsentToDtoMapperTest {
