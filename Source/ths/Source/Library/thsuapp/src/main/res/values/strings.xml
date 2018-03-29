@@ -446,6 +446,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_credit_card_details_cvc_code">CVC Code</string>
     <string name="ths_credit_card_details_000"> 000 </string>
     <string name="ths_credit_card_details_fragment_name">Payment method</string>
+    <string name="ths_credit_card_details_address_same_as_shipping_address">Use my shipping address as billing address</string>
 
     <!-- Visit summary -->
     <string name="ths_prescription_sent_to_label">Your prescription was sent to</string>
