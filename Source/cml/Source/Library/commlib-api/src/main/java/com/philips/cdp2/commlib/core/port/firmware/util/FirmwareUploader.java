@@ -31,7 +31,6 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.fromString;
 import static java.lang.Math.min;
-import static java.lang.System.currentTimeMillis;
 
 /**
  * This type can be used to upload a binary firmware image to the {@link FirmwarePort} of an {@link Appliance}.
@@ -39,8 +38,6 @@ import static java.lang.System.currentTimeMillis;
  * is set, see {@link FirmwarePortProperties#getMaxChunkSize()}.
  */
 public class FirmwareUploader {
-
-    private static final String TAG = "FirmwareUploader";
 
     private final FirmwarePort firmwarePort;
     private final CommunicationStrategy communicationStrategy;
@@ -53,7 +50,6 @@ public class FirmwareUploader {
 
     private int progress;
     private Future<Void> uploadTask;
-    private long startTimeMillis;
 
     public interface UploadListener {
         void onSuccess();
@@ -86,11 +82,9 @@ public class FirmwareUploader {
                     Throwable t = new IOException("Max chunk size is invalid.");
                     listener.onError(t.getMessage(), t);
                 }
-
                 progress = 0;
                 listener.onProgress(progress);
 
-                startTimeMillis = currentTimeMillis();
                 uploadNextChunk(progress);
 
                 return null;
