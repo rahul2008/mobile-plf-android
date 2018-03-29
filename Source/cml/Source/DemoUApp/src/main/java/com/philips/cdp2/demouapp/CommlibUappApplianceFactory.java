@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,6 +19,7 @@ import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.ComfortAirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.JaguarAirPurifier;
 import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
+import com.philips.cdp2.demouapp.appliance.dolphin.DolphinAppliance;
 import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
@@ -76,6 +77,8 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
                     PolarisAppliance polaris = new PolarisAppliance(networkNode, communicationStrategy);
                     polaris.usesHttps(true);
                     return polaris;
+                case DolphinAppliance.DEVICETYPE:
+                    return new DolphinAppliance(networkNode, communicationStrategy);
                 default:
                     return new Appliance(networkNode, communicationStrategy) {
                         @Override
