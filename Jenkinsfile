@@ -188,7 +188,7 @@ pipeline {
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
         failure {
-            step {
+            steps {
                 if(stage_tics == "true") {
                     currentBuild.result = 'UNSTABLE'
                 }
