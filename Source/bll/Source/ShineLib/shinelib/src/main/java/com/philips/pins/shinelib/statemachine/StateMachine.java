@@ -11,21 +11,19 @@ public class StateMachine<T extends State> {
 
     private Set<StateChangedListener<T>> stateChangedListeners = new CopyOnWriteArraySet<>();
 
-    public synchronized void setState(@NonNull  T newState) {
+    public synchronized void setState(@NonNull T newState) {
         if (state == newState) return;
 
         final T oldState = state;
 
-        if (state != null) {
-            this.state.onExit();
+        if (oldState != null) {
+            oldState.onExit();
         }
-
         this.state = newState;
-        this.state.onEnter();
-
         for (StateChangedListener<T> listener: stateChangedListeners) {
             listener.onStateChanged(oldState, newState);
         }
+        newState.onEnter();
     }
 
     public T getState() {
