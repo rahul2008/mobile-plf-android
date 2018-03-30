@@ -208,17 +208,17 @@ public class ConsentManager implements ConsentManagerInterface {
     }
 
     private ConsentDefinitionStatus toConsentDefinitionStatus(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        ConsentVersionStates consentVersionStates;
-        ConsentStates consentStates = consentStatus.getConsentState();
+        ConsentVersionStates consentVersionState;
+        ConsentStates consentState = consentStatus.getConsentState();
         if (consentDefinition.getVersion() < consentStatus.getVersion()) {
-            consentVersionStates = ConsentVersionStates.AppVersionIsLower;
+            consentVersionState = ConsentVersionStates.AppVersionIsLower;
         } else if (consentDefinition.getVersion() == consentStatus.getVersion()) {
-            consentVersionStates = ConsentVersionStates.InSync;
+            consentVersionState = ConsentVersionStates.InSync;
         } else {
-            consentStates = ConsentStates.inactive;
-            consentVersionStates = ConsentVersionStates.AppVersionIsHigher;
+            consentState = ConsentStates.inactive;
+            consentVersionState = ConsentVersionStates.AppVersionIsHigher;
         }
-        return new ConsentDefinitionStatus(consentStates, consentVersionStates, consentDefinition);
+        return new ConsentDefinitionStatus(consentState, consentVersionState, consentDefinition);
     }
 
     private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners, final FetchConsentsCallback callback) {
