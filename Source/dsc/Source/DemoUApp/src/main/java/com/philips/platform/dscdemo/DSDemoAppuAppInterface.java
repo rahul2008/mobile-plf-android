@@ -31,6 +31,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class DSDemoAppuAppInterface implements UappInterface {
 
     private Context context;
+    private AppInfraInterface appInfra;
 
     /**
      * @param uappDependencies - App dependencies
@@ -40,7 +41,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
-        AppInfraInterface appInfra = dsDependencies.getAppInfra();
+        appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
         JustInTimeTextResources textResources = new JustInTimeTextResources();
         textResources.titleTextRes = R.string.DSC_CSW_JustInTime_Title;
@@ -59,7 +60,11 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
+        if (appInfra.getRestClient().isInternetReachable()) {
+            JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
+        } else {
+            launchUApp(uiLauncher);
+        }
     }
 
     private void launchUApp(UiLauncher uiLauncher) {
