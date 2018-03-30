@@ -35,6 +35,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
         public void onStateChanged(SHNDeviceState oldState, SHNDeviceState newState) {
+            if (oldState == null) {
+                return;
+            }
+
             SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
             if (oldState.getExternalState() != newState.getExternalState()) {
                 sharedResources.notifyStateToListener();
