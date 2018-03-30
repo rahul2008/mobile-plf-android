@@ -122,12 +122,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        RLog.i(TAG, "onCreateView : registered NetworkStateListener");
+        RLog.d(TAG, "onCreateView : registered NetworkStateListener");
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
-        } else {
-            RLog.e(TAG, "onCreateView : loadFirstFragment is not called");
+            RLog.d(TAG, "onCreateView : loadFirstFragment is called");
         }
         mNetworkReceiver = new NetworkStateReceiver();
 
@@ -138,20 +137,20 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void onResume() {
         super.onResume();
         networkUtility.registerNetworkListener(mNetworkReceiver);
-        RLog.i(TAG, "onResume : is called");
+        RLog.d(TAG, "onResume : is called");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         networkUtility.unRegisterNetworkListener(mNetworkReceiver);
-        RLog.i(TAG, "onPause : is called");
+        RLog.d(TAG, "onPause : is called");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        RLog.i(TAG, "onStop : is called");
+        RLog.d(TAG, "onStop : is called");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RegistrationBaseFragment.setHeightWidthToZero();
         setPrevTiltle();

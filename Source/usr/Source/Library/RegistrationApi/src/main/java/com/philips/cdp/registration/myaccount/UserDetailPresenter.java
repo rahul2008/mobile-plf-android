@@ -9,12 +9,16 @@ package com.philips.cdp.registration.myaccount;
 
 import android.text.TextUtils;
 
+import com.philips.cdp.registration.ui.utils.RLog;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implements MyaDetailContract.Presenter {
 
     private MyaDetailContract.View view;
+
+    private static String TAG = UserDetailPresenter.class.getSimpleName();
 
     UserDetailPresenter(MyaDetailContract.View view) {
         this.view = view;
@@ -31,10 +35,13 @@ class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> imple
             view.setGender(userDataModel.getGender().toString());
             view.setDateOfBirth(userDataModel.getBirthday());
             view.setAddress(userDataModel.getAddress());
+        }else {
+            RLog.d(TAG,"setUserDetails : userDataModelProvider is null");
         }
     }
 
     private void setUserName(UserDataModel userDataModel) {
+        RLog.d(TAG,"setUserName : is called");
         String givenName = userDataModel.getGivenName();
         String familyName = userDataModel.getFamilyName();
         if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
@@ -48,6 +55,7 @@ class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> imple
 
 
     private String printFirstCharacter(String nameString) {
+        RLog.d(TAG,"printFirstCharacter : is called");
         StringBuilder finalName = new StringBuilder();
         Pattern pattern = Pattern.compile("\\b[a-zA-z[$&+,:;=?@#|'<>.-^*()%!]0-9]");
         Matcher matcher = pattern.matcher(nameString);

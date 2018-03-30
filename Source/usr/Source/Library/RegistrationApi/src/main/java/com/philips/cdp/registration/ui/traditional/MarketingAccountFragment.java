@@ -177,9 +177,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
+            RLog.d(TAG, "updateMarketingEmail : is called with update true");
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
+            RLog.d(TAG, "updateMarketingEmail : is called with update false");
         }
     }
 
@@ -198,23 +200,28 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            RLog.d(TAG, "PHILIPS_ANNOUNCEMENT : Fragment is loaded");
         }
     };
 
     @Override
     public void handleRegistrationSuccess() {
-        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.d(TAG, "handleRegistrationSuccess : is called");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
             if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivateFragment();
+                RLog.d(TAG, "handleRegistrationSuccess : launchAccountActivateFragment is called");
             } else {
                 launchMobileVerifyCodeFragment();
+                RLog.d(TAG, "handleRegistrationSuccess : launchMobileVerifyCodeFragment is called");
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.d(TAG, "handleRegistrationSuccess : userRegistrationComplete is called");
         } else {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.d(TAG, "handleRegistrationSuccess : else : userRegistrationComplete is called");
         }
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
             mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -49,6 +50,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     private UserDetailPresenter myaDetailPresenter;
     private User user;
 
+    private String TAG = UserDetailsFragment.class.getSimpleName();
+
     @Override
     protected void setViewParams(Configuration config, int width) {
         // Do not do anything
@@ -70,19 +73,21 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         initViews(view);
         setRetainInstance(true);
         myaDetailPresenter = new UserDetailPresenter(this);
+        RLog.d(TAG,"onCreateView : is called");
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(DETAILS_BUNDLE, getArguments());
+        RLog.d(TAG,"onSaveInstanceState : is called");
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        RLog.d(TAG,"onActivityCreated : is called");
         user = getUser();
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(user);
         userDataModelProvider.fillUserData();
@@ -91,11 +96,13 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @NonNull
     private User getUser() {
+        RLog.d(TAG,"getUser : is called");
         return new User(getActivity());
     }
 
     @VisibleForTesting
     public void setUser(User user) {
+        RLog.d(TAG,"setUser : is called");
         this.user = user;
     }
 
@@ -125,7 +132,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     @Override
     public void setUserName(String name) {
         if (TextUtils.isEmpty(name) || name.equalsIgnoreCase("null")) {
-
+            RLog.d(TAG,"setUserName : name is null");
         }else {
             name_value.setText(name);
             name_value.setVisibility(View.VISIBLE);
@@ -141,7 +148,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     @Override
     public void setEmail(String email) {
         if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
-
+            RLog.d(TAG,"setEmail : email is null");
         } else {
             email_address_value.setText(email);
             email_address_value.setVisibility(View.VISIBLE);
@@ -155,6 +162,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
             gender_value.setText(gender);
             gender_value.setVisibility(View.VISIBLE);
             gender_header.setVisibility(View.VISIBLE);
+        }else{
+            RLog.d(TAG,"setGender : gender is null");
         }
     }
 
@@ -166,13 +175,15 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
             dob_value.setText(tempDate);
             dob_value.setVisibility(View.VISIBLE);
             dob_header.setVisibility(View.VISIBLE);
+        }else{
+            RLog.d(TAG,"setDateOfBirth : Date is null");
         }
     }
 
     @Override
     public void setMobileNumber(String number) {
         if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
-
+            RLog.d(TAG,"setMobileNumber : number is null");
         } else {
             mobile_number_value.setText(number);
             mobile_number_value.setVisibility(View.VISIBLE);
@@ -184,7 +195,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     public void setAddress(String address) {
 
         if (TextUtils.isEmpty(address) || address.equalsIgnoreCase("null")) {
-
+            RLog.d(TAG,"setAddress : address is null");
         } else {
             addressValue.setText(address);
             dobDivider.setVisibility(View.VISIBLE);
