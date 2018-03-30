@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -32,7 +33,7 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
     public static final String TAG = THSAppointmentCancelledConfirmation.class.getSimpleName();
     Label mPhoneNumber;
     Button goBackToStart;
-
+    private UIDNavigationIconToggler navIconToggler;
 
     @Nullable
     @Override
@@ -52,6 +53,8 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_appointments), true);
         }
+        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        navIconToggler.hideNavigationIcon();
         THSTagUtils.doTrackPageWithInfo(THS_APPOINTMENT_CANCEL_CONFIRMATION,null,null);
     }
 
@@ -75,6 +78,11 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
             }
         }
 
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        navIconToggler.restoreNavigationIcon();
     }
 
     @Override

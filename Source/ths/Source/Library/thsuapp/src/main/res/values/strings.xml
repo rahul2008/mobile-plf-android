@@ -161,7 +161,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Settings Strings -->
-    <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled visits</string>
+    <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled appointments</string>
     <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report(s)</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
@@ -263,7 +263,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_appointment_no_cancel_appointment">No, do not cancel</string>
     <string name="ths_appointment_cancelled">Your appointment has been cancelled.</string>
     <string name="ths_appointment_cancelled_help">Do you need any assistance?</string>
-    <string name="ths_appointment_cancelled_goto_start">Go back to start</string>
+    <string name="ths_appointment_cancelled_goto_start">Done</string>
 
     <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
     <string name="ths_insurance_fields_required">Please enter all details to continue</string>
