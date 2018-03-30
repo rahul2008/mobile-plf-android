@@ -23,7 +23,6 @@ import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.Before;
@@ -35,8 +34,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RuntimeEnvironment;
-
-import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -94,7 +91,6 @@ public class MyAccountStateTest {
 
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
-    private List<ConsentDefinition> consentDefinitionList;
 
     @Mock
     private Resources resources;

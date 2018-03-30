@@ -43,7 +43,6 @@ public class MyAccountState extends BaseState{
 
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
-    private static final String PRIVACY_NOTICE = "PrivacyNotice";
     private static final String PRIVACY_SETTINGS_EVENT = "PrivacySettingsEvent";
     private static final String MY_DETAILS_EVENT = "MyDetailsEvent";
 

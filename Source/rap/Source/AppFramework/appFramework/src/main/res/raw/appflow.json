@@ -58,6 +58,20 @@
         ]
       },
       {
+        "state": "privacy_settings",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -272,15 +286,6 @@
       {
         "state": "my_account",
         "events": [
-          {
-            "eventId": "PrivacyNotice",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
-              }
-            ]
-          },
           {
             "eventId": "PrivacySettingsEvent",
             "nextStates": [

@@ -2,7 +2,11 @@ package com.philips.platform.baseapp.screens.privacysettings;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
@@ -16,7 +20,8 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
 @RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
 public class PrivacySettingsStateTest {
     private Context context;
@@ -25,11 +30,31 @@ public class PrivacySettingsStateTest {
     @Mock
     private Context mockContext;
 
+    @Mock
+    private AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppFrameworkApplication appFrameworkApplication;
+
+    @Mock
+    private AppFrameworkApplication application;
+
+    @Mock
+    private ConsentManagerInterface consentManagerInterfaceMock;
+
+    @Mock
+    private Resources resources;
+
     private PrivacySettingsState privacySettingsState;
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         privacySettingsState = new PrivacySettingsState();
+        when(mockContext.getApplicationContext()).thenReturn(application);
+        when(mockContext.getResources()).thenReturn(resources);
+        when(application.getAppInfra()).thenReturn(appInfraInterface);
+        when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
+        when(resources.getString(anyInt())).thenReturn("ABC");
     }
     @Test
     public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
