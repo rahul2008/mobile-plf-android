@@ -280,6 +280,24 @@
                 "nextState": "web_view"
               }
             ]
+          },
+          {
+            "eventId": "PrivacySettingsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "privacy_settings"
+              }
+            ]
+          },
+          {
+            "eventId": "MyDetailsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_details"
+              }
+            ]
           }
         ]
       },
