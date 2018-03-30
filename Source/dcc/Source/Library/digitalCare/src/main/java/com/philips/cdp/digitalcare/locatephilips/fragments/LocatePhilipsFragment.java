@@ -922,9 +922,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 + atosAddressModel.getCityState() + "\n" + atosAddressModel.getUrl());
         ArrayList<String> phoneNumbers = atosAddressModel.getPhoneList();
         mPhoneNumber = phoneNumbers.get(0);
-        if (mPhoneNumber != null && !mPhoneNumber.equals(""))
+        if (mPhoneNumber != null && !mPhoneNumber.equals("")){
             mButtonCall.setText(getResources().getString(R.string.call_number) + " "
                     + mPhoneNumber);
+            mButtonCall.setVisibility(View.VISIBLE);
+        }
+
         else
             mButtonCall.setVisibility(View.INVISIBLE);
         mListView.setVisibility(View.GONE);
