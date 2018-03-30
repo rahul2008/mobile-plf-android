@@ -100,6 +100,9 @@ public class SHNDisconnectingState extends SHNDeviceState {
             shnService.disconnectFromBLELayer();
         }
 
+        sharedResources.setLastDisconnectedTimeMillis(System.currentTimeMillis());
+        sharedResources.getShnCentral().unregisterSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
+
         stateMachine.setState(new SHNDisconnectedState(stateMachine));
     }
 }

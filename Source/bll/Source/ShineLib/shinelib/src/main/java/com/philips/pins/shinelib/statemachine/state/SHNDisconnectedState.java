@@ -12,8 +12,6 @@ public class SHNDisconnectedState extends SHNDeviceState {
 
     @Override
     protected void onEnter() {
-        sharedResources.setLastDisconnectedTimeMillis(System.currentTimeMillis());
-        sharedResources.getShnCentral().unregisterSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
     }
 
     @Override
