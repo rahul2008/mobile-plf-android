@@ -27,11 +27,11 @@ public class SHNGattConnectingState extends SHNConnectingState {
     private long startTimerTime;
     private long minimumConnectionIdleTime;
 
-    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine) {
+    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         this(stateMachine, true, -1L);
     }
 
-    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine, long connectTimeOut) {
+    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
         this(stateMachine, true, -1L);
 
         if (connectTimeOut < 0) {
@@ -42,7 +42,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
     }
 
-    public SHNGattConnectingState(SHNDeviceStateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
+    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
         super(stateMachine);
         this.withTimeout = withTimeout;
         this.timeoutInMS = timeoutInMS;

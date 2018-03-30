@@ -1,12 +1,14 @@
 package com.philips.pins.shinelib.statemachine.state;
 
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 
 public class SHNDisconnectedState extends SHNDeviceState {
 
-    public SHNDisconnectedState(SHNDeviceStateMachine stateMachine) {
+    public SHNDisconnectedState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 

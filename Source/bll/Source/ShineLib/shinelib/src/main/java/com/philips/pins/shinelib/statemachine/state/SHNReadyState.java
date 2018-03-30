@@ -16,7 +16,7 @@ public class SHNReadyState extends SHNDeviceState {
 
     private static final String TAG = SHNReadyState.class.getSimpleName();
 
-    public SHNReadyState(SHNDeviceStateMachine stateMachine) {
+    public SHNReadyState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 

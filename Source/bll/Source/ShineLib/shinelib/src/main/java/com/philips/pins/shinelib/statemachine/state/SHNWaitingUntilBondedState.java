@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothDevice;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceImpl;
@@ -24,7 +25,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
-    public SHNWaitingUntilBondedState(SHNDeviceStateMachine stateMachine) {
+    public SHNWaitingUntilBondedState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 

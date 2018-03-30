@@ -15,7 +15,7 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
 
     protected final SHNDeviceResources sharedResources;
 
-    public SHNDeviceState(SHNDeviceStateMachine stateMachine) {
+    public SHNDeviceState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
         sharedResources = stateMachine.getSharedResources();
     }

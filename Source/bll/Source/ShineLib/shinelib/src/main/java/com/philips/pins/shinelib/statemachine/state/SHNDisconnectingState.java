@@ -28,7 +28,7 @@ public class SHNDisconnectingState extends SHNDeviceState {
         }
     }, DISCONNECT_TIMEOUT);
 
-    public SHNDisconnectingState(SHNDeviceStateMachine stateMachine) {
+    public SHNDisconnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 

@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGatt;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
@@ -11,7 +12,7 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
     private static final String TAG = SHNDiscoveringServicesState.class.getSimpleName();
 
 
-    public SHNDiscoveringServicesState(SHNDeviceStateMachine stateMachine) {
+    public SHNDiscoveringServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 

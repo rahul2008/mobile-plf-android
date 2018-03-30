@@ -27,7 +27,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
         }
     }, CONNECT_TIMEOUT);
 
-    public SHNConnectingState(SHNDeviceStateMachine stateMachine) {
+    public SHNConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine);
     }
 
