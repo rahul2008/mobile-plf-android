@@ -109,8 +109,8 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 
-include ':thsUapp'
-project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
+/*include ':thsUapp'
+project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')*/
 
 include ':uidApp'
 project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
