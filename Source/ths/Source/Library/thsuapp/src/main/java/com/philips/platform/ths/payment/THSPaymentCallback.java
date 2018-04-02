@@ -6,8 +6,6 @@
 
 package com.philips.platform.ths.payment;
 
-import com.americanwell.sdk.manager.ValidationReason;
-
 import java.util.Map;
 
 
@@ -21,7 +19,7 @@ public interface THSPaymentCallback {
     }
 
     interface THSgetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> extends THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
-        void onValidationFailure(Map<String, ValidationReason> map);
+        void onValidationFailure(Map<String, String> map);
 
     }
 

@@ -8,7 +8,6 @@ package com.philips.platform.ths.intake;
 
 import android.support.annotation.NonNull;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.entity.visit.TriageQuestion;
@@ -110,9 +109,9 @@ public class THSVisitContext {
         return visitContext.getCallbackNumber();
     }
 
-    Consumer getAuthenticatedConsumer() {
+    /*Consumer getAuthenticatedConsumer() {
         return visitContext.getAuthenticatedConsumer();
-    }
+    }*/
 
     String getProposedCouponCode() {
         return visitContext.getProposedCouponCode();

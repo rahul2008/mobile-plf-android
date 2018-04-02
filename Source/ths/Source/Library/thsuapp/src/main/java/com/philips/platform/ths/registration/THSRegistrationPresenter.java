@@ -11,9 +11,7 @@ import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
-import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -112,14 +110,14 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_validation_failed) + var1.toString());
         }
     }
 
-    public void enrollUser(Date date, String firstname, String lastname, Gender gender, State state) {
+    public void enrollUser(Date date, String firstname, String lastname, String gender, State state) {
         try {
             THSManager.getInstance().enrollConsumer(mTHSBaseFragment.getContext(), date,firstname,lastname,gender,state,this);
         } catch (AWSDKInstantiationException e) {
@@ -127,7 +125,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         }
     }
 
-    public void enrollDependent(Date date, String firstname, String lastname, Gender gender, State state) {
+    public void enrollDependent(Date date, String firstname, String lastname, String gender, State state) {
         try {
             THSManager.getInstance().enrollDependent(mTHSBaseFragment.getContext(), date, firstname, lastname, gender, state, this);
         } catch (AWSDKInstantiationException e) {

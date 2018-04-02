@@ -9,6 +9,7 @@ package com.philips.platform.thsdemolaunch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -57,8 +58,9 @@ import java.util.Calendar;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static utility.THSDemoAppConstants.DEPENDENT;
+
 @SuppressWarnings("serial")
-public class MainActivity extends UIDActivity implements ActionBarListener, View.OnClickListener,UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
+public class MainActivity extends UIDActivity implements ActionBarListener, View.OnClickListener, UserRegistrationListener, UserRegistrationUIEventListener, THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Purple_Bright;
@@ -99,11 +101,18 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         mProgress = (ProgressBar) findViewById(R.id.progress);
         logout = (Button) findViewById(R.id.logout);
 
-        final Bundle extras = getIntent().getExtras();
-        if(extras!=null){
-            mThsConsumer = (THSConsumer) extras.getSerializable(DEPENDENT);
-            if(mThsConsumer!=null){
-                prepareLaunchAmwell();
+
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.toString().contains("telehealth.com")) {
+            prepareLaunchAmwell();
+        } else {
+
+            final Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                mThsConsumer = (THSConsumer) extras.getSerializable(DEPENDENT);
+                if (mThsConsumer != null) {
+                    prepareLaunchAmwell();
+                }
             }
         }
     }
@@ -112,15 +121,15 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     protected void onResume() {
         super.onResume();
 
-        if(!user.isUserSignIn()){
+        if (!user.isUserSignIn()) {
             logout.setVisibility(View.GONE);
         }
 
         logout.setOnClickListener(this);
 
-        if(user.isUserSignIn()){
+        if (user.isUserSignIn()) {
             logout.setText("Logout");
-        }else {
+        } else {
             logout.setText("Login");
         }
     }
@@ -128,26 +137,27 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.launch_amwell){
+        if (id == R.id.launch_amwell) {
             prepareLaunchAmwell();
-        }if(id == R.id.logout){
+        }
+        if (id == R.id.logout) {
             mProgress.setVisibility(View.VISIBLE);
             user.logout(new LogoutHandler() {
                 @Override
                 public void onLogoutSuccess() {
                     logout.setText("Login");
                     mProgress.setVisibility(View.GONE);
-                    Toast.makeText(MainActivity.this,"Logout Success!!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Logout Success!!!", Toast.LENGTH_SHORT).show();
                     logout.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onLogoutFailure(int i, String s) {
-                    Toast.makeText(MainActivity.this,"Logout failed!!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Logout failed!!!", Toast.LENGTH_SHORT).show();
                     mProgress.setVisibility(View.GONE);
                 }
             });
-        }else if(id == R.id.add_dependent){
+        } else if (id == R.id.add_dependent) {
             Intent intent = new Intent(MainActivity.this, THSDemoAddDependentActivity.class);
             startActivity(intent);
         }
@@ -229,16 +239,24 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     }
 
     private void launchAmwell() {
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
+        Uri uri = getIntent().getData();
+
+        if (uri != null && uri.toString().contains("telehealth.com")) {
+            PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this, true);
+        } else {
+            PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
+        }
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(THSAppInfraInstance.getInstance().getAppInfraInterface());
         uappDependencies.setThsConsumer(mThsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE),R.style.Theme_DLS_GroupBlue_UltraLight, null);
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE), R.style.Theme_DLS_GroupBlue_UltraLight, null);
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
 
     }
+
+
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {

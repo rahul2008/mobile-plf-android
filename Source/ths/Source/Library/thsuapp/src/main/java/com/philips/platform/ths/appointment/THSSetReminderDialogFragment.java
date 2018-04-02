@@ -7,12 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioGroup;
+
+import static com.americanwell.sdk.entity.consumer.RemindOptions.EIGHT_HOURS;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.FIFTEEN_MIN;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.FOUR_HOURS;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.NO_REMINDER;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.ONE_DAY;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.ONE_HOUR;
+import static com.americanwell.sdk.entity.consumer.RemindOptions.ONE_WEEK;
 
 
 public class THSSetReminderDialogFragment extends DialogFragment implements View.OnClickListener {
@@ -21,7 +27,7 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
     protected RadioGroup radioGroup;
     protected THSDialogFragmentCallback<String> thsDialogFragmentCallback;
 
-    public void setDialogFragmentCallback(THSDialogFragmentCallback<String> thsDialogFragmentCallback){
+    public void setDialogFragmentCallback(THSDialogFragmentCallback<String> thsDialogFragmentCallback) {
         this.thsDialogFragmentCallback = thsDialogFragmentCallback;
     }
 
@@ -34,35 +40,35 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
         Button cancel_reminder_dialog = view.findViewById(R.id.cancel_reminder_dialog);
         set_reminder_confirmation_button.setOnClickListener(this);
         cancel_reminder_dialog.setOnClickListener(this);
-        final RemindOptions reminderOptions = thsDialogFragmentCallback.getReminderOptions();
+        final String reminderOptions = thsDialogFragmentCallback.getReminderOptions();
         setReminder(reminderOptions);
         return view;
     }
 
-    public void setReminder(RemindOptions reminderOptions){
-        switch (reminderOptions){
-            case EIGHT_HOURS:
-                radioGroup.check(R.id.ths_rb_eight_hours);
-                break;
-            case ONE_DAY:
-                radioGroup.check(R.id.ths_rb_one_day);
-                break;
-            case NO_REMINDER:
-                radioGroup.check(R.id.ths_rb_no_reminder);
-                break;
-            case FIFTEEN_MIN:
-                radioGroup.check(R.id.ths_rb_15_mins);
-                break;
-            case ONE_HOUR:
-                radioGroup.check(R.id.ths_rb_one_hour);
-                break;
-            case FOUR_HOURS:
-                radioGroup.check(R.id.ths_rb_four_hours);
-                break;
-            case ONE_WEEK:
-                radioGroup.check(R.id.ths_rb_one_week);
-                break;
+    public void setReminder(String reminderOptions) {
+
+        if (reminderOptions.equalsIgnoreCase(EIGHT_HOURS)) {
+            radioGroup.check(R.id.ths_rb_eight_hours);
         }
+        if (reminderOptions.equalsIgnoreCase(ONE_DAY)) {
+            radioGroup.check(R.id.ths_rb_one_day);
+        }
+        if (reminderOptions.equalsIgnoreCase(NO_REMINDER)) {
+            radioGroup.check(R.id.ths_rb_no_reminder);
+        }
+        if (reminderOptions.equalsIgnoreCase(FIFTEEN_MIN)) {
+            radioGroup.check(R.id.ths_rb_15_mins);
+        }
+        if (reminderOptions.equalsIgnoreCase(ONE_HOUR)) {
+            radioGroup.check(R.id.ths_rb_one_hour);
+        }
+        if (reminderOptions.equalsIgnoreCase(FOUR_HOURS)) {
+            radioGroup.check(R.id.ths_rb_four_hours);
+        }
+        if (reminderOptions.equalsIgnoreCase(ONE_WEEK)) {
+            radioGroup.check(R.id.ths_rb_one_week);
+        }
+
         radioGroup.setSelected(true);
     }
 

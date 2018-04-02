@@ -308,15 +308,15 @@ public class THSAvailableProviderDetailFragmentTest {
     @Test
     public void getReminderOptions_ONE_WEEK() throws Exception {
         mThsAvailableProviderDetailFragment.remindOptions = RemindOptions.ONE_WEEK;
-        final RemindOptions reminderOptions = mThsAvailableProviderDetailFragment.getReminderOptions();
-        assert  reminderOptions == RemindOptions.ONE_WEEK;
+        final String reminderOptions = mThsAvailableProviderDetailFragment.getReminderOptions();
+        assert  reminderOptions.equalsIgnoreCase(RemindOptions.ONE_WEEK);
     }
 
     @Test
     public void getReminderOptions_ONE_DEFAULT() throws Exception {
         mThsAvailableProviderDetailFragment.remindOptions = RemindOptions.NO_REMINDER;
-        final RemindOptions reminderOptions = mThsAvailableProviderDetailFragment.getReminderOptions();
-        assert  reminderOptions == RemindOptions.NO_REMINDER;
+        final String reminderOptions = mThsAvailableProviderDetailFragment.getReminderOptions();
+        assert  reminderOptions.equalsIgnoreCase(RemindOptions.NO_REMINDER);
     }
 
     @Test

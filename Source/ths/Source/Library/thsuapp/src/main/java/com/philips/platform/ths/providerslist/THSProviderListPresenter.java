@@ -20,7 +20,7 @@ import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateF
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
@@ -84,7 +84,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
         for (THSProviderInfo thsProviderInfo : providerInfoList) {
-            if (!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())) {
+            if (!ProviderVisibility.OFFLINE.equalsIgnoreCase(thsProviderInfo.getVisibility())) {
                 return true;
             }
         }
@@ -105,6 +105,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (componentID == R.id.getStartedButton) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             try {
+                THSManager.getInstance().setVisitContext(null);
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
                         practice, null, this);
             } catch (AWSDKInstantiationException e) {
@@ -157,9 +158,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsOnDemandSpeciality = onDemandSpecialties;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-                final THSSymptomsFragment fragment = new THSSymptomsFragment();
-                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
+                THSProviderDetailsFragment thsProviderDetailsFragment = new THSProviderDetailsFragment();
+                mThsBaseFragment.addFragment(thsProviderDetailsFragment, THSProviderDetailsFragment.TAG, bundle, true);
                 mThsBaseFragment.hideProgressBar();
             }
         }
