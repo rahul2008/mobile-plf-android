@@ -50,32 +50,41 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener,THSCreditCardDetailViewInterface, CompoundButton.OnCheckedChangeListener {
 
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();
-    THSCreditCardDetailPresenter mTHSCreditCardDetailPresenter;
+    THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
     EditText mCardHolderNameEditText, mCardNumberEditText, mCardExpiryMonthEditText, mCardExpiryYearEditText, mCVCcodeEditText,
             mAddressOneEditText, mAddressTwoEditText, mCityEditText, placeHolderUIPicker, mZipcodeEditText;
     Label cvvDetail, mBillingAddresslabel, anchorUIPicker;
     private Button mPaymentDetailContinueButton;
     AlertDialogFragment alertDialogFragment;
     private ActionBarListener actionBarListener;
-    private RelativeLayout mProgressbarContainer;
+    private RelativeLayout mProgressbarContainer, ths_payment_detail_expiry_error_layout, ths_payment_detail_cvc_error_layout;
     protected UIPicker uiPicker;
     protected State mCurrentSelectedState;
     private THSSpinnerAdapter stateSpinnerAdapter;
     List<State> stateList = null;
     private InputValidationLayout postCodeValidationLayout, addressValidationLayout, cityValidationLayout;
     private CheckBox ths_credit_card_details_checkbox;
+    protected InputValidationLayout card_number_edittext_validation_layout,card_holder_name_edittext_validation_layout,
+    card_expiration_month_edittext_validation_layout,card_expiration_year_edittext_validation_layout, card_cvc_edittext_validation_layout;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_payment_detail, container, false);
-        mTHSCreditCardDetailPresenter = new THSCreditCardDetailPresenter(this,this);
+        thsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(this,this);
+        card_number_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_number_edittext_validation_layout);
+        card_holder_name_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext_validation_layout);
+        card_expiration_month_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_expiration_month_edittext_validation_layout);
+        card_expiration_year_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_expiration_year_edittext_validation_layout);
+        card_cvc_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_cvc_edittext_validation_layout);
         mCardHolderNameEditText = view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext);
         mCardNumberEditText = view.findViewById(R.id.ths_payment_detail_card_number_edittext);
         mCardExpiryMonthEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_month_edittext);
         mCardExpiryYearEditText = view.findViewById(R.id.ths_payment_detail_card_expiration_year_edittext);
         mCVCcodeEditText = view.findViewById(R.id.ths_payment_detail_card_cvc_edittext);
+        ths_payment_detail_cvc_error_layout = view.findViewById(R.id.ths_payment_detail_cvc_error_layout);
+        ths_payment_detail_expiry_error_layout = view.findViewById(R.id.ths_payment_detail_expiry_error_layout);
         mPaymentDetailContinueButton = view.findViewById(R.id.ths_payment_detail_continue_button);
         ths_credit_card_details_checkbox = view.findViewById(R.id.ths_credit_card_details_checkbox);
         ths_credit_card_details_checkbox.setOnCheckedChangeListener(this);
@@ -126,11 +135,75 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             @Override
             public boolean validate(CharSequence charSequence) {
                 updateContinueBtnState();
-                boolean validateString = mTHSCreditCardDetailPresenter.validateZip(mZipcodeEditText.getText().toString());
+                boolean validateString = thsCreditCardDetailPresenter.validateZip(mZipcodeEditText.getText().toString());
                 if (!validateString) {
                     postCodeValidationLayout.showError();
                     doTagging(ANALYTICS_UPDATE_PAYMENT, getString(R.string.ths_pharmacy_search_error), false);
                     return false;
+                }
+                return true;
+            }
+        });
+
+        /*
+               credit card validation starts here
+         */
+        card_holder_name_edittext_validation_layout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                updateContinueBtnState();
+                boolean validateString = thsCreditCardDetailPresenter.isNameValid(msg.toString());
+                if(!validateString){
+                    card_holder_name_edittext_validation_layout.showError();
+                }
+                return true;
+            }
+        });
+
+        card_number_edittext_validation_layout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                updateContinueBtnState();
+                boolean validateString = thsCreditCardDetailPresenter.validateCreditCardDetails(msg.toString());
+                if(!validateString){
+                    card_number_edittext_validation_layout.showError();
+                }
+                return true;
+            }
+        });
+
+
+        card_expiration_month_edittext_validation_layout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                updateContinueBtnState();
+                boolean validateString = thsCreditCardDetailPresenter.isExpirationMonthValid(msg.toString());
+                if(!validateString){
+                    card_expiration_month_edittext_validation_layout.showError();
+                }
+                return true;
+            }
+        });
+
+        card_expiration_year_edittext_validation_layout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                updateContinueBtnState();
+                boolean validateString = thsCreditCardDetailPresenter.isExpirationYearValid(msg.toString());
+                if(!validateString){
+                    card_expiration_year_edittext_validation_layout.showError();
+                }
+                return true;
+            }
+        });
+
+        card_cvc_edittext_validation_layout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                updateContinueBtnState();
+                boolean validateString = thsCreditCardDetailPresenter.isCVCValid(getActivity(),mCardNumberEditText.getText().toString(), msg.toString());
+                if(!validateString){
+                    card_cvc_edittext_validation_layout.showError();
                 }
                 return true;
             }
@@ -143,7 +216,6 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
-
         stateSpinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, stateList);
         Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
         uiPicker = new UIPicker(popupThemedContext);
@@ -172,8 +244,8 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
         createCustomProgressBar(mProgressbarContainer, BIG);
-        mTHSCreditCardDetailPresenter.getPaymentMethod();
-        mTHSCreditCardDetailPresenter.getShippingAddress(getActivity());
+        thsCreditCardDetailPresenter.getPaymentMethod();
+        thsCreditCardDetailPresenter.getShippingAddress(getActivity());
     }
 
 
@@ -197,10 +269,32 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
     }
 
+    @Override
+    public void showCCNameError() {
+        card_holder_name_edittext_validation_layout.showError();
+    }
+
+    @Override
+    public void showCCNumberError() {
+        card_number_edittext_validation_layout.showError();
+    }
+
+    @Override
+    public void showCCDateError() {
+        ths_payment_detail_expiry_error_layout.setVisibility(RelativeLayout.VISIBLE);
+    }
+
+    @Override
+    public void showCCCVVError() {
+        ths_payment_detail_cvc_error_layout.setVisibility(RelativeLayout.VISIBLE);
+    }
+
     private void updateContinueBtnState() {
         boolean enableContinueBtn;
-        enableContinueBtn = mTHSCreditCardDetailPresenter.validateZip(mZipcodeEditText.getText().toString()) && validateString(mCityEditText.getText().toString()) &&
-                validateString(mAddressOneEditText.getText().toString()) && validateSelectedState();
+        enableContinueBtn = thsCreditCardDetailPresenter.validateZip(mZipcodeEditText.getText().toString()) && validateString(mCityEditText.getText().toString()) &&
+                validateString(mAddressOneEditText.getText().toString()) && validateSelectedState() && thsCreditCardDetailPresenter.validateCreditCardDetails(mCardNumberEditText.getText().toString()) && thsCreditCardDetailPresenter.isNameValid(mCardHolderNameEditText.getText().toString())
+                && thsCreditCardDetailPresenter.isExpirationMonthValid(mCardExpiryMonthEditText.getText().toString()) && thsCreditCardDetailPresenter.isExpirationYearValid(mCardExpiryYearEditText.getText().toString())
+                && thsCreditCardDetailPresenter.isCVCValid(getActivity(),mCardNumberEditText.getText().toString(), mCVCcodeEditText.getText().toString());
         mPaymentDetailContinueButton.setEnabled(enableContinueBtn);
     }
 
@@ -253,7 +347,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             uiPicker.show();
             updateUiPickerSelection();
         } else {
-            mTHSCreditCardDetailPresenter.onEvent(v.getId());
+            thsCreditCardDetailPresenter.onEvent(v.getId());
         }
     }
 
@@ -311,7 +405,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
         if(isEnabled){
-            mTHSCreditCardDetailPresenter.onEvent(compoundButton.getId());
+            thsCreditCardDetailPresenter.onEvent(compoundButton.getId());
         }
     }
 }

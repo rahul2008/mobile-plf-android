@@ -27,4 +27,10 @@ public class THSDateUtils {
         cal.setTime(date);
         return cal;
     }
+
+    public static boolean isYearValid(Date year){
+        int currentYear = Calendar.getInstance(Locale.US).get(Calendar.YEAR);
+        int enteredYear = getCalendar(year).get(Calendar.YEAR);
+        return enteredYear <= currentYear;
+    }
 }

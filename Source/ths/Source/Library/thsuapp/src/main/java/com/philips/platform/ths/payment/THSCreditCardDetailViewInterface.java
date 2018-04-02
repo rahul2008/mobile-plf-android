@@ -8,4 +8,9 @@ public interface THSCreditCardDetailViewInterface {
     void showCvvDetail(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon);
     void updateAddress(Address address);
     void updateCheckBoxState(boolean isEnabled);
+    void showCCNameError();
+    void showCCNumberError();
+    void showCCDateError();
+    void showCCCVVError();
+
 }

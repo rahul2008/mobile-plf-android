@@ -155,7 +155,7 @@ public class THSCreditCardBillingAddressFragmentTest {
     public void onClick() throws Exception {
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         final View viewById = mThsCreditCardBillingAddressFragment.getView().findViewById(R.id.update_shipping_address);
-        mThsCreditCardBillingAddressFragment.mTHSCreditCardDetailPresenter = mThsWelcomeBackPresenterMock;
+        mThsCreditCardBillingAddressFragment.thsCreditCardDetailPresenter = mThsWelcomeBackPresenterMock;
         viewById.performClick();
         verify(mThsWelcomeBackPresenterMock).onEvent(R.id.update_shipping_address);
     }

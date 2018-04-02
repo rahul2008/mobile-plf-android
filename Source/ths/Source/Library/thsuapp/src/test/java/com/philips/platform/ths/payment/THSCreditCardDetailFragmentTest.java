@@ -124,7 +124,7 @@ public class THSCreditCardDetailFragmentTest {
     @Test
     public void onClick() throws Exception {
         final View viewById = mThsCreditCardDetailFragment.getView().findViewById(R.id.ths_payment_detail_continue_button);
-        mThsCreditCardDetailFragment.mTHSCreditCardDetailPresenter = thsCreditCardDetailPresenterMock;
+        mThsCreditCardDetailFragment.thsCreditCardDetailPresenter = thsCreditCardDetailPresenterMock;
         viewById.performClick();
         verify(thsCreditCardDetailPresenterMock).onEvent(R.id.ths_payment_detail_continue_button);
     }
