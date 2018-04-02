@@ -8,15 +8,17 @@
 
 
 <resources>
-  <string name="csw_consent_help_label">[et]What does this mean?</string>
+  <string name="csw_consent_help_label">Mida see tähendab?</string>
   <string name="csw_invalid_access_token_error_message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
-  <string name="csw_offline_message">[et]Your internet connection does not seem to be working. Please check and try again</string>
-  <string name="csw_offline_title">[et]You are offline</string>
+  <string name="csw_offline_message">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
+  <string name="csw_offline_title">Olete võrgust väljas</string>
   <string name="csw_ok">[et]OK</string>
-  <string name="csw_privacy_settings">[et]Privacy Settings</string>
+  <string name="csw_privacy_notice">[et]Privacy Notice</string>
+  <string name="csw_privacy_notice_message">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Privaatsussätted</string>
   <string name="csw_privacy_settings_desc">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_problem_occurred_error_message">[et]There was a problem (error %1$d). Please try again.</string>
-  <string name="csw_problem_occurred_error_title">[et]Problem occurred</string>
+  <string name="csw_problem_occurred_error_message">Esines probleem (viga %1$d). Palun proovige uuesti.</string>
+  <string name="csw_problem_occurred_error_title">Esines probleem</string>
   <string name="mya_Account_settings">Konto seaded</string>
   <string name="mya_Address">Aadress</string>
   <string name="mya_Cancel">Tühista</string>
@@ -27,7 +29,7 @@
   <string name="mya_Email_address">E-posti aadress</string>
   <string name="mya_Gender">Sugu</string>
   <string name="mya_Info">Kas soovite oma kasutajanime või parooli muuta? Külastage meie veebisaiti.</string>
-  <string name="mya_Invalid_Access_Token_Error_Message">[et]There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+  <string name="mya_Invalid_Access_Token_Error_Message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="mya_Login_details">Sisselogimise andmed</string>
   <string name="mya_Logout">Logi välja</string>
   <string name="mya_Mobile_number">Mobiilinumber</string>
@@ -58,7 +60,7 @@
   <string name="mya_csw_justintime_accept">[et]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[et]Maybe later</string>
   <string name="mya_csw_justintime_title">[et]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[et]\"Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!\"</string>
+  <string name="mya_csw_justintime_user_benefits_description">[et]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[et]What do we have to offer?</string>
   <string name="mya_logout_message">Teid logitakse rakendusest välja. Pärast väljalogimist saate alati uuesti sisse logida.</string>
   <string name="mya_logout_title">Kas olete kindel, et soovite välja logida?</string>

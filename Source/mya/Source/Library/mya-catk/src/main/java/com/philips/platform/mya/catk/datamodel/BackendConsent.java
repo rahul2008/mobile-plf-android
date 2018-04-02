@@ -5,7 +5,9 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.pif.chi.datamodel;
+package com.philips.platform.mya.catk.datamodel;
+
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
 

@@ -5,9 +5,10 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.pif.chi;
+package com.philips.platform.mya.catk;
 
-import com.philips.platform.pif.chi.datamodel.Consent;
+import com.philips.platform.mya.catk.datamodel.Consent;
+import com.philips.platform.pif.chi.ConsentError;
 
 public interface ConsentCallback {
     void onGetConsentRetrieved(final Consent consent);

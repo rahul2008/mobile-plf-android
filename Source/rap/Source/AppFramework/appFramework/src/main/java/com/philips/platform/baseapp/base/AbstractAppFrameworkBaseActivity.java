@@ -14,6 +14,7 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.R;
@@ -205,7 +206,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         super.onResume();
         RALog.d(TAG, " onResume called");
-
+        if(getWindow() != null) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
@@ -233,6 +236,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG, " onPause called");
+        if(getWindow() != null) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
             AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");
