@@ -42,4 +42,5 @@ public class AppStates {
     public static final String TELEHEALTHSERVICES ="telehealthservices";
     public static final String MY_ACCOUNT="my_account";
     public static final String TELEHEALTHSERVICESDEMO = "telehealthservicesdemo";
+    public static final String SHOPPING_CART_VIEW = "shopping_cart";
 }

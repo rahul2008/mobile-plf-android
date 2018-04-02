@@ -72,7 +72,7 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    protected FragmentLauncher getFragmentLauncher() {
+    public FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         return fragmentLauncher;
     }
@@ -89,9 +89,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
-            // Commented as part of Plan A removal.
-           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;*/
+            case SHOPPING_CART:
+                return HOME_SHOPPING_CART;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
             case MENU_OPTION_TELEHEALTHSERVICES:

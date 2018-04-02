@@ -39,12 +39,12 @@ public abstract class IAPState extends BaseState implements IAPListener {
     public static final int IAP_CATALOG_VIEW = 4001;
     protected int launchType;
     protected ArrayList<String> ctnList = null;
-    // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
-    // public static final int IAP_SHOPPING_CART_VIEW = 4003;
-    private Context activityContext;
+    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    protected Context activityContext;
     private Context applicationContext;
     private IAPInterface iapInterface;
-    private FragmentLauncher fragmentLauncher;
+    protected FragmentLauncher fragmentLauncher;
     private boolean isCartVisible = false;
 
     public IAPState() {
@@ -69,14 +69,17 @@ public abstract class IAPState extends BaseState implements IAPListener {
         }
     }
 
-    private int getIAPFlowType(int iapFlowType){
-       // switch (iapFlowType){
-           // case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-            // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-            // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
-           // default:
+    private int getIAPFlowType(int iapFlowType) {
+        switch (iapFlowType) {
+            case IAPState.IAP_CATALOG_VIEW:
                 return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-      //  }
+            case IAPState.IAP_PURCHASE_HISTORY_VIEW:
+                return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+            case IAPState.IAP_SHOPPING_CART_VIEW:
+                return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+            default:
+                return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+        }
     }
 
 
@@ -96,7 +99,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         this.launchType = getIAPFlowType(launchType);
     }
 
-    private void launchIAP() {
+    public void launchIAP() {
         RALog.d(TAG," launchIAP ");
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());

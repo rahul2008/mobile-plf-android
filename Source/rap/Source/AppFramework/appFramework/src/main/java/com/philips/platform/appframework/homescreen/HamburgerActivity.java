@@ -48,6 +48,9 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -217,7 +220,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                launchIAPShoppingCartView();
             }
         });
         hamburgerHeaderParent.setOnClickListener(this);
@@ -230,6 +233,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         setSupportActionBar(toolbar);
         final ActionBar supportActionBar = getSupportActionBar();
         setActionBar(supportActionBar);
+    }
+
+    private void launchIAPShoppingCartView() {
+
     }
 
     /**
@@ -255,7 +262,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ShoppingCartFlowState shoppingCartFlowState = new ShoppingCartFlowState();
+                shoppingCartFlowState.init(getApplicationContext());
+                shoppingCartFlowState.navigate(((HamburgerActivityPresenter)presenter).getFragmentLauncher());
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
@@ -406,7 +415,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
         toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
-        cartIconVisibility(false,0);
+        cartIconVisibility(true,0);
     }
 
     public boolean isIAPInstance(){
@@ -437,6 +446,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                         shoppingCartLayout.setVisibility(View.VISIBLE);
                 }else {
                     cartCount.setVisibility(View.GONE);
+                    shoppingCartLayout.setVisibility(View.VISIBLE);
                 }
         } else {
                 cartIcon.setVisibility(View.GONE);

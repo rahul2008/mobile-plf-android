@@ -25,7 +25,7 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 4;
     protected static final int MENU_OPTION_SUPPORT = 5;
     protected static final int MENU_OPTION_ABOUT = 6;
-    //protected static final int MENU_OPTION_PR = 9;
+    protected static final int SHOPPING_CART = 9;
 
 
     /* event to state map */

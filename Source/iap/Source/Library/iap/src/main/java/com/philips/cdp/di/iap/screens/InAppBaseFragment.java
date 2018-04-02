@@ -88,7 +88,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     @Override
     public void onResume() {
         super.onResume();
-        setCartIconVisibility(false); //Check whether it is required ?
+        setCartIconVisibility(true); //Check whether it is required ?
     }
 
     @Override

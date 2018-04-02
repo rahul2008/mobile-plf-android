@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
@@ -42,6 +43,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
         uiStateMap.put(AppStates.DEBUG, new DebugTestFragmentState());
         uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
+        uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
