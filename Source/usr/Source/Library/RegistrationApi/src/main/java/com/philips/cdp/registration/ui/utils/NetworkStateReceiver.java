@@ -15,8 +15,9 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import javax.inject.Inject;
 
-public  class NetworkStateReceiver extends BroadcastReceiver {
+public class NetworkStateReceiver extends BroadcastReceiver {
 
+    private static String TAG = NetworkStateReceiver.class.getSimpleName();
     @Inject
     NetworkUtility networkUtility;
 
@@ -27,6 +28,8 @@ public  class NetworkStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean isOnline = networkUtility.isNetworkAvailable();
+        RLog.d(TAG, "onReceive : isOnline" + isOnline);
+
         ThreadUtils.postInMainThread(context, () -> {
             if (null != RegistrationHelper.getInstance().getNetworkStateListener()) {
                 RegistrationHelper.getInstance().getNetworkStateListener()

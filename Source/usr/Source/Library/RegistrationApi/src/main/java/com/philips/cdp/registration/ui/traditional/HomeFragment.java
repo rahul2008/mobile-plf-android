@@ -68,6 +68,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private static final int AUTHENTICATION_FAILED = -30;
+    private static final String TAG = HomeFragment.class.getSimpleName();
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;
@@ -127,6 +128,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RLog.d(TAG,"OnCreateView : is Called");
         homePresenter = new HomePresenter(this);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
@@ -143,8 +145,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         View lHomeFragmentView;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             lHomeFragmentView = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
+            RLog.d(TAG,"getViewFromRegistrationFunction : Create account UI is Called");
         } else {
             lHomeFragmentView = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
+            RLog.d(TAG,"getViewFromRegistrationFunction : Log In UI is Called");
         }
         return lHomeFragmentView;
     }
@@ -153,12 +157,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void onResume() {
         super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
+        RLog.d(TAG, "onResume : is called");
         handleBtnClickableStates(true);
     }
 
     @Override
     public void onDestroy() {
+        RLog.d(TAG, "onDestroy : is called");
         if (homePresenter != null) {
             homePresenter.cleanUp();
         }
@@ -166,6 +171,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private Button getProviderBtn(final String providerName, int providerLogoDrawableId) {
+        RLog.d(TAG, "getProviderBtn : is called");
         final com.philips.platform.uid.view.widget.Button socialButton =
                 (com.philips.platform.uid.view.widget.Button)
                         getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
@@ -232,6 +238,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void setContentConfig() {
+        RLog.d(TAG,"setContentConfig is called");
         if (null != getRegistrationFragment().getContentConfiguration()) {
             if (null != getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle()) {
                 mTvWelcome.setText(getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle());
@@ -242,10 +249,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             if (getRegistrationFragment().getContentConfiguration().getEnableContinueWithouAccount()) {
                 continueWithouAccount.setVisibility(View.VISIBLE);
             }
+        }else{
+            RLog.d(TAG,"ContentConfiguration is null");
         }
     }
 
     private void handleCountrySelection() {
+        RLog.d(TAG,"handleCountrySelection : is called");
         if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
@@ -261,6 +271,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void updateAppLocale(String localeString, String countryName) {
+        RLog.d(TAG,"updateAppLocale : is called");
         String localeArr[] = localeString.toString().split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
@@ -270,16 +281,19 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void localeServiceDiscoveryFailed() {
+        RLog.d(TAG,"localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
 
     @Override
     public void countryChangeStarted() {
+        RLog.d(TAG,"countryChangeStarted : is called");
         showProgressDialog();
     }
 
     private void launchSignInFragment() {
+        RLog.d(TAG,"launchSignInFragment : is called");
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             showSignInAccountFragment();
@@ -293,6 +307,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void launchCreateAccountFragment() {
+        RLog.d(TAG,"launchCreateAccountFragment : is called");
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             showCreateAccountFragment();

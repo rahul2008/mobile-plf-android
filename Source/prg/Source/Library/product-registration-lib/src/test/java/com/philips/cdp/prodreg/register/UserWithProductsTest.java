@@ -99,7 +99,7 @@ public class UserWithProductsTest extends TestCase {
     public void testSetUUID() {
         final User userMock = mock(User.class);
         when(userMock.isUserSignIn()).thenReturn(true);
-        when(userMock.getEmailVerificationStatus()).thenReturn(true);
+        when(userMock.getEmailOrMobileVerificationStatus()).thenReturn(true);
         when(userMock.getJanrainUUID()).thenReturn("Janrain_id");
         UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull

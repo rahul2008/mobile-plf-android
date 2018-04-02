@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -50,6 +51,7 @@ public class URInterface implements UappInterface {
 
     private static final long serialVersionUID = 1128016096756071381L;
 
+    private static String TAG = UappInterface.class.getSimpleName();
 
     /**
      * Launches the USR user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -62,8 +64,10 @@ public class URInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+            RLog.i(TAG, "launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+            RLog.i(TAG, "launch : Launched as fragment");
         }
     }
 
@@ -121,8 +125,8 @@ public class URInterface implements UappInterface {
             }
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+            RLog.e(TAG,
+                    "launchAsFragment :FragmentTransaction Exception occurred in addFragment  :"
                             + e.getMessage());
         }
 
@@ -143,10 +147,14 @@ public class URInterface implements UappInterface {
             if (null != registrationFunction) {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
+            } else {
+                Log.i(TAG, "launchAsActivity : registrationFunction is null");
             }
             ThemeConfiguration themeConfiguration = uiLauncher.getDlsThemeConfiguration();
             if (themeConfiguration != null) {
                 RegistrationHelper.getInstance().setThemeConfiguration(themeConfiguration);
+            } else {
+                Log.i(TAG, "launchAsActivity : getDlsThemeConfiguration is null");
             }
             int themeResId = uiLauncher.getUiKitTheme();
             RegistrationHelper.getInstance().setTheme(themeResId);
@@ -210,18 +218,14 @@ public class URInterface implements UappInterface {
 
     /**
      * Get the User Data Interface
-     * @since 2018.1.0
      *
+     * @since 2018.1.0
      */
-    public UserDataInterface getUserDataInterface(){
-        if(context == null) {
-            RLog.d(TAG, "getUserDataInterface: Please call init API before fetching data interface");
+    public UserDataInterface getUserDataInterface() {
+        if (context == null) {
+            RLog.e(TAG, "getUserDataInterface: Context is null");
             return null;
         }
-        else {
-
-            return new UserDataProvider(context);
-        }
-
+        return new UserDataProvider(context);
     }
 }
