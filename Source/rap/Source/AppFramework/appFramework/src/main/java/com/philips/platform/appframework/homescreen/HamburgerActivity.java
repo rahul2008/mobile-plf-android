@@ -437,7 +437,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     public void cartIconVisibility(boolean shouldShow, int count) {
 
-        if(shouldShow && isIAPInstance()){
+        if(shouldShow && isIAPInstance() && ((AppFrameworkApplication)getApplication()).isShopingCartVisible){
             cartIcon.setVisibility(View.VISIBLE);
             int cartItemsCount = count;
                 if (cartItemsCount > 0) {

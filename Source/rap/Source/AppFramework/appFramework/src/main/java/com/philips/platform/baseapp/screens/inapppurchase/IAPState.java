@@ -46,6 +46,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     private IAPInterface iapInterface;
     protected FragmentLauncher fragmentLauncher;
     private boolean isCartVisible = false;
+    IAPSettings iapSettings;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -84,7 +85,12 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
 
     public ArrayList<String> getCtnList() {
-        return ctnList;
+        final boolean shopingCartVisible = ((AppFrameworkApplication) applicationContext).isShopingCartVisible();
+        if (!shopingCartVisible) {
+            return ctnList;
+        } else {
+            return ((ArrayList<String>)null);
+        }
     }
 
     public void setCtnList(ArrayList<String> ctnList) {
@@ -102,7 +108,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     public void launchIAP() {
         RALog.d(TAG," launchIAP ");
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
-        IAPFlowInput iapFlowInput = new IAPFlowInput((ArrayList<String>) null);
+        IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
         iapLaunchInput.setIapListener(this);
@@ -130,10 +136,9 @@ public abstract class IAPState extends BaseState implements IAPListener {
         RALog.d(TAG," init IAP ");
         applicationContext = context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(applicationContext);
+        iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
         iapInterface.init(iapDependencies, iapSettings);
-
     }
 
     public void isCartVisible() {
@@ -162,6 +167,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     @Override
     public void updateCartIconVisibility(boolean b) {
         isCartVisible = b;
+        ((AppFrameworkApplication) applicationContext).setShopingCartVisible((isCartVisible));
     }
 
     @Override
