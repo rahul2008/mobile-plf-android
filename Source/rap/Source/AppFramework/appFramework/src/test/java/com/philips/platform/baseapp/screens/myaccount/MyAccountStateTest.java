@@ -23,10 +23,8 @@ import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,12 +35,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RuntimeEnvironment;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -99,7 +91,6 @@ public class MyAccountStateTest {
 
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
-    private List<ConsentDefinition> consentDefinitionList;
 
     @Mock
     private Resources resources;
@@ -136,52 +127,6 @@ public class MyAccountStateTest {
         myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
-    }
-
-    @Test
-    public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
-        assertNotNull(givenListOfConsentDefinitions());
-    }
-
-    @Test
-    public void shouldAddOneSampleConsentDefinition() throws Exception {
-        final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(8, definitions.size());
-    }
-
-    @Test
-    public void shouldContainRevokeWarningConsentDefinition() throws Exception {
-        consentDefinitionList = givenListOfConsentDefinitions();
-        thenDefnitionsShouldContainRevokeWarning("moment");
-        thenDefnitionsShouldContainRevokeWarning("coaching");
-        thenDefnitionsShouldContainRevokeWarning("binary");
-        thenDefnitionsShouldContainRevokeWarning("research");
-        thenDefnitionsShouldContainRevokeWarning("analytics");
-    }
-
-    @After
-    public void tearDown() {
-        myaInterface = null;
-        fragmentLauncher = null;
-        hamburgerActivity = null;
-        application = null;
-        appInfraInterface = null;
-        myAccountState = null;
-        uiStateData = null;
-        appFrameworkApplication = null;
-    }
-
-    private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createConsentDefinitions(mockContext);
-    }
-
-    private void thenDefnitionsShouldContainRevokeWarning(String consentType) {
-        for (ConsentDefinition consentDefinition : consentDefinitionList) {
-            if (consentDefinition.getTypes().contains(consentType)) {
-                assertTrue(consentDefinition.hasRevokeWarningText());
-                return;
-            }
-        }
     }
 
     class MyAccountStateMock extends MyAccountState {
