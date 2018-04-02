@@ -195,11 +195,11 @@ public class ConsentManager implements ConsentManagerInterface {
                         return;
                     } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
                             || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
-                        callback.onGetConsentSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
+                        callback.onGetConsentSuccess(toConsentDefinitionStatus(consentDefinition, consentStatus));
                         return;
                     }
 
-                    consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
+                    consentDefinitionStatus = toConsentDefinitionStatus(consentDefinition, consentStatus);
                 }
                 callback.onGetConsentSuccess(consentDefinitionStatus);
             }
@@ -207,19 +207,18 @@ public class ConsentManager implements ConsentManagerInterface {
 
     }
 
-    private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus(consentStatus.getConsentState(), getConsentVersionStatus(consentDefinition.getVersion(),
-                consentStatus.getVersion()), consentDefinition);
-        return consentDefinitionStatus;
-    }
-
-    private ConsentVersionStates getConsentVersionStatus(int appVersion, int backendVersion) {
-        if (appVersion < backendVersion) {
-            return ConsentVersionStates.AppVersionIsLower;
-        } else if (appVersion == backendVersion) {
-            return ConsentVersionStates.InSync;
+    private ConsentDefinitionStatus toConsentDefinitionStatus(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
+        ConsentVersionStates consentVersionState;
+        ConsentStates consentState = consentStatus.getConsentState();
+        if (consentDefinition.getVersion() < consentStatus.getVersion()) {
+            consentVersionState = ConsentVersionStates.AppVersionIsLower;
+        } else if (consentDefinition.getVersion() == consentStatus.getVersion()) {
+            consentVersionState = ConsentVersionStates.InSync;
+        } else {
+            consentState = ConsentStates.inactive;
+            consentVersionState = ConsentVersionStates.AppVersionIsHigher;
         }
-        return ConsentVersionStates.AppVersionIsHigher;
+        return new ConsentDefinitionStatus(consentState, consentVersionState, consentDefinition);
     }
 
     private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners, final FetchConsentsCallback callback) {

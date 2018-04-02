@@ -15,7 +15,7 @@
   <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">Privacy Notice</string>
   <string name="csw_privacy_notice_message">Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">Privacy Settings</string>
+  <string name="csw_privacy_settings">Privacy settings</string>
   <string name="csw_privacy_settings_desc">Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">There was a problem (error %1$d). Please try again.</string>
   <string name="csw_problem_occurred_error_title">A problem occurred</string>

@@ -67,7 +67,7 @@ public class ConsentView {
     }
 
     public boolean isChecked() {
-        return consentDefinitionStatus != null && consentDefinitionStatus.getConsentState().equals(active) && !consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower);
+        return consentDefinitionStatus != null && consentDefinitionStatus.getConsentState().equals(active);
     }
 
     public boolean isError() {

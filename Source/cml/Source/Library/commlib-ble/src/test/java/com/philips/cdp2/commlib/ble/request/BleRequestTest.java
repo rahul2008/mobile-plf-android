@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -17,6 +18,7 @@ import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -80,7 +82,7 @@ public class BleRequestTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
+        DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
@@ -116,6 +118,11 @@ public class BleRequestTest {
                 return null;
             }
         });
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DICommLog.enableLogging();
     }
 
     @Test

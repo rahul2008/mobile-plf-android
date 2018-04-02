@@ -15,7 +15,7 @@
   <string name="csw_ok">[ko]OK</string>
   <string name="csw_privacy_notice">[ko]Privacy Notice</string>
   <string name="csw_privacy_notice_message">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">[ko]Privacy Settings</string>
+  <string name="csw_privacy_settings">개인 설정</string>
   <string name="csw_privacy_settings_desc">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">문제가 있습니다(오류 %1$d). 다시 시도하십시오.</string>
   <string name="csw_problem_occurred_error_title">문제가 발생했습니다</string>
