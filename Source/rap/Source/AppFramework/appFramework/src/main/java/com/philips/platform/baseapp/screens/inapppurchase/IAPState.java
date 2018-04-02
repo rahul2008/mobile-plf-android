@@ -102,7 +102,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     public void launchIAP() {
         RALog.d(TAG," launchIAP ");
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
-        IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
+        IAPFlowInput iapFlowInput = new IAPFlowInput((ArrayList<String>) null);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
         iapLaunchInput.setIapListener(this);
