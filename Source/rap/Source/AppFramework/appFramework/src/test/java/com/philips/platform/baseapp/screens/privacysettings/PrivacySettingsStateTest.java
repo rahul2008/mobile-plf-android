@@ -4,10 +4,13 @@ package com.philips.platform.baseapp.screens.privacysettings;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,25 +37,33 @@ public class PrivacySettingsStateTest {
     private AppInfraInterface appInfraInterface;
 
     @Mock
-    AppFrameworkApplication appFrameworkApplication;
-
-    @Mock
     private AppFrameworkApplication application;
 
     @Mock
     private ConsentManagerInterface consentManagerInterfaceMock;
 
     @Mock
+    private FragmentLauncher fragmentLauncher;
+
+    @Mock
+    private HamburgerActivity hamburgerActivity;
+
+    @Mock
     private Resources resources;
+
+    @Mock
+    private AppTaggingInterface appTaggingInterfaceMock;
 
     private PrivacySettingsState privacySettingsState;
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         privacySettingsState = new PrivacySettingsState();
+        when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(mockContext.getApplicationContext()).thenReturn(application);
         when(mockContext.getResources()).thenReturn(resources);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
     }
