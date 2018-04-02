@@ -510,13 +510,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
+        ArrayList<Integer> disabledButtons = new ArrayList<>();
         if (mManualPdf != null) {
             viewProductDetailsModel.setManualLink(mManualPdf);
         } else {
-            ArrayList<Integer> disabledButtons = new ArrayList<>();
             disabledButtons.add(R.string.dcc_productDownloadManual);
-            updateMenus(disabledButtons);
         }
+        updateMenus(disabledButtons);
         mProductPage = viewProductDetailsModel.getProductInfoLink();
         if (mProductPage != null)
             viewProductDetailsModel.setProductInfoLink(mProductPage);
