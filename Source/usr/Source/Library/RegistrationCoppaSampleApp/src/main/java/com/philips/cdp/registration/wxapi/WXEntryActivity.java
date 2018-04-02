@@ -1,20 +1,21 @@
 package com.philips.cdp.registration.wxapi;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.support.v4.content.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
-import com.philips.cdp.coppa.registration.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.appconfiguration.*;
-import com.tencent.mm.sdk.modelbase.*;
-import com.tencent.mm.sdk.modelmsg.*;
-import com.tencent.mm.sdk.openapi.*;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.*;
-
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
+import java.util.Arrays;
 
 //This class is tightly coupled with package name .Don't modify package or refactor
 //Make sure keep this class in Progaurd
@@ -37,10 +38,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        String weChatAppId = (String) RegistrationCoppaApplication.getInstance().getAppInfra().
-                getConfigInterface().
-                getPropertyForKey("weChatAppId", UR,
-                        configError);
+        String weChatAppId = "wxbdf2ab8822f6022f";
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
         api = WXAPIFactory.createWXAPI(this, weChatAppId, false);
@@ -48,7 +46,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         finish();
     }
-
 
     /**
      * Called when WeChat is initiating a request to your application. This is not used for
