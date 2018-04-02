@@ -556,7 +556,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
         handleUiState();
-        handleUiState();
         mBtnSignInAccount.setEnabled(isOnline);
     }
 
