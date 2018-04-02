@@ -308,14 +308,14 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
 
             if (welComeFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (thsTHSScheduledVisitsFragment != null) {
+                fragmentManager.popBackStack(THSScheduledVisitsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (welComeBackFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (tHSInitFragment != null) {
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (thsPreWelcomeFragment != null) {
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }else if (thsTHSScheduledVisitsFragment != null) {
-                fragmentManager.popBackStack(THSScheduledVisitsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         THSTagUtils.doExitToPropositionWithCallBack();
