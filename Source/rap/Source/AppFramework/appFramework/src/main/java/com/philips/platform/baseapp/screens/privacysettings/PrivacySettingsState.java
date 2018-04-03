@@ -106,22 +106,22 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
     private List<ConsentDefinition> getCATKConsentDefinitions() {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Consent_Moment_Text,
-                R.string.RA_MYA_Consent_Moment_Help,
+                R.string.RA_MYA_Moment_Consent,
+                R.string.RA_MYA_Consent_Moment_Help_Text,
                 Collections.singletonList("moment"),
                 1,
                 R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
         ));
         definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Consent_Coaching_Text,
-                R.string.RA_MYA_Consent_Coaching_Help,
+                R.string.RA_MYA_Coaching_Consent,
+                R.string.RA_MYA_Consent_Coaching_Help_Text,
                 Collections.singletonList("coaching"),
                 1,
                 R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
         ));
         definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Consent_Binary_Text,
-                R.string.RA_MYA_Consent_Binary_Help,
+                R.string.RA_MYA_Binary_Hosting_Consent,
+                R.string.RA_MYA_Consent_Binary_Help_Text,
                 Collections.singletonList("binary"),
                 1,
                 R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
@@ -149,7 +149,7 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
     }
 
     private ConsentDefinition getClickStreamConsentDefinition(Context context) {
-        return new ConsentDefinition(R.string.RA_MYA_Consent_Clickstream_Text, R.string.RA_MYA_Consent_Clickstream_Help,
+        return new ConsentDefinition(R.string.RA_MYA_Click_Stream_Hosting_Consent, R.string.RA_MYA_Consent_Clickstream_Help,
                 Collections.singletonList(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getTagging().getClickStreamConsentIdentifier()), 1);
     }
 
