@@ -79,7 +79,10 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
             this.permissionInterface.showConfirmRevokeConsentDialog(dialog, new ConfirmDialogView.ConfirmDialogResultHandler() {
                 @Override
                 public void onOkClicked() {
-                    postConsentChange(definition, false);
+                    boolean wasConsentPosted = postConsentChange(definition, false);
+                    if(!wasConsentPosted) {
+                        responseHandler.handleResponse(false);
+                    }
                 }
 
                 @Override
@@ -89,14 +92,27 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
             });
         }
         else {
-            postConsentChange(definition, consentGiven);
+            boolean wasConsentPosted = postConsentChange(definition, consentGiven);
+            if(!wasConsentPosted) {
+                responseHandler.handleResponse(!consentGiven);
+            }
         }
     }
 
-    private void postConsentChange(ConsentDefinition definition, boolean consentGiven) {
+    private boolean postConsentChange(ConsentDefinition definition, boolean consentGiven) {
         toggleStatus = consentGiven;
-        permissionInterface.showProgressDialog();
-        CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
+        boolean isOnline = getRestClient().isInternetReachable();
+        if(isOnline) {
+            permissionInterface.showProgressDialog();
+            CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
+            return true;
+        }
+        else {
+            String offlineTitle = mContext.getString(R.string.mya_Offline_title);
+            String offlineMessage = mContext.getString(R.string.mya_Offline_message);
+            permissionInterface.showErrorDialog(false, offlineTitle, offlineMessage);
+            return false;
+        }
     }
 
     @Override
