@@ -15,7 +15,7 @@
   <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">Privacy Notice</string>
   <string name="csw_privacy_notice_message">Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">Privacy Settings</string>
+  <string name="csw_privacy_settings">Privacy settings</string>
   <string name="csw_privacy_settings_desc">Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">There was a problem (error %1$d). Please try again.</string>
   <string name="csw_problem_occurred_error_title">A problem occurred</string>
@@ -64,4 +64,5 @@
   <string name="mya_csw_justintime_user_benefits_title">What do we have to offer?</string>
   <string name="mya_logout_message">You will be logged out of the application. After you log out, you can always login again.</string>
   <string name="mya_logout_title">Are you sure you want to log out?</string>
+  <string name="mya_default_help_text">Please specify helptext in ConsentDefinition</string>
 </resources>

@@ -43,6 +43,7 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
+    private static final String TAG = MarketingAccountFragment.class.getSimpleName();
     @BindView(R2.id.usr_marketingScreen_countMe_button)
     ProgressBarButton countMeButton;
 
@@ -75,10 +76,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        RLog.i(TAG,"onAttach : is called");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RLog.i(TAG,"onCreateView : is called");
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -95,6 +98,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void setContentConfig(View view) {
+        RLog.i(TAG,"setContentConfig : is called");
         if (getRegistrationFragment().getContentConfiguration() != null) {
             updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
@@ -108,10 +112,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             }
         } else {
             defalutBannerText(view);
+            RLog.d(TAG,"setContentConfig : getContentConfiguration : is null");
         }
     }
 
     void defalutBannerText(View view) {
+        RLog.i(TAG,"defalutBannerText : is called");
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
         String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         joinNow = String.format(joinNow, updateJoinNowText);
@@ -126,37 +132,32 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onActivityCreated");
+    public void onStop() {
+        super.onStop();
+        RLog.i(TAG, "onStop : is called");
+        if (marketingAccountPresenter != null) {
+            marketingAccountPresenter.unRegister();
+            RLog.d(TAG, "onStop : unregister NetworStateListener,JANRAIN_INIT_SUCCESS");
+        }
     }
-
-    @Override
-    public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        if(marketingAccountPresenter!=null)
-        marketingAccountPresenter.unRegister();
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        super.onDestroy();
-    }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        RLog.i(TAG, "onSaveInstanceState : is called");
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
+        RLog.d(TAG, "onViewStateRestored : is called");
         super.onViewStateRestored(savedInstanceState);
         mBundle = null;
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+        RLog.d(TAG, "onConfigurationChanged : is called");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -176,9 +177,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
+            RLog.d(TAG, "updateMarketingEmail : is called with update true");
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
+            RLog.d(TAG, "updateMarketingEmail : is called with update false");
         }
     }
 
@@ -197,23 +200,28 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            RLog.d(TAG, "PHILIPS_ANNOUNCEMENT : Fragment is loaded");
         }
     };
 
     @Override
     public void handleRegistrationSuccess() {
-        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.d(TAG, "handleRegistrationSuccess : is called");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
             if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivateFragment();
+                RLog.d(TAG, "handleRegistrationSuccess : launchAccountActivateFragment is called");
             } else {
                 launchMobileVerifyCodeFragment();
+                RLog.d(TAG, "handleRegistrationSuccess : launchMobileVerifyCodeFragment is called");
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.d(TAG, "handleRegistrationSuccess : userRegistrationComplete is called");
         } else {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.d(TAG, "handleRegistrationSuccess : else : userRegistrationComplete is called");
         }
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
             mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.

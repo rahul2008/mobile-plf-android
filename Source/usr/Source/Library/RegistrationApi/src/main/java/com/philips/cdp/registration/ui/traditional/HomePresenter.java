@@ -26,8 +26,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -53,6 +51,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 
 public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
 
+    private String TAG = HomePresenter.class.getSimpleName();
 
     @Inject
     NetworkUtility networkUtility;
@@ -365,7 +364,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onEventReceived(String event) {
-        RLog.d(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
+        RLog.d(TAG, "HomeFragment :onCounterEventReceived" +
                 " isHomeFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             homeContract.initSuccess();
@@ -428,8 +427,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 case BaseResp.ErrCode.ERR_OK:
                     if (weChatCode != null) {
                         homeContract.startWeChatLogin(weChatCode);
-                    }else{
-                        RLog.d("WECHAT", "Wechat = "+weChatCode);
+                    } else {
+                        RLog.d("WECHAT", "Wechat = " + weChatCode);
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -468,15 +467,15 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
+                        RLog.d(TAG, "getLocaleServiceDiscovery onSuccess verificationUrl : " + verificationUrl);
                         if (!verificationUrl.isEmpty()) {
                             homeContract.updateAppLocale(verificationUrl, countryName);
-                            return;
                         }
-                        getLocaleServiceDiscoveryByCountry(countryName);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        RLog.d(TAG, "getLocaleServiceDiscovery onError ");
                         getLocaleServiceDiscoveryByCountry(countryName);
                     }
                 });
@@ -489,12 +488,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
+                        RLog.d(TAG, "getLocaleServiceDiscoveryByCountry onSuccess ");
                         homeContract.updateAppLocale(verificationUrl, countryName);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        ThreadUtils.postInMainThread(homeContract.getActivityContext(), () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
+                        RLog.e(TAG, "getLocaleServiceDiscoveryByCountry onError " + e.getMessage());
                         homeContract.localeServiceDiscoveryFailed();
                     }
                 });

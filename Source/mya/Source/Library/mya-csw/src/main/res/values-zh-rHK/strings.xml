@@ -15,7 +15,7 @@
   <string name="csw_ok">[zh-HK]OK</string>
   <string name="csw_privacy_notice">[zh-HK]Privacy Notice</string>
   <string name="csw_privacy_notice_message">[zh-HK]Control Your Privacy. Read the {privacy notice} for more information.</string>
-  <string name="csw_privacy_settings">[zh-HK]Privacy Settings</string>
+  <string name="csw_privacy_settings">私隱設定</string>
   <string name="csw_privacy_settings_desc">[zh-HK]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">出現了問題 (error %1$d)。請再試一次。</string>
   <string name="csw_problem_occurred_error_title">出現問題</string>
