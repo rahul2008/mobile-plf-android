@@ -21,6 +21,10 @@ Copyright (c) Koninklijke Philips N.V., 2016
         app:uidButtonBackgroundColorList="@color/ths_grid_view_button_bg_color"
         app:uidButtonTextColorList="@color/ths_grid_view_button_text_color"
         android:layout_width="match_parent"
+        android:text="1000000000000000000000000000000000000000000000000"
+        app:uidButtonCenter="false"
+        android:paddingLeft="@dimen/ths_0_dp"
+        android:paddingRight="@dimen/ths_0_dp"
         android:layout_height="wrap_content"
         />
 
