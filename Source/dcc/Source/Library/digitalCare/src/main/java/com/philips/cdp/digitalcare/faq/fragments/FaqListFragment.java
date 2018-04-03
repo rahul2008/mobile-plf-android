@@ -106,6 +106,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 }
 
                 title.setText(groupName + "(" + groupSize + ")");
+                title.setSelected(true);
                 questingList.setLayoutManager(new LinearLayoutManager(getContext()));
                 questingList.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
                 CommonRecyclerViewAdapter<Item> questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
