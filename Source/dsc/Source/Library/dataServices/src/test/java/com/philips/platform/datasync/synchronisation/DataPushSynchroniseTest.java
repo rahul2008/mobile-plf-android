@@ -81,7 +81,7 @@ public class DataPushSynchroniseTest {
 
     @Captor
     private ArgumentCaptor<PostConsentCallback> consentCallbackCaptor;
-    
+
     @Before
     public void setUp() {
         initMocks(this);

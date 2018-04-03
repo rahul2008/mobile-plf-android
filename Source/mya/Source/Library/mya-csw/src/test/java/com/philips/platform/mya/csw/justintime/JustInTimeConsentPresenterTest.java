@@ -80,6 +80,7 @@ public class JustInTimeConsentPresenterTest {
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenGivingConsent();
         thenCompletionHandlerIsCalledOnConsentGiven();
     }
@@ -95,6 +96,7 @@ public class JustInTimeConsentPresenterTest {
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenGivingConsent();
         thenProgressDialogIsHidden();
     }
@@ -110,6 +112,7 @@ public class JustInTimeConsentPresenterTest {
     @Test
     public void onConsentRejectedCallsCompletionHandlerOnFailureWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenRejectingConsent();
         thenCompletionHandlerIsCalledOnConsentRejected();
     }
@@ -125,6 +128,7 @@ public class JustInTimeConsentPresenterTest {
     @Test
     public void onConsentRejectedHidesProgressDialogWhenPostIsSuccessful() {
         givenUserIsOnline();
+        givenPostSucceeds();
         whenRejectingConsent();
         thenProgressDialogIsHidden();
     }
@@ -159,6 +163,10 @@ public class JustInTimeConsentPresenterTest {
 
     private void whenRejectingConsent() {
         presenter.onConsentRejectedButtonClicked();
+    }
+
+    private void givenPostSucceeds() {
+        consentManagerInterface.callsCallback_onPostConsentSuccess(consentDTO);
     }
 
     private void givenPostFails() {
