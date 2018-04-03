@@ -15,6 +15,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 
 public class RegistrationConfiguration {
+    private String TAG = RegistrationConfiguration.class.getSimpleName();
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -41,7 +43,7 @@ public class RegistrationConfiguration {
 
     UserRegistrationUIEventListener userRegistrationUIEventListener;
 
-    public  RegistrationComponent getComponent() {
+    public RegistrationComponent getComponent() {
         return component;
     }
 
@@ -74,6 +76,7 @@ public class RegistrationConfiguration {
 
     public String getRegistrationClientId(@NonNull Configuration environment) {
         String registrationClient = appConfiguration.getClientId(environment.getValue());
+        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient);
         if (registrationClient != null) {
             if (isJSONValid(registrationClient)) {
                 try {
@@ -81,29 +84,34 @@ public class RegistrationConfiguration {
                     if (!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())) {
                         registrationClient = (String) jsonObject.get(RegistrationHelper.
                                 getInstance().getCountryCode());
+                        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient + "with given Country Code :" + RegistrationHelper.getInstance().getCountryCode());
                         return registrationClient;
                     } else if (!jsonObject.isNull(DEFAULT)) {
                         registrationClient = (String) jsonObject.get(DEFAULT);
+                        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient + "with DEFAULT ");
                         return registrationClient;
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    RLog.e(TAG, "getRegistrationClientId : exception  :" + e.getMessage());
                 }
             }
         } else {
-            RLog.e(this.getClass().getSimpleName(), "Registration client is null");
+            RLog.e(TAG, "Registration client is null");
         }
 
         return registrationClient;
     }
 
-    public boolean isJSONValid(String test) {
+    private boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
+            RLog.d(TAG, "isJSONValid exception JSONObject");
         } catch (JSONException ex) {
             try {
                 new JSONArray(test);
+                RLog.e(TAG, "isJSONValid exception JSONArray");
             } catch (JSONException ex1) {
+                RLog.e(TAG, "isJSONValid exception");
                 return false;
             }
         }
@@ -117,6 +125,7 @@ public class RegistrationConfiguration {
      */
     public String getMicrositeId() {
         String micrositeId = appConfiguration.getMicrositeId();
+        RLog.d(this.getClass().getSimpleName(), "Microsite ID is :" + micrositeId);
         if (null == micrositeId) {
             RLog.e(this.getClass().getSimpleName(), "Microsite ID is null");
         }
@@ -129,14 +138,13 @@ public class RegistrationConfiguration {
      * @return String
      */
     public List<String> getServiceDiscoveryCountries() {
-        HashMap<String,String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
+        HashMap<String, String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
         if (null == sdCountryMapping) {
             RLog.e(this.getClass().getSimpleName(), "sdCountryMapping is null");
             return new ArrayList<>();
         }
-        return  new ArrayList<>(sdCountryMapping.keySet());
+        return new ArrayList<>(sdCountryMapping.keySet());
     }
-
 
 
     /**
