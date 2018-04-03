@@ -30,7 +30,7 @@ public class DescriptionView extends CswBaseFragment implements DescriptionInter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_description_view, container, false);
-        ((TextView) view.findViewById(R.id.description)).setText(getArguments().getString(HELP, "please specify helptext in ConsentDefinition"));
+        ((TextView) view.findViewById(R.id.description)).setText(getString(getArguments().getInt(HELP, R.string.mya_default_help_text)));
         return view;
     }
 
