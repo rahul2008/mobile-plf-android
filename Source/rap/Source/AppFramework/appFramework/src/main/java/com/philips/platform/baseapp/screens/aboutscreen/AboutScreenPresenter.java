@@ -50,7 +50,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
     }
 
     @Override
-    public void loadTermsAndPrivacy(String serviceId,String title) {
+    public void loadTermsAndPrivacy(String serviceId, String title) {
         BaseFlowManager targetFlowManager = getTargetFlowManager();
         BaseState baseState = null;
         try {

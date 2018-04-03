@@ -77,7 +77,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
             @Override
             public void onClick(View view) {
                 startAppTagging();
-                aboutScreenActionListener.loadTermsAndPrivacy(Constants.PRIVACY,getContext().getString(R.string.uikit_about_screen_privacy));
+                aboutScreenActionListener.loadTermsAndPrivacy(Constants.PRIVACY,getContext().getString(R.string.RA_DLS_about_privacy));
             }
         });
 

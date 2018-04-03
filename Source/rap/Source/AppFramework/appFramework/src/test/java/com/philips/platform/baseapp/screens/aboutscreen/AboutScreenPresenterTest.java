@@ -75,7 +75,7 @@ public class AboutScreenPresenterTest {
     @Test
     @Ignore
     public void loadTermsAndPrivacy() throws Exception {
-        aboutScreenPresenterMock.loadTermsAndPrivacy(Constants.PRIVACY);
+        aboutScreenPresenterMock.loadTermsAndPrivacy(Constants.PRIVACY,any(String.class));
         verify(webViewState).navigate((UiLauncher)isNull());
     }
 

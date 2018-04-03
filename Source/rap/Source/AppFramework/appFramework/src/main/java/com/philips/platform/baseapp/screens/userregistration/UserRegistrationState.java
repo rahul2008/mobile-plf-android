@@ -324,15 +324,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        launchWebView(Constants.PRIVACY);
+        launchWebView(Constants.PRIVACY,getApplicationContext().getString(R.string.reg_DLS_PrivacyNoticeText));
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        launchWebView(Constants.TERMS_AND_CONDITIONS);
+        launchWebView(Constants.TERMS_AND_CONDITIONS,getApplicationContext().getString(R.string.reg_TermsAndConditionsText));
     }
 
-    public void launchWebView(String serviceId) {
+    public void launchWebView(String serviceId,String title) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -345,7 +345,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         if (null != baseState) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(serviceId);
-            webViewStateData.setTitle(applicationContext.getString(R.string.reg_DLS_PrivacyNoticeText));
+            webViewStateData.setTitle(title);
             baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }
