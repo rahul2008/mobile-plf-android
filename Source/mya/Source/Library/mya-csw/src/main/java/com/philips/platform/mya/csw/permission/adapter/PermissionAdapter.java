@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission.adapter;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
@@ -100,12 +98,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onGetConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
-        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
-            }
-        });
+        notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
     }
 
     public void onGetConsentFailed(ConsentError error) {
@@ -114,12 +107,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
-        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
-            }
-        });
+        notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
 
     public void onCreateConsentFailed(final int position, ConsentError error) {
@@ -128,13 +116,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setError(true);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
-            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(position);
-                }
-            });
-
+            notifyItemChanged(position);
         }
     }
 
@@ -144,21 +126,13 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setError(false);
             consentView.setIsLoading(false);
             consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status));
-
-            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(position);
-                }
-            });
-
+            notifyItemChanged(position);
         }
     }
 
-    public ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status) {
+    private ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status) {
         ConsentStates consentStatus = status ? ConsentStates.active : ConsentStates.rejected;
-        ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition);
-        return consentDefinitionStatus;
+        return new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition);
     }
 
     @NonNull
