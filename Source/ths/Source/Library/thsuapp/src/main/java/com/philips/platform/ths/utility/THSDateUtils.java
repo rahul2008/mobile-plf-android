@@ -1,6 +1,8 @@
 package com.philips.platform.ths.utility;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,12 +33,26 @@ public class THSDateUtils {
     public static boolean isYearValid(Date year){
         int currentYear = Calendar.getInstance(Locale.US).get(Calendar.YEAR);
         int enteredYear = getCalendar(year).get(Calendar.YEAR);
-        return enteredYear <= currentYear;
+        return enteredYear < currentYear;
     }
 
-    public static boolean isDateValid(Date date) {
-        int currentDate = Calendar.getInstance(Locale.US).get(DATE);
-        int enteredDate = getCalendar(date).get(DATE);
-        return enteredDate <= currentDate;
+    public static boolean isDateValid(Date enteredDate) {
+        String currentDateString;
+
+        Date currentDate = new Date();
+        SimpleDateFormat dates = new SimpleDateFormat("MMyyyy");
+
+        //Setting dates
+        currentDate.setTime(System.currentTimeMillis());
+        currentDateString = dates.format(currentDate);
+        try {
+            currentDate = dates.parse(currentDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        long difference = enteredDate.getTime() - currentDate.getTime();
+        return difference > 0;
+
     }
 }

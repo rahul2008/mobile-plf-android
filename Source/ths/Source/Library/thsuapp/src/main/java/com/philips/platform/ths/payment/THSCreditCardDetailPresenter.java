@@ -135,15 +135,18 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     protected boolean isExpiryDateValid(String expiryMonth, String expiryYear){
         if(isExpirationMonthValid(expiryMonth) && isExpirationYearValid(expiryYear)){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-            Date currentDate = null;
+            SimpleDateFormat sdf = new SimpleDateFormat("MMyyyy");
+            Date enteredDate = null;
+            if(expiryMonth.length() == 1){
+                expiryMonth = "0" + expiryMonth;
+            }
             try{
-                    currentDate = sdf.parse(expiryYear+ "" +expiryMonth);
+                    enteredDate = sdf.parse(expiryMonth+ "" +expiryYear);
                 }catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-            return THSDateUtils.isDateValid(currentDate);
+            return THSDateUtils.isDateValid(enteredDate);
         }else {
             return false;
         }
