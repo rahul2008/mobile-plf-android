@@ -50,7 +50,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
     }
 
     @Override
-    public void loadTermsAndPrivacy(String serviceId) {
+    public void loadTermsAndPrivacy(String serviceId,String title) {
         BaseFlowManager targetFlowManager = getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -63,6 +63,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
         if (null != baseState) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(serviceId);
+            webViewStateData.setTitle(title);
             baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(activity, R.id.frame_container, (ActionBarListener) activity));
         }

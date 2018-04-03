@@ -345,6 +345,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         if (null != baseState) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(serviceId);
+            webViewStateData.setTitle(applicationContext.getString(R.string.reg_DLS_PrivacyNoticeText));
             baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }

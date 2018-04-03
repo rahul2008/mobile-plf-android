@@ -30,8 +30,10 @@ public class WebViewState extends BaseState {
         Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
         String url=((WebViewStateData)getUiStateData()).getUrl();
         String serviceId=((WebViewStateData)getUiStateData()).getServiceId();
+        String title=((WebViewStateData)getUiStateData()).getTitle();
         intent.putExtra(WebViewActivity.URL_TO_LOAD,url);
         intent.putExtra(WebViewActivity.SERVICE_ID_KEY,serviceId);
+        intent.putExtra(WebViewActivity.ACTION_BAR_TITLE,title);
         fragmentLauncher.getFragmentActivity().startActivity(intent);
     }
 

@@ -28,16 +28,20 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements WebViewContract.View {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
     public static final String URL_TO_LOAD = "url to load";
     public static final String SERVICE_ID_KEY = "serviceId";
+    public static final String ACTION_BAR_TITLE = "title";
     private WebView webView;
     private String url;
+    private String title;
     private String serviceId;
     private WebViewContract.Action webViewActions;
+    private ActionBarTextView actionBarTitle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +51,29 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             UIDHelper.setupToolbar(this);
             url = (String) getIntent().getSerializableExtra(URL_TO_LOAD);
             serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
+            title = (String) getIntent().getSerializableExtra(ACTION_BAR_TITLE);
             webView = (WebView) findViewById(R.id.web_view);
             webView.setWebViewClient(new WebViewClient());
             webViewActions = getWebViewPresenter();
+            if(title!=null) {
+                setActionbarTitle(title);
+            }
             if (TextUtils.isEmpty(url)) {
                 webViewActions.loadUrl(serviceId);
             } else {
                 showWebPage(url);
             }
         }
+    }
+
+    private void setActionbarTitle(String title) {
+        RALog.d(TAG," setActionbarTitle called");
+
+        if (actionBarTitle == null) {
+            actionBarTitle = findViewById(R.id.uid_toolbar_title);
+        }
+        if (actionBarTitle != null)
+            actionBarTitle.setText(title);
     }
 
     protected WebViewPresenter getWebViewPresenter() {
