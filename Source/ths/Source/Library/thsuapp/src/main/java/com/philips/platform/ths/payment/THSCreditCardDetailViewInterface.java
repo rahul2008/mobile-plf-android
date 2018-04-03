@@ -10,7 +10,7 @@ public interface THSCreditCardDetailViewInterface {
     void updateCheckBoxState(boolean isEnabled);
     void showCCNameError();
     void showCCNumberError();
-    void showCCDateError();
-    void showCCCVVError();
+    void changeCCDateVisibility(int visibility);
+    void changeCVVVisibility(int visibility);
 
 }

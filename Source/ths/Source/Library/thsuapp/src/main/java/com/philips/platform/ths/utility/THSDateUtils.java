@@ -33,4 +33,10 @@ public class THSDateUtils {
         int enteredYear = getCalendar(year).get(Calendar.YEAR);
         return enteredYear <= currentYear;
     }
+
+    public static boolean isDateValid(Date date) {
+        int currentDate = Calendar.getInstance(Locale.US).get(DATE);
+        int enteredDate = getCalendar(date).get(DATE);
+        return enteredDate <= currentDate;
+    }
 }

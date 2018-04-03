@@ -33,6 +33,7 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();
     THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
-    EditText mCardHolderNameEditText, mCardNumberEditText, mCardExpiryMonthEditText, mCardExpiryYearEditText, mCVCcodeEditText,
+    ValidationEditText mCardExpiryYearEditText,mCardExpiryMonthEditText;
+    EditText mCardHolderNameEditText, mCardNumberEditText , mCVCcodeEditText,
             mAddressOneEditText, mAddressTwoEditText, mCityEditText, placeHolderUIPicker, mZipcodeEditText;
     Label cvvDetail, mBillingAddresslabel, anchorUIPicker;
     private Button mPaymentDetailContinueButton;
@@ -155,6 +157,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
                 boolean validateString = thsCreditCardDetailPresenter.isNameValid(msg.toString());
                 if(!validateString){
                     card_holder_name_edittext_validation_layout.showError();
+                    return false;
                 }
                 return true;
             }
@@ -167,6 +170,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
                 boolean validateString = thsCreditCardDetailPresenter.validateCreditCardDetails(msg.toString());
                 if(!validateString){
                     card_number_edittext_validation_layout.showError();
+                    return false;
                 }
                 return true;
             }
@@ -177,11 +181,17 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             @Override
             public boolean validate(CharSequence msg) {
                 updateContinueBtnState();
-                boolean validateString = thsCreditCardDetailPresenter.isExpirationMonthValid(msg.toString());
+                boolean validateString  = thsCreditCardDetailPresenter.isExpiryDateValid(msg.toString(),mCardExpiryYearEditText.getText().toString());
                 if(!validateString){
-                    card_expiration_month_edittext_validation_layout.showError();
+                    changeCCDateVisibility(RelativeLayout.VISIBLE);
+                    return false;
+                } else {
+                    changeCCDateVisibility(RelativeLayout.GONE);
+                    mCardExpiryMonthEditText.setError(false);
+                    mCardExpiryYearEditText.setError(false);
+                    return true;
                 }
-                return true;
+
             }
         });
 
@@ -189,11 +199,16 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             @Override
             public boolean validate(CharSequence msg) {
                 updateContinueBtnState();
-                boolean validateString = thsCreditCardDetailPresenter.isExpirationYearValid(msg.toString());
+                boolean validateString  = thsCreditCardDetailPresenter.isExpiryDateValid(mCardExpiryMonthEditText.getText().toString(),msg.toString());
                 if(!validateString){
-                    card_expiration_year_edittext_validation_layout.showError();
+                    changeCCDateVisibility(RelativeLayout.VISIBLE);
+                    return false;
+                } else {
+                    changeCCDateVisibility(RelativeLayout.GONE);
+                    mCardExpiryMonthEditText.setError(false);
+                    mCardExpiryYearEditText.setError(false);
+                    return true;
                 }
-                return true;
             }
         });
 
@@ -203,9 +218,12 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
                 updateContinueBtnState();
                 boolean validateString = thsCreditCardDetailPresenter.isCVCValid(getActivity(),mCardNumberEditText.getText().toString(), msg.toString());
                 if(!validateString){
-                    card_cvc_edittext_validation_layout.showError();
+                    changeCVVVisibility(RelativeLayout.VISIBLE);
+                    return false;
+                } else {
+                    changeCVVVisibility(RelativeLayout.GONE);
+                    return true;
                 }
-                return true;
             }
         });
 
@@ -280,13 +298,13 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     }
 
     @Override
-    public void showCCDateError() {
-        ths_payment_detail_expiry_error_layout.setVisibility(RelativeLayout.VISIBLE);
+    public void changeCCDateVisibility(int visibility) {
+        ths_payment_detail_expiry_error_layout.setVisibility(visibility);
     }
 
     @Override
-    public void showCCCVVError() {
-        ths_payment_detail_cvc_error_layout.setVisibility(RelativeLayout.VISIBLE);
+    public void changeCVVVisibility(int visibility) {
+        ths_payment_detail_cvc_error_layout.setVisibility(visibility);
     }
 
     private void updateContinueBtnState() {

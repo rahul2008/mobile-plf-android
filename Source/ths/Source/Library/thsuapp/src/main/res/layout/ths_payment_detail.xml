@@ -147,14 +147,23 @@
                 android:id="@+id/ths_payment_detail_expiry_error_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/ths_payment_detail_card_expiration_date_relativelayout">
 
+                <ImageView
+                    android:id="@+id/ths_payment_detail_expiry_date_error_icon"
+                    android:layout_width="@dimen/uid_inline_validation_icon_size"
+                    android:layout_height="@dimen/uid_inline_validation_icon_size"
+                    android:layout_marginEnd="@dimen/uid_inline_validation_icon_margin_end"
+                    android:tint="?attr/uidTypographyValidationIconColor"
+                    android:src="@drawable/uid_ic_data_validation"
+                    />
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_payment_detail_expiry_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="?attr/uidTypographyValidationTextColor"
-                    android:drawableLeft="@drawable/uid_ic_data_validation"
+                    style="@style/UIDLabelInlineValidation"
+                    android:layout_toEndOf="@+id/ths_payment_detail_expiry_date_error_icon"
                     android:text="@string/ths_credit_card_details_exp_month_error_string" />
             </RelativeLayout>
 
@@ -188,14 +197,23 @@
                 android:id="@+id/ths_payment_detail_cvc_error_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/ths_payment_detail_card_cvc_edittext_validation_layout">
+                <ImageView
+                    android:id="@+id/ths_payment_detail_cvc_error_icon"
+                    android:layout_width="@dimen/uid_inline_validation_icon_size"
+                    android:layout_height="@dimen/uid_inline_validation_icon_size"
+                    android:layout_marginEnd="@dimen/uid_inline_validation_icon_margin_end"
+                    android:tint="?attr/uidTypographyValidationIconColor"
+                    android:src="@drawable/uid_ic_data_validation"
+                    />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_payment_detail_cvc_error"
                     android:layout_width="wrap_content"
+                    android:layout_toEndOf="@+id/ths_payment_detail_cvc_error_icon"
                     android:layout_height="wrap_content"
-                    android:textColor="?attr/uidTypographyValidationTextColor"
-                    android:drawableLeft="@drawable/uid_ic_data_validation"
+                    style="@style/UIDLabelInlineValidation"
                     android:text="@string/ths_credit_card_details_cvv_error_string" />
             </RelativeLayout>
 

@@ -7,6 +7,7 @@
 package com.philips.platform.ths.payment;
 
 import android.content.Context;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
@@ -126,10 +127,26 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             return false;
         } else if(expiryYear.length() > 4){
             return false;
-        } else if(!THSDateUtils.isYearValid(currentDate)){
+        } else if(THSDateUtils.isYearValid(currentDate)){
             return false;
         } else return true;
 
+    }
+
+    protected boolean isExpiryDateValid(String expiryMonth, String expiryYear){
+        if(isExpirationMonthValid(expiryMonth) && isExpirationYearValid(expiryYear)){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+            Date currentDate = null;
+            try{
+                    currentDate = sdf.parse(expiryYear+ "" +expiryMonth);
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            return THSDateUtils.isDateValid(currentDate);
+        }else {
+            return false;
+        }
     }
 
     protected boolean isCVCValid(Context context,String cardNumber, String cvcValue){
@@ -203,15 +220,15 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_credit_card_number), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
-                thsCreditCardDetailViewInterface.showCCDateError();
+                thsCreditCardDetailViewInterface.changeCCDateVisibility(RelativeLayout.VISIBLE);
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_MONTH)){
-                thsCreditCardDetailViewInterface.showCCDateError();
+                thsCreditCardDetailViewInterface.changeCCDateVisibility(RelativeLayout.VISIBLE);
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_CVV)) {
-                thsCreditCardDetailViewInterface.showCCCVVError();
+                thsCreditCardDetailViewInterface.changeCVVVisibility(RelativeLayout.VISIBLE);
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_CVV_number), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1)) {
