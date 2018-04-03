@@ -218,23 +218,17 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchIAPShoppingCartView();
+
             }
         });
         hamburgerHeaderParent.setOnClickListener(this);
         setUserNameAndLogoutText();
         initSidebarComponents();
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
-      //  UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
         setSupportActionBar(toolbar);
-        final ActionBar supportActionBar = getSupportActionBar();
-        setActionBar(supportActionBar);
-    }
-
-    private void launchIAPShoppingCartView() {
-
+        setActionBar(getSupportActionBar());
     }
 
     /**
@@ -260,9 +254,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShoppingCartFlowState shoppingCartFlowState = new ShoppingCartFlowState();
-                shoppingCartFlowState.init(getApplicationContext());
-                shoppingCartFlowState.navigate(((HamburgerActivityPresenter)presenter).getFragmentLauncher());
+                ((HamburgerActivityPresenter)presenter).launchShoppingCartState();
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
@@ -272,6 +264,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
+
 
     public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
@@ -295,7 +288,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-//        UIDHelper.setTitle(this, title);
         actionBarTitle.setText(title);
         actionBarTitle.setSelected(true);
     }
@@ -380,7 +372,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        //UIDHelper.setTitle(this, i);
         actionBarTitle.setText(i);
         actionBarTitle.setSelected(true);
         updateActionBarIcon(b);
@@ -393,7 +384,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(String s, boolean b) {
-        //UIDHelper.setTitle(this, s);
         actionBarTitle.setText(s);
         actionBarTitle.setSelected(true);
         updateActionBarIcon(b);

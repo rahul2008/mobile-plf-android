@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -72,7 +73,7 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    public FragmentLauncher getFragmentLauncher() {
+    protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         return fragmentLauncher;
     }
@@ -107,4 +108,11 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_FRAGMENT;
         }
     }
+
+    public void launchShoppingCartState() {
+        ShoppingCartFlowState shoppingCartFlowState = new ShoppingCartFlowState();
+        shoppingCartFlowState.init(getApplicationContext());
+        getFragmentLauncher();
+    }
+
 }
