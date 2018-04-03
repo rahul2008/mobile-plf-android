@@ -16,6 +16,8 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public abstract class RegistrationSettings {
 
+    private String TAG = RegistrationSettings.class.getSimpleName();
+
     protected String mProductRegisterUrl = null;
 
     protected String mProductRegisterListUrl = null;
@@ -84,7 +86,7 @@ public abstract class RegistrationSettings {
         SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(MICROSITE_ID, RegistrationConfiguration.getInstance().getMicrositeId());
-        editor.commit();
+        editor.apply();
     }
 
     public void refreshLocale(String localeCode) {
