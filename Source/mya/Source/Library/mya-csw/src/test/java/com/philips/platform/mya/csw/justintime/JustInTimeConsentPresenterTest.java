@@ -1,13 +1,12 @@
 package com.philips.platform.mya.csw.justintime;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.justintime.spy.ConsentManagerInterfaceSpy;
 import com.philips.platform.mya.csw.justintime.spy.JustInTimeWidgetHandlerSpy;
 import com.philips.platform.mya.csw.justintime.spy.ViewSpy;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -29,8 +28,7 @@ public class JustInTimeConsentPresenterTest {
     private ConsentManagerInterfaceSpy consentManagerInterface;
     private ConsentDefinition consentDefinition;
     private JustInTimeWidgetHandlerSpy completionListener;
-    private BackendConsent backendConsent;
-    private Consent consent;
+    private ConsentDTO consentDTO;
     private ConsentError consentError;
 
     @Before
@@ -40,8 +38,7 @@ public class JustInTimeConsentPresenterTest {
         consentManagerInterface = new ConsentManagerInterfaceSpy();
         appInfraMock.consentManagerInterface = consentManagerInterface;
         consentDefinition = new ConsentDefinition(0, 0, Collections.EMPTY_LIST, 0);
-        backendConsent = new BackendConsent("", ConsentStates.active, "", 0);
-        consent = new Consent(backendConsent, consentDefinition);
+        consentDTO = new ConsentDTO("", ConsentStates.active, "", 0);
         consentError = new ConsentError("", 1234);
         completionListener = new JustInTimeWidgetHandlerSpy();
         presenter = new JustInTimeConsentPresenter(view, appInfraMock, consentDefinition, completionListener);
@@ -169,7 +166,7 @@ public class JustInTimeConsentPresenterTest {
     }
 
     private void givenPostSucceeds() {
-        consentManagerInterface.callsCallback_onPostConsentSuccess(consent);
+        consentManagerInterface.callsCallback_onPostConsentSuccess(consentDTO);
     }
 
     private void givenPostFails() {

@@ -10,6 +10,7 @@ package com.philips.platform.mya.catk;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
@@ -19,7 +20,6 @@ import com.philips.platform.mya.catk.utils.CatkLogger;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
@@ -82,7 +82,7 @@ public class ConsentInteractorTest {
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
         whenFetchConsentTypeStateIsCalled();
-        andResponseIs(new BackendConsent("local", ConsentStates.active, "type", 0));
+        andResponseIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
 
         thenConsentRetrievedIsReported();
         andConsentListContainsNumberOfItems(1);
@@ -130,7 +130,7 @@ public class ConsentInteractorTest {
         verify(fetchConsentTypeStateCallback).onGetConsentsFailed(any(ConsentError.class));
     }
 
-    private void andResponseIs(BackendConsent... response) {
+    private void andResponseIs(ConsentDTO... response) {
         verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseSuccessConsent(Arrays.asList(response));
     }
@@ -166,7 +166,7 @@ public class ConsentInteractorTest {
     private ConsentsClient mockCatk;
 
     @Captor
-    private ArgumentCaptor<BackendConsent> captorConsent;
+    private ArgumentCaptor<ConsentDTO> captorConsent;
 
     @Mock
     private AppInfraInterface appInfraMock;

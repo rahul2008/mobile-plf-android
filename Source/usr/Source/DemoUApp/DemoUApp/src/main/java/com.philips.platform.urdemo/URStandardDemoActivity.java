@@ -36,6 +36,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -71,6 +73,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private String restoredText;
     private RadioGroup mRadioGender;
     private LinearLayout mLlConfiguration;
+    private LinearLayout LlcoppaItems;
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
@@ -117,6 +120,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mRadioGender.check(R.id.Male);
 
         mLlConfiguration = findViewById(R.id.ll_configuartion);
+        LlcoppaItems = findViewById(R.id.CoppaItems);
         mRadioGroup = findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
@@ -144,6 +148,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         }
 
         mLlConfiguration.setVisibility(GONE);
+        LlcoppaItems.setVisibility(GONE);
         Button mBtnChangeConfiguaration = findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
             @Override
@@ -151,6 +156,26 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 mLlConfiguration.setVisibility(VISIBLE);
             }
         });
+
+        Button mBtnCoppa = findViewById(R.id.coppa);
+        mBtnCoppa.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mUser.isUserSignIn()) {
+                    Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+                } else {
+                    LlcoppaItems.setVisibility(VISIBLE);
+                }
+            }
+        });
+
+
+       Button fethContent = findViewById(R.id.fetchConcent);
+       fethContent.setOnClickListener(this);
+        Button   consentConfirmationStatus= findViewById(R.id.updateCoppaConsentConfirmationStatus);
+        consentConfirmationStatus.setOnClickListener(this);
+        Button    updateCoppaConsentStatus    = findViewById(R.id.updateCoppaConsentStatus);
+        updateCoppaConsentStatus.setOnClickListener(this);
 
         mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -272,6 +297,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
+        CoppaExtension coppaExtension;
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         URInterface urInterface = new URInterface();
         int i = v.getId();
@@ -286,6 +312,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     public void onLogoutSuccess() {
                         hideLogoutSpinner();
                         Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
+                        LlcoppaItems.setVisibility(GONE);
+
                     }
 
                     @Override
@@ -296,6 +324,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 });
             } else {
                 mUser.logout(null);
+                LlcoppaItems.setVisibility(GONE);
+
             }
 
         } else if (i == R.id.btn_marketing_opt_in) {
@@ -364,6 +394,57 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
+        } else if (i == R.id.fetchConcent){
+            if (mUser.isUserSignIn()) {
+                coppaExtension=  new CoppaExtension(mContext);
+                Toast.makeText(mContext, "Consent: "+ coppaExtension.getConsent(), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+            }
+       } else if (i == R.id.updateCoppaConsentStatus) {
+
+
+            if (mUser.isUserSignIn()) {
+
+              coppaExtension=  new CoppaExtension(mContext);
+              coppaExtension.buildConfiguration();
+
+                coppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(mContext, "updateCoppaConsentStatus success", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(int message) {
+                        Toast.makeText(mContext, "updateCoppaConsentStatus failure"+message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+            }
+        } else if (i == R.id.updateCoppaConsentConfirmationStatus) {
+
+            if (mUser.isUserSignIn()) {
+
+                coppaExtension=  new CoppaExtension(mContext);
+                coppaExtension.buildConfiguration();
+
+                coppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus success", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(int message) {
+                        Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus failure"+message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else {
+                Toast.makeText(mContext,  " User not Signed in", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 

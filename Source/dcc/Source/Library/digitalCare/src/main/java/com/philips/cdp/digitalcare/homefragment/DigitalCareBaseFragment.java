@@ -11,12 +11,14 @@ package com.philips.cdp.digitalcare.homefragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,6 +92,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (request.getUrl().toString().startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(request.getUrl().toString()));
+                    startActivity(intent);
+                    return true;
+                }
                 view.loadUrl(request.getUrl().toString());
                 return true;
             }
@@ -97,6 +105,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                }
                 view.loadUrl(url);
                 return true;
             }

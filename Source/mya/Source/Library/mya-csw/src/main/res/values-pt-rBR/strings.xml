@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Você está offline</string>
   <string name="csw_ok">[pt-BR]OK</string>
   <string name="csw_privacy_notice">[pt-BR]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Controle sua privacidade. Leia o _aviso de privacidade_ para obter mais informações.</string>
-  <string name="csw_privacy_settings">[pt-BR]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[pt-BR]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Privacidade</string>
   <string name="csw_privacy_settings_desc">[pt-BR]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Ocorreu um problema (erro %1$d). Tente novamente.</string>
   <string name="csw_problem_occurred_error_title">Ocorreu um problema</string>

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeChatAuthenticator {
+    private String TAG = WeChatAuthenticator.class.getSimpleName();
 
     private final String WECHAT_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?";
 
@@ -24,7 +25,7 @@ public class WeChatAuthenticator {
             try {
                 String body = "appid=" + weChatAppId + "&secret=" + weChatAppSecrete + "&code=" + weChatAccessCode + "&grant_type=authorization_code";
 
-                RLog.d("WECHAT", "JSON Body = " + WECHAT_ACCESS_TOKEN_URL + body);
+                RLog.d(TAG, "JSON Body = " + WECHAT_ACCESS_TOKEN_URL + body);
                 Map<String, String> header = new HashMap<>();
                 header.put("User-Agent", "wechatLoginDemo");
 
@@ -32,18 +33,18 @@ public class WeChatAuthenticator {
                     try {
                         JSONObject jsonObj = new JSONObject(response);
                         weChatAuthenticationListener.onSuccess(jsonObj);
-                        RLog.d("WECHAT", jsonObj.toString());
+                        RLog.d(TAG, "getWeChatResponse : onSuccess " + jsonObj.toString());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        RLog.e(TAG, "getWeChatResponse : exception occured " + e.getMessage());
                     }
                 }, error -> {
-                    RLog.e("WECHAT", error.getMessage());
+                    RLog.e(TAG, "getWeChatResponse : onFail " + error.getMessage());
                     weChatAuthenticationListener.onFail();
                 });
 
                 urRequest.makeRequest(true);
             } catch (Exception ex) {
-                RLog.e("WECHAT", ex.toString());
+                RLog.e(TAG, "getWeChatResponse : onFail " + ex.toString());
                 weChatAuthenticationListener.onFail();
             }
         }).start();

@@ -91,7 +91,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
         mAppInfra = new AppInfra.Builder().build(this);
         prxDependencies = new PRXDependencies(getApplicationContext(), mAppInfra,"PRX DEMO");
-        prxDependencies.mAppInfraLogging = mAppInfra.getLogging().createInstanceForComponent(String.format("%s /prx Demo", prxDependencies.getParentTLA()), mRequestManager.getLibVersion());
+        prxDependencies.mAppInfraLogging = mAppInfra.getLogging().createInstanceForComponent(String.format("%s/prx", prxDependencies.getParentTLA()), mRequestManager.getLibVersion());
 
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);

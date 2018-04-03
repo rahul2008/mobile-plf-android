@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Jūs esat bezsaistē</string>
   <string name="csw_ok">[lv]OK</string>
   <string name="csw_privacy_notice">[lv]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Kontrolējiet savu privātumu. Lai iegūtu papildinformāciju, izlasiet _privacy notice_.</string>
-  <string name="csw_privacy_settings">[lv]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[lv]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Privātuma iestatījumi</string>
   <string name="csw_privacy_settings_desc">[lv]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Ir radusies problēma (error %1$d). Lūdzu, mēģiniet vēlreiz.</string>
   <string name="csw_problem_occurred_error_title">Radās problēma</string>

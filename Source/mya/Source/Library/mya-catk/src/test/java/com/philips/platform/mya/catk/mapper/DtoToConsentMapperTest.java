@@ -13,18 +13,18 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
-import com.philips.platform.pif.chi.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class DtoToConsentMapperTest {
     public static final String AMERICAN_LOCALE = "en-US";
-    private BackendConsent result;
+    private ConsentDTO result;
     private DtoToConsentMapper givenMapper;
     private GetConsentDto givenGetDto;
 
     private GetConsentDto getActiveFromIndiaTypeMomentLocaleEnUsDto;
-    private BackendConsent getActiveFromIndiaTypeMomentLocaleEnUsModel;
+    private ConsentDTO getActiveFromIndiaTypeMomentLocaleEnUsModel;
     private static final String TIMESTAMP = "2017-10-02T13:32:45.000Z";
 
     @Before
@@ -32,7 +32,7 @@ public class DtoToConsentMapperTest {
         givenMapper = new DtoToConsentMapper();
         getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto(TIMESTAMP, AMERICAN_LOCALE, "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent",
                 ConsentStates.active, "someSubjectId");
-        getActiveFromIndiaTypeMomentLocaleEnUsModel = new BackendConsent(AMERICAN_LOCALE, ConsentStates.active, "moment", 1);
+        getActiveFromIndiaTypeMomentLocaleEnUsModel = new ConsentDTO(AMERICAN_LOCALE, ConsentStates.active, "moment", 1);
         getActiveFromIndiaTypeMomentLocaleEnUsModel.setTimestamp(new DateTime(TIMESTAMP));
     }
 
@@ -52,7 +52,7 @@ public class DtoToConsentMapperTest {
         result = givenMapper.map(givenGetDto);
     }
 
-    private void thenConsentIs(BackendConsent expectedConsent) {
+    private void thenConsentIs(ConsentDTO expectedConsent) {
         assertEquals(expectedConsent, result);
     }
 

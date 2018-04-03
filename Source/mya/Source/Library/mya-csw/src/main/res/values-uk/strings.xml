@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Ви поза мережею</string>
   <string name="csw_ok">[uk]OK</string>
   <string name="csw_privacy_notice">[uk]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Зберігайте приватність. Докладніше читайте в _Політиці конфіденційності_.</string>
-  <string name="csw_privacy_settings">[uk]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[uk]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Налаштування конфіденційності</string>
   <string name="csw_privacy_settings_desc">[uk]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Виникла проблема (error %1$d). Спробуйте ще раз.</string>
   <string name="csw_problem_occurred_error_title">Виникла проблема</string>

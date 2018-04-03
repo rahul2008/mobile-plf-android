@@ -5,25 +5,27 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.pif.chi.datamodel;
+package com.philips.platform.mya.catk.datamodel;
+
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
 
-public class BackendConsent {
+public class ConsentDTO {
     private String locale;
     private ConsentStates status;
     private String type;
     private int version;
     private DateTime timestamp;
 
-    public BackendConsent(String locale, ConsentStates status, String type, int version) {
+    public ConsentDTO(String locale, ConsentStates status, String type, int version) {
         this.locale = locale;
         this.status = status;
         this.type = type;
         this.version = version;
     }
 
-    public BackendConsent(String locale, ConsentStates status, String type, int version, DateTime timestamp) {
+    public ConsentDTO(String locale, ConsentStates status, String type, int version, DateTime timestamp) {
         this(locale, status, type, version);
         this.timestamp = timestamp;
     }
@@ -71,9 +73,9 @@ public class BackendConsent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BackendConsent)) return false;
+        if (!(o instanceof ConsentDTO)) return false;
 
-        BackendConsent consent = (BackendConsent) o;
+        ConsentDTO consent = (ConsentDTO) o;
 
         if (version != consent.version) return false;
         if (locale != null ? !locale.equals(consent.locale) : consent.locale != null) return false;

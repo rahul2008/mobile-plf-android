@@ -58,6 +58,20 @@
         ]
       },
       {
+        "state": "privacy_settings",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -273,11 +287,20 @@
         "state": "my_account",
         "events": [
           {
-            "eventId": "PrivacyNotice",
+            "eventId": "PrivacySettingsEvent",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "web_view"
+                "nextState": "privacy_settings"
+              }
+            ]
+          },
+          {
+            "eventId": "MyDetailsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_details"
               }
             ]
           }

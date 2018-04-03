@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Olet offline-tilassa</string>
   <string name="csw_ok">[fi]OK</string>
   <string name="csw_privacy_notice">[fi]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Suojaa yksityisyytesi. Tutustu tietosuojailmoitukseen.</string>
-  <string name="csw_privacy_settings">[fi]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[fi]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Yksityisyysasetukset</string>
   <string name="csw_privacy_settings_desc">[fi]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Tapahtui virhe (virhe %1$d). Yritä uudelleen.</string>
   <string name="csw_problem_occurred_error_title">Tapahtui virhe</string>

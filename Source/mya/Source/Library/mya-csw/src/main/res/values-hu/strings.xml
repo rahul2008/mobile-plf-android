@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Ön nem kapcsolódik az internethez</string>
   <string name="csw_ok">[hu]OK</string>
   <string name="csw_privacy_notice">[hu]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Szabályozza személyes adatainak kezelését. A részletekért lásd: _adatvédelmi nyilatkozat_.</string>
-  <string name="csw_privacy_settings">[hu]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[hu]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Adatbiztonsági beállítások</string>
   <string name="csw_privacy_settings_desc">[hu]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Probléma lépett fel (%1$d hiba). Kérjük, próbálja újra.</string>
   <string name="csw_problem_occurred_error_title">Probléma lépett fel</string>

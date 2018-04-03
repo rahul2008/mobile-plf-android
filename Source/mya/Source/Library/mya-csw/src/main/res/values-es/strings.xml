@@ -14,8 +14,8 @@
   <string name="csw_offline_title">No tienes conexión a Internet</string>
   <string name="csw_ok">[es]OK</string>
   <string name="csw_privacy_notice">[es]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Controla tu privacidad. Lea la _privacy notice_ para obtener más información.</string>
-  <string name="csw_privacy_settings">[es]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[es]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Ajustes de privacidad</string>
   <string name="csw_privacy_settings_desc">[es]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Se ha producido un problema (error %1$d). Inténtalo de nuevo.</string>
   <string name="csw_problem_occurred_error_title">Se ha producido un problema</string>

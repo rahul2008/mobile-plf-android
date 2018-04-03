@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Bạn đang ngoại tuyến</string>
   <string name="csw_ok">[vi]OK</string>
   <string name="csw_privacy_notice">[vi]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Kiểm soát quyền riêng tư của bạn. Hãy đọc _thông báo về quyền riêng tư_ để biết thêm thông tin.</string>
-  <string name="csw_privacy_settings">[vi]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[vi]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Cài đặt quyền riêng tư</string>
   <string name="csw_privacy_settings_desc">[vi]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Đã xảy ra vấn đề (lỗi %1$d). Vui lòng thử lại.</string>
   <string name="csw_problem_occurred_error_title">Đã xảy ra lỗi</string>

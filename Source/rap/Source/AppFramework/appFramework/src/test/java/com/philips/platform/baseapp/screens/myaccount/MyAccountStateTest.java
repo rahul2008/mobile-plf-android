@@ -18,16 +18,13 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,10 +35,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RuntimeEnvironment;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -74,9 +67,6 @@ public class MyAccountStateTest {
 
     @Mock
     private FragmentTransaction fragmentTransaction;
-
-    @Mock
-    private ConsentManagerInterface consentManagerInterface;
 
     private MyAccountState myAccountState;
 
@@ -139,34 +129,6 @@ public class MyAccountStateTest {
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
     }
 
-    @Test
-    public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
-        assertNotNull(givenListOfConsentDefinitions());
-    }
-
-    @Test
-    public void shouldAddOneSampleConsentDefinition() throws Exception {
-        final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(8, definitions.size());
-    }
-
-    @After
-    public void tearDown() {
-        myaInterface = null;
-        fragmentLauncher = null;
-        hamburgerActivity = null;
-        application = null;
-        appInfraInterface = null;
-        consentManagerInterface = null;
-        myAccountState = null;
-        uiStateData = null;
-        appFrameworkApplication = null;
-    }
-
-    private List<ConsentDefinition> givenListOfConsentDefinitions() {
-        return myAccountState.createConsentDefinitions(mockContext);
-    }
-
     class MyAccountStateMock extends MyAccountState {
 
         private MyaInterface myaInterface;
@@ -185,4 +147,5 @@ public class MyAccountStateTest {
             return application;
         }
     }
+
 }

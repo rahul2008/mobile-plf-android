@@ -14,8 +14,8 @@
   <string name="csw_offline_title">U bent offline</string>
   <string name="csw_ok">[nl]OK</string>
   <string name="csw_privacy_notice">[nl]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Beheer uw privacy. Lees onze _privacyverklaring_ voor meer informatie.</string>
-  <string name="csw_privacy_settings">[nl]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[nl]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Privacyinstellingen</string>
   <string name="csw_privacy_settings_desc">[nl]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Er is een probleem opgetreden (error %1$d). Probeer het opnieuw.</string>
   <string name="csw_problem_occurred_error_title">Probleem opgetreden</string>

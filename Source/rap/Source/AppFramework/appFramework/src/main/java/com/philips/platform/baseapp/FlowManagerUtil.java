@@ -19,6 +19,8 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
+import com.philips.platform.baseapp.screens.mydetails.MyDetailsState;
+import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
@@ -56,5 +58,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
+        uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
+        uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
     }
 }

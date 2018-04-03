@@ -14,8 +14,8 @@
   <string name="csw_offline_title">أنت غير متصل</string>
   <string name="csw_ok">[ar]OK</string>
   <string name="csw_privacy_notice">[ar]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">تحكم بخصوصيتك: اقرأ _إشعار الخصوصية_ للحصول على مزيد من المعلومات</string>
-  <string name="csw_privacy_settings">[ar]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[ar]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">إعدادات الخصوصية</string>
   <string name="csw_privacy_settings_desc">[ar]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">حدثت مشكلة (خطأd$1% d). يرجى إعادة المحاولة.</string>
   <string name="csw_problem_occurred_error_title">حدثت مشكلة</string>

@@ -72,7 +72,7 @@ public class OrmInsight implements Insight, Serializable {
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
     @DatabaseField()
-    private DateTime expiration_date;
+    private DateTime expirationDate;
 
     @DatabaseConstructor
     public OrmInsight() {
@@ -241,12 +241,12 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public void setExpirationDate(DateTime timestamp) {
-        expiration_date = timestamp;
+        expirationDate = timestamp;
     }
 
     @Override
     public DateTime getExpirationDate() {
-        return expiration_date;
+        return expirationDate;
     }
 
     @Override

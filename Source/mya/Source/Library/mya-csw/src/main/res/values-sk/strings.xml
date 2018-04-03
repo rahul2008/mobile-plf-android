@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Ste offline</string>
   <string name="csw_ok">[sk]OK</string>
   <string name="csw_privacy_notice">[sk]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Regulujte si ochranu súkromia. Viac informácií nájdete v _oznámení o ochrane súkromia_.</string>
-  <string name="csw_privacy_settings">[sk]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[sk]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Nastavenia ochrany súkromia</string>
   <string name="csw_privacy_settings_desc">[sk]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Vyskytol sa problém (chyba %1$d). Skúste to znova.</string>
   <string name="csw_problem_occurred_error_title">Vyskytol sa problém</string>

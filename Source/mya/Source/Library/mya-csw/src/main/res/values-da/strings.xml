@@ -14,8 +14,8 @@
   <string name="csw_offline_title">Du er offline</string>
   <string name="csw_ok">[da]OK</string>
   <string name="csw_privacy_notice">[da]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Styr dine personlige oplysninger. Læs meddelelse om beskyttelse af personlige oplysninger.</string>
-  <string name="csw_privacy_settings">[da]Privacy Settings</string>
+  <string name="csw_privacy_notice_message">[da]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings">Fortrolighedsindstillinger</string>
   <string name="csw_privacy_settings_desc">[da]Control Your Privacy. Read the {privacy notice} for more information.</string>
   <string name="csw_problem_occurred_error_message">Der opstod et problem (error %1$d). Prøv igen.</string>
   <string name="csw_problem_occurred_error_title">Der opstod et problem</string>
