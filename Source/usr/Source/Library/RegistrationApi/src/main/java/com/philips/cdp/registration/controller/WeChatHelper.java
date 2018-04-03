@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -16,7 +17,7 @@ public class WeChatHelper {
     private   String weChatAppId = null;
     private   String weChatAppSecret = null;
     private IWXAPI weChatApi = null ;
-
+    private static String TAG = WeChatHelper.class.getSimpleName();
     public boolean isWeChatSupported(){
         if(weChatApi == null){
            return false;
@@ -26,6 +27,7 @@ public class WeChatHelper {
 
     public boolean register(Activity context, String weChatAppId, String weChatAppSecret ){
         weChatApi = WXAPIFactory.createWXAPI(context, weChatAppId, false);
+        RLog.d(TAG,"register : weChatApi.registerApp");
         return weChatApi.registerApp(weChatAppSecret);
     }
 
@@ -39,15 +41,18 @@ public class WeChatHelper {
             String message = intent.getStringExtra(RegConstants.WECHAT_ERR_CODE);
             String code = intent.getStringExtra(RegConstants.WECHAT_CODE);
 
+            RLog.d(TAG,"BroadcastReceiver : onReceive");
         }
     };
 
     public BroadcastReceiver getWechatReciever(){
+        RLog.d(TAG,"getWechatReciever : is called");
         return mMessageReceiver;
     }
 
 
     public void authenticate() {
+        RLog.d(TAG,"authenticate : weChatApi.sendReq");
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "123456";

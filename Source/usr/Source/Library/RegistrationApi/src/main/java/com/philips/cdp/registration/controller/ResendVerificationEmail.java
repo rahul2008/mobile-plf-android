@@ -21,6 +21,7 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
@@ -29,18 +30,22 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	public ResendVerificationEmailHandler mResendVerificationEmail;
 	private Context mContext;
 	private String mEmailAddress;
+	private static final String TAG = ResendVerificationEmail.class.getSimpleName();
+
 	public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {
 		mResendVerificationEmail = resendVerificationEmail;
 		mContext = context;
 	}
 
 	public void onSuccess() {
+		RLog.d(TAG,"onSuccess : call onResendVerificationEmailSuccess ");
 		ThreadUtils.postInMainThread(mContext,()->
 		mResendVerificationEmail.onResendVerificationEmailSuccess());
 
 	}
 
 	public void onFailure(CaptureApiError error) {
+		RLog.d(TAG,"onFailure : call onResendVerificationEmailFailedWithError ");
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error);
 		userRegistrationFailureInfo.setErrorCode(error.code);
 		ThreadUtils.postInMainThread(mContext,()->
@@ -69,6 +74,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 
 	@Override
 	public void onFlowDownloadSuccess() {
+		RLog.d(TAG,"onFlowDownloadSuccess : call unregisterJumpFlowDownloadListener ");
 		Jump.resendEmailVerification(mEmailAddress, this);
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 	}
@@ -82,9 +88,10 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
 			ThreadUtils.postInMainThread(mContext,()->
 			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
+			RLog.d(TAG,"onFlowDownloadFailure : call onResendVerificationEmailFailedWithError ");
 		}
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-
+		RLog.d(TAG,"onFlowDownloadFailure : call unregisterJumpFlowDownloadListener ");
 
 	}
 }
