@@ -7,13 +7,13 @@
 
 package com.philips.platform.mya.catk.listener;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
 
 import java.util.List;
 
 public interface ConsentResponseListener {
-    void onResponseSuccessConsent(List<BackendConsent> responseData);
+    void onResponseSuccessConsent(List<ConsentDTO> responseData);
 
     void onResponseFailureConsent(ConsentNetworkError error);
 }

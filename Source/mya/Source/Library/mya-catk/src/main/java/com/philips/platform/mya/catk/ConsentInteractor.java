@@ -8,6 +8,7 @@ package com.philips.platform.mya.catk;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.listener.CreateConsentListener;
@@ -16,7 +17,6 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -47,8 +47,8 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
         if (isInternetAvailable()) {
             ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
-            BackendConsent backendConsent = createConsents(consentType, consentStates, version);
-            consentsClient.createConsent(backendConsent, new CreateConsentResponseListener(callback));
+            ConsentDTO consentDTO = createConsents(consentType, consentStates, version);
+            consentsClient.createConsent(consentDTO, new CreateConsentResponseListener(callback));
         } else {
             callback.onPostConsentFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
         }
@@ -58,9 +58,9 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         return consentsClient.getAppInfra().getRestClient().isInternetReachable();
     }
 
-    private BackendConsent createConsents(String consentType, ConsentStates status, int version) {
+    private ConsentDTO createConsents(String consentType, ConsentStates status, int version) {
         String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
-        return new BackendConsent(locale, status, consentType, version);
+        return new ConsentDTO(locale, status, consentType, version);
     }
 
     class GetConsentForTypeResponseListener implements ConsentResponseListener {
@@ -71,10 +71,10 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         }
 
         @Override
-        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+        public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
-                BackendConsent backendConsent = responseData.get(0);
-                callback.onGetConsentsSuccess(new ConsentStatus(backendConsent.getStatus(), backendConsent.getVersion()));
+                ConsentDTO consentDTO = responseData.get(0);
+                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion()));
             } else {
                 callback.onGetConsentsSuccess(null);
             }
@@ -96,13 +96,13 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
         @Override
         public void onSuccess() {
-            CatkLogger.d(" Create BackendConsent: ", "Success");
+            CatkLogger.d(" Create ConsentDTO: ", "Success");
             callback.onPostConsentSuccess();
         }
 
         @Override
         public void onFailure(ConsentNetworkError error) {
-            CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
+            CatkLogger.d(" Create ConsentDTO: ", "Failed : " + error.getCatkErrorCode());
             callback.onPostConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
     }

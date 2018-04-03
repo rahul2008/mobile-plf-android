@@ -4,9 +4,9 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.mya.catk.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.List;
@@ -16,16 +16,16 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
     public ConsentDefinition definition_storeConsentState;
     public boolean status_storeConsentState;
     public PostConsentCallback callback_storeConsentState;
-    private Consent consent;
     private ConsentDefinition definition;
     private ConsentError error;
+    private ConsentDTO consent;
 
     public void callsCallback_onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
         this.definition = definition;
         this.error = error;
     }
 
-    public void callsCallback_onPostConsentSuccess(Consent consent) {
+    public void callsCallback_onPostConsentSuccess(ConsentDTO consent) {
         this.consent = consent;
     }
 
