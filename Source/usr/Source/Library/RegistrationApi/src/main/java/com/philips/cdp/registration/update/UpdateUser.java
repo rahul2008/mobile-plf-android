@@ -28,10 +28,11 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
                 RLog.d(TAG, "updating User  ");
                 ((CaptureRecord) updatedUserData).synchronize(this, userData);
             } catch (Capture.InvalidApidChangeException e) {
-                RLog.d(TAG, "Exception occured while updating User Info ");
+                RLog.e(TAG, "Exception occured while updating User Info ");
                 mUpdateUserListener.onUserUpdateFailed(-1);
             }
         } else {
+            RLog.e(TAG, "updatedUserData NULL ");
             mUpdateUserListener.onUserUpdateFailed(-1);
         }
     }
