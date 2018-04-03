@@ -79,13 +79,9 @@ public class DataPushSynchroniseTest {
     @Mock
     Moment moment;
 
-    @Mock
-    Consent consent;
-
     @Captor
     private ArgumentCaptor<PostConsentCallback> consentCallbackCaptor;
-
-
+    
     @Before
     public void setUp() {
         initMocks(this);
