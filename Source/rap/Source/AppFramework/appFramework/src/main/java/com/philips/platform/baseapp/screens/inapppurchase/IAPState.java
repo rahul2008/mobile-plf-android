@@ -156,7 +156,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
     @Override
     public void onGetCartCount(int i) {
-        ((HamburgerActivity) activityContext).cartIconVisibility(isCartVisible,i);
+        ((HamburgerActivity) activityContext).cartIconVisibility(i);
     }
 
     @Override

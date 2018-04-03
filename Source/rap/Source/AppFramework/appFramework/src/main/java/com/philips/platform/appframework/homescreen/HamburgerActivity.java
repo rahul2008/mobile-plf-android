@@ -48,8 +48,6 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
@@ -415,7 +413,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
         toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
-        cartIconVisibility(true,0);
+        cartIconVisibility(0);
     }
 
     public boolean isIAPInstance(){
@@ -435,9 +433,17 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         return false;
     }
 
-    public void cartIconVisibility(boolean shouldShow, int count) {
+    public void cartIconVisibility(int count) {
 
-        if(shouldShow && isIAPInstance() && ((AppFrameworkApplication)getApplication()).isShopingCartVisible){
+        final boolean isShopingCartVisible = ((AppFrameworkApplication) getApplication()).isShopingCartVisible;
+        if(!isShopingCartVisible){
+            cartIcon.setVisibility(View.GONE);
+            cartCount.setVisibility(View.GONE);
+            shoppingCartLayout.setVisibility(View.GONE);
+            return;
+        }
+
+        if(isIAPInstance()){
             cartIcon.setVisibility(View.VISIBLE);
             int cartItemsCount = count;
                 if (cartItemsCount > 0) {
