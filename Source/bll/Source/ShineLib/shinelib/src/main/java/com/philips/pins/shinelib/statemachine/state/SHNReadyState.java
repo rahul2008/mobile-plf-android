@@ -46,11 +46,6 @@ public class SHNReadyState extends SHNDeviceState {
     }
 
     @Override
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        sharedResources.notifyStateToListener();
-    }
-
-    @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 

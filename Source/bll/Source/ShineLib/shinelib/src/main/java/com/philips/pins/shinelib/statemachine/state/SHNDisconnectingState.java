@@ -65,11 +65,6 @@ public class SHNDisconnectingState extends SHNDeviceState {
     }
 
     @Override
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
-    }
-
-    @Override
     public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             handleGattDisconnectEvent();

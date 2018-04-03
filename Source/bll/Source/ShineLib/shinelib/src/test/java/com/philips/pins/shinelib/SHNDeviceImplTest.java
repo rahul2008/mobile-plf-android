@@ -112,7 +112,6 @@ public class SHNDeviceImplTest {
     private SHNService.State mockedServiceState;
     public static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
     public static final String NAME_STRING = "TestDevice";
-    private boolean useTimeoutConnect = true;
 
     @Before
     public void setUp() {
@@ -182,11 +181,7 @@ public class SHNDeviceImplTest {
     }
 
     private void connectTillGATTConnected() {
-        if (useTimeoutConnect) {
-            shnDevice.connect();
-        } else {
-            shnDevice.connect(false, -1L);
-        }
+        shnDevice.connect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
     }
 
@@ -1058,32 +1053,23 @@ public class SHNDeviceImplTest {
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
     }
 
-    // Tests for the connect without timeout
     @Test
     public void whenConnectWithoutTimeoutThenNoTimeoutIsSet() {
-        shnDevice.connect(false, -1L);
+        shnDevice.connect();
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
     @Test
-    public void whenConnectWithoutTimeoutThenConnectGattIsCalledWithAutoConnect() {
-        shnDevice.connect(false, -1L);
-
-        verify(mockedBTDevice).connectGatt(isA(Context.class), eq(true), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
-    }
-
-    @Test
-    public void whenConnectWithoutTimeoutAndRemoteDisconnectsThenDisconnectGattIsCalledWithAutoConnect() {
-        useTimeoutConnect = false;
+    public void givenConnected_whenRemoteDisconnects_thenCloseGattIsCalled() {
         getDeviceInConnectedState();
         assertEquals(SHNDevice.State.Connected, shnDevice.getState());
 
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
                 BluetoothGatt.STATE_DISCONNECTED);
+
         verify(mockedBTGatt).close();
     }
 
-    //
     @Test
     public void whenConnectWithTimeOutCalledThenConnectGattIsCalled() throws Exception {
         shnDevice.connect(1L);

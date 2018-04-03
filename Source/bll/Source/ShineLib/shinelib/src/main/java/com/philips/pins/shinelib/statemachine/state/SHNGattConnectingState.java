@@ -20,20 +20,16 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
     private static final String TAG = SHNGattConnectingState.class.getName();
 
-    private final boolean withTimeout;
-    private final long timeoutInMS;
-
     private long timeOut;
     private long startTimerTime;
     private long minimumConnectionIdleTime;
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
-        this(stateMachine, true, -1L);
+        super(stateMachine);
     }
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
-        this(stateMachine, true, -1L);
-
+        super(stateMachine);
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
         } else {
@@ -42,16 +38,10 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
     }
 
-    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, final boolean withTimeout, final long timeoutInMS) {
-        super(stateMachine);
-        this.withTimeout = withTimeout;
-        this.timeoutInMS = timeoutInMS;
-    }
-
     @Override
     protected void onEnter() {
         setMinimumConnectionIdleTime();
-        startConnect(withTimeout, timeoutInMS);
+        startConnect();
     }
 
     @Override
@@ -76,23 +66,16 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
     }
 
-    private void startConnect(final boolean withTimeout, final long timeoutInMS) {
+    private void startConnect() {
         final long timeDiff = System.currentTimeMillis() - sharedResources.getLastDisconnectedTimeMillis();
         if (stackNeedsTimeToPrepareForConnect(timeDiff)) {
-            postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
+            postponeConnectCall(timeDiff);
             return;
         }
 
         if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
             sharedResources.getShnCentral().registerSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
-            if (withTimeout) {
-                if (timeoutInMS > 0) {
-                    connectingTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
-                }
-                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
-            } else {
-                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), true, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
-            }
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
@@ -148,13 +131,13 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
     }
 
-    private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
+    private void postponeConnectCall(long timeDiff) {
         SHNLogger.w(TAG, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
 
         sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startConnect(withTimeout, timeoutInMS);
+                startConnect();
             }
         }, minimumConnectionIdleTime - timeDiff);
     }

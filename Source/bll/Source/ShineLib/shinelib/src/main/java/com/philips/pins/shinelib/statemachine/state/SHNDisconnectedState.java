@@ -37,11 +37,6 @@ public class SHNDisconnectedState extends SHNDeviceState {
     }
 
     @Override
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        stateMachine.setState(new SHNGattConnectingState(stateMachine, withTimeout, timeoutInMS));
-    }
-
-    @Override
     public void disconnect() {
         sharedResources.notifyStateToListener();
     }

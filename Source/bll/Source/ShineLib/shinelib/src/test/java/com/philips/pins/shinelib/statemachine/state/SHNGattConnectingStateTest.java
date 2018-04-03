@@ -128,7 +128,7 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onEnter();
 
-        verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback));
+        verify(mockedBTDevice).connectGatt(same(mockedContext), eq(false), same(mockedSHNCentral), same(mockedBtGattCallback));
     }
 
     @Test

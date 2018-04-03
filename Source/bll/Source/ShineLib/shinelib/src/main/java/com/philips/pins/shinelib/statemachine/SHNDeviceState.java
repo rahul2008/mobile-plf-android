@@ -30,10 +30,6 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
         showLogOfEmptyMethodCall("connect");
     }
 
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        showLogOfEmptyMethodCall("connect");
-    }
-
     public void disconnect() {
         showLogOfEmptyMethodCall("disconnect");
     }

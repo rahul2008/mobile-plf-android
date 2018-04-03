@@ -105,10 +105,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         stateMachine.getState().connect(connectTimeOut);
     }
 
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        stateMachine.getState().connect(withTimeout, timeoutInMS);
-    }
-
     @Override
     public void disconnect() {
         stateMachine.getState().disconnect();
