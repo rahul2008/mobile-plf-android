@@ -29,6 +29,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
@@ -44,6 +45,8 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
+    private final static String TAG = LoginSocialProvider.class.getSimpleName();
+
     public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
         mSocialLoginHandler = socialLoginHandler;
@@ -53,6 +56,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onSuccess() {
+        RLog.d(TAG,"onSuccess : is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
@@ -92,11 +96,12 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onCode(String code) {
-
+        RLog.d(TAG,"onCode : is called");
     }
 
     @Override
     public void onFailure(SignInError error) {
+        RLog.d(TAG,"onFailure : is called");
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
@@ -145,6 +150,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     private String mProviderName;
 
     public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
+        RLog.d(TAG,"loginSocial : is called");
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
@@ -161,12 +167,14 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFlowDownloadSuccess() {
+        RLog.d(TAG,"onFlowDownloadSuccess : is called");
         Jump.showSignInDialog(mActivity, mProviderName, this, mMergeToken);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
+        RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mSocialLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
