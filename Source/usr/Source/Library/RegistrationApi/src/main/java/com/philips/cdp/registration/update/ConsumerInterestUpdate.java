@@ -26,9 +26,10 @@ import java.util.*;
 
 public class ConsumerInterestUpdate {
 
-    private final String TAG = "ConsumerInterestUpdate";
-    private  String baseUrl;
+    private final String TAG = ConsumerInterestUpdate.class.getSimpleName();
+    private String baseUrl;
     private Context mContext;
+
     public void updateConsumerInterest(Context context, UpdateConsumerInterestHandler updateConsumerInterestHandler,
                                        ArrayList<ConsumerInterest> consumerInterests) {
 
@@ -86,9 +87,9 @@ public class ConsumerInterestUpdate {
                                  String attributes) {
         String accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
-        List<Pair<String,String>> nameValuePair = new ArrayList<Pair<String,String>>();
+        List<Pair<String, String>> nameValuePair = new ArrayList<Pair<String, String>>();
 
-       // List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+        // List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
         final String ATTRIBUTES = "attributes";
         final String ACCESS_TOKEN = "access_token";
         final String INCLUDE_RECORD = "include_record";
@@ -106,7 +107,7 @@ public class ConsumerInterestUpdate {
         prodRegTask.nameValuePairs = nameValuePair;
         prodRegTask.updateConsumerInterestHandler = updateConsumerInterestHandler;
 
-        baseUrl = UserRegistrationInitializer.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl()+"/entity.replace";
+        baseUrl = UserRegistrationInitializer.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl() + "/entity.replace";
         prodRegTask.url = baseUrl;
 
         prodRegTask.execute();
@@ -115,7 +116,7 @@ public class ConsumerInterestUpdate {
 
     private class updateConsumerInterestTask extends AsyncTask<Void, Void, String> {
         String url;
-        List<Pair<String,String>> nameValuePairs;
+        List<Pair<String, String>> nameValuePairs;
         UpdateConsumerInterestHandler updateConsumerInterestHandler;
         String accessToken;
 
@@ -135,6 +136,7 @@ public class ConsumerInterestUpdate {
 
         private void processResponse(String resultString) {
             if (resultString == null) {
+                RLog.d(TAG, "processResponse :onUpdateConsumerInterestFailedWithError because resultString = " + resultString);
                 updateConsumerInterestHandler.onUpdateConsumerInterestFailedWithError(
                         new com.janrain.android.capture.CaptureApiError(null, null, null));
             } else {
@@ -145,11 +147,13 @@ public class ConsumerInterestUpdate {
                         user.refreshUser(new RefreshUserHandler() {
                             @Override
                             public void onRefreshUserSuccess() {
+                                RLog.d(TAG, "processResponse :onRefreshUserSuccess ");
                                 updateConsumerInterestHandler.onUpdateConsumerInterestSuccess();
                             }
 
                             @Override
                             public void onRefreshUserFailed(int error) {
+                                RLog.e(TAG, "processResponse :onRefreshUserFailed " + error);
                                 updateConsumerInterestHandler.
                                         onUpdateConsumerInterestFailedWithError(null);
                             }
@@ -157,6 +161,7 @@ public class ConsumerInterestUpdate {
 
 
                     } else {
+                        RLog.e(TAG, "processResponse :onUpdateConsumerInterestFailedWithError ");
                         updateConsumerInterestHandler.
                                 onUpdateConsumerInterestFailedWithError(
                                         new com.janrain.android.capture.CaptureApiError(jsonObject,
@@ -164,7 +169,7 @@ public class ConsumerInterestUpdate {
                     }
 
                 } catch (Exception e) {
-
+                    RLog.e(TAG, "Exception Occured : " + e.getMessage());
                 }
 
 

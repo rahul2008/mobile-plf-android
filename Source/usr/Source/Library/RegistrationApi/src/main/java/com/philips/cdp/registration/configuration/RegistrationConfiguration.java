@@ -140,7 +140,7 @@ public class RegistrationConfiguration {
     public List<String> getServiceDiscoveryCountries() {
         HashMap<String, String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
         if (null == sdCountryMapping) {
-            RLog.e(this.getClass().getSimpleName(), "sdCountryMapping is null");
+            RLog.e(TAG, "sdCountryMapping is null");
             return new ArrayList<>();
         }
         return new ArrayList<>(sdCountryMapping.keySet());
@@ -155,7 +155,7 @@ public class RegistrationConfiguration {
     public String getCampaignId() {
         String campaignId = appConfiguration.getCampaignId();
         if (null == campaignId) {
-            RLog.e("RegistrationConfiguration", "Campaign ID is null");
+            RLog.e(TAG, "Campaign ID is null");
         }
         return campaignId;
     }
@@ -168,7 +168,7 @@ public class RegistrationConfiguration {
     public String getRegistrationEnvironment() {
         String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
         if (null == registrationEnvironment) {
-            RLog.e(this.getClass().getSimpleName(), "Registration environment is null");
+            RLog.e(TAG, "Registration environment is null");
             return registrationEnvironment;
         }
         if (registrationEnvironment.equalsIgnoreCase("TEST"))
@@ -245,9 +245,10 @@ public class RegistrationConfiguration {
 
         String appName = hsdpConfiguration.getHsdpAppName();
 
-        RLog.d("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        RLog.d(TAG, "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
+            RLog.e(TAG, "getHSDPInfo returning NULL");
             return null;
         }
         return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
