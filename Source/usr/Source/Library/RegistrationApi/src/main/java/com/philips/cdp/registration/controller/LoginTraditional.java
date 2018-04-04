@@ -43,6 +43,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     private String mPassword;
 
+    private final static String TAG = LoginTraditional.class.getSimpleName();
+
     public LoginTraditional(TraditionalLoginHandler traditionalLoginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
         mTraditionalLoginHandler = traditionalLoginHandler;
@@ -54,7 +56,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
 
     public void loginTraditionally(final String email, final String password) {
+        RLog.d(TAG,"loginTraditionally : is called");
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            RLog.d(TAG,"loginTraditionally : not isJumpInitializated");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
             Jump.performTraditionalSignIn(email, password, this, null);
@@ -66,6 +70,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     }
 
     public void mergeTraditionally(final String email, final String password, final String token) {
+        RLog.d(TAG,"mergeTraditionally : is called");
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
@@ -79,6 +84,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onSuccess() {
+        RLog.d(TAG,"onSuccess : is called");
         Jump.saveToDisk(mContext);
         final User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
@@ -112,11 +118,12 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onCode(String code) {
-
+        RLog.d(TAG,"onCode : is called");
     }
 
     @Override
     public void onFailure(SignInError error) {
+        RLog.d(TAG,"onFailure : is called");
         try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
@@ -125,17 +132,20 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         } catch (Exception e) {
             RLog.e("Login failed :", "exception :" + e.getMessage());
+            RLog.d(TAG,"onFailure : is called"+e.getMessage());
         }
     }
 
     @Override
     public void onFlowDownloadSuccess() {
+        RLog.d(TAG,"onFlowDownloadSuccess : is called");
         Jump.performTraditionalSignIn(mEmail, mPassword, this, null);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
+        RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mTraditionalLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
@@ -148,6 +158,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     }
 
     public void loginIntoHsdp() {
+        RLog.d(TAG,"loginIntoHsdp : is called");
         final User user = new User(mContext);
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
@@ -163,6 +174,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                 public void onLoginSuccess() {
                     ThreadUtils.postInMainThread(mContext, () ->
                             mTraditionalLoginHandler.onLoginSuccess());
+                    RLog.d(TAG,"loginIntoHsdp : SocialLoginHandler : onLoginSuccess is called");
                 }
 
                 @Override
@@ -170,6 +182,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                     AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                     ThreadUtils.postInMainThread(mContext, () ->
                             mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    RLog.d(TAG,"loginIntoHsdp : SocialLoginHandler : onLoginFailedWithError is called");
                 }
             });
         }

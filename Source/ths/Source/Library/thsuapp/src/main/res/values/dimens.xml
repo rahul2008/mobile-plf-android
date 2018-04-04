@@ -47,4 +47,7 @@
     <dimen name="ths_title_padding_pre_welcome_screen">2dp</dimen>
     <dimen name="ths_2_dp">2dp</dimen>
     <dimen name="ths_20_sp">20sp</dimen>
+
+    <!-- Cell size -->
+    <dimen name="ths_0_dp">0dp</dimen>
 </resources>
