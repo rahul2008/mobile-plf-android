@@ -21,14 +21,12 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -124,16 +122,6 @@ public class THSCreditCardDetailPresenterTest {
         SupportFragmentTestUtil.startFragment(mThsCreditCardDetailFragment);
 
         mThsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(mThsCreditCardDetailFragment,thsCreditCardDetailViewInterfaceMock);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onEvent_payment_detail_continue_button() throws Exception {
-        mThsCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_continue_button);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onEvent_cvv_help() throws Exception {
-        mThsCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_card_cvc_help);
     }
 
 }

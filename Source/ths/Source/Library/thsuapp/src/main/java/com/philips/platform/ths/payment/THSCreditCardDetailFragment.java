@@ -234,8 +234,8 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
-        stateSpinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, stateList);
-        Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
+        getSpinnerAdapter();
+        Context popupThemedContext = getPopupThemedContext();
         uiPicker = new UIPicker(popupThemedContext);
         uiPicker.setAdapter(stateSpinnerAdapter);
         uiPicker.setAnchorView(anchorUIPicker);
@@ -255,6 +255,14 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
         mProgressbarContainer = view.findViewById(R.id.shipping_address_container);
         return view;
+    }
+
+    protected Context getPopupThemedContext() {
+        return UIDHelper.getPopupThemedContext(getContext());
+    }
+
+    protected void getSpinnerAdapter() {
+        stateSpinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, stateList);
     }
 
     @Override

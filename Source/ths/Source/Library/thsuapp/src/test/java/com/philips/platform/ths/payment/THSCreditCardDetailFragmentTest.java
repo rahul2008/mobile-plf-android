@@ -35,6 +35,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import java.util.Map;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,8 +46,13 @@ public class THSCreditCardDetailFragmentTest {
 
     THSCreditCardDetailFragment mThsCreditCardDetailFragment;
 
+    THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
+
     @Mock
     THSCreditCardDetailPresenter thsCreditCardDetailPresenterMock;
+
+    @Mock
+    THSCreditCardDetailFragment thsCreditCardDetailFragmentMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -94,6 +101,13 @@ public class THSCreditCardDetailFragmentTest {
 
     @Mock
     Address addressMock;
+    @Mock
+    Throwable throwableMock;
+
+    @Mock
+    Map mapMock;
+    @Mock
+    THSCreditCardDetailViewInterface thsCreditCardDetailViewInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -101,6 +115,7 @@ public class THSCreditCardDetailFragmentTest {
 
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
@@ -119,6 +134,7 @@ public class THSCreditCardDetailFragmentTest {
         mThsCreditCardDetailFragment = new THSCreditCardDetailFragmentTestMock();
         mThsCreditCardDetailFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mThsCreditCardDetailFragment);
+        thsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(mThsCreditCardDetailFragment, thsCreditCardDetailViewInterfaceMock);
     }
 
     @Test
@@ -127,6 +143,18 @@ public class THSCreditCardDetailFragmentTest {
         mThsCreditCardDetailFragment.thsCreditCardDetailPresenter = thsCreditCardDetailPresenterMock;
         viewById.performClick();
         verify(thsCreditCardDetailPresenterMock).onEvent(R.id.ths_payment_detail_continue_button);
+    }
+
+    @Test
+    public void onGetPaymentFailure() throws Exception {
+        thsCreditCardDetailPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragmentMock;
+        thsCreditCardDetailPresenter.onGetPaymentFailure(throwableMock);
+    }
+
+    @Test
+    public void onValidationFailure() throws Exception {
+        thsCreditCardDetailPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragmentMock;
+        thsCreditCardDetailPresenter.onValidationFailure(mapMock);
     }
 
 }
