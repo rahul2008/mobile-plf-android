@@ -23,8 +23,8 @@ import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import java.util.Collections;
 import java.util.Set;
@@ -37,7 +37,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private static final long NETWORK_NODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(15);
 
     @NonNull
-    private final SSDPDiscovery ssdpControlPoint;
+    private final SSDPControlPoint ssdpControlPoint;
 
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -120,7 +120,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    SSDPDiscovery createSsdpControlPoint() {
+    SSDPControlPoint createSsdpControlPoint() {
         final DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint();
         ssdpControlPoint.addDeviceListener(deviceListener);
 

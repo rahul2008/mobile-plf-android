@@ -7,7 +7,7 @@ package com.philips.cdp2.commlib.ssdp;
 
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
-public interface SSDPDiscovery {
+public interface SSDPControlPoint {
     void start() throws TransportUnavailableException;
 
     void stop();

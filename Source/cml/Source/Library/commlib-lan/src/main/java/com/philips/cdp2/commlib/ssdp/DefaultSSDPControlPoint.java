@@ -56,7 +56,7 @@ import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
  * As defined in the UPnP specification, control points (CPs) are devices which use UPnP protocols to control UPnP controlled devices (CDs).
  */
 @SuppressWarnings("unused")
-public class DefaultSSDPControlPoint implements SSDPDiscovery {
+public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     public interface DeviceListener {
 

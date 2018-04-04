@@ -17,8 +17,8 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Mock
-    private SSDPDiscovery ssdpControlPointMock;
+    private SSDPControlPoint ssdpControlPointMock;
 
     @Mock
     private LanDeviceCache deviceCacheMock;
@@ -86,7 +86,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
             @Override
-            SSDPDiscovery createSsdpControlPoint() {
+            SSDPControlPoint createSsdpControlPoint() {
                 return ssdpControlPointMock;
             }
         };
