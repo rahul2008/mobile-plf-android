@@ -20,6 +20,7 @@ Version {next}
 
 ### Defects solved
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
+* 123173 Fixed a null pointer exception in `LanRequest`
 
 ### Residual anomalies
 * N/A
