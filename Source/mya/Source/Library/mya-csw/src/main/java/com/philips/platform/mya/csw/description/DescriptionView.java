@@ -4,7 +4,6 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-
 package com.philips.platform.mya.csw.description;
 
 import android.os.Bundle;
@@ -30,7 +29,11 @@ public class DescriptionView extends CswBaseFragment implements DescriptionInter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_description_view, container, false);
-        ((TextView) view.findViewById(R.id.description)).setText(getString(getArguments().getInt(HELP, R.string.mya_default_help_text)));
+
+        int helpText = getArguments().getInt(HELP, R.string.mya_default_help_text);
+        TextView description = view.findViewById(R.id.description);
+        description.setText(helpText);
+
         return view;
     }
 
