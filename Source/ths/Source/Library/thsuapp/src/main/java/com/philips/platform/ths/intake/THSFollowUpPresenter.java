@@ -8,7 +8,6 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -75,7 +74,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
 
     @Override
-    public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
+    public void onUpdateConsumerValidationFailure(Map<String, String> var1) {
         thsFollowUpViewInterfaces.hideProgressButton();
     }
 
@@ -92,11 +91,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
             THSManager.getInstance().setPTHConsumer(thsConsumer);
-            if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
-                thsFollowUpViewInterfaces.showProviderDetailsFragment();
-            } else {
-                thsFollowUpViewInterfaces.showConditionsFragment();
-            }
+            thsFollowUpViewInterfaces.showConditionsFragment();
             //update singleton THSManager THSConsumer member
         }
 

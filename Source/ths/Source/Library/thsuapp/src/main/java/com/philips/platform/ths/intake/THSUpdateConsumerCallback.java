@@ -6,12 +6,12 @@
 
 package com.philips.platform.ths.intake;
 
-import com.americanwell.sdk.manager.ValidationReason;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
 public interface THSUpdateConsumerCallback<PTHConsumer, PTHSDKPasswordError> {
-    void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1);
+    void onUpdateConsumerValidationFailure(@NonNull Map<String, String> map);
 
     void onUpdateConsumerResponse(PTHConsumer consumer, PTHSDKPasswordError sdkPasswordError);
 

@@ -9,7 +9,6 @@ package com.philips.platform.ths.payment;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -28,7 +27,6 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_I
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_CVV;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD;
-import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_ZIP;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -76,7 +74,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             address.setZipCode(mTHSBillingAddressFragment.mZipcodeEditText.getText().toString().trim());
             createPaymentRequest.setAddress(address);
 
-            Map<String, ValidationReason> errors = new HashMap<>();
+            Map<String, String> errors = new HashMap<>();
             THSManager.getInstance().validateCreatePaymentRequest(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, errors);
             if (errors.isEmpty()) {
                 THSManager.getInstance().updatePaymentMethod(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, this);
@@ -141,7 +139,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
+    public void onValidationFailure(Map<String, String> map) {
         if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             AmwellLog.e("updatePayment", map.toString());
         }
