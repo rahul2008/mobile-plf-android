@@ -263,7 +263,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onGetPaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            if (null == tHSSDKError.getSdkError() ||  (null != tHSSDKError.getSdkError() && tHSSDKError.getSdkError().getSDKErrorReason()== SDKErrorReason.CREDIT_CARD_MISSING)) {
+            if (null == tHSSDKError.getSdkError() ||  (null != tHSSDKError.getSdkError() && SDKErrorReason.CREDIT_CARD_MISSING.equalsIgnoreCase(tHSSDKError.getSdkError().getSDKErrorReason()))) {
                 AmwellLog.i("fetchPayment", "success");
                 mTHSCostSummaryFragment.mTHSPaymentMethod = tHSPaymentMethod;
                 if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {

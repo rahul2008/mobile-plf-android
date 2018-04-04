@@ -248,6 +248,21 @@
                 "nextState": "my_account"
               }
             ]
+          },
+          {
+            "eventId": "telehealth_deeplinking",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "TeleHealthServicesDeepLinkingState"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
           }
         ]
       },

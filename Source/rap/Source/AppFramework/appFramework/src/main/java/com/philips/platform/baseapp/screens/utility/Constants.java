@@ -22,11 +22,13 @@ public class Constants {
     public static final int LOGIN_BUTTON_CLICK_CONSTANT = 1000004;
     public static final int HAMBURGER_MY_ACCOUNT_CLICK = 1000005;
     public static final String DONE_PRESSED = "donePressed";
+    public static final String THS_DEEP_LINK_FLOW = "thsDeepLinkFlow";
 
     public static final int ADD_HOME_FRAGMENT = 200000;
     public static final int CLEAR_TILL_HOME = 200001;
     public static final int ADD_FROM_HAMBURGER = 200002;
     public static final int ADD_FRAGMENT_WITH_BACKSTACK = 200004;
+    public static final int THS_DEEP_LINKING_EVENT_ID   = 200033;
 
     //Error Loging constants
     public static final String FILE_IO = "file_IO_error";
@@ -47,4 +49,7 @@ public class Constants {
 
     //TAG PowerSleepConnectivity
     public static final String POWER_SLEEP_CONNECTIVITY_TAG ="PowerSleepConnectivity";
+
+
+    public static final String THS_DEEP_LINKING_EVENT = "telehealth_deeplinking";
 }

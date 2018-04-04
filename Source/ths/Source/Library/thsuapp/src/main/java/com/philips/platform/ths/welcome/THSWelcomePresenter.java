@@ -49,11 +49,7 @@ class THSWelcomePresenter implements THSBasePresenter{
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
-            }else {
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
-            }
         } else if (componentID == R.id.visit_history) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
             if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
