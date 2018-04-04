@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDPSearchMessage;
 
@@ -88,7 +89,7 @@ public class DefaultSSDPControlPoint implements SSDPDiscovery {
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
 
-    private boolean isScanning = false;
+    private boolean isDiscovering = false;
 
     private final Runnable searchTask = new Runnable() {
 
@@ -119,19 +120,23 @@ public class DefaultSSDPControlPoint implements SSDPDiscovery {
     }
 
     @Override
-    public void start() {
-        if (isScanning) {
+    public void start() throws TransportUnavailableException {
+        if (isDiscovering) {
             DICommLog.d(SSDP, "Attempting to start discovery more than once. This could indicate faulty usage! Ignoring...");
             return;
         }
 
         if (acquireMulticastLock()) {
-            isScanning = true;
-            openSockets();
-
+            try {
+                openSockets();
+            } catch (IOException e) {
+                throw new TransportUnavailableException("Error opening socket(s): " + e.getMessage());
+            }
             startListening();
             startDiscovery();
             startSearching();
+
+            isDiscovering = true;
         }
     }
 
@@ -143,7 +148,13 @@ public class DefaultSSDPControlPoint implements SSDPDiscovery {
 
         closeSockets();
         releaseMulticastLock();
-        isScanning = false;
+
+        isDiscovering = false;
+    }
+
+    @Override
+    public boolean isDiscovering() {
+        return isDiscovering;
     }
 
     @Nullable
@@ -178,19 +189,16 @@ public class DefaultSSDPControlPoint implements SSDPDiscovery {
         }
     }
 
-    private void openSockets() {
-        try {
-            broadcastSocket = createBroadcastSocket();
-            broadcastSocket.setReuseAddress(true);
-            broadcastSocket.joinGroup(multicastGroup);
-            broadcastSocket.bind(null);
+    @VisibleForTesting
+    void openSockets() throws IOException {
+        broadcastSocket = createBroadcastSocket();
+        broadcastSocket.setReuseAddress(true);
+        broadcastSocket.joinGroup(multicastGroup);
+        broadcastSocket.bind(null);
 
-            listenSocket = createListenSocket();
-            listenSocket.setReuseAddress(true);
-            listenSocket.joinGroup(multicastGroup);
-        } catch (IOException e) {
-            throw new IllegalStateException("Error opening socket(s): " + e.getMessage());
-        }
+        listenSocket = createListenSocket();
+        listenSocket.setReuseAddress(true);
+        listenSocket.joinGroup(multicastGroup);
     }
 
     private void closeSockets() {

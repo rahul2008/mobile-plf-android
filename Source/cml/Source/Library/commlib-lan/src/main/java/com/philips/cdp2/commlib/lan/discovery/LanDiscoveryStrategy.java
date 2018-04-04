@@ -37,7 +37,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private static final long NETWORK_NODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(15);
 
     @NonNull
-    private final SSDPDiscovery ssdp;
+    private final SSDPDiscovery ssdpControlPoint;
 
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -76,14 +76,26 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     };
 
     private void handleDiscoveryStateChanged() {
+        final boolean isDiscovering = ssdpControlPoint.isDiscovering();
+
         if (isConnected && isStartRequested) {
-            ssdp.start();
+            try {
+                ssdpControlPoint.start();
 
-            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
+                if (!isDiscovering) {
+                    notifyDiscoveryStarted();
+                }
+                DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
+            } catch (TransportUnavailableException e) {
+                DICommLog.e(DICommLog.DISCOVERY, "Error starting SSDP: " + e.getMessage());
+            }
         } else {
-            ssdp.stop();
+            ssdpControlPoint.stop();
 
-            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
+            if (isDiscovering) {
+                notifyDiscoveryStopped();
+            }
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP stopped.");
         }
     }
 
@@ -98,7 +110,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
         this.deviceCache = requireNonNull(deviceCache);
         this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
-        this.ssdp = createSsdpDiscovery();
+        this.ssdpControlPoint = createSsdpControlPoint();
 
         this.deviceTypes = Collections.emptySet();
         this.modelIds = Collections.emptySet();
@@ -108,7 +120,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    SSDPDiscovery createSsdpDiscovery() {
+    SSDPDiscovery createSsdpControlPoint() {
         final DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint();
         ssdpControlPoint.addDeviceListener(deviceListener);
 

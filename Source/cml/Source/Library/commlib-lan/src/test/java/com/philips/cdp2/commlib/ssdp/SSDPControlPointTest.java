@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
@@ -275,5 +276,16 @@ public class SSDPControlPointTest {
 
         verify(broadcastSocketMock, times(2)).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, times(2)).joinGroup(any(InetAddress.class));
+    }
+
+    @Test(expected = TransportUnavailableException.class)
+    public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() {
+        DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint() {
+            @Override
+            void openSockets() throws IOException {
+                throw new IOException("Not allowed during this test.");
+            }
+        };
+        ssdpControlPoint.start();
     }
 }
