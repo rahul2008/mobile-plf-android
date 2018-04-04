@@ -106,7 +106,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             return false;
         } else if(expiryMonth.length() <= 0){
             return false;
-        } else if(Integer.parseInt(expiryMonth) < 0 || Integer.parseInt(expiryMonth) > 12) {
+        } else if(Integer.parseInt(expiryMonth) <= 0 || Integer.parseInt(expiryMonth) > 12) {
             return false;
         } else {
             return true;

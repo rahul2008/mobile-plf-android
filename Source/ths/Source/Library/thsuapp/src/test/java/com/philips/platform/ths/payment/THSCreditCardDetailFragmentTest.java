@@ -14,6 +14,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.americanwell.sdk.util.CreditCardUtil;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -38,6 +39,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -109,12 +112,16 @@ public class THSCreditCardDetailFragmentTest {
     @Mock
     THSCreditCardDetailViewInterface thsCreditCardDetailViewInterfaceMock;
 
+    @Mock
+    CreditCardUtil creditCardUtil;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(awsdkMock.getCreditCardUtil()).thenReturn(creditCardUtil);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
@@ -155,6 +162,31 @@ public class THSCreditCardDetailFragmentTest {
     public void onValidationFailure() throws Exception {
         thsCreditCardDetailPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragmentMock;
         thsCreditCardDetailPresenter.onValidationFailure(mapMock);
+    }
+
+    @Test
+    public void isNamevalidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isNameValid(""));
+        assertTrue(thsCreditCardDetailPresenter.isNameValid("Test Name"));
+    }
+
+    @Test
+    public void isExpirationDateYearTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isExpirationYearValid(""));
+        assertFalse(thsCreditCardDetailPresenter.isExpirationYearValid("20191"));
+        assertTrue(thsCreditCardDetailPresenter.isExpirationYearValid("2020"));
+    }
+
+    @Test
+    public void isExpiryDateValidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isExpiryDateValid("0","2020"));
+        assertFalse(thsCreditCardDetailPresenter.isExpiryDateValid("12","0"));
+        assertTrue(thsCreditCardDetailPresenter.isExpiryDateValid("12","2020"));
+    }
+    @Test
+    public void isCVCValidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid(mThsCreditCardDetailFragment.getActivity(),"4444333322221111","99999"));
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid(mThsCreditCardDetailFragment.getActivity(),"0000","123"));
     }
 
 }
