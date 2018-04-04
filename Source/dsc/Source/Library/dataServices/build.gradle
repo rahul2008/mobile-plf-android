@@ -1,15 +1,3 @@
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
-
-def coverageSourceDirs = [
-        '../dataServices/src/main/java'
-]
-
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -34,6 +22,18 @@ buildscript {
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'com.neenbedankt.android-apt'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+
+plugins {
+    id 'info.solidsoft.pitest' version '1.3.0'
 }
 
 def environment = 'production'
