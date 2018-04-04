@@ -16,29 +16,32 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 public abstract class SHNConnectingState extends SHNDeviceState {
 
     private static final String TAG = SHNConnectingState.class.getName();
-    private static final long CONNECT_TIMEOUT = 20_000L;
 
-    protected Timer connectingTimer = Timer.createTimer(new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
-            stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
-            stateMachine.setState(new SHNDisconnectingState(stateMachine));
-        }
-    }, CONNECT_TIMEOUT);
+    protected Timer connectingTimer;
 
-    public SHNConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
+    public SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, long connectTimeOut) {
         super(stateMachine);
+
+        if (connectTimeOut > 0) {
+            connectingTimer = Timer.createTimer(new Runnable() {
+                @Override
+                public void run() {
+                    SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
+                    stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
+                    stateMachine.setState(new SHNDisconnectingState(stateMachine));
+                }
+            }, connectTimeOut);
+        }
     }
 
     @Override
     protected void onEnter() {
-        connectingTimer.restart();
+        if (connectingTimer != null) connectingTimer.restart();
     }
 
     @Override
     protected void onExit() {
-        connectingTimer.stop();
+        if (connectingTimer != null) connectingTimer.stop();
     }
 
     @Override

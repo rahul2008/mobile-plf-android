@@ -20,33 +20,26 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
     private static final String TAG = SHNGattConnectingState.class.getName();
 
-    private long timeOut;
-    private long startTimerTime;
+    private boolean shouldRetryConnecting = false;
     private long minimumConnectionIdleTime;
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine);
+        super(stateMachine, -1L);
     }
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
-        super(stateMachine);
-        if (connectTimeOut < 0) {
+        super(stateMachine, connectTimeOut);
+        shouldRetryConnecting = true;
+        if (connectTimeOut <= 0) {
             throw new InvalidParameterException("Time out can not be negative");
-        } else {
-            this.startTimerTime = System.currentTimeMillis();
-            this.timeOut = connectTimeOut;
         }
     }
 
     @Override
     protected void onEnter() {
+        super.onEnter();
         setMinimumConnectionIdleTime();
         startConnect();
-    }
-
-    @Override
-    protected void onExit() {
-        connectingTimer.stop();
     }
 
     @Override
@@ -61,7 +54,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
-            startTimerTime = 0; // make sure the retry is not issued
+            shouldRetryConnecting = false; // make sure the retry is not issued
             handleGattDisconnectEvent();
         }
     }
@@ -103,10 +96,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
         sharedResources.setBtGatt(null);
 
-        long delta = System.currentTimeMillis() - startTimerTime;
-        SHNLogger.d(TAG, "delta: " + delta);
-
-        if (delta < timeOut) {
+        if (shouldRetryConnecting) {
             SHNLogger.d(TAG, "Retrying to connect GATT in SHNGattConnectingState");
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {

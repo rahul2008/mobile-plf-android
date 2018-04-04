@@ -11,6 +11,7 @@ import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 
@@ -26,10 +27,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
@@ -38,13 +41,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(SHNGattConnectingState.class)
+@PrepareForTest({SHNGattConnectingState.class, Timer.class})
 public class SHNGattConnectingStateTest {
 
-    SHNGattConnectingState gattConnectingState;
+    private SHNGattConnectingState gattConnectingState;
 
     @Mock
-    SHNDeviceStateMachine stateMachine;
+    private SHNDeviceStateMachine stateMachine;
 
     @Mock
     private Context mockedContext;
@@ -67,14 +70,26 @@ public class SHNGattConnectingStateTest {
     @Mock
     private Handler mockedSHNInternalHandler;
 
+    @Mock
+    private Timer timerMock;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableArgumentCaptor;
 
-    private String deviceAddress = "Bogus!";
+    @Captor
+    private ArgumentCaptor<Runnable> timerRunnableCaptor;
 
+    @Captor
+    private ArgumentCaptor<Long> timeoutTimeCaptor;
+
+    private String deviceAddress = "Bogus!";
+    
     @Before
     public void setUp() {
         initMocks(this);
+
+        PowerMockito.mockStatic(Timer.class);
+        PowerMockito.when(Timer.createTimer(timerRunnableCaptor.capture(), timeoutTimeCaptor.capture())).thenReturn(timerMock);
 
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         doReturn(mockedSHNInternalHandler).when(mockedSHNCentral).getInternalHandler();
@@ -211,17 +226,14 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
-    public void givenAConnectingStateHasBeenCreatedWithAConnectTimeout_whenGattConnectFailsAfterTheTimeout_thenItWillGoToADisconnectingState_andReportAFailure() {
+    public void givenAConnectingStateHasBeenCreatedWithAConnectTimeout_whenConnectTimerExpires_thenItWillGoToADisconnectingState_andReportAFailure() {
         long connectTimeOut = 1000L;
         gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
 
-        long afterConnectTimeOut = System.currentTimeMillis() + connectTimeOut;
-        PowerMockito.mockStatic(System.class);
-        PowerMockito.when(System.currentTimeMillis()).thenReturn(afterConnectTimeOut);
-        gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
+        timerRunnableCaptor.getValue().run();
 
-        verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        verify(stateMachine).setState(isA(SHNDisconnectingState.class));
+        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -231,5 +243,30 @@ public class SHNGattConnectingStateTest {
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
         verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+    }
+
+    @Test
+    public void givenAConnectingStateWithAConnectTimeout_whenConnectingGattIsEntered_thenConnectTimerIsStarted() throws Exception {
+        long connectTimeOut = 666L;
+        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+
+        gattConnectingState.onEnter();
+
+        verify(timerMock).restart();
+    }
+
+    @Test
+    public void whenCreatingAConnectingStateWithoutAConnectTimeout_thenIt() throws Exception {
+
+        PowerMockito.verifyStatic(Timer.class, times(0));
+        Timer.createTimer(any(Runnable.class), anyLong());
+    }
+
+    @Test
+    public void whenCreatingAConnectingStateWithAConnectTimeout_thenItWillPassTheTimeoutToTheConnectTimer() throws Exception {
+        long connectTimeOut = 666L;
+        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+
+        assertThat(timeoutTimeCaptor.getValue()).isEqualTo(connectTimeOut);
     }
 }

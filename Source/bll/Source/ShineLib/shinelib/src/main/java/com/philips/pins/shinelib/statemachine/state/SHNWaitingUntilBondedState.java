@@ -26,7 +26,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
     public SHNWaitingUntilBondedState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine);
+        super(stateMachine, -1L);
     }
 
     @Override

@@ -1126,28 +1126,6 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenGattErrorIsReceivedAndTimeOutIsElapsedThenErrorIsReported() {
-        shnDevice.connect(100L);
-
-        reset(mockedSHNDeviceListener);
-        StateRecorder recorder = new StateRecorder();
-        doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
-
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        btGattCallback.onConnectionStateChange(mockedBTGatt, SHNDeviceImpl.GATT_ERROR, BluetoothGatt.STATE_DISCONNECTED);
-
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
-        assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnecting));
-        assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnected));
-        assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
-    }
-
-    @Test
     public void whenGattErrorIsReceivedAndTimeOutNotElapsedThenRetryIsIssuedSilentlyMultipleTimes() {
         shnDevice.connect(100L);
         reset(mockedSHNDeviceListener);
@@ -1181,20 +1159,9 @@ public class SHNDeviceImplTest {
         shnDevice.connect(-100);
     }
 
-    @Test
-    public void when0TimeOutItProvidedThenConnectionIsPerformedOnce() {
+    @Test(expected = InvalidParameterException.class)
+    public void whenZeroTimeOutItProvidedThenExceptionIsGenerated() {
         shnDevice.connect(0);
-        reset(mockedSHNDeviceListener);
-        StateRecorder recorder = new StateRecorder();
-        doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
-
-        btGattCallback.onConnectionStateChange(mockedBTGatt, SHNDeviceImpl.GATT_ERROR, BluetoothGatt.STATE_DISCONNECTED);
-
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
-        assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnected));
-        assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnecting));
-        assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
-        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
