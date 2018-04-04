@@ -50,12 +50,12 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 /**
- * SSDPDiscovery control point.
+ * Default SSDP control point.
  * <p>
  * As defined in the UPnP specification, control points (CPs) are devices which use UPnP protocols to control UPnP controlled devices (CDs).
  */
 @SuppressWarnings("unused")
-public class SSDPControlPoint implements SSDPDiscovery {
+public class DefaultSSDPControlPoint implements SSDPDiscovery {
 
     public interface DeviceListener {
 
@@ -114,7 +114,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
         }
     };
 
-    public SSDPControlPoint() {
+    public DefaultSSDPControlPoint() {
         this.multicastGroup = getMultiCastGroupAddress();
     }
 

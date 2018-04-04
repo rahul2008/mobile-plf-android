@@ -21,8 +21,8 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
+import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint;
+import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
 import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
@@ -109,7 +109,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @VisibleForTesting
     SSDPDiscovery createSsdpDiscovery() {
-        final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
+        final DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint();
         ssdpControlPoint.addDeviceListener(deviceListener);
 
         return ssdpControlPoint;

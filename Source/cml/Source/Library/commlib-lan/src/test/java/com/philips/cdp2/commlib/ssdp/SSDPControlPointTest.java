@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
+import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class SSDPControlPointTest {
     private static final String TEST_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
     private static final String TEST_BOOTID = "1337";
 
-    private SSDPControlPoint ssdpControlPoint;
+    private DefaultSSDPControlPoint ssdpControlPoint;
 
     @Mock
     private DeviceListener deviceListener;
@@ -96,7 +96,7 @@ public class SSDPControlPointTest {
         mockStatic(SSDPDevice.class);
         when(createFromSearchResponse(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
 
-        ssdpControlPoint = new SSDPControlPoint() {
+        ssdpControlPoint = new DefaultSSDPControlPoint() {
             @NonNull
             @Override
             MulticastSocket createBroadcastSocket() throws IOException {
