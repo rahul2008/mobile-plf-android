@@ -274,7 +274,11 @@ tasks.withType(Test) {
 pitest {
     targetClasses = ['com.philips.platform.core.*']  //by default "${project.group}.*"
     pitestVersion = '1.1.0' //not needed when a default PIT version should be used
-    threads = 4
+    threads = 1
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
+    excludedClasses = [
+        'com.philips.platform.core.injection.ApplicationModuleTest',
+        'com.philips.platform.core.utils.EventingImplTest'
+    ]
 }
