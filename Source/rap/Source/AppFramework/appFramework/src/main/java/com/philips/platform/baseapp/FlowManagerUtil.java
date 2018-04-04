@@ -33,7 +33,6 @@ import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentSt
 
 import java.util.Map;
 
-import static com.philips.platform.appframework.flowmanager.AppStates.TELE_HEALTHSERVICES_DEEP_LINKING;
 
 public class FlowManagerUtil {
     private static final String TAG = FlowManagerUtil.class.getSimpleName();
@@ -61,6 +60,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
-        uiStateMap.put(TELE_HEALTHSERVICES_DEEP_LINKING, new TeleHealthServicesDeepLinkingState());
+        uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
     }
 }

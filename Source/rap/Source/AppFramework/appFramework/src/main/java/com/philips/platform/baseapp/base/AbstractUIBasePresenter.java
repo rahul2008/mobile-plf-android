@@ -112,7 +112,7 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData teleHealthData = new UIStateData();
                 teleHealthData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return teleHealthData;
-            case AppStates.TELE_HEALTHSERVICES_DEEP_LINKING:
+            case AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE:
                 final UIStateData teleHealthDeepLinkingData = new UIStateData();
                 teleHealthDeepLinkingData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return teleHealthDeepLinkingData;

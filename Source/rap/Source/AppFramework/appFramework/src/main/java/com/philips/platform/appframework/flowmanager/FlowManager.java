@@ -33,7 +33,7 @@ import com.philips.platform.modularui.stateimpl.EWSFragmentState;
 
 import java.util.Map;
 
-import static com.philips.platform.appframework.flowmanager.AppStates.TELE_HEALTHSERVICES_DEEP_LINKING;
+
 
 public class FlowManager extends BaseFlowManager {
 
@@ -55,7 +55,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
-        uiStateMap.put(TELE_HEALTHSERVICES_DEEP_LINKING, new TeleHealthServicesDeepLinkingState());
+        uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

@@ -5,10 +5,8 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
@@ -30,7 +28,7 @@ public class TeleHealthServicesDeepLinkingState extends BaseState implements THS
     private FragmentLauncher fragmentLauncher;
 
     public TeleHealthServicesDeepLinkingState() {
-        super(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING);
+        super(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE);
     }
 
 
