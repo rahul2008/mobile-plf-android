@@ -45,6 +45,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
             if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
                 RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
+                //Keeping version 0 as Janrain is not providing but it should be janrain consent version
                 callback.onGetConsentsSuccess(new ConsentStatus(toStatus(receiveMarketingEmail), 0));
                 return;
             }

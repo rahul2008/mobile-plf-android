@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -76,12 +77,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        RLog.i(TAG,"onAttach : is called");
+        RLog.i(TAG, "onAttach : is called");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.i(TAG,"onCreateView : is called");
+        RLog.i(TAG, "onCreateView : is called");
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -98,7 +99,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void setContentConfig(View view) {
-        RLog.i(TAG,"setContentConfig : is called");
+        RLog.i(TAG, "setContentConfig : is called");
         if (getRegistrationFragment().getContentConfiguration() != null) {
             updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
@@ -112,14 +113,15 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             }
         } else {
             defalutBannerText(view);
-            RLog.d(TAG,"setContentConfig : getContentConfiguration : is null");
+            RLog.d(TAG, "setContentConfig : getContentConfiguration : is null");
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     void defalutBannerText(View view) {
-        RLog.i(TAG,"defalutBannerText : is called");
+        RLog.i(TAG, "defalutBannerText : is called");
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
         joinNow = String.format(joinNow, updateJoinNowText);
         updateText(view, R.id.usr_marketingScreen_joinNow_Label, joinNow);
     }
