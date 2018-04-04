@@ -163,7 +163,6 @@ public class MomentFragment extends DSBaseFragment
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
-            return;
         }
 
         showProgressDialog();
