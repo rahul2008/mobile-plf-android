@@ -270,3 +270,11 @@ dependencies {
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
+pitest {
+    targetClasses = ['com.philips.platform.core.*']  //by default "${project.group}.*"
+    pitestVersion = '1.1.0' //not needed when a default PIT version should be used
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+}
