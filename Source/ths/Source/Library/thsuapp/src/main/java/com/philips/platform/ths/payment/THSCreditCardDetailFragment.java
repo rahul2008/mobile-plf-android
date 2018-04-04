@@ -68,6 +68,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     private CheckBox ths_credit_card_details_checkbox;
     protected InputValidationLayout card_number_edittext_validation_layout,card_holder_name_edittext_validation_layout,
     card_expiration_month_edittext_validation_layout,card_expiration_year_edittext_validation_layout, card_cvc_edittext_validation_layout;
+    protected Address billingAddress;
 
 
     @Nullable
@@ -382,6 +383,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
         if (null != thsPaymentMethod.getPaymentMethod()) {
             Address address = thsPaymentMethod.getPaymentMethod().getBillingAddress();
+            setBillingAddress(address);
             mCardHolderNameEditText.setText(thsPaymentMethod.getPaymentMethod().getBillingName());
             updateAddress(address);
             updateContinueBtnState();
@@ -432,6 +434,12 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
         if(isEnabled){
             thsCreditCardDetailPresenter.onEvent(compoundButton.getId());
+        }else {
+            updateAddress(billingAddress);
         }
+    }
+
+    public void setBillingAddress(Address billingAddress) {
+        this.billingAddress = billingAddress;
     }
 }
