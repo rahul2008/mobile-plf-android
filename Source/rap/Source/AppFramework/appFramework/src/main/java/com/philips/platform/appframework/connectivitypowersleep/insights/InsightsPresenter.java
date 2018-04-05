@@ -10,6 +10,7 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.data.loaders.ArticleLoader;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -20,8 +21,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -65,6 +66,7 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
                 if (null != baseState) {
                     WebViewStateData webViewStateData =new WebViewStateData();
                     webViewStateData.setUrl(url);
+                    webViewStateData.setTitle(context.getString(R.string.RA_DLS_get_insights));
                     baseState.setUiStateData(webViewStateData);
                     baseState.navigate(new FragmentLauncher(((InsightsFragment)view).getActivity(),((InsightsFragment)view).getContainerId(),((InsightsFragment)view).getActionBarListener()));
                 }
