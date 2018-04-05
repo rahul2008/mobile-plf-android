@@ -47,7 +47,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 
-class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
+class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
 
     protected THSCostSummaryFragment mTHSCostSummaryFragment;
 
@@ -261,7 +261,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
 
     // start of getPayment callbacks
     @Override
-    public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
+    public void onGetPaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             if (null == tHSSDKError.getSdkError() ||  (null != tHSSDKError.getSdkError() && SDKErrorReason.CREDIT_CARD_MISSING.equalsIgnoreCase(tHSSDKError.getSdkError().getSDKErrorReason()))) {
                 AmwellLog.i("fetchPayment", "success");

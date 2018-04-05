@@ -132,8 +132,8 @@
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="Loading.."
-                app:uidProgressIndicatorButtonText="Continue" />
+                app:uidProgressIndicatorButtonProgressText="@string/ths_loading_text"
+                app:uidProgressIndicatorButtonText="@string/ths_continue" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

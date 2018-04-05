@@ -388,7 +388,7 @@ public class THSCostSummaryPresenterTest {
     public void onGetPaymentMethodResponse() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -399,7 +399,7 @@ public class THSCostSummaryPresenterTest {
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -412,7 +412,7 @@ public class THSCostSummaryPresenterTest {
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
         when(paymentMethodMock.isExpired()).thenReturn(true);
 
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
