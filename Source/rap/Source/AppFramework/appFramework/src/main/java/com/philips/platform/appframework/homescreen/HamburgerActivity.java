@@ -110,7 +110,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private ImageView cartIcon;
     private TextView cartCount;
     private FrameLayout shoppingCartLayout;
-    protected TextView actionBarTitle;
+    protected Label actionBarTitle;
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
@@ -245,7 +245,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 Gravity.CENTER);
         View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
 
-        actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
+        actionBarTitle = (Label) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(R.string.app_name));
         cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);

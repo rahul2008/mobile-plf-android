@@ -7,11 +7,10 @@ package com.philips.platform.baseapp.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.uid.view.widget.ActionBarTextView;
+import com.philips.platform.uid.view.widget.Label;
 
 /**
  * AbstractAppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
@@ -21,7 +20,7 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
 
     protected AbstractUIBasePresenter fragmentPresenter;
 
-    private TextView actionBarTitle = null;
+    private Label actionBarTitle = null;
 
     public abstract String getActionbarTitle();
 

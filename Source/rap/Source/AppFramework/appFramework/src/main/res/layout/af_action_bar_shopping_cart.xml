@@ -3,34 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/af_hamburger_frame_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:clickable="true"
-        android:padding="15dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_toLeftOf="@+id/af_cart_layout"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/af_hamburger_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
-    </FrameLayout>
-
-
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/af_actionbar_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:ellipsize="end"
         android:maxEms="10"
+        android:text="sdsdsds"
         android:singleLine="true"
-        android:textColor="#FFFFFF"
         android:textSize="@dimen/header" />
 
+    </RelativeLayout>
     <FrameLayout
         android:id="@+id/af_cart_layout"
         android:layout_width="wrap_content"
