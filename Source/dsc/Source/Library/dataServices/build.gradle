@@ -278,6 +278,8 @@ pitest {
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
     excludedClasses = [
+        '**Factory*',
+        '**_MembersInjector*',
         'com.philips.platform.core.injection.ApplicationModuleTest',
         'com.philips.platform.core.utils.EventingImplTest'
     ]
