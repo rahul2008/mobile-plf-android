@@ -112,7 +112,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
     public void launchShoppingCartState() {
         ShoppingCartFlowState shoppingCartFlowState = new ShoppingCartFlowState();
         shoppingCartFlowState.init(getApplicationContext());
-        getFragmentLauncher();
+        final FragmentLauncher fragmentLauncher = getFragmentLauncher();
+        shoppingCartFlowState.navigate(fragmentLauncher);
     }
 
 }

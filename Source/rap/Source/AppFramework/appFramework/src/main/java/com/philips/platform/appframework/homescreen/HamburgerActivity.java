@@ -62,6 +62,7 @@ import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
@@ -110,7 +111,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private ImageView cartIcon;
     private TextView cartCount;
     private FrameLayout shoppingCartLayout;
-    protected Label actionBarTitle;
+    protected ActionBarTextView actionBarTitle;
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
@@ -245,7 +246,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 Gravity.CENTER);
         View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
 
-        actionBarTitle = (Label) mCustomView.findViewById(R.id.af_actionbar_title);
+        actionBarTitle = (ActionBarTextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(R.string.app_name));
         cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
@@ -258,8 +259,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.GONE);
-        cartIcon.setVisibility(View.GONE);
+        cartCount.setVisibility(View.INVISIBLE);
+        cartIcon.setVisibility(View.INVISIBLE);
         actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -427,9 +428,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
         final boolean isShopingCartVisible = ((AppFrameworkApplication) getApplication()).isShopingCartVisible;
         if(!isShopingCartVisible){
-            cartIcon.setVisibility(View.GONE);
-            cartCount.setVisibility(View.GONE);
-            shoppingCartLayout.setVisibility(View.GONE);
+            cartIcon.setVisibility(View.INVISIBLE);
+            cartCount.setVisibility(View.INVISIBLE);
+            shoppingCartLayout.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -441,13 +442,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                         cartCount.setText(String.valueOf(cartItemsCount));
                         shoppingCartLayout.setVisibility(View.VISIBLE);
                 }else {
-                    cartCount.setVisibility(View.GONE);
+                    cartCount.setVisibility(View.INVISIBLE);
                     shoppingCartLayout.setVisibility(View.VISIBLE);
                 }
         } else {
-                cartIcon.setVisibility(View.GONE);
-                cartCount.setVisibility(View.GONE);
-                shoppingCartLayout.setVisibility(View.GONE);
+                cartIcon.setVisibility(View.INVISIBLE);
+                cartCount.setVisibility(View.INVISIBLE);
+                shoppingCartLayout.setVisibility(View.INVISIBLE);
         }
     }
 

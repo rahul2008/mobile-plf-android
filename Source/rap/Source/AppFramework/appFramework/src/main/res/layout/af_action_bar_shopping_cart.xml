@@ -9,16 +9,13 @@
         android:layout_centerVertical="true"
         android:layout_height="wrap_content">
 
-    <com.philips.platform.uid.view.widget.Label
+    <com.philips.platform.uid.view.widget.ActionBarTextView
         android:id="@+id/af_actionbar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:ellipsize="end"
-        android:maxEms="10"
         android:text="sdsdsds"
-        android:singleLine="true"
-        android:textSize="@dimen/header" />
+        style="@style/UIDToolbarBarTitleText" />
 
     </RelativeLayout>
     <FrameLayout

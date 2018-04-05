@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 import com.philips.platform.uid.view.widget.Label;
 
 /**
@@ -20,7 +21,7 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
 
     protected AbstractUIBasePresenter fragmentPresenter;
 
-    private Label actionBarTitle = null;
+    private ActionBarTextView actionBarTitle = null;
 
     public abstract String getActionbarTitle();
 
