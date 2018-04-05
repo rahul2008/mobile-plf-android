@@ -15,9 +15,6 @@ import static org.mockito.Mockito.*;
 
 public class AndroidMockUtil {
 
-    private AndroidMockUtil() {
-    }
-
     public static void mockMainThreadHandler() throws Exception {
         PowerMockito.mockStatic(Looper.class);
         Looper mockMainThreadLooper = mock(Looper.class);
