@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -82,9 +82,9 @@ public class FirmwareUploader {
                     Throwable t = new IOException("Max chunk size is invalid.");
                     listener.onError(t.getMessage(), t);
                 }
-
                 progress = 0;
                 listener.onProgress(progress);
+
                 uploadNextChunk(progress);
 
                 return null;

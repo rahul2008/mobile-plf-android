@@ -95,10 +95,10 @@ public class TimePortFragment extends Fragment {
         rootview.findViewById(R.id.cml_btnGetTime).setOnClickListener(buttonClickListener);
         rootview.findViewById(R.id.cml_btnSetTime).setOnClickListener(buttonClickListener);
 
-        txtResult = (TextView) rootview.findViewById(R.id.cml_txtResult);
-        txtProgress = (TextView) rootview.findViewById(R.id.cml_txtProgress);
+        txtResult = rootview.findViewById(R.id.cml_txtResult);
+        txtProgress = rootview.findViewById(R.id.cml_txtProgress);
 
-        switchLoopGet = (CompoundButton) rootview.findViewById(R.id.cml_switchLoopGet);
+        switchLoopGet = rootview.findViewById(R.id.cml_switchLoopGet);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
         ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
