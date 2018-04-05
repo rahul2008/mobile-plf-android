@@ -47,7 +47,7 @@ import static org.mockito.Mockito.when;
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSCreditCardDetailFragmentTest {
 
-    THSCreditCardDetailFragment mThsCreditCardDetailFragment;
+    THSCreditCardDetailFragmentTestMock mThsCreditCardDetailFragment;
 
     THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
 
@@ -185,8 +185,10 @@ public class THSCreditCardDetailFragmentTest {
     }
     @Test
     public void isCVCValidTest() throws Exception {
-        assertFalse(thsCreditCardDetailPresenter.isCVCValid(mThsCreditCardDetailFragment.getActivity(),"4444333322221111","99999"));
-        assertFalse(thsCreditCardDetailPresenter.isCVCValid(mThsCreditCardDetailFragment.getActivity(),"0000","123"));
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid("99999"));
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid(""));
+        assertTrue(thsCreditCardDetailPresenter.isCVCValid("123"));
+        assertTrue(thsCreditCardDetailPresenter.isCVCValid("0000"));
     }
 
 }

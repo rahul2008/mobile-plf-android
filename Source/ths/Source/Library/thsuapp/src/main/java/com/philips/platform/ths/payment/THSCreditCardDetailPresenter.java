@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -97,69 +98,63 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         return validationResponse;
     }
 
-    protected boolean isNameValid(String cardName){
+    protected boolean isNameValid(String cardName) {
         return !(cardName.isEmpty() || cardName.length() == 0);
     }
 
-    protected boolean isExpirationMonthValid(String expiryMonth){
-        if(expiryMonth.isEmpty()){
+    protected boolean isExpirationMonthValid(String expiryMonth) {
+        if (expiryMonth.isEmpty()) {
             return false;
-        } else if(expiryMonth.length() <= 0){
+        } else if (expiryMonth.length() <= 0) {
             return false;
-        } else if(Integer.parseInt(expiryMonth) <= 0 || Integer.parseInt(expiryMonth) > 12) {
+        } else if (Integer.parseInt(expiryMonth) <= 0 || Integer.parseInt(expiryMonth) > 12) {
             return false;
         } else {
             return true;
         }
     }
 
-    protected boolean isExpirationYearValid(String expiryYear){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+    protected boolean isExpirationYearValid(String expiryYear) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.US);
         Date currentDate = null;
         try {
             currentDate = sdf.parse(expiryYear);
         } catch (ParseException e) {
-
+            AmwellLog.i(THSCreditCardDetailFragment.TAG, e.getLocalizedMessage());
         }
-        if(expiryYear.isEmpty()){
+        if (expiryYear.isEmpty()) {
             return false;
-        } else if(expiryYear.length() <= 0){
+        } else if (expiryYear.length() <= 0) {
             return false;
-        } else if(expiryYear.length() > 4){
+        } else if (expiryYear.length() > 4) {
             return false;
-        } else if(THSDateUtils.isYearValid(currentDate)){
+        } else if (THSDateUtils.isYearValid(currentDate)) {
             return false;
         } else return true;
 
     }
 
-    protected boolean isExpiryDateValid(String expiryMonth, String expiryYear){
-        if(isExpirationMonthValid(expiryMonth) && isExpirationYearValid(expiryYear)){
-            SimpleDateFormat sdf = new SimpleDateFormat("MMyyyy");
+    protected boolean isExpiryDateValid(String expiryMonth, String expiryYear) {
+        if (isExpirationMonthValid(expiryMonth) && isExpirationYearValid(expiryYear)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMyyyy", Locale.US);
             Date enteredDate = null;
-            if(expiryMonth.length() == 1){
+            if (expiryMonth.length() == 1) {
                 expiryMonth = "0" + expiryMonth;
             }
-            try{
-                    enteredDate = sdf.parse(expiryMonth+ "" +expiryYear);
-                }catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            try {
+                enteredDate = sdf.parse(expiryMonth + "" + expiryYear);
+            } catch (ParseException e) {
+                AmwellLog.i(THSCreditCardDetailFragment.TAG, e.getLocalizedMessage());
+            }
 
             return THSDateUtils.isDateValid(enteredDate);
-        }else {
+        } else {
             return false;
         }
     }
 
-    protected boolean isCVCValid(Context context,String cardNumber, String cvcValue){
-        boolean isCVVvalid = false;
-        try {
-            isCVVvalid = THSManager.getInstance().isSecurityCodeValid(context, cardNumber, cvcValue);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-        return isCVVvalid;
+    protected boolean isCVCValid(String cvcValue) {
+            return !(cvcValue.isEmpty() || cvcValue.length() <= 0 || cvcValue.length() > 4);
     }
 
     protected void getShippingAddress(Context context) {
@@ -179,8 +174,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         String expirationYear = mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim();
         String cvvCode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
 
-
-
         int month = 0;
         int year = 0;
 
@@ -189,7 +182,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             year = Integer.parseInt(expirationYear);
 
         } catch (Exception e) {
-
+            AmwellLog.i(THSCreditCardDetailFragment.TAG, e.getLocalizedMessage());
         }
         try {
             mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
@@ -226,7 +219,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 thsCreditCardDetailViewInterface.changeCCDateVisibility(RelativeLayout.VISIBLE);
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
-            }else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_MONTH)){
+            } else if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_MONTH)) {
                 thsCreditCardDetailViewInterface.changeCCDateVisibility(RelativeLayout.VISIBLE);
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_error_cc_expiry_date_detail_not_valid), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
@@ -239,6 +232,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mTHSCreditCardDetailFragment.doTagging(THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION, mTHSCreditCardDetailFragment.getString(R.string.ths_not_valid_address1), false);
                 AmwellLog.i("updateCard", "validateSubscriptionUpdateRequest error " + errors.toString());
             } else if (errors.isEmpty()) {
+                thsCreditCardDetailViewInterface.updateProgressButton(true);
                 THSManager.getInstance().updatePaymentMethod(mTHSCreditCardDetailFragment.getFragmentActivity(), mTHSCreatePaymentRequest, this);
             }
 
@@ -274,6 +268,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     public void onUpdatePaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
             if (null == tHSSDKError.getSdkError()) {
+                thsCreditCardDetailViewInterface.updateProgressButton(false);
                 AmwellLog.i("updatePayment", "success");
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "paymentMethodsAdded");
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "billingAddressAdded");
@@ -281,6 +276,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mTHSCreditCardDetailFragment.popSelfBeforeTransition();
             } else {
                 AmwellLog.e("updatePayment", "failed");
+                thsCreditCardDetailViewInterface.updateProgressButton(false);
                 mTHSCreditCardDetailFragment.showError(THSSDKErrorFactory.getErrorType(mTHSCreditCardDetailFragment.getContext(), ANALYTICS_UPDATE_PAYMENT, tHSSDKError.getSdkError()));
             }
         }
@@ -289,6 +285,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     @Override
     public void onUpdatePaymentFailure(Throwable throwable) {
         if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            thsCreditCardDetailViewInterface.updateProgressButton(false);
             AmwellLog.e("updatePayment", throwable.toString());
             mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getString(R.string.ths_se_server_error_toast_message));
         }

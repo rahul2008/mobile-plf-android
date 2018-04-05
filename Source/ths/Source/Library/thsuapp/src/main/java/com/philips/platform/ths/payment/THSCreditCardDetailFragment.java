@@ -56,7 +56,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     EditText mCardHolderNameEditText, mCardNumberEditText , mCVCcodeEditText,
             mAddressOneEditText, mAddressTwoEditText, mCityEditText, placeHolderUIPicker, mZipcodeEditText;
     Label cvvDetail, mBillingAddresslabel, anchorUIPicker;
-    private Button mPaymentDetailContinueButton;
+    Button mPaymentDetailContinueButton;
     AlertDialogFragment alertDialogFragment;
     private ActionBarListener actionBarListener;
     private RelativeLayout mProgressbarContainer, ths_payment_detail_expiry_error_layout, ths_payment_detail_cvc_error_layout;
@@ -69,12 +69,13 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     protected InputValidationLayout card_number_edittext_validation_layout,card_holder_name_edittext_validation_layout,
     card_expiration_month_edittext_validation_layout,card_expiration_year_edittext_validation_layout, card_cvc_edittext_validation_layout;
     protected Address billingAddress;
+    protected ViewGroup view;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_payment_detail, container, false);
+        view = (ViewGroup) inflater.inflate(R.layout.ths_payment_detail, container, false);
         thsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(this,this);
         card_number_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_number_edittext_validation_layout);
         card_holder_name_edittext_validation_layout = view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext_validation_layout);
@@ -217,7 +218,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             @Override
             public boolean validate(CharSequence msg) {
                 updateContinueBtnState();
-                boolean validateString = thsCreditCardDetailPresenter.isCVCValid(getActivity(),mCardNumberEditText.getText().toString(), msg.toString());
+                boolean validateString = thsCreditCardDetailPresenter.isCVCValid(msg.toString());
                 if(!validateString){
                     changeCVVVisibility(RelativeLayout.VISIBLE);
                     return false;
@@ -316,12 +317,21 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         ths_payment_detail_cvc_error_layout.setVisibility(visibility);
     }
 
+    @Override
+    public void updateProgressButton(boolean isShowing) {
+        if(isShowing) {
+            createCustomProgressBar(view, BIG);
+        }else {
+            hideProgressBar();
+        }
+    }
+
     private void updateContinueBtnState() {
         boolean enableContinueBtn;
         enableContinueBtn = thsCreditCardDetailPresenter.validateZip(mZipcodeEditText.getText().toString()) && validateString(mCityEditText.getText().toString()) &&
                 validateString(mAddressOneEditText.getText().toString()) && validateSelectedState() && thsCreditCardDetailPresenter.validateCreditCardDetails(mCardNumberEditText.getText().toString()) && thsCreditCardDetailPresenter.isNameValid(mCardHolderNameEditText.getText().toString())
-                && thsCreditCardDetailPresenter.isExpirationMonthValid(mCardExpiryMonthEditText.getText().toString()) && thsCreditCardDetailPresenter.isExpirationYearValid(mCardExpiryYearEditText.getText().toString())
-                && thsCreditCardDetailPresenter.isCVCValid(getActivity(),mCardNumberEditText.getText().toString(), mCVCcodeEditText.getText().toString());
+                && thsCreditCardDetailPresenter.isExpiryDateValid(mCardExpiryMonthEditText.getText().toString(),mCardExpiryYearEditText.getText().toString())
+                && thsCreditCardDetailPresenter.isCVCValid(mCVCcodeEditText.getText().toString());
         mPaymentDetailContinueButton.setEnabled(enableContinueBtn);
     }
 

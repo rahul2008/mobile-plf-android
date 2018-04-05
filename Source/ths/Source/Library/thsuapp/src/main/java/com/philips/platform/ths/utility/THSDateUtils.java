@@ -40,7 +40,7 @@ public class THSDateUtils {
         String currentDateString;
 
         Date currentDate = new Date();
-        SimpleDateFormat dates = new SimpleDateFormat("MMyyyy");
+        SimpleDateFormat dates = new SimpleDateFormat("MMyyyy", Locale.US);
 
         //Setting dates
         currentDate.setTime(System.currentTimeMillis());

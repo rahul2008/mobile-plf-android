@@ -12,5 +12,5 @@ public interface THSCreditCardDetailViewInterface {
     void showCCNumberError();
     void changeCCDateVisibility(int visibility);
     void changeCVVVisibility(int visibility);
-
+    void updateProgressButton(boolean isShowing);
 }
