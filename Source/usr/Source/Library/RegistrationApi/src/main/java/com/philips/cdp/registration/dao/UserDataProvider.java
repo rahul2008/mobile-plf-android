@@ -13,6 +13,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
@@ -24,16 +25,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class UserDataProvider extends User implements UserDataInterface {
+    private final String TAG = UserDataProvider.class.getSimpleName();
     private static final long serialVersionUID = 1995972602210564L;
     private transient Context context;
-    private HashMap<String,Object> userDataMap;
+    private HashMap<String, Object> userDataMap;
 
-    public UserDataProvider(Context context){
+    public UserDataProvider(Context context) {
         super(context);
         this.context = context;
     }
 
-    private ArrayList<String> getAllValidKeyNames(){
+    private ArrayList<String> getAllValidKeyNames() {
         return new ArrayList<>(Arrays.asList(
                 UserDetailConstants.GIVEN_NAME,
                 UserDetailConstants.FAMILY_NAME,
@@ -46,18 +48,19 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     private void fillUserData() {
         userDataMap = new HashMap<>();
-        userDataMap.put(UserDetailConstants.GIVEN_NAME,getGivenName());
-        userDataMap.put(UserDetailConstants.FAMILY_NAME,getFamilyName());
-        userDataMap.put(UserDetailConstants.GENDER,getGender());
-        userDataMap.put(UserDetailConstants.EMAIL,getEmail());
-        userDataMap.put(UserDetailConstants.MOBILE_NUMBER,getMobile());
-        userDataMap.put(UserDetailConstants.BIRTHDAY,getDateOfBirth());
-        userDataMap.put(UserDetailConstants.RECEIVE_MARKETING_EMAIL,getReceiveMarketingEmail());
+        userDataMap.put(UserDetailConstants.GIVEN_NAME, getGivenName());
+        userDataMap.put(UserDetailConstants.FAMILY_NAME, getFamilyName());
+        userDataMap.put(UserDetailConstants.GENDER, getGender());
+        userDataMap.put(UserDetailConstants.EMAIL, getEmail());
+        userDataMap.put(UserDetailConstants.MOBILE_NUMBER, getMobile());
+        userDataMap.put(UserDetailConstants.BIRTHDAY, getDateOfBirth());
+        userDataMap.put(UserDetailConstants.RECEIVE_MARKETING_EMAIL, getReceiveMarketingEmail());
     }
 
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception {
-        if(detailKeys.isEmpty()) {
+        RLog.d(TAG, "getUserDetails : " + detailKeys);
+        if (detailKeys.isEmpty()) {
             fillUserData();
             return userDataMap;
         }
@@ -65,14 +68,14 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
 
-    private HashMap<String,Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws Exception {
+    private HashMap<String, Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws Exception {
+        RLog.d(TAG, "fillRequiredUserDataMap : " + detailKeys);
         fillUserData();
         HashMap<String, Object> requiredUserDataMap = new HashMap<>();
-        for(String key: detailKeys){
-            if(getAllValidKeyNames().contains(key)){
-                requiredUserDataMap.put(key,userDataMap.get(key));
-            }
-            else{
+        for (String key : detailKeys) {
+            if (getAllValidKeyNames().contains(key)) {
+                requiredUserDataMap.put(key, userDataMap.get(key));
+            } else {
                 throw new Exception("Invalid key : " + key);
             }
         }
@@ -81,49 +84,59 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public String getJanrainAccessToken() {
+        RLog.d(TAG, "getJanrainAccessToken : " + getAccessToken());
         return getAccessToken();
     }
 
     @Override
     public String getJanrainUUID() {
+        RLog.d(TAG, "getJanrainUUID : " + getJanrainUUID());
         return super.getJanrainUUID();
     }
 
     @Override
     public String getHSDPAccessToken() {
+        RLog.d(TAG, "getHSDPAccessToken : " + getHsdpAccessToken());
         return getHsdpAccessToken();
     }
 
     @Override
     public String getHSDPUUID() {
+        RLog.d(TAG, "getHSDPUUID : " + getHsdpUUID());
         return getHsdpUUID();
     }
 
     @Override
     public boolean isUserLoggedIn(Context context) {
+        RLog.d(TAG, "isUserLoggedIn : " + isUserSignIn());
         return isUserSignIn();
     }
 
     @Override
     public void refreshLoginSession(RefreshListener refreshListener) {
+        RLog.d(TAG, "refreshLoginSession");
         refreshLoginSession(getRefreshHandler(refreshListener));
     }
 
     @NonNull
     protected RefreshLoginSessionHandler getRefreshHandler(final RefreshListener refreshListener) {
+        RLog.d(TAG, "getRefreshHandler");
         return new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
+                RLog.d(TAG, "onRefreshLoginSessionSuccess");
                 refreshListener.onRefreshSessionSuccess();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
+                RLog.e(TAG, "onRefreshLoginSessionFailedWithError " + error);
                 refreshListener.onRefreshSessionFailure(error);
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
+                RLog.e(TAG, "onRefreshLoginSessionInProgress : " + message);
                 refreshListener.onRefreshSessionInProgress(message);
             }
         };
@@ -131,19 +144,23 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public void refetch(UserDetailsListener userDetailsListener) {
+        RLog.d(TAG, "refetch");
         refreshUser(getRefetchHandler(userDetailsListener));
     }
 
     @NonNull
     protected RefreshUserHandler getRefetchHandler(final UserDetailsListener userDetailsListener) {
+        RLog.d(TAG, "getRefetchHandler");
         return new RefreshUserHandler() {
             @Override
             public void onRefreshUserSuccess() {
+                RLog.d(TAG, "onRefreshUserSuccess");
                 userDetailsListener.onRefetchSuccess();
             }
 
             @Override
             public void onRefreshUserFailed(int error) {
+                RLog.d(TAG, "onRefreshUserFailed : " + error);
                 userDetailsListener.onRefetchFailure(error);
             }
         };
@@ -151,40 +168,48 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public void logOut(LogoutListener logoutListener) {
+        RLog.d(TAG, "logOut");
         logout(getLogoutHandler(logoutListener));
     }
 
     @NonNull
     LogoutHandler getLogoutHandler(final LogoutListener logoutListener) {
+        RLog.d(TAG, "getLogoutHandler");
         return new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
+                RLog.d(TAG, "onLogoutSuccess");
                 logoutListener.onLogoutSuccess();
             }
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
-                logoutListener.onLogoutFailure(responseCode,message);
+                RLog.d(TAG, "onLogoutFailure : responseCode = " + responseCode + " message = " + message);
+                logoutListener.onLogoutFailure(responseCode, message);
             }
         };
     }
 
     @Override
     public void updateMarketingOptInConsent(UserDetailsListener userDetailsListener) {
-        updateReceiveMarketingEmail(getUpdateReceiveMarketingEmailHandler(userDetailsListener),getReceiveMarketingEmail());
+        RLog.d(TAG, "updateMarketingOptInConsent");
+        updateReceiveMarketingEmail(getUpdateReceiveMarketingEmailHandler(userDetailsListener), getReceiveMarketingEmail());
 
     }
 
     @NonNull
     protected UpdateUserDetailsHandler getUpdateReceiveMarketingEmailHandler(final UserDetailsListener userDetailsListener) {
+        RLog.d(TAG, "getUpdateReceiveMarketingEmailHandler");
         return new UpdateUserDetailsHandler() {
             @Override
             public void onUpdateSuccess() {
+                RLog.d(TAG, "getUpdateReceiveMarketingEmailHandler : onUpdateSuccess");
                 userDetailsListener.onUpdateSuccess();
             }
 
             @Override
             public void onUpdateFailedWithError(int error) {
+                RLog.e(TAG, "getUpdateReceiveMarketingEmailHandler : onUpdateFailedWithError" + error);
                 userDetailsListener.onUpdateFailure(error);
             }
         };
