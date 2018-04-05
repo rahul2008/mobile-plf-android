@@ -750,8 +750,6 @@ public class User {
     }
 
     private void logoutHsdp(final LogoutHandler logoutHandler) {
-        if (logoutHandler == null)
-            throw new RuntimeException("Please provide Logout handler");
         final HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.logOut(new LogoutHandler() {
             @Override
@@ -760,7 +758,9 @@ public class User {
                 clearData();
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.LOGOUT_SUCCESS);
-                ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
+                if(logoutHandler != null) {
+                    ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
+                }
                 RegistrationHelper.getInstance().getUserRegistrationListener()
                         .notifyOnUserLogoutSuccess();
             }

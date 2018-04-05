@@ -111,7 +111,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_address_enter_town_city">Enter your town or city</string>
     <string name="ths_address_postal_code_string">Postal code</string>
     <string name="ths_address_state_string">State</string>
-    <string name="ths_ok_continue_button_string">Ok,continue</string>
+    <string name="ths_ok_continue_button_string">Ok, continue</string>
     <string name="ths_address_validation_empty_string">Address line cannot be empty</string>
     <string name="ths_address_validation_length_string">Address should contain at least 2 characters</string>
     <string name="ths_address_validation_length__max_string">Address should contain maximum 25 characters</string>
@@ -307,7 +307,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_not_valid_credit_card_number">Please enter correct card number</string>
     <string name="ths_not_valid_CVV_number">Please enter correct CVV number</string>
     <string name="ths_not_valid_card_name">Please enter correct name</string>
-    <string name="ths_not_valid_address1">Please enter correct address 1</string>
+    <string name="ths_not_valid_address1">Please enter valid address</string>
 
     <!-- Cost summary fragment strings-->
     <string name="ths_cost_summary_enter_promotion_code">Enter a promotion code here</string>
@@ -459,6 +459,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_credit_card_details_cvc_code">CVC Code</string>
     <string name="ths_credit_card_details_000"> 000 </string>
     <string name="ths_credit_card_details_fragment_name">Payment method</string>
+    <string name="ths_credit_card_details_address_same_as_shipping_address">Use my shipping address as billing address</string>
+
+    <string name="ths_credit_card_details_consumer_name_error_string">Please enter correct name</string>
+    <string name="ths_credit_card_details_card_number_error_string">Please enter correct card number</string>
+    <string name="ths_credit_card_details_exp_month_error_string">Please enter valid expiry date</string>
+    <string name="ths_credit_card_details_exp_year_error_string">Please enter valid expiry date</string>
+    <string name="ths_credit_card_details_cvv_error_string">Please enter correct CVV number</string>
+    <string name="ths_credit_card_details_address_error_string">Please enter valid address</string>
 
     <!-- Visit summary -->
     <string name="ths_prescription_sent_to_label">Your prescription was sent to</string>

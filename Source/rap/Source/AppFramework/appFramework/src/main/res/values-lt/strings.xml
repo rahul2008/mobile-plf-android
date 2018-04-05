@@ -44,6 +44,7 @@
   <string name="RA_CoCo_Description_UIToolkit">[lt]UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application</string>
   <string name="RA_CoCo_Description_UserRegistration">[lt]User registration feature in Reference App provides the ability of registering a new user accessing the mobile application, for logging into the application using valid organization / social media specific credentials</string>
   <string name="RA_Coco_Version">[lt]App Info</string>
+  <string name="RA_ConnectivityScreen_Menu_Title">Prijungimo galimybė</string>
   <string name="RA_ConnectivityScreen_Title">Prijungimo galimybė</string>
   <string name="RA_DLSS_avatar_default_text">[lt]Hello User, \nPlease sign in.</string>
   <string name="RA_DLS_Help_Philips_Shop">[lt]You can make Philips purchases or via 3rd party retailers here.</string>
@@ -144,6 +145,7 @@
   <string name="RA_Settings_Logout_Alert">Ar tikrai norite atsijungti?</string>
   <string name="RA_Settings_MyAccount">Mano paskyra</string>
   <string name="RA_Settings_OrderHistory">Užsakymų istorija</string>
+  <string name="RA_Settings_Progress_Title">[lt]Please Wait!!</string>
   <string name="RA_Settings_Promo_Question_Text">Ką tai reiškia?</string>
   <string name="RA_Settings_Purchases">Pirkiniai</string>
   <string name="RA_Settings_Screen_Header_Title">Nustatymai</string>

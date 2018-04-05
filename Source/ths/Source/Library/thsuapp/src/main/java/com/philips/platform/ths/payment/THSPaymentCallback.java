@@ -11,16 +11,26 @@ import java.util.Map;
 
 public interface THSPaymentCallback {
 
-    interface THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
-        void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError);
+    interface THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
+        void onGetPaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError);
 
         void onGetPaymentFailure(Throwable throwable);
 
     }
 
-    interface THSgetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> extends THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
-        void onValidationFailure(Map<String, String> map);
+    interface THSUpdatePaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
+        void onUpdatePaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError);
 
+        void onUpdatePaymentFailure(Throwable throwable);
+
+    }
+
+    interface THSGetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> extends THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
+        void onValidationFailure(Map<String, String> map);
+    }
+
+    interface THSUpdatePaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> extends THSUpdatePaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
+        void onValidationFailure(Map<String, String> map);
     }
 
 }
