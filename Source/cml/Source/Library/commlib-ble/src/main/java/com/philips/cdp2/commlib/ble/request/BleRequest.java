@@ -60,7 +60,7 @@ import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
  * dispatched in a queue are processed sequentially.
  */
 public abstract class BleRequest implements Runnable {
-    public static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
+    static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     private static final long REQUEST_TIMEOUT_MS = 30000L;
 
@@ -220,7 +220,8 @@ public abstract class BleRequest implements Runnable {
         }
     }
 
-    private SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
+    @VisibleForTesting
+    SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
         public void onStateUpdated(final SHNDevice shnDevice) {
             if (shnDevice.getState() == Connected) {
@@ -333,7 +334,7 @@ public abstract class BleRequest implements Runnable {
 
     private void cleanup() {
         if (bleDevice != null) {
-            bleDevice.registerSHNDeviceListener(null);
+            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
             bleDevice = null;
 
             if (capability != null) {
