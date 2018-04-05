@@ -115,8 +115,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
-            ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
-                    R.mipmap.philips_shop_overlay, IAPState.TAG);
+            shouldOverBeVisible();
         } catch (RuntimeException e) {
             //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
             RALog.e(TAG,e.getMessage());
@@ -124,6 +123,14 @@ public abstract class IAPState extends BaseState implements IAPListener {
                 ((IndexSelectionListener) activityContext).updateSelectionIndex(0);
             }
             Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shouldOverBeVisible() {
+        final boolean isShopingCartVisible = ((AppFrameworkApplication) activityContext.getApplicationContext()).isShopingCartVisible;
+        if(!isShopingCartVisible) {
+            ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
+                    R.mipmap.philips_shop_overlay, IAPState.TAG);
         }
     }
 
