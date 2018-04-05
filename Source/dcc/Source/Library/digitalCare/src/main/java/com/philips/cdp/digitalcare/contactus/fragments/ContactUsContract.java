@@ -18,4 +18,5 @@ public interface ContactUsContract {
 
     boolean isViewAdded();
 
+    void updateLiveChatButton(int visibility);
 }

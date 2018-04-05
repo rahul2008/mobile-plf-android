@@ -26,12 +26,12 @@ import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.uielement.SilenceableSwitch;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.Switch;
 
 class PermissionViewHolder extends BasePermissionViewHolder {
 
-    private Switch toggle;
+    private SilenceableSwitch toggle;
     private Label label;
     private Label help;
     @Nullable
@@ -69,7 +69,7 @@ class PermissionViewHolder extends BasePermissionViewHolder {
                     consentToggleListener.onToggledConsent(getLayoutPosition(), consentView.getDefinition(), b, new ConsentToggleListener.ConsentToggleResponse() {
                         @Override
                         public void handleResponse(boolean result) {
-                            toggle.setChecked(result);
+                            toggle.setChecked(result, false);
                         }
                     });
                 }

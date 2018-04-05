@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
@@ -34,6 +35,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
     private String mBirthDate;
 
+    private final String TAG = UpdateDateOfBirth.class.getSimpleName();
     public UpdateDateOfBirth(Context context) {
         super(context);
         mJanrainInitializer = new JanrainInitializer();
@@ -43,6 +45,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
     public void updateDateOfBirth(@NonNull final UpdateUserDetailsHandler
                                           updateUserDetailsHandler,
                                   @NonNull final Date date) {
+        RLog.d(TAG,"updateDateOfBirth is called");
         mUpdateUserDetails = updateUserDetailsHandler;
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_FOR_DOB, Locale.ROOT);
         mBirthDate = sdf.format(date);
@@ -67,6 +70,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
 
     protected void performActualUpdate() {
+        RLog.d(TAG,"performActualUpdate is called");
         JSONObject userData = getCurrentUserAsJsonObject();
         mUpdatedUserdata = Jump.getSignedInUser();
         try {
@@ -85,6 +89,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
     }
 
     protected void performLocalUpdate() {
+        RLog.d(TAG,"performLocalUpdate is called");
         if (null != mUpdatedUserdata)
             try {
                 mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);

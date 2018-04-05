@@ -6,11 +6,33 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:padding="16dp">
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/description"
-        fontPath="fonts/centralesansbook.ttf"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:textSize="@dimen/button_toggle_text_size" />
+        android:orientation="vertical">
+
+        <!-- Static title -->
+        <com.philips.platform.uid.view.widget.Label
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="22sp"
+            android:text="@string/csw_consent_help_label"
+            android:textStyle="bold"
+            />
+
+        <!-- Dynamic help text -->
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/description"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/button_toggle_text_size" />
+
+    </LinearLayout>
+
+
 </ScrollView>

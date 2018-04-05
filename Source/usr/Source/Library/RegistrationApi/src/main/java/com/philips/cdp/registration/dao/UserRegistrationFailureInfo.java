@@ -10,7 +10,7 @@
 package com.philips.cdp.registration.dao;
 
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONObject;
@@ -19,6 +19,7 @@ import org.json.JSONObject;
  * Class user registration failure info
  */
 public class UserRegistrationFailureInfo {
+    private final String TAG = UserRegistrationFailureInfo.class.getSimpleName();
 
     /* Error code */
     private int errorCode;
@@ -70,8 +71,10 @@ public class UserRegistrationFailureInfo {
             if (message != null && !message.isEmpty()) {
                 return message;
             }
+            RLog.d(TAG, "getErrorDescription : " + error.error_description);
             return error.error_description;
         } else {
+            RLog.d(TAG, "getErrorDescription as error is null : " + errorDescription);
             return errorDescription;
         }
     }
@@ -84,6 +87,7 @@ public class UserRegistrationFailureInfo {
      */
 
     public String getErrorTagging() {
+        RLog.d(TAG, "getErrorTagging : " + this.errorTagging);
         return this.errorTagging;
     }
 
@@ -104,6 +108,7 @@ public class UserRegistrationFailureInfo {
      * @since 1.0.0
      */
     public int getErrorCode() {
+        RLog.d(TAG, "getErrorCode : " + this.errorCode);
         return errorCode;
     }
 
@@ -125,6 +130,7 @@ public class UserRegistrationFailureInfo {
      * @since 1.0.0
      */
     public CaptureApiError getError() {
+        RLog.d(TAG, "getError : " + error);
         return error;
     }
 

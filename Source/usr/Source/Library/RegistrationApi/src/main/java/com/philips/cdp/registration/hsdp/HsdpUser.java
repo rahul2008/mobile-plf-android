@@ -113,7 +113,7 @@ public class HsdpUser {
                                         INVALID_ACCESS_TOKEN_CODE) || dhpResponse.
                                         responseCode.equals(RegConstants.
                                         INVALID_REFRESH_TOKEN_CODE))) {
-                            RLog.d(RLog.HSDP, "onHsdsLogoutFailure : responseCode : "
+                            RLog.d(TAG, "onHsdsLogoutFailure : responseCode : "
                                     + dhpResponse.responseCode + " message : "
                                     + dhpResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -122,7 +122,7 @@ public class HsdpUser {
                                             dhpResponse.message));
                         } else {
                             handler.post(() -> {
-                                RLog.d(RLog.HSDP, "onHsdsLogoutFailure : responseCode : " +
+                                RLog.d(TAG, "onHsdsLogoutFailure : responseCode : " +
                                         dhpResponse.responseCode +
                                         " message : " + dhpResponse.message);
                                 ThreadUtils.postInMainThread(mContext, () ->

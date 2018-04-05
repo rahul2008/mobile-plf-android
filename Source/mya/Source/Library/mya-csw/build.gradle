@@ -116,18 +116,14 @@ dependencies {
 
     // Tests
     testCompile deps.junit
-    testCompile deps.maven_ant
-    testCompile deps.maven_ant
+    testCompile deps.mockito
     testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_classloading_xstream
-    testCompile deps.powermock_core
     testCompile deps.powermock_junit
-    testCompile deps.powermock_junit_rule
-    testCompile deps.powermock_junit_rule_agent
-    testCompile deps.robolectric
-    testCompile deps.robolectric_junit
-    testCompile deps.robolectric_shadows
-    testCompile deps.robolectric_utils
+    testCompile deps.assertj
+    testCompile(deps.robolectric) {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
 }
 
 task updateResources(type: Exec) {
