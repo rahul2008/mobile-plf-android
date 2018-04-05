@@ -45,13 +45,8 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {
-        boolean isOnline = appInfra.getRestClient().isInternetReachable();
-        if (isOnline) {
-            view.showProgressDialog();
-            appInfra.getConsentManager().storeConsentState(consentDefinition, status, callback);
-        } else {
-            view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
-        }
+        view.showProgressDialog();
+        appInfra.getConsentManager().storeConsentState(consentDefinition, status, callback);
     }
 
     class JustInTimePostConsentCallback implements PostConsentCallback {
@@ -65,7 +60,13 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
         @Override
         public void onPostConsentFailed(ConsentError error) {
             view.hideProgressDialog();
-            view.showErrorDialogForCode(R.string.csw_problem_occurred_error_title, error.getErrorCode());
+            switch (error.getErrorCode()) {
+                case ConsentError.CONSENT_ERROR_NO_CONNECTION:
+                    view.showErrorDialog(R.string.csw_offline_title, R.string.csw_offline_message);
+                    break;
+                default:
+                    view.showErrorDialogForCode(R.string.csw_problem_occurred_error_title, error.getErrorCode());
+            }
         }
 
         @Override
