@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.ble.request;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -27,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -34,6 +36,7 @@ import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -69,6 +72,9 @@ public class BleRequestTest {
     private CapabilityDiComm mockCapability;
 
     @Mock
+    private Timer timerMock;
+
+    @Mock
     CountDownLatch mockInProgressLatch;
 
     SHNDeviceListener stateListener;
@@ -79,8 +85,11 @@ public class BleRequestTest {
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
+    private int executeCounter;
+
     @Before
     public void setUp() throws Exception {
+        executeCounter = 0;
         initMocks(this);
         DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
@@ -108,7 +117,19 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
+        request = new BleRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true)) {
+            @Override
+            protected void execute(final CapabilityDiComm capability) {
+                executeCounter++;
+            }
+
+            @NonNull
+            @Override
+            protected Timer createTimer() {
+                return timerMock;
+            }
+        };
+
         request.inProgressLatch = mockInProgressLatch;
 
         when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
@@ -210,5 +231,43 @@ public class BleRequestTest {
         request.run();
 
         verify(responseHandlerMock).onError(eq(Error.REQUEST_FAILED), anyString());
+    }
+
+    @Test
+    public void givenRequestIsWaitingForConnectedState_whenConnectedStateIsReportedTwice_thenRequestIsOnlyExecutedOnce() throws Exception {
+        when(mockDevice.getState()).thenReturn(Disconnected);
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                when(mockDevice.getState()).thenReturn(Connected);
+                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        assertThat(executeCounter).isEqualTo(1);
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenItCompletes_thenTimeoutTimerIsStopped() throws Exception {
+        request.run();
+
+        //completion is arranged by setup
+
+        verify(timerMock).cancel();
+    }
+
+    @Test
+    public void whenRequestIsRun_thenTimeoutTimerIsStarted() throws Exception {
+
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenTimoutTimerExpires_thenRequestIsCancelledAndErrorIsReported() throws Exception {
+
     }
 }

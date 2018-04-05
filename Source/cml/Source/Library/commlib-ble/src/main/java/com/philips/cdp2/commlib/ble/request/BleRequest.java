@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.ble.request;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
@@ -43,6 +44,7 @@ import static com.philips.cdp.dicommclient.util.DICommLog.BLEREQUEST;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.EXECUTING;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
@@ -69,6 +71,7 @@ public abstract class BleRequest implements Runnable {
     enum State {
         CREATED,
         STARTED,
+        EXECUTING,
         COMPLETED,
         FINALIZED
     }
@@ -125,7 +128,7 @@ public abstract class BleRequest implements Runnable {
     private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
-            if (stateIs(STARTED)) {
+            if (stateIs(EXECUTING)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
                 } else {
@@ -134,6 +137,9 @@ public abstract class BleRequest implements Runnable {
             }
         }
     };
+
+    @Nullable
+    private Timer timer;
 
     @VisibleForTesting
     void processDiCommResponse(final DiCommResponse res) {
@@ -189,13 +195,19 @@ public abstract class BleRequest implements Runnable {
 
     private void addTimeoutToRequest() {
         DICommLog.d(BLEREQUEST, "adding timeout (" + REQUEST_TIMEOUT_MS + "ms) to request (" + this.hashCode() + ")");
-        new Timer().schedule(new TimerTask() {
+        timer = createTimer();
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 DICommLog.d(BLEREQUEST, "request (" + BleRequest.this.hashCode() + ") timed out");
                 BleRequest.this.cancel("Timeout occurred.");
             }
         }, REQUEST_TIMEOUT_MS);
+    }
+
+    @NonNull
+    protected Timer createTimer() {
+        return new Timer();
     }
 
     private void execute() {
@@ -251,7 +263,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onConnected() {
-        if (stateIs(STARTED)) {
+        if (setStateIfStateIs(EXECUTING, STARTED)) {
             capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
             if (capability == null) {
                 onError(Error.NOT_AVAILABLE, "Communication is not available");
@@ -295,7 +307,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(final Error error, final String errorMessage) {
-        if (setStateIfStateIs(COMPLETED, STARTED, CREATED)) {
+        if (setStateIfStateIs(COMPLETED, EXECUTING, STARTED, CREATED)) {
             handlerToPostResponseOnto.post(new Runnable() {
                 @Override
                 public void run() {
@@ -307,7 +319,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onSuccess(final String data) {
-        if (setStateIfStateIs(COMPLETED, STARTED)) {
+        if (setStateIfStateIs(COMPLETED, EXECUTING)) {
             handlerToPostResponseOnto.post(new Runnable() {
                 @Override
                 public void run() {
@@ -341,6 +353,10 @@ public abstract class BleRequest implements Runnable {
                 capability.removeDataListener(resultListener);
                 capability = null;
             }
+        }
+
+        if (timer != null) {
+            timer.cancel();
         }
     }
 }
