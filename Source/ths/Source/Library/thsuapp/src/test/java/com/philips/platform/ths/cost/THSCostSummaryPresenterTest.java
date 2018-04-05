@@ -374,7 +374,7 @@ public class THSCostSummaryPresenterTest {
         assertNotNull(thsCostSummaryFragment.mInsuranceSubscriptionType);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onGetInsuranceFailure() throws Exception {
         THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
@@ -416,7 +416,7 @@ public class THSCostSummaryPresenterTest {
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onGetPaymentFailure() throws Exception {
         THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
