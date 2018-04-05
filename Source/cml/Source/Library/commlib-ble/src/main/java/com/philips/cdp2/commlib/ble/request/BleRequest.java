@@ -104,7 +104,8 @@ public abstract class BleRequest implements Runnable {
     @NonNull
     private final Object stateLock = new Object();
 
-    private final DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
+    @VisibleForTesting
+    DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             try {
@@ -123,7 +124,8 @@ public abstract class BleRequest implements Runnable {
         }
     };
 
-    private final DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
+    @VisibleForTesting
+    DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
     private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
         @Override
