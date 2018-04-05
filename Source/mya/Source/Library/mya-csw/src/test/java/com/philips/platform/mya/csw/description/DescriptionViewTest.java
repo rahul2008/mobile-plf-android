@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.BuildConfig;
 import com.philips.platform.mya.csw.R;
@@ -20,14 +19,12 @@ import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 22)
 public class DescriptionViewTest {
 
     @Mock
@@ -48,8 +45,6 @@ public class DescriptionViewTest {
         inflaterMock = LayoutInflater.from(RuntimeEnvironment.application);
 
         when(fragmentManagerMock.beginTransaction()).thenReturn(transactionMock);
-//        when(inflaterMock.inflate(anyInt(), (ViewGroup) any(), anyBoolean())).thenReturn(inflatedViewMock);
-//        when(inflatedViewMock.findViewById(anyInt())).thenReturn(inflatedViewMock);
     }
 
     @Test
