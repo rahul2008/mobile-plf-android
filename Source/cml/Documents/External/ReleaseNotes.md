@@ -19,6 +19,7 @@ Version {next}
 * N/A
 
 ### Defects solved
+* 119951 Don't crash during LAN discovery when SSDP is already active in another process.
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
 
 ### Residual anomalies
