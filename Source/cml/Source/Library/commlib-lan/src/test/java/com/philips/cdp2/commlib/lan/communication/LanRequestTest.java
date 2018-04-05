@@ -6,12 +6,10 @@
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -22,6 +20,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
+import static com.philips.cdp.dicommclient.request.Error.REQUEST_FAILED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doThrow;
@@ -78,5 +77,21 @@ public class LanRequestTest {
         assertThat(response.getError()).isEqualTo(TIMED_OUT);
     }
 
+    @Test
+    public void givenADeleteRequestIsExecuted_whenDataMapIsNull_thenRequestCompletesWithoutException() throws Exception {
+        when(connectionMock.getResponseCode()).thenReturn(HttpURLConnection.HTTP_OK);
+
+        lanRequest = new LanRequest(networkNodeMock, null, "portname", 0, LanRequestType.DELETE, null, null, null) {
+            @NonNull
+            @Override
+            HttpURLConnection createConnection(@NonNull URL url, @NonNull String requestMethod) throws IOException, TransportUnavailableException {
+                return connectionMock;
+            }
+        };
+
+        final Response response = lanRequest.execute();
+
+        assertThat(response.getError()).isEqualTo(REQUEST_FAILED);
+    }
 
 }
