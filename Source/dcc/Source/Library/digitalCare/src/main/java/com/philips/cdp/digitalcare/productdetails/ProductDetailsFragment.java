@@ -173,6 +173,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private int getDisplayWidth() {
+        if (getActivity() == null) {
+            return 0;
+        }
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
