@@ -58,6 +58,13 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mFollowUpContinueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
         ths_intake_follow_up_phone_number_container = view.findViewById(R.id.ths_intake_follow_up_phone_number_container);
+        ths_intake_follow_up_phone_number_container.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                mTHSFollowUpPresenter.checkForInputLength(msg.length());
+                return false;
+            }
+        });
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
