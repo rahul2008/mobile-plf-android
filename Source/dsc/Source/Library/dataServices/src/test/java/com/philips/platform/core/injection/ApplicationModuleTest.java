@@ -17,7 +17,7 @@ public class ApplicationModuleTest {
     private ApplicationModule module;
 
     @Mock
-    Context mockContext;
+    private Context mockContext;
 
     @Before
     public void setUp() throws Exception {
