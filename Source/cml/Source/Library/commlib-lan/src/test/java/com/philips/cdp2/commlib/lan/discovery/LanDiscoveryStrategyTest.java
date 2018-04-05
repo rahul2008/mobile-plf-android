@@ -17,14 +17,14 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -49,7 +49,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Mock
-    private SSDPDiscovery ssdpDiscoveryMock;
+    private SSDPControlPoint ssdpControlPointMock;
 
     @Mock
     private LanDeviceCache deviceCacheMock;
@@ -64,7 +64,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private DiscoveryListener discoveryListenerMock;
 
     @Captor
-    ArgumentCaptor<NetworkNode> networkNodeCaptor;
+    private ArgumentCaptor<NetworkNode> networkNodeCaptor;
 
     private LanDiscoveryStrategy strategyUnderTest;
 
@@ -82,12 +82,12 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
                 availabilityListener = invocation.getArgument(0);
                 return null;
             }
-        }).when(connectivityMonitorMock).addAvailabilityListener(Matchers.<AvailabilityListener<ConnectivityMonitor>>any());
+        }).when(connectivityMonitorMock).addAvailabilityListener(ArgumentMatchers.<AvailabilityListener<ConnectivityMonitor>>any());
 
         strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
             @Override
-            SSDPDiscovery createSsdpDiscovery() {
-                return ssdpDiscoveryMock;
+            SSDPControlPoint createSsdpControlPoint() {
+                return ssdpControlPointMock;
             }
         };
         strategyUnderTest.addDiscoveryListener(discoveryListenerMock);
@@ -241,7 +241,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, never()).start();
+        verify(ssdpControlPointMock, never()).start();
     }
 
     @Test
@@ -250,7 +250,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, never()).start();
+        verify(ssdpControlPointMock, never()).start();
     }
 
     @Test
@@ -260,7 +260,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).start();
+        verify(ssdpControlPointMock, atLeastOnce()).start();
     }
 
     @Test
@@ -270,7 +270,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).start();
+        verify(ssdpControlPointMock, atLeastOnce()).start();
     }
 
     @Test
@@ -281,7 +281,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(false);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
+        verify(ssdpControlPointMock, atLeastOnce()).stop();
     }
 
     @Test
@@ -291,7 +291,27 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.stop();
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
+        verify(ssdpControlPointMock, atLeastOnce()).stop();
+    }
+
+    @Test
+    public void givenTransportIsAvailable_whenStartingDiscovery_thenDiscoveryListenerIsNotified() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+
+        strategyUnderTest.start();
+
+        verify(discoveryListenerMock).onDiscoveryStarted();
+    }
+
+    @Test
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenDiscoveryListenerIsNotified() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
+
+        when(ssdpControlPointMock.isDiscovering()).thenReturn(true);
+        strategyUnderTest.stop();
+
+        verify(discoveryListenerMock).onDiscoveryStopped();
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
