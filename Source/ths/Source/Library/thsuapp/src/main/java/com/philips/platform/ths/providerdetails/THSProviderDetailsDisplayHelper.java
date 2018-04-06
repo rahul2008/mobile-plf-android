@@ -247,11 +247,10 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
+                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                     checkForUrgentCare();
                 }
             }
@@ -262,11 +261,10 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             } else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
+                detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 } else {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
                     checkForUrgentCare();
                 }
             }
