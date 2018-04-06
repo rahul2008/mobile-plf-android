@@ -49,7 +49,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     protected THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
     private THSCreatePaymentRequest mTHSCreatePaymentRequest;
-    private String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    String regex = "^[0-9]{5}$";
     private Pattern pattern = Pattern.compile(regex);
     private THSCreditCardDetailViewInterface thsCreditCardDetailViewInterface;
     private Address shippingAddress;

@@ -33,7 +33,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         this.thsBaseView = thsBaseView;
     }
 
-    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    String regex = "^[0-9]{5}$";
     Pattern pattern = Pattern.compile(regex);
 
     public void updateShippingAddress(Address address) {
