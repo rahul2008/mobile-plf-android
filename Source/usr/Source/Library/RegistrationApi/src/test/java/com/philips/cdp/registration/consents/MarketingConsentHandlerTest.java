@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -34,7 +35,6 @@ import static org.mockito.Mockito.when;
 
 public class MarketingConsentHandlerTest {
 
-
     @Captor
     private ArgumentCaptor<RefreshUserHandler> refreshUserHandler;
     @Mock
@@ -43,6 +43,8 @@ public class MarketingConsentHandlerTest {
     private PostConsentTypeCallback givenPostConsentCallback;
     @Mock
     private User mockUser;
+    @Mock
+    private AppInfraInterface appInfraMock;
     @Captor
     private ArgumentCaptor<MarketingConsentHandler.MarketingUpdateCallback> marketingCallbackCaptor;
     @Captor
@@ -59,10 +61,13 @@ public class MarketingConsentHandlerTest {
     private Context mockContext;
     @Mock
     private InternationalizationInterface internationalizationInterfaceMock;
+    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        when(appInfraMock.getRestClient()).thenReturn(restInterfaceMock);
     }
 
     @Test
@@ -72,20 +77,6 @@ public class MarketingConsentHandlerTest {
         whenRefreshUser();
         thenMarketingConsentIsRetrieved(ConsentStates.active);
     }
-
-    private void whenRefreshUser() {
-        List<String> types = URConsentProvider.fetchMarketingConsentDefinition().getTypes();
-        subject.fetchConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenCheckConsentCallback);
-        verify(mockUser).refreshUser(refreshUserHandler.capture());
-        refreshUserHandler.getValue().onRefreshUserSuccess();
-    }
-
-    private void whenRefreshUserOnFetchConsentStates() {
-        subject.fetchConsentTypeState(null, givenCheckConsentCallback);
-        verify(mockUser).refreshUser(refreshUserHandler.capture());
-        refreshUserHandler.getValue().onRefreshUserSuccess();
-    }
-
 
     @Test
     public void checkConsent_0() throws Exception {
@@ -106,7 +97,6 @@ public class MarketingConsentHandlerTest {
         thenMarketingConsentIsRetrieved(ConsentStates.rejected);
     }
 
-
     @Test
     public void checkConsent_3() throws Exception {
         givenConsentDefinitionTypeNotSame();
@@ -114,11 +104,6 @@ public class MarketingConsentHandlerTest {
         //whenCheckingConsent();
         whenRefreshUser();
         //thenErrorCallbackIsCalled();
-    }
-
-    private void givenConsentDefinitionTypeNotSame() {
-        givenConsentDefinition = new ConsentDefinition(0,0, Collections.singletonList("type"), 42);
-        subject = new TestMarketingConsentHandler(mockContext);
     }
 
     @Test
@@ -131,7 +116,6 @@ public class MarketingConsentHandlerTest {
         thenMarketingConsentIsRetrieved(ConsentStates.rejected);
     }
 
-
     @Test
     public void itShouldReportErrorWhenCheckingConsentsOnFetchConsentThrowsAnException() throws Exception {
         givenConsentDefinition();
@@ -139,7 +123,6 @@ public class MarketingConsentHandlerTest {
         whenRefreshUserOnFetchConsentStates();
         whenCheckingConsentsThrowsException();
     }
-
 
     @Test
     public void itShouldReportErrorWhenCheckingConsentThrowsAnException() throws Exception {
@@ -149,15 +132,8 @@ public class MarketingConsentHandlerTest {
         thenErrorCallbackIsCalled();
     }
 
-    private void whenCheckingConsentThrowsException() {
-        when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
-        subject.fetchConsentTypeState(null, givenCheckConsentCallback);
-        verify(mockUser).refreshUser(refreshUserHandler.capture());
-        refreshUserHandler.getValue().onRefreshUserSuccess();
-    }
-
     @Test
-    public void itShouldGiveMarketingConsent() throws Exception {
+    public void postConsent_itShouldGiveMarketingConsent() throws Exception {
         givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(true);
@@ -166,7 +142,7 @@ public class MarketingConsentHandlerTest {
     }
 
     @Test
-    public void itShouldRejectMarketingConsent() throws Exception {
+    public void postConsent_itShouldRejectMarketingConsent() throws Exception {
         givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(false);
@@ -175,7 +151,7 @@ public class MarketingConsentHandlerTest {
     }
 
     @Test
-    public void itShouldNotGiveMarketingConsentWhenPostingAcceptedOperationFails() throws Exception {
+    public void postConsent_itShouldNotGiveMarketingConsentWhenPostingAcceptedOperationFails() throws Exception {
         givenPhoneLanguageIs("nl-NL");
         givenConsentDefinition();
         givenStatusToPost(true);
@@ -184,16 +160,15 @@ public class MarketingConsentHandlerTest {
     }
 
     @Test
-    public void itShouldNotGiveMarketingConsentWhenPostRejectedOperationFails() throws Exception {
+    public void postConsent_itShouldNotGiveMarketingConsentWhenPostRejectedOperationFails() throws Exception {
         givenConsentDefinition();
         givenStatusToPost(false);
         whenPostingConsentDefinitionFails(501);
         thenErrorIsReportedToCallback(501);
     }
 
-
     @Test
-    public void itShouldGiveMarketingConsentWhenRefreshUserFailed() throws Exception {
+    public void postConsent_itShouldGiveMarketingConsentWhenRefreshUserFailed() throws Exception {
         givenConsentDefinition();
         givenMarketingConsentIsGiven(false);
         whenRefreshUserFailed();
@@ -201,11 +176,49 @@ public class MarketingConsentHandlerTest {
     }
 
     @Test
-    public void itShouldGiveMarketingConsentsWhenRefreshUserFailed() throws Exception {
+    public void postConsent_itShouldGiveMarketingConsentsWhenRefreshUserFailed() throws Exception {
         givenConsentDefinition();
         givenMarketingConsentIsGiven(false);
         whenRefreshUserFailedOnFetchConsentState();
         thenErrorCallbackIsCalled();
+    }
+
+    @Test
+    public void postConsent_itShouldCallbackWithError_WhenPostingConsentInOfflineMode() throws Exception {
+        givenConsentDefinition();
+        givenPhoneIsOffline();
+        whenPostingConsentDefinition();
+        thenErrorIsReportedToCallback(ConsentError.CONSENT_ERROR_NO_CONNECTION);
+    }
+
+    private void givenPhoneIsOffline() {
+        restInterfaceMock.isInternetAvailable = false;
+    }
+
+    private void givenConsentDefinitionTypeNotSame() {
+        givenConsentDefinition = new ConsentDefinition(0,0, Collections.singletonList("type"), 42);
+        subject = new TestMarketingConsentHandler(mockContext);
+    }
+
+
+    private void whenRefreshUser() {
+        List<String> types = URConsentProvider.fetchMarketingConsentDefinition().getTypes();
+        subject.fetchConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenCheckConsentCallback);
+        verify(mockUser).refreshUser(refreshUserHandler.capture());
+        refreshUserHandler.getValue().onRefreshUserSuccess();
+    }
+
+    private void whenRefreshUserOnFetchConsentStates() {
+        subject.fetchConsentTypeState(null, givenCheckConsentCallback);
+        verify(mockUser).refreshUser(refreshUserHandler.capture());
+        refreshUserHandler.getValue().onRefreshUserSuccess();
+    }
+
+    private void whenCheckingConsentThrowsException() {
+        when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
+        subject.fetchConsentTypeState(null, givenCheckConsentCallback);
+        verify(mockUser).refreshUser(refreshUserHandler.capture());
+        refreshUserHandler.getValue().onRefreshUserSuccess();
     }
 
     private void whenRefreshUserFailed() {
@@ -242,6 +255,11 @@ public class MarketingConsentHandlerTest {
     private void whenCheckingConsentsThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
         subject.fetchConsentTypeState(null, givenCheckConsentCallback);
+    }
+
+    private void whenPostingConsentDefinition() {
+        List<String> types = givenConsentDefinition.getTypes();
+        subject.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(), givenPostConsentCallback);
     }
 
     private void whenPostingConsentDefinitionSucceeds() {
@@ -285,7 +303,7 @@ public class MarketingConsentHandlerTest {
     private class TestMarketingConsentHandler extends MarketingConsentHandler {
 
         public TestMarketingConsentHandler(Context context) {
-            super(context);
+            super(appInfraMock, context);
         }
 
         @Override

@@ -8,6 +8,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -24,43 +25,22 @@ import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
  */
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
+    private AppInfraInterface appInfra;
     private final Context context;
     private final String TAG = MarketingConsentHandler.class.getSimpleName();
 
     /**
+     * @param appInfra
      * @param context
      */
-    public MarketingConsentHandler(@NonNull final Context context) {
+    public MarketingConsentHandler(AppInfraInterface appInfra, @NonNull final Context context) {
+        this.appInfra = appInfra;
         this.context = context;
     }
 
     @VisibleForTesting
     User getUser() {
         return new User(context);
-    }
-
-    private void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
-        try {
-            final boolean receiveMarketingEmail = getUser().getReceiveMarketingEmail();
-            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
-            if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
-                RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
-                //Keeping version 0 as Janrain is not providing but it should be janrain consent version
-                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(receiveMarketingEmail), 0));
-                return;
-            }
-            RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed");
-            callback.onGetConsentsFailed(new ConsentError(URConsentProvider.USR_MARKETING_CONSENT + " Not Found", CONSENT_ERROR_UNKNOWN));
-        } catch (Exception consentFailed) {
-            RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed Exception : " + consentFailed.getMessage());
-            callback.onGetConsentsFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN));
-        }
-    }
-
-    private ConsentStates toStatus(boolean recevieMarketingEmail) {
-        final ConsentStates consentStates = recevieMarketingEmail ? ConsentStates.active : ConsentStates.rejected;
-        RLog.d(TAG, "toStatus : " + consentStates);
-        return consentStates;
     }
 
     /**
@@ -92,8 +72,36 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
      */
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
-        RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
-        getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
+        if (appInfra.getRestClient().isInternetReachable()) {
+            RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
+            getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
+        } else {
+            callback.onPostConsentFailed(new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+        }
+    }
+
+    private void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
+        try {
+            final boolean receiveMarketingEmail = getUser().getReceiveMarketingEmail();
+            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
+            if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
+                RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
+                //Keeping version 0 as Janrain is not providing but it should be janrain consent version
+                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(receiveMarketingEmail), 0));
+                return;
+            }
+            RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed");
+            callback.onGetConsentsFailed(new ConsentError(URConsentProvider.USR_MARKETING_CONSENT + " Not Found", CONSENT_ERROR_UNKNOWN));
+        } catch (Exception consentFailed) {
+            RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed Exception : " + consentFailed.getMessage());
+            callback.onGetConsentsFailed(new ConsentError(consentFailed.getLocalizedMessage(), CONSENT_ERROR_UNKNOWN));
+        }
+    }
+
+    private ConsentStates toStatus(boolean recevieMarketingEmail) {
+        final ConsentStates consentStates = recevieMarketingEmail ? ConsentStates.active : ConsentStates.rejected;
+        RLog.d(TAG, "toStatus : " + consentStates);
+        return consentStates;
     }
 
     static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
