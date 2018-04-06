@@ -8,6 +8,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -24,19 +25,64 @@ import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
  */
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
+    private static final ConsentError NO_CONNECTION_ERROR = new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION);
     private final Context context;
     private final String TAG = MarketingConsentHandler.class.getSimpleName();
+    private AppInfraInterface appInfra;
 
     /**
+     * @param appInfra
      * @param context
      */
-    public MarketingConsentHandler(@NonNull final Context context) {
+    public MarketingConsentHandler(AppInfraInterface appInfra, @NonNull final Context context) {
+        this.appInfra = appInfra;
         this.context = context;
     }
 
     @VisibleForTesting
     User getUser() {
         return new User(context);
+    }
+
+    /**
+     * @param consentType given type
+     * @param callback    callback to be invoked after fetch
+     */
+    @Override
+    public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+        if (appInfra.getRestClient().isInternetReachable()) {
+            getUser().refreshUser(new RefreshUserHandler() {
+                @Override
+                public void onRefreshUserSuccess() {
+                    getMarketingConsentDefinition(consentType, callback);
+                    RLog.d(TAG, "onRefreshUserSuccess ");
+                }
+
+                @Override
+                public void onRefreshUserFailed(int error) {
+                    getMarketingConsentDefinition(consentType, callback);
+                    RLog.e(TAG, "onRefreshUserFailed ");
+                }
+            });
+        } else {
+            callback.onGetConsentsFailed(NO_CONNECTION_ERROR);
+        }
+    }
+
+    /**
+     * @param consentType given consent type
+     * @param status      given status to store
+     * @param version     given version
+     * @param callback    callback to be invoked after store
+     */
+    @Override
+    public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+        if (appInfra.getRestClient().isInternetReachable()) {
+            RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
+            getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
+        } else {
+            callback.onPostConsentFailed(NO_CONNECTION_ERROR);
+        }
     }
 
     private void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
@@ -61,39 +107,6 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         final ConsentStates consentStates = recevieMarketingEmail ? ConsentStates.active : ConsentStates.rejected;
         RLog.d(TAG, "toStatus : " + consentStates);
         return consentStates;
-    }
-
-    /**
-     * @param consentType given type
-     * @param callback    callback to be invoked after fetch
-     */
-    @Override
-    public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        getUser().refreshUser(new RefreshUserHandler() {
-            @Override
-            public void onRefreshUserSuccess() {
-                getMarketingConsentDefinition(consentType, callback);
-                RLog.d(TAG, "onRefreshUserSuccess ");
-            }
-
-            @Override
-            public void onRefreshUserFailed(int error) {
-                getMarketingConsentDefinition(consentType, callback);
-                RLog.e(TAG, "onRefreshUserFailed ");
-            }
-        });
-    }
-
-    /**
-     * @param consentType given consent type
-     * @param status      given status to store
-     * @param version     given version
-     * @param callback    callback to be invoked after store
-     */
-    @Override
-    public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
-        RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
-        getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
     }
 
     static class MarketingUpdateCallback implements UpdateUserDetailsHandler {
