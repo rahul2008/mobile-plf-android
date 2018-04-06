@@ -67,13 +67,13 @@ public class AboutScreenFragmentTest {
     @Test
     public void testTermsClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_terms).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class));
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class),any(String.class));
     }
 
     @Test
     public void testPrivacyClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_privacy).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class));
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class),any(String.class));
     }
 
     @Test

@@ -25,6 +25,6 @@ public class URConsentProvider {
         int helpText = R.string.reg_DLS_PhilipsNews_Description_Text;
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
-        return new ConsentDefinition(text, helpText, types, 1);
+        return new ConsentDefinition(text, helpText, types, 0);
     }
 }

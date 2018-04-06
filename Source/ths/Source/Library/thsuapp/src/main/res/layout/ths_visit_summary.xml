@@ -171,17 +171,6 @@
                     android:gravity="center_vertical"
                     android:text="@string/ths_download_report"/>
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/ths_wrap_up_visit_report_download_link"
-                    style="@style/UIDLabel.RecyclerViewItemSubtitleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
-                    android:gravity="center_vertical"
-                    android:text="PDF">
-
-                </com.philips.platform.uid.view.widget.Label>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_wrap_up_visit_report_arrow_image"

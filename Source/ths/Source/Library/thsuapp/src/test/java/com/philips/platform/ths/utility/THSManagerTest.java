@@ -564,7 +564,7 @@ public class THSManagerTest {
         verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
 
         SDKCallback value = providerListCaptor.getValue();
-        //        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
+        //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
     }
 
@@ -574,7 +574,7 @@ public class THSManagerTest {
         thsManager.getProviderList(contextMock, practice, THSProvidersListCallback);
         verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
-        //        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
+        //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
         ArrayList list = new ArrayList();
         list.add(providerInfoMock);
 
@@ -615,7 +615,7 @@ public class THSManagerTest {
         thsManager.searchMedication(contextMock, "dol", pTHSDKValidatedCallback);
         verify(consumerManagerMock).searchMedications((Consumer)isNull(), any(String.class), getSearchedMedicationCaptor.capture());
         SDKCallback value = getSearchedMedicationCaptor.getValue();
-        //        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
+        //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
         //value.onGetPaymentFailure(any(Throwable.class));  //todo
     }
 
@@ -647,7 +647,7 @@ public class THSManagerTest {
         thsManager.updateConsumer(contextMock, "67767262" ,pTHUpdateConsumerCallback);
         verify(consumerManagerMock).updateConsumer(any(ConsumerUpdate.class),getUpdateConsumerCaptor.capture());
         SDKCallback value = getUpdateConsumerCaptor.getValue();
-        value.onGetPaymentMethodResponse(any(Consumer.class), any(SDKError.class));
+        value.onGetPaymentSuccess(any(Consumer.class), any(SDKError.class));
         value.onGetPaymentFailure(any(Throwable.class));
     }*/
 

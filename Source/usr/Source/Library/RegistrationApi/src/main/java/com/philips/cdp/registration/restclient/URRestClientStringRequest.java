@@ -3,7 +3,6 @@ package com.philips.cdp.registration.restclient;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -62,7 +61,7 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("cache-control", "no-cache");
         if (!mIsContentTypeHeaderRequired)
@@ -74,7 +73,7 @@ public class URRestClientStringRequest extends StringRequest {
     }
 
     @Override
-    public byte[] getBody() throws AuthFailureError {
+    public byte[] getBody() {
         if (mBody != null)
             return mBody.getBytes();
         else
@@ -84,8 +83,8 @@ public class URRestClientStringRequest extends StringRequest {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         String jsonString = null;
-        RLog.d(TAG, "Response = " + response.statusCode);
-        RLog.d(TAG, "Response = " + response.data.toString());
+        RLog.d(TAG, "Response statusCode= " + response.statusCode);
+        RLog.d(TAG, "Response data= " + response.data.toString());
         try {
             jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
         } catch (UnsupportedEncodingException e) {

@@ -33,7 +33,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         this.thsBaseView = thsBaseView;
     }
 
-    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    String regex = "^[0-9]{5}$";
     Pattern pattern = Pattern.compile(regex);
 
     public void updateShippingAddress(Address address) {
@@ -57,7 +57,6 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkError) {
-        //TODO: check this immediately
         if (null != thsBaseView && null != thsBaseView.getFragmentActivity()) {
             if (null == sdkError) {
                 AmwellLog.d("updateShipAddress", "success");
@@ -69,7 +68,6 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
                     final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
                     thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
                 }
-                //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
             } else {
                 ((THSShippingAddressFragment)thsBaseView).showError( THSSDKErrorFactory.getErrorType(((THSShippingAddressFragment)thsBaseView).getContext(), ANALYTICS_UPDATE_SHIPPING_ADDRESS,sdkError), false, false);
                 AmwellLog.e("updateShipAddress", sdkError.toString());

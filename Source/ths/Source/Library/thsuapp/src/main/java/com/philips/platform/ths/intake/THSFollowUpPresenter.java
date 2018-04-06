@@ -108,4 +108,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         }
     }
 
+    public void checkForInputLength(int length) {
+        if(length == 10){
+            thsFollowUpViewInterfaces.hideInlineError();
+        }
+    }
 }

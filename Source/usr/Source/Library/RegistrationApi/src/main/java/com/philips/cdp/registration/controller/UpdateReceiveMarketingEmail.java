@@ -14,6 +14,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
@@ -32,6 +33,8 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private boolean mReceiveMarketingEmail;
 
+    private static final String TAG =  UpdateReceiveMarketingEmail.class.getSimpleName();
+
     public UpdateReceiveMarketingEmail(Context context) {
         super(context);
         mJanrainInitializer = new JanrainInitializer();
@@ -41,6 +44,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
                                                    updateUserDetailsHandler,
                                            final boolean receiveMarketingEmail) {
+        RLog.d(TAG,"updateMarketingEmailStatus : is called");
         mUpdateUserDetails = updateUserDetailsHandler;
         mReceiveMarketingEmail = receiveMarketingEmail;
         if (isJanrainInitializeRequired()) {
@@ -64,13 +68,14 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
+                RLog.d(TAG,"performActualUpdate : updateUser.update is called");
             }
         } catch (JSONException e) {
-            e.printStackTrace();
             if (null != mUpdateUserDetails)
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
                                 onUpdateFailedWithError(-1));
+            RLog.e(TAG,e.getMessage());
         }
     }
 
@@ -85,8 +90,9 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 mUpdatedUserdata.saveToDisk(mContext);
+                RLog.d(TAG,"performLocalUpdate : saveToDisk");
             } catch (JSONException e) {
-                e.printStackTrace();
+                RLog.e(TAG,e.getMessage());
             }
         }
     }

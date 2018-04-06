@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.events;
 
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,11 +19,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class UserRegistrationHelper {
 
+    private final String TAG = UserRegistrationHelper.class.getSimpleName();
+
     /* User registration helper*/
     private static volatile UserRegistrationHelper eventHelper;
 
     /* User registration listeners */
-    private CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
+    private final CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
 
     /**
      * Class constructor
@@ -33,6 +36,7 @@ public class UserRegistrationHelper {
 
     /**
      * {@code UserRegistrationHelper} method for User registration helper get instance
+     *
      * @return eventHelper UserRegistratinHelper object
      */
     public static synchronized UserRegistrationHelper getInstance() {
@@ -49,11 +53,13 @@ public class UserRegistrationHelper {
 
     /**
      * {@code registerEventNotification} method to registration event notification
+     *
      * @param observer UserRegistrationListener object
      */
     public synchronized void registerEventNotification(UserRegistrationListener observer) {
+        RLog.d(TAG, "registerEventNotification");
         synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null && observer != null) {
+            if (observer != null) {
                 for (int i = 0; i < userRegistrationListeners.size(); i++) {
                     UserRegistrationListener tmp = userRegistrationListeners.get(i);
                     if (tmp.getClass() == observer.getClass()) {
@@ -67,11 +73,13 @@ public class UserRegistrationHelper {
 
     /**
      * {@code unregisterEventNotification} method to unregister event notification
+     *
      * @param observer UserRegistrationListener object
      */
     public synchronized void unregisterEventNotification(UserRegistrationListener observer) {
+        RLog.d(TAG, "unregisterEventNotification");
         synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null && observer != null) {
+            if (observer != null) {
                 for (int i = 0; i < userRegistrationListeners.size(); i++) {
                     UserRegistrationListener tmp = userRegistrationListeners.get(i);
                     if (tmp.getClass() == observer.getClass()) {
@@ -82,72 +90,15 @@ public class UserRegistrationHelper {
         }
     }
 
-/*
-    */
-/**
-     * {@code notifyonUserRegistrationCompleteEventOccurred} method to Notify on user registration complete event occurred
-     * @param activity
-     *//*
-
-    public synchronized void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
-        synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onUserRegistrationComplete(activity);
-                    }
-                }
-            }
-        }
-    }
-*/
-
-/*
-    */
-/**
-     * {@code notifyOnPrivacyPolicyClickEventOccurred} method to notify on privace policy click event occurred
-     * @param activity
-     *//*
-
-    public synchronized void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
-        synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onPrivacyPolicyClick(activity);
-                    }
-                }
-            }
-        }
-    }
-*/
-/*
-    *//**
-     * {@code notifyOnTermsAndConditionClickEventOccurred} method to notify on terms and condition click event occurred
-     * @param activity
-     *//*
-    public synchronized void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
-        synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onTermsAndConditionClick(activity);
-                    }
-                }
-            }
-        }
-    }*/
-
     /**
      * {@code notifyOnUserLogoutSuccess} method to notify on user logout success
      */
     public synchronized void notifyOnUserLogoutSuccess() {
+        RLog.d(TAG, "notifyOnUserLogoutSuccess");
         synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onUserLogoutSuccess();
-                    }
+            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+                if (eventListener != null) {
+                    eventListener.onUserLogoutSuccess();
                 }
             }
         }
@@ -157,12 +108,11 @@ public class UserRegistrationHelper {
      * {@code notifyOnUserLogoutFailure} method to notify on user logout failure
      */
     public synchronized void notifyOnUserLogoutFailure() {
+        RLog.d(TAG, "notifyOnUserLogoutFailure");
         synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onUserLogoutFailure();
-                    }
+            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+                if (eventListener != null) {
+                    eventListener.onUserLogoutFailure();
                 }
             }
         }
@@ -172,12 +122,11 @@ public class UserRegistrationHelper {
      * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
      */
     public synchronized void notifyOnLogoutSuccessWithInvalidAccessToken() {
+        RLog.d(TAG, "notifyOnLogoutSuccessWithInvalidAccessToken");
         synchronized (userRegistrationListeners) {
-            if (userRegistrationListeners != null) {
-                for (UserRegistrationListener eventListener : userRegistrationListeners) {
-                    if (eventListener != null) {
-                        eventListener.onUserLogoutSuccessWithInvalidAccessToken();
-                    }
+            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+                if (eventListener != null) {
+                    eventListener.onUserLogoutSuccessWithInvalidAccessToken();
                 }
             }
         }

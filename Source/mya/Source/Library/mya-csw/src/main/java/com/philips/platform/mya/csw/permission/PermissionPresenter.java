@@ -96,7 +96,8 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     private void postConsentChange(ConsentDefinition definition, boolean consentGiven) {
         toggleStatus = consentGiven;
         permissionInterface.showProgressDialog();
-        CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
+        ConsentManagerInterface consentManager = CswInterface.getCswComponent().getConsentManager();
+        consentManager.storeConsentState(definition, consentGiven, this);
     }
 
     @Override
@@ -124,7 +125,14 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     public void onPostConsentFailed(ConsentError error) {
         adapter.onCreateConsentFailed(togglePosition, error);
         permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
+
+        String dialogTitle = mContext.getString(R.string.csw_problem_occurred_error_title);
+        String dialogMessage = toErrorMessage(error);
+        if(error.getErrorCode() == ConsentError.CONSENT_ERROR_NO_CONNECTION) {
+            dialogTitle = mContext.getString(R.string.mya_Offline_title);
+            dialogMessage = mContext.getString(R.string.mya_Offline_message);
+        }
+        permissionInterface.showErrorDialog(false, dialogTitle, dialogMessage);
     }
 
     @Override

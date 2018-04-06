@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
-    private String LOG_TAG = "RegisterTraditional";
+    private String TAG = RegisterTraditional.class.getSimpleName();
 
     private Context mContext;
 
@@ -52,6 +52,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onSuccess() {
+        RLog.d(TAG,"onSuccess : is called");
         Jump.saveToDisk(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         ThreadUtils.postInMainThread(mContext,()->
@@ -60,12 +61,13 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onCode(String code) {
-
+        RLog.d(TAG,"onCode : is called");
     }
 
     @Override
     public void onFailure(SignInError error) {
         try {
+            RLog.d(TAG,"onFailure : is called");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
             if (error.captureApiError.code == -1) {
                 userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
@@ -84,7 +86,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void registerUserInfoForTraditional(String firstName, String lastName, String mUserEmailorMobile,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail
     ) {
-
+        RLog.d(TAG,"registerUserInfoForTraditional : is called");
         mProfile = new DIUserProfile();
         mProfile.setGivenName(firstName);
         mProfile.setFamilyName(lastName);
@@ -100,16 +102,16 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
-            RLog.d(LOG_TAG, "Jump initialized, registering");
             if (mTraditionalRegisterHandler != null) {
                 registerNewUserUsingTraditional();
+                RLog.d(TAG, "registerUserInfoForTraditional : registerNewUserUsingTraditional");
             }
             return;
 
 
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.d(LOG_TAG, "Jump not initialized, initializing");
+            RLog.d(TAG, "registerUserInfoForTraditional : Jump not initialized, initializing");
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
 
@@ -150,7 +152,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onFlowDownloadSuccess() {
         if (mTraditionalRegisterHandler != null) {
-            RLog.d(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, registering user");
+            RLog.d(TAG, "onFlowDownloadSuccess : registerNewUserUsingTraditional");
             registerNewUserUsingTraditional();
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
@@ -158,7 +160,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.d(LOG_TAG, "Jump not initialized, was initialized but failed");
+        RLog.d(TAG, "onFlowDownloadFailure : is called");
         if (mTraditionalRegisterHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
@@ -173,12 +175,14 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onRegisterSuccess() {
+        RLog.d(TAG, "onRegisterSuccess : is called");
         ThreadUtils.postInMainThread(mContext,()->
         mTraditionalRegisterHandler.onRegisterSuccess());
     }
 
     @Override
     public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        RLog.d(TAG, "onRegisterFailedWithFailure : is called");
         ThreadUtils.postInMainThread(mContext,()->
         mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
     }

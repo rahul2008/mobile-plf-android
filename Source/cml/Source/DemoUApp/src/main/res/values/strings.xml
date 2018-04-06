@@ -97,4 +97,17 @@
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
     <string name="cml_pin_to_set">Enter pin to set</string>
     <string name="base64_pin_error">Please provide a correct base64 encoded pin!</string>
+
+    <string name="cml_ble_connection_params">Connection parameters</string>
+    <string name="cml_hint_slowadmin">Minimum interval for slow advertising (20~10240ms)</string>
+    <string name="cml_hint_slowadmax">Maximum interval for slow advertising (20~10240ms)</string>
+    <string name="cml_hint_slowadtimeout">Timeout for slow advertising (s)</string>
+    <string name="cml_switch_slowadenabled">Slow advertisement</string>
+    <string name="cml_hint_fastadmin">Minimum interval for fast advertising (20~10240ms)</string>
+    <string name="cml_hint_fastadmax">Maximum interval for fast advertising (20~10240ms)</string>
+    <string name="cml_hint_fastadtimeout">Timeout for fast advertising (s)</string>
+    <string name="cml_hint_connmin">Minimum connection interval (7~4000ms)</string>
+    <string name="cml_hint_connmax">Maximum connection interval (7~4000ms)</string>
+    <string name="cml_hint_connslavelatency">Connection slave latency (0~499ms)</string>
+    <string name="cml_hint_connsupertimeout">Connection supervision timeout (100~32000ms)</string>
 </resources>

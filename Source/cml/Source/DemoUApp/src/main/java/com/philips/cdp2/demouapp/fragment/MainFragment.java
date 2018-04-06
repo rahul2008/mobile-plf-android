@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) rootview.findViewById(R.id.cml_container);
+        ViewPager viewPager = rootview.findViewById(R.id.cml_container);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -60,7 +60,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        TabLayout tabLayout = (TabLayout) rootview.findViewById(R.id.cml_tabs);
+        TabLayout tabLayout = rootview.findViewById(R.id.cml_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return rootview;

@@ -188,6 +188,7 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         if (null != baseState) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(serviceId);
+            webViewStateData.setTitle(actContext.getString(R.string.csw_privacy_notice));
             baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }
