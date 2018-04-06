@@ -25,10 +25,10 @@ import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
  */
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
-    private final ConsentError NO_CONNECTION_ERROR = new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION);
-    private AppInfraInterface appInfra;
+    private static final ConsentError NO_CONNECTION_ERROR = new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION);
     private final Context context;
     private final String TAG = MarketingConsentHandler.class.getSimpleName();
+    private AppInfraInterface appInfra;
 
     /**
      * @param appInfra
