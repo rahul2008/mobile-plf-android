@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -291,8 +292,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
-        key = key.toUpperCase();
-        group = group.toUpperCase();
+        key = key.toUpperCase(Locale.US);
+        group = group.toUpperCase(Locale.US);
         Object object = null;
         if (null == jsonObject) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
@@ -362,14 +363,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         final String key = iteratorKey.next();
                         try {
                             final Object objectKey = objectGroup.opt(key);
-                            newJsonChildObject.put(key.toUpperCase(), objectKey);
+                            newJsonChildObject.put(key.toUpperCase(Locale.US), objectKey);
                         } catch (JSONException e) {
                             // Something went wrong!
                             throw new RuntimeException(e);
                         }
 
                     }
-                    newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
+                    newJsonGroup.put(keyGroup.toUpperCase(Locale.US), newJsonChildObject);
 
                 } catch (JSONException e) {
                     // Something went wrong!
