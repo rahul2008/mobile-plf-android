@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -22,12 +21,12 @@ import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrate
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
+import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
@@ -48,7 +47,8 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final BleDeviceCache deviceCache;
     @NonNull
-    private final ScheduledThreadPoolExecutor requestExecutor;
+    @VisibleForTesting
+    protected final VerboseExecutor requestExecutor;
 
     private final DeviceCacheListener<BleCacheData> deviceCacheListener = new DeviceCacheListener<BleCacheData>() {
         @Override
@@ -122,7 +122,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
-        this.requestExecutor = new ScheduledThreadPoolExecutor(1);
+        this.requestExecutor = new VerboseExecutor();
 
         final BleCacheData cacheData = deviceCache.getCacheData(cppId);
         if (cacheData != null) {
@@ -216,11 +216,12 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
      */
     @Override
     public void disableCommunication() {
-        if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
+        disconnectAfterRequest.set(true);
+
+        if (isAvailable() && requestExecutor.isIdle()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.disconnect();
         }
-        disconnectAfterRequest.set(true);
     }
 
     @VisibleForTesting

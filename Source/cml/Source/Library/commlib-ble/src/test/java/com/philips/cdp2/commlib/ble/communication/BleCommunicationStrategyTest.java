@@ -5,10 +5,9 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
-
+import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -70,5 +69,31 @@ public class BleCommunicationStrategyTest {
         strategy.unsubscribe(PORTNAME, PRODUCT_ID, responseHandler);
 
         verify(responseHandler).onSuccess(anyString());
+    }
+
+    @Test
+    public void givenCommunicationISEnabledAndExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDevice() {
+        strategy.enableCommunication();
+        strategy.disableCommunication();
+
+        // TODO MARCO: verify disconnectAfterRequest is true
+        // TODO MARCO: verify device disconnected
+    }
+
+    @Test
+    public void givenCommunicationISEnabledAndExecutorIsNotIdle_whenCommunicationIsDisabled_thenDisconnectDevice() {
+        strategy.enableCommunication();
+        strategy.requestExecutor.getQueue().add(generateTask());
+        strategy.disableCommunication();
+
+        // TODO MARCO: verify disconnectAfterRequest is true
+    }
+
+    @NonNull
+    private Runnable generateTask() {
+        return new Runnable() {
+            @Override
+            public void run() {}
+        };
     }
 }
