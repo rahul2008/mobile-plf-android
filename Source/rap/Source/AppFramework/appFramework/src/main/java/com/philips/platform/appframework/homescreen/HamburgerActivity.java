@@ -48,7 +48,6 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -244,7 +243,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_with_shopping_cart, null); // layout which contains your button.
 
         actionBarTitle = (ActionBarTextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(R.string.app_name));

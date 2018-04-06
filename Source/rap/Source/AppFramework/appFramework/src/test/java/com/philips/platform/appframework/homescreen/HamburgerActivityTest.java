@@ -6,7 +6,6 @@
 
 package com.philips.platform.appframework.homescreen;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,25 +17,21 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.SideBar;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +39,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
@@ -59,7 +53,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(CustomRobolectricRunner.class)
@@ -120,7 +113,7 @@ public class HamburgerActivityTest {
         sideBar = (SideBar) hamburgerActivity.findViewById(R.id.sidebar_layout);
 
         View customView = LayoutInflater.from(hamburgerActivity).
-                inflate(R.layout.af_action_bar_shopping_cart, null);
+                inflate(R.layout.af_action_bar_with_shopping_cart, null);
         hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         resource = hamburgerActivity.getResources();
     }
