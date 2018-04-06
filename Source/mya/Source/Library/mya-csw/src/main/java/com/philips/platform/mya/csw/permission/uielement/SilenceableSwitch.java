@@ -33,11 +33,11 @@ public class SilenceableSwitch extends Switch {
         super.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(listener == null) {
+                if (listener == null) {
                     return;
                 }
 
-                if(willNotify) {
+                if (willNotify) {
                     listener.onCheckedChanged(compoundButton, checked);
                 }
             }

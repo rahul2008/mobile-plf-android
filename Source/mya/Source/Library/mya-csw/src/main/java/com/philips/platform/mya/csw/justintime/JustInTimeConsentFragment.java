@@ -58,6 +58,12 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.trackPageName();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
     }

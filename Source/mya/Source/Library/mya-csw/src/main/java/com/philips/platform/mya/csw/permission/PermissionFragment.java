@@ -13,7 +13,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -23,12 +22,15 @@ import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogTextResources;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.dialogs.DialogView;
 import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
+import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -39,9 +41,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener, View.OnClickListener {
+public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
 
-    public static final String TAG = "PermissionView";
+    public static final String TAG = "PermissionFragment";
     private ProgressDialogView progressDialog;
 
     private Unbinder unbinder;
@@ -51,6 +53,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
+    private PermissionContract.Presenter presenter;
+
+    @Override
+    public void setPresenter(final PermissionContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
 
     @Override
     public int getTitleResourceId() {
@@ -58,8 +66,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.csw_permission_view, container, false);
+    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        android.view.View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         if (getArguments() != null)
@@ -69,14 +77,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.trackPageName();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        if (getRestClient().isInternetReachable()) {
-            PermissionPresenter presenter = getPermissionPresenter();
-            presenter.getConsentStatus(consentDefinitionList);
-        } else {
-            showErrorDialog(true, getString(R.string.csw_offline_title), getString(R.string.csw_offline_message));
-        }
+        presenter.fetchConsentStates(consentDefinitionList);
     }
 
     @Override
@@ -102,6 +111,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
                 onPrivacyNoticeClicked();
             }
         });
+
+        new PermissionPresenter(this, adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -136,18 +147,32 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void showErrorDialog(boolean goBack, String title, String message) {
+    public void showErrorDialog(boolean goBack, int titleRes, ConsentError error) {
+        String message = toErrorMessage(error);
+        String title = getContext().getString(titleRes);
+        showErrorDialog(goBack, title, message);
+    }
+
+    @Override
+    public void showErrorDialog(boolean goBack, int titleRes, int messageRes) {
+        String title = getContext().getString(titleRes);
+        String message = getContext().getString(messageRes);
+        showErrorDialog(goBack, title, message);
+    }
+
+    private void showErrorDialog(boolean goBack, String title, String message) {
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
         dialogView.showDialog(getActivity(), title, message);
     }
 
     @Override
-    public void showConfirmRevokeConsentDialog(ConfirmDialogView dialog, ConfirmDialogView.ConfirmDialogResultHandler handler) {
+    public void showConfirmRevokeConsentDialog(final ConfirmDialogTextResources dialogTexts, final ConfirmDialogView.ConfirmDialogResultHandler handler) {
+        ConfirmDialogView dialog = new ConfirmDialogView();
+        dialog.setupDialog(dialogTexts);
         dialog.setResultHandler(handler);
         dialog.showDialog(getActivity());
     }
-
 
     @Override
     public void onHelpClicked(int helpText) {
@@ -155,7 +180,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(android.view.View view) {
         getFragmentManager().popBackStack();
     }
 
@@ -164,11 +189,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
-    @VisibleForTesting
-    protected PermissionPresenter getPermissionPresenter() {
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, adapter);
-        permissionPresenter.mContext = getContext();
-        return permissionPresenter;
+    private String toErrorMessage(ConsentError error) {
+        return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
     }
 
     @NonNull

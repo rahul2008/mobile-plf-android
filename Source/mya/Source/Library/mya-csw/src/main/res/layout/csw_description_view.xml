@@ -21,6 +21,7 @@
             android:textSize="22sp"
             android:text="@string/csw_consent_help_label"
             android:textStyle="bold"
+            android:textAlignment="viewStart"
             />
 
         <!-- Dynamic help text -->
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/button_toggle_text_size"
-            />
+            android:textAlignment="viewStart"/>
 
     </LinearLayout>
 

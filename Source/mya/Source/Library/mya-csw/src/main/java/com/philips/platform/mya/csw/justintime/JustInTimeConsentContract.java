@@ -17,5 +17,7 @@ public interface JustInTimeConsentContract {
         void onConsentGivenButtonClicked();
 
         void onConsentRejectedButtonClicked();
+
+        void trackPageName();
     }
 }

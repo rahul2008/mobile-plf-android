@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -34,7 +35,6 @@ import static org.mockito.Mockito.when;
 
 public class MarketingConsentHandlerTest {
 
-
     @Captor
     private ArgumentCaptor<RefreshUserHandler> refreshUserHandler;
     @Mock
@@ -43,6 +43,8 @@ public class MarketingConsentHandlerTest {
     private PostConsentTypeCallback givenPostConsentCallback;
     @Mock
     private User mockUser;
+    @Mock
+    private AppInfraInterface appInfraMock;
     @Captor
     private ArgumentCaptor<MarketingConsentHandler.MarketingUpdateCallback> marketingCallbackCaptor;
     @Captor
@@ -59,18 +61,155 @@ public class MarketingConsentHandlerTest {
     private Context mockContext;
     @Mock
     private InternationalizationInterface internationalizationInterfaceMock;
+    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        when(appInfraMock.getRestClient()).thenReturn(restInterfaceMock);
     }
 
     @Test
-    public void checkConsent_1() throws Exception {
-        givenConsentDefinition();
+    public void fetchConsent_0() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(true);
+        //whenCheckingConsent();
+        whenRefreshUser();
+        thenMarketingConsentIsRetrieved(ConsentStates.active);
+    }
+
+    @Test
+    public void fetchConsent_1() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
         givenMarketingConsentIsGiven(true);
         whenRefreshUser();
         thenMarketingConsentIsRetrieved(ConsentStates.active);
+    }
+
+
+    @Test
+    public void fetchConsent_2() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenRefreshUser();
+//        whenCheckingConsents();
+        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
+    }
+
+    @Test
+    public void fetchConsent_3() throws Exception {
+        givenConsentDefinitionTypeNotSame();
+        givenMarketingConsentIsGiven(true);
+        //whenCheckingConsent();
+        whenRefreshUser();
+        //thenErrorCallbackIsCalled();
+    }
+
+    @Test
+    public void fetchConsent_itShouldReportErrorWhenCheckingConsentsThrowsAnException() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenRefreshUser();
+        whenCheckingConsentsThrowsException();
+        //  thenErrorCallbackIsCalled();
+        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
+    }
+
+    @Test
+    public void fetchConsent_itShouldReportErrorWhenCheckingConsentsOnFetchConsentThrowsAnException() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenRefreshUserOnFetchConsentStates();
+        whenCheckingConsentsThrowsException();
+    }
+
+    @Test
+    public void fetchConsent_itShouldReportErrorWhenCheckingConsentThrowsAnException() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenCheckingConsentThrowsException();
+        thenErrorCallbackIsCalled();
+    }
+
+    @Test
+    public void fetchConsent_callsBackWithNoConnectionErrorCode_WhenThereIsNoInternetConnection() throws Exception {
+        givenThereIsNoInternetConnection();
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        whenFetchingConsent(USR_MARKETING_CONSENT);
+        thenFetchConsentCallBackIsCalledWith(ConsentError.CONSENT_ERROR_NO_CONNECTION);
+    }
+
+    @Test
+    public void postConsent_itShouldGiveMarketingConsent() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenStatusToPost(true);
+        whenPostingConsentDefinitionSucceeds();
+        theMarketingConsentIsReportedToCallback(ConsentStates.active);
+    }
+
+    @Test
+    public void postConsent_itShouldRejectMarketingConsent() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenStatusToPost(false);
+        whenPostingConsentDefinitionSucceeds();
+        theMarketingConsentIsReportedToCallback(ConsentStates.rejected);
+    }
+
+    @Test
+    public void postConsent_itShouldNotGiveMarketingConsentWhenPostingAcceptedOperationFails() throws Exception {
+        givenPhoneLanguageIs("nl-NL");
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenStatusToPost(true);
+        whenPostingConsentDefinitionFails(501);
+        thenPostConsentCallBackIsCalledWith(501);
+    }
+
+    @Test
+    public void postConsent_itShouldNotGiveMarketingConsentWhenPostRejectedOperationFails() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenStatusToPost(false);
+        whenPostingConsentDefinitionFails(501);
+        thenPostConsentCallBackIsCalledWith(501);
+    }
+
+    @Test
+    public void postConsent_itShouldGiveMarketingConsentWhenRefreshUserFailed() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenRefreshUserFailed();
+        thenErrorCallbackIsCalled();
+    }
+
+    @Test
+    public void postConsent_itShouldGiveMarketingConsentsWhenRefreshUserFailed() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenMarketingConsentIsGiven(false);
+        whenRefreshUserFailedOnFetchConsentState();
+        thenErrorCallbackIsCalled();
+    }
+
+    @Test
+    public void postConsent_callsBackWithNoConnectionErrorCode_WhenThereIsNoInternetConnection() throws Exception {
+        givenConsentDefinition(USR_MARKETING_CONSENT, 42);
+        givenThereIsNoInternetConnection();
+        whenPostingConsentDefinition();
+        thenPostConsentCallBackIsCalledWith(ConsentError.CONSENT_ERROR_NO_CONNECTION);
+    }
+
+    private void givenThereIsNoInternetConnection() {
+        restInterfaceMock.isInternetAvailable = false;
+    }
+
+    private void givenConsentDefinitionTypeNotSame() {
+        givenConsentDefinition = new ConsentDefinition(0,0, Collections.singletonList("type"), 42);
+        subject = new TestMarketingConsentHandler(mockContext);
+    }
+
+    private void whenFetchingConsent(String consentType) {
+        subject.fetchConsentTypeState(consentType, givenCheckConsentCallback);
     }
 
     private void whenRefreshUser() {
@@ -86,126 +225,11 @@ public class MarketingConsentHandlerTest {
         refreshUserHandler.getValue().onRefreshUserSuccess();
     }
 
-
-    @Test
-    public void checkConsent_0() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(true);
-        //whenCheckingConsent();
-        whenRefreshUser();
-        thenMarketingConsentIsRetrieved(ConsentStates.active);
-    }
-
-
-    @Test
-    public void checkConsents_2() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenRefreshUser();
-//        whenCheckingConsents();
-        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
-    }
-
-
-    @Test
-    public void checkConsent_3() throws Exception {
-        givenConsentDefinitionTypeNotSame();
-        givenMarketingConsentIsGiven(true);
-        //whenCheckingConsent();
-        whenRefreshUser();
-        //thenErrorCallbackIsCalled();
-    }
-
-    private void givenConsentDefinitionTypeNotSame() {
-        givenConsentDefinition = new ConsentDefinition(0,0, Collections.singletonList("type"), 42);
-        subject = new TestMarketingConsentHandler(mockContext);
-    }
-
-    @Test
-    public void itShouldReportErrorWhenCheckingConsentsThrowsAnException() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenRefreshUser();
-        whenCheckingConsentsThrowsException();
-        //  thenErrorCallbackIsCalled();
-        thenMarketingConsentIsRetrieved(ConsentStates.rejected);
-    }
-
-
-    @Test
-    public void itShouldReportErrorWhenCheckingConsentsOnFetchConsentThrowsAnException() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenRefreshUserOnFetchConsentStates();
-        whenCheckingConsentsThrowsException();
-    }
-
-
-    @Test
-    public void itShouldReportErrorWhenCheckingConsentThrowsAnException() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenCheckingConsentThrowsException();
-        thenErrorCallbackIsCalled();
-    }
-
     private void whenCheckingConsentThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
         subject.fetchConsentTypeState(null, givenCheckConsentCallback);
         verify(mockUser).refreshUser(refreshUserHandler.capture());
         refreshUserHandler.getValue().onRefreshUserSuccess();
-    }
-
-    @Test
-    public void itShouldGiveMarketingConsent() throws Exception {
-        givenPhoneLanguageIs("nl-NL");
-        givenConsentDefinition();
-        givenStatusToPost(true);
-        whenPostingConsentDefinitionSucceeds();
-        theMarketingConsentIsReportedToCallback(ConsentStates.active);
-    }
-
-    @Test
-    public void itShouldRejectMarketingConsent() throws Exception {
-        givenPhoneLanguageIs("nl-NL");
-        givenConsentDefinition();
-        givenStatusToPost(false);
-        whenPostingConsentDefinitionSucceeds();
-        theMarketingConsentIsReportedToCallback(ConsentStates.rejected);
-    }
-
-    @Test
-    public void itShouldNotGiveMarketingConsentWhenPostingAcceptedOperationFails() throws Exception {
-        givenPhoneLanguageIs("nl-NL");
-        givenConsentDefinition();
-        givenStatusToPost(true);
-        whenPostingConsentDefinitionFails(501);
-        thenErrorIsReportedToCallback(501);
-    }
-
-    @Test
-    public void itShouldNotGiveMarketingConsentWhenPostRejectedOperationFails() throws Exception {
-        givenConsentDefinition();
-        givenStatusToPost(false);
-        whenPostingConsentDefinitionFails(501);
-        thenErrorIsReportedToCallback(501);
-    }
-
-
-    @Test
-    public void itShouldGiveMarketingConsentWhenRefreshUserFailed() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenRefreshUserFailed();
-        thenErrorCallbackIsCalled();
-    }
-
-    @Test
-    public void itShouldGiveMarketingConsentsWhenRefreshUserFailed() throws Exception {
-        givenConsentDefinition();
-        givenMarketingConsentIsGiven(false);
-        whenRefreshUserFailedOnFetchConsentState();
-        thenErrorCallbackIsCalled();
     }
 
     private void whenRefreshUserFailed() {
@@ -222,10 +246,10 @@ public class MarketingConsentHandlerTest {
     }
 
 
-    private void givenConsentDefinition() {
+    private void givenConsentDefinition(String consentType, int version) {
         final ArrayList<String> types = new ArrayList<>();
-        types.add(USR_MARKETING_CONSENT);
-        givenConsentDefinition = new ConsentDefinition(0,0, types, 42);
+        types.add(consentType);
+        givenConsentDefinition = new ConsentDefinition(0,0, types, version);
         subject = new TestMarketingConsentHandler(mockContext);
 
     }
@@ -242,6 +266,11 @@ public class MarketingConsentHandlerTest {
     private void whenCheckingConsentsThrowsException() {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
         subject.fetchConsentTypeState(null, givenCheckConsentCallback);
+    }
+
+    private void whenPostingConsentDefinition() {
+        List<String> types = givenConsentDefinition.getTypes();
+        subject.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(), givenPostConsentCallback);
     }
 
     private void whenPostingConsentDefinitionSucceeds() {
@@ -268,8 +297,13 @@ public class MarketingConsentHandlerTest {
         assertEquals(active, consentGetCaptor.getValue().getConsentState());
     }
 
-    private void thenErrorIsReportedToCallback(int errorCode) {
+    private void thenPostConsentCallBackIsCalledWith(int errorCode) {
         verify(givenPostConsentCallback).onPostConsentFailed(errorCaptor.capture());
+        assertEquals(errorCode, errorCaptor.getValue().getErrorCode());
+    }
+
+    private void thenFetchConsentCallBackIsCalledWith(int errorCode) {
+        verify(givenCheckConsentCallback).onGetConsentsFailed(errorCaptor.capture());
         assertEquals(errorCode, errorCaptor.getValue().getErrorCode());
     }
 
@@ -285,7 +319,7 @@ public class MarketingConsentHandlerTest {
     private class TestMarketingConsentHandler extends MarketingConsentHandler {
 
         public TestMarketingConsentHandler(Context context) {
-            super(context);
+            super(appInfraMock, context);
         }
 
         @Override
