@@ -27,6 +27,13 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
     public RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
     public ConsentManagerInterface consentManagerInterface;
 
+    public String appTaggingComponentId;
+    public String appTaggingComponentVersion;
+    public String taggedActionPageName;
+    public Map<String, String> taggedValues;
+    public String taggedPage;
+    public Map<String, String> taggedPageValues;
+
     @Override
     public SecureStorageInterface getSecureStorage() {
         return null;
@@ -71,11 +78,14 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
     public AppTaggingInterface getTagging() {
         return new AppTaggingInterface() {
 
+
             PrivacyStatus status;
 
             @Override
-            public AppTaggingInterface createInstanceForComponent(String s, String s1) {
-                return null;
+            public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
+                appTaggingComponentId = componentId;
+                appTaggingComponentVersion = componentVersion;
+                return this;
             }
 
             @Override
@@ -99,8 +109,9 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             }
 
             @Override
-            public void trackPageWithInfo(String s, Map<String, String> map) {
-
+            public void trackPageWithInfo(String pageName, Map<String, String> keyValues) {
+                taggedPage = pageName;
+                taggedPageValues = keyValues;
             }
 
             @Override
@@ -109,8 +120,9 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             }
 
             @Override
-            public void trackActionWithInfo(String s, Map<String, String> map) {
-
+            public void trackActionWithInfo(String pageName, Map<String, String> keyValues) {
+                taggedActionPageName = pageName;
+                taggedValues = keyValues;
             }
 
             @Override

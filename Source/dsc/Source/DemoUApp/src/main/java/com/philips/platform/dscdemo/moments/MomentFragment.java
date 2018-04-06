@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.dscdemo.moments;
 
 import android.app.Activity;
@@ -28,7 +28,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
@@ -318,7 +317,6 @@ public class MomentFragment extends DSBaseFragment
         }
     }
 
-
     private void showToastOnUiThread(final String msg) {
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
@@ -329,7 +327,7 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void reloadData(final List<? extends  Moment> data) {
+    private void reloadData(final List<? extends Moment> data) {
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
@@ -388,5 +386,4 @@ public class MomentFragment extends DSBaseFragment
             }
         });
     }
-
 }
