@@ -14,10 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
+import com.philips.platform.mya.csw.permission.PermissionContract;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -42,7 +43,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     private final HelpClickListener helpClickListener;
 
     @Nullable
-    private ConsentToggleListener consentToggleListener;
+    private PermissionContract.Presenter presenter;
 
     @Nullable
     private LinkSpanClickListener privacyNoticeClickListener;
@@ -53,8 +54,8 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         this.helpClickListener = helpClickListener;
     }
 
-    public void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
-        this.consentToggleListener = consentToggleListener;
+    public void setPresenter(@Nullable PermissionContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
     public void setPrivacyNoticeClickListener(@Nullable LinkSpanClickListener privacyNoticeClickListener) {
@@ -65,7 +66,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public BasePermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_row, parent, false);
-            return new PermissionViewHolder(view, parent.getWidth(), helpClickListener, consentToggleListener);
+            return new PermissionViewHolder(view, parent.getWidth(), helpClickListener, presenter);
 
         } else if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_header, parent, false);

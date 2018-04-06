@@ -22,10 +22,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.platform.mya.csw.permission.ConsentToggleListener;
+import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
-import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.permission.PermissionContract;
 import com.philips.platform.mya.csw.permission.uielement.SilenceableSwitch;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -35,19 +35,19 @@ class PermissionViewHolder extends BasePermissionViewHolder {
     private Label label;
     private Label help;
     @Nullable
-    private ConsentToggleListener consentToggleListener;
+    private PermissionContract.Presenter presenter;
     @NonNull
     private HelpClickListener helpClickListener;
 
     private int heilightColorCode;
     private int deafaultColorCode;
 
-    PermissionViewHolder(@NonNull View itemView, int parentWidth, @NonNull HelpClickListener helpClickListener, @Nullable ConsentToggleListener consentToggleListener) {
+    PermissionViewHolder(@NonNull View itemView, int parentWidth, @NonNull HelpClickListener helpClickListener, @Nullable PermissionContract.Presenter presenter) {
         super(itemView, parentWidth);
         this.toggle = itemView.findViewById(R.id.toggleicon);
         this.label = itemView.findViewById(R.id.consentText);
         this.help = itemView.findViewById(R.id.consentHelp);
-        this.consentToggleListener = consentToggleListener;
+        this.presenter = presenter;
         this.helpClickListener = helpClickListener;
         this.help.setPaintFlags(this.help.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -64,9 +64,9 @@ class PermissionViewHolder extends BasePermissionViewHolder {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (consentToggleListener != null) {
+                if (presenter != null) {
                     setLoading(consentView);
-                    consentToggleListener.onToggledConsent(getLayoutPosition(), consentView.getDefinition(), b, new ConsentToggleListener.ConsentToggleResponse() {
+                    presenter.onToggledConsent(getLayoutPosition(), consentView.getDefinition(), b, new PermissionContract.Presenter.ConsentToggleResponse() {
                         @Override
                         public void handleResponse(boolean result) {
                             toggle.setChecked(result, false);
