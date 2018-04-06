@@ -99,6 +99,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     @Override
     public void onResume() {
         super.onResume();
+        hideKeypad(getActivity());
         setConnectionListener(this);
 
     }
