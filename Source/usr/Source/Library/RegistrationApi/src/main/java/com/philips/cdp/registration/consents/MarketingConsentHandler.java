@@ -25,6 +25,7 @@ import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
  */
 public class MarketingConsentHandler implements ConsentHandlerInterface {
 
+    private final ConsentError NO_CONNECTION_ERROR = new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION);
     private AppInfraInterface appInfra;
     private final Context context;
     private final String TAG = MarketingConsentHandler.class.getSimpleName();
@@ -49,19 +50,23 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
      */
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        getUser().refreshUser(new RefreshUserHandler() {
-            @Override
-            public void onRefreshUserSuccess() {
-                getMarketingConsentDefinition(consentType, callback);
-                RLog.d(TAG, "onRefreshUserSuccess ");
-            }
+        if (appInfra.getRestClient().isInternetReachable()) {
+            getUser().refreshUser(new RefreshUserHandler() {
+                @Override
+                public void onRefreshUserSuccess() {
+                    getMarketingConsentDefinition(consentType, callback);
+                    RLog.d(TAG, "onRefreshUserSuccess ");
+                }
 
-            @Override
-            public void onRefreshUserFailed(int error) {
-                getMarketingConsentDefinition(consentType, callback);
-                RLog.e(TAG, "onRefreshUserFailed ");
-            }
-        });
+                @Override
+                public void onRefreshUserFailed(int error) {
+                    getMarketingConsentDefinition(consentType, callback);
+                    RLog.e(TAG, "onRefreshUserFailed ");
+                }
+            });
+        } else {
+            callback.onGetConsentsFailed(NO_CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -76,7 +81,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
             getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
         } else {
-            callback.onPostConsentFailed(new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+            callback.onPostConsentFailed(NO_CONNECTION_ERROR);
         }
     }
 
