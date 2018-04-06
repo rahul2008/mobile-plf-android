@@ -1,21 +1,16 @@
 package com.philips.cdp2.commlib.util;
 
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class VerboseExecutor extends ThreadPoolExecutor {
+public class VerboseExecutor extends ThreadPoolExecutor implements VerboseLinkedBlockingQueueListener {
 
-    private boolean isExecuting = false;
+    private volatile boolean isExecuting = false;
 
     public VerboseExecutor() {
-        super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue <Runnable>());
-    }
+        super(1, 1, 0L, TimeUnit.MILLISECONDS, new VerboseLinkedBlockingQueue<Runnable>());
 
-    @Override
-    protected void beforeExecute(Thread t, Runnable r) {
-        super.beforeExecute(t, r);
-        this.isExecuting = true;
+        ((VerboseLinkedBlockingQueue)getQueue()).listener = this;
     }
 
     @Override
@@ -24,7 +19,13 @@ public class VerboseExecutor extends ThreadPoolExecutor {
         this.isExecuting = false;
     }
 
+    @Override
+    public void beforeTakingOperation() {
+        this.isExecuting = true;
+    }
+
     public boolean isIdle() {
         return getQueue().isEmpty() && !this.isExecuting;
     }
 }
+

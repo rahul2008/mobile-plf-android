@@ -34,8 +34,10 @@ public class VerboseExecutorTest {
 
     @Test
     public void givenQueueIsNotEmpty_whenOperationIsStarted_thenIsNotIdle() {
-        executor.getQueue().add(generateTask());
-
+        executor.execute(generateTask());
+        executor.execute(generateTask());
+        executor.execute(generateTask());
+        executor.execute(generateTask());
         executor.execute(generateTask());
 
         assertThat(this.executor.isIdle()).isFalse();
