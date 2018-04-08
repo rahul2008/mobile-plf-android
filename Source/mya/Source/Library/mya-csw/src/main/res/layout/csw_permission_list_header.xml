@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:textAlignment="viewStart"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/button_toggle_text_size"
         />

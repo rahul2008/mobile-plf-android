@@ -21,7 +21,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:layout_toStartOf="@id/toggleicon"
-        android:gravity="center_vertical|start"
+        android:textAlignment="viewStart"
         tools:text="ConsentText" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -35,7 +35,7 @@
         android:layout_toStartOf="@id/toggleicon"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="center_vertical|start"
+        android:textAlignment="viewStart"
         android:paddingTop="4dp"
         android:text="@string/csw_consent_help_label"
         android:textColor="@color/reg_hyperlink_highlight_color" />
