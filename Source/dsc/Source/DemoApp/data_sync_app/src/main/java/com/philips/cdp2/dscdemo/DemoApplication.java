@@ -21,19 +21,29 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
+import com.philips.platform.dscdemo.consents.ConsentDetailType;
+import com.philips.platform.mya.catk.CatkInitializer;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.catk.CatkInterface;
 import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
@@ -95,8 +105,16 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     private void initCatk() {
-        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface);
-        ConsentsClient.getInstance().init(catkBuilder.build());
+        CatkInputs catkInputs = new CatkInputs.Builder()
+                .setContext(this)
+                .setAppInfraInterface(mAppInfraInterface)
+                .build();
+
+        CatkInitializer initializer = new CatkInitializer();
+        initializer.initCatk(catkInputs);
+
+        ConsentManagerInterface csManager = mAppInfraInterface.getConsentManager();
+        csManager.registerConsentDefinitions(createConsentDefinitions());
     }
 
     private void initAppInfra() {
@@ -355,6 +373,27 @@ public class DemoApplication extends MultiDexApplication {
     public AppInfraInterface getAppInfra() {
         return mAppInfraInterface;
     }
+
+    private List<ConsentDefinition> createConsentDefinitions() {
+        List<ConsentDefinition> definitions = new ArrayList<>();
+        // Moments
+        definitions.add(new ConsentDefinition(
+                R.string.dscdemo_moment_consent_text,
+                R.string.dscdemo_moment_consent_help,
+                Collections.singletonList("moment"),
+                1,
+                R.string.dscdemo_moment_consent_revokewarning
+        ));
+        // Insights
+        definitions.add(new ConsentDefinition(
+                R.string.dscdemo_coaching_consent_text,
+                R.string.dscdemo_coaching_consent_help,
+                Collections.singletonList("coaching"),
+                1
+        ));
+        return definitions;
+    }
+
 }
 
 

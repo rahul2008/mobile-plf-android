@@ -53,6 +53,8 @@ dependencies {
 
     debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
     releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
+    debugCompile project(path: ':uid', configuration: 'debug')
+    releaseCompile project(path: ':uid', configuration: 'release')
 
     testCompile deps.junit
 }

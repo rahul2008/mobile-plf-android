@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="cdp.philips.com.mydemoapp">
+    package="com.philips.cdp2.dscdemo">
 
     <application
         android:name="com.philips.cdp2.dscdemo.DemoApplication"
