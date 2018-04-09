@@ -3,7 +3,7 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package cdp.philips.com.mydemoapp;
+package com.philips.cdp2.dscdemo;
 
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
@@ -17,19 +17,12 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.urdemo.URDemouAppDependencies;
-import com.philips.platform.urdemo.URDemouAppInterface;
-import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
@@ -76,7 +69,7 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     private void initCatk() {
-        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface));
+        CatkInputs.Builder catkBuilder = new CatkInputs.Builder().setContext(this).setAppInfraInterface(mAppInfraInterface);
         ConsentsClient.getInstance().init(catkBuilder.build());
     }
 
@@ -112,8 +105,7 @@ public class DemoApplication extends MultiDexApplication {
 
         initAppIdentity(configuration);
 
-        UappInterface standardRegistrationInterface = new URDemouAppInterface();
-        standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
+
     }
 
     public void initHSDP(Configuration configuration) {

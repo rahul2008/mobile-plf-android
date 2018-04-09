@@ -1,4 +1,4 @@
-package cdp.philips.com.mydemoapp;
+package com.philips.cdp2.dscdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import cdp.philips.com.mydemoapp.R;
 
 public class LauncherActivity extends Activity {
     private DSDemoAppuAppInterface dsDemoAppuAppInterface;

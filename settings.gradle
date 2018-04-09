@@ -127,8 +127,11 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
-//include ':dataServicesApp'
-//project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
+
+// DSC _ DataServices Component DemoApp
+include ':dataServicesApp'
+project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
+
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
