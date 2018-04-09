@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.consents.MarketingConsentHandler;
+import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -34,7 +34,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.mya.catk.ConsentInteractor;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.mya.csw.CswDependencies;
 import com.philips.platform.mya.csw.CswInterface;
@@ -52,7 +51,6 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -64,13 +62,13 @@ import com.philips.platform.urdemo.URDemouAppSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
 public class LaunchFragment extends BaseFragment implements View.OnClickListener,MyAccountUIEventListener {
 
     public int checkedId = R.id.radioButton;
-    private ArrayList<ConsentConfiguration> consentConfigurationList;
     Context context;
     @Nullable
     @Override
@@ -107,7 +105,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-        try {
             MyaLaunchInput launchInput = new MyaLaunchInput(getContext());
             MyaTabConfig myaTabConfig = new MyaTabConfig(getString(R.string.mya_config_tab), new TabTestFragment());
             String[] profileItems = {"MYA_My_details","Test_fragment"};
@@ -140,9 +137,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     }
                 }), launchInput);
             }
-        } catch (CatkInputs.InvalidInputException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -157,7 +151,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     } else if (itemName.equals("MYA_Privacy_Settings")) {
                         RestInterface restInterface = getRestClient();
                         if (restInterface.isInternetReachable()) {
-                            CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra(), consentConfigurationList);
+                            CswDependencies dependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra());
                             PermissionHelper.getInstance().setMyAccountUIEventListener(LaunchFragment.this);
                             CswInterface cswInterface = getCswInterface();
                             UappSettings uappSettings = new UappSettings(activity);
@@ -274,35 +268,20 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         CatkInputs catkInputs = new CatkInputs.Builder()
                 .setContext(getContext())
                 .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
-                .setConsentDefinitions(createCatkDefinitions(getContext()))
                 .build();
         ConsentsClient.getInstance().init(catkInputs);
         List<ConsentDefinition> urDefinitions = createUserRegistrationDefinitions(getContext());
-        setConsentConfiguration(getContext(), MyAccountDemoUAppInterface.getAppInfra(), catkInputs, urDefinitions);
     }
 
-    /**
-     * <p>
-     * Creates a list of ConsentDefinitions</p
-     *
-     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
-     * @return non-null list (may be empty though)
-     */
-    @VisibleForTesting
-    List<ConsentDefinition> createCatkDefinitions(Context context) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        return definitions;
+    private ConsentDefinition getClickStreamConsentDefinition(Context context) {
+        return new ConsentDefinition(R.string.RA_MYA_Click_Stream_Hosting_Consent, R.string.RA_MYA_Consent_Clickstream_Help,
+                Collections.singletonList(MyAccountDemoUAppInterface.getAppInfra().getTagging().getClickStreamConsentIdentifier()), 1);
     }
+
 
     private List<ConsentDefinition> createUserRegistrationDefinitions(Context context) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         return definitions;
-    }
-
-    private void setConsentConfiguration(Context context, AppInfraInterface appInfra, CatkInputs catkInputs, List<ConsentDefinition> urDefinitions) {
-        consentConfigurationList = new ArrayList<>();
-        consentConfigurationList.add(new ConsentConfiguration(catkInputs.getConsentDefinitions(), new ConsentInteractor(ConsentsClient.getInstance())));
-        consentConfigurationList.add(new ConsentConfiguration(urDefinitions, new MarketingConsentHandler(context, urDefinitions, appInfra)));
     }
 
     private void showDialog(Activity activity, String title, String message) {
@@ -310,9 +289,18 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(context);
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(context,createConsentDefinitions(context));
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
+    }
+
+    @VisibleForTesting
+    List<ConsentDefinition> createConsentDefinitions(Context context) {
+        final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
+        consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
+        consentDefinitions.add(getClickStreamConsentDefinition(context));
+        MyAccountDemoUAppInterface.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);
+        return consentDefinitions;
     }
 
 }
