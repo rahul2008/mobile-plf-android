@@ -207,4 +207,6 @@ public class RegConstants {
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
     public static final int CAMPAIGN_ID_UNAVAILABLE= 412;
+
+    public static String NO_INTERNET = "No Internet";
 }

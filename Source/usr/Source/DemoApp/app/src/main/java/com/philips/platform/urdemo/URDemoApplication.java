@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -17,10 +18,11 @@ import com.philips.themesettings.ThemeHelper;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
+import com.philips.cdp.registration.events.EventListener;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
-public class URDemoApplication extends Application {
+public class URDemoApplication extends Application implements EventListener {
 
 
     private static final String CHINA_CODE = "CN";
@@ -79,6 +81,8 @@ public class URDemoApplication extends Application {
 
         boolean abc = RegistrationConfiguration.getInstance().isHsdpFlow();
         RLog.d("hsdp","hsdp"+abc);
+
+        EventHelper.getInstance().registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE,this);
     }
 
     private void clearHSDP() {
@@ -374,5 +378,13 @@ public class URDemoApplication extends Application {
         navigationColor = (themeHelper.initNavigationRange() == null) ? NavigationColor.ULTRA_LIGHT : themeHelper.initNavigationRange();
         contentColor = (themeHelper.initContentTonalRange() == null) ? ContentColor.ULTRA_LIGHT : themeHelper.initContentTonalRange();
         return new ThemeConfiguration(this, colorRange, navigationColor, contentColor);
+    }
+
+    @Override
+    public void onEventReceived(String event) {
+
+       if (RegConstants.NO_INTERNET.equals(event)) {
+           RLog.d(this.getClass().getSimpleName(), "NoInternet : " + event);
+        }
     }
 }
