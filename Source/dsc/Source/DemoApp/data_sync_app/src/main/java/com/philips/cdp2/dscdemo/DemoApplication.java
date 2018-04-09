@@ -6,18 +6,29 @@
 package com.philips.cdp2.dscdemo;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.injection.AppInfraModule;
+import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
+import com.philips.cdp.registration.injection.NetworkModule;
+import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.injection.RegistrationModule;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
+import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
 import com.philips.platform.mya.catk.CatkInputs;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -61,11 +72,26 @@ public class DemoApplication extends MultiDexApplication {
             initRegistration(Configuration.DEVELOPMENT);
         }
 
+        UappDependencies deps = new DSDemoAppuAppDependencies(getAppInfra(), null);
+        UappSettings settings = new DSDemoAppuAppSettings(this);
+
+        RegistrationComponent registrationComponent = initDaggerComponents(deps, settings);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponent);
+
         if (new User(this).isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
         }
 
         initCatk();
+    }
+
+    @NonNull
+    private RegistrationComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+        return DaggerRegistrationComponent.builder()
+                .networkModule(new NetworkModule(uappSettings.getContext()))
+                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
+                .registrationModule(new RegistrationModule(uappSettings.getContext()))
+                .build();
     }
 
     private void initCatk() {
