@@ -3,19 +3,23 @@ package com.philips.cdp2.commlib.util;
 import android.support.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class VerboseLinkedBlockingQueueTest {
 
-    VerboseLinkedBlockingQueueListenerStub listenerStub;
+    @Mock
+    VerboseLinkedBlockingQueueListener listenerMock;
+
     VerboseLinkedBlockingQueue queue;
 
     @Before
     public void setUp() {
-        this.listenerStub = new VerboseLinkedBlockingQueueListenerStub();
-        this.queue = new VerboseLinkedBlockingQueue<Runnable>();
-        this.queue.listener = listenerStub;
+        initMocks(this);
+
+        queue = new VerboseLinkedBlockingQueue<Runnable>();
     }
 
     @Test
@@ -23,17 +27,17 @@ public class VerboseLinkedBlockingQueueTest {
         queue.add(generateTask());
         queue.take();
 
-        assertThat(this.listenerStub.beforeTakingOperationCalled).isTrue();
+        verify(listenerMock, never()).onBeforeTake();
     }
 
     @Test
     public void givenListenerIsSet_whenOperationIsTaken_thenListenerIsCalled() throws InterruptedException {
-        this.queue.listener = listenerStub;
-
+        queue.setListener(listenerMock);
         queue.add(generateTask());
+
         queue.take();
 
-        assertThat(this.listenerStub.beforeTakingOperationCalled).isTrue();
+        verify(listenerMock, times(1)).onBeforeTake();
     }
 
     @NonNull
@@ -42,15 +46,5 @@ public class VerboseLinkedBlockingQueueTest {
             @Override
             public void run() {}
         };
-    }
-}
-
-class VerboseLinkedBlockingQueueListenerStub implements VerboseLinkedBlockingQueueListener {
-
-    boolean beforeTakingOperationCalled = false;
-
-    @Override
-    public void beforeTakingOperation() {
-        beforeTakingOperationCalled = true;
     }
 }

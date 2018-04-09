@@ -78,7 +78,8 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     };
 
     @NonNull
-    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+    @VisibleForTesting
+    AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
 
     @NonNull
     private Handler callbackHandler;
