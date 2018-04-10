@@ -237,11 +237,14 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setLinkUrl(final String url) {
+    public void setLinkUrl(String url) {
         final SpannableString myString;
         if (!TextUtils.isEmpty(url)) {
+            AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
+            String appName = appIdentityInterface.getAppName();
+            url = url+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
             philipsWebsite.setClickable(true);
-            myString = new SpannableString(getString(R.string.MYA_philips_website));
+            myString = new SpannableString(getString(R.string.MYA_Visit_Website));
             ClickableSpan clickableSpan = getClickableSpan(url);
             myString.setSpan(clickableSpan, 0, myString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             philipsWebsite.setText(myString);
@@ -262,10 +265,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 Bundle args = new Bundle();
                 args.putString(PHILIPS_LINK, url);
                 fragment.setArguments(args);
-                AppIdentityInterface appIdentityInterface = MyaHelper.getInstance().getAppInfra().getAppIdentity();
-                String appName = appIdentityInterface.getAppName();
-                String tagUrl = url+"?origin=15_global_en_"+appName+"-app_"+appName+"-app";
-                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", tagUrl);
+                MyaHelper.getInstance().getAppTaggingInterface().trackActionWithInfo("sendData", "exitLinkName", url);
                 showFragment(fragment);
             }
         };
