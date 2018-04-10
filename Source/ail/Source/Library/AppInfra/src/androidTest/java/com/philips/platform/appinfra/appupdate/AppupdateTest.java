@@ -126,6 +126,7 @@ public class AppupdateTest extends AppInfraInstrumentation {
 			assertNull(mAppUpdateInterface.getToBeDeprecatedMessage());
 			assertNull(mAppUpdateInterface.getUpdateMessage());
 			assertNull(mAppUpdateInterface.getDeprecateMessage());
+			assertNull(mAppUpdateInterface.getMinimumOSMessage());
 			assertFalse(mAppUpdateInterface.isDeprecated());
 			assertFalse(mAppUpdateInterface.isToBeDeprecated());
 			assertFalse(mAppUpdateInterface.isUpdateAvailable());
@@ -146,7 +147,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -177,7 +179,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -206,7 +209,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -234,7 +238,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\",\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -265,7 +270,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -298,7 +304,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -330,7 +337,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -362,7 +370,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -394,7 +403,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -427,7 +437,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -458,7 +469,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"test update available message\"\n" +
+				"      \"currentVersionMessage\":\"test update available message\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -488,7 +500,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"test update available message\"\n" +
+				"      \"currentVersionMessage\":\"test update available message\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -519,7 +532,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -543,7 +557,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
@@ -566,7 +581,8 @@ public class AppupdateTest extends AppInfraInstrumentation {
 				"   \"messages\":{  \n" +
 				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
 				"      \"deprecatedVersionMessage\":\"test deprecated version message\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+				"      \"currentVersionMessage\":\"A new version of the App is now available.\",\n" +
+				"      \"minimumOSMessage\":\"You need to update os greater than android 5.0 to run this application.\"\n" +
 				"   },\n" +
 				"   \"requirements\":{  \n" +
 				"      \"minimumOSVersion\":\"15\"\n" +
