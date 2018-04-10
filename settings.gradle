@@ -128,9 +128,9 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
 
-// DSC _ DataServices Component DemoApp
-include ':dataServicesApp'
-project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
+// DSC - DataServices Component DemoApp (uncomment this section if you want to use)
+//include ':dataServicesApp'
+//project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
 
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
