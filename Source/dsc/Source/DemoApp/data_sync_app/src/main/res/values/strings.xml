@@ -69,4 +69,5 @@
     <string name="dscdemo_coaching_consent_help">DSC DemoApp needs your consent to provide you with coaching.</string>
     <string name="dsc_launcher_welcome">Welcome to DSC DemoApp</string>
     <string name="dscdemo_launcher_fragment">Launch as Fragment</string>
+    <string name="dscdemo_launcher_activity">Launch as Activity</string>
 </resources>

@@ -51,10 +51,11 @@ android {
 dependencies {
     compile deps.support.design
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
     releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
-    debugCompile project(path: ':uid', configuration: 'debug')
-    releaseCompile project(path: ':uid', configuration: 'release')
+    debugCompile project(path: ':uikitLib', configuration: 'debug')
+    releaseCompile project(path: ':uikitLib', configuration: 'release')
 
     testCompile deps.junit
 }
