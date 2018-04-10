@@ -6,10 +6,10 @@
 package com.philips.cdp2.dscdemo;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -18,35 +18,25 @@ import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
 import com.philips.cdp.registration.injection.NetworkModule;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.injection.RegistrationModule;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
-import com.philips.platform.dscdemo.consents.ConsentDetailType;
+import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.mya.catk.CatkInitializer;
 import com.philips.platform.mya.catk.CatkInputs;
-import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.mya.catk.CatkInterface;
-import com.philips.platform.mya.catk.ConsentsClient;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfig;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,14 +52,11 @@ public class DemoApplication extends MultiDexApplication {
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
-    private static DemoApplication sDemoApplicationInstance = null;
-    public AppInfraInterface mAppInfraInterface;
+    public AppInfra mAppInfraInterface;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        sDemoApplicationInstance = this;
 
         initAppInfra();
 
@@ -91,8 +78,11 @@ public class DemoApplication extends MultiDexApplication {
         UappDependencies deps = new DSDemoAppuAppDependencies(getAppInfra(), null);
         UappSettings settings = new DSDemoAppuAppSettings(this);
 
+
         RegistrationComponent registrationComponent = initDaggerComponents(deps, settings);
         RegistrationConfiguration.getInstance().setComponent(registrationComponent);
+        Jump.init(this, new SecureStorage(mAppInfraInterface));
+        RegistrationHelper.getInstance().initializeUserRegistration(this);
 
         if (new User(this).isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
@@ -146,9 +136,6 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     public void initRegistration(Configuration configuration) {
-        if (mAppInfraInterface == null) {
-            mAppInfraInterface = new AppInfra.Builder().build(this);
-        }
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
@@ -159,11 +146,7 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     public void initHSDP(Configuration configuration) {
-        if (mAppInfraInterface == null) {
-            mAppInfraInterface = new AppInfra.Builder().build(this);
-        }
-        final AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
@@ -370,10 +353,6 @@ public class DemoApplication extends MultiDexApplication {
                         configError);
                 break;
         }
-    }
-
-    public static DemoApplication getInstance() {
-        return sDemoApplicationInstance;
     }
 
     public AppInfraInterface getAppInfra() {
