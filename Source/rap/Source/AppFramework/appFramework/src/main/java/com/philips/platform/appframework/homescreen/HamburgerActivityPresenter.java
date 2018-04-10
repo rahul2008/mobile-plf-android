@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -89,9 +90,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
-            // Commented as part of Plan A removal.
-           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;*/
+            case SHOPPING_CART:
+                return HOME_SHOPPING_CART;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
             case MENU_OPTION_TELEHEALTHSERVICES:
@@ -110,4 +110,12 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_FRAGMENT;
         }
     }
+
+    public void launchShoppingCartState() {
+        ShoppingCartFlowState shoppingCartFlowState = new ShoppingCartFlowState();
+        shoppingCartFlowState.init(getApplicationContext());
+        final FragmentLauncher fragmentLauncher = getFragmentLauncher();
+        shoppingCartFlowState.navigate(fragmentLauncher);
+    }
+
 }
