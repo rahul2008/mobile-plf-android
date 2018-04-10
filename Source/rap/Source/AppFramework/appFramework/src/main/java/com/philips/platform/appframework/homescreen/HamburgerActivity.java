@@ -23,11 +23,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -136,9 +141,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+        menu.clear();
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.catalog_view_menu, menu);
+        RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.badge).getActionView();
+        final TextView viewById = badgeLayout.findViewById(R.id.item_count);
+        viewById.setText("12");
+        super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -491,6 +500,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 Intent intent=new Intent(this,ThemeSelectionActivity.class);
                 startActivityForResult(intent, START_THEME_SELECTOR);
                 break;
+            case R.id.badge:
+                Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show();
+                break;
+
 
         }
         return super.onOptionsItemSelected(item);
