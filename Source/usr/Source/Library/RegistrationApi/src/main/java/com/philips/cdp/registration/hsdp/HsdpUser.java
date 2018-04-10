@@ -351,14 +351,11 @@ public class HsdpUser {
                         final Map<String, Object> rawResponse = dhpAuthenticationResponse1.
                                 rawResponse;
 
-                        HsdpUserRecord hsdpUserRecord = new HsdpUserRecord();
-                        hsdpUserRecord = hsdpUserRecord.parseHsdpUserInfo(rawResponse);
+                        final HsdpUserRecord hsdpUserRecord = new HsdpUserRecord();
+                        hsdpUserRecord.parseHsdpUserInfo(rawResponse);
                         hsdpUserRecord.setRefreshSecret(refreshSecret);
                         HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
-                        Encryption encryption = new Encryption();
-                        final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
                         saveToDisk(new UserFileWriteListener() {
-
                             @Override
                             public void onFileWriteSuccess() {
                                 handler.post(() -> {
@@ -366,16 +363,16 @@ public class HsdpUser {
                                             + rawResponse.toString());
                                     HsdpUser hsdpUser = new HsdpUser(mContext);
                                     if (hsdpUser.getHsdpUserRecord() != null)
-                                        if (null != userUID) {
-                                            AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                                                    "evar2", userUID);
-                                            RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
-
+                                        if (RegistrationConfiguration.getInstance().isHsdpUuidShouldUpload()) {
+                                            Encryption encryption = new Encryption();
+                                            final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
+                                            if (null != userUID) {
+                                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                                        "evar2", userUID);
+                                                RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
+                                            }
                                         }
-
-                                    hsdpUser.getHsdpUserRecord().getUserUUID();
-                                    ThreadUtils.postInMainThread(mContext, () ->
-                                            loginHandler.onLoginSuccess());
+                                    ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
                                 });
                             }
 
