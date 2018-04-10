@@ -33,7 +33,7 @@ public class LaunchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_launch, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_dsc_launch, container, false);
 
         // Bind click listeners to Buttons
         fragmentView.findViewById(R.id.dscdemo_launcher_button_activity).setOnClickListener(launchClickListener);

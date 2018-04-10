@@ -70,4 +70,6 @@
     <string name="dsc_launcher_welcome">Welcome to DSC DemoApp</string>
     <string name="dscdemo_launcher_fragment">Launch as Fragment</string>
     <string name="dscdemo_launcher_activity">Launch as Activity</string>
+    <string name="dsc_launcher_consent_warning_top">This app has no way to change consent.</string>
+    <string name="dsc_launcher_consent_warning_bottom">Please use RefApp or Postman.</string>
 </resources>
