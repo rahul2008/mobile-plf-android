@@ -207,6 +207,22 @@ public class RegistrationConfiguration {
     }
 
     /**
+     * Status of HSDP UUID uploading
+     *
+     * @return boolean
+     */
+    public boolean isHsdpUuidShouldUpload() {
+        Object obj = appConfiguration.getHSDPUuidUpload();
+        if (obj != null) {
+            RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
+            return Boolean.parseBoolean((String) obj);
+        }
+        RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : false");
+        return false;
+    }
+
+
+    /**
      * Get minimium age for country
      *
      * @param countryCode Country code
@@ -271,7 +287,6 @@ public class RegistrationConfiguration {
     public String getFallBackHomeCountry() {
         return appConfiguration.getFallBackHomeCountry();
     }
-
 
     public synchronized void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;
