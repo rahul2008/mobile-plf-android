@@ -88,7 +88,6 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
         menu.findItem(R.id.menu_theme_settings).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
