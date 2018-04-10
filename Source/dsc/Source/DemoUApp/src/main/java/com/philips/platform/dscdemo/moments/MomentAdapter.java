@@ -109,7 +109,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mOptions = (ImageView) itemView.findViewById(R.id.dots);
                 mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             }
-            mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
+            mIsSynced = (TextView) itemView.findViewById(R.id.is_synced_detail);
         }
     }
 
