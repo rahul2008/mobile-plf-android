@@ -23,7 +23,6 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -302,20 +301,7 @@ public class UserRegistrationInitializer {
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                if(new NetworkUtility(context).isInternetAvailable()){
-                    RLog.i(TAG,"with internet");
-                    UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
-                }else{
-                    RLog.i(TAG,"with out internet");
-                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.NO_INTERNET));
-                }
-
-            }
-        }).start();
+        UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
     }
 
     private void registerJumpInitializationListener(Context context) {
