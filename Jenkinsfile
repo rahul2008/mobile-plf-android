@@ -127,6 +127,7 @@ pipeline {
                 script {
                     echo "Running TICS..."
                     sh """#!/bin/bash -le
+                        source ~/.profile
                         TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         TICSQServer -project OPA-Android -nosanity
                     """
