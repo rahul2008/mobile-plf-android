@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NeuraWhatMeanFragment extends Fragment {
+public class NeuraWhatMeanFragment extends AbstractOnboardingBaseFragment {
 
 
 

@@ -9,14 +9,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Allow"/>
+        android:text="@string/Ra_neura_allow" />
 
     <Button
         android:id="@+id/mayBeLater"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/allowButton"
-        android:text="May be later"/>
+        android:layout_centerInParent="true"
+        android:text="@string/RA_neura_mayBeLater" />
+
+    <Button
+        android:id="@+id/philipsPrivacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mayBeLater"
+        android:layout_centerInParent="true"
+        android:text="@string/RA_DLS_about_privacy" />
 
 
 </RelativeLayout>

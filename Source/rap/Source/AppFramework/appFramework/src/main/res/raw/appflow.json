@@ -78,8 +78,14 @@
             "eventId": "allow",
             "nextStates": [
               {
-                "condition": [],
+                "condition": [
+                  "isLoggedIn"
+                ],
                 "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
               }
             ]
           },
@@ -87,8 +93,14 @@
             "eventId": "mayBeLater",
             "nextStates": [
               {
-                "condition": [],
+                "condition": [
+                  "isLoggedIn"
+                ],
                 "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
               }
             ]
           },
@@ -97,7 +109,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "privacy_settings"
+                "nextState": "web_view"
               }
             ]
           }

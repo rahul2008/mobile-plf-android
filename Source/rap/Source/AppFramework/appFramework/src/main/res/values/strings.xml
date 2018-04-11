@@ -192,4 +192,7 @@
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
+  <string name="RA_Allow_Sharing">Allow sharing</string>
+  <string name="Ra_neura_allow">Allow</string>
+  <string name="RA_neura_mayBeLater">May be later</string>
 </resources>
