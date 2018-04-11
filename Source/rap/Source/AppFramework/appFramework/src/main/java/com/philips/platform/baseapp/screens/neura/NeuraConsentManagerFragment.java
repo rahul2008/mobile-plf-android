@@ -53,6 +53,6 @@ public class NeuraConsentManagerFragment extends Fragment implements BackEventLi
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         targetFlowManager.getBackState(targetFlowManager.getCurrentState());
         getActivity().getSupportFragmentManager().popBackStack();
-        return false;
+        return true;
     }
 }
