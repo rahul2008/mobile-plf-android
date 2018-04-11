@@ -5,6 +5,8 @@ import java.io.*;
 
 public class RegistrationContentConfiguration implements Serializable {
 
+    private final String TAG = RegistrationContentConfiguration.class.getSimpleName();
+
     private static final long serialVersionUID = 1128016096756071383L;
 
     private String valueForRegistrationTitle;
@@ -25,11 +27,14 @@ public class RegistrationContentConfiguration implements Serializable {
 
     private boolean enableContinueWithouAccount;
 
+    private String optInActionBarText;
+
     public String getValueForRegistrationDescription() {
         return valueForRegistrationDescription;
     }
 
     public void setValueForRegistrationDescription(String valueForRegistrationDescription) {
+        RLog.i(TAG, "valueForRegistrationDescription :" + valueForRegistrationDescription);
         this.valueForRegistrationDescription = valueForRegistrationDescription;
     }
 
@@ -38,10 +43,9 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInActionBarText(String optInActionBarText) {
+        RLog.i(TAG, "optInActionBarText :" + optInActionBarText);
         this.optInActionBarText = optInActionBarText;
     }
-
-    private String optInActionBarText;
 
 
     public String getValueForRegistrationTitle() {
@@ -49,6 +53,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setValueForRegistrationTitle(String valueForRegistrationTitle) {
+        RLog.i(TAG, "valueForRegistrationTitle :" + valueForRegistrationTitle);
         this.valueForRegistrationTitle = valueForRegistrationTitle;
     }
 
@@ -57,6 +62,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setValueForEmailVerification(String valueForEmailVerification) {
+        RLog.i(TAG, "valueForEmailVerification :" + valueForEmailVerification);
         this.valueForEmailVerification = valueForEmailVerification;
     }
 
@@ -65,6 +71,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInTitleText(String optInTitleText) {
+        RLog.i(TAG, "optInTitleText :" + optInTitleText);
         this.optInTitleText = optInTitleText;
     }
 
@@ -73,6 +80,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInQuessionaryText(String optInQuessionaryText) {
+        RLog.i(TAG, "optInQuessionaryText :" + optInQuessionaryText);
         this.optInQuessionaryText = optInQuessionaryText;
     }
 
@@ -81,6 +89,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInDetailDescription(String optInDetailDescription) {
+        RLog.i(TAG, "optInDetailDescription :" + optInDetailDescription);
         this.optInDetailDescription = optInDetailDescription;
     }
 
@@ -89,6 +98,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInBannerText(String optInBannerText) {
+        RLog.i(TAG, "optInBannerText :" + optInBannerText);
         this.optInBannerText = optInBannerText;
     }
 
@@ -98,6 +108,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void enableLastName(boolean hideCreateAccountLastName) {
+        RLog.i(TAG, "enableLastName :" + hideCreateAccountLastName);
         this.enableLastName = hideCreateAccountLastName;
     }
 
@@ -106,6 +117,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void enableContinueWithouAccount(boolean hideHomeScreenContinueWithouAccount) {
+        RLog.i(TAG, "enableContinueWithouAccount :" + hideHomeScreenContinueWithouAccount);
         this.enableContinueWithouAccount = hideHomeScreenContinueWithouAccount;
     }
 
