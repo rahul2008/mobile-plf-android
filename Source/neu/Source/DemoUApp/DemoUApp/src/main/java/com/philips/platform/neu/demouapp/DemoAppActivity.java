@@ -9,7 +9,6 @@ package com.philips.platform.neu.demouapp;
 
 import android.os.Bundle;
 
-import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.uid.utils.UIDActivity;
 
 
