@@ -67,16 +67,16 @@ public class ConsentFragment extends DSBaseFragment implements
         mConsentAdapter = new ConsentAdapter(mConsentDetailList, mConsentPresenter);
         mProgressDialog = new ProgressDialog(mContext);
 
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
+        RecyclerView mRecyclerView = rootView.findViewById(R.id.lv_consent_detail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mConsentAdapter);
 
-        mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        mBtnOk = rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
         mBtnOk.setEnabled(false);
 
-        Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
+        Button mBtnCancel = rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
 
         fetchConsent();

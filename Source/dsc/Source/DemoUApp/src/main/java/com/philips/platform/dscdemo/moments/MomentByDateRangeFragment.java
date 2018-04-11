@@ -50,7 +50,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 
 	private MomentPresenter mMomentPresenter;
 	private MomentAdapter mMomentAdapter;
-	private ArrayList<? extends Moment> mMomentList = new ArrayList();
+	private ArrayList<? extends Moment> mMomentList = new ArrayList<>();
 	private String mMomentType;
 	private Date mStartDate;
 	private Date mEndDate;
@@ -107,18 +107,18 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.moment_by_daterange, container, false);
-		mMomentTypeEt = (EditText) view.findViewById(R.id.et_moment_type);
-		mMomentStartDateEt = (EditText) view.findViewById(R.id.et_moment_startDate);
-		mMomentEndDateEt = (EditText) view.findViewById(R.id.et_moment_endDate);
-		mMomentPageLimitEt = (EditText) view.findViewById(R.id.et_moment_pageLimit);
-		mPageNumberEt = (EditText) view.findViewById(R.id.et_moment_pageNumber);
-		mMomentOrdering = (Spinner) view.findViewById(R.id.momentOrdering);
-		mNoMomentInDateRange = (TextView) view.findViewById(R.id.tv_moment_date_range);
-		mFetchByDateTypeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_type);
-		mFetchByDateRangeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_range);
+		mMomentTypeEt = view.findViewById(R.id.et_moment_type);
+		mMomentStartDateEt = view.findViewById(R.id.et_moment_startDate);
+		mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
+		mMomentPageLimitEt = view.findViewById(R.id.et_moment_pageLimit);
+		mPageNumberEt = view.findViewById(R.id.et_moment_pageNumber);
+		mMomentOrdering = view.findViewById(R.id.momentOrdering);
+		mNoMomentInDateRange = view.findViewById(R.id.tv_moment_date_range);
+		mFetchByDateTypeBtn = view.findViewById(R.id.btn_fetch_by_date_type);
+		mFetchByDateRangeBtn = view.findViewById(R.id.btn_fetch_by_date_range);
 
 		mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, false);
-		mMomentsRecyclerView = (RecyclerView) view.findViewById(R.id.moment_dateRange_list);
+		mMomentsRecyclerView = view.findViewById(R.id.moment_dateRange_list);
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		mMomentsRecyclerView.setLayoutManager(layoutManager);
 		mMomentsRecyclerView.setAdapter(mMomentAdapter);

@@ -10,6 +10,7 @@ package com.philips.platform.mya.csw;
 public class CswConstants {
     public static final String DLS_THEME = "dlsTheme";
     public static final String CONSENT_DEFINITIONS = "consentDefinitions";
+
     public static class Tagging {
         public static final String COMPONENT_ID = "CSW";
         public static final String CONSENT_TYPE = "consentType";
