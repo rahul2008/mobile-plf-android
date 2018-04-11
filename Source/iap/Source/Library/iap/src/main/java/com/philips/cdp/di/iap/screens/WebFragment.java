@@ -27,8 +27,6 @@ public abstract class WebFragment extends InAppBaseFragment {
     public static final String TAG = WebFragment.class.getName();
     protected WebView mWebView;
     private String mUrl;
-    private ProgressBar mProgress;
-    private boolean mShowProgressBar = true;
 
 
     @Override
@@ -39,16 +37,12 @@ public abstract class WebFragment extends InAppBaseFragment {
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
 
-        mProgress = createCustomProgressBar(viewGroup,MEDIUM);
-        mProgress.setVisibility(View.GONE);
+        createCustomProgressBar(viewGroup,BIG);
 
         mUrl = getWebUrl();
         return viewGroup;
     }
 
-    void initProgressBar(){
-
-    }
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,7 +90,6 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            mProgress.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
 
@@ -108,6 +101,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         @SuppressWarnings("deprecation")
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            hideProgressBar();
         }
 
         @TargetApi(android.os.Build.VERSION_CODES.M)
@@ -123,10 +117,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageFinished(final WebView view, final String url) {
-            if (mProgress != null && mShowProgressBar) {
-                mShowProgressBar = false;
-                mProgress.setVisibility(View.GONE);
-            }
+            hideProgressBar();
             super.onPageFinished(view, url);
         }
     }

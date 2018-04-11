@@ -53,12 +53,12 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         @Override
         public void onSuccess(final int count) {
             updateCount(count);
-            dismissProgressDialog();
+           hideProgressBar();
         }
 
         @Override
         public void onFailure(final Message msg) {
-            dismissProgressDialog();
+            hideProgressBar();
         }
     };
     private ProgressBar mPTHBaseFragmentProgressBar;
@@ -101,11 +101,10 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void onDetach() {
         super.onDetach();
         NetworkUtility.getInstance().dismissErrorDialog();
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        hideProgressBar();
     }
 
-    public void showProgressDialog(Context context, String message) {
+   /* public void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(context));
         mProgressDialog.getWindow().setGravity(Gravity.CENTER);
         mProgressDialog.setCancelable(false);
@@ -117,19 +116,21 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         }
     }
 
+
+
     public void dismissProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
-    }
+    }*/
 
-    public boolean isProgressDialogShowing() {
+ /*   public boolean isProgressDialogShowing() {
         return mProgressDialog != null && mProgressDialog.isShowing();
-    }
+    }*/
 
-    public void changeProgressMessage(String message) {
+  /*  public void changeProgressMessage(String message) {
         mProgressDialog.setMessage(message);
-    }
+    }*/
 
     public void addFragment(InAppBaseFragment newFragment,
                             String newFragmentTag) {
@@ -204,7 +205,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void updateCount(final int count) {
         if (mIapListener != null) {
             mIapListener.onGetCartCount(count);
-            dismissProgressDialog();
+            hideProgressBar();
         }
     }
 
@@ -227,10 +228,10 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void handleDeliveryMode(Message msg, AddressController addressController) {
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            dismissProgressDialog();
+            hideProgressBar();
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            dismissProgressDialog();
+            hideProgressBar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -242,14 +243,14 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
 
-    public ProgressBar createCustomProgressBar(ViewGroup group, int size) {
+    public void createCustomProgressBar(ViewGroup group, int size) {
         ViewGroup parentView = (ViewGroup) getView();
         ViewGroup layoutViewGroup = group;
-        if(parentView != null){
+        if (parentView != null) {
             group = parentView;
         }
 
-        switch (size){
+        switch (size) {
             case BIG:
                 getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
                 break;
@@ -271,14 +272,18 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
         try {
             group.addView(mPTHBaseFragmentProgressBar);
-        }catch (Exception e){
+        } catch (Exception e) {
             layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
         }
 
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
         }
+    }
 
-        return mPTHBaseFragmentProgressBar;
+    public void hideProgressBar() {
+        if (mPTHBaseFragmentProgressBar != null) {
+            mPTHBaseFragmentProgressBar.setVisibility(View.GONE);
+        }
     }
 }
