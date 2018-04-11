@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.3.0"
+        classpath builddeps.pitest2
     }
 }
 
@@ -70,7 +70,7 @@ dependencies {
 
     testCompile deps.robolectric
     testCompile deps.robolectric_shadows
-    testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'
+    testCompile deps.commons_io
 
     androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
