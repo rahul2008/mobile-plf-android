@@ -250,31 +250,31 @@
                     android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
             </RelativeLayout>
 
-            <com.philips.platform.uid.view.widget.CheckBox
-                android:id="@+id/ths_credit_card_details_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ths_payment_detail_cvc_error_layout"
-                android:layout_marginBottom="@dimen/ths_fab_margin"
-                android:layout_marginTop="@dimen/ths_fab_margin"
-                android:text="@string/ths_credit_card_details_address_same_as_shipping_address" />
-
             <com.philips.platform.uid.view.widget.Label
 
                 android:id="@+id/shipping_address_text_label"
                 style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ths_credit_card_details_checkbox"
+                android:layout_below="@+id/ths_payment_detail_cvc_error_layout"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginTop="@dimen/ths_fab_margin"
                 android:text="@string/ths_address_shipping_address_string" />
+
+            <com.philips.platform.uid.view.widget.CheckBox
+                android:id="@+id/ths_credit_card_details_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shipping_address_text_label"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:text="@string/ths_credit_card_details_address_same_as_shipping_address" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/sa_address_line_one_text"
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/shipping_address_text_label"
+                android:layout_below="@+id/ths_credit_card_details_checkbox"
                 android:text="@string/ths_address_address_line_one" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -370,7 +370,8 @@
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:hint="@string/ths_pharmacy_search_hint"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:inputType="number" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.Label
