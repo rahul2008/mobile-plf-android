@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
+
 public class PermissionPresenter implements PermissionContract.Presenter, FetchConsentsCallback, PostConsentCallback {
 
     private static final String CONSENT_CENTER = "consentCenter";
@@ -143,7 +145,7 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
     @Override
     public void onPostConsentSuccess() {
         adapter.onCreateConsentSuccess(togglePosition, toggleStatus);
-        appTaggingInterface.trackActionWithInfo(CONSENT_CENTER, preparedTaggingInfo);
+        appTaggingInterface.trackActionWithInfo(SEND_DATA, preparedTaggingInfo);
         view.hideProgressDialog();
     }
 
