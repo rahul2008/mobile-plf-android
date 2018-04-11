@@ -41,7 +41,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
         setContentView(R.layout.csw_activity);
 
-        ivBack = (TextView) findViewById(R.id.csw_textview_back);
+        ivBack = findViewById(R.id.csw_textview_back);
         FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
         ivBack.setText(com.philips.cdp.registration.R.string.ic_reg_left);
         ivBack.setOnClickListener(this);
@@ -108,7 +108,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.csw_textview_header_title));
+        TextView tvTitle = findViewById(R.id.csw_textview_header_title);
         tvTitle.setText(getString(titleResourceID));
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);
@@ -119,7 +119,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.csw_textview_header_title));
+        TextView tvTitle = findViewById(R.id.csw_textview_header_title);
         tvTitle.setText(titleResourceText);
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);
