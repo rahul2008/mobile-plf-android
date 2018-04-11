@@ -7,7 +7,6 @@
 package com.philips.platform.ths.sdkerrors;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.SDKResponseSuggestion;
 
 public class THSSDKError {
@@ -21,7 +20,7 @@ public class THSSDKError {
         this.sdkError = sdkError;
     }
 
-    public SDKErrorReason getSDKErrorReason(){
+    public String getSDKErrorReason(){
         return sdkError.getSDKErrorReason();
     }
 

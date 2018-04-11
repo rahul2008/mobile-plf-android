@@ -12,8 +12,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.text.TextUtils;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -27,11 +25,8 @@ import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
+import javax.net.ssl.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -39,16 +34,8 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.SSLSession;
-
 import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.*;
 
 public class LanRequest extends Request {
 
@@ -85,8 +72,8 @@ public class LanRequest extends Request {
         this.url = String.format(Locale.US, networkNode.isHttps() ? BASEURL_PORTS_HTTPS : BASEURL_PORTS, networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), productId, portName);
     }
 
-    private String createDataToSend(final @NonNull Map<String, Object> dataMap) {
-        if (dataMap.isEmpty())
+    private String createDataToSend(final @Nullable Map<String, Object> dataMap) {
+        if (dataMap == null || dataMap.isEmpty())
             return null;
 
         String data = GsonProvider.get().toJson(dataMap, Map.class);
@@ -174,10 +161,10 @@ public class LanRequest extends Request {
         DICommLog.log(verbosity, tag, message);
     }
 
-    private Response handleHttpOk(InputStream inputStream) throws IOException {
+    private Response handleHttpOk(@NonNull InputStream inputStream) throws IOException {
         final String cypher = convertInputStreamToString(inputStream);
 
-        if (TextUtils.isEmpty(cypher)) {
+        if (cypher == null || cypher.isEmpty()) {
             log(ERROR, LOCALREQUEST, "Request failed - null response");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }

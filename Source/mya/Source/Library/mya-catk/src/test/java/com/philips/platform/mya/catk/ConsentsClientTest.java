@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -25,8 +26,6 @@ import com.philips.platform.mya.catk.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.mya.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.mya.catk.provider.AppInfraInfo;
 import com.philips.platform.mya.catk.provider.ComponentProvider;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
@@ -47,7 +46,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -168,7 +166,7 @@ public class ConsentsClientTest {
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
         givenServiceDiscoveryReturnsHomeCountry("US");
-        BackendConsent consent = new BackendConsent(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
+        ConsentDTO consent = new ConsentDTO(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
         consentsClient.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
@@ -256,18 +254,18 @@ public class ConsentsClientTest {
     private String momentConsentTimestamp = "2017-10-05T11:11:11.000Z";
     private String coachignConsentTimestamp = "2017-10-05T11:12:11.000Z";
     private String HSDP_UUID = "hsdp_user_id";
-    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
-    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "BackendConsent", ConsentStates.active, "Subject1");
+    private GetConsentDto momentConsentDto = new GetConsentDto(momentConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("moment", 0, "IN", "propName1", "appName1"), "ConsentDTO", ConsentStates.active, "Subject1");
+    private GetConsentDto coachingConsentDto = new GetConsentDto(coachignConsentTimestamp, ENGLISH_LOCALE, buildPolicyRule("coaching", 0, "IN", "propName1", "appName1"), "ConsentDTO", ConsentStates.active, "Subject1");
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
-    private BackendConsent momentConsent = new BackendConsent(ENGLISH_LOCALE, ConsentStates.active, "moment", 0, new DateTime(momentConsentTimestamp));
-    private List<BackendConsent> consents = Arrays.asList(momentConsent);
+    private ConsentDTO momentConsent = new ConsentDTO(ENGLISH_LOCALE, ConsentStates.active, "moment", 0, new DateTime(momentConsentTimestamp));
+    private List<ConsentDTO> consents = Arrays.asList(momentConsent);
 
     private static class ConsentResponseListenerImpl implements ConsentResponseListener {
-        public List<BackendConsent> responseData;
+        public List<ConsentDTO> responseData;
         public ConsentNetworkError error;
 
         @Override
-        public void onResponseSuccessConsent(List<BackendConsent> responseData) {
+        public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             this.responseData = responseData;
         }
 

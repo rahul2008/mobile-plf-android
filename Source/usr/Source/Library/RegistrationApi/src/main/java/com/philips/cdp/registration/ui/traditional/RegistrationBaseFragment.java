@@ -52,6 +52,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
+    private final static String TAG = RegistrationBaseFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -179,6 +180,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void consumeTouch(View view) {
+
+        RLog.d(TAG,"consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener(new OnTouchListener() {
@@ -296,6 +299,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
+        RLog.d(TAG,"scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -337,6 +341,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
             mProgressDialog.cancel();
         }
     }
-    
 
+
+    public static void setHeightWidthToZero() {
+        mWidth = 0;
+        mHeight = 0;
+    }
 }

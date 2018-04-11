@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
 import com.philips.platform.mya.catk.dto.GetConsentDto;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -125,7 +125,7 @@ public class ConsentsClient {
                 GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                        List<BackendConsent> consents = new ArrayList<>();
+                        List<ConsentDTO> consents = new ArrayList<>();
                         for (GetConsentDto dto : dtos) {
                             consents.add(DtoToConsentMapper.map(dto));
                         }
@@ -147,14 +147,14 @@ public class ConsentsClient {
         getConsentDetails(new ConsentResponseListener() {
 
             @Override
-            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-                for (BackendConsent consent : responseData) {
+            public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
+                for (ConsentDTO consent : responseData) {
                     if (consentType.equals(consent.getType())) {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
                         return;
                     }
                 }
-                consentListener.onResponseSuccessConsent(new ArrayList<BackendConsent>());
+                consentListener.onResponseSuccessConsent(new ArrayList<ConsentDTO>());
             }
 
             @Override
@@ -165,7 +165,7 @@ public class ConsentsClient {
         });
     }
 
-    void createConsent(final BackendConsent consent, final CreateConsentListener consentListener) {
+    void createConsent(final ConsentDTO consent, final CreateConsentListener consentListener) {
 
         validateAppNameAndPropName();
 

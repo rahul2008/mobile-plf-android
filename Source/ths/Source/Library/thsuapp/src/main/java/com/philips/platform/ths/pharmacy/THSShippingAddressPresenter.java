@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
@@ -34,7 +33,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         this.thsBaseView = thsBaseView;
     }
 
-    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    String regex = "^[0-9]{5}$";
     Pattern pattern = Pattern.compile(regex);
 
     public void updateShippingAddress(Address address) {
@@ -46,7 +45,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     }
 
     @Override
-    public void onAddressValidationFailure(Map<String, ValidationReason> map) {
+    public void onAddressValidationFailure(Map<String, String> map) {
         ((THSBaseFragment) thsBaseView).doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS, THSConstants.THS_GENERIC_USER_ERROR, false);
         ((THSBaseFragment) thsBaseView).showError(null);
     }
@@ -58,7 +57,6 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkError) {
-        //TODO: check this immediately
         if (null != thsBaseView && null != thsBaseView.getFragmentActivity()) {
             if (null == sdkError) {
                 AmwellLog.d("updateShipAddress", "success");
@@ -70,7 +68,6 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
                     final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
                     thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
                 }
-                //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
             } else {
                 ((THSShippingAddressFragment)thsBaseView).showError( THSSDKErrorFactory.getErrorType(((THSShippingAddressFragment)thsBaseView).getContext(), ANALYTICS_UPDATE_SHIPPING_ADDRESS,sdkError), false, false);
                 AmwellLog.e("updateShipAddress", sdkError.toString());

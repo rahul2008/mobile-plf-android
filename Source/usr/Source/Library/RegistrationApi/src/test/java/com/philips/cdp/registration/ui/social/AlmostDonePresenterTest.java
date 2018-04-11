@@ -265,7 +265,7 @@ public class AlmostDonePresenterTest {
 //    @Test
 //    public void testIsEmailVerificationStatus() {
 //        presenter.isEmailVerificationStatus();
-//        verify(mockUser).getEmailVerificationStatus();
+//        verify(mockUser).getEmailOrMobileVerificationStatus();
 //    }
 
     @Test

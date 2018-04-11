@@ -283,7 +283,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         pharmacy_segment_control_one.setSelected(false);
         pharmacy_segment_control_two.setSelected(true);
         if (null != pharmaciesList) {
-            updateView(filterList(pharmaciesList, PharmacyType.MailOrder));
+            updateView(filterList(pharmaciesList, PharmacyType.MAIL_ORDER));
         }
     }
 
@@ -295,7 +295,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         pharmacy_segment_control_one.setSelected(true);
         pharmacy_segment_control_two.setSelected(false);
         if (null != pharmaciesList) {
-            updateView(filterList(pharmaciesList, PharmacyType.Retail));
+            updateView(filterList(pharmaciesList, PharmacyType.RETAIL));
         }
     }
 
@@ -338,8 +338,8 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     @Override
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
-        pharmacyRetailList = filterList(pharmacies, PharmacyType.Retail);
-        pharmacyMailOrderList = filterList(pharmacies, PharmacyType.MailOrder);
+        pharmacyRetailList = filterList(pharmacies, PharmacyType.RETAIL);
+        pharmacyMailOrderList = filterList(pharmacies, PharmacyType.MAIL_ORDER);
         if (pharmacyRetailList.size() == 0 && pharmacyMailOrderList.size() > 0) {
             showMailOrderView();
         } else if (pharmacyMailOrderList.size() == 0 && pharmacyRetailList.size() > 0) {
@@ -394,12 +394,12 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      * @param pharmacyType
      * @return
      */
-    private List<Pharmacy> filterList(List<Pharmacy> pharmacies, PharmacyType pharmacyType) {
+    private List<Pharmacy> filterList(List<Pharmacy> pharmacies, String pharmacyType) {
         Iterator<Pharmacy> pharmacyIterator = pharmacies.iterator();
         List<Pharmacy> list = new ArrayList<>();
         while (pharmacyIterator.hasNext()) {
             Pharmacy c = pharmacyIterator.next();
-            if (c.getType() == pharmacyType) {
+            if (c.getType().equalsIgnoreCase(pharmacyType)) {
                 list.add(c);
             }
         }
@@ -413,7 +413,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void validateForMailOrder(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
-        if (pharmacy.getType() == PharmacyType.MailOrder) {
+        if (pharmacy.getType().equalsIgnoreCase(PharmacyType.MAIL_ORDER)) {
 
             showShippingFragment();
 

@@ -9,6 +9,6 @@ package com.philips.platform.pif.chi.datamodel;
 
 public enum ConsentStates {
     active,
-    rejected,
-    inactive
+    inactive,
+    rejected
 }

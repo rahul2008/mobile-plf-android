@@ -113,9 +113,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
-        if (getResources().getBoolean(R.bool.live_chat_required) || DigitalCareConfigManager.getInstance().getSdLiveChatUrl() != null || DigitalCareConfigManager.getInstance().getLiveChatUrl() != null ) {
-            mChatBtn.setVisibility(View.VISIBLE);
-        }
         mChatBtn.setOnClickListener(this);
         mChatBtn.setTransformationMethod(null);
         mCallPhilipsBtn.setOnClickListener(this);
@@ -553,4 +550,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     public boolean isViewAdded(){
        return isAdded();
     }
+
+
+    @Override
+    public void updateLiveChatButton(int visibility) {
+        toggleLiveChatVisibility(visibility);
+    }
+
+    private void toggleLiveChatVisibility(int visibility) {
+        if (getResources().getBoolean(R.bool.live_chat_required)) {
+            mChatBtn.setVisibility(View.VISIBLE);
+        } else {
+            mChatBtn.setVisibility(visibility);
+        }
+    }
+
 }

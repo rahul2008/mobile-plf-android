@@ -18,6 +18,7 @@
             android:id="@+id/ths_match_making_ProgressBarWithLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
             />
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_match_making_ProgressBar_message_label_top"
@@ -25,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ths_fab_margin"
             android:layout_below="@+id/ths_match_making_ProgressBarWithLabel"
+            android:layout_marginTop="100dp"
             android:text="@string/ths_matchmaking_progressbar_message_parent_text"
             android:gravity="center_horizontal" />
 

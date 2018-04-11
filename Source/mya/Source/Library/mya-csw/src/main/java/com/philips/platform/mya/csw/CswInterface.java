@@ -7,16 +7,17 @@
 
 package com.philips.platform.mya.csw;
 
-import java.io.Serializable;
-import java.util.List;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
 import com.philips.platform.mya.csw.injection.CswModule;
 import com.philips.platform.mya.csw.injection.DaggerCswComponent;
-import com.philips.platform.mya.csw.permission.PermissionView;
+import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.mya.csw.utils.CswLogger;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,10 +26,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import java.io.Serializable;
 
 public class CswInterface implements UappInterface {
     private static final CswInterface reference = new CswInterface();
@@ -88,14 +86,14 @@ public class CswInterface implements UappInterface {
     private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput cswLaunchInput) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
-            PermissionView permissionFragment = new PermissionView();
+            PermissionFragment permissionFragment = new PermissionFragment();
             Bundle args = new Bundle();
             args.putSerializable(CswConstants.CONSENT_DEFINITIONS, (Serializable) cswLaunchInput.getConsentDefinitionList());
             permissionFragment.setArguments(args);
             permissionFragment.setUpdateTitleListener(fragmentLauncher.getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.addToBackStack(PermissionView.TAG);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionView.TAG);
+            fragmentTransaction.addToBackStack(PermissionFragment.TAG);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
 

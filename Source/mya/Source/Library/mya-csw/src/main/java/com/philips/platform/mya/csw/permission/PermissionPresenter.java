@@ -7,44 +7,53 @@
 
 package com.philips.platform.mya.csw.permission;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.mya.csw.BuildConfig;
+import com.philips.platform.mya.csw.CswConstants;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.dialogs.ConfirmDialogTextResources;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
 import com.philips.platform.mya.csw.permission.adapter.PermissionAdapter;
-import com.philips.platform.mya.csw.permission.helper.ErrorMessageCreator;
 import com.philips.platform.mya.csw.utils.CswLogger;
+import com.philips.platform.mya.csw.utils.TaggingUtils;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class PermissionPresenter implements ConsentToggleListener, FetchConsentsCallback, PostConsentCallback {
+public class PermissionPresenter implements PermissionContract.Presenter, FetchConsentsCallback, PostConsentCallback {
 
-    public Context mContext;
+    private static final String CONSENT_CENTER = "consentCenter";
 
     @NonNull
-    private final PermissionInterface permissionInterface;
+    private final PermissionContract.View view;
 
     @NonNull
     private final PermissionAdapter adapter;
+    private AppTaggingInterface appTaggingInterface;
 
     private int togglePosition;
-
     private boolean toggleStatus;
+    private Map<String, String> preparedTaggingInfo;
 
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final PermissionAdapter adapter) {
-        this.permissionInterface = permissionInterface;
+            @NonNull final PermissionContract.View view, @NonNull final PermissionAdapter adapter) {
+        this.view = view;
+        this.view.setPresenter(this);
         this.adapter = adapter;
-        this.adapter.setConsentToggleListener(this);
+        this.appTaggingInterface = CswInterface.getCswComponent().getAppTaggingInterface().createInstanceForComponent(CswConstants.Tagging.COMPONENT_ID, BuildConfig.VERSION_NAME);
+        this.adapter.setPresenter(this);
     }
 
     @NonNull
@@ -52,11 +61,17 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         return adapter;
     }
 
-    void getConsentStatus(List<ConsentDefinition> consentDefinitionList) {
-        ConsentManagerInterface consentManager = CswInterface.getCswComponent().getConsentManager();
+    @Override
+    public void trackPageName() {
+        appTaggingInterface.trackPageWithInfo(CONSENT_CENTER, null);
+    }
+
+    @Override
+    public void fetchConsentStates(List<ConsentDefinition> consentDefinitionList) {
         if (!consentDefinitionList.isEmpty()) {
-            permissionInterface.showProgressDialog();
+            view.showProgressDialog();
             try {
+                ConsentManagerInterface consentManager = CswInterface.getCswComponent().getConsentManager();
                 consentManager.fetchConsentStates(consentDefinitionList, this);
             } catch (RuntimeException ex) {
                 CswLogger.e("RuntimeException", ex.getMessage());
@@ -68,15 +83,12 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
     public void onToggledConsent(int position, final ConsentDefinition definition, final boolean consentGiven, final ConsentToggleResponse responseHandler) {
         togglePosition = position;
         if(definition.hasRevokeWarningText() && !consentGiven) {
-            // User has revoked consent
-            ConfirmDialogView dialog = new ConfirmDialogView();
-            dialog.setupDialog(
-                R.string.csw_privacy_settings,
-                definition.getRevokeWarningText(),
-                R.string.mya_csw_consent_revoked_confirm_btn_ok,
-                R.string.mya_csw_consent_revoked_confirm_btn_cancel
-            );
-            this.permissionInterface.showConfirmRevokeConsentDialog(dialog, new ConfirmDialogView.ConfirmDialogResultHandler() {
+            ConfirmDialogTextResources confirmDialogTextResources = new ConfirmDialogTextResources(
+                    R.string.csw_privacy_settings,
+                    definition.getRevokeWarningText(),
+                    R.string.mya_csw_consent_revoked_confirm_btn_ok,
+                    R.string.mya_csw_consent_revoked_confirm_btn_cancel);
+            this.view.showConfirmRevokeConsentDialog(confirmDialogTextResources, new ConfirmDialogView.ConfirmDialogResultHandler() {
                 @Override
                 public void onOkClicked() {
                     postConsentChange(definition, false);
@@ -95,8 +107,9 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
 
     private void postConsentChange(ConsentDefinition definition, boolean consentGiven) {
         toggleStatus = consentGiven;
-        permissionInterface.showProgressDialog();
+        view.showProgressDialog();
         CswInterface.getCswComponent().getConsentManager().storeConsentState(definition, consentGiven, this);
+        preparedTaggingInfo = prepareTrackActionInfo(definition, consentGiven);
     }
 
     @Override
@@ -110,27 +123,36 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
             }
         }
         adapter.onGetConsentRetrieved(consentViews);
-        permissionInterface.hideProgressDialog();
+        view.hideProgressDialog();
     }
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
         adapter.onGetConsentFailed(error);
-        permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(true, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
+        view.hideProgressDialog();
+        showErrorDialogFor(true, error);
     }
 
     @Override
     public void onPostConsentFailed(ConsentError error) {
         adapter.onCreateConsentFailed(togglePosition, error);
-        permissionInterface.hideProgressDialog();
-        permissionInterface.showErrorDialog(false, mContext.getString(R.string.csw_problem_occurred_error_title), toErrorMessage(error));
+        view.hideProgressDialog();
+        showErrorDialogFor(false, error);
     }
 
     @Override
     public void onPostConsentSuccess() {
         adapter.onCreateConsentSuccess(togglePosition, toggleStatus);
-        permissionInterface.hideProgressDialog();
+        appTaggingInterface.trackActionWithInfo(CONSENT_CENTER, preparedTaggingInfo);
+        view.hideProgressDialog();
+    }
+
+    private void showErrorDialogFor(final boolean goBack, final ConsentError error) {
+        if (error.getErrorCode() == ConsentError.CONSENT_ERROR_NO_CONNECTION) {
+            view.showErrorDialog(goBack, R.string.csw_offline_title, R.string.csw_offline_message);
+        } else {
+            view.showErrorDialog(goBack, R.string.csw_problem_occurred_error_title, error);
+        }
     }
 
     @VisibleForTesting
@@ -138,7 +160,10 @@ public class PermissionPresenter implements ConsentToggleListener, FetchConsents
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
-    private String toErrorMessage(ConsentError error) {
-        return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(mContext, error.getErrorCode());
+    private Map<String, String> prepareTrackActionInfo(ConsentDefinition definition, boolean consentGiven) {
+        final Map<String, String> info = new HashMap<>();
+        info.put(CswConstants.Tagging.SPECIAL_EVENTS, (consentGiven ? CswConstants.Tagging.CONSENT_ACCEPTED : CswConstants.Tagging.CONSENT_REJECTED));
+        info.put(CswConstants.Tagging.CONSENT_TYPE, TaggingUtils.join(definition.getTypes()));
+        return info;
     }
 }

@@ -124,7 +124,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             setContentView(R.layout.af_uikit_hamburger_menu);
             ButterKnife.bind(this);
             initializeActivityContents();
+            SharedPreferenceUtility sharedPreferenceUtility =  new SharedPreferenceUtility(getFragmentActivity().getApplicationContext());
+            boolean isTHSDeeplinkingFlow = sharedPreferenceUtility.getPreferenceBoolean(Constants.THS_DEEP_LINK_FLOW);
+            if(isTHSDeeplinkingFlow) {
+                sharedPreferenceUtility.writePreferenceBoolean(Constants.THS_DEEP_LINK_FLOW,false);
+                presenter.onEvent(Constants.THS_DEEP_LINKING_EVENT_ID); // THS deep linking flow
+            }
         }
+
     }
 
     @Override

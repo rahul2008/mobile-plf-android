@@ -15,7 +15,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -212,7 +211,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                 mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
             } else {
                 AmwellLog.e("createAppointment",sdkError.toString());
-                if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
+                if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason() != null) {
                     if (sdkError.getSDKErrorReason() == VALIDATION_BAD_ENUM) {
                         mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_appointment_invalid_reminder));
                     } else {
@@ -258,7 +257,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         mThsBaseFragment.showError(var1.toString());
     }
 }

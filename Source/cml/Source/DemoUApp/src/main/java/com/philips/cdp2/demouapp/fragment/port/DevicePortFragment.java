@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -86,9 +86,9 @@ public class DevicePortFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_device_port, container, false);
 
-        deviceNameEdit = (EditText) rootview.findViewById(R.id.cml_device_name);
-        Button setButton = (Button) rootview.findViewById(R.id.cml_btn_set);
-        Button getButton = (Button) rootview.findViewById(R.id.cml_btn_get);
+        deviceNameEdit = rootview.findViewById(R.id.cml_device_name);
+        Button setButton = rootview.findViewById(R.id.cml_btn_set);
+        Button getButton = rootview.findViewById(R.id.cml_btn_get);
 
         ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 

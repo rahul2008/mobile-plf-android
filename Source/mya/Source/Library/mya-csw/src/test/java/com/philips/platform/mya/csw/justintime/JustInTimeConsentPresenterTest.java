@@ -1,20 +1,22 @@
 package com.philips.platform.mya.csw.justintime;
 
+import com.google.common.collect.ImmutableMap;
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
+import com.philips.platform.mya.csw.BuildConfig;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.justintime.spy.ConsentManagerInterfaceSpy;
 import com.philips.platform.mya.csw.justintime.spy.JustInTimeWidgetHandlerSpy;
 import com.philips.platform.mya.csw.justintime.spy.ViewSpy;
 import com.philips.platform.mya.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
-import com.philips.platform.mya.catk.datamodel.Consent;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,8 +31,7 @@ public class JustInTimeConsentPresenterTest {
     private ConsentManagerInterfaceSpy consentManagerInterface;
     private ConsentDefinition consentDefinition;
     private JustInTimeWidgetHandlerSpy completionListener;
-    private BackendConsent backendConsent;
-    private Consent consent;
+    private ConsentDTO consentDTO;
     private ConsentError consentError;
 
     @Before
@@ -39,9 +40,8 @@ public class JustInTimeConsentPresenterTest {
         view = new ViewSpy();
         consentManagerInterface = new ConsentManagerInterfaceSpy();
         appInfraMock.consentManagerInterface = consentManagerInterface;
-        consentDefinition = new ConsentDefinition(0, 0, Collections.EMPTY_LIST, 0);
-        backendConsent = new BackendConsent("", ConsentStates.active, "", 0);
-        consent = new Consent(backendConsent, consentDefinition);
+        consentDTO = new ConsentDTO("", ConsentStates.active, "", 0);
+        consentDefinition = new ConsentDefinition(0, 0, Arrays.asList("firstType", "secondType"), 0);
         consentError = new ConsentError("", 1234);
         completionListener = new JustInTimeWidgetHandlerSpy();
         presenter = new JustInTimeConsentPresenter(view, appInfraMock, consentDefinition, completionListener);
@@ -53,6 +53,18 @@ public class JustInTimeConsentPresenterTest {
     }
 
     @Test
+    public void testCreateAppTaggingComponent() {
+        assertEquals("CSW", appInfraMock.appTaggingComponentId);
+        assertEquals(BuildConfig.VERSION_NAME, appInfraMock.appTaggingComponentVersion);
+    }
+
+    @Test
+    public void trackPageNameTagsPageAndAddsConsentTypes() {
+        whenTrackingPageAction();
+        thenPageIsTagged("jitConsent", ImmutableMap.of("consentType", "firstType|secondType"));
+    }
+
+    @Test
     public void onConsentGivenShowsErrorWhenOffline() {
         givenUserIsOffline();
         whenGivingConsent();
@@ -61,28 +73,24 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenShowsProgressDialogWhenOnline() {
-        givenUserIsOnline();
         whenGivingConsent();
         thenProgressDialogIsShown();
     }
 
     @Test
     public void onConsentGivenStoresActiveConsentStateWhenOnline() {
-        givenUserIsOnline();
         whenGivingConsent();
         thenConsentStateIsStored(consentDefinition, true);
     }
 
     @Test
     public void onConsentRejectedStoresRejectedConsentStateWhenOnline() {
-        givenUserIsOnline();
         whenRejectingConsent();
         thenConsentStateIsStored(consentDefinition, false);
     }
 
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsSuccessful() {
-        givenUserIsOnline();
         givenPostSucceeds();
         whenGivingConsent();
         thenCompletionHandlerIsCalledOnConsentGiven();
@@ -90,7 +98,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
-        givenUserIsOnline();
         givenPostFails();
         whenGivingConsent();
         thenCompletionHandlerIsNotCalledOnConsentGiven();
@@ -98,7 +105,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsSuccessful() {
-        givenUserIsOnline();
         givenPostSucceeds();
         whenGivingConsent();
         thenProgressDialogIsHidden();
@@ -106,7 +112,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsNotSuccessful() {
-        givenUserIsOnline();
         givenPostFails();
         whenGivingConsent();
         thenProgressDialogIsHidden();
@@ -114,7 +119,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedCallsCompletionHandlerOnFailureWhenPostIsSuccessful() {
-        givenUserIsOnline();
         givenPostSucceeds();
         whenRejectingConsent();
         thenCompletionHandlerIsCalledOnConsentRejected();
@@ -122,7 +126,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
-        givenUserIsOnline();
         givenPostFails();
         whenRejectingConsent();
         thenCompletionHandlerIsNotCalledOnConsentRejected();
@@ -130,7 +133,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedHidesProgressDialogWhenPostIsSuccessful() {
-        givenUserIsOnline();
         givenPostSucceeds();
         whenRejectingConsent();
         thenProgressDialogIsHidden();
@@ -138,7 +140,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedHidesProgressDialogWhenPostIsNotSuccessful() {
-        givenUserIsOnline();
         givenPostFails();
         whenRejectingConsent();
         thenProgressDialogIsHidden();
@@ -146,18 +147,35 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedShowsErrorDialogWhenPostIsNotSuccessful() {
-        givenUserIsOnline();
         givenPostFails();
         whenRejectingConsent();
         thenShowsErrorDialog();
     }
 
-    private void givenUserIsOffline() {
-        appInfraMock.restInterfaceMock.isInternetAvailable = false;
+    @Test
+    public void onConsentGivenTracksActionWhenPostIsSuccessful() {
+        givenPostSucceeds();
+        whenGivingConsent();
+        thenActionIsTagged("jitConsent", "consentAccepted", "firstType|secondType");
     }
 
-    private void givenUserIsOnline() {
-        appInfraMock.restInterfaceMock.isInternetAvailable = true;
+    @Test
+    public void onConsentRejectedTracksActionWhenPostIsSuccessful() {
+        givenPostSucceeds();
+        whenRejectingConsent();
+        thenActionIsTagged("jitConsent", "consentRejected", "firstType|secondType");
+    }
+
+    private void givenUserIsOffline() {
+        consentManagerInterface.callsCallback_onPostConsentFailed(consentDefinition, new ConsentError("", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+    }
+
+    private void givenPostSucceeds() {
+        consentManagerInterface.callsCallback_onPostConsentSuccess(consentDTO);
+    }
+
+    private void givenPostFails() {
+        consentManagerInterface.callsCallback_onPostConsentFailed(consentDefinition, consentError);
     }
 
     private void whenGivingConsent() {
@@ -168,12 +186,13 @@ public class JustInTimeConsentPresenterTest {
         presenter.onConsentRejectedButtonClicked();
     }
 
-    private void givenPostSucceeds() {
-        consentManagerInterface.callsCallback_onPostConsentSuccess(consent);
+    private void whenTrackingPageAction() {
+        presenter.trackPageName();
     }
 
-    private void givenPostFails() {
-        consentManagerInterface.callsCallback_onPostConsentFailed(consentDefinition, consentError);
+    private void thenPageIsTagged(final String expectedPageName, Map<String, String> keyValues) {
+        assertEquals(expectedPageName, appInfraMock.taggedPage);
+        assertEquals(keyValues, appInfraMock.taggedPageValues);
     }
 
     private void thenErrorDialogIsShown(int expectedTitle, int expectedMessage) {
@@ -214,5 +233,11 @@ public class JustInTimeConsentPresenterTest {
     private void thenShowsErrorDialog() {
         assertEquals(R.string.csw_problem_occurred_error_title, view.errorTileId_showErrorDialogForCode);
         assertEquals(consentError.getErrorCode(), view.errorCode_showErrorDialogForCode);
+    }
+
+    private void thenActionIsTagged(final String expectedPageName, final String expectedEvent, final String expectedConsentType) {
+        assertEquals(expectedPageName, appInfraMock.taggedActionPageName);
+        assertEquals(expectedEvent, appInfraMock.taggedValues.get("specialEvents"));
+        assertEquals(expectedConsentType, appInfraMock.taggedValues.get("consentType"));
     }
 }

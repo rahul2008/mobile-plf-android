@@ -350,7 +350,6 @@ dependencies {
         compile (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.mya_mch
         compile (philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }

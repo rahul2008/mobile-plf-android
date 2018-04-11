@@ -138,6 +138,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <!-- Expiration date -->
     <LinearLayout
         android:id="@+id/expiration_date_container"
         android:layout_width="match_parent"
@@ -167,20 +168,46 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/is_synced"
-        android:layout_width="wrap_content"
+    <!-- Is synchronized -->
+    <LinearLayout
+        android:id="@+id/is_synced_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@id/expiration_date_container"
-        android:text="@string/synced"
-        android:textColor="#CD202C" />
+        android:layout_toLeftOf="@id/frame"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
+        <TextView
+            android:id="@+id/is_synced_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Is synced?"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/is_synced_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/expiration_date_container"
+            android:text="@string/synced"
+            android:textSize="14sp"
+            android:textColor="#CD202C"
+            />
+
+    </LinearLayout>
+
+    <!-- Divider line -->
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/is_synced"
+        android:layout_below="@id/is_synced_container"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:background="#33cae3e9" />

@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_TOO_EARLY_FOR_VISIT;
+import static com.philips.platform.ths.visit.THSConfirmationDialogFragment.APPOINTMENT_DIALOG_TYPE;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
@@ -71,6 +72,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         final Date dateScheduled = new Date(scheduledStartTime);
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(dateScheduled).toString();
+        String appointmentFor = appointment.getConsumer().isDependent()?mThsScheduledVisitsFragment.getString(R.string.ths_appointment_for_your_child):mThsScheduledVisitsFragment.getString(R.string.ths_appointment_for_yourself);
+        holder.mLabelAppointmentFor.setText(appointmentFor);
         holder.mLabelAppointmrntDate.setText(date);
 
         holder.mLabelPracticeName.setText(assignedProvider.getSpecialty().getName());
@@ -152,6 +155,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
+        Label mLabelAppointmentFor;
         Label mLabelAppointmrntDate;
         CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;
@@ -162,6 +166,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         public CustomViewHolder(View view) {
             super(view);
+            this.mLabelAppointmentFor = (Label) view.findViewById(R.id.ths_appointment_for);
             this.mLabelAppointmrntDate = (Label) view.findViewById(R.id.ths_appointment_date);
             this.mImageViewCircularImageView = (CircularImageView) view.findViewById(R.id.ths_providerImage);
             this.mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
@@ -174,6 +179,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
     void showCancelDialog(final Appointment appointment) {
         THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+        tHSConfirmationDialogFragment.setDialogFragmentType(APPOINTMENT_DIALOG_TYPE);
         THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
         presenter.setAppointment(appointment);
         tHSConfirmationDialogFragment.setPresenter(presenter);

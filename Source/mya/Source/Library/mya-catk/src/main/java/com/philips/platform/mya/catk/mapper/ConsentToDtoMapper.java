@@ -7,8 +7,8 @@
 
 package com.philips.platform.mya.catk.mapper;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
 
 public class ConsentToDtoMapper {
 
@@ -24,7 +24,7 @@ public class ConsentToDtoMapper {
         this.propositionName = propositionName;
     }
 
-    public CreateConsentDto map(BackendConsent consent) {
+    public CreateConsentDto map(ConsentDTO consent) {
         return new CreateConsentDto(consent.getLocale(), buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
     }
 

@@ -43,11 +43,11 @@ public class ConfirmDialogView {
         }
     };
 
-    public void setupDialog(int titleRes, int descriptionRes, int okButtonRes, int cancelButtonRes) {
-        this.titleTextRes = titleRes;
-        this.descriptionTextRes = descriptionRes;
-        this.okButtonTextRes = okButtonRes;
-        this.cancelButtonTextRes = cancelButtonRes;
+    public void setupDialog(final ConfirmDialogTextResources confirmDialogTextResources) {
+        this.titleTextRes = confirmDialogTextResources.getTitleRes();
+        this.descriptionTextRes = confirmDialogTextResources.getDescriptionRes();
+        this.okButtonTextRes = confirmDialogTextResources.getOkButtonRes();
+        this.cancelButtonTextRes = confirmDialogTextResources.getCancelButtonRes();
     }
 
     public void setResultHandler(ConfirmDialogResultHandler resultHandler) {

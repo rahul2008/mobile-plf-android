@@ -17,18 +17,15 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.MyaDemouAppLaunchInput;
-import com.philips.platform.pif.chi.ConsentConfiguration;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.themesettings.ThemeSettingsActivity;
-import java.util.List;
 
 public class MyaDemoActivity extends UIDActivity {
 
     private AppInfra appInfra;
     private MyaDemoApplication applicationContext;
-    private List<ConsentConfiguration> consentConfigurationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

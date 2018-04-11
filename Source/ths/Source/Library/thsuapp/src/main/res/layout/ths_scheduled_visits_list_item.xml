@@ -6,15 +6,26 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical"
     android:paddingTop="16dp">
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_appointment_for"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+         />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_appointment_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ths_list_item"
-        android:layout_alignParentTop="true"
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:textSize="@dimen/ths_small_body_text"
+        android:layout_below="@+id/ths_appointment_for"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingBottom="4dp"
         android:text="@string/ths_select_date_and_time" />
 
     <View

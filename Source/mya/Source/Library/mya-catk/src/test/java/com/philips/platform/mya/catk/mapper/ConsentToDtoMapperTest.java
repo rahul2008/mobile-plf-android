@@ -12,25 +12,25 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.dto.CreateConsentDto;
-import com.philips.platform.mya.catk.datamodel.BackendConsent;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 public class ConsentToDtoMapperTest {
     private static final String DUTCH_LOCALE = "nl-NL";
     private CreateConsentDto result;
     private ConsentToDtoMapper givenMapper;
-    private BackendConsent givenConsent;
-    private BackendConsent activeTypeMomentLocaleNlNlVersion1Consent;
-    private BackendConsent activityTypeWithMissingCountry;
-    private BackendConsent activityTypeWithMissingLanguage;
+    private ConsentDTO givenConsent;
+    private ConsentDTO activeTypeMomentLocaleNlNlVersion1Consent;
+    private ConsentDTO activityTypeWithMissingCountry;
+    private ConsentDTO activityTypeWithMissingLanguage;
 
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
-        activeTypeMomentLocaleNlNlVersion1Consent = new BackendConsent(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
-        activityTypeWithMissingLanguage = new BackendConsent("-NL", ConsentStates.active, "moment", 1);
-        activityTypeWithMissingCountry = new BackendConsent("nl-", ConsentStates.active, "moment", 1);
+        activeTypeMomentLocaleNlNlVersion1Consent = new ConsentDTO(DUTCH_LOCALE, ConsentStates.active, "moment", 1);
+        activityTypeWithMissingLanguage = new ConsentDTO("-NL", ConsentStates.active, "moment", 1);
+        activityTypeWithMissingCountry = new ConsentDTO("nl-", ConsentStates.active, "moment", 1);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ConsentToDtoMapperTest {
         thenConsentIs(new CreateConsentDto("nl-", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
     }
 
-    private void givenConsent(BackendConsent consent) {
+    private void givenConsent(ConsentDTO consent) {
         this.givenConsent = consent;
     }
 

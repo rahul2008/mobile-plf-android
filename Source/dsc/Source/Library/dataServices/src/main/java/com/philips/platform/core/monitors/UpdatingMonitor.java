@@ -68,7 +68,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Inject
     UserCharacteristicsSegregator mUserCharacteristicsSegregator;
 
-    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface, @NonNull DBSavingInterface dbSavingInterface) {
+    public UpdatingMonitor(@NonNull DBUpdatingInterface dbUpdatingInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBFetchingInterface dbFetchingInterface, @NonNull DBSavingInterface dbSavingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
@@ -159,7 +159,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
+    public void onEventBackGround(final ConsentBackendSaveResponse consentBackendSaveResponse) {
         try {
             if (dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
                 dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
@@ -172,7 +172,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     //Characteristics
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
+    public void onEventBackGround(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) {
         try {
 
             if (dbFetchingInterface.fetchDCSyncData(SyncType.CHARACTERISTICS) == null) {
@@ -190,7 +190,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException {
+    public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) {
         try {
             Settings settings = dbFetchingInterface.fetchSettings();
             DCSync dcSync = dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS);
@@ -215,7 +215,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException {
+    public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) {
         try {
             if (dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS) == null) {
                 dbSavingInterface.saveSyncBit(SyncType.SETTINGS, true);
@@ -238,7 +238,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     //Sync bit
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException {
+    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) {
         try {
             dbUpdatingInterface.updateSyncBit(syncBitUpdateRequest.getTableType().getId(), syncBitUpdateRequest.isSynced());
         } catch (SQLException e) {
@@ -248,7 +248,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     //Insights
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
+    public void onEventBackGround(final FetchInsightsResponse updateInsightsBackendResponse) {
         try {
             insightSegregator.processInsights(updateInsightsBackendResponse.getInsights(), updateInsightsBackendResponse.getDbRequestListener());
             notifyDBChangeSuccess(SyncType.INSIGHT);

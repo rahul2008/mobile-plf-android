@@ -32,11 +32,11 @@ public class RequestManager {
 			AppInfraInterface appInfra = mPrxDependencies.getAppInfra();
 			if (appInfra != null) {
 				if (mPrxDependencies.getParentTLA() != null) {
-					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s /prx ", mPrxDependencies.getParentTLA()), getLibVersion());
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s/prx", mPrxDependencies.getParentTLA()), getLibVersion());
 					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
 
 				} else {
-					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(" /prx ", getLibVersion());
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent("/prx", getLibVersion());
 					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "PRX is initialized ");
 				}
 			}

@@ -131,7 +131,7 @@ public class UserTest {
 
     @Test
     public void getEmailVerificationStatus() throws Exception {
-        user.getEmailVerificationStatus();
+        user.getEmailOrMobileVerificationStatus();
     }
 
     @Test

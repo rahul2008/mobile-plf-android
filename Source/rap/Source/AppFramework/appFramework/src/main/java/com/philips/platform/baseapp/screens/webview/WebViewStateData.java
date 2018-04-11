@@ -8,6 +8,8 @@ public class WebViewStateData extends UIStateData {
 
     private String serviceId;
 
+    private String title;
+
     public void setUrl(String url){
         this.url=url;
     }
@@ -22,5 +24,13 @@ public class WebViewStateData extends UIStateData {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

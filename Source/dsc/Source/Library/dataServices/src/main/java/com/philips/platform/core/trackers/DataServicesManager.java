@@ -97,7 +97,6 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -221,7 +220,13 @@ public class DataServicesManager {
         mAppComponent.injectApplication(this);
     }
 
+    @Deprecated
     public void initializeDatabaseMonitor(Context context, DBDeletingInterface deletingInterface,
+                                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+        initializeDatabaseMonitor(deletingInterface, fetchingInterface, savingInterface, updatingInterface);
+    }
+
+    public void initializeDatabaseMonitor(DBDeletingInterface deletingInterface,
                                           DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
@@ -340,12 +345,10 @@ public class DataServicesManager {
         mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
     }
 
-    @NonNull
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
     }
 
-    @NonNull
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
@@ -611,7 +614,7 @@ public class DataServicesManager {
 
     public void migrateGDPR(final DBRequestListener<Object> resultListener) {
         if(isGdprMigrationDone()) {
-            resultListener.onSuccess(Collections.<Object>emptyList());
+            resultListener.onSuccess(Collections.emptyList());
         } else {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
                 @Override

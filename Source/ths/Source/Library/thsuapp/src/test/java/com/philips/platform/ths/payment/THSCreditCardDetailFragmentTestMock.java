@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.payment;
 
+import android.content.Context;
 import android.view.ViewGroup;
 
 public class THSCreditCardDetailFragmentTestMock extends THSCreditCardDetailFragment{
@@ -13,5 +14,15 @@ public class THSCreditCardDetailFragmentTestMock extends THSCreditCardDetailFrag
     @Override
     public void createCustomProgressBar(ViewGroup group, int size) {
 
+    }
+
+    @Override
+    protected void getSpinnerAdapter() {
+
+    }
+
+    @Override
+    protected Context getPopupThemedContext() {
+        return getActivity();
     }
 }

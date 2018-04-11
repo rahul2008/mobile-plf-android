@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.csw.permission.adapter;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +16,9 @@ import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.permission.ConsentToggleListener;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
+import com.philips.platform.mya.csw.permission.PermissionContract;
 import com.philips.platform.mya.csw.permission.uielement.LinkSpanClickListener;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -44,7 +43,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     private final HelpClickListener helpClickListener;
 
     @Nullable
-    private ConsentToggleListener consentToggleListener;
+    private PermissionContract.Presenter presenter;
 
     @Nullable
     private LinkSpanClickListener privacyNoticeClickListener;
@@ -55,8 +54,8 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         this.helpClickListener = helpClickListener;
     }
 
-    public void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
-        this.consentToggleListener = consentToggleListener;
+    public void setPresenter(@Nullable PermissionContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
     public void setPrivacyNoticeClickListener(@Nullable LinkSpanClickListener privacyNoticeClickListener) {
@@ -67,7 +66,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public BasePermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_row, parent, false);
-            return new PermissionViewHolder(view, parent.getWidth(), helpClickListener, consentToggleListener);
+            return new PermissionViewHolder(view, parent.getWidth(), helpClickListener, presenter);
 
         } else if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_header, parent, false);
@@ -100,12 +99,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onGetConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
-        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
-            }
-        });
+        notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
     }
 
     public void onGetConsentFailed(ConsentError error) {
@@ -114,12 +108,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
         }
-        ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
-            }
-        });
+        notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
 
     public void onCreateConsentFailed(final int position, ConsentError error) {
@@ -128,13 +117,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setError(true);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
-            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(position);
-                }
-            });
-
+            notifyItemChanged(position);
         }
     }
 
@@ -144,21 +127,13 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setError(false);
             consentView.setIsLoading(false);
             consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status));
-
-            ((Activity) CswInterface.getCswComponent().context()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(position);
-                }
-            });
-
+            notifyItemChanged(position);
         }
     }
 
-    public ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status) {
+    private ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status) {
         ConsentStates consentStatus = status ? ConsentStates.active : ConsentStates.rejected;
-        ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition);
-        return consentDefinitionStatus;
+        return new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition);
     }
 
     @NonNull

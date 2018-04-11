@@ -58,6 +58,20 @@
         ]
       },
       {
+        "state": "privacy_settings",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -234,6 +248,21 @@
                 "nextState": "my_account"
               }
             ]
+          },
+          {
+            "eventId": "telehealth_deeplinking",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "TeleHealthServicesDeepLinkingState"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
           }
         ]
       },
@@ -273,11 +302,20 @@
         "state": "my_account",
         "events": [
           {
-            "eventId": "PrivacyNotice",
+            "eventId": "PrivacySettingsEvent",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "web_view"
+                "nextState": "privacy_settings"
+              }
+            ]
+          },
+          {
+            "eventId": "MyDetailsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_details"
               }
             ]
           }
