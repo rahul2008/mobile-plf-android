@@ -310,7 +310,9 @@ public class HsdpUser {
         if (hsdpRecord != null) {
             Object obj = SecureStorage.stringToObject(hsdpRecord);
             if (obj instanceof HsdpUserRecord) {
-                HsdpUserInstance.getInstance().setHsdpUserRecord((HsdpUserRecord) obj);
+                final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
+                HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                sendEncryptedUUIDToAnalytics(hsdpUserRecord);
             }
         }
         return HsdpUserInstance.getInstance().getHsdpUserRecord();
@@ -362,16 +364,9 @@ public class HsdpUser {
                                     RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());
                                     HsdpUser hsdpUser = new HsdpUser(mContext);
-                                    if (hsdpUser.getHsdpUserRecord() != null)
-                                        if (RegistrationConfiguration.getInstance().isHsdpUuidShouldUpload()) {
-                                            Encryption encryption = new Encryption();
-                                            final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
-                                            if (null != userUID) {
-                                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                                                        "evar2", userUID);
-                                                RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
-                                            }
-                                        }
+                                    if (hsdpUser.getHsdpUserRecord() != null) {
+                                        sendEncryptedUUIDToAnalytics(hsdpUserRecord);
+                                    }
                                     ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
                                 });
                             }
@@ -411,6 +406,18 @@ public class HsdpUser {
                     mContext.getString(R.string.reg_NoNetworkConnection), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
         }
 
+    }
+
+    private void sendEncryptedUUIDToAnalytics(HsdpUserRecord hsdpUserRecord) {
+        if (RegistrationConfiguration.getInstance().isHsdpUuidShouldUpload()) {
+            Encryption encryption = new Encryption();
+            final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
+            if (null != userUID) {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                        "evar2", userUID);
+                RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
+            }
+        }
     }
 
     /**
