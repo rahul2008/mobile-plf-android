@@ -27,7 +27,7 @@
 
             <ImageView
                 android:id="@+id/ews_gs_image_header"
-                style="@style/EWS.ImageScale"
+                style="@style/ews_image_scale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
