@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class THSLocationConsentProvider {
 
-    public final static String THS_LOCATION = "THS_LOCATION";
+    public final static String THS_LOCATION = "THS_location";
 
     public static ConsentDefinition getTHSConsentDefinition() {
         int text = R.string.ths_location_consent_title;
