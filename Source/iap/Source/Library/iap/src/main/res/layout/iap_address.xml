@@ -22,9 +22,7 @@
             android:name="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
             android:layout_width="match_parent"
             android:tag="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:layout_marginStart="@dimen/border16_margin_left_right" />
+            android:layout_height="wrap_content" />
 
         <com.philips.platform.uid.view.widget.CheckBox
             android:id="@+id/use_this_address_checkbox"
