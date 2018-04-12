@@ -537,6 +537,15 @@
                 "nextState": "telehealthservicesdemo"
               }
             ]
+          },
+          {
+            "eventId": "TestNeuraDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "neurademo"
+              }
+            ]
           }
         ]
       }
