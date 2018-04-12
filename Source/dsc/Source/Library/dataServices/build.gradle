@@ -3,7 +3,6 @@ buildscript {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath builddeps.pitest2
     }
 }
 
@@ -13,7 +12,7 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: "info.solidsoft.pitest"
+apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'

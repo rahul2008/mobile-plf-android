@@ -5,7 +5,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
-apply plugin: "info.solidsoft.pitest"
+apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -16,7 +16,7 @@ archivesBaseName = "mya-csw"
 buildscript {
     dependencies {
         classpath deps.butterknife_gradle
-        classpath builddeps.pitest2
+        classpath builddeps.pitest
     }
 }
 android {
