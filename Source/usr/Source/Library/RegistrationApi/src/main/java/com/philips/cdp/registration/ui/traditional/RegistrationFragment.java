@@ -482,7 +482,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                             .getApplicationContext());
             RLog.d(TAG,
                     "onNetWorkStateReceived : Janrain reinitialization with locale : "
-                            + RegistrationHelper.getInstance().getLocale(getContext()));
+                            + RegistrationHelper.getInstance().getLocale());
         }
     }
 
