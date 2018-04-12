@@ -26,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
@@ -323,10 +324,32 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         usrCreatescreenTermsandconditionsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                TextView tv = (TextView) buttonView;
+                usrCreatescreenTermsandconditionsalertView.hideError();
+                if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                    // No link is clicked
+                    if (!isChecked) {
+                        usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                    }
                 } else {
-                    usrCreatescreenTermsandconditionsalertView.hideError();
+                    usrCreatescreenTermsandconditionsCheckbox.setChecked(!isChecked);
+                    if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+                        RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
+                                onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
+                    }else {
+                        RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+                    }
+                }
+            }
+        });
+
+        usrCreatescreenMarketingmailsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                TextView tv = (TextView) compoundButton;
+                if(!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)){
+                    usrCreatescreenMarketingmailsCheckbox.setChecked(!isChecked);
+                    getRegistrationFragment().addPhilipsNewsFragment();
                 }
             }
         });
@@ -377,25 +400,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
-                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
-                        onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-            }else {
-                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-            }
-
         }
     };
 
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
-            //TEMP: Checkbox state is changing on click of link. The below code is
-            // a workaround to retain the state.
-            usrCreatescreenMarketingmailsCheckbox.setChecked(
-                    !usrCreatescreenMarketingmailsCheckbox.isChecked());
         }
     };
 
