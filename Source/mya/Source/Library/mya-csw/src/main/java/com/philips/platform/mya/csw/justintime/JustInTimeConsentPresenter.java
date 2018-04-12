@@ -13,6 +13,8 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
+
 public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Presenter {
     private static final String JIT_CONSENT = "jitConsent";
 
@@ -65,7 +67,7 @@ public class JustInTimeConsentPresenter implements JustInTimeConsentContract.Pre
     }
 
     private void trackAction(final String action) {
-        taggingInterface.trackActionWithInfo(JIT_CONSENT, prepareTrackActionInfo(action, TaggingUtils.join(consentDefinition.getTypes())));
+        taggingInterface.trackActionWithInfo(SEND_DATA, prepareTrackActionInfo(action, TaggingUtils.join(consentDefinition.getTypes())));
     }
 
     private void postConsent(boolean status, PostConsentCallback callback) {

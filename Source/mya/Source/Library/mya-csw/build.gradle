@@ -101,8 +101,6 @@ dependencies {
         releaseCompile project(path: ':registrationApi', configuration: 'release')
         debugCompile project(path: ':pif', configuration: 'debug')
         releaseCompile project(path: ':pif', configuration: 'release')
-        debugCompile project(path: ':uikitLib', configuration: 'debug')
-        releaseCompile project(path: ':uikitLib', configuration: 'release')
         debugCompile project(path: ':mya-catk', configuration: 'debug')
         releaseCompile project(path: ':mya-catk', configuration: 'release')
     } else {
@@ -112,7 +110,6 @@ dependencies {
             exclude group: 'com.google.dagger'
         }
         compile philipsdeps.pif
-        compile philipsdeps.uikitLib
         compile philipsdeps.mya-catk
     }
 
