@@ -96,7 +96,7 @@ public class CswInterface implements UappInterface {
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
-
+            // Ignore
         }
     }
 
