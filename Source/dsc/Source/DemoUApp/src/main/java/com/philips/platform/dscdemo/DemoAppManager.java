@@ -113,7 +113,7 @@ public class DemoAppManager {
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
                     characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
-            mDataServicesManager.initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDatabaseMonitor(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             Toast.makeText(context, "DB injection failed", Toast.LENGTH_SHORT).show();
         }

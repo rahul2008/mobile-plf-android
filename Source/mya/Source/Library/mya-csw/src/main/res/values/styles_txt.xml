@@ -22,8 +22,8 @@
   </style>
 
   <style name="Txt.Title">
-    <item name="fontPath">@string/ews_sans_bold</item>
-    <item name="android:textSize">@dimen/ews_title_text_size</item>
+    <item name="fontPath">fonts/centralesansbold.ttf</item>
+    <item name="android:textSize">20sp</item>
     <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
   </style>
 

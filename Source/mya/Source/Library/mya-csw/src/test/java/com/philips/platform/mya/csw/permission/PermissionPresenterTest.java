@@ -172,20 +172,20 @@ public class PermissionPresenterTest {
     @Test
     public void testTagsActionWhenAcceptingConsentSucceeds() {
         whenTogglingConsentSucceeds(true);
-        thenActionIsTagged("consentCenter", ImmutableMap.of("specialEvents", "consentAccepted", "consentType", "moment"));
+        thenActionIsTagged("sendData", ImmutableMap.of("specialEvents", "consentAccepted", "consentType", "moment"));
     }
 
     @Test
     public void testTagsActionWhenRejectingConsentSucceeds() {
         whenTogglingConsentSucceeds(false);
-        thenActionIsTagged("consentCenter", ImmutableMap.of("specialEvents", "consentRejected", "consentType", "moment"));
+        thenActionIsTagged("sendData", ImmutableMap.of("specialEvents", "consentRejected", "consentType", "moment"));
     }
 
     @Test
     public void testTagsActionWhenTogglingMultiTypeConsentSucceeds() {
         givenMultiTypeConsent("moment", "coaching");
         whenTogglingConsentSucceeds(true);
-        thenActionIsTagged("consentCenter", ImmutableMap.of("specialEvents", "consentAccepted", "consentType", "moment|coaching"));
+        thenActionIsTagged("sendData", ImmutableMap.of("specialEvents", "consentAccepted", "consentType", "moment|coaching"));
     }
 
     @Test
