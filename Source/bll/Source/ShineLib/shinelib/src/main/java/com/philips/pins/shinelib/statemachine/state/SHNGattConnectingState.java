@@ -18,7 +18,7 @@ import java.security.InvalidParameterException;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
-    private static final String TAG = SHNGattConnectingState.class.getName();
+    private static final String TAG = "SHNGattConnectingState";
 
     private boolean shouldRetryConnecting = false;
     private long minimumConnectionIdleTime;

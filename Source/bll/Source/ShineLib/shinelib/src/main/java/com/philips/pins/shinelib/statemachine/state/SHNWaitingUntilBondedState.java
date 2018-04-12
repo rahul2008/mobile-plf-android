@@ -12,7 +12,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNWaitingUntilBondedState extends SHNConnectingState implements SHNCentral.SHNBondStatusListener {
 
-    private static final String TAG = SHNWaitingUntilBondedState.class.getSimpleName();
+    private static final String TAG = "SHNWaitingUntilBondedState";
 
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3_000L;
     private static final long BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS = 1_000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state

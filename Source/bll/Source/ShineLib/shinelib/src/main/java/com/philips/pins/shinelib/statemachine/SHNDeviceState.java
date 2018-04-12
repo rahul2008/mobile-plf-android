@@ -11,7 +11,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
 
-    private static final String TAG = SHNDeviceState.class.getSimpleName();
+    private static final String TAG = "SHNDeviceState";
 
     protected final SHNDeviceResources sharedResources;
 

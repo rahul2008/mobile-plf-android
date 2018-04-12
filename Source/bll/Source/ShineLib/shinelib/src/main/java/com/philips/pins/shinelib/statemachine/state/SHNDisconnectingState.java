@@ -16,7 +16,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNDisconnectingState extends SHNDeviceState {
 
-    private static final String TAG = SHNDisconnectingState.class.getSimpleName();
+    private static final String TAG = "SHNDisconnectingState";
 
     private static final long DISCONNECT_TIMEOUT = 1_000L;
 

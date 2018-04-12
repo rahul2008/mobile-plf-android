@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNDiscoveringServicesState extends SHNConnectingState {
 
-    private static final String TAG = SHNDiscoveringServicesState.class.getSimpleName();
+    private static final String TAG = "SHNDiscoveringServicesState";
     private static final long SERVICE_DISCOVERY_TIMEOUT = 20_000L;
 
     public SHNDiscoveringServicesState(@NonNull SHNDeviceStateMachine stateMachine) {

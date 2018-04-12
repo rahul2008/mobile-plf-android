@@ -15,7 +15,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public abstract class SHNConnectingState extends SHNDeviceState {
 
-    private static final String TAG = SHNConnectingState.class.getName();
+    private static final String TAG = "SHNConnectingState";
 
     protected Timer connectingTimer;
 

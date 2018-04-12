@@ -11,7 +11,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNInitializingServicesState extends SHNConnectingState {
 
-    private static final String TAG = SHNInitializingServicesState.class.getSimpleName();
+    private static final String TAG = "SHNInitializingServicesState";
     private static final long SERVICE_INITIALIZATION_TIMEOUT = 20_000L;
 
 
