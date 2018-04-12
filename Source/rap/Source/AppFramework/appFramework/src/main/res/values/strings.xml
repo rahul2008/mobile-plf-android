@@ -195,4 +195,10 @@
   <string name="RA_Allow_Sharing">Allow sharing</string>
   <string name="Ra_neura_allow">Allow</string>
   <string name="RA_neura_mayBeLater">May be later</string>
+
+  <string name="RA_neura_consent_title">I allow &quot;Neura Sdk&quot; to track my moments</string>
+  <string name="RA_neura_consent_help">Reference app asks for the location permissions so it can better understand your unique lifestyle.
+      Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you
+      need at the time you need them.</string>
+
 </resources>

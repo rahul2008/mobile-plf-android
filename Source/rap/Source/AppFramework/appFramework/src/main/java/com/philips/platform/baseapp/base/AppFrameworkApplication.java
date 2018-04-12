@@ -37,6 +37,7 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
+import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
@@ -164,6 +165,7 @@ public class AppFrameworkApplication extends Application {
         callback.onAppStatesInitialization();
         initializeCC();
         initializeTHS();
+        registerNeuraHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
@@ -184,6 +186,9 @@ public class AppFrameworkApplication extends Application {
         userRegistrationState.init(this);
     }
 
+    private void registerNeuraHandler() {
+        new NeuraConsentProvider().registerConsentHandler(appInfra);
+    }
 
     public UserRegistrationState getUserRegistrationState() {
         return userRegistrationState;

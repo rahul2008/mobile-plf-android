@@ -13,9 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
@@ -31,7 +37,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
 
     public static final String TAG = NeuraConsentManagerFragment.class.getSimpleName();
     private static final long serialVersionUID = 4394954556057838520L;
-    private Button allow, mayBelater, philipsPrivacy;
+    private Button allow, mayBeLater, philipsPrivacy;
     private AbstractUIBasePresenter presenter;
 
     @Override
@@ -40,12 +46,13 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_neura_consent_manager, container, false);
         allow = inflate.findViewById(R.id.allowButton);
-        mayBelater = inflate.findViewById(R.id.mayBeLater);
+        mayBeLater = inflate.findViewById(R.id.mayBeLater);
         philipsPrivacy = inflate.findViewById(R.id.philipsPrivacy);
         allow.setOnClickListener(this);
-        mayBelater.setOnClickListener(this);
+        mayBeLater.setOnClickListener(this);
         philipsPrivacy.setOnClickListener(this);
-        presenter = new NeuraConsentManagerPresentor(this);
+        presenter = new NeuraConsentManagerPresenter(this);
+        AppFrameworkApplication app = (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
         return inflate;
     }
 
@@ -60,7 +67,12 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     public boolean handleBackEvent() {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
-        targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        try {
+            targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+        }
         hideActionBar();
         getFragmentActivity().getSupportFragmentManager().popBackStack();
         return true;
