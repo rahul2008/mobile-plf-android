@@ -108,7 +108,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_address, true);
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
 
         if (isNetworkConnected()) {
             getAddresses();

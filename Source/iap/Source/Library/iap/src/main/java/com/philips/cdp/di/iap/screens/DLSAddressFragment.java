@@ -157,6 +157,13 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         hideProgressBar();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+
+    }
+
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {
         DLSAddressFragment fragment = new DLSAddressFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
