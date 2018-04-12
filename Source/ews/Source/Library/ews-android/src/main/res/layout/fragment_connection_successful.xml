@@ -39,7 +39,7 @@
                 android:text="@{viewModel.title}" />
             <ImageView
                 android:id="@+id/ews_04_01_pairing_successful_image"
-                style="@style/EWS.ImageScale"
+                style="@style/ews_image_scale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
