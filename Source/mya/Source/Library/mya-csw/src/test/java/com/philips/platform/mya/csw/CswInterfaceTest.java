@@ -28,6 +28,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
@@ -55,6 +56,9 @@ public class CswInterfaceTest {
     private FragmentManager fragmentManagerMock;
     @Mock
     private FragmentTransaction transactionMock;
+    @Mock
+    private MockContext contextMock;
+
 
     private LaunchInputMock givenLaunchInput;
     private CswInterface cswInterface;
@@ -74,9 +78,8 @@ public class CswInterfaceTest {
 
         cswInterface = new CswInterface();
         AppInfraInterfaceMock appInfraInterface = new AppInfraInterfaceMock();
-        MockContext context = new MockContext();
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
-        CswSettings cswSettings = new CswSettings(context);
+        CswSettings cswSettings = new CswSettings(contextMock);
         cswInterface.init(cswDependencies, cswSettings);
     }
 
@@ -137,6 +140,14 @@ public class CswInterfaceTest {
         cswInterface.launch(fragmentLauncher, givenLaunchInput);
 
         verify(fragmentLauncher).getFragmentActivity();
+    }
+
+    public void givenInterfaceInitialized_whenLaunchAsActivity_thenShouldCallStartActivity() {
+        givenLaunchInput();
+
+        cswInterface.launch(activityLauncher, givenLaunchInput);
+
+        verify(contextMock).startActivity((Intent) any());
     }
 
     private void givenLaunchInput() {
