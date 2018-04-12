@@ -21,7 +21,8 @@ public class NeuraConsentManagerPresentor extends AbstractUIBasePresenter {
 
     private FragmentView neuraFragmentView;
 
-    public NeuraConsentManagerPresentor(FragmentView neuraFragmentView) {
+
+    NeuraConsentManagerPresentor(FragmentView neuraFragmentView) {
         super(neuraFragmentView);
         this.neuraFragmentView = neuraFragmentView;
     }
@@ -33,13 +34,16 @@ public class NeuraConsentManagerPresentor extends AbstractUIBasePresenter {
         BaseState baseState = null;
         switch (componentID) {
             case R.id.allowButton:
-                baseState = targetFlowManager.getNextState("allow");
+                String EVENT_ALLOW = "allow";
+                baseState = targetFlowManager.getNextState(EVENT_ALLOW);
                 break;
             case R.id.mayBeLater:
-                baseState = targetFlowManager.getNextState("mayBeLater");
+                String EVENT_MAY_BE_LATER = "mayBeLater";
+                baseState = targetFlowManager.getNextState(EVENT_MAY_BE_LATER);
                 break;
             case R.id.philipsPrivacy:
-                baseState = targetFlowManager.getNextState("privacyPhilips");
+                String EVENT_PRIVACY = "privacyPhilips";
+                baseState = targetFlowManager.getNextState(EVENT_PRIVACY);
                 break;
         }
 

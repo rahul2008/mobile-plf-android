@@ -53,7 +53,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(true);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Allow_Sharing, true);
     }
 
     @Override
