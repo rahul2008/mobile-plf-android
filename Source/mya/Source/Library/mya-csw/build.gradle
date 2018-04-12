@@ -148,6 +148,7 @@ pitest {
             '**Factory*',
             '**_MembersInjector*',
             'com.philips.platform.mya.csw.dialogs.ConfirmDialogViewTest', // Causes error but no tests fail (false positive)
-            'com.philips.platform.mya.csw.dialogs.DialogViewTest' // Causes error but no tests fail (false positive)
+            'com.philips.platform.mya.csw.dialogs.DialogViewTest', // Causes error but no tests fail (false positive)
+            'com.philips.platform.mya.csw.dialogs.ProgressDialogViewTest' // Causes error but no tests fail (false positive)
     ]
 }
