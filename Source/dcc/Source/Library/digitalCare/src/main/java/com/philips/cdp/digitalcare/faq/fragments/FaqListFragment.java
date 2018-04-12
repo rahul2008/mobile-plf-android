@@ -97,7 +97,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 TextView showMoreOrLess = (TextView) holder.itemView.findViewById(R.id.faq_list_item_header_show_more_less);
                 RecyclerView questingList = (RecyclerView) holder.itemView.findViewById(R.id.faq_list_item_recycle_view);
                 int groupSize =getQuestionGroupSize(groupName);
-                if(groupSize <5){
+                if(groupSize <= 5){
                     showMoreOrLess.setVisibility(View.GONE);
                 }else{
                     makeTextViewHyperlink(showMoreOrLess);

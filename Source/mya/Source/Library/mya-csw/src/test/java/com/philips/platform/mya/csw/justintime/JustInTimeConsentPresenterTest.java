@@ -156,14 +156,14 @@ public class JustInTimeConsentPresenterTest {
     public void onConsentGivenTracksActionWhenPostIsSuccessful() {
         givenPostSucceeds();
         whenGivingConsent();
-        thenActionIsTagged("jitConsent", "consentAccepted", "firstType|secondType");
+        thenActionIsTagged("sendData", "consentAccepted", "firstType|secondType");
     }
 
     @Test
     public void onConsentRejectedTracksActionWhenPostIsSuccessful() {
         givenPostSucceeds();
         whenRejectingConsent();
-        thenActionIsTagged("jitConsent", "consentRejected", "firstType|secondType");
+        thenActionIsTagged("sendData", "consentRejected", "firstType|secondType");
     }
 
     private void givenUserIsOffline() {
