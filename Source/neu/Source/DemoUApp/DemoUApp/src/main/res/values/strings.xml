@@ -23,5 +23,10 @@
 
     <string name="RA_MYA_Click_Stream_Hosting_Consent">I allow Philips to use my mobile application usage statistics</string>
     <string name="RA_MYA_Consent_Clickstream_Help">"Giving this consent you are allowing Philips to process mobile usage statistics related to you"</string>
+    <string name="RA_NEU_Disconnect">Disconnect</string>
+    <string name="webhook">WebHook</string>
+    <string name="firebase">Firebase</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
 
 </resources>

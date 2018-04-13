@@ -210,6 +210,9 @@ dependencies {
     compile deps.support.appcompatv7
     testCompile deps.junit
 
+    compile deps.firbase_messaging
+    compile deps.theneura
+
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
         debugCompile project(path: ':uid', configuration: 'debug')
