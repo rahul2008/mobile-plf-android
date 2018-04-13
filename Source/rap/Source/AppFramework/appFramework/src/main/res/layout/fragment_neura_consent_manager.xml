@@ -1,31 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.philips.platform.baseapp.screens.neura.NeuraConsentManagerFragment">
+    android:background="@drawable/onboarding_01">
 
-    <Button
-        android:id="@+id/allowButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/Ra_neura_allow" />
-
-    <Button
-        android:id="@+id/mayBeLater"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/allowButton"
-        android:layout_centerInParent="true"
-        android:text="@string/RA_neura_mayBeLater" />
-
-    <Button
-        android:id="@+id/philipsPrivacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mayBeLater"
-        android:layout_centerInParent="true"
-        android:text="@string/RA_DLS_about_privacy" />
+    <View
+        android:id="@+id/neura_overLap_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
-</RelativeLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/allowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Ra_neura_allow" />
+
+        <Button
+            android:id="@+id/mayBeLater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/allowButton"
+            android:layout_centerInParent="true"
+            android:text="@string/RA_neura_mayBeLater" />
+
+        <Button
+            android:id="@+id/philipsPrivacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mayBeLater"
+            android:layout_centerInParent="true"
+            android:text="@string/RA_DLS_about_privacy" />
+
+
+    </RelativeLayout>
+</FrameLayout>

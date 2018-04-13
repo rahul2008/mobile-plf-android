@@ -28,6 +28,7 @@ import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,8 +53,15 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
         mayBeLater.setOnClickListener(this);
         philipsPrivacy.setOnClickListener(this);
         presenter = new NeuraConsentManagerPresenter(this);
-        AppFrameworkApplication app = (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+        applyOverLayBackground(inflate);
         return inflate;
+    }
+
+    private void applyOverLayBackground(View inflate) {
+        View overLayView = inflate.findViewById(R.id.neura_overLap_view);
+        int colorFromAttribute = UIDHelper.getColorFromAttribute(getFragmentActivity().getTheme(), com.philips.platform.uid.R.attr.uidTrackDefaultNormalOnBackgroundColor, R.color.blue);
+        overLayView.setBackgroundColor(colorFromAttribute);
+        overLayView.getBackground().setAlpha(80);
     }
 
 
