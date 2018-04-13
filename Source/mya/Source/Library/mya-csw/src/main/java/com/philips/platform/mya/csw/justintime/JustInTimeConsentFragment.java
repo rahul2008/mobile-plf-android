@@ -64,11 +64,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public int getTitleResourceId() {
         return JustInTimeConsentDependencies.textResources.titleTextRes;
     }

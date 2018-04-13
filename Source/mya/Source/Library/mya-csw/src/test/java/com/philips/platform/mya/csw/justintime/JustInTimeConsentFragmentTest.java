@@ -1,14 +1,18 @@
 package com.philips.platform.mya.csw.justintime;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.BuildConfig;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.uid.view.widget.Button;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -16,8 +20,14 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.Collections;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -31,13 +41,19 @@ public class JustInTimeConsentFragmentTest {
     private JustInTimeWidgetHandler handlerMock;
     @Mock
     private AppTaggingInterface taggingMock;
+    @Mock
+    private ConsentManagerInterface consentManagerMock;
+    @Mock
+    private JustInTimeConsentContract.Presenter presenterMock;
 
+    @InjectMocks
     private JustInTimeConsentFragment fragment;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         when(appInfraMock.getTagging()).thenReturn(taggingMock);
+        when(appInfraMock.getConsentManager()).thenReturn(consentManagerMock);
         when(taggingMock.createInstanceForComponent(anyString(), anyString())).thenReturn(taggingMock);
 
         JustInTimeConsentDependencies.appInfra = appInfraMock;
@@ -46,12 +62,48 @@ public class JustInTimeConsentFragmentTest {
         JustInTimeConsentDependencies.textResources = buildTextResources();
 
         fragment = JustInTimeConsentFragment.newInstance(1);
+        fragment.setPresenter(presenterMock);
         SupportFragmentTestUtil.startFragment(fragment);
     }
 
     @Test
     public void givenFragmentStarted_whenStarted_thenShouldNotCrashDuringStart() {
         assertNotNull(fragment);
+    }
+
+    @Test
+    public void givenFragmentStarted_whenStarted_thenShouldTrackPageName() {
+        verify(presenterMock).trackPageName();
+    }
+
+    @Test
+    public void givenFragmentStarted_whenGetTitleResourceId_thenShouldReturnCorrectResource() {
+        int result = fragment.getTitleResourceId();
+        assertEquals(R.string.mya_csw_justintime_title, result);
+    }
+
+    @Test
+    public void givenFragmentStarted_whenGetTitleResourceId_thenShouldReturnActualResource() {
+        int result = fragment.getTitleResourceId();
+        assertTrue(result > 0);
+    }
+
+    @Test
+    public void givenFragmentStarted_whenClickOkButton_thenShouldStoreConsentGiven() {
+        assert fragment.getView() != null;
+        Button okButton = fragment.getView().findViewById(R.id.csw_justInTimeView_consentOk_button);
+        okButton.performClick();
+
+        verify(consentManagerMock).storeConsentState(isA(ConsentDefinition.class), eq(true), (PostConsentCallback) any());
+    }
+
+    @Test
+    public void givenFragmentStarted_whenClickOkButton_thenShouldStoreConsentRejected() {
+        assert fragment.getView() != null;
+        Button okButton = fragment.getView().findViewById(R.id.csw_justInTimeView_consentLater_label);
+        okButton.performClick();
+
+        verify(consentManagerMock).storeConsentState(isA(ConsentDefinition.class), eq(false), (PostConsentCallback) any());
     }
 
     private JustInTimeTextResources buildTextResources() {
