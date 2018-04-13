@@ -13,6 +13,7 @@ import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.addresses.Region;
@@ -46,11 +47,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class AddressSelectionFragmentTest {
     private Context mContext;
     @Mock
-    AddressSelectionFragment addrssAddressSelectionFragment;
+    IAPAddressSelectionFragmentMock addrssAddressSelectionFragment;
     @Mock
     Message mockMessage;
     @Mock
     private AddressSelectionAdapter mockAdapter;
+
+    @Mock
+    DeliveryModes deliveryModesMock;
 
     @Mock
     AddressController mockAddressController;
@@ -63,7 +67,10 @@ public class AddressSelectionFragmentTest {
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
         isNetworkAvailable();
-        addrssAddressSelectionFragment = AddressSelectionFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        addrssAddressSelectionFragment = new IAPAddressSelectionFragmentMock();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE,deliveryModesMock);
+        addrssAddressSelectionFragment.setArguments(bundle);
     }
 
     @Test

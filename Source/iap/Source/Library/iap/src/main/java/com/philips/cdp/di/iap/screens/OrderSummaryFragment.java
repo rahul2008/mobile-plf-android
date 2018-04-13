@@ -73,7 +73,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private PaymentMethod mPaymentMethod;
     Bundle bundle;
-    private PaymentController mPaymentController;
+    protected PaymentController mPaymentController;
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
