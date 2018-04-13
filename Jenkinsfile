@@ -119,6 +119,21 @@ pipeline {
             }
         }
 
+        stage('TICS') {
+           when {
+               expression { return TRIGGER_BY_TIMER=='true' }
+          }
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -le
+                        /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
+                        /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
+                    """
+                }
+            }
+        }
+
         stage('Trigger E2E Test') {
             when {
                 allOf {
