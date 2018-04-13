@@ -5,7 +5,7 @@
     android:id="@+id/parent_container"
     >
 <LinearLayout
-    android:layout_width="@dimen/iap_match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical">
@@ -13,10 +13,14 @@
 
     <include
         layout="@layout/checkout_steps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/tv_checkout_header_steps"/>
 
     <include
         layout="@layout/iap_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/iap_address_selection_header"/>
 
     <android.support.v7.widget.RecyclerView

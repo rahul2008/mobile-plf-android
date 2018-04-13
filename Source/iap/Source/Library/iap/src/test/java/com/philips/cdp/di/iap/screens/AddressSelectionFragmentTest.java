@@ -66,7 +66,7 @@ public class AddressSelectionFragmentTest {
         addrssAddressSelectionFragment = AddressSelectionFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
 
         SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);

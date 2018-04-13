@@ -129,7 +129,7 @@ public class OrderSummaryFragmentTest {
     }
 
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void sholudPlaceOrder_onPayBtnClicked() throws Exception {
         orderSummaryFragment.onAttach(mContext);
         Mockito.when(viewMock.getId()).thenReturn(R.id.pay_now_btn);
