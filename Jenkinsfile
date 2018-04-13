@@ -120,9 +120,9 @@ pipeline {
         }
 
         stage('TICS') {
-//            when {
-//                expression { return TRIGGER_BY_TIMER=='true' }
-//            }
+           when {
+               expression { return TRIGGER_BY_TIMER=='true' }
+          }
             steps {
                 script {
                     echo "Running TICS..."
