@@ -86,10 +86,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_registration_form, container, false);
 
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
-        }
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT, -1);
@@ -175,6 +171,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void prePopulateFromConsumerData() {
 
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_edit_details), true);
+        }
+
         mContinueButton.setText(R.string.ths_save);
 
         Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
@@ -195,7 +195,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             final SDKLocalDate dob = consumer.getDob();
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(dob.getYear(),dob.getMonth(),dob.getDay());
+            calendar.set(dob.getYear(),dob.getMonth()-1,dob.getDay());
 
             final Date time = calendar.getTime();
 
@@ -222,6 +222,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     private void prePopulateFromPropositionData() {
+
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
+        }
 
         mContinueButton.setText(R.string.ths_continue);
 
@@ -272,6 +276,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        int radioButtonID = radio_group_single_line.getCheckedRadioButtonId();
+        View radioButton = radio_group_single_line.findViewById(radioButtonID);
+        int idx = radio_group_single_line.indexOfChild(radioButton);
+
         if (id == R.id.ths_continue && mContinueButton.getText().toString().equalsIgnoreCase(getString(R.string.ths_continue))) {
             if (validateUserFields()) {
 
@@ -279,10 +288,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
                 if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
                 } else {
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
                 }
             }
 
@@ -295,7 +304,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mContinueButton.showProgressIndicator();
 
             mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
-                    mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
+                    mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
         }
     }
 

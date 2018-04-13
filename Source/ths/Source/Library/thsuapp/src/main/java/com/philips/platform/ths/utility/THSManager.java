@@ -1772,7 +1772,7 @@ public class THSManager {
         consumerUpdate.setLegalResidence(state);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE));
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
         consumerUpdate.setDob(sdkLocalDate);
         consumerUpdate.setFirstName(firstname);
         consumerUpdate.setLastName(lastname);

@@ -507,4 +507,5 @@ When you make use of the \'Find Pharmacies\' functionality, you are requested to
 
     <!-- Save Details -->
     <string name="ths_save">Save</string>
+    <string name="ths_edit_details">Edit details</string>
 </resources>

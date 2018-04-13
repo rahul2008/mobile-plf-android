@@ -177,7 +177,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016,8,24);
         baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID("baby1+ggggg");
+        baby1.setHsdpUUID(user.getJanrainUUID()+"xyz");
         baby1.setDependent(true);
         baby1.setBloodPressureSystolic("120");
         baby1.setBloodPressureDiastolic("80");
