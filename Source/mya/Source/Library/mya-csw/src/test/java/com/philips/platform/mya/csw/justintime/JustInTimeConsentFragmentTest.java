@@ -42,8 +42,6 @@ public class JustInTimeConsentFragmentTest {
     @Mock
     private AppTaggingInterface taggingMock;
     @Mock
-    private ConsentManagerInterface consentManagerMock;
-    @Mock
     private JustInTimeConsentContract.Presenter presenterMock;
 
     @InjectMocks
@@ -53,7 +51,6 @@ public class JustInTimeConsentFragmentTest {
     public void setUp() throws Exception {
         initMocks(this);
         when(appInfraMock.getTagging()).thenReturn(taggingMock);
-        when(appInfraMock.getConsentManager()).thenReturn(consentManagerMock);
         when(taggingMock.createInstanceForComponent(anyString(), anyString())).thenReturn(taggingMock);
 
         JustInTimeConsentDependencies.appInfra = appInfraMock;
@@ -94,7 +91,7 @@ public class JustInTimeConsentFragmentTest {
         Button okButton = fragment.getView().findViewById(R.id.csw_justInTimeView_consentOk_button);
         okButton.performClick();
 
-        verify(consentManagerMock).storeConsentState(isA(ConsentDefinition.class), eq(true), (PostConsentCallback) any());
+        verify(presenterMock).onConsentGivenButtonClicked();;
     }
 
     @Test
@@ -103,7 +100,7 @@ public class JustInTimeConsentFragmentTest {
         Button okButton = fragment.getView().findViewById(R.id.csw_justInTimeView_consentLater_label);
         okButton.performClick();
 
-        verify(consentManagerMock).storeConsentState(isA(ConsentDefinition.class), eq(false), (PostConsentCallback) any());
+        verify(presenterMock).onConsentRejectedButtonClicked();
     }
 
     private JustInTimeTextResources buildTextResources() {
