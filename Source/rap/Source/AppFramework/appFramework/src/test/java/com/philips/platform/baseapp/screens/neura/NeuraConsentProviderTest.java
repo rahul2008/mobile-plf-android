@@ -10,6 +10,7 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -37,6 +38,7 @@ public class NeuraConsentProviderTest {
         neuraConsentProvider = new NeuraConsentProvider(consentHandlerInterface);
     }
 
+    @Test
     public void testRegisteringHandler() {
         AppInfraInterface appInfraInterfaceMock = mock(AppInfraInterface.class);
         ConsentManager consentManagerMock = mock(ConsentManager.class);
@@ -45,6 +47,7 @@ public class NeuraConsentProviderTest {
         verify(consentManagerMock).registerHandler(Collections.singletonList(NEURA), consentHandlerInterface);
     }
 
+    @Test
     public void testGetNeuraConsentDefinition() {
         ConsentDefinition neuraConsentDefinition = neuraConsentProvider.getNeuraConsentDefinition();
         assertEquals(neuraConsentDefinition.getHelpText(), R.string.RA_neura_consent_help);
@@ -52,12 +55,14 @@ public class NeuraConsentProviderTest {
         assertEquals(neuraConsentDefinition.getVersion(), BuildConfig.VERSION_CODE);
     }
 
+    @Test
     public void testFetchConsentHandler() {
         FetchConsentTypeStateCallback fetchConsentTypeStateCallback = mock(FetchConsentTypeStateCallback.class);
         neuraConsentProvider.fetchConsentHandler(fetchConsentTypeStateCallback);
         verify(consentHandlerInterface).fetchConsentTypeState(NEURA, fetchConsentTypeStateCallback);
     }
 
+    @Test
     public void testStoreConsentTypeState() {
         PostConsentTypeCallback postConsentTypeCallback = mock(PostConsentTypeCallback.class);
         neuraConsentProvider.storeConsentTypeState(true, postConsentTypeCallback);
