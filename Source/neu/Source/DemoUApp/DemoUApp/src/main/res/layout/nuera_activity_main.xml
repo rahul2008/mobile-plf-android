@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/ListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RadioGroup
+        android:id="@+id/RadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ListView">
+        <RadioButton
+            android:id="@+id/WebHook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:text="@string/webhook"/>
+        <RadioButton
+            android:id="@+id/FCM"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="@string/firebase"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/ConnectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RadioGroup"
+        android:text="@string/connect"
+        android:visibility="visible"
+        />
+    <Button
+        android:id="@+id/DisconnectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RadioGroup"
+        android:visibility="gone"
+        android:text="@string/disconnect"
+        />
+</RelativeLayout>
