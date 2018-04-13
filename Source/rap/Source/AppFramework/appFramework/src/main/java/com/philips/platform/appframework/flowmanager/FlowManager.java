@@ -17,6 +17,7 @@ import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.appframework.stateimpl.DemoDlsState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
+import com.philips.platform.appframework.stateimpl.DemoNeuraState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
 import com.philips.platform.appframework.stateimpl.DemoThsState;
 import com.philips.platform.appframework.stateimpl.DemoUFWState;
@@ -28,7 +29,6 @@ import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
-import com.philips.platform.baseapp.screens.neura.NeuraState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.modularui.stateimpl.EWSFragmentState;
@@ -58,7 +58,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
-        uiStateMap.put(AppStates.NEURA, new NeuraState());
+        uiStateMap.put(AppStates.TESTNEURADEMO, new DemoNeuraState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

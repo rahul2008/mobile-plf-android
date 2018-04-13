@@ -340,6 +340,10 @@ dependencies {
         psraReleaseCompile project(path: ':themesettings', configuration: 'release')
         leakCanaryCompile project(path: ':themesettings', configuration: 'debug')
         releaseCompile project(path: ':themesettings', configuration: 'release')
+        debugCompile project(path: ':NeuraUApp', configuration: 'debug')
+        psraReleaseCompile project(path: ':NeuraUApp', configuration: 'release')
+        leakCanaryCompile project(path: ':NeuraUApp', configuration: 'debug')
+        releaseCompile project(path: ':NeuraUApp', configuration: 'release')
     } else {
         compile philipsdeps.product_registration_lib
         compile philipsdeps.digitalCare
@@ -399,6 +403,7 @@ dependencies {
     testCompile deps.robolectric
     testCompile deps.robolectric_shadows
     testCompile deps.robolectric_shadows_multidex
+
 
 }
 

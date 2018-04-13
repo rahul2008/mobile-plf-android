@@ -7,9 +7,11 @@ package com.philips.platform.neu.demouapp;
 
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -26,7 +28,7 @@ public class NeuraDemoUAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        mContext = uappSettings.getContext();
+        this.mContext = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
     }
 
@@ -35,6 +37,10 @@ public class NeuraDemoUAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+        if(uiLauncher instanceof ActivityLauncher){
+            Intent intent = new Intent(mContext,DemoAppActivity.class);
+            mContext.startActivity(intent);
+        }
 
     }
 
