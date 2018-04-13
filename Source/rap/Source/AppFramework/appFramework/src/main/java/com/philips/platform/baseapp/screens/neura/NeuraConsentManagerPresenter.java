@@ -22,6 +22,7 @@ import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
+import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -40,17 +41,17 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) neuraFragmentView.getFragmentActivity().getApplication();
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
-        NeuraConsentProvider provider = new NeuraConsentProvider();
+        NeuraConsentProvider provider = new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
         try {
             switch (componentID) {
                 case R.id.allowButton:
                     String EVENT_ALLOW = "allow";
-                    provider.storeConsentTypeState(appFrameworkApplication.getAppInfra(), true, this);
+                    provider.storeConsentTypeState(true, this);
                     baseState = targetFlowManager.getNextState(EVENT_ALLOW);
                     break;
                 case R.id.mayBeLater:
                     String EVENT_MAY_BE_LATER = "mayBeLater";
-                    provider.storeConsentTypeState(appFrameworkApplication.getAppInfra(), false, this);
+                    provider.storeConsentTypeState(false, this);
                     baseState = targetFlowManager.getNextState(EVENT_MAY_BE_LATER);
                     break;
                 case R.id.philipsPrivacy:

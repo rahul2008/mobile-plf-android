@@ -59,6 +59,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
 
     private void applyOverLayBackground(View inflate) {
         View overLayView = inflate.findViewById(R.id.neura_overLap_view);
+        //TODO - need to change attribute as per design team requirements
         int colorFromAttribute = UIDHelper.getColorFromAttribute(getFragmentActivity().getTheme(), com.philips.platform.uid.R.attr.uidTrackDefaultNormalOnBackgroundColor, R.color.blue);
         overLayView.setBackgroundColor(colorFromAttribute);
         overLayView.getBackground().setAlpha(80);
