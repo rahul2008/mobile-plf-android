@@ -10,8 +10,12 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -35,7 +39,7 @@ import java.util.regex.Pattern;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 
-public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
+public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>, THSEditUserDetailsCallBack<Consumer,SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
     private static String NAME_REGEX = "[A-Z0-9a-z\\s]{2,25}";
@@ -101,6 +105,10 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     @Override
     public void onFailure(Throwable throwable) {
+        onFailedResponse();
+    }
+
+    private void onFailedResponse() {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
 
@@ -189,5 +197,41 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         }else {
             return false;
         }
+    }
+
+    public void updateConsumerData(String email, Date date, String firstname, String lastname, String gender, State state) {
+        try {
+            THSManager.getInstance().updateConsumerData(mTHSBaseFragment.getContext(),email,date,firstname,lastname,gender,state,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onEditUserDataValidationFailure(Map<String, ValidationReason> var1) {
+        dismissProgress();
+        //onValidationFailed(var1);
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_validation_failed) + var1.toString());
+        }
+    }
+
+    private void dismissProgress() {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+        }
+    }
+
+    @Override
+    public void onEditUserDataResponse(Consumer var1, SDKError var2) {
+        dismissProgress();
+        mTHSBaseFragment.getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onEditUserDataFailure(Throwable var1) {
+        dismissProgress();
+        onFailedResponse();
     }
 }

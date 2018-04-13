@@ -224,4 +224,5 @@ public class THSConstants {
     public static final String THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION = "Payment Information";
     public static final String THS_ANALYTICS_DATE_VALIDATION = "invalid Date";
     public static final String THS_ANALYTICS_PROMOCODE_VALIDATION ="Apply promocode";
+    public static final String IS_LAUNCHED_FROM_EDIT_DETAILS = "IS_LAUNCHED_FROM_EDIT_DETAILS";
 }
