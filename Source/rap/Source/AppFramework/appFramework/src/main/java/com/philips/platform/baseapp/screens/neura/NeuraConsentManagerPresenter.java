@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.neura;
 
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -41,22 +42,22 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) neuraFragmentView.getFragmentActivity().getApplication();
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
-        NeuraConsentProvider provider = new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
+        NeuraConsentProvider provider = getNeuraConsentProvider(appFrameworkApplication);
         try {
             switch (componentID) {
                 case R.id.allowButton:
                     String EVENT_ALLOW = "allow";
-                    provider.storeConsentTypeState(true, this);
-                    baseState = targetFlowManager.getNextState(EVENT_ALLOW);
+                    provider.storeConsentTypeState(true, getPostConsentTypeCallback());
+                    baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
                 case R.id.mayBeLater:
                     String EVENT_MAY_BE_LATER = "mayBeLater";
-                    provider.storeConsentTypeState(false, this);
-                    baseState = targetFlowManager.getNextState(EVENT_MAY_BE_LATER);
+                    provider.storeConsentTypeState(false, getPostConsentTypeCallback());
+                    baseState = getNextState(targetFlowManager, EVENT_MAY_BE_LATER);
                     break;
                 case R.id.philipsPrivacy:
                     String EVENT_PRIVACY = "privacyPhilips";
-                    baseState = targetFlowManager.getNextState(EVENT_PRIVACY);
+                    baseState = getNextState(targetFlowManager, EVENT_PRIVACY);
                     break;
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
@@ -67,13 +68,34 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         if (baseState != null) {
             baseState.init(neuraFragmentView.getFragmentActivity().getApplicationContext());
             baseState.setUiStateData(getUiStateData(componentID));
-            baseState.navigate(new FragmentLauncher(neuraFragmentView.getFragmentActivity(), neuraFragmentView.getContainerId(), neuraFragmentView.getActionBarListener()));
+            baseState.navigate(getUiLauncher());
 
         }
     }
 
+    @NonNull
+    PostConsentTypeCallback getPostConsentTypeCallback() {
+        return this;
+    }
 
-    private UIStateData getUiStateData(int viewId) {
+
+    @NonNull
+    NeuraConsentProvider getNeuraConsentProvider(AppFrameworkApplication appFrameworkApplication) {
+        return new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
+    }
+
+    @NonNull
+    FragmentLauncher getUiLauncher() {
+        return new FragmentLauncher(neuraFragmentView.getFragmentActivity(), neuraFragmentView.getContainerId(), neuraFragmentView.getActionBarListener());
+    }
+
+    @NonNull
+    BaseState getNextState(BaseFlowManager targetFlowManager, String event) {
+        return targetFlowManager.getNextState(event);
+    }
+
+
+    UIStateData getUiStateData(int viewId) {
         if (viewId == R.id.philipsPrivacy) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(Constants.TERMS_AND_CONDITIONS);

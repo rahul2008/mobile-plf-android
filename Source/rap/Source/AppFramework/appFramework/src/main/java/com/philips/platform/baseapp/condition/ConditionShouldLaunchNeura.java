@@ -7,6 +7,7 @@
 package com.philips.platform.baseapp.condition;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
@@ -37,9 +38,19 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
     @Override
     public boolean isSatisfied(Context context) {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        NeuraConsentProvider neuraConsentProvider = new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
-        neuraConsentProvider.fetchConsentHandler(this);
+        NeuraConsentProvider neuraConsentProvider = getNeuraConsentProvider(appFrameworkApplication);
+        neuraConsentProvider.fetchConsentHandler(getFetchConsentTypeStateCallback());
         return !isConsentProvided;
+    }
+
+    @NonNull
+    FetchConsentTypeStateCallback getFetchConsentTypeStateCallback() {
+        return this;
+    }
+
+    @NonNull
+    NeuraConsentProvider getNeuraConsentProvider(AppFrameworkApplication appFrameworkApplication) {
+        return new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
     }
 
     @Override
@@ -52,5 +63,9 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
     @Override
     public void onGetConsentsFailed(ConsentError error) {
         isConsentProvided = false;
+    }
+
+    public boolean isConsentProvided() {
+        return isConsentProvided;
     }
 }
