@@ -1,11 +1,15 @@
 package com.philips.platform.mya.csw.justintime;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.BuildConfig;
 import com.philips.platform.mya.csw.R;
+import com.philips.platform.mya.csw.dialogs.DialogView;
+import com.philips.platform.mya.csw.dialogs.ProgressDialogView;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uid.view.widget.Button;
 
@@ -27,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -43,6 +48,10 @@ public class JustInTimeConsentFragmentTest {
     private AppTaggingInterface taggingMock;
     @Mock
     private JustInTimeConsentContract.Presenter presenterMock;
+    @Mock
+    private ProgressDialogView progressDialogViewMock;
+    @Mock
+    private DialogView dialogViewMock;
 
     @InjectMocks
     private JustInTimeConsentFragment fragment;
@@ -60,6 +69,8 @@ public class JustInTimeConsentFragmentTest {
 
         fragment = JustInTimeConsentFragment.newInstance(1);
         fragment.setPresenter(presenterMock);
+        fragment.setProgressDialogView(progressDialogViewMock);
+        fragment.setDialogView(dialogViewMock);
         SupportFragmentTestUtil.startFragment(fragment);
     }
 
@@ -101,6 +112,54 @@ public class JustInTimeConsentFragmentTest {
         okButton.performClick();
 
         verify(presenterMock).onConsentRejectedButtonClicked();
+    }
+
+    @Test
+    public void givenFragmentStarted_whenHideProgressDialog_thenShouldCallShowDialog() {
+        when(progressDialogViewMock.isDialogShown()).thenReturn(false);
+        fragment.hideProgressDialog();
+
+        verify(progressDialogViewMock, never()).hideDialog();
+    }
+
+    @Test
+    public void givenFragmentStarted_andDialogIsShown_whenHideProgressDialog_thenShouldCallShowDialog() {
+        when(progressDialogViewMock.isDialogShown()).thenReturn(true);
+        fragment.hideProgressDialog();
+
+        verify(progressDialogViewMock).hideDialog();
+    }
+
+    @Test
+    public void givenFragmentStarted_andNoDialogCreated_whenHideProgressDialog_thenShouldCallShowDialog() {
+        fragment.setProgressDialogView(null);
+
+        fragment.hideProgressDialog();
+
+        verify(progressDialogViewMock, never()).hideDialog();
+    }
+
+    @Test
+    public void givenFragmentStarted_whenShowProgressDialog_thenShouldCallShowDialog() {
+        fragment.showProgressDialog();
+
+        verify(progressDialogViewMock, never()).hideDialog();
+    }
+
+    @Test
+    public void givenFragmentStarted_andNoDialogCreated_whenShowProgressDialog_thenShouldNotCallHideDialog() {
+        fragment.setProgressDialogView(null);
+
+        fragment.showProgressDialog();
+
+        verify(progressDialogViewMock, never()).hideDialog();
+    }
+
+    @Test
+    public void givenFragmentStarted_whenShowErrorDialogForCode_thenShouldCallShowDialog() {
+        fragment.showErrorDialog(R.string.csw_problem_occurred_error_title, R.string.csw_offline_message);
+
+        verify(dialogViewMock).showDialog((FragmentActivity) any(), anyString(), anyString());
     }
 
     private JustInTimeTextResources buildTextResources() {

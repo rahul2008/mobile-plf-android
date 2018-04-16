@@ -18,7 +18,9 @@ public class LinkSpan extends ClickableSpan {
 
     @Override
     public void onClick(View view) {
-        privacyNoticeClickListener.onClick();
+        if(privacyNoticeClickListener != null) {
+            privacyNoticeClickListener.onClick();
+        }
     }
 }
 
