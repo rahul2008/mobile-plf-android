@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
-                echo "Node lables: ${nodes}"
+                echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
                 checkout scm
