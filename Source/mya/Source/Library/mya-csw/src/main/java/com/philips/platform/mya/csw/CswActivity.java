@@ -47,28 +47,15 @@ public class CswActivity extends UIDActivity implements OnClickListener,
         ivBack.setOnClickListener(this);
 
         initUI();
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-
     }
 
     @Override
     public void onBackPressed() {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentById(R.id.csw_frame_layout_fragment_container);
