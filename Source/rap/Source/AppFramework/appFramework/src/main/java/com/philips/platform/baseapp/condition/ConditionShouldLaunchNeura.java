@@ -29,7 +29,7 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
      * @since 1.1.0
      */
 
-    private boolean isConsentProvided;
+    private boolean shouldLaunchNeura = true;
 
     public ConditionShouldLaunchNeura() {
         super(AppConditions.SHOULD_LAUNCH_NEURA);
@@ -40,7 +40,7 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         NeuraConsentProvider neuraConsentProvider = getNeuraConsentProvider(appFrameworkApplication);
         neuraConsentProvider.fetchConsentHandler(getFetchConsentTypeStateCallback());
-        return !isConsentProvided;
+        return shouldLaunchNeura;
     }
 
     @NonNull
@@ -56,16 +56,16 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
     @Override
     public void onGetConsentsSuccess(ConsentStatus consentStatus) {
         if (consentStatus != null && consentStatus.getConsentState() == ConsentStates.active) {
-            isConsentProvided = true;
+            shouldLaunchNeura = false;
         }
     }
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
-        isConsentProvided = false;
+        shouldLaunchNeura = true;
     }
 
-    public boolean isConsentProvided() {
-        return isConsentProvided;
+    public boolean isShouldLaunchNeura() {
+        return shouldLaunchNeura;
     }
 }
