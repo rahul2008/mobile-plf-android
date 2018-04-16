@@ -7,6 +7,7 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = 'android && device'
 if (env.BRANCH_NAME == "feature/calisto/tic") {
     nodes = nodes + " && TICS"
+    echo "Node lables: ${nodes}"
 }
 
 pipeline {
