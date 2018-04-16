@@ -28,6 +28,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.CounterHelper;
@@ -53,6 +54,9 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -271,8 +275,15 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         } else {
             RLog.d(TAG,"handleUserLoginStateFragments : launchHomeFragment");
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
+            trackMultipleActionsRegistration();
             replaceWithHomeFragment();
         }
+    }
+
+    private static void trackMultipleActionsRegistration() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
+        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     private void launchMyAccountFragment() {
@@ -297,7 +308,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     private void trackPage(String currPage) {
-        AppTagging.trackPage(currPage);
+        User mUser = new User(getParentActivity().getApplicationContext());
+        AppTagging.trackPage(currPage,mUser);
     }
 
     public void replaceWithHomeFragment() {

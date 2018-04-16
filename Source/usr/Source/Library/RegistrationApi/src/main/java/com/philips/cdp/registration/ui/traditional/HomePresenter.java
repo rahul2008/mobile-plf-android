@@ -402,13 +402,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             return;
         }
         if (provider.equalsIgnoreCase(SocialProvider.FACEBOOK)) {
-            trackPage(AppTaggingPages.FACEBOOK);
+            trackPage(AppTaggingPages.FACEBOOK,user);
         } else if (provider.equalsIgnoreCase(SocialProvider.GOOGLE_PLUS)) {
-            trackPage(AppTaggingPages.GOOGLE_PLUS);
+            trackPage(AppTaggingPages.GOOGLE_PLUS,user);
         } else if (provider.equalsIgnoreCase(SocialProvider.TWITTER)) {
-            trackPage(AppTaggingPages.TWITTER);
+            trackPage(AppTaggingPages.TWITTER,user);
         } else if (provider.equalsIgnoreCase(SocialProvider.WECHAT)) {
-            trackPage(AppTaggingPages.WECHAT);
+            trackPage(AppTaggingPages.WECHAT,user);
         }
     }
 

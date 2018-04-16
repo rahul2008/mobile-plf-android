@@ -170,4 +170,7 @@ public class AppTagingConstants {
 	
 	public static final String REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR = "UR:No worries! You do not need a Philips password. You have logged in with a social provider previously.";
 
+	public static final String KEY_HSDP_ID = "HSDPId";
+
+	public static final String KEY_APPS_ID = "appsId";
 }

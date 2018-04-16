@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 
 import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
@@ -198,7 +199,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void trackPage(String currPage) {
-        AppTagging.trackPage(currPage);
+        AppTagging.trackPage(currPage,new User(getContext()));
     }
 
     protected void trackActionStatus(String state, String key, String value) {
@@ -211,13 +212,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void trackActionForAcceptTermsOption(String state) {
         AppTagging.trackAction(state, null, null);
-    }
-
-    protected void trackMultipleActionsRegistration() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     protected void trackMultipleActionsLogin(String providerName) {
