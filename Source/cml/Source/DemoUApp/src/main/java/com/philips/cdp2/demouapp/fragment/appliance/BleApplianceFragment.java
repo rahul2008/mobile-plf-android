@@ -100,7 +100,7 @@ public class BleApplianceFragment extends Fragment {
         rootView = inflater.inflate(R.layout.cml_fragment_ble_appliance, container, false);
 
         switchContinuousConnection = rootView.findViewById(R.id.cml_switch_continuous_connection);
-        switchContinuousConnection.setChecked(true);
+        switchContinuousConnection.setChecked(false);
         switchContinuousConnection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -140,7 +140,6 @@ public class BleApplianceFragment extends Fragment {
 
         currentAppliance = (BleReferenceAppliance) appliance;
         currentAppliance.getBleParamsPort().addPortListener(portListener);
-        currentAppliance.getBleParamsPort().reloadProperties();
 
         handleContinuousConnectionChanged();
     }
