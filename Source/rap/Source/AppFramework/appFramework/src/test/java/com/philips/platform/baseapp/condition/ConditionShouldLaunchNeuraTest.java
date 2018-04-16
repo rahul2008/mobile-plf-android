@@ -67,7 +67,7 @@ public class ConditionShouldLaunchNeuraTest {
         ConsentStatus consentStatus = new ConsentStatus(ConsentStates.active, BuildConfig.VERSION_CODE);
         conditionShouldLaunchNeura.onGetConsentsSuccess(consentStatus);
         assertFalse(conditionShouldLaunchNeura.isShouldLaunchNeura());
-        fetchConsentTypeStateCallback.onGetConsentsFailed(null);
+        conditionShouldLaunchNeura.onGetConsentsFailed(null);
         assertTrue(conditionShouldLaunchNeura.isShouldLaunchNeura());
     }
 }
