@@ -7,6 +7,7 @@
 package com.philips.platform.baseapp.screens.neura;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -17,8 +18,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 
 public class NeuraState extends BaseState {
-
-    private Context context;
 
     /**
      * AppFlowState constructor
@@ -33,11 +32,9 @@ public class NeuraState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
 
         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-//        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-//                handleFragmentBackStack( new NeuraConsentManagerFragment(), NeuraConsentManagerFragment.TAG,-1);
         FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                 getSupportFragmentManager();
-        NeuraConsentManagerFragment neuraConsentManagerFragment = new NeuraConsentManagerFragment();
+        NeuraConsentManagerFragment neuraConsentManagerFragment = getNeuraConsentManagerFragment();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                 neuraConsentManagerFragment,
@@ -46,9 +43,13 @@ public class NeuraState extends BaseState {
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    @NonNull
+    NeuraConsentManagerFragment getNeuraConsentManagerFragment() {
+        return new NeuraConsentManagerFragment();
+    }
+
     @Override
     public void init(Context context) {
-        this.context = context;
     }
 
     @Override
