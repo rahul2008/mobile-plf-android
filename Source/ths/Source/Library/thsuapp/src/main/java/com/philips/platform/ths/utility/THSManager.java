@@ -28,6 +28,7 @@ import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
@@ -1796,4 +1797,38 @@ public class THSManager {
             }
         });
     }
+
+    public void updateDependentConsumerData(final Context context,Consumer consumer, Date date, String firstname, String lastname, String gender,  final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException{
+        DependentUpdate dependentUpdate = getAwsdk(context).getConsumerManager().getNewDependentUpdate(consumer);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
+        dependentUpdate.setDob(sdkLocalDate);
+        dependentUpdate.setFirstName(firstname);
+        dependentUpdate.setLastName(lastname);
+        dependentUpdate.setGender(gender);
+        getAwsdk(context).getConsumerManager().updateDependent(dependentUpdate, new SDKValidatedCallback<Consumer, SDKError>() {
+            @Override
+            public void onValidationFailure(@NonNull Map<String, String> map) {
+                thsEditUserDetailsCallBack.onEditUserDataValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(@Nullable Consumer consumer, @Nullable SDKError sdkError) {
+                getThsParentConsumer(context).setConsumer(consumer);
+                getThsConsumer(context).setConsumer(consumer);
+                thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkError);
+            }
+
+            @Override
+            public void onFailure(@NonNull Throwable throwable) {
+                thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+            }
+        });
+
+
+
+    }
+
+
 }

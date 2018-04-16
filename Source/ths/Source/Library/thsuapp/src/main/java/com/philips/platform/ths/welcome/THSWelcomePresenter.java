@@ -70,8 +70,13 @@ class THSWelcomePresenter implements THSBasePresenter{
         } else if(componentID == R.id.customer_support){
             uiBaseView.addFragment(new THSCustomerSupportFragment(), THSPracticeFragment.TAG, null, false);
         }else if(componentID == R.id.details){
-            bundle.putBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS,true);
-            uiBaseView.addFragment(new THSRegistrationFragment(), THSPracticeFragment.TAG, bundle, false);
+            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
+                bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_EDIT_CONSUMER_DETAILS);
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                bundle.putBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS,true);
+                uiBaseView.addFragment(new THSRegistrationFragment(), THSPracticeFragment.TAG, bundle, false);
+            }
         }
     }
 

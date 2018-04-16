@@ -69,6 +69,7 @@ public class THSConstants {
     public static final int THS_PRACTICES = 0;
     public static final int THS_SCHEDULED_VISITS = 1;
     public static final int THS_VISITS_HISTORY = 2;
+    public static final int THS_EDIT_CONSUMER_DETAILS = 3;
 
     // start of tagging constants
     public static final String THS_SEND_DATA = "sendData";

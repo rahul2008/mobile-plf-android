@@ -207,6 +207,14 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         }
     }
 
+    public void updateDependentConsumerData(Consumer dependent, Date date, String firstname, String lastname, String gender) {
+        try {
+            THSManager.getInstance().updateDependentConsumerData(mTHSBaseFragment.getContext(),dependent,date,firstname,lastname,gender,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onEditUserDataValidationFailure(Map<String, ValidationReason> var1) {
         dismissProgress();

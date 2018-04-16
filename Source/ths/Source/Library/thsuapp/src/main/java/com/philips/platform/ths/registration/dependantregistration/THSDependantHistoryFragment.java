@@ -97,6 +97,10 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
                 visitForLabel.setText(R.string.ths_select_patient);
                 choose_person.setText(R.string.ths_select_patient_detail_visit_text);
                 break;
+            case THSConstants.THS_EDIT_CONSUMER_DETAILS:
+               // visitForLabel.setText(R.string.ths_select_patient);
+                choose_person.setText(R.string.ths_edit_detail_list);
+                break;
         }
     }
 

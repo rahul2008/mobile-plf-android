@@ -89,7 +89,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         Bundle bundle = getArguments();
         if (bundle != null) {
             mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT, -1);
-            isLaunchedFromEditDetails = bundle.getBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS,false);
+            isLaunchedFromEditDetails = bundle.getBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS, false);
         }
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
         setView(view);
@@ -133,7 +133,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mValidStates = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
         } catch (Exception e) {
             final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR,errorTag);
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
 
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
@@ -157,13 +157,13 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                 }
         );
 
-        if(isLaunchedFromEditDetails){
+        if (isLaunchedFromEditDetails) {
             prePopulateFromConsumerData();
-        }else {
+        } else {
             prePopulateFromPropositionData();
         }
 
-        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent() && !isLaunchedFromEditDetails){
+        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent() && !isLaunchedFromEditDetails) {
             mStateLabel.setVisibility(View.GONE);
             mLocationCantainer.setVisibility(View.GONE);
         }
@@ -178,11 +178,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mContinueButton.setText(R.string.ths_save);
 
         Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
-        if(consumer == null){
+        if (consumer == null) {
             return;
         }
 
-        if(consumer.getEmail() != null){
+        if (consumer.getEmail() != null) {
             dependantEmailAddress.setText(consumer.getEmail());
         }
         if (consumer.getFirstName() != null) {
@@ -195,7 +195,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             final SDKLocalDate dob = consumer.getDob();
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(dob.getYear(),dob.getMonth()-1,dob.getDay());
+            calendar.set(dob.getYear(), dob.getMonth() - 1, dob.getDay());
 
             final Date time = calendar.getTime();
 
@@ -214,11 +214,19 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
 
         final State legalResidence = consumer.getLegalResidence();
-        if(mValidStates.contains(legalResidence)){
+        if (mValidStates.contains(legalResidence)) {
             mCurrentSelectedState = legalResidence;
             mEditTextStateSpinner.setText(mCurrentSelectedState.getName());
             uiPicker.setSelection(mValidStates.indexOf(mCurrentSelectedState));
         }
+
+
+        if (consumer.isDependent()) {
+            dependantEmailAddress.setEnabled(false);
+            mEditTextStateSpinner.setEnabled(false);
+        }
+
+
     }
 
     private void prePopulateFromPropositionData() {
@@ -231,7 +239,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
-        if(user.getEmail() != null){
+        if (user.getEmail() != null) {
             dependantEmailAddress.setText(user.getEmail());
         }
         if (user.getFirstName() != null) {
@@ -288,10 +296,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
                 if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
                 } else {
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
                 }
             }
 
@@ -302,9 +310,14 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             updateUiPickerSelection();
         } else {
             mContinueButton.showProgressIndicator();
+            if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
+                mThsRegistrationPresenter.updateDependentConsumerData(THSManager.getInstance().getThsConsumer(getContext()).getConsumer(), mDob, mEditTextFirstName.getText().toString(),
+                        mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE);
 
-            mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
-                    mEditTextLastName.getText().toString(), idx==0?Gender.FEMALE:Gender.MALE, mCurrentSelectedState);
+            } else {
+                mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
+                        mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
+            }
         }
     }
 
@@ -317,18 +330,18 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
     }
 
-    protected boolean validateUserFields(){
+    protected boolean validateUserFields() {
         return validateNameFields() && validateDOB() && validateState();
     }
 
     private boolean validateState() {
-        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
             isLocationValid = false;
-        }else {
+        } else {
             isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
         }
         if (isLocationValid) {
-            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_location_validation_error),false);
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING, getString(R.string.ths_registration_location_validation_error), false);
             ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
             ths_edit_location_container.showError();
             return false;
@@ -342,13 +355,13 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private boolean validateDOB() {
         boolean isValidDOB = mThsRegistrationPresenter.validateDOB(mDob);
-        if(isValidDOB){
+        if (isValidDOB) {
             if (ths_edit_dob_container.isShowingError()) {
                 ths_edit_dob_container.hideError();
             }
             return true;
-        }else {
-            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_dob_validation_error),false);
+        } else {
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING, getString(R.string.ths_registration_dob_validation_error), false);
             ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
             ths_edit_dob_container.showError();
             return false;
@@ -442,11 +455,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() == 1) {
             THSTagUtils.doExitToPropositionWithCallBack();
-            AmwellLog.v("REG_FRAG","handleBackEvent exit");
+            AmwellLog.v("REG_FRAG", "handleBackEvent exit");
             return true;
-        }
-        else {
-            AmwellLog.v("REG_FRAG","handleBackEvent false");
+        } else {
+            AmwellLog.v("REG_FRAG", "handleBackEvent false");
             return false;
         }
     }

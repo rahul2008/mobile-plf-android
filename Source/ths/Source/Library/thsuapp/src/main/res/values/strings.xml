@@ -508,4 +508,5 @@ When you make use of the \'Find Pharmacies\' functionality, you are requested to
     <!-- Save Details -->
     <string name="ths_save">Save</string>
     <string name="ths_edit_details">Edit details</string>
+    <string name="ths_edit_detail_list">Please select the person for which you would like to view or edit details</string>
 </resources>
