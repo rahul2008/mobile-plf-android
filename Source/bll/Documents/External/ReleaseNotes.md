@@ -1,7 +1,7 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version 2017.5.0
+Version {next}
 ----------------
 
 ### Functionality Delivered
