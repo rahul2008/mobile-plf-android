@@ -3,6 +3,8 @@ package com.philips.platform.neu.demouapp;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -12,14 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.neura.resources.authentication.AnonymousAuthenticationStateListener;
 import com.neura.resources.authentication.AuthenticationState;
+import com.neura.resources.user.UserDetails;
+import com.neura.resources.user.UserDetailsCallbacks;
+import com.neura.sdk.object.SubscriptionMethod;
+import com.neura.sdk.service.SubscriptionRequestCallbacks;
+import com.neura.sdk.util.NeuraUtil;
 import com.philips.platform.neu.demouapp.neura.NeuraManager;
 import com.philips.platform.uid.utils.UIDActivity;
 
@@ -28,9 +38,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NueraDemoMainActivity extends UIDActivity{
-
+    private String userId;
     CheckBoxAdapter adapter;
     Button connect,disconnect;
+    RadioGroup radioGroup;
+    int counter;
+    List<String> momentsList = Arrays.asList(
+            "userStartedWalking",
+            "userIsIdleAtHome",
+            "userFinishedWalking",
+            "userStartedRunning",
+            "userFinishedRunning",
+            "userIsIdleFor1Hour");
+    boolean [] array = new boolean[momentsList.size()];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +63,35 @@ public class NueraDemoMainActivity extends UIDActivity{
         NeuraManager.getInstance().initNeuraConnection(getApplicationContext());
         requestLocationPermission();
         displayList();
+        counter = 0;
         connect = findViewById(R.id.ConnectButton);
         disconnect = findViewById(R.id.DisconnectButton);
-
+        radioGroup = findViewById(R.id.RadioGroup);
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NeuraManager.authenticateAnonymously(silentStateListener);
             }
         });
+
+        disconnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NeuraManager.getInstance().getClient().forgetMe(getParent(), true, new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        setDisconnected();
+                        return false;
+                    }
+                });
+            }
+        });
     }
 
+    private void setDisconnected() {
+        disconnect.setVisibility(View.GONE);
+        connect.setVisibility(View.VISIBLE);
+    }
 
 
     AnonymousAuthenticationStateListener silentStateListener = new AnonymousAuthenticationStateListener() {
@@ -65,10 +103,13 @@ public class NueraDemoMainActivity extends UIDActivity{
                     break;
                 case AuthenticatedAnonymously:
                     // successful authentication
+                    setConnected();
                     NeuraManager.getInstance().getClient().unregisterAuthStateListener();
                     Log.d("Neura","AuthenticatedAnonymously callback received");
+
+
                     // do something with the user's details...
-//                    getUserDetails();
+                    getUserDetails();
 
                     // Trigger UI changes
                     boolean isConnected = true;
@@ -76,7 +117,7 @@ public class NueraDemoMainActivity extends UIDActivity{
 //                    setUIState(isConnected, setSymbol);
 
                     // Subscribe to neura moments so that you can receive push notifications
-//                    subscribeToPushEvents();
+                    subscribeToPushEvents();
                     break;
                 case NotAuthenticated:
                 case FailedReceivingAccessToken:
@@ -93,15 +134,30 @@ public class NueraDemoMainActivity extends UIDActivity{
             }
         }
     };
-    private void displayList() {
-       List<String> momentsList = Arrays.asList(
-               "Presence at Home",
-               "Physical Activity",
-               "Sleep-related Habits",
-               "Presence at a Certain Type of Places",
-               "Driving Activity and Habits",
-               "Presence at Work");
 
+    private void setConnected() {
+        disconnect.setVisibility(View.VISIBLE);
+        connect.setVisibility(View.GONE);
+    }
+
+    private void getUserDetails() {
+        NeuraManager.getInstance().getClient().getUserDetails(new UserDetailsCallbacks() {
+            @Override
+            public void onSuccess(UserDetails userDetails) {
+                if (userDetails.getData() != null) {
+                    // Do something with this information
+                    userId = userDetails.getData().getNeuraId();
+                    NeuraManager.getInstance().getClient().getUserAccessToken();
+                }
+            }
+
+            @Override
+            public void onFailure(Bundle resultData, int errorCode) {
+            }
+        });
+    }
+
+    private void displayList() {
        adapter = new CheckBoxAdapter(this,R.layout.checkbox_info,momentsList);
         ListView listView = findViewById(R.id.ListView);
         listView.setAdapter(adapter);
@@ -124,7 +180,7 @@ public class NueraDemoMainActivity extends UIDActivity{
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder viewHolder = null;
             if(convertView == null){
                 LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -133,15 +189,34 @@ public class NueraDemoMainActivity extends UIDActivity{
                 viewHolder = new ViewHolder();
                 viewHolder.MomentList = convertView.findViewById(R.id.code);
                 viewHolder.checkBox = convertView.findViewById(R.id.checkBox1);
+
+
                 convertView.setTag(viewHolder);
 
                 viewHolder.checkBox.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         android.widget.CheckBox cb = (android.widget.CheckBox) v ;
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
+                        if(cb.isSelected()){
+                            array[position] = true;
+                        }else{
+                            array[position] = false;
+                        }
+                    }
+                });
+
+                viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            counter++;
+                        }else {
+                            counter --;
+                        }
+                        if(counter > 0){
+                            connect.setEnabled(true);
+                        }else{
+                            connect.setEnabled(false);
+                        }
                     }
                 });
             }
@@ -171,4 +246,64 @@ public class NueraDemoMainActivity extends UIDActivity{
             Log.d("Neura","Neura Works only for location enabled");
         }
     }
+
+    private void subscribeToPushEvents() {
+        /**
+         * Go to our push notification guide for more info on how to register receiving
+         * events via firebase https://dev.theneura.com/docs/guide/android/pushnotification.
+         * If you're receiving a 'Token already exists error',make sure you've initiated a
+         * Firebase instance like {@link com.neura.sampleapplication.activities.MainActivity#onCreate(Bundle)}
+         * http://stackoverflow.com/a/38945375/5130239
+         */
+        NeuraManager.getInstance().getClient().
+                registerFirebaseToken(FirebaseInstanceId.getInstance().getToken());
+
+        List<String> events = getSelectedEvents();
+        //Subscribing to events - mandatory in order to receive events.
+        for (int i = 0; i < events.size(); i++) {
+            subscribeToEvent(events.get(i));
+        }
+    }
+
+    private List<String> getSelectedEvents() {
+        List<String> selectedEvents = new ArrayList<>();
+        for (int i = 0; i < momentsList.size(); i++) {
+            if(array[i]){
+                selectedEvents.add(momentsList.get(i));
+            }
+        }
+        return selectedEvents;
+    }
+
+
+    public void subscribeToEvent(final String eventName) {
+        final String eventIdentifier = userId + eventName;
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.FCM){
+                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
+                }else if(checkedId == R.id.WebHook){
+                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName,eventIdentifier, SubscriptionMethod.WEBHOOK,"WebHookIdHere",mSubscribeRequest);
+                }
+            }
+        });
+
+    }
+
+    private SubscriptionRequestCallbacks mSubscribeRequest = new SubscriptionRequestCallbacks() {
+        @Override
+        public void onSuccess(final String eventName, Bundle resultData, String identifier) {
+            //loadProgress(false);
+            Toast.makeText(getApplicationContext(),"Successfully subscribed to event: " + eventName,Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFailure(String eventName, Bundle resultData, int errorCode) {
+            Toast.makeText(getApplicationContext(),
+                    "Error: Failed to subscribe to event " + eventName + ". Error code: " +
+                            NeuraUtil.errorCodeToString(errorCode), Toast.LENGTH_SHORT).show();
+        }
+    };
 }

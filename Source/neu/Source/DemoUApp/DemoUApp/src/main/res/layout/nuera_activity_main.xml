@@ -16,13 +16,13 @@
             android:id="@+id/WebHook"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/webhook"/>
         <RadioButton
             android:id="@+id/FCM"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:checked="false"
+            android:checked="true"
             android:text="@string/firebase"/>
     </RadioGroup>
     <Button
@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/RadioGroup"
+        android:enabled="false"
         android:text="@string/connect"
         android:visibility="visible"
         />
