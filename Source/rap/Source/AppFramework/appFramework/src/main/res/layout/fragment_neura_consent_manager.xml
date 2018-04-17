@@ -7,35 +7,91 @@
         android:id="@+id/neura_overLap_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/main_RL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ScrollView
+    android:id="@+id/sv_nuera_root"
+    android:layout_above="@+id/RA_neura_link_holder_layout"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/RA_neura_linear_Layout_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin">
 
-        <Button
-            android:id="@+id/allowButton"
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
+            android:text="@string/RA_nuera_base_title"
+            android:id="@+id/base_text_neura"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
+            android:text="@string/RA_nuera_second_text"
+            android:id="@+id/second_text_neura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
+            android:text="@string/RA_nuera_third_title"
+            android:id="@+id/third_text_neura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/allowButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="@string/Ra_neura_allow" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/mayBeLater"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/allowButton"
-            android:layout_centerInParent="true"
+            style="@style/UIDExtraWideButton.Center"
             android:text="@string/RA_neura_mayBeLater" />
 
-        <Button
+     </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/RA_neura_link_holder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
+
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/philipsPrivacy"
+            style="@style/UIDLabel"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:lines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mayBeLater"
-            android:layout_centerInParent="true"
-            android:text="@string/RA_DLS_about_privacy" />
+            android:text="@string/RA_DLS_about_privacy"/>
 
-
-    </RelativeLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/RA_neura_privacy_notice_label"
+            style="@style/UIDLabel"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:lines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/RA_nuera_policy"/>
+    </LinearLayout>
+</RelativeLayout>
 </FrameLayout>

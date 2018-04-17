@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -29,6 +28,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.Label;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +38,8 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
 
     public static final String TAG = NeuraConsentManagerFragment.class.getSimpleName();
     private static final long serialVersionUID = 4394954556057838520L;
-    private Button allow, mayBeLater, philipsPrivacy;
+    private com.philips.platform.uid.view.widget.Button allow, mayBeLater;
+    Label philipsPrivacy;
     private AbstractUIBasePresenter presenter;
 
     @Override

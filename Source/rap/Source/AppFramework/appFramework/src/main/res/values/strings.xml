@@ -200,5 +200,9 @@
   <string name="RA_neura_consent_help">Reference app asks for the location permissions so it can better understand your unique lifestyle.
       Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you
       need at the time you need them.</string>
+    <string name="RA_nuera_base_title">Base app, Made for You</string>
+    <string name="RA_nuera_policy">privacy Neura</string>
+    <string name="RA_nuera_third_title">To adapt to your preferences and needs, allow sharing location and fitness information with Philips and Neura.</string>
+    <string name="RA_nuera_second_text">Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling location in the background and Fitness Activity.\n %s</string>
 
 </resources>
