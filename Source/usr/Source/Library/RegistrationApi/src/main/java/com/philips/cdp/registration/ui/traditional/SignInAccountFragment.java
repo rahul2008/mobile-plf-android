@@ -400,6 +400,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mRegError.hideError();
             enableAll();
         } else {
+            RLog.e(TAG, "You are in Offline or Network not available");
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
@@ -456,7 +457,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleSendForgotSuccess() {
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
+        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
@@ -577,6 +578,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendVerificationEmailSuccess() {
+        RLog.i(TAG, "handleResendVerificationEmailSuccess");
         trackMultipleActionResendEmailStatus();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
                 mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
