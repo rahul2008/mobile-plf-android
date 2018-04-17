@@ -36,7 +36,6 @@ import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
-import com.philips.platform.dscdemo.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,6 @@ public class MomentFragment extends DSBaseFragment
     private ProgressDialog mProgressDialog;
 
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
-    private Utility mUtility;
 
     @Override
     public int getActionbarTitleResId() {
@@ -90,7 +88,6 @@ public class MomentFragment extends DSBaseFragment
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         mMomentPresenter = new MomentPresenter(mContext, this);
-        mUtility = new Utility();
     }
 
     @Override
@@ -101,27 +98,27 @@ public class MomentFragment extends DSBaseFragment
         mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setCancelable(false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.timeline);
+        RecyclerView recyclerView = view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mMomentAdapter);
 
-        mAddButton = (ImageButton) view.findViewById(R.id.add);
-        ImageButton mDeleteExpiredMomentsButton = (ImageButton) view.findViewById(R.id.delete_moments);
+        mAddButton = view.findViewById(R.id.add);
+        ImageButton mDeleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
         mAddButton.setOnClickListener(this);
         mDeleteExpiredMomentsButton.setOnClickListener(this);
 
-        mTvMomentsCount = (TextView) view.findViewById(R.id.tv_moments_count);
-        mTvAddMomentType = (TextView) view.findViewById(R.id.tv_add_moment_with_type);
-        mTvLatestMoment = (TextView) view.findViewById(R.id.tv_last_moment);
-        mTvMomentByDateRange = (TextView) view.findViewById(R.id.tv_moment_by_date_range);
-        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
-        mTvSyncByDateRange = (TextView) view.findViewById(R.id.tv_sync_by_date_range);
-        TextView mTvLogout = (TextView) view.findViewById(R.id.tv_logout);
+        mTvMomentsCount = view.findViewById(R.id.tv_moments_count);
+        mTvAddMomentType = view.findViewById(R.id.tv_add_moment_with_type);
+        mTvLatestMoment = view.findViewById(R.id.tv_last_moment);
+        mTvMomentByDateRange = view.findViewById(R.id.tv_moment_by_date_range);
+        mTvConsents = view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = view.findViewById(R.id.tv_set_characteristics);
+        mTvSettings = view.findViewById(R.id.tv_settings);
+        mTvSettings = view.findViewById(R.id.tv_settings);
+        mTvInsights = view.findViewById(R.id.tv_insights);
+        mTvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
+        TextView mTvLogout = view.findViewById(R.id.tv_logout);
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
@@ -160,7 +157,8 @@ public class MomentFragment extends DSBaseFragment
         }
         deleteUserDataIfNewUserLoggedIn();
 
-        if (!mUtility.isOnline(getContext())) {
+
+        if (!isOnline()) {
             showToastOnUiThread("Please check your connection");
         }
 
@@ -385,5 +383,10 @@ public class MomentFragment extends DSBaseFragment
                 });
             }
         });
+    }
+
+    private boolean isOnline() {
+        AppInfraInterface appInfra = DemoAppManager.getInstance().getAppInfra();
+        return appInfra.getRestClient().isInternetReachable();
     }
 }

@@ -273,7 +273,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "paymentMethodsAdded");
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "billingAddressAdded");
                 mTHSCreditCardDetailFragment.popSelfBeforeTransition();
-                mTHSCreditCardDetailFragment.popSelfBeforeTransition();
             } else {
                 AmwellLog.e("updatePayment", "failed");
                 thsCreditCardDetailViewInterface.updateProgressButton(false);

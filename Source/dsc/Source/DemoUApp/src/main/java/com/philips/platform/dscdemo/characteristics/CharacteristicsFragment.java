@@ -66,16 +66,16 @@ public class CharacteristicsFragment extends DSBaseFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_user_characteristics, container, false);
 
-        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        Button mBtnOk = rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
 
-        mBtnEdit = (Button) rootView.findViewById(R.id.btnEdit);
+        mBtnEdit = rootView.findViewById(R.id.btnEdit);
         mBtnEdit.setOnClickListener(this);
 
-        Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
+        Button mBtnCancel = rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
 
-        mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
+        mEtCharacteristics = rootView.findViewById(R.id.et_characteristics);
 
         mCharacteristicsDialogPresenter = new CharacteristicsPresenter(this);
 
