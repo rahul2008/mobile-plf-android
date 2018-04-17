@@ -1,6 +1,8 @@
 package com.philips.platform.mya.csw;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.platform.mya.csw.utils.CswTestApplication;
@@ -38,8 +40,6 @@ public class CswActivityTest {
     @Mock
     private FontLoader fontLoaderMock;
 
-    private ActivityController<CswActivity> activityController;
-
     @Before
     public void setUp() {
         initMocks(this);
@@ -48,13 +48,16 @@ public class CswActivityTest {
         when(ThemeUtils.getThemeResourceID((Context) any())).thenReturn(R.style.AccentAqua_UltraLight);
         mockStatic(FontLoader.class);
         when(FontLoader.getInstance()).thenReturn(fontLoaderMock);
-
-        // Create builder subject under test
-        activityController = Robolectric.buildActivity(CswActivity.class);
     }
 
     @Test
     public void test() {
+        Intent testIntent = new Intent();
+        testIntent.putExtras(new Bundle());
+        testIntent.putExtras(CswConstants.DLS_THEME, )
+
+        // Create builder subject under test
+        ActivityController<CswActivity> activityController = Robolectric.buildActivity(CswActivity.class, testIntent);
         CswActivity startedActivity = activityController.create().start().resume().get();
 
         assertNotNull(startedActivity);

@@ -8,6 +8,7 @@
 package com.philips.platform.mya.csw;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -83,7 +84,9 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(this, (List<ConsentDefinition>) this.getIntent().getExtras().getSerializable(CswConstants.CONSENT_DEFINITIONS));
+        Intent intent = this.getIntent();
+        Bundle extras = intent.getExtras();
+        return new CswLaunchInput(this, (List<ConsentDefinition>) extras.getSerializable(CswConstants.CONSENT_DEFINITIONS));
     }
 
     @Override
