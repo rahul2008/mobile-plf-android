@@ -1,97 +1,137 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/onboarding_01">
-
+    android:background="@drawable/neura_bg_consent">
     <View
         android:id="@+id/neura_overLap_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-<RelativeLayout
-    android:id="@+id/main_RL"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<ScrollView
-    android:id="@+id/sv_nuera_root"
-    android:layout_above="@+id/RA_neura_link_holder_layout"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/RA_neura_linear_Layout_main"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin">
+        android:layout_height="match_parent">
 
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel"
-            android:text="@string/RA_nuera_base_title"
-            android:id="@+id/base_text_neura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel"
-            android:text="@string/RA_nuera_second_text"
-            android:id="@+id/second_text_neura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel"
-            android:text="@string/RA_nuera_third_title"
-            android:id="@+id/third_text_neura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/allowButton"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/RA_neura_linear_Layout_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Ra_neura_allow" />
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/nuera_margin_top">
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/mayBeLater"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/UIDExtraWideButton.Center"
-            android:text="@string/RA_neura_mayBeLater" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/base_text_neura"
+                style="@style/UIDLabel"
 
-     </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/nuera_margin_between_text"
+                android:text="@string/RA_nuera_base_title"
+                android:textColor="@color/nuera_text_color"
+                android:textSize="@dimen/neura_base_text_size"
+                android:textStyle="bold" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/second_text_neura"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/base_text_neura"
+                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:text="@string/RA_nuera_second_text"
+                android:textColor="@color/nuera_text_color" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/third_text_neura"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/base_text_neura"
+                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:text="@string/RA_nuera_what_descp"
+                android:textColor="@color/nuera_text_color" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/forth_text_neura"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/second_text_neura"
+                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:text="@string/RA_nuera_third_title"
+                android:textColor="@color/nuera_text_color" />
+
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/allowButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forth_text_neura"
+                android:layout_marginTop="@dimen/nuera_margin_between_button_text"
+                android:text="@string/Ra_neura_allow" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/mayBeLater"
+                style="@style/UIDExtraWideButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/allowButton"
+                android:layout_marginTop="@dimen/nuera_margin_between_buttons"
+                android:background="@color/transparent"
+                android:text="@string/RA_neura_mayBeLater" />
+
+
+            <RelativeLayout
+                android:id="@+id/RA_neura_link_holder_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/mayBeLater">
+
+                <ImageView
+                    android:id="@+id/neura_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="@dimen/neura_image_width"
+                    android:layout_height="@dimen/neura_image_height"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/nuera_margin_image_bottom"
+                    android:layout_marginTop="@dimen/nuera_margin_image_top"
+                    android:background="@drawable/nuera_logo"
+                    android:contentDescription="@string/RA_nuera_image_descp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/neura_image"
+                    android:orientation="horizontal">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/RA_neura_privacy_notice_label"
+                        style="@style/UIDLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:layout_weight="0.5"
+                        android:text="@string/RA_nuera_policy"
+                        android:textColor="@color/nuera_text_color" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/philipsPrivacy"
+                        style="@style/UIDLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:layout_weight="0.5"
+                        android:text="@string/RA_nuera_privacy_philips"
+                        android:textColor="@color/nuera_text_color" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/RA_neura_link_holder_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        >
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/philipsPrivacy"
-            style="@style/UIDLabel"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:lines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/RA_DLS_about_privacy"/>
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/RA_neura_privacy_notice_label"
-            style="@style/UIDLabel"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:lines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/RA_nuera_policy"/>
-    </LinearLayout>
-</RelativeLayout>
 </FrameLayout>

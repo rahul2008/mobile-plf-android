@@ -53,4 +53,16 @@
 
     <dimen name="cross_icon_size">10sp</dimen>
     <dimen name="neura_top_margin">16dp</dimen>
+
+    <dimen name="neura_image_width">104dp</dimen>
+    <dimen name="neura_image_height">28dp</dimen>
+
+    <dimen name="neura_base_text_size">20sp</dimen>
+    <dimen name="nuera_margin_top">36dp</dimen>
+    <dimen name="nuera_margin_between_text">20dp</dimen>
+    <dimen name="nuera_margin_between_button_text">24dp</dimen>
+    <dimen name="nuera_margin_image_top">24dp</dimen>
+    <dimen name="nuera_margin_image_bottom">12dp</dimen>
+    <dimen name="nuera_margin_text_bottom">12dp</dimen>
+    <dimen name="nuera_margin_between_buttons">8dp</dimen>
 </resources>
