@@ -217,7 +217,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected void trackMultipleActionsLogin(String providerName) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 

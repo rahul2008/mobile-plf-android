@@ -214,8 +214,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void mergeSuccess() {
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         hideMergeSpinner();
         completeRegistration();
     }
