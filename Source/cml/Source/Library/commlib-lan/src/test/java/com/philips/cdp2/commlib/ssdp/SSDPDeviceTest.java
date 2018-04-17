@@ -8,27 +8,25 @@ package com.philips.cdp2.commlib.ssdp;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSearchResponse;
 import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromXml;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.BOOT_ID;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.xmlpull.*"})
 @PrepareForTest({SSDPDevice.class, URL.class, URLConnection.class})
 public class SSDPDeviceTest extends RobolectricTest {
 
@@ -37,22 +35,32 @@ public class SSDPDeviceTest extends RobolectricTest {
     private static final String ALMOST_CORRECT_DESCRIPTION = "<?xml version=\"1.0\"?>\"<!DOCTYPE lolz []><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType>urn:philips-com:device:DiProduct:1</deviceType><friendlyName>Airpurifier still next to Lui</friendlyName><manufacturer>Royal Philips Electronics</manufacturer><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6c74c0</UDN><cppId>1c5a6bfffe6c74c0</cppId></device></root>";
     private static final String INVALID_DESCRIPTION = "<?xml version=\"1.0\"?>\n<!DOCTYPE lolz [\n<!ENTITY lol \"lol\">\n<!ENTITY lol2 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n<!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\"> <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\"> <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\"> <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\"> <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\"> <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\"> <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\"> ]>\n<lolz>&lol9;</lolz>";
 
+    private static final String TEST_PROTOCOL = "http";
     private static final String TEST_IP_ADDRESS = "1.2.3.4";
+    private static final String TEST_LOCATION = TEST_PROTOCOL + "://" + TEST_IP_ADDRESS + "/mock/path/to/description.xml";
 
-    private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
     private static final String TEST_BOOTID = "1337";
 
-    //    @Rule
-    //    public PowerMockRule rule = new PowerMockRule();
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
+    @Mock
     private SSDPMessage messageMock;
+
+    @Mock
+    private URLConnection urlConnectionMock;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        messageMock = PowerMockito.mock(SSDPMessage.class);
+        final URL urlMock = PowerMockito.mock(URL.class);
+        PowerMockito.when(urlMock.getProtocol()).thenReturn(TEST_PROTOCOL);
+        PowerMockito.when(urlMock.getHost()).thenReturn(TEST_IP_ADDRESS);
+        PowerMockito.when(urlMock.openConnection()).thenReturn(urlConnectionMock);
+
+        when(messageMock.getDescriptionUrl()).thenReturn(urlMock);
     }
 
     @Test
@@ -60,6 +68,8 @@ public class SSDPDeviceTest extends RobolectricTest {
         final boolean isSecure = true;
 
         final SSDPDevice device = createFromXml(HUE_BRIDGE_DESCRIPTION);
+        assertThat(device).isNotNull();
+
         device.setIpAddress(TEST_IP_ADDRESS);
         device.setSecure(isSecure);
 
@@ -83,6 +93,8 @@ public class SSDPDeviceTest extends RobolectricTest {
         final boolean isSecure = true;
 
         final SSDPDevice device = createFromXml(AIR_PURIFIER_DESCRIPTION);
+        assertThat(device).isNotNull();
+
         device.setIpAddress(TEST_IP_ADDRESS);
         device.setSecure(isSecure);
 
@@ -103,6 +115,8 @@ public class SSDPDeviceTest extends RobolectricTest {
     @Test
     public void givenDeviceIsCreated_whenDeviceIsUpdatedWithNewSsdpMessage_thenAppropriateFieldsAreUpdated() throws Exception {
         final SSDPDevice device = createFromXml(AIR_PURIFIER_DESCRIPTION);
+        assertThat(device).isNotNull();
+
         assertThat(device.getBootId()).isNotEqualTo(TEST_BOOTID);
         assertThat(device.getIpAddress()).isNotEqualTo(TEST_IP_ADDRESS);
 
@@ -114,23 +128,15 @@ public class SSDPDeviceTest extends RobolectricTest {
         assertThat(device.getIpAddress()).isEqualTo(TEST_IP_ADDRESS);
     }
 
-    // TODO enable when working solution for static mocking using PowerMockito under Robolectric is found
-    @Ignore
     @Test
     public void whenDeviceIsCreatedFromSearchResponse_thenAllFieldsGetProperlyInitialized() throws Exception {
-        final URL urlMock = mock(URL.class);
-        final URLConnection urlConnectionMock = mock(URLConnection.class);
-
-        mockStatic(SSDPDevice.class);
-        when(SSDPDevice.getConnectionWithoutSSLValidation(any(URL.class))).thenReturn(urlConnectionMock);
-
-        when(messageMock.getDescriptionUrl()).thenReturn(urlMock);
         when(urlConnectionMock.getInputStream()).thenReturn(new ByteArrayInputStream(AIR_PURIFIER_DESCRIPTION.getBytes()));
 
         when(messageMock.get(LOCATION)).thenReturn(TEST_LOCATION);
         when(messageMock.get(BOOT_ID)).thenReturn(TEST_BOOTID);
 
-        final SSDPDevice device = createFromSearchResponse(messageMock);
+        final SSDPDevice device = SSDPDevice.createFromSearchResponse(messageMock);
+        assertThat(device).isNotNull();
 
         assertThat(device.getBootId()).isEqualTo(TEST_BOOTID);
         assertThat(device.getIpAddress()).isEqualTo(TEST_IP_ADDRESS);

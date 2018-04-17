@@ -106,7 +106,7 @@ public class THSHealthPlanListAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder {
+    public class ViewHolder {
         private TextView HealthPlan;
     }
 

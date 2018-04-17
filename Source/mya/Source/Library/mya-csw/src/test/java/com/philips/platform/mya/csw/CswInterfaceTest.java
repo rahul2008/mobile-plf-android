@@ -11,7 +11,7 @@ import com.philips.platform.mya.csw.mock.FragmentLauncherMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
 import com.philips.platform.mya.csw.mock.LaunchInputMock;
-import com.philips.platform.mya.csw.permission.PermissionView;
+import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.Before;
@@ -62,8 +62,8 @@ public class CswInterfaceTest {
         givenFragmentLauncherWithParentContainerId(A_SPECIFIC_CONTAINER_ID);
         givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
-        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, PermissionView.class);
-        thenAddToBackStackWasCalled(PermissionView.TAG);
+        thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, PermissionFragment.class);
+        thenAddToBackStackWasCalled(PermissionFragment.TAG);
         thenCommitAllowingStateLossWasCalled();
     }
 

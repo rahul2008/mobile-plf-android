@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath builddeps.pitest
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
@@ -5,6 +11,7 @@ apply plugin: 'pmd'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply plugin: 'pl.droidsonroids.pitest'
 
 archivesBaseName = "dataServicesUApp"
 
@@ -63,9 +70,18 @@ dependencies {
 
     testCompile deps.robolectric
     testCompile deps.robolectric_shadows
-    testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'
+    testCompile deps.commons_io
 
     androidTestCompile(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+}
+
+pitest {
+    targetClasses = ['com.philips.platform.dscdemo.*']  //by default "${project.group}.*"
+    pitestVersion = '1.1.0' //not needed when a default PIT version should be used
+    threads = 1
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+    excludedClasses = []
 }

@@ -154,4 +154,10 @@ public class THSFollowUpPresenterTest {
 //        verify(thsFollowUpFragmentMock).hideProgressBar();
     }
 
+    @Test
+    public void checkForInputLengthTest() throws Exception {
+        mTHSFollowUpPresenter.checkForInputLength(10);
+        verify(thsFollowUpViewInterfaceMock).hideInlineError();
+    }
+
 }

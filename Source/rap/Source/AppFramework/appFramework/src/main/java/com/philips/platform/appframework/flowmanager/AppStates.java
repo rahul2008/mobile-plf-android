@@ -42,4 +42,7 @@ public class AppStates {
     public static final String TELEHEALTHSERVICES ="telehealthservices";
     public static final String MY_ACCOUNT="my_account";
     public static final String TELEHEALTHSERVICESDEMO = "telehealthservicesdemo";
+    public static final String PRIVACY_SETTINGS_STATE="privacy_settings";
+    public static final String MY_DETAILS_STATE="my_details";
+    public static final String TELE_HEALTHSERVICES_DEEP_LINKING_STATE ="TeleHealthServicesDeepLinkingState";
 }

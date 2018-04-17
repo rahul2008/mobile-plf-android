@@ -6,7 +6,6 @@
 
 package com.philips.platform.ths.payment;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
@@ -15,6 +14,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.americanwell.sdk.util.CreditCardUtil;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -36,20 +36,26 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.util.List;
+import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSCreditCardDetailFragmentTest {
 
-    THSCreditCardDetailFragment mThsCreditCardDetailFragment;
+    THSCreditCardDetailFragmentTestMock mThsCreditCardDetailFragment;
+
+    THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
 
     @Mock
     THSCreditCardDetailPresenter thsCreditCardDetailPresenterMock;
+
+    @Mock
+    THSCreditCardDetailFragment thsCreditCardDetailFragmentMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -94,10 +100,20 @@ public class THSCreditCardDetailFragmentTest {
     THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    THSCreditCardBillingAddressPresenter mThsWelcomeBackPresenterMock;
+    THSCreditCardDetailPresenter mThsWelcomeBackPresenterMock;
 
     @Mock
     Address addressMock;
+    @Mock
+    Throwable throwableMock;
+
+    @Mock
+    Map mapMock;
+    @Mock
+    THSCreditCardDetailViewInterface thsCreditCardDetailViewInterfaceMock;
+
+    @Mock
+    CreditCardUtil creditCardUtil;
 
     @Before
     public void setUp() throws Exception {
@@ -105,6 +121,8 @@ public class THSCreditCardDetailFragmentTest {
 
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(awsdkMock.getCreditCardUtil()).thenReturn(creditCardUtil);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
@@ -123,14 +141,54 @@ public class THSCreditCardDetailFragmentTest {
         mThsCreditCardDetailFragment = new THSCreditCardDetailFragmentTestMock();
         mThsCreditCardDetailFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mThsCreditCardDetailFragment);
+        thsCreditCardDetailPresenter = new THSCreditCardDetailPresenter(mThsCreditCardDetailFragment, thsCreditCardDetailViewInterfaceMock);
     }
 
     @Test
     public void onClick() throws Exception {
         final View viewById = mThsCreditCardDetailFragment.getView().findViewById(R.id.ths_payment_detail_continue_button);
-        mThsCreditCardDetailFragment.mTHSCreditCardDetailPresenter = thsCreditCardDetailPresenterMock;
+        mThsCreditCardDetailFragment.thsCreditCardDetailPresenter = thsCreditCardDetailPresenterMock;
         viewById.performClick();
         verify(thsCreditCardDetailPresenterMock).onEvent(R.id.ths_payment_detail_continue_button);
+    }
+
+    @Test
+    public void onGetPaymentFailure() throws Exception {
+        thsCreditCardDetailPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragmentMock;
+        thsCreditCardDetailPresenter.onGetPaymentFailure(throwableMock);
+    }
+
+    @Test
+    public void onValidationFailure() throws Exception {
+        thsCreditCardDetailPresenter.mTHSCreditCardDetailFragment = thsCreditCardDetailFragmentMock;
+        thsCreditCardDetailPresenter.onValidationFailure(mapMock);
+    }
+
+    @Test
+    public void isNamevalidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isNameValid(""));
+        assertTrue(thsCreditCardDetailPresenter.isNameValid("Test Name"));
+    }
+
+    @Test
+    public void isExpirationDateYearTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isExpirationYearValid(""));
+        assertFalse(thsCreditCardDetailPresenter.isExpirationYearValid("20191"));
+        assertTrue(thsCreditCardDetailPresenter.isExpirationYearValid("2020"));
+    }
+
+    @Test
+    public void isExpiryDateValidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isExpiryDateValid("0","2020"));
+        assertFalse(thsCreditCardDetailPresenter.isExpiryDateValid("12","0"));
+        assertTrue(thsCreditCardDetailPresenter.isExpiryDateValid("12","2020"));
+    }
+    @Test
+    public void isCVCValidTest() throws Exception {
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid("99999"));
+        assertFalse(thsCreditCardDetailPresenter.isCVCValid(""));
+        assertTrue(thsCreditCardDetailPresenter.isCVCValid("123"));
+        assertTrue(thsCreditCardDetailPresenter.isCVCValid("0000"));
     }
 
 }

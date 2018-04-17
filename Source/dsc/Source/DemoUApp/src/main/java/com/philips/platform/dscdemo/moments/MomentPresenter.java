@@ -251,17 +251,17 @@ class MomentPresenter {
 
         if (isTypeAvailable) {
             dialog.setContentView(R.layout.create_moment);
-            mEtMomentType = (EditText) dialog.findViewById(R.id.et_moment_type);
+            mEtMomentType = dialog.findViewById(R.id.et_moment_type);
         } else {
             dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
         }
 
         dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
 
-        mTemperature = (EditText) dialog.findViewById(R.id.temperature_detail);
-        mLocation = (EditText) dialog.findViewById(R.id.location_detail);
-        mPhase = (EditText) dialog.findViewById(R.id.phase_detail);
-        mDialogButton = (Button) dialog.findViewById(R.id.save);
+        mTemperature = dialog.findViewById(R.id.temperature_detail);
+        mLocation = dialog.findViewById(R.id.location_detail);
+        mPhase = dialog.findViewById(R.id.phase_detail);
+        mDialogButton = dialog.findViewById(R.id.save);
         mDialogButton.setEnabled(false);
 
         if (addOrUpdate == UPDATE) {

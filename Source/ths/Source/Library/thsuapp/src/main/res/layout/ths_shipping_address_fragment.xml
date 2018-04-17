@@ -123,6 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
+            android:inputType="number"
             android:hint="@string/ths_pharmacy_search_hint"
             android:imeOptions="actionDone" />
     </com.philips.platform.uid.view.widget.InputValidationLayout>

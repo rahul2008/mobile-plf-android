@@ -61,7 +61,7 @@ public class THSSDKServerErrorTest {
 
     @Test
     public void validate_scheduled_member_not_found() throws Exception {
-        final boolean validate = mThssdkServerError.validate(SDKErrorReason.MEMBER_NOT_FOUND, context);
+        final boolean validate = mThssdkServerError.validate(SDKErrorReason.CONSUMER_NOT_FOUND, context);
         assert validate == true;
     }
 
@@ -73,7 +73,7 @@ public class THSSDKServerErrorTest {
 
     @Test
     public void validate_scheduled_sdk_member_not_found() throws Exception {
-        final boolean validate = mThssdkServerError.validate(SDKErrorReason.MEMBER_NOT_FOUND, context);
+        final boolean validate = mThssdkServerError.validate(SDKErrorReason.CONSUMER_NOT_FOUND, context);
         assert validate == true;
     }
 

@@ -4,7 +4,10 @@ package com.philips.platform.urdemo;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.URDependancies;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URSettings;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -21,6 +24,8 @@ public class URDemouAppInterface implements UappInterface {
 
     private Context context;
 
+    static AppInfraInterface appInfra;
+
     /**
      * Initialize Registration coponent
      *
@@ -30,7 +35,8 @@ public class URDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
-        URDependancies urDependancies = new URDependancies(uappDependencies.getAppInfra());
+        appInfra = uappDependencies.getAppInfra();
+        URDependancies urDependancies = new URDependancies(appInfra);
         URSettings urSettings = new URSettings(context);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
@@ -49,4 +55,9 @@ public class URDemouAppInterface implements UappInterface {
             context.startActivity(intent);
         }
     }
+
+    public AppInfraInterface getAppInfra() {
+        return appInfra;
+    }
+
 }

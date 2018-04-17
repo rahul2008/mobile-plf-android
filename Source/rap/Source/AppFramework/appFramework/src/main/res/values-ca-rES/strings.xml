@@ -44,12 +44,13 @@
   <string name="RA_CoCo_Description_UIToolkit">|[zh-TW]UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application|</string>
   <string name="RA_CoCo_Description_UserRegistration">|[zh-TW]User registration feature in Reference App provides the ability of registering a new user accessing the mobile application, for logging into the application using valid organization / social media specific credentials|</string>
   <string name="RA_Coco_Version">|[zh-TW]App Info|</string>
+  <string name="RA_ConnectivityScreen_Menu_Title">|Възможности за свързване|</string>
   <string name="RA_ConnectivityScreen_Title">|Възможности за свързване|</string>
   <string name="RA_DLSS_avatar_default_text">|[zh-TW]Hello User, \nPlease sign in.|</string>
   <string name="RA_DLS_Help_Philips_Shop">|[zh-TW]You can make Philips purchases or via 3rd party retailers here.|</string>
   <string name="RA_DLS_Help_Support_screen_sub">|[zh-TW]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions, product information and reviews.|</string>
   <string name="RA_DLS_HomeScreen_Title">|[zh-TW]Reference App Home|</string>
-  <string name="RA_DLS_about_copyright">|[zh-TW]Copyright \u00A9 2017 Philips|</string>
+  <string name="RA_DLS_about_copyright">|[zh-TW]Copyright \u00A9 2018 Philips|</string>
   <string name="RA_DLS_about_description">|[zh-TW]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.|</string>
   <string name="RA_DLS_about_privacy">|[zh-TW]Privacy policy|</string>
   <string name="RA_DLS_about_terms">|[zh-TW]Terms &amp;amp;amp; conditions|</string>
@@ -144,6 +145,7 @@
   <string name="RA_Settings_Logout_Alert">|Tem a certeza de que pretende terminar sessão?|</string>
   <string name="RA_Settings_MyAccount">|Моя учетная запись|</string>
   <string name="RA_Settings_OrderHistory">|Хронология на поръчките|</string>
+  <string name="RA_Settings_Progress_Title">|[zh-TW]Please Wait!!|</string>
   <string name="RA_Settings_Promo_Question_Text">|Qu\'est-ce que cela signifie ?|</string>
   <string name="RA_Settings_Purchases">|Megvásárolt termékek|</string>
   <string name="RA_Settings_Screen_Header_Title">|Einstellungen|</string>

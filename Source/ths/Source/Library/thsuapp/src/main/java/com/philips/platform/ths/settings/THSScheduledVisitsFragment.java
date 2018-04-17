@@ -8,6 +8,8 @@ package com.philips.platform.ths.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +23,11 @@ import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -111,5 +116,17 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
         getAppointments();
     }
 
+    @Override
+    public boolean handleBackEvent() {
 
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
+        if(null!=welComeFragment && welComeFragment instanceof  THSWelcomeFragment){
+            return false;
+        }else {
+            AmwellLog.v("DEEP_LINK",THSScheduledVisitsFragment.TAG+" Exit");
+            exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+            return true;
+        }
+    }
 }

@@ -37,6 +37,7 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
+import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
@@ -74,6 +75,8 @@ public class AppFrameworkApplication extends Application {
     private static boolean appDataInitializationStatus;
     private SupportFragmentState supportFragmentState;
     private TeleHealthServicesState teleHealthServicesState;
+    private PrivacySettingsState privacySettingsState;
+
 
     public static boolean isAppDataInitialized() {
         return appDataInitializationStatus;
@@ -132,6 +135,9 @@ public class AppFrameworkApplication extends Application {
         RALog.d(LOG, "Mya state begin::");
         initializeMya();
         RALog.d(LOG, "Mya state end::");
+        RALog.d(LOG, "Privacy settings state begin::");
+        initializePrivacySettings();
+        RALog.d(LOG, "Privacy settings state end::");
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
@@ -159,7 +165,10 @@ public class AppFrameworkApplication extends Application {
         initializeCC();
         initializeTHS();
     }
-
+    private void initializePrivacySettings() {
+        privacySettingsState = new PrivacySettingsState();
+        privacySettingsState.init(this);
+    }
     private void initializeTHS() {
         teleHealthServicesState = new TeleHealthServicesState();
         teleHealthServicesState.init(this);

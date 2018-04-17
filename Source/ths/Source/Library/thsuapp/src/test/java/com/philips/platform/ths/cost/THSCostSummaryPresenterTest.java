@@ -327,7 +327,7 @@ public class THSCostSummaryPresenterTest {
     public void onCreateVisitValidationFailure() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        Map<String, ValidationReason> map= new HashMap();
+        Map<String, String> map= new HashMap();
         map.put("spo",ValidationReason.FIELD_ATTACHMENT_TOO_BIG);
 
         mTHSCostSummaryPresenter.onCreateVisitValidationFailure(map);
@@ -388,7 +388,7 @@ public class THSCostSummaryPresenterTest {
     public void onGetPaymentMethodResponse() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -399,7 +399,7 @@ public class THSCostSummaryPresenterTest {
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -412,7 +412,7 @@ public class THSCostSummaryPresenterTest {
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
         when(paymentMethodMock.isExpired()).thenReturn(true);
 
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 

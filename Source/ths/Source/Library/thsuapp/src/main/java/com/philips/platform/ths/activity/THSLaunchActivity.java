@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -39,6 +40,7 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.philips.platform.ths.utility.THSConstants.KEY_DEEP_LINKING_FLOW;
 
 
 public class THSLaunchActivity extends UIDActivity implements ActionBarListener {
@@ -66,6 +68,9 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
             THSBaseFragment thsBaseFragment = new THSInitFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle();
+            boolean isDeepLinkingFlow = getIntent().getBooleanExtra(KEY_DEEP_LINKING_FLOW,false);
+            AmwellLog.v("isDeepLink",""+isDeepLinkingFlow);
+            bundle.putBoolean(KEY_DEEP_LINKING_FLOW,isDeepLinkingFlow);
             thsBaseFragment.setArguments(bundle);
             thsBaseFragment.setFragmentLauncher(fragmentLauncher);
             thsBaseFragment.setActionBarListener(this);

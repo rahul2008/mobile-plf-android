@@ -1,34 +1,4 @@
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
-
-def coverageSourceDirs = [
-        '../dataServices/src/main/java'
-]
-
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
@@ -36,74 +6,18 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
+apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'pl.droidsonroids.pitest'
 
-apply plugin: 'cdpSCM'
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "dataServices"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -115,32 +29,6 @@ task zipDocuments(type: Zip) {
     from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
     }
 }
 
@@ -268,4 +156,18 @@ dependencies {
 
 tasks.withType(Test) {
     ignoreFailures = true
+}
+
+pitest {
+    targetClasses = ['com.philips.platform.core.*']  //by default "${project.group}.*"
+    pitestVersion = '1.1.0' //not needed when a default PIT version should be used
+    threads = 1
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+    excludedClasses = [
+        '**Factory*',
+        '**_MembersInjector*',
+        'com.philips.platform.core.injection.ApplicationModuleTest',
+        'com.philips.platform.core.utils.EventingImplTest'
+    ]
 }

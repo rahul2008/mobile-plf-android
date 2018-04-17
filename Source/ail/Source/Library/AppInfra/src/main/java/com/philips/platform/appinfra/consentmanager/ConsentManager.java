@@ -64,48 +64,6 @@ public class ConsentManager implements ConsentManagerInterface {
         }
     }
 
-    private ConsentDefinition getConsentDefinitionForType(String consentType) {
-        ConsentDefinition consentDefinition = consentDefinitionMapping.get(consentType);
-        if (consentDefinition != null) {
-            return consentDefinition;
-        }
-        throw new RuntimeException("ConsentDefinition is not registered for the type " + consentType);
-    }
-
-    protected ConsentHandlerInterface getHandler(String consentType) {
-        ConsentHandlerInterface handler = consentHandlerMapping.get(consentType);
-        if (handler != null) {
-            return handler;
-        }
-        throw new RuntimeException("Handler is not registered for the type " + consentType);
-    }
-
-    private void executeHandlerToFetchConsentState(final ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
-        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
-        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
-
-        for (String consentType : consentDefinition.getTypes()) {
-            ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
-            consentTypeCallbackListeners.add(listener);
-            getHandler(consentType).fetchConsentTypeState(consentType, listener);
-        }
-
-        waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
-    }
-
-    private void executeHandlerToFetchConsentTypeState(final String type, final FetchConsentCallback callback) throws RuntimeException {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
-
-        ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
-        consentTypeCallbackListeners.add(listener);
-        getHandler(type).fetchConsentTypeState(type, listener);
-
-        waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
-    }
-
     @Override
     public void fetchConsentState(final ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
@@ -166,6 +124,48 @@ public class ConsentManager implements ConsentManagerInterface {
         });
     }
 
+    private ConsentDefinition getConsentDefinitionForType(String consentType) {
+        ConsentDefinition consentDefinition = consentDefinitionMapping.get(consentType);
+        if (consentDefinition != null) {
+            return consentDefinition;
+        }
+        throw new RuntimeException("ConsentDefinition is not registered for the type " + consentType);
+    }
+
+    protected ConsentHandlerInterface getHandler(String consentType) {
+        ConsentHandlerInterface handler = consentHandlerMapping.get(consentType);
+        if (handler != null) {
+            return handler;
+        }
+        throw new RuntimeException("Handler is not registered for the type " + consentType);
+    }
+
+    private void executeHandlerToFetchConsentState(final ConsentDefinition consentDefinition, final FetchConsentCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
+
+        for (String consentType : consentDefinition.getTypes()) {
+            ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+            consentTypeCallbackListeners.add(listener);
+            getHandler(consentType).fetchConsentTypeState(consentType, listener);
+        }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+    }
+
+    private void executeHandlerToFetchConsentTypeState(final String type, final FetchConsentCallback callback) throws RuntimeException {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        List<ConsentTypeCallbackListener> consentTypeCallbackListeners = new ArrayList<>();
+
+        ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
+        consentTypeCallbackListeners.add(listener);
+        getHandler(type).fetchConsentTypeState(type, listener);
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+        postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
+    }
+
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
         try {
             countDownLatch.await();
@@ -181,8 +181,8 @@ public class ConsentManager implements ConsentManagerInterface {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                ConsentDefinitionStatus consentDefinitionStatus = null;
-
+                ConsentStates consentDefinitionState = null;
+                ConsentVersionStates consentDefinitionVersionState = null;
                 for (ConsentTypeCallbackListener consentCallbackListener : consentTypeCallbackListeners) {
 
                     ConsentStatus consentStatus = consentCallbackListener.consentStatus;
@@ -193,33 +193,41 @@ public class ConsentManager implements ConsentManagerInterface {
                     if (consentCallbackListener.consentError != null) {
                         callback.onGetConsentFailed(consentCallbackListener.consentError);
                         return;
-                    } else if (consentStatus.getConsentState().equals(ConsentStates.inactive)
-                            || consentStatus.getConsentState().equals(ConsentStates.rejected)) {
-                        callback.onGetConsentSuccess(getConsentDefinitionState(consentDefinition, consentStatus));
-                        return;
                     }
 
-                    consentDefinitionStatus = getConsentDefinitionState(consentDefinition, consentStatus);
+                    ConsentStates consentTypeState = toConsentStatus(consentDefinition, consentStatus);
+                    if (consentDefinitionState == null || consentTypeState.compareTo(consentDefinitionState) > 0) {
+                        consentDefinitionState = consentTypeState;
+                    }
+                    ConsentVersionStates consentTypeVersionState = toConsentVersionStatus(consentDefinition, consentStatus);
+                    if (consentDefinitionVersionState == null || consentTypeVersionState.compareTo(consentDefinitionVersionState) > 0) {
+                        consentDefinitionVersionState = consentTypeVersionState;
+                    }
                 }
-                callback.onGetConsentSuccess(consentDefinitionStatus);
+                callback.onGetConsentSuccess(new ConsentDefinitionStatus(consentDefinitionState, consentDefinitionVersionState, consentDefinition));
             }
         });
 
     }
 
-    private ConsentDefinitionStatus getConsentDefinitionState(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
-        ConsentDefinitionStatus consentDefinitionStatus = new ConsentDefinitionStatus(consentStatus.getConsentState(), getConsentVersionStatus(consentDefinition.getVersion(),
-                consentStatus.getVersion()), consentDefinition);
-        return consentDefinitionStatus;
+    private ConsentStates toConsentStatus(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
+        ConsentStates consentState = consentStatus.getConsentState();
+        if (consentDefinition.getVersion() > consentStatus.getVersion()) {
+            consentState = ConsentStates.inactive;
+        }
+        return consentState;
     }
 
-    private ConsentVersionStates getConsentVersionStatus(int appVersion, int backendVersion) {
-        if (appVersion < backendVersion) {
-            return ConsentVersionStates.AppVersionIsLower;
-        } else if (appVersion == backendVersion) {
-            return ConsentVersionStates.InSync;
+    private ConsentVersionStates toConsentVersionStatus(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {
+        ConsentVersionStates consentVersionState;
+        if (consentDefinition.getVersion() < consentStatus.getVersion()) {
+            consentVersionState = ConsentVersionStates.AppVersionIsLower;
+        } else if (consentDefinition.getVersion() == consentStatus.getVersion()) {
+            consentVersionState = ConsentVersionStates.InSync;
+        } else {
+            consentVersionState = ConsentVersionStates.AppVersionIsHigher;
         }
-        return ConsentVersionStates.AppVersionIsHigher;
+        return consentVersionState;
     }
 
     private void postResultOnFetchConsents(final List<ConsentManagerCallbackListener> consentManagerCallbackListeners, final FetchConsentsCallback callback) {

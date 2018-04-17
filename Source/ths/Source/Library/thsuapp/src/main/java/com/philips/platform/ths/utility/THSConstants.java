@@ -144,6 +144,7 @@ public class THSConstants {
     public static final String THS_VIEW_VISIT_REPORT = "TH_10_05 View PDF";
     public static final String THS_ANDROID_CAMERA = "TH_11_01 Camera screen";
     public static final String THS_ANDROID_GALLERY = "TH_11_02 Photo Library";
+    public static final String THS_APPOINTMENT_CANCEL_CONFIRMATION = "TH_00_02 Appointment cancelled";
 
     // end of tags
 
@@ -161,6 +162,7 @@ public class THSConstants {
     public static final String THS_PAYMENT_METHOD_INVALID_CVV = "createPaymentRequest.creditCardSecCode";
     public static final String THS_PAYMENT_METHOD_INVALID_ZIP = "createPaymentRequest.creditCardZip";
     public static final String THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1 ="createPaymentRequest.address1";
+    public static final String THS_PAYMENT_METHOD_INVALID_MONTH ="createPaymentRequest.creditCardMonth";
 
 
     public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
@@ -169,6 +171,7 @@ public class THSConstants {
     public static final String THS_CONSUMER = "THS_CONSUMER";
 
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    public static final String KEY_DEEP_LINKING_FLOW = "deepLinkingFlow";
     public static final String KEY_COLOR_RANGE = "KEY_COLOR_RANGE";
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";

@@ -197,8 +197,6 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':uikitLib', configuration: 'debug')
-        releaseCompile project(path: ':uikitLib', configuration: 'release')
         debugCompile project(path: ':commlib-lan', configuration: 'debug')
         releaseCompile project(path: ':commlib-lan', configuration: 'release')
         debugCompile project(path: ':uid', configuration: 'debug')
@@ -206,7 +204,6 @@ dependencies {
         debugCompile project(path: ':uAppFwLib', configuration: 'debug')
         releaseCompile project(path: ':uAppFwLib', configuration: 'release')
     } else {
-        compile philipsdeps.uikitLib
         compile philipsdeps.commlib_lan
         compile philipsdeps.uid
         compile philipsdeps.uAppFwLib

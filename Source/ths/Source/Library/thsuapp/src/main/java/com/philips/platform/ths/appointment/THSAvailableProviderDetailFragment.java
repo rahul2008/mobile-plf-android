@@ -23,11 +23,9 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.Date;
-
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_TIME;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -42,7 +40,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     private Practice mPractice;
     protected THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
-    protected RemindOptions remindOptions;
+    protected String remindOptions;
     static final long serialVersionUID = 91L;
 
     @Nullable
@@ -155,7 +153,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     @Override
-    public RemindOptions getReminderOptions(){
+    public String getReminderOptions(){
         if(remindOptions == null){
             remindOptions = RemindOptions.NO_REMINDER;
         }

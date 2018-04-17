@@ -26,7 +26,8 @@
     <string name="MYA_change_country_message">Please logout to change the country you live in. This will lets us tailor the warranty and other information to your location</string>
     <string name="MYA_logout_title">Are you sure you want to log out?</string>
     <string name="MYA_logout_message">You will be logged out of the application. After you log out, you can always login again.</string>
-    <string name="MYA_Info">Do you want to change your login ID or password? Visit our website.</string>
+    <string name="MYA_Info">Do you want to change your login ID or password?</string>
+    <string name="MYA_Visit_Website">Visit our website</string>
     <string name="MYA_Email_Validation_message">Email address not confirmed</string>
     <string name="MYA_Not_Available">Not available</string>
     <string name="MYA_Ok">OK</string>

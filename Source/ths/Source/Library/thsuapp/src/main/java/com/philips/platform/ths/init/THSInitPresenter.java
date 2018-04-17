@@ -23,6 +23,7 @@ import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -233,7 +234,11 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
-           launchWelcomeScreen();
+            if(mThsInitFragment.isDeeplinkingFlow()){
+                launchAppointmentList();
+            }else {
+                launchWelcomeScreen();
+            }
 //            launchOnBoardingScreen();
         } else {
             mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_CONSUMER_DETAILS, sdkError));
@@ -258,6 +263,13 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             return true;
         }
         return false;
+    }
+
+    protected void launchAppointmentList(){
+        mThsInitFragment.hideProgressBar();
+        mThsInitFragment.popSelfBeforeTransition();
+        mThsInitFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+
     }
 
 }

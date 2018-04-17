@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -39,7 +39,7 @@ public class WakeUpAlarmPortFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.cml_fragment_wakeup, container, false);
 
-        enableAlarmSwitch = (Switch) rootview.findViewById(R.id.cml_switchWakeup);
+        enableAlarmSwitch = rootview.findViewById(R.id.cml_switchWakeup);
 
         ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 

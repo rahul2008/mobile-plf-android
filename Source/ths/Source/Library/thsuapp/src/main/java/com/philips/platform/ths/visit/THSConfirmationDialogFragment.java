@@ -12,12 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.visit.Appointment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.settings.THSScheduledVisitsPresenter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_VISIT;
@@ -25,12 +32,24 @@ import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPON
 
 public class THSConfirmationDialogFragment extends DialogFragment implements View.OnClickListener{
     public static final String TAG = THSConfirmationDialogFragment.class.getSimpleName();
+    public static final String APPOINTMENT_DIALOG_TYPE = "APPOINTMENT_DIALOG_TYPE";
 
     THSBasePresenter mPresenter;
     Label mTitleLabel;
     Label mMessageLabel;
     Button mPrimaryButton;
     Button mSecondaryButtonButton;
+    String dialogFragmentType=null;
+
+    public String getDialogFragmentType() {
+        return dialogFragmentType;
+    }
+
+    public void setDialogFragmentType(String dialogFragmentType) {
+        this.dialogFragmentType = dialogFragmentType;
+    }
+
+
 
     @Nullable
     @Override
@@ -43,6 +62,17 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         mPrimaryButton.setOnClickListener(this);
         mSecondaryButtonButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
         mSecondaryButtonButton.setOnClickListener(this);
+        if(null!=getDialogFragmentType()&&getDialogFragmentType().equals(APPOINTMENT_DIALOG_TYPE)){
+            mTitleLabel.setText(getString(R.string.ths_appointment_confirm_cancel_visit));
+            mPrimaryButton.setText(getString(R.string.ths_appointment_yes_cancel_appointment));
+            mSecondaryButtonButton.setText(getString(R.string.ths_appointment_no_cancel_appointment));
+            Appointment appointment = ( (THSScheduledVisitsPresenter)mPresenter).getAppointment();
+            final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
+            final Date dateScheduled = new Date(scheduledStartTime);
+            final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(dateScheduled).toString();
+            final String providerName= appointment.getAssignedProvider().getFullName();
+            mMessageLabel.setText(date +" "+ getString(R.string.ths_appointment_with)+" "+providerName);
+        }
         return view;
     }
 

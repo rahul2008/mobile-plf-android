@@ -691,6 +691,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     @Override
     public void onResponseReceived(SummaryModel productSummaryModel) {
+        if(getContext() == null) {
+            return;
+        }
         if (productSummaryModel == null) {
             DigiCareLogger.i(TAG, "Summary Response Not Received from PRX");
             createMainMenu();

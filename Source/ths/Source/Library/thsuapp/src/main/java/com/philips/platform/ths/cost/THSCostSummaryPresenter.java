@@ -7,13 +7,13 @@
 package com.philips.platform.ths.cost;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.Subscription;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.insurance.THSInsuranceCallback;
@@ -47,7 +47,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 
-class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
+class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
 
     protected THSCostSummaryFragment mTHSCostSummaryFragment;
 
@@ -213,9 +213,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     }
 
     @Override
-    public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
+    public void onCreateVisitValidationFailure(@NonNull Map<String, String> map) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            showCreateVisitError(true, true, var1.toString());
+            showCreateVisitError(true, true, map.toString());
         }
     }
     // end of createVisit callbacks
@@ -261,9 +261,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
 
     // start of getPayment callbacks
     @Override
-    public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
+    public void onGetPaymentSuccess(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            if (null == tHSSDKError.getSdkError() ||  (null != tHSSDKError.getSdkError() && tHSSDKError.getSdkError().getSDKErrorReason()== SDKErrorReason.CREDIT_CARD_MISSING)) {
+            if (null == tHSSDKError.getSdkError() ||  (null != tHSSDKError.getSdkError() && SDKErrorReason.CREDIT_CARD_MISSING.equalsIgnoreCase(tHSSDKError.getSdkError().getSDKErrorReason()))) {
                 AmwellLog.i("fetchPayment", "success");
                 mTHSCostSummaryFragment.mTHSPaymentMethod = tHSPaymentMethod;
                 if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {

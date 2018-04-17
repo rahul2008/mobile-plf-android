@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -43,7 +42,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
     //////////////// start of call backs for search medicines//////////////
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
 
         AmwellLog.i("onFetchMedication", "failure");
     }
