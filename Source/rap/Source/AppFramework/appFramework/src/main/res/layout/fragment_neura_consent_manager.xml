@@ -1,28 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/neura_bg_consent">
-    <View
+    android:background="@drawable/neura_bg_consent"
+    android:fillViewport="true"
+    android:scrollbarStyle="outsideOverlay">
+
+    <LinearLayout
         android:id="@+id/neura_overLap_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/RA_neura_linear_Layout_main"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/nuera_margin_top">
+            android:layout_marginTop="@dimen/nuera_margin_top"
+            android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/base_text_neura"
                 style="@style/UIDLabel"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -86,15 +86,15 @@
                 android:id="@+id/RA_neura_link_holder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/mayBeLater">
+                android:layout_below="@+id/mayBeLater"
+                android:gravity="center_horizontal">
 
                 <ImageView
                     android:id="@+id/neura_image"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="@dimen/neura_image_width"
                     android:layout_height="@dimen/neura_image_height"
+                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/nuera_margin_image_bottom"
                     android:layout_marginTop="@dimen/nuera_margin_image_top"
@@ -113,9 +113,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.5"
                         android:gravity="center_horizontal"
                         android:lines="1"
-                        android:layout_weight="0.5"
                         android:text="@string/RA_nuera_policy"
                         android:textColor="@color/nuera_text_color" />
 
@@ -125,13 +125,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.5"
                         android:gravity="center_horizontal"
                         android:lines="1"
-                        android:layout_weight="0.5"
                         android:text="@string/RA_nuera_privacy_philips"
                         android:textColor="@color/nuera_text_color" />
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
-</FrameLayout>
+    </LinearLayout>
+</ScrollView>
