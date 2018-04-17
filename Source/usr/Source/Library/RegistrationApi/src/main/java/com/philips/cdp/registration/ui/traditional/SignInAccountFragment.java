@@ -87,6 +87,12 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
+import static com.philips.cdp.registration.errors.ErrorConstants.BAD_RESPONSE_CODE;
+import static com.philips.cdp.registration.errors.ErrorConstants.INPUTS_INVALID_CODE;
+import static com.philips.cdp.registration.errors.ErrorConstants.SOCIAL_SIGIN_IN_ONLY_CODE;
+import static com.philips.cdp.registration.errors.ErrorConstants.UNKNOWN_ERROR;
+import static com.philips.cdp.registration.errors.ErrorConstants.UN_EXPECTED_ERROR;
+
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
@@ -137,13 +143,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Context mContext;
 
-    private static final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
-
-    private static final int UN_EXPECTED_ERROR = 500;
-
-    private static final int BAD_RESPONSE_CODE = 7004;
-
-    private static final int INPUTS_INVALID_CODE = 390;
 
     private ScrollView mSvRootLayout;
 
@@ -199,11 +198,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
@@ -231,11 +225,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.usr_loginScreen_login_button) {
+            RLog.i(TAG, "onClick :usr_loginScreen_login_button ");
             hideValidations();
             disableAll();
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         }
+        RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
@@ -284,16 +280,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
         if (emailOrMobile.isEmpty()) {
+            RLog.e(TAG, "Email or Mobile No. is Empty");
             mEtEmail.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
             return false;
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
+                RLog.e(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
+            RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
             mEtEmail.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
@@ -422,11 +421,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
+        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
         enableAll();
-        if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
+        RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
+        if (userRegistrationFailureInfo.getErrorCode() == UNKNOWN_ERROR || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == INPUTS_INVALID_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
@@ -477,7 +477,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
+        RLog.i(TAG, "onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         hideForgotPasswordSpinner();
 
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
@@ -488,7 +488,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         } else {
-            if (userRegistrationFailureInfo.getErrorCode() == -1) {
+            if (userRegistrationFailureInfo.getErrorCode() == UNKNOWN_ERROR) {
                 mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
                 userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             }
@@ -505,11 +505,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void showSignInSpinner() {
+        RLog.i(TAG, "showSignInSpinner");
         mEtEmail.setClickable(false);
         mEtPassword.setClickable(false);
     }
 
     private void hideSignInSpinner() {
+        RLog.i(TAG, "hideSignInSpinner");
         mEtEmail.setClickable(true);
         mEtPassword.setClickable(true);
     }
@@ -523,6 +525,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void resetPassword() {
+        RLog.i(TAG, "resetPassword");
         if (networkUtility.isNetworkAvailable()) {
             if (mUser == null) {
                 return;
@@ -599,8 +602,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK,
-                "SignInAccountFragment : onResendVerificationEmailFailedWithError");
+        RLog.e(TAG, "handleResendVerificationEmailFailed : Error Code =" + userRegistrationFailureInfo.getErrorCode());
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getErrorDescription());
@@ -623,6 +625,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && mUser.getReceiveMarketingEmail()) {
+                RLog.i(TAG, "handleLoginSuccess : TERMS_N_CONDITIONS_ACCEPTED :getReceiveMarketingEmail : completeRegistration");
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
@@ -644,7 +647,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
             } else {
-                RLog.d(TAG, "SignInAccountFragment : invalid value");
+                RLog.i(TAG, "SignInAccountFragment : invalid value");
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
@@ -678,15 +681,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
-        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.i(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
+        RLog.i(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.i(TAG, " envir :" + getClientId() + getRedirectUri());
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, error -> {
             hideForgotPasswordSpinner();
+            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
             mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
             mEtEmail.showError();
         });
@@ -694,21 +698,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void serviceDiscovery() {
-        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        RLog.i(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 hideForgotPasswordSpinner();
-                RLog.d(TAG, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
+                RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
                 mEtEmail.setErrorMessage(getResources().getString(R.string.reg_Generic_Network_Error));
             }
 
             @Override
             public void onSuccess(URL url) {
-                RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
+                RLog.i(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
                 String uriSubString = getBaseString(url.toString());
                 verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
                 resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PW_REDIRECT_URI_SMS;
@@ -736,14 +740,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @NonNull
     private String getBaseString(String respnseUrl) {
-        URL url = null;
+        URL url;
 
         try {
             url = new URL(respnseUrl);
+            if (url != null) {
+                return (url.getProtocol() + "://" + url.getHost());
+            }
         } catch (MalformedURLException e) {
             RLog.d(TAG, "Exception = " + e.getMessage());
         }
-        return (url.getProtocol() + "://" + url.getHost());
+        return "";
     }
 
     private void handleResendSMSRespone(String response) {
@@ -782,8 +789,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), mContext);
                 mEtEmail.setErrorMessage(errorMsg);
                 mEtEmail.showError();
-                RLog.d(TAG, " SMS Resend failure = " + response);
-                return;
+                RLog.e(TAG, "handleResendSMSRespone :  SMS Resend failure with Error Response = " + response);
             }
 
         } catch (Exception e) {
