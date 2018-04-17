@@ -3,6 +3,7 @@ package com.philips.platform.mya.csw;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.platform.mya.csw.permission.PermissionFragment;
@@ -32,7 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
+@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
 @PrepareForTest({ThemeUtils.class, FontLoader.class})
 public class CswActivityTest {
 
@@ -43,6 +44,12 @@ public class CswActivityTest {
     private FontLoader fontLoaderMock;
     @Mock
     private CswInterface cswInterfaceMock;
+    @Mock
+    private View viewMock;
+
+    //
+    private Intent testIntent;
+    private ActivityController<CswActivity> activityController;
 
     @Before
     public void setUp() throws Exception {
@@ -52,19 +59,37 @@ public class CswActivityTest {
         when(ThemeUtils.getThemeResourceID((Context) any())).thenReturn(R.style.AccentAqua_UltraLight);
         mockStatic(FontLoader.class);
         when(FontLoader.getInstance()).thenReturn(fontLoaderMock);
+
+        testIntent = new Intent();
+        testIntent.putExtra(CswConstants.DLS_THEME, R.style.AccentAqua);
+
+        activityController = Robolectric.buildActivity(CswActivity.class, testIntent);
+        activityController.get().cswInterface = cswInterfaceMock;
     }
 
     @Test
     public void givenActivitySetup_whenSettingUp_thenShouldNotCrash() {
-        Intent testIntent = new Intent();
-        testIntent.putExtras(new Bundle());
-        testIntent.putExtra(CswConstants.DLS_THEME, R.style.AccentAqua);
-
-        // Create builder subject under test
-        ActivityController<CswActivity> activityController = Robolectric.buildActivity(CswActivity.class, testIntent);
-        activityController.get().cswInterface = cswInterfaceMock;
         CswActivity startedActivity = activityController.create().start().resume().get();
 
         assertNotNull(startedActivity);
+    }
+
+    @Test
+    public void givenActionSetup_whenOnBackPressed_thenShouldX() {
+        CswActivity startedActivity = activityController.create().start().resume().get();
+
+        startedActivity.onBackPressed();
+
+        // TODO Assert or verify
+    }
+
+    @Test
+    public void givenActionSetup_whenOnClick_andCorrectId_thenShouldX() {
+        CswActivity startedActivity = activityController.create().start().resume().get();
+        when(viewMock.getId()).thenReturn(R.id.csw_textview_back);
+
+        startedActivity.onClick(viewMock);
+
+        // TODO Assert or verify
     }
 }
