@@ -657,6 +657,10 @@ public class DataServicesManager {
         this.dataServiceContext = dataServiceContext;
     }
 
+    public void clearLastSyncTimeCache() {
+        mBackendIdProvider.clearSyncTimeCache();
+    }
+
     private void storeGdprMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
     }
