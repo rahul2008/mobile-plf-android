@@ -28,11 +28,11 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class CswActivity extends UIDActivity implements OnClickListener,
-        ActionBarListener {
+public class CswActivity extends UIDActivity implements OnClickListener, ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
     private TextView ivBack;
+    protected CswInterface cswInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,10 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private void launchCswFragment() {
-        new CswInterface().launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
+        if(cswInterface == null) {
+            cswInterface = new CswInterface();
+        }
+        cswInterface.launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
     }
 
     private CswLaunchInput buildLaunchInput() {

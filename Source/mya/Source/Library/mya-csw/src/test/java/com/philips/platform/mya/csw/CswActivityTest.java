@@ -33,7 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
-@PrepareForTest({ThemeUtils.class, FontLoader.class, CswInterface.class, CswActivity.class})
+@PrepareForTest({ThemeUtils.class, FontLoader.class})
 public class CswActivityTest {
 
     @Rule
@@ -52,19 +52,17 @@ public class CswActivityTest {
         when(ThemeUtils.getThemeResourceID((Context) any())).thenReturn(R.style.AccentAqua_UltraLight);
         mockStatic(FontLoader.class);
         when(FontLoader.getInstance()).thenReturn(fontLoaderMock);
-
-//        whenNew(CswInterface.class).withAnyArguments().thenReturn(cswInterfaceMock);
-        whenNew(CswInterface.class).withNoArguments().thenReturn(cswInterfaceMock);
     }
 
     @Test
-    public void test() {
+    public void givenActivitySetup_whenSettingUp_thenShouldNotCrash() {
         Intent testIntent = new Intent();
         testIntent.putExtras(new Bundle());
         testIntent.putExtra(CswConstants.DLS_THEME, R.style.AccentAqua);
 
         // Create builder subject under test
         ActivityController<CswActivity> activityController = Robolectric.buildActivity(CswActivity.class, testIntent);
+        activityController.get().cswInterface = cswInterfaceMock;
         CswActivity startedActivity = activityController.create().start().resume().get();
 
         assertNotNull(startedActivity);
