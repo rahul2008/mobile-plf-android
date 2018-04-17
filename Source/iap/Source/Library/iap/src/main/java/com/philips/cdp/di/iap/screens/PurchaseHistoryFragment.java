@@ -73,6 +73,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
         mOrderHistoryView = rootView.findViewById(R.id.order_history);
         mParentLayout = rootView.findViewById(R.id.order_history_container);
+        createCustomProgressBar(mParentLayout,BIG);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 

@@ -215,7 +215,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                     AddressSelectionFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
-                    , null, getString(R.string.iap_product_remove_description), getFragmentManager(), this);
+                    , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
         }
     }
 
