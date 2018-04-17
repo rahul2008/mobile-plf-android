@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.mya.csw.utils.CswTestApplication;
 import com.philips.platform.mya.csw.utils.ShadowXIConTextView;
 import com.philips.platform.uid.thememanager.ThemeUtils;
@@ -27,11 +28,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
-@PrepareForTest({ThemeUtils.class, FontLoader.class})
+@PrepareForTest({ThemeUtils.class, FontLoader.class, CswInterface.class, CswActivity.class})
 public class CswActivityTest {
 
     @Rule
@@ -39,22 +41,27 @@ public class CswActivityTest {
 
     @Mock
     private FontLoader fontLoaderMock;
+    @Mock
+    private CswInterface cswInterfaceMock;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
         // Init statics
         mockStatic(ThemeUtils.class);
         when(ThemeUtils.getThemeResourceID((Context) any())).thenReturn(R.style.AccentAqua_UltraLight);
         mockStatic(FontLoader.class);
         when(FontLoader.getInstance()).thenReturn(fontLoaderMock);
+
+//        whenNew(CswInterface.class).withAnyArguments().thenReturn(cswInterfaceMock);
+        whenNew(CswInterface.class).withNoArguments().thenReturn(cswInterfaceMock);
     }
 
     @Test
     public void test() {
         Intent testIntent = new Intent();
         testIntent.putExtras(new Bundle());
-        testIntent.putExtras(CswConstants.DLS_THEME, )
+        testIntent.putExtra(CswConstants.DLS_THEME, R.style.AccentAqua);
 
         // Create builder subject under test
         ActivityController<CswActivity> activityController = Robolectric.buildActivity(CswActivity.class, testIntent);
