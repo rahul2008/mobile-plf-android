@@ -8,14 +8,12 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,14 +68,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
     }
 
@@ -97,7 +95,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
+            RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
 
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
@@ -121,7 +119,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
     }
 
     private void setCurrentTitle() {
@@ -181,7 +179,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void consumeTouch(View view) {
 
-        RLog.d(TAG,"consumeTouch is called");
+        RLog.i(TAG,"consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener(new OnTouchListener() {
@@ -299,7 +297,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.d(TAG,"scrollViewAutomatically is called");
+        RLog.i(TAG,"scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

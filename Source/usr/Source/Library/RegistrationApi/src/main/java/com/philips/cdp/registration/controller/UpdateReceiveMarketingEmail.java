@@ -33,7 +33,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private boolean mReceiveMarketingEmail;
 
-    private static final String TAG =  UpdateReceiveMarketingEmail.class.getSimpleName();
+    private static final String TAG = UpdateReceiveMarketingEmail.class.getSimpleName();
 
     public UpdateReceiveMarketingEmail(Context context) {
         super(context);
@@ -44,11 +44,11 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
                                                    updateUserDetailsHandler,
                                            final boolean receiveMarketingEmail) {
-        RLog.d(TAG,"updateMarketingEmailStatus : is called");
+        RLog. i(TAG, "updateMarketingEmailStatus : is called");
         mUpdateUserDetails = updateUserDetailsHandler;
         mReceiveMarketingEmail = receiveMarketingEmail;
         if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
+            mJanrainInitializer.initializeJanrain(mContext);
             return;
         }
         performActualUpdate();
@@ -63,19 +63,19 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
 
                 JSONObject marketingOptIn = new JSONObject();
-                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext).toString());
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale().toString());
                 marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
-                RLog.d(TAG,"performActualUpdate : updateUser.update is called");
+                RLog.i(TAG, "performActualUpdate : updateUser.update is called");
             }
         } catch (JSONException e) {
             if (null != mUpdateUserDetails)
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
                                 onUpdateFailedWithError(-1));
-            RLog.e(TAG,e.getMessage());
+            RLog.e(TAG, e.getMessage());
         }
     }
 
@@ -85,14 +85,14 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
             try {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
                 JSONObject marketingOptIn = new JSONObject();
-                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale(mContext).toString());
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale().toString());
                 marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
 
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 mUpdatedUserdata.saveToDisk(mContext);
-                RLog.d(TAG,"performLocalUpdate : saveToDisk");
+                RLog.i(TAG, "performLocalUpdate : saveToDisk");
             } catch (JSONException e) {
-                RLog.e(TAG,e.getMessage());
+                RLog.e(TAG, e.getMessage());
             }
         }
     }
