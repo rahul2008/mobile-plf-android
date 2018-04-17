@@ -26,13 +26,13 @@ public class AppTagging {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         appTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
 
-        if(isHsdPIDExist(user)){
+        if(isHsdPIdExist(user)){
             trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_HSDP_ID,
                     user.getHsdpUUID());
         }
     }
 
-    private static boolean isHsdPIDExist(User user){
+    private static boolean isHsdPIdExist(User user){
         return user!=null && user.isUserSignIn() && user.getHsdpUUID()!=null ;
     }
     public static void trackFirstPage(String currPage) {
