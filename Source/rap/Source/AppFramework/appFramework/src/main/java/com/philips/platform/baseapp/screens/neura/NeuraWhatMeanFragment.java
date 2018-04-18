@@ -14,13 +14,15 @@ import android.view.ViewGroup;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NeuraWhatMeanFragment extends AbstractOnboardingBaseFragment {
+public class NeuraWhatMeanFragment extends AbstractOnboardingBaseFragment implements BackEventListener {
 
 
+    public static String TAG = NeuraWhatMeanFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,4 +31,9 @@ public class NeuraWhatMeanFragment extends AbstractOnboardingBaseFragment {
         return inflater.inflate(R.layout.fragment_neura_what_mean, container, false);
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
+        return true;
+    }
 }

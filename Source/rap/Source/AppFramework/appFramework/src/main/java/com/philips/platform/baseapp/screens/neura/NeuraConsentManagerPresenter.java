@@ -6,6 +6,10 @@
 package com.philips.platform.baseapp.screens.neura;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -64,7 +68,7 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
                     baseState = getNextState(targetFlowManager, EVENT_NEURA_PRIVACY);
                     break;
                 case R.id.RA_neura_what_mean:
-
+                    launchWhatDoesItMeanFragment(neuraFragmentView.getFragmentActivity());
                     break;
 
             }
@@ -79,6 +83,18 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
             baseState.navigate(getUiLauncher());
 
         }
+    }
+
+    private void launchWhatDoesItMeanFragment(FragmentActivity fragmentActivity) {
+        FragmentManager mFragmentManager = fragmentActivity.
+                getSupportFragmentManager();
+        Fragment whatDoesItMeanFragment = getNeuraWhatDoesItMeanFragment();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(neuraFragmentView.getContainerId(),
+                whatDoesItMeanFragment,
+                NeuraWhatMeanFragment.TAG);
+        fragmentTransaction.addToBackStack(NeuraWhatMeanFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     @NonNull
@@ -126,5 +142,9 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
     @Override
     public void onPostConsentSuccess() {
         RALog.d(getClass().getSimpleName(), "Saved neura consent successfully");
+    }
+
+    Fragment getNeuraWhatDoesItMeanFragment() {
+        return new NeuraWhatMeanFragment();
     }
 }

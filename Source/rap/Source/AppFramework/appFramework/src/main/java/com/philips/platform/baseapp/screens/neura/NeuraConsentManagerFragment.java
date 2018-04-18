@@ -39,7 +39,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     public static final String TAG = NeuraConsentManagerFragment.class.getSimpleName();
     private static final long serialVersionUID = 4394954556057838520L;
     private com.philips.platform.uid.view.widget.Button allow, mayBeLater;
-    Label philipsPrivacy;
+    private Label philipsPrivacy, neuraPrivacyPolicy, whatDoesItMean;
     private AbstractUIBasePresenter presenter;
 
     @Override
@@ -47,15 +47,23 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_neura_consent_manager, container, false);
-        allow = inflate.findViewById(R.id.allowButton);
-        mayBeLater = inflate.findViewById(R.id.mayBeLater);
-        philipsPrivacy = inflate.findViewById(R.id.philipsPrivacy);
+        initViews(inflate);
         allow.setOnClickListener(this);
         mayBeLater.setOnClickListener(this);
         philipsPrivacy.setOnClickListener(this);
+        neuraPrivacyPolicy.setOnClickListener(this);
+        whatDoesItMean.setOnClickListener(this);
         presenter = new NeuraConsentManagerPresenter(this);
         applyOverLayBackground(inflate);
         return inflate;
+    }
+
+    void initViews(View inflate) {
+        allow = inflate.findViewById(R.id.allowButton);
+        mayBeLater = inflate.findViewById(R.id.mayBeLater);
+        philipsPrivacy = inflate.findViewById(R.id.philipsPrivacy);
+        neuraPrivacyPolicy = inflate.findViewById(R.id.RA_neura_privacy_notice_label);
+        whatDoesItMean = inflate.findViewById(R.id.RA_neura_what_mean);
     }
 
     private void applyOverLayBackground(View inflate) {
