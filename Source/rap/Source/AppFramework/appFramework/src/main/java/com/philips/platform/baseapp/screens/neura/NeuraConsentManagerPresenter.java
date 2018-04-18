@@ -107,12 +107,12 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         if (viewId == R.id.philipsPrivacy) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(Constants.PRIVACY);
-            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.csw_privacy_notice));
+            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
             return webViewStateData;
         } else if (viewId == R.id.RA_neura_privacy_notice_label){
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setUrl(neuraFragmentView.getFragmentActivity().getString(R.string.RA_neura_policy_url));
-            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.csw_privacy_notice));
+            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
             return webViewStateData;
         }
         return null;

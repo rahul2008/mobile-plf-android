@@ -203,8 +203,10 @@
     <string name="RA_nuera_base_title">Base app, Made for You</string>
     <string name="RA_nuera_image_descp">Nuera Logo</string>
   <string name="RA_nuera_what_descp"><u>What does this mean?</u></string>
+  <string name="RA_nuera_what_base_title">What does this mean?</string>
   <string name="RA_nuera_what_text_descp">Base app asks for the location permissions so it can better understand your unique lifestyle. Base app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them.</string>
   <string name="RA_nuera_policy"><u>privacy Neura</u></string>
+  <string name="RA_privacy_policy">Privacy policy</string>
     <string name="RA_nuera_third_title">To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
   <string name="RA_nuera_second_text">Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
   <string name="RA_nuera_privacy_philips"><u>privacy Philips</u></string>

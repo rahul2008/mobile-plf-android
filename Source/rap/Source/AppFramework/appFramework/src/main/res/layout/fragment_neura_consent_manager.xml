@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/base_text_neura"
-                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
                 android:text="@string/RA_nuera_second_text"
                  />
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/second_text_neura"
-                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
                 android:text="@string/RA_nuera_third_title"
                 />
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/forth_text_neura"
-                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:layout_marginBottom="@dimen/nuera_margin_image_top"
                 android:text="@string/RA_nuera_what_descp"
                  />
 
@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/RA_neura_what_mean"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:layout_marginTop="@dimen/nuera_margin_between_button_text"
                 android:text="@string/Ra_neura_allow" />
 
             <com.philips.platform.uid.view.widget.Button
