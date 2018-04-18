@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -47,7 +46,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -309,7 +307,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void trackPage(String currPage) {
         User mUser = new User(getParentActivity().getApplicationContext());
-        AppTagging.trackPage(currPage,mUser);
+        AppTagging.trackPage(currPage);
     }
 
     public void replaceWithHomeFragment() {

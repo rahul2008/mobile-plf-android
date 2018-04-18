@@ -8,14 +8,12 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.widget.ScrollView;
 
 import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
@@ -199,7 +196,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void trackPage(String currPage) {
-        AppTagging.trackPage(currPage,new User(getContext()));
+        AppTagging.trackPage(currPage);
     }
 
     protected void trackActionStatus(String state, String key, String value) {

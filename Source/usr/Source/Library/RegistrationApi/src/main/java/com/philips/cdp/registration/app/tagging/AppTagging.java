@@ -10,7 +10,6 @@ package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -22,21 +21,13 @@ public class AppTagging {
 
     private static AppTaggingInterface appTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
 
-    public static void trackPage(String currPage , User user) {
+    public static void trackPage(String currPage) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         appTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
-
-        if(isHsdPIdExist(user)){
-            trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_HSDP_ID,
-                    user.getHsdpUUID());
-        }
     }
 
-    private static boolean isHsdPIdExist(User user){
-        return user!=null && user.isUserSignIn() && user.getHsdpUUID()!=null ;
-    }
     public static void trackFirstPage(String currPage) {
-        trackPage(currPage,null);
+        trackPage(currPage);
     }
     public static void trackAction(String state, String key, String value) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
