@@ -121,7 +121,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 billingAddressFields.setLine2(billingAddress.getLine2());
                 billingAddressFields.setPostalCode(billingAddress.getPostalCode());
                 billingAddressFields.setTown(billingAddress.getTown());
-                billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
+                if(billingAddress.getRegion()!=null) {
+                    billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
+                }
                 CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
             }
         }
