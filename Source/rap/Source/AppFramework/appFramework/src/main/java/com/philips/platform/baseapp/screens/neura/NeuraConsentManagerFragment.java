@@ -63,7 +63,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
         //TODO - need to change attribute as per design team requirements
         int colorFromAttribute = UIDHelper.getColorFromAttribute(getFragmentActivity().getTheme(), com.philips.platform.uid.R.attr.uidNavigationSecondaryBackgroundColor, R.color.blue);
         overLayView.setBackgroundColor(colorFromAttribute);
-        overLayView.getBackground().setAlpha(80);
+        overLayView.getBackground().setAlpha(204);
     }
 
 

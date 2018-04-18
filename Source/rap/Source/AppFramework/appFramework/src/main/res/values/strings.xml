@@ -204,7 +204,7 @@
     <string name="RA_nuera_image_descp">Nuera Logo</string>
   <string name="RA_nuera_what_descp"><u>What does this mean?</u></string>
   <string name="RA_nuera_policy"><u>privacy Neura</u></string>
-    <string name="RA_nuera_third_title">To adapt to your preferences and needs, allow sharing location with Philips and Neura.\n %s</string>
+    <string name="RA_nuera_third_title">To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
   <string name="RA_nuera_second_text">Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
   <string name="RA_nuera_privacy_philips"><u>privacy Philips</u></string>
 

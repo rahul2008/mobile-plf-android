@@ -1,9 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/neura_bg_consent"
     android:fillViewport="true"
+    android:background="@drawable/neura_background_portrait"
     android:scrollbarStyle="outsideOverlay">
+
 
     <LinearLayout
         android:id="@+id/neura_overLap_view"
@@ -11,63 +12,63 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/nuera_margin_top"
+            android:layout_marginBottom="@dimen/nuera_margin_bottom"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/base_text_neura"
-                style="@style/UIDLabel"
+                style="@style/neuraBaseLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="@dimen/nuera_margin_between_text"
                 android:text="@string/RA_nuera_base_title"
-                android:textColor="@color/nuera_text_color"
-                android:textSize="@dimen/neura_base_text_size"
-                android:textStyle="bold" />
+                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/second_text_neura"
-                style="@style/UIDLabel"
+                style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/base_text_neura"
                 android:layout_marginBottom="@dimen/network_margin_top_bottom"
                 android:text="@string/RA_nuera_second_text"
-                android:textColor="@color/nuera_text_color" />
+                 />
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/third_text_neura"
-                style="@style/UIDLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/base_text_neura"
-                android:layout_marginBottom="@dimen/network_margin_top_bottom"
-                android:text="@string/RA_nuera_what_descp"
-                android:textColor="@color/nuera_text_color" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/forth_text_neura"
-                style="@style/UIDLabel"
+                style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/second_text_neura"
                 android:layout_marginBottom="@dimen/network_margin_top_bottom"
                 android:text="@string/RA_nuera_third_title"
-                android:textColor="@color/nuera_text_color" />
+                />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/third_text_neura"
+                style="@style/neuraTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forth_text_neura"
+                android:layout_marginBottom="@dimen/network_margin_top_bottom"
+                android:text="@string/RA_nuera_what_descp"
+                 />
 
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/allowButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/forth_text_neura"
+                android:layout_below="@id/third_text_neura"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_marginTop="@dimen/nuera_margin_between_button_text"
                 android:text="@string/Ra_neura_allow" />
 
@@ -77,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/allowButton"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_marginTop="@dimen/nuera_margin_between_buttons"
                 android:background="@color/transparent"
                 android:text="@string/RA_neura_mayBeLater" />
@@ -86,7 +88,6 @@
                 android:id="@+id/RA_neura_link_holder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/mayBeLater"
                 android:gravity="center_horizontal">
 
@@ -105,11 +106,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/neura_image"
+                    android:layout_alignParentBottom="true"
                     android:orientation="horizontal">
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/RA_neura_privacy_notice_label"
-                        style="@style/UIDLabel"
+                        style="@style/neuraTextLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -117,11 +119,11 @@
                         android:gravity="center_horizontal"
                         android:lines="1"
                         android:text="@string/RA_nuera_policy"
-                        android:textColor="@color/nuera_text_color" />
+                        />
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/philipsPrivacy"
-                        style="@style/UIDLabel"
+                        style="@style/neuraTextLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -129,7 +131,7 @@
                         android:gravity="center_horizontal"
                         android:lines="1"
                         android:text="@string/RA_nuera_privacy_philips"
-                        android:textColor="@color/nuera_text_color" />
+                         />
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
