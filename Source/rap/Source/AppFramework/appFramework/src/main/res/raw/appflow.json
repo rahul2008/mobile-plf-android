@@ -112,6 +112,15 @@
                 "nextState": "web_view"
               }
             ]
+          },
+          {
+            "eventId": "privacyNeura",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
           }
         ]
       },

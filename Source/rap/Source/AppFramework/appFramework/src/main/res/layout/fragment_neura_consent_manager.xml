@@ -53,7 +53,7 @@
                 />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/third_text_neura"
+                android:id="@+id/RA_neura_what_mean"
                 style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:id="@+id/allowButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/third_text_neura"
+                android:layout_below="@id/RA_neura_what_mean"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_marginTop="@dimen/nuera_margin_between_button_text"
                 android:text="@string/Ra_neura_allow" />

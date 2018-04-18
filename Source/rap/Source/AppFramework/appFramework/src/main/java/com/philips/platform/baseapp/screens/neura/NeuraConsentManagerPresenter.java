@@ -59,6 +59,14 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
                     String EVENT_PRIVACY = "privacyPhilips";
                     baseState = getNextState(targetFlowManager, EVENT_PRIVACY);
                     break;
+                case R.id.RA_neura_privacy_notice_label:
+                    String EVENT_NEURA_PRIVACY = "privacyNeura";
+                    baseState = getNextState(targetFlowManager, EVENT_NEURA_PRIVACY);
+                    break;
+                case R.id.RA_neura_what_mean:
+
+                    break;
+
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
@@ -98,8 +106,13 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
     UIStateData getUiStateData(int viewId) {
         if (viewId == R.id.philipsPrivacy) {
             WebViewStateData webViewStateData = new WebViewStateData();
-            webViewStateData.setServiceId(Constants.TERMS_AND_CONDITIONS);
-            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.reg_TermsAndConditionsText));
+            webViewStateData.setServiceId(Constants.PRIVACY);
+            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.csw_privacy_notice));
+            return webViewStateData;
+        } else if (viewId == R.id.RA_neura_privacy_notice_label){
+            WebViewStateData webViewStateData = new WebViewStateData();
+            webViewStateData.setUrl(neuraFragmentView.getFragmentActivity().getString(R.string.RA_neura_policy_url));
+            webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.csw_privacy_notice));
             return webViewStateData;
         }
         return null;
