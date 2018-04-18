@@ -31,6 +31,7 @@ public class CswLaunchInputTest {
     @Test
     public void givenLaunchInputSetup_whenGetContext_thenShouldAlwaysReturnObject() {
         Context result = subject.getContext();
+
         assertNotNull(result);
     }
 

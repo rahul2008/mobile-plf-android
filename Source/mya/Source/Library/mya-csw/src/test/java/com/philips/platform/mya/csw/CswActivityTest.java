@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.mya.csw.utils.CswTestApplication;
 import com.philips.platform.mya.csw.utils.ShadowXIConTextView;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -69,14 +71,14 @@ public class CswActivityTest {
 
     @Test
     public void givenActivitySetup_whenSettingUp_thenShouldNotCrash() {
-        CswActivity startedActivity = activityController.create().start().resume().get();
+        CswActivity startedActivity = activityController.create().start().resume().visible().get();
 
         assertNotNull(startedActivity);
     }
 
     @Test
-    public void givenActionSetup_whenOnBackPressed_thenShouldX() {
-        CswActivity startedActivity = activityController.create().start().resume().get();
+    public void givenActivitySetup_whenOnBackPressed_thenShouldX() {
+        CswActivity startedActivity = activityController.create().start().resume().visible().get();
 
         startedActivity.onBackPressed();
 
@@ -84,12 +86,56 @@ public class CswActivityTest {
     }
 
     @Test
-    public void givenActionSetup_whenOnClick_andCorrectId_thenShouldX() {
-        CswActivity startedActivity = activityController.create().start().resume().get();
+    public void givenActivitySetup_whenOnClick_andCorrectId_thenShouldX() {
+        CswActivity startedActivity = activityController.create().start().resume().visible().get();
         when(viewMock.getId()).thenReturn(R.id.csw_textview_back);
 
         startedActivity.onClick(viewMock);
 
         // TODO Assert or verify
     }
+
+    @Test
+    public void givenActivitySetup_whenUpdateActionBar_andShowBackTrue_thenShouldBeVisible() {
+        CswActivity startedActivity = activityController.create().start().resume().visible().get();
+
+        startedActivity.updateActionBar(R.string.csw_offline_title, true);
+
+        TextView titleView = startedActivity.findViewById(R.id.csw_textview_header_title);
+        int visibility = titleView.getVisibility();
+        assertEquals(View.VISIBLE, visibility);
+    }
+
+//    @Test
+//    public void givenActivitySetup_whenUpdateActionBar_andShowBackFalse_thenShouldBeInvisible() {
+//        CswActivity startedActivity = activityController.create().start().resume().visible().get();
+//
+//        startedActivity.updateActionBar(R.string.csw_offline_title, false);
+//
+//        TextView titleView = startedActivity.findViewById(R.id.csw_textview_header_title);
+//        int visibility = titleView.getVisibility();
+//        assertEquals(View.INVISIBLE, visibility);
+//    }
+
+    @Test
+    public void givenActivitySetup_whenUpdateActionBarString_andShowBackTrue_thenShouldBeVisible() {
+        CswActivity startedActivity = activityController.create().start().resume().visible().get();
+
+        startedActivity.updateActionBar("This is a test title", true);
+
+        TextView titleView = startedActivity.findViewById(R.id.csw_textview_header_title);
+        int visibility = titleView.getVisibility();
+        assertEquals(View.VISIBLE, visibility);
+    }
+
+//    @Test
+//    public void givenActivitySetup_whenUpdateActionBarString_andShowBackFalse_thenShouldBeInvisible() {
+//        CswActivity startedActivity = activityController.create().start().resume().visible().get();
+//
+//        startedActivity.updateActionBar("This is a test title", false);
+//
+//        TextView titleView = startedActivity.findViewById(R.id.csw_textview_header_title);
+//        int visibility = titleView.getVisibility();
+//        assertEquals(View.INVISIBLE, visibility);
+//    }
 }

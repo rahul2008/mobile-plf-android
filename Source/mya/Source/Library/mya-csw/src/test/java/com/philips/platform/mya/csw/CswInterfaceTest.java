@@ -107,6 +107,14 @@ public class CswInterfaceTest {
         cswInterface.init(dep, new CswSettings(new MockContext()));
     }
 
+    public void givenInterfaceCreated_andCorrectDependenciesClass_whenInit_thenShouldThrowException() {
+        UappDependencies dep = new UappDependencies(null);
+
+        cswInterface.init(dep, new CswSettings(new MockContext()));
+
+        assertNotNull(cswInterface);
+    }
+
     @Test
     public void givenInterfaceCreated_whenInit_thenShouldCallInitOnLogger() {
         verifyStatic(CswLogger.class);

@@ -101,6 +101,7 @@ public class CswActivity extends UIDActivity implements OnClickListener, ActionB
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
+        updateActionBar(getString(titleResourceID), isShowBack);
         TextView tvTitle = findViewById(R.id.csw_textview_header_title);
         tvTitle.setText(getString(titleResourceID));
         if (isShowBack) {
