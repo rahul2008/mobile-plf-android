@@ -8,6 +8,8 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import com.philips.cdp.registration.R;
+
 public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_FIRST_NAME = "traditionalRegistration_firstName";
@@ -207,4 +209,5 @@ public class RegConstants {
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
     public static final int CAMPAIGN_ID_UNAVAILABLE= 412;
+    public static final int UNKNOWN_ERROR_ID = R.string.jr_provider_unknown;
 }
