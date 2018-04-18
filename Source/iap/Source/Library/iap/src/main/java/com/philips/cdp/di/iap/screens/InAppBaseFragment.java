@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.screens;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -13,7 +12,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -32,7 +30,6 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
@@ -273,7 +270,9 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         try {
             group.addView(mPTHBaseFragmentProgressBar);
         } catch (Exception e) {
-            layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
+            if(layoutViewGroup!=null) {
+                layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
+            }
         }
 
         if (mPTHBaseFragmentProgressBar != null) {

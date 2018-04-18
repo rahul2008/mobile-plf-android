@@ -18,6 +18,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.platform.uid.view.widget.ProgressBar;
@@ -27,17 +28,17 @@ public abstract class WebFragment extends InAppBaseFragment {
     public static final String TAG = WebFragment.class.getName();
     protected WebView mWebView;
     private String mUrl;
-
+    private RelativeLayout mParentContainer;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
-
+        mParentContainer = (RelativeLayout) viewGroup.findViewById(R.id.iap_web_container);
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
 
-        createCustomProgressBar(viewGroup,BIG);
+        createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
         return viewGroup;
@@ -95,6 +96,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            super.onReceivedSslError(view,handler,error);
             handler.proceed(); // Ignore SSL certificate errors
         }
 
