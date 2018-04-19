@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[tr]Visit our website</string>
   <string name="csw_consent_help_label">Bu ne anlama geliyor?</string>
   <string name="csw_invalid_access_token_error_message">Sunucuya bağlanılırken bir sorun oluştu. Cihazındaki tarih/zaman ayarlarının doğru olduğundan emin olun. Sorun devam ederse lütfen oturumunuzu kapatıp yeniden açın.</string>
   <string name="csw_offline_message">İnternet bağlantınız çalışmıyor gibi görünüyor. Lütfen kontrol edip yeniden deneyin</string>
   <string name="csw_offline_title">Çevrimdışısınız</string>
-  <string name="csw_ok">[tr]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[tr]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[tr]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Gizlilik ayarlarınızı kontrol edin. Daha fazla bilgi için {gizlilik bildirimini} okuyun.</string>
   <string name="csw_privacy_settings">Gizlilik ayarları</string>
-  <string name="csw_privacy_settings_desc">[tr]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Gizlilik ayarlarınızı kontrol edin. Daha fazla bilgi için {gizlilik bildirimini} okuyun.</string>
   <string name="csw_problem_occurred_error_message">Bir sorun oluştu (hata %1$d). Lütfen tekrar deneyin.</string>
   <string name="csw_problem_occurred_error_title">Bir sorun oluştu</string>
   <string name="mya_Account_settings">Hesap ayarları</string>
@@ -28,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-posta adresi doğrulanmadı</string>
   <string name="mya_Email_address">E-posta adresi</string>
   <string name="mya_Gender">Cinsiyet</string>
-  <string name="mya_Info">Oturum açma kimliği veya parolanızı değiştirmek mi istiyorsunuz? Web sitemize gidin.</string>
+  <string name="mya_Info">[tr]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Sunucuya bağlanılırken bir sorun oluştu. Cihazındaki tarih/zaman ayarlarının doğru olduğundan emin olun. Sorun devam ederse lütfen oturumunuzu kapatıp yeniden açın.</string>
   <string name="mya_Login_details">Oturum açma bilgileri</string>
   <string name="mya_Logout">Oturumu kapat</string>

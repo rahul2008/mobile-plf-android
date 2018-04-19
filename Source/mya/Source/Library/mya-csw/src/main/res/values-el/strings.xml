@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[el]Visit our website</string>
   <string name="csw_consent_help_label">Τι σημαίνει αυτό;</string>
   <string name="csw_invalid_access_token_error_message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="csw_offline_message">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
   <string name="csw_offline_title">Βρίσκεστε εκτός σύνδεσης</string>
-  <string name="csw_ok">[el]OK</string>
+  <string name="csw_ok">ΟΚ</string>
   <string name="csw_privacy_notice">[el]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[el]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Ελέγξτε το απόρρητό σας. Διαβάστε τη {δήλωση απορρήτου} για περισσότερες πληροφορίες.</string>
   <string name="csw_privacy_settings">Ρυθμίσεις απορρήτου</string>
-  <string name="csw_privacy_settings_desc">[el]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη {δήλωση απορρήτου} για περισσότερες πληροφορίες.</string>
   <string name="csw_problem_occurred_error_message">Προέκυψε πρόβλημα (σφάλμα %1$d). Δοκιμάστε ξανά.</string>
   <string name="csw_problem_occurred_error_title">Προέκυψε πρόβλημα</string>
   <string name="mya_Account_settings">Ρυθμίσεις λογαριασμού</string>
@@ -28,7 +29,7 @@
   <string name="mya_Email_Validation_message">Η διεύθυνση email δεν επιβεβαιώθηκε</string>
   <string name="mya_Email_address">Διεύθυνση email</string>
   <string name="mya_Gender">Φύλο</string>
-  <string name="mya_Info">Αλλαγή ID σύνδεσης ή κωδικού πρόσβασης; Επισκεφθείτε τον ιστότοπό μας.</string>
+  <string name="mya_Info">[el]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="mya_Login_details">Στοιχεία σύνδεσης</string>
   <string name="mya_Logout">Έξοδος</string>

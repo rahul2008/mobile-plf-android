@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[ja]Visit our website</string>
   <string name="csw_consent_help_label">どういう意味ですか？</string>
   <string name="csw_invalid_access_token_error_message">サーバーへの接続で問題が発生しました。デバイスの日時が正しく設定されていることを確認してください。問題が解消されない場合は、いったんログアウトしてからログインし直してください。</string>
   <string name="csw_offline_message">インターネットに接続されていないようです。確認してから再試行してください。</string>
   <string name="csw_offline_title">オフラインです</string>
-  <string name="csw_ok">[ja]OK</string>
+  <string name="csw_ok">はい</string>
   <string name="csw_privacy_notice">[ja]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[ja]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">ご自分のプライバシーを管理しましょう。詳細については {privacy notice} をお読みください。</string>
   <string name="csw_privacy_settings">プライバシー設定</string>
-  <string name="csw_privacy_settings_desc">[ja]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">ご自分のプライバシーを管理しましょう。詳細については {privacy notice} をお読みください。</string>
   <string name="csw_problem_occurred_error_message">問題が発生しました（エラー %1$d）。再試行してください。</string>
   <string name="csw_problem_occurred_error_title">問題が発生しました</string>
   <string name="mya_Account_settings">アカウント設定</string>
@@ -28,7 +29,7 @@
   <string name="mya_Email_Validation_message">メールアドレス未確認</string>
   <string name="mya_Email_address">メールアドレス</string>
   <string name="mya_Gender">性別</string>
-  <string name="mya_Info">ログイン ID またはパスワードを変更する場合はウェブサイトにアクセスしてください。</string>
+  <string name="mya_Info">[ja]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">サーバーへの接続で問題が発生しました。デバイスの日時が正しく設定されていることを確認してください。問題が解消されない場合は、いったんログアウトしてからログインし直してください。</string>
   <string name="mya_Login_details">ログイン詳細</string>
   <string name="mya_Logout">ログアウト</string>
