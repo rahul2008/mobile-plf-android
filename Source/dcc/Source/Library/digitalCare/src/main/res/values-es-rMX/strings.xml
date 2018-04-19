@@ -176,5 +176,10 @@
     <string name="dcc_Help_Support">Ayuda y asistencia técnica</string>
     <string name="dcc_Call">Llamar</string>
     <string name="dcc_Opening_Hours">Horario de atención</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Cancelar</string>
+    <string name="dcc_location_consent_title">Consentimiento de ubicación</string>
+    <string name="dcc_location_consent_definition_text">Doy mi autorización para que Philips acceda a mis datos de ubicación para utilizar la función de búsqueda “Philips en su zona”.</string>
+    <string name="dcc_location_consent_definition_help_text">Cuando permite el acceso a los datos de ubicación, es posible que recopilemos la ubicación geográfica de su dispositivo móvil.\n\nSi se usa la función de búsqueda “Philips en su zona” en la página de asistencia, verá un mensaje que le solicita compartir sus datos de ubicación con Philips. Si utiliza nuestras funciones de ubicación, según el lugar en el que se encuentre, el sistema le indicará la tienda más cercana o la información de contacto del servicio de atención al cliente de su país.</string>
 
 </resources>

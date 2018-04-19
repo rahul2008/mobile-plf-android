@@ -176,5 +176,10 @@
     <string name="dcc_Help_Support">Kasutusjuhend ja tugi</string>
     <string name="dcc_Call">Helistamine</string>
     <string name="dcc_Opening_Hours">Tööajad</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Tühista</string>
+    <string name="dcc_location_consent_title">Nõusolek asukohaandmete kasutamiseks</string>
+    <string name="dcc_location_consent_definition_text">Luban Philipsil pääseda ligi enda asukohaandmetele lubada funktsioon „Leia Philips enda lähedal“</string>
+    <string name="dcc_location_consent_definition_help_text">Asukohaandmetele ligipääsu võimaldamise korral võime koguda andmeid teie mobiilseadme geograafilise asukoha kohta.\n\nKui kasutate tugiteenuste lehel funktsiooni „Leia Philips enda lähedal“, palutakse teil oma asukohaandmeid Philipsiga jagada. Kui kasutate meie asukohafunktsioone, suunatakse teid teie asukohaandmete alusel lähedalasuvasse kauplusesse või teie riigi klienditeeninduse kontaktandmete juurde.</string>
 
 </resources>
