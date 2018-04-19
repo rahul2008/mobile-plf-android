@@ -111,7 +111,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     public void configureCountrySelection() {
         String mShowCountrySelection = appConfiguration.getShowCountrySelection();
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
+        RLog.i(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection != null) {
             if (mShowCountrySelection.equalsIgnoreCase("false")) {
                 homeContract.hideCountrySelctionLabel();
@@ -126,7 +126,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
+                RLog.i(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
                 String selectedCountryCode;
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     selectedCountryCode = s.toUpperCase();
@@ -140,7 +140,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                RLog.e(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
@@ -163,7 +163,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     public void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
+        RLog.i(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {
             mWeChatApi = WXAPIFactory.createWXAPI(homeContract.getActivityContext(),
@@ -195,7 +195,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
 
     public void handleWeChatCode(String pWeChatCode) {
-        RLog.d("WECHAT", "WeChat Code: " + pWeChatCode);
+        RLog.i("WECHAT", "WeChat Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
                 new WeChatAuthenticationListener() {
@@ -204,7 +204,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.d("WECHAT body", "WeChat token " + token + " openid " + openId);
+                            RLog.i("WECHAT body", "WeChat token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
@@ -223,7 +223,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-        RLog.d("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+        RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
                 + prefilledRecord);
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.createSocialAccount(prefilledRecord, socialRegistrationToken);
@@ -244,7 +244,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        RLog.d(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
 
         homeContract.completeSocialLogin();
 
@@ -364,7 +364,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onEventReceived(String event) {
-        RLog.d(TAG, "HomeFragment :onCounterEventReceived" +
+        RLog.i(TAG, "HomeFragment :onCounterEventReceived" +
                 " isHomeFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             homeContract.initSuccess();
@@ -422,13 +422,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         public void onReceive(Context context, Intent intent) {
             int error_code = intent.getIntExtra(RegConstants.WECHAT_ERR_CODE, 0);
             String weChatCode = intent.getStringExtra(RegConstants.WECHAT_CODE);
-            RLog.d("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
+            RLog.i("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
                     if (weChatCode != null) {
                         homeContract.startWeChatLogin(weChatCode);
                     } else {
-                        RLog.d("WECHAT", "Wechat = " + weChatCode);
+                        RLog.i("WECHAT", "Wechat = " + weChatCode);
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -467,7 +467,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        RLog.d(TAG, "getLocaleServiceDiscovery onSuccess verificationUrl : " + verificationUrl);
+                        RLog.i(TAG, "getLocaleServiceDiscovery onSuccess verificationUrl : " + verificationUrl);
                         if (!verificationUrl.isEmpty()) {
                             homeContract.updateAppLocale(verificationUrl, countryName);
                         }
@@ -475,7 +475,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.d(TAG, "getLocaleServiceDiscovery onError ");
+                        RLog.i(TAG, "getLocaleServiceDiscovery onError ");
                         getLocaleServiceDiscoveryByCountry(countryName);
                     }
                 });
@@ -488,7 +488,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        RLog.d(TAG, "getLocaleServiceDiscoveryByCountry onSuccess ");
+                        RLog.i(TAG, "getLocaleServiceDiscoveryByCountry onSuccess ");
                         homeContract.updateAppLocale(verificationUrl, countryName);
                     }
 

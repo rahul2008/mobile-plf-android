@@ -45,7 +45,7 @@
 
             <ImageView
                 android:id="@+id/ews_hotspot_blinking_icon"
-                style="@style/EWS.ImageScale"
+                style="@style/ews_image_scale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
@@ -203,14 +204,42 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         acceptTermsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                RLog.d(TAG, "acceptTermsCheck : "+isChecked);
-                if (!isChecked) {
-                    acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                } else {
+                {
+                    TextView tv = (TextView) buttonView;
                     acceptTermserrorMessage.hideError();
+                    if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                        // No link is clicked
+                        if (!isChecked) {
+                            acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                        }
+                    } else {
+                        acceptTermsCheck.setChecked(!isChecked);
+                        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null){
+                            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()
+                                    .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
+                        }else {
+                            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+                        }
+                    }
                 }
             }
         });
+
+
+        marketingOptCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                {
+                    TextView tv = (TextView) compoundButton;
+                    if(!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)){
+                        marketingOptCheck.setChecked(!b);
+                        getRegistrationFragment().addPhilipsNewsFragment();
+
+                    }
+                }
+            }
+        });
+
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             RLog.d(TAG, "initUI : isMobileFlow true");
@@ -255,12 +284,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         @Override
         public void onClick(View widget) {
             RLog.d(TAG, "TermsAndCondition button is  called");
-            if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null){
-                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()
-                        .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-            }else {
-                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-            }
 
         }
     };
@@ -269,10 +292,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         @Override
         public void onClick(View widget) {
             RLog.d(TAG,"PhilipsNewsClick : onClick : Philips ANNOUNCEMENT text is clicked");
-            getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
-            marketingOptCheck.setChecked(
-                    !marketingOptCheck.isChecked());
         }
     };
 
