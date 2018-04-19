@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:alpha=".2"
             android:scaleType="centerCrop"
-            android:src="@drawable/neura_background_portrait" />
+            android:src="@drawable/neura_background" />
 
     </FrameLayout>
     <RelativeLayout

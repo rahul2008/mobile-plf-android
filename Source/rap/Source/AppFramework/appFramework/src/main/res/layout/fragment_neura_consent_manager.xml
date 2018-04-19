@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/neura_background_portrait"
+    android:scaleType="centerCrop"
+    android:background="@drawable/neura_background"
     android:scrollbarStyle="outsideOverlay">
 
 
@@ -65,6 +66,7 @@
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/allowButton"
+                style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/RA_neura_what_mean"
@@ -73,7 +75,7 @@
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/mayBeLater"
-                style="@style/UIDExtraWideButton.Center"
+                style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/allowButton"
