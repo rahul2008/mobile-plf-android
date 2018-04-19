@@ -3,12 +3,13 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra.securestorage;
+package com.philips.platform.appinfra.securestoragev1;
 
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +24,7 @@ import java.util.Random;
  * SecureStorage Test class.
  */
 
-public class SecureStorageTest extends AppInfraInstrumentation {
+public class SecureStorageV1Test extends AppInfraInstrumentation {
     SecureStorageInterface mSecureStorage = null;
     private AppInfra mAppInfra;
 
@@ -34,7 +35,7 @@ public class SecureStorageTest extends AppInfraInstrumentation {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
-        mSecureStorage = mAppInfra.getSecureStorage();
+        mSecureStorage = new SecureStorageV1(mAppInfra);
         assertNotNull(mSecureStorage);
 
     }
@@ -161,7 +162,7 @@ public class SecureStorageTest extends AppInfraInstrumentation {
 
     public void testClearKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.clearKey(" ", sse));
+        assertFalse(mSecureStorage.clearKey("", sse));
         assertFalse(mSecureStorage.clearKey(null, sse));
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
         assertTrue(mSecureStorage.clearKey("KeyName", sse));
@@ -241,14 +242,6 @@ public class SecureStorageTest extends AppInfraInstrumentation {
             //You'll need to add proper error handling here
         }
         return text.toString();
-    }
-
-    public void testGetDeviceCapability() {
-        assertNotNull(mSecureStorage.getDeviceCapability());
-    }
-
-    public void testDeviceHasPassCode() {
-        assertNotNull(mSecureStorage.deviceHasPasscode());
     }
 
     public void testByteDataEncryptionAndDecryption() throws Exception {
