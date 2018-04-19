@@ -41,14 +41,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     public void testStartUserRegistration() throws Exception {
         assertEquals("startUserRegistration", appTagingConstants.START_USER_REGISTRATION);
     }
-    @Test
-    public void testLoginStart() throws Exception {
-        assertEquals("loginStart", appTagingConstants.LOGIN_START);
-    }
-    @Test
-    public void testLoginChannel() throws Exception {
-        assertEquals("loginChannel", appTagingConstants.LOGIN_CHANNEL);
-    }
+
     @Test
     public void testSuccessUserCreation() throws Exception {
         assertEquals("successUserCreation", appTagingConstants.SUCCESS_USER_CREATION);
@@ -57,10 +50,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     public void testSuccessUserRegitration() throws Exception {
         assertEquals("successUserRegistration", appTagingConstants.SUCCESS_USER_REGISTRATION);
     }
-    @Test
-    public void testsuccessSocuialMerge() throws Exception {
-        assertEquals("successSocialMerge", appTagingConstants.SUCCESS_SOCIAL_MERGE);
-    }
+
     @Test
     public void testRemarkOptIN() throws Exception {
         assertEquals("remarketingOptIn", appTagingConstants.REMARKETING_OPTION_IN);
@@ -129,10 +119,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     public void testTimeCreatAccount() throws Exception {
         assertEquals("totalTimeInCreateAccount", appTagingConstants.TOTAL_TIME_CREATE_ACCOUNT);
     }
-    @Test
-    public void testUserAlert() throws Exception {
-        assertEquals("userAlert", appTagingConstants.USER_ALERT);
-    }
+
     @Test
     public void testInvalidEmail() throws Exception {
         assertEquals("Invalid email address", appTagingConstants.INVALID_EMAIL);
@@ -140,10 +127,6 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     @Test
     public void testGuidLIne() throws Exception {
         assertEquals("The password does not follow the password guidelines below.", appTagingConstants.WRONG_PASSWORD);
-    }
-    @Test
-    public void testShowPassword() throws Exception {
-        assertEquals("showPassword", appTagingConstants.SHOW_PASSWORD);
     }
     @Test
     public void testFirstNameEmpty() throws Exception {

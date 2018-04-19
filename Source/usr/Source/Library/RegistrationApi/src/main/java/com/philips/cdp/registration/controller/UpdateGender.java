@@ -42,7 +42,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
         mUpdateUserDetails = updateUserDetailsHandler;
         mGender = gender;
         if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
+            mJanrainInitializer.initializeJanrain(mContext);
             return;
         }
         performActualUpdate();

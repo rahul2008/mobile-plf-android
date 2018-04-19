@@ -8,18 +8,19 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.content.*;
+import android.content.Context;
+import android.content.SharedPreferences;
 
-import com.janrain.android.*;
-import com.philips.platform.appinfra.securestorage.*;
+import com.janrain.android.Jump;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.*;
-import java.util.*;
-import java.util.function.*;
-import java.util.regex.*;
-import java.util.stream.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-import static com.philips.cdp.registration.settings.RegistrationSettings.*;
+import static com.philips.cdp.registration.settings.RegistrationSettings.REGISTRATION_API_PREFERENCE;
 
 
 public class RegPreferenceUtility {
@@ -87,7 +88,7 @@ public class RegPreferenceUtility {
                     String.valueOf(entry.getValue()),
                     new SecureStorageInterface.SecureStorageError());
         }
-        myPrefs.edit().clear().commit();
+        myPrefs.edit().clear().apply();
     }
 
     private static boolean isFileExists(String fileName) {

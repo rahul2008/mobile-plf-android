@@ -58,7 +58,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
                 return;
             }
             if (isJanrainInitializeRequired()) {
-                mJanrainInitializer.initializeJanrain(mContext, this);
+                mJanrainInitializer.initializeJanrain(mContext);
                 return;
             }
             performActualUpdate();
