@@ -10,6 +10,7 @@ package com.philips.platform.appframework.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.data.TestConfigManager;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -22,13 +23,16 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.models.Chapter;
 import com.philips.platform.appframework.models.CommonComponent;
+import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -117,8 +121,18 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TEST_MICROAPP), eventState);
 
             if (baseState != null) {
-                baseState.init(context.getApplicationContext());
-                baseState.navigate(getFragmentLauncher());
+                if (Objects.equals(eventState, "TestNeuraDemoEvent")) {
+                    ConditionShouldLaunchNeura conditionShouldLaunchNeura = new ConditionShouldLaunchNeura();
+                    if (!conditionShouldLaunchNeura.isSatisfied(view.getFragmentActivity().getApplicationContext())) {
+                        baseState.init(context.getApplicationContext());
+                        baseState.navigate(getFragmentLauncher());
+                    }else {
+                        new DialogView(view.getFragmentActivity().getApplicationContext().getString(R.string.RA_neura_error_dialog_title), view.getFragmentActivity().getApplicationContext().getString(R.string.RA_neura_error_dialog_message)).showDialog(view.getFragmentActivity());
+                    }
+                } else {
+                    baseState.init(context.getApplicationContext());
+                    baseState.navigate(getFragmentLauncher());
+                }
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {

@@ -211,5 +211,7 @@
   <string name="RA_nuera_second_text">Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
   <string name="RA_nuera_privacy_philips"><u>privacy Philips</u></string>
     <string name="RA_neura_policy_url">https://www.theneura.com/privacy-policy/</string>
+    <string name="RA_neura_error_dialog_title">Enable Permission</string>
+    <string name="RA_neura_error_dialog_message">Please go to profile privacy settings and enable neura sdk</string>
 
 </resources>
