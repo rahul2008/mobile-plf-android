@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -53,7 +54,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private int mRemainingOrders = 0;
     private boolean mIsLoading = false;
     private int mOrderCount = 0;
-    private LinearLayout mParentLayout;
+    private RelativeLayout mParentLayout;
     ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
 
@@ -104,12 +105,12 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        hideProgressBar();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
     }
 
     private void updateHistoryListOnResume() {
         mController = new OrderController(mContext, this);
-        createCustomProgressBar(mParentLayout, BIG);
         mController.getOrderList(mPageNo);
     }
 
@@ -280,7 +281,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     };
 
     private void loadMoreItems() {
-        createCustomProgressBar(mParentLayout,BIG);
         mRemainingOrders = mRemainingOrders - mPageSize;
         mController.getOrderList(++mPageNo);
     }
