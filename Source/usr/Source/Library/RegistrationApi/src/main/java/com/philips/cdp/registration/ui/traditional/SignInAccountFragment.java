@@ -42,6 +42,9 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
@@ -87,11 +90,11 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-import static com.philips.cdp.registration.errors.ErrorConstants.BAD_RESPONSE_CODE;
-import static com.philips.cdp.registration.errors.ErrorConstants.INPUTS_INVALID_CODE;
-import static com.philips.cdp.registration.errors.ErrorConstants.SOCIAL_SIGIN_IN_ONLY_CODE;
-import static com.philips.cdp.registration.errors.ErrorConstants.UNKNOWN_ERROR;
-import static com.philips.cdp.registration.errors.ErrorConstants.UN_EXPECTED_ERROR;
+import static com.philips.cdp.registration.errors.ErrorCodes.BAD_RESPONSE_CODE;
+import static com.philips.cdp.registration.errors.ErrorCodes.INPUTS_INVALID_CODE;
+import static com.philips.cdp.registration.errors.ErrorCodes.SOCIAL_SIGIN_IN_ONLY_CODE;
+import static com.philips.cdp.registration.errors.ErrorCodes.UNKNOWN_ERROR;
+import static com.philips.cdp.registration.errors.ErrorCodes.UN_EXPECTED_ERROR;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -171,7 +174,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
-
+new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1008);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);

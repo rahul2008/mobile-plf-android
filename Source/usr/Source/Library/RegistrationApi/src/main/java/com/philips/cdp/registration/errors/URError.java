@@ -8,15 +8,13 @@ import android.content.Context;
 
 public class URError {
 
-    ErrorType errorType;
     Context context;
 
-    public URError(ErrorType errorType, Context context) {
-        this.errorType = errorType;
+    public URError(Context context) {
         this.context = context;
     }
 
-    public String getLocalizedError(int errorCode) {
+    public String getLocalizedError(ErrorType errorType,int errorCode) {
         return context.getString(getStringID(errorType, errorCode));
     }
 

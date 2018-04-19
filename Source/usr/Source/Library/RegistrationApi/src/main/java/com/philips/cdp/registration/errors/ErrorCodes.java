@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.errors;
 
-public class ErrorConstants {
+public class ErrorCodes {
 
     public static final int UNKNOWN_ERROR = -1;
 
@@ -11,6 +11,8 @@ public class ErrorConstants {
     public static final int BAD_RESPONSE_CODE = 7004;
 
     public static final int INPUTS_INVALID_CODE = 390;
+
+    public static final int NETWORK_ERROR = -100;
 
     //URX
 
@@ -171,7 +173,7 @@ public class ErrorConstants {
 
     public static final int HSDP_INPUT_ERROR_1272 = 1272;
 
-    public static final int HSDP_INPUT_EROR_1312 = 1312;
+    public static final int HSDP_INPUT_ERROR_1312 = 1312;
 
     public static final int HSDP_INVALID = 1437;
 
@@ -187,5 +189,6 @@ public class ErrorConstants {
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
 
-    
+
+
 }
