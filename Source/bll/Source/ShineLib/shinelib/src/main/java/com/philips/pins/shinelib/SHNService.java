@@ -112,18 +112,18 @@ public class SHNService {
     }
 
     @VisibleForTesting
-    protected int numberOfRegisteredDiscoveryListeners(){
+    protected int numberOfRegisteredDiscoveryListeners() {
         return characteristicDiscoveryListeners.size();
     }
 
     private void notifyDiscoveryListeners(BluetoothGattCharacteristic characteristic,
-            SHNCharacteristic shnCharacteristic) {
+                                          SHNCharacteristic shnCharacteristic) {
         for (CharacteristicDiscoveryListener discoveryListener : characteristicDiscoveryListeners) {
             discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(), shnCharacteristic);
         }
     }
 
-    /* package */ void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
+    public void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic : bluetoothGattService.getCharacteristics()) {
@@ -147,7 +147,7 @@ public class SHNService {
         updateState(newState);
     }
 
-    /* package */ void disconnectFromBLELayer() {
+    public void disconnectFromBLELayer() {
         if (bluetoothGattServiceWeakReference != null) {
             bluetoothGattServiceWeakReference.clear();
         }
