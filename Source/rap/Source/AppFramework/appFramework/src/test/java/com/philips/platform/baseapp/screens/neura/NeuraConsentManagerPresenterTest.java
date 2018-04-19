@@ -43,10 +43,23 @@ public class NeuraConsentManagerPresenterTest {
     private PostConsentTypeCallback postConsentTypeCallback;
     @Mock
     private FragmentLauncher fragmentLauncher;
-
+    private HomeFragmentState homeFragmentState;
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        FragmentActivity fragmentActivityMock = mock(FragmentActivity.class);
+        AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
+        NeuraState neuraStateMock = mock(NeuraState.class);
+        homeFragmentState = mock(HomeFragmentState.class);
+        PrivacySettingsState privacySettingsState = mock(PrivacySettingsState.class);
+        FlowManager flowManager = mock(FlowManager.class);
+        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(flowManager);
+        when(fragmentActivityMock.getApplication()).thenReturn(appFrameworkApplicationMock);
+        when(fragmentView.getFragmentActivity()).thenReturn(fragmentActivityMock);
+        when(fragmentActivityMock.getString(R.string.RA_privacy_policy)).thenReturn("Privacy policy");
+        when(flowManager.getNextState("allow")).thenReturn(neuraStateMock);
+        when(flowManager.getNextState("mayBeLater")).thenReturn(homeFragmentState);
+        when(flowManager.getNextState("privacyPhilips")).thenReturn(privacySettingsState);
         neuraConsentManagerPresenter = new NeuraConsentManagerPresenter(fragmentView) {
             @NonNull
             @Override
@@ -70,18 +83,7 @@ public class NeuraConsentManagerPresenterTest {
 
     @Test
     public void testOnEvent() {
-        FragmentActivity fragmentActivityMock = mock(FragmentActivity.class);
-        AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
-        NeuraState neuraStateMock = mock(NeuraState.class);
-        HomeFragmentState homeFragmentState = mock(HomeFragmentState.class);
-        PrivacySettingsState privacySettingsState = mock(PrivacySettingsState.class);
-        FlowManager flowManager = mock(FlowManager.class);
-        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(flowManager);
-        when(fragmentActivityMock.getApplication()).thenReturn(appFrameworkApplicationMock);
-        when(fragmentView.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        when(flowManager.getNextState("allow")).thenReturn(neuraStateMock);
-        when(flowManager.getNextState("mayBeLater")).thenReturn(homeFragmentState);
-        when(flowManager.getNextState("privacyPhilips")).thenReturn(privacySettingsState);
+
         neuraConsentManagerPresenter.onEvent(R.id.allowButton);
         verify(neuraConsentProviderMock).storeConsentTypeState(true, postConsentTypeCallback);
         neuraConsentManagerPresenter.onEvent(R.id.mayBeLater);
