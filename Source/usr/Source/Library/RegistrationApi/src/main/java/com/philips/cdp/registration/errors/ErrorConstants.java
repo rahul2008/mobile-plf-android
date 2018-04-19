@@ -117,7 +117,75 @@ public class ErrorConstants {
     public static final int JANRAIN_ERROR_ON_FLOW = 540;
 
 
+    //HSDP
 
+    public static final int HSDP_SYSTEM_ERROR_403 = 403;
 
+    public static final int HSDP_SYSTEM_ERROR_100 = 100;
 
+    public static final int HSDP_CANNOT_LOGIN_NOW_104 = 104;
+
+    public static final int HSDP_INPUT_ERROR_1008 = 1008;
+
+    public static final int HSDP_INPUT_ERROR_1009 = 1009;
+
+    public static final int HSDP_INPUT_ERROR_1114 = 1114;
+
+    public static final int HSDP_INPUT_ERROR_1151 = 1151;
+
+    public static final int HSDP_CANNOT_LOGIN_NOW_1149 = 1149;
+
+    public static final int HSDP_CANNOT_LOGIN_NOW_1150 = 1150;
+
+    public static final int HSDP_INPUT_ERROR_1165 = 1165;
+
+    public static final int HSDP_INPUT_ERROR_1166 = 1166;
+
+    public static final int HSDP_INPUT_ERROR_1167 = 1167;
+
+    public static final int HSDP_INPUT_ERROR_1175 = 1175;
+
+    public static final int HSDP_INPUT_ERROR_1251 = 1251;
+
+    public static final int HSDP_INPUT_ERROR_1252 = 1252;
+
+    public static final int HSDP_INPUT_ERROR_1253 = 1253;
+
+    public static final int HSDP_CHECK = 1254;
+
+    public static final int HSDP_INPUT_ERROR_1260 = 1260;
+
+    public static final int HSDP_INPUT_ERROR_1261 = 1261;
+
+    public static final int HSDP_INPUT_ERROR_1262 = 1262;
+
+    public static final int HSDP_INPUT_ERROR_1263 = 1263;
+
+    public static final int HSDP_INPUT_ERROR_1265 = 1265;
+
+    public static final int HSDP_INPUT_ERROR_1266 = 1266;
+
+    public static final int HSDP_INPUT_ERROR_1267 = 1267;
+
+    public static final int HSDP_INPUT_ERROR_1271 = 1271;
+
+    public static final int HSDP_INPUT_ERROR_1272 = 1272;
+
+    public static final int HSDP_INPUT_EROR_1312 = 1312;
+
+    public static final int HSDP_INVALID = 1437;
+
+    public static final int HSDP_INPUT_ERROR_1571 = 1571;
+
+    public static final int HSDP_INPUT_ERROR_1572 = 1572;
+
+    public static final int HSDP_INPUT_ERROR_3055 = 3055;
+
+    public static final int HSDP_TIME_ERROR = 3056;
+
+    public static final int HSDP_INPUT_ERROR_3073 = 3073;
+
+    public static final int HSDP_INPUT_ERROR_3074 = 3074;
+
+    
 }
