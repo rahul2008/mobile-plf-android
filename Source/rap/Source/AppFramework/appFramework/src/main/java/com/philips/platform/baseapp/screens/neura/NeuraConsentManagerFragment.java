@@ -59,11 +59,11 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     }
 
     void initViews(View inflate) {
-        allow = inflate.findViewById(R.id.allowButton);
-        mayBeLater = inflate.findViewById(R.id.mayBeLater);
+        allow = inflate.findViewById(R.id.rap_justInTimeView_consentOk_button);
+        mayBeLater = inflate.findViewById(R.id.rap_justInTimeView_consentLater_label);
         philipsPrivacy = inflate.findViewById(R.id.philipsPrivacy);
         neuraPrivacyPolicy = inflate.findViewById(R.id.RA_neura_privacy_notice_label);
-        whatDoesItMean = inflate.findViewById(R.id.RA_neura_what_mean);
+        whatDoesItMean = inflate.findViewById(R.id.rap_justInTimeView_consentHelplink_button);
     }
 
     private void applyOverLayBackground(View inflate) {
@@ -78,7 +78,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Allow_Sharing, true);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Neura_Navigation_Title, true);
     }
 
     @Override

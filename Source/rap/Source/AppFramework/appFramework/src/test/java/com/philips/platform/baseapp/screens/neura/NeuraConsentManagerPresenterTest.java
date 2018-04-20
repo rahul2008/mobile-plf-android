@@ -84,9 +84,9 @@ public class NeuraConsentManagerPresenterTest {
     @Test
     public void testOnEvent() {
 
-        neuraConsentManagerPresenter.onEvent(R.id.allowButton);
+        neuraConsentManagerPresenter.onEvent(R.id.rap_justInTimeView_consentOk_button);
         verify(neuraConsentProviderMock).storeConsentTypeState(true, postConsentTypeCallback);
-        neuraConsentManagerPresenter.onEvent(R.id.mayBeLater);
+        neuraConsentManagerPresenter.onEvent(R.id.rap_justInTimeView_consentLater_label);
         verify(neuraConsentProviderMock).storeConsentTypeState(false, postConsentTypeCallback);
         verify(homeFragmentState).navigate(fragmentLauncher);
 

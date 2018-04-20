@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="@dimen/nuera_margin_between_text"
-                android:text="@string/RA_nuera_base_title"
+                android:text="@string/RA_neura_header_title"
                  />
 
             <com.philips.platform.uid.view.widget.Label
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/base_text_neura"
                 android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
-                android:text="@string/RA_nuera_second_text"
+                android:text="@string/RA_nuera_philips_tailor_text"
                  />
 
 
@@ -50,11 +50,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/second_text_neura"
                 android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
-                android:text="@string/RA_nuera_third_title"
+                android:text="@string/RA_nuera_location_info_title"
                 />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/RA_neura_what_mean"
+                android:id="@+id/rap_justInTimeView_consentHelplink_button"
                 style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,31 +65,31 @@
 
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/allowButton"
+                android:id="@+id/rap_justInTimeView_consentOk_button"
                 style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/RA_neura_what_mean"
+                android:layout_below="@id/rap_justInTimeView_consentHelplink_button"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:text="@string/Ra_neura_allow" />
+                android:text="@string/RA_Neura_Allow_Button" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/mayBeLater"
+                android:id="@+id/rap_justInTimeView_consentLater_label"
                 style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/allowButton"
+                android:layout_below="@id/rap_justInTimeView_consentOk_button"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_marginTop="@dimen/nuera_margin_between_buttons"
                 android:background="@color/transparent"
-                android:text="@string/RA_neura_mayBeLater" />
+                android:text="@string/RA_Neura_MayBeLater_Button" />
 
 
             <RelativeLayout
                 android:id="@+id/RA_neura_link_holder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mayBeLater"
+                android:layout_below="@+id/rap_justInTimeView_consentLater_label"
                 android:gravity="center_horizontal">
 
                 <ImageView

@@ -49,12 +49,12 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         NeuraConsentProvider provider = getNeuraConsentProvider(appFrameworkApplication);
         try {
             switch (componentID) {
-                case R.id.allowButton:
+                case R.id.rap_justInTimeView_consentOk_button:
                     String EVENT_ALLOW = "allow";
                     provider.storeConsentTypeState(true, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
-                case R.id.mayBeLater:
+                case R.id.rap_justInTimeView_consentLater_label:
                     String EVENT_MAY_BE_LATER = "mayBeLater";
                     provider.storeConsentTypeState(false, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_MAY_BE_LATER);
@@ -67,7 +67,7 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
                     String EVENT_NEURA_PRIVACY = "privacyNeura";
                     baseState = getNextState(targetFlowManager, EVENT_NEURA_PRIVACY);
                     break;
-                case R.id.RA_neura_what_mean:
+                case R.id.rap_justInTimeView_consentHelplink_button:
                     launchWhatDoesItMeanFragment(neuraFragmentView.getFragmentActivity());
                     break;
 
