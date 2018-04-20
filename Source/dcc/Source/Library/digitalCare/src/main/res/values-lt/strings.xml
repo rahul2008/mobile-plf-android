@@ -178,5 +178,10 @@
     <string name="dcc_Help_Support">Žinynas ir palaikymas</string>
     <string name="dcc_Call">Skambinti</string>
     <string name="dcc_Opening_Hours">Darbo valandos</string>
+    <string name="dcc_location_consent_accept">Gerai</string>
+    <string name="dcc_location_consent_reject">Atšaukti</string>
+    <string name="dcc_location_consent_title">Sutikimas teikti vietos duomenis</string>
+    <string name="dcc_location_consent_definition_text">Suteikiu „Philips“ prieigą prie savo vietos duomenų, kad veiktų funkcija „Rasti „Philips“ netoli jūsų“.</string>
+    <string name="dcc_location_consent_definition_help_text">Kai suteikiate prieigą prie vietos duomenų, galime kaupti jūsų mobiliojo prietaiso geografinės vietos duomenis.\n\nKai naudojate funkciją „Rasti „Philips“ netoli jūsų“ palaikymo puslapyje, jūsų prašoma dalytis vietos duomenimis su „Philips“. Jei naudojate mūsų vietos funkcijas, remiantis jūsų vietos duomenimis būsite nukreiptas link netoliese esančios parduotuvės arba į savo šalies vartotojų aptarnavimo kontaktinę informaciją.</string>
 
 </resources>

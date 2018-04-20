@@ -182,5 +182,10 @@
     <string name="dcc_Help_Support">Hilfe und Support</string>
     <string name="dcc_Call">Anruf</string>
     <string name="dcc_Opening_Hours">Öffnungszeiten</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Abbrechen</string>
+    <string name="dcc_location_consent_title">Zustimmung zur Erfassung des Standorts</string>
+    <string name="dcc_location_consent_definition_text">Ich erlaube Philips für die Funktion \"Philips Händler in Ihrer Nähe finden\", auf meine Standortdaten zuzugreifen.</string>
+    <string name="dcc_location_consent_definition_help_text">Wenn Sie den Zugriff auf Ihre Standortdaten erlauben, erfassen wir möglicherweise den geografischen Standort Ihres mobilen Geräts.\n\nWenn Sie die Funktion \"Philips Händler in Ihrer Nähe finden\" auf der Support-Website nutzen, werden Sie aufgefordert, Ihre Standortdaten für Philips freizugeben. Wenn Sie unsere Standortfunktionen verwenden, wird Ihnen basierend auf Ihren Standortdaten ein Händler in Ihrer Nähe angezeigt, oder Sie erhalten die Kontaktdaten des Kundendienstes für Ihr Land.</string>
 
 </resources>

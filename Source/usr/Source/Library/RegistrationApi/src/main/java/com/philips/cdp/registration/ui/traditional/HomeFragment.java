@@ -227,7 +227,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         consumeTouch(view);
         continueWithouAccount.setVisibility(View.GONE);
         setContentConfig();
-        updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+        updateCountryText(RegistrationHelper.getInstance().getLocale().getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
         linkifyPrivacyPolicy(privacyPolicy2, privacyClickListener);
 
@@ -531,7 +531,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
         if (mRegError.isShown()) mRegError.hideError();
-        trackMultipleActionsRegistration();
         launchCreateAccountFragment();
     }
 

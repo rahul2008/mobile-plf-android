@@ -128,7 +128,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
                 boolean validateString = validateString(mCityEditText.getText().toString());
                 if (!validateString) {
                     cityValidationLayout.showError();
-                    doTagging(ANALYTICS_UPDATE_PAYMENT, addressValidationLayout.getErrorLabelView().getText().toString(), false);
+                    doTagging(ANALYTICS_UPDATE_PAYMENT, cityValidationLayout.getErrorLabelView().getText().toString(), false);
                     return false;
                 }
                 return true;
@@ -414,12 +414,14 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
             mAddressOneEditText.setText("");
             addressValidationLayout.hideError();
             mAddressTwoEditText.setText("");
-            cityValidationLayout.hideError();
             mCityEditText.setText("");
-            postCodeValidationLayout.hideError();
+            cityValidationLayout.hideError();
             mZipcodeEditText.setText("");
+            postCodeValidationLayout.hideError();
+            mCurrentSelectedState = null;
             placeHolderUIPicker.setText("");
         }
+        updateContinueBtnState();
     }
 
     @Override

@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:custom="http://schemas.android.com/apk/res-auto"
-              xmlns:reglib="http://reg.lib/schema"
-              android:layout_width="match_parent"
-              android:layout_height="fill_parent"
-              android:background="?attr/uidContentPrimaryBackgroundColor">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -21,13 +21,13 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_forgotpassword_title_label"
+                fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_Receive_Philips_News_Meaning_lbltxt"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:textSize="@dimen/reg_text_size_20"
-                fontPath="fonts/centralesansbold.ttf"/>
+                android:textSize="@dimen/reg_text_size_20" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/reg_philips_communication_content1"
@@ -36,52 +36,8 @@
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_DLS_PhilipsNews_Description_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                reglib:fontPath="fonts/centralesansbook.ttf"/>
+                reglib:fontPath="fonts/centralesansbook.ttf" />
 
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/reg_philips_communication_content2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/reg_dimen_16dp"-->
-                <!--android:text="@string/reg_DLS_PhilipsNews_Description_Text_Two"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"-->
-                <!--reglib:fontPath="fonts/centralesansbook.ttf"/>-->
-
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/reg_philips_communication_content4"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/reg_dimen_16dp"-->
-                <!--android:text="@string/reg_DLS_PhilipsNews_Description_Text_Three"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"-->
-                <!--reglib:fontPath="fonts/centralesansbook.ttf"/>-->
-
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/reg_philips_communication_content6"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/reg_dimen_16dp"-->
-                <!--android:text="@string/reg_DLS_PhilipsNews_Description_Text_Four"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"-->
-                <!--reglib:fontPath="fonts/centralesansbook.ttf"/>-->
-
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/reg_philips_communication_content7"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/reg_dimen_16dp"-->
-                <!--android:text="@string/reg_Philips_News_Description_Second_Bulleted_Description_lbltxt"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"-->
-                <!--reglib:fontPath="fonts/centralesansbook.ttf"/>-->
-
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/reg_philips_communication_content8"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/reg_dimen_16dp"-->
-                <!--android:text="@string/reg_Philips_News_Description_Withdrawal_Opportunity_lbltxt"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"-->
-                <!--reglib:fontPath="fonts/centralesansbook.ttf"/>-->
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/reg_scroll_margin" />

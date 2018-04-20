@@ -18,12 +18,14 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
+import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
 
 
 public class SecureStorageActivity extends AppCompatActivity  {
     SecureStorageInterface mSecureStorage=null;
     boolean isOldSSEnabled;
+
+    TextView statusTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +34,17 @@ public class SecureStorageActivity extends AppCompatActivity  {
         AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
         if(isOldSSEnabled) {
-            mSecureStorage = appInfra.getSecureStorage();
+            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
-            mSecureStorage=new SecureStorage2((AppInfra)appInfra);
+            mSecureStorage=appInfra.getSecureStorage();
         }
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
         final  EditText data = (EditText) findViewById(R.id.data_editText);
 
         final  TextView decryptedDataTextView = (TextView) findViewById(R.id.decripted_Output_textView);
+        statusTextView = findViewById(R.id.status_desc_text_view);
 
 
         Button encryptButton = (Button) findViewById(R.id.encript_button);
@@ -57,9 +60,10 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
                 if(null!=sseStore.getErrorCode())
                 {
+                    statusTextView.setText(sseStore.getErrorCode().toString());
                     Toast.makeText(SecureStorageActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
                 }else{
-
+                    statusTextView.setText("No Error");
                 }
               
 
@@ -77,8 +81,10 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString(),sse);
                 if(null!=sse.getErrorCode())
                 {
+                    statusTextView.setText(sse.getErrorCode().toString());
                     Toast.makeText(SecureStorageActivity.this,sse.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
                 }else{
+                    statusTextView.setText("No Error");
                     decryptedDataTextView.setText(decryptedData);
 
                 }
@@ -98,10 +104,12 @@ public class SecureStorageActivity extends AppCompatActivity  {
 
                boolean result =  mSecureStorage.removeValueForKey(userKey.getText().toString());
                 if(result) {
+                    statusTextView.setText("Deletion successful");
                     data.setText(null);
                     userKey.setText(null);
                     decryptedDataTextView.setText(null);
                 }else{
+                    statusTextView.setText("Deletion failed");
                     Toast.makeText(SecureStorageActivity.this,"Deletion failed",Toast.LENGTH_SHORT).show();
                 }
             }

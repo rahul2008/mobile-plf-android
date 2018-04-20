@@ -8,7 +8,6 @@ import org.junit.Before;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
 
 /**
@@ -35,7 +34,7 @@ public class RegistrationActivityTest extends RegistrationApiInstrumentationBase
         try {
             method =RegistrationActivity.class.getDeclaredMethod("setCustomLocale");;
             method.setAccessible(true);
-            method.invoke(registrationActivity, RegistrationHelper.getInstance().getLocale(getInstrumentation().getContext()));
+            method.invoke(registrationActivity, RegistrationHelper.getInstance().getLocale());
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
