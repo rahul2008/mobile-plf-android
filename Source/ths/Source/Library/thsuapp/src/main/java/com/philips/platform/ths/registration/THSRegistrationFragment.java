@@ -309,14 +309,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             uiPicker.show();
             updateUiPickerSelection();
         } else {
-            mContinueButton.showProgressIndicator();
-            if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
-                mThsRegistrationPresenter.updateDependentConsumerData(THSManager.getInstance().getThsConsumer(getContext()).getConsumer(), mDob, mEditTextFirstName.getText().toString(),
-                        mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE);
+            if (validateUserFields()) {
+                mContinueButton.showProgressIndicator();
+                if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
+                    mThsRegistrationPresenter.updateDependentConsumerData(THSManager.getInstance().getThsConsumer(getContext()).getConsumer(), mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE);
 
-            } else {
-                mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
-                        mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
+                } else {
+                    mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
+                }
             }
         }
     }
