@@ -25,11 +25,11 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.util.SelectorDialog;
 
@@ -43,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_no_firmware_directory_found;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_select_a_firmware_image;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static java.lang.System.currentTimeMillis;
 
@@ -213,6 +214,12 @@ public class FirmwareUpgradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        if (appliance != null && appliance instanceof ReferenceAppliance) {
+            firmwarePort = appliance.getFirmwarePort();
+        }
+
         firmwareSearchLocationTextView = rootView.findViewById(R.id.cml_tvFirmwareSearchLocation);
         firmwareImageNameTextView = rootView.findViewById(R.id.cml_tvFirmwareImageName);
 
@@ -245,13 +252,10 @@ public class FirmwareUpgradeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        if (appliance == null || !(appliance instanceof ReferenceAppliance)) {
+        if (firmwarePort == null) {
             getFragmentManager().popBackStack();
             return;
         }
-
-        firmwarePort = appliance.getFirmwarePort();
 
         readFirmwareFiles();
 

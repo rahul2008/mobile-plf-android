@@ -36,7 +36,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 import com.philips.cdp2.commlib.demouapp.R;
@@ -181,8 +180,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 final Appliance appliance = applianceAdapter.getItem(position);
 
                 if (appliance != null) {
-                    CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
-                    CommlibUapp.get().nextFragment(new ApplianceFragment());
+                    CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
                 }
             }
         });
