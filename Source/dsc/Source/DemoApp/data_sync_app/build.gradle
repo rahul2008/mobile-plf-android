@@ -1,198 +1,38 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "dataServicesApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-}
-
-publishing {
-    publications {
-        apk(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        applicationId "cdp.philips.com.mydemoapp"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        renderscriptTargetApi versions.renderscriptTargetApi
-        versionCode 7
-        versionName version + "(" + objcdp.getCommitHash() + ")"
-        renderscriptSupportModeEnabled true
-        generatedDensities = []
-        multiDexEnabled true
 
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
-        ]
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    signingConfigs {
-        release
-    }
-
-    dexOptions {
-        preDexLibraries = false
-        javaMaxHeapSize "4g"
+        applicationId "com.philips.cdp2.dsc.demoapp"
+        versionCode 1
+        versionName "0.0.1"
+        manifestPlaceholders = ['appAuthRedirectScheme': 'https']
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            proguardFile 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
-    /*
-    This defined for signing the apk -- start
-     */
-    def Properties props = new Properties()
-    println "  projectDir:   " + project.projectDir;
-    def propFile = new File("${project.projectDir}/signing.properties")
-    if (propFile.canRead()) {
-        props.load(new FileInputStream(propFile))
-
-        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-            println 'signing.properties found and fully filled in'
-            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-        } else {
-            println 'NOPE - signing.properties NOT found'
-            android.buildTypes.release.signingConfig = null
-        }
-    } else {
-        println 'dsc signing.properties not found'
-        android.buildTypes.release.signingConfig = null
+    lintOptions {
+        abortOnError false
     }
-    /*
-    This defined for signing the apk -- end
-    */
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -205,70 +45,18 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-
-        pickFirst 'lib/mips/librsjni.so'
-        pickFirst 'lib/mips/libblasV8.so'
-        pickFirst 'lib/mips/libRSSupport.so'
-        pickFirst 'lib/x86/librsjni.so'
-        pickFirst 'lib/x86/libblasV8.so'
-        pickFirst 'lib/x86/libRSSupport.so'
-        pickFirst 'lib/armeabi-v7a/librsjni.so'
-        pickFirst 'lib/armeabi-v7a/libblasV8.so'
-        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
-        pickFirst 'lib/arm64-v8a/libRSSupport.so'
-        pickFirst 'lib/arm64-v8a/librsjni.so'
-        exclude 'META-INF/INDEX.LIST'
     }
-
-    publishNonDefault true
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
-    //Coco
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
-        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
-        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
-    } else {
-        compile philipsdeps.UserRegistrationUApp
-    }
-
     compile deps.support.design
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
-    compile deps.support.customtabs
-    compile deps.multidex
-
-    compile deps.ormlite.core
-    compile deps.ormlite.android
-
-    debugCompile deps.stetho
-
-    testCompile deps.mockito
-    testCompile deps.robolectric
-    testCompile deps.junit
+    compile deps.support.supportv4
 
     debugCompile project(path: ':dataServicesUApp', configuration: 'debug')
     releaseCompile project(path: ':dataServicesUApp', configuration: 'release')
-}
 
-task copyToLib(type: Copy) {
-    into "$buildDir/outputs/lib"
-    from configurations.compile
-}
+    debugCompile project(path: ':uikitLib', configuration: 'debug')
+    releaseCompile project(path: ':uikitLib', configuration: 'release')
 
-tasks.withType(Test) {
-    ignoreFailures = true
+    testCompile deps.junit
 }

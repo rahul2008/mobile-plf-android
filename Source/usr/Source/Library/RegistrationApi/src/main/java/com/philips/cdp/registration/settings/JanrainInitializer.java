@@ -22,8 +22,6 @@ public class JanrainInitializer implements JumpFlowDownloadStatusListener {
         boolean isJanrainInitializeRequired();
     }
 
-    private JanrainInitializeListener mJanrainInitializeListener;
-
     @Override
     public void onFlowDownloadSuccess() {
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
@@ -34,10 +32,7 @@ public class JanrainInitializer implements JumpFlowDownloadStatusListener {
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
-    public void initializeJanrain(final Context context,
-                                  final JanrainInitializeListener
-                                          janrainInitializeListener) {
-        mJanrainInitializeListener = janrainInitializeListener;
+    public void initializeJanrain(final Context context) {
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()
                 && !UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             UserRegistrationInitializer.getInstance().

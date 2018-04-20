@@ -71,7 +71,6 @@ public class ErrorMonitor extends EventMonitor {
 
     private void unknownError() {
         mErrorHandlingInterface.syncError(UNKNOWN);
-        return;
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

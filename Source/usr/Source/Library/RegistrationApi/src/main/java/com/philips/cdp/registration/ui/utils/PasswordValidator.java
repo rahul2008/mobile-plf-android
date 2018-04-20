@@ -47,7 +47,7 @@ public class PasswordValidator implements InputValidationLayout.Validator {
         return false;
     }
 
-    public static boolean isPasswordLengthMeets(String string) {
+    private static boolean isPasswordLengthMeets(String string) {
         if (string == null) {
             return false;
         }

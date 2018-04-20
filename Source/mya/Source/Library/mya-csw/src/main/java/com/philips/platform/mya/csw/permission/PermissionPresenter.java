@@ -8,12 +8,10 @@
 package com.philips.platform.mya.csw.permission;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
-import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.csw.BuildConfig;
 import com.philips.platform.mya.csw.CswConstants;
@@ -31,6 +29,8 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
 
 public class PermissionPresenter implements PermissionContract.Presenter, FetchConsentsCallback, PostConsentCallback {
 
@@ -143,7 +143,7 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
     @Override
     public void onPostConsentSuccess() {
         adapter.onCreateConsentSuccess(togglePosition, toggleStatus);
-        appTaggingInterface.trackActionWithInfo(CONSENT_CENTER, preparedTaggingInfo);
+        appTaggingInterface.trackActionWithInfo(SEND_DATA, preparedTaggingInfo);
         view.hideProgressDialog();
     }
 
@@ -153,11 +153,6 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
         } else {
             view.showErrorDialog(goBack, R.string.csw_problem_occurred_error_title, error);
         }
-    }
-
-    @VisibleForTesting
-    protected RestInterface getRestClient() {
-        return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
     private Map<String, String> prepareTrackActionInfo(ConsentDefinition definition, boolean consentGiven) {

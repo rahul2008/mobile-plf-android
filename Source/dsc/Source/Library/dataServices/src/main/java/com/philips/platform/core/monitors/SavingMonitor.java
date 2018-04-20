@@ -24,10 +24,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.sql.SQLException;
 
 public class SavingMonitor extends EventMonitor {
-    private static final String TAG = SavingMonitor.class.getSimpleName();
 
     @NonNull
-    DBSavingInterface dbInterface;
+    private DBSavingInterface dbInterface;
 
     @NonNull
     private final DBDeletingInterface dbDeletingInterface;
@@ -35,7 +34,7 @@ public class SavingMonitor extends EventMonitor {
     @NonNull
     private final DBUpdatingInterface dbUpdatingInterface;
 
-    public SavingMonitor(DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBUpdatingInterface dbUpdatingInterface) {
+    public SavingMonitor(@NonNull DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBUpdatingInterface dbUpdatingInterface) {
         this.dbInterface = dbInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbUpdatingInterface = dbUpdatingInterface;
@@ -70,7 +69,6 @@ public class SavingMonitor extends EventMonitor {
         dbInterface.saveSyncBit(SyncType.CONSENT, true);
         if (!saved) {
             dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
-            return;
         }
     }
 

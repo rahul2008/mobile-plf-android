@@ -9,13 +9,15 @@ import com.philips.cdp.registration.R;
  */
 public class RegChinaUtil {
 
+    private static final String TAG = RegChinaUtil.class.getSimpleName();
+
     public static String getErrorMsgDescription(String errorCodeStr, Context context) {
         int errorCode = Integer.parseInt(errorCodeStr);
-        String errorMsg ="";
+        String errorMsg = "";
 
         switch (errorCode) {
             case RegChinaConstants.URXSMSSuccessCode:
-               errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Success);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Success);
                 break;
             case RegChinaConstants.URXSMSInvalidNumber:
                 errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Invalid_PhoneNumber);
@@ -43,8 +45,10 @@ public class RegChinaUtil {
                 break;
 
             default:
+                RLog.e(TAG, "Error Message not received for given error code : " + errorCode);
                 return context.getResources().getString(R.string.reg_Generic_Network_Error);
         }
+        RLog.e(TAG, "Error Message : " + errorMsg);
         return errorMsg;
     }
 }

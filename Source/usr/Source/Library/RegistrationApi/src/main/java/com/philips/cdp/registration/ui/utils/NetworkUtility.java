@@ -12,9 +12,14 @@ package com.philips.cdp.registration.ui.utils;
 import android.content.*;
 import android.net.*;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class NetworkUtility {
 
     private Context context;
+
+    private final String TAG = NetworkUtility.class.getSimpleName();
 
     public NetworkUtility(Context context) {
         this.context = context;
@@ -23,7 +28,8 @@ public class NetworkUtility {
     public boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+        boolean isConnected = (activeNetwork != null && activeNetwork.isConnected() && activeNetwork.isAvailable());
+        System.out.println("isConnected"+isConnected);
         return isConnected;
     }
 
@@ -34,5 +40,15 @@ public class NetworkUtility {
 
     public void unRegisterNetworkListener(BroadcastReceiver broadcastReceiver) {
         context.unregisterReceiver(broadcastReceiver);
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            final InetAddress address = InetAddress.getByName("www.philips.com");
+            return !address.equals("");
+        } catch (UnknownHostException e) {
+            RLog.d(TAG, "Error in checking internet connection.");
+        }
+        return false;
     }
 }

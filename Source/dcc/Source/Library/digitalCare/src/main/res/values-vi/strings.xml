@@ -178,5 +178,10 @@
     <string name="dcc_Help_Support">Trợ giúp và hỗ trợ</string>
     <string name="dcc_Call">Cuộc gọi</string>
     <string name="dcc_Opening_Hours">Giờ làm việc</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Hủy</string>
+    <string name="dcc_location_consent_title">Cho phép định vị</string>
+    <string name="dcc_location_consent_definition_text">Tôi cho phép Philips truy cập dữ liệu vị trí của tôi đến ‘Tìm Philips gần bạn’.</string>
+    <string name="dcc_location_consent_definition_help_text">Khi bạn cho phép truy cập vào dữ liệu vị trí, chúng tôi có thể thu thập vị trí địa lý thiết bị di động của bạn.\n\nKhi bạn dùng chức năng ‘Tìm Philips gần bạn’ trên Trang Hỗ trợ, bạn sẽ được yêu cầu chia sẻ dữ liệu vị trí của bạn với Philips. Nếu bạn sử dụng các tính năng định vị của chúng tôi, dựa trên dữ liệu vị trí của bạn, bạn sẽ được chuyển hướng đến cửa hàng nằm gần bạn, hoặc đến thông tin chi tiết liên hệ chăm sóc khách hàng của quốc gia bạn.</string>
 
 </resources>

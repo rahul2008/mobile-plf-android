@@ -19,21 +19,21 @@ public class MarketingAccountPresenter implements NetworkStateListener, UpdateUs
     }
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         marketingAccountContract.handleUiState();
     }
 
     @Override
     public void onUpdateSuccess() {
         marketingAccountContract.trackRemarketing();
-        RLog.d("MarketingAccountFragment", "onUpdateSuccess ");
+        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
         marketingAccountContract.hideRefreshProgress();
         marketingAccountContract.handleRegistrationSuccess();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-        RLog.d("MarketingAccountFragment", "onUpdateFailedWithError ");
+        RLog.i("MarketingAccountFragment", "onUpdateFailedWithError ");
         marketingAccountContract.hideRefreshProgress();
     }
 

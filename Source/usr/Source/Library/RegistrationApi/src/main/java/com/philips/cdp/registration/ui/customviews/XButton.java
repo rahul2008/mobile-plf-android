@@ -10,9 +10,10 @@ package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.*;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.uid.view.widget.Button;
 
 public class XButton extends Button {
 

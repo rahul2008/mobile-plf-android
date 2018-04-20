@@ -182,5 +182,10 @@
     <string name="dcc_Help_Support">Aide et soutien</string>
     <string name="dcc_Call">Appel</string>
     <string name="dcc_Opening_Hours">Heures d\'ouverture</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Annuler</string>
+    <string name="dcc_location_consent_title">Autorisation de géolocalisation</string>
+    <string name="dcc_location_consent_definition_text">J\'autorise Philips à accéder à mes données de géolocalisation pour la fonctionnalité « Trouver Philips près de chez vous ».</string>
+    <string name="dcc_location_consent_definition_help_text">Lorsque vous autorisez l\'accès aux données de géolocalisation, nous pouvons collecter la localisation géographique de votre appareil mobile.\n\nLorsque vous utilisez la fonctionnalité « Trouver Philips près de chez vous » sur la page d\'assistance, vous êtes invité à partager vos données de géolocalisation avec Philips. Si vous utilisez nos fonctions de géolocalisation, en fonction de votre situation géographique, vous serez redirigé vers un magasin près de chez vous ou vers les coordonnées du Service Consommateurs de votre pays.</string>
 
 </resources>

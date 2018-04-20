@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Palīdzība un atbalsts</string>
     <string name="dcc_Call">Zvanīt</string>
     <string name="dcc_Opening_Hours">Darba laiks</string>
+    <string name="dcc_location_consent_accept">Labi</string>
+    <string name="dcc_location_consent_reject">Atcelt</string>
+    <string name="dcc_location_consent_title">Piekrišana atrašanās vietas datu kopīgošanai</string>
+    <string name="dcc_location_consent_definition_text">Es atļauju Philips piekļūt maniem atrašanās vietas datiem, lai izmantotu funkciju „Atrast tuvāko Philips izplatītāju”.</string>
+    <string name="dcc_location_consent_definition_help_text">Kad atļaujat piekļūt atrašanās vietas datiem, mēs varam iegūt informāciju par jūsu mobilā tālruņa ģeogrāfisko atrašanās vietu.\n\nIzmantojot atbalsta lapā pieejamo funkciju „Atrast tuvāko Philips izplatītāju”, jums tiks lūgts kopīgot savus atrašanās vietas datus ar Philips. Ja izmantosiet mūsu ar atrašanās vietu saistītās funkcijas, atbilstoši jūsu atrašanās vietas datiem jums tiks parādīta informācija par jums tuvumā esošu veikalu vai jūsu valsts patērētāju apkalpošanas daļas kontaktinformācija.</string>
 
 </resources>
