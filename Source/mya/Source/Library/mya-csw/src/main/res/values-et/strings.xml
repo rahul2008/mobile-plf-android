@@ -53,8 +53,8 @@
   <string name="mya_Settings">Seadistused</string>
   <string name="mya_change_country">Riigi muutmiseks logige välja</string>
   <string name="mya_change_country_message">Elukohariigi muutmiseks logige välja. See võimaldab meil garantiitingimusi ja muud teavet olenevalt teie asukohast kohandada.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[et]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[et]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Tühista</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[et]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[et]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[et]OK, count me in</string>

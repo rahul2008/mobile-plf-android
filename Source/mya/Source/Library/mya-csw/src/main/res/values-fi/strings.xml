@@ -53,8 +53,8 @@
   <string name="mya_Settings">Asetukset</string>
   <string name="mya_change_country">Vaihda maa kirjautumalla ulos</string>
   <string name="mya_change_country_message">Kirjaudu ulos, jos haluat vaihtaa maa-asetuksen. Valitsemalla asuinmaasi voimme mukauttaa takuun ja muut tiedot sijaintisi mukaan.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[fi]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[fi]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Peruuta</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[fi]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[fi]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[fi]OK, count me in</string>

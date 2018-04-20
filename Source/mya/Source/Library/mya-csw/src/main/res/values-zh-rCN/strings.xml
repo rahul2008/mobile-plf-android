@@ -53,8 +53,8 @@
   <string name="mya_Settings">设置</string>
   <string name="mya_change_country">退出以更改国家/地区</string>
   <string name="mya_change_country_message">请退出以更改您所居住的国家/地区。这可让我们根据您的所在地的提供保修和其他信息</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[zh-CN]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[zh-CN]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">取消</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">确定</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[zh-CN]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[zh-CN]OK, count me in</string>

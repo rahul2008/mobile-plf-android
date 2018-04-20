@@ -53,8 +53,8 @@
   <string name="mya_Settings">Cài đặt</string>
   <string name="mya_change_country">Đăng xuất để thay đổi quốc gia</string>
   <string name="mya_change_country_message">Vui lòng đăng xuất để thay đổi quốc gia nơi bạn sinh sống. Việc này sẽ cho phép chúng tôi điều chỉnh bảo hành và thông tin khác thích hợp với khu vực của bạn hơn</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[vi]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[vi]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Hủy</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[vi]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[vi]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[vi]OK, count me in</string>

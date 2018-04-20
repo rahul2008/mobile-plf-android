@@ -53,8 +53,8 @@
   <string name="mya_Settings">Nastavenie</string>
   <string name="mya_change_country">Odhláste sa na zmenu krajiny</string>
   <string name="mya_change_country_message">Prosím, odhláste sa, aby ste mohli zmeniť krajinu, v ktorej žijete. Budeme tak môcť prispôsobiť záruku a ďalšie informácie podľa vašej lokality</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sk]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sk]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Zrušiť</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[sk]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[sk]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sk]OK, count me in</string>

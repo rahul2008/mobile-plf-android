@@ -53,8 +53,8 @@
   <string name="mya_Settings">nustatymais</string>
   <string name="mya_change_country">Atsijunkite ir pakeiskite šalį</string>
   <string name="mya_change_country_message">Atsijunkite, norėdami pakeisti šalį, kurioje gyvenate. Pritaikysime jums garantiją ir kitą informaciją pagal buvimo vietą.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[lt]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[lt]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Atšaukti</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">Gerai</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[lt]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[lt]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[lt]OK, count me in</string>

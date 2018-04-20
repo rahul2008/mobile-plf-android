@@ -53,8 +53,8 @@
   <string name="mya_Settings">Innstillinger</string>
   <string name="mya_change_country">Logg av for å endre land</string>
   <string name="mya_change_country_message">Logg deg av for å endre landet du bor i. Da kan vi tilpasse garantien og annen informasjon etter plasseringen din</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[nb]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[nb]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Avbryt</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">Ok</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[nb]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[nb]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[nb]OK, count me in</string>

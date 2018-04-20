@@ -53,8 +53,8 @@
   <string name="mya_Settings">Nastavitve</string>
   <string name="mya_change_country">Odjava za spremembo države</string>
   <string name="mya_change_country_message">Odjavite se, da spremenite državo prebivališča. Tako lahko garancijo in druge informacije prilagodimo glede na vašo lokacijo.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sl]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sl]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Prekliči</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">V REDU</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[sl]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[sl]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sl]OK, count me in</string>

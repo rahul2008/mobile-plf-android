@@ -53,8 +53,8 @@
   <string name="mya_Settings">الإعدادات</string>
   <string name="mya_change_country">تسجيل الخروج لتغيير البلد</string>
   <string name="mya_change_country_message">يرجى تسجيل الخروج لتغيير البلد حيث تقيم. سيسمح لنا ذلك بتخصيص الضمان ومعلومات أخرى بحسب موقعك.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ar]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ar]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">إلغاء</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">موافق</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ar]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ar]OK, count me in</string>

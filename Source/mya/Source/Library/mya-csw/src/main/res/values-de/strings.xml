@@ -53,8 +53,8 @@
   <string name="mya_Settings">Einstellungen</string>
   <string name="mya_change_country">Abmelden, um Land zu ändern</string>
   <string name="mya_change_country_message">Bitte melden Sie sich ab, um das Land auszuwählen, in dem Sie leben. So können wir die Garantiebestimmungen sowie weitere Informationen an Ihren Standort anpassen.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[de]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[de]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Abbrechen</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[de]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[de]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[de]OK, count me in</string>

@@ -53,8 +53,8 @@
   <string name="mya_Settings">設定</string>
   <string name="mya_change_country">ログアウトして国を変更</string>
   <string name="mya_change_country_message">ログアウトしてお住まいの国を変更してください。お客様の所在地に合わせた保証やその他の情報をご提供します。</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ja]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ja]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">キャンセル</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">はい</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ja]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ja]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ja]OK, count me in</string>

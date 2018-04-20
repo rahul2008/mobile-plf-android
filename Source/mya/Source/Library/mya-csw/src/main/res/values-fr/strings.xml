@@ -53,8 +53,8 @@
   <string name="mya_Settings">Réglages</string>
   <string name="mya_change_country">Déconnexion pour changer de pays</string>
   <string name="mya_change_country_message">Déconnectez-vous pour changer de pays de résidence. Cela nous permet d\'adapter la garantie et d\'autres informations en fonction de l\'endroit où vous vous trouvez.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[fr]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[fr]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Annuler</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[fr]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[fr]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[fr]OK, count me in</string>

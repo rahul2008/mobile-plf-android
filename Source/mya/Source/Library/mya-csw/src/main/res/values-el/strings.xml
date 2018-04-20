@@ -53,8 +53,8 @@
   <string name="mya_Settings">Ρυθμίσεις</string>
   <string name="mya_change_country">Κάντε έξοδο για αλλαγή χώρας</string>
   <string name="mya_change_country_message">Αποσυνδεθείτε για να αλλάξετε τη χώρα στην οποία κατοικείτε. Έτσι, θα μπορούμε να προσαρμόσουμε την εγγύηση και άλλες πληροφορίες ανάλογα με την τοποθεσία σας.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[el]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[el]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Άκυρο</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">ΟΚ</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[el]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[el]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[el]OK, count me in</string>

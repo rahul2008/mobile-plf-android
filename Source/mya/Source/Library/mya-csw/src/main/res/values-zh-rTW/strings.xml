@@ -53,8 +53,8 @@
   <string name="mya_Settings">設定</string>
   <string name="mya_change_country">登出以變更國家/地區</string>
   <string name="mya_change_country_message">請先登出，以變更居住的國家/地區。如此可讓我們依據您所在的位置提供特定的保固與其他資訊</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[zh-TW]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[zh-TW]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">取消</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">確定</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[zh-TW]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[zh-TW]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[zh-TW]OK, count me in</string>

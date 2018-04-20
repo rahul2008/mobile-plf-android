@@ -53,8 +53,8 @@
   <string name="mya_Settings">Налаштування</string>
   <string name="mya_change_country">Вийдіть, щоб змінити країну</string>
   <string name="mya_change_country_message">Вийдіть, щоб змінити країну проживання. Це дозволяє нам спеціально розробити гарантію та іншу інформацію відповідно до Вашого місця проживання.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[uk]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[uk]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Скасувати</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[uk]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[uk]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[uk]OK, count me in</string>

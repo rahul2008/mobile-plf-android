@@ -53,8 +53,8 @@
   <string name="mya_Settings">Instellingen</string>
   <string name="mya_change_country">Meld u af om uw land te wijzigen</string>
   <string name="mya_change_country_message">Meld u af en wijzig het land waar u woont. Zo kunnen we de garantie en andere informatie op uw locatie afstemmen.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[nl]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[nl]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Annuleren</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[nl]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[nl]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[nl]OK, count me in</string>

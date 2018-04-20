@@ -53,8 +53,8 @@
   <string name="mya_Settings">Inställningar</string>
   <string name="mya_change_country">Logga ut för att byta land</string>
   <string name="mya_change_country_message">Logga ut för att byta landet du bor i. Det gör att vi kan anpassa garantier och annan information beroende på var du befinner dig.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sv]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sv]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Avbryt</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[sv]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[sv]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sv]OK, count me in</string>

@@ -53,8 +53,8 @@
   <string name="mya_Settings">설정</string>
   <string name="mya_change_country">국가를 전환하려면 로그아웃</string>
   <string name="mya_change_country_message">거주 중인 국가를 변경하려면 로그아웃하십시오. 위치에 따라 보증 및 기타 정보를 맞춤형으로 제공해드립니다.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ko]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ko]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">취소</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">확인</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ko]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ko]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ko]OK, count me in</string>

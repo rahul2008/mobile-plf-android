@@ -53,8 +53,8 @@
   <string name="mya_Settings">Настройки</string>
   <string name="mya_change_country">Выйти, чтобы изменить страну</string>
   <string name="mya_change_country_message">Выполните выход, чтобы изменить страну проживания. Эта информация необходима для адаптации условий гарантии и других сведений в зависимости от вашего региона.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ru]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ru]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Отмена</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ru]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ru]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ru]OK, count me in</string>

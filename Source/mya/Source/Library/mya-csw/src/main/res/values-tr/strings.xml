@@ -53,8 +53,8 @@
   <string name="mya_Settings">Ayarlar</string>
   <string name="mya_change_country">Ülkeyi değiştirmek için oturumu kapatın</string>
   <string name="mya_change_country_message">Lütfen yaşadığınız ülkeyi değiştirmek için oturumunuzu kapatın. Böylece garantiyi ve diğer bilgileri konumunuza göre güncelleyebiliriz</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[tr]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[tr]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">İptal</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[tr]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[tr]OK, count me in</string>

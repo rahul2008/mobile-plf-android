@@ -53,8 +53,8 @@
   <string name="mya_Settings">הגדרות</string>
   <string name="mya_change_country">כדי להחליף מדינה, צא מהמערכת</string>
   <string name="mya_change_country_message">כדי להחליף את מדינת מגוריך, צא מהמערכת. באופן זה נוכל להתאים את האחריות ומידע נוסף למיקום שלך.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[he]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[he]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">ביטול</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">אישור</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[he]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[he]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[he]OK, count me in</string>

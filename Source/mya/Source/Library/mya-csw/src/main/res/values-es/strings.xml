@@ -53,8 +53,8 @@
   <string name="mya_Settings">Ajustes</string>
   <string name="mya_change_country">Cierra sesión para cambiar el país</string>
   <string name="mya_change_country_message">Cierra sesión para cambiar tu país de residencia. Esto nos permite adaptar la garantía y otros datos según tu ubicación.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[es]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[es]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Cancelar</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[es]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[es]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[es]OK, count me in</string>

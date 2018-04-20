@@ -53,8 +53,8 @@
   <string name="mya_Settings">Iestatījumi</string>
   <string name="mya_change_country">Atteikties, lai mainītu valsti</string>
   <string name="mya_change_country_message">Lūdzu, izejiet, lai mainītu valsti, kurā dzīvojat. Tādējādi mēs varēsim pielāgot garantiju un citu informāciju jūsu atrašanās vietai.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[lv]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[lv]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Atcelt</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">Labi</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[lv]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[lv]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[lv]OK, count me in</string>
