@@ -311,6 +311,13 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return null;
 	}
 
+	@Override
+	public String getMinimumOSMessage() {
+		if (getAppUpdateModel() != null && getAppUpdateModel().getMessages() != null) {
+			return getAppUpdateModel().getMessages().getMinimumOSMessage();
+		}
+		return null;
+	}
 
 
 	public void appInfraRefresh() {
