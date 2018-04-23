@@ -24,25 +24,26 @@
             android:layout_height="@dimen/ths_list_item_height"
             android:layout_above="@id/customer_support" />
 
-        <include
-            android:id="@+id/visit_history"
-            layout="@layout/visit_history_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ths_list_item_height"
-            android:layout_above="@id/how_it_works" />
 
         <include
             android:id="@+id/appointments"
             layout="@layout/appointment_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ths_list_item_height"
-            android:layout_above="@id/visit_history" />
+            android:layout_above="@id/how_it_works" />
+
+        <include
+            android:id="@+id/details"
+            layout="@layout/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ths_list_item_height"
+            android:layout_above="@id/appointments" />
 
         <RelativeLayout
             android:id="@+id/viewlayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/appointments"
+            android:layout_above="@id/details"
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <FrameLayout
@@ -67,10 +68,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/ths_list_space"
+                android:layout_marginBottom="@dimen/ths_image_size"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginTop="@dimen/ths_list_space"
+                android:layout_marginTop="@dimen/ths_image_size"
                 android:text="@string/ths_see_doctor"
                 app:uidComponentType="Secondary" />
 
