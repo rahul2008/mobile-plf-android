@@ -10,9 +10,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
@@ -23,7 +21,6 @@ import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
-import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -41,6 +38,7 @@ import org.mockito.Mock;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
@@ -52,85 +50,43 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class UpdatingMonitorTest {
 
     @Mock
-    DBUpdatingInterface dbUpdatingInterface;
-
-
+    private DBUpdatingInterface dbUpdatingInterface;
     @Mock
-    DBSavingInterface dbSavingInterface;
-
+    private DBSavingInterface dbSavingInterface;
     @Mock
-    DBDeletingInterface dbDeletingInterface;
-
+    private DBDeletingInterface dbDeletingInterface;
     @Mock
-    UserCharacteristicsSegregator userCharacteristicsSegregator;
-
+    private UserCharacteristicsSegregator userCharacteristicsSegregator;
     @Mock
-    MomentUpdateRequest momentUpdateRequestmock;
-
+    private MomentUpdateRequest momentUpdateRequestmock;
     @Mock
-    MomentsUpdateRequest momentsUpdateRequestMock;
-
+    private DBRequestListener dbRequestListener;
     @Mock
-    DBRequestListener dbRequestListener;
-
+    private Moment momentMock;
     @Mock
-    DatabaseConsentUpdateRequest consentUpdateRequestmock;
-
+    private ConsentDetail consentDetailMock;
     @Mock
-    BackendMomentListSaveRequest backendMomentListSaveRequestMock;
-
+    private Settings settingsMock;
     @Mock
-    MomentDataSenderCreatedRequest momentDataSenderCreatedRequestMock;
-
-    @Mock
-    ConsentBackendSaveResponse consentBackendSaveResponseMock;
-    @Mock
-    Moment momentMock;
-
-    @Mock
-    ConsentDetail consentDetailMock;
-
-    @Mock
-    Settings settingsMock;
-    @Mock
-    DBFetchingInterface dbFetchingInterface;
-
-    UpdatingMonitor updatingMonitor;
-    @Mock
-    BackendResponse backendResponseMock;
-    @Mock
-    BackendDataRequestFailed backendDataRequestFailedMock;
+    private DBFetchingInterface dbFetchingInterface;
     @Mock
     private Eventing eventingMock;
     @Mock
-    MomentsSegregator momentsSegregatorMock;
-
-    @Mock
-    private AppComponent appComponantMock;
-
+    private MomentsSegregator momentsSegregatorMock;
     @Mock
     private DBChangeListener dbChangeListener;
-
-    DataServicesManager mDataServices;
-
     @Mock
     private DatabaseSettingsUpdateRequest databaseSettingsUpdateRequestMock;
-
     @Mock
-    private SyncBitUpdateRequest synBitUpdateRequest;
-
+    private Insight insightMock;
     @Mock
-    Insight insightMock;
+    private InsightSegregator insightSegregatorMock;
 
-    @Mock
-    InsightSegregator insightSegregatorMock;
+    private UpdatingMonitor updatingMonitor;
 
     @Before
     public void setUp() {
         initMocks(this);
-        mDataServices = DataServicesManager.getInstance();
-        mDataServices.setAppComponent(appComponantMock);
-        mDataServices.registerDBChangeListener(dbChangeListener);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface, dbSavingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.insightSegregator = insightSegregatorMock;
@@ -179,8 +135,8 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbChangeListener));
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Collections.singletonList(moment1), null);
     }
 
     @Test
