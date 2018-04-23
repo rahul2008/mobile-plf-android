@@ -54,6 +54,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
+    private ConfirmDialogView confirmDialogView;
 
     @Override
     public void setPresenter(final PermissionContract.Presenter presenter) {
@@ -168,10 +169,18 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showConfirmRevokeConsentDialog(final ConfirmDialogTextResources dialogTexts, final ConfirmDialogView.ConfirmDialogResultHandler handler) {
-        ConfirmDialogView dialog = new ConfirmDialogView();
-        dialog.setupDialog(dialogTexts);
-        dialog.setResultHandler(handler);
-        dialog.showDialog(getActivity());
+        confirmDialogView = new ConfirmDialogView();
+        confirmDialogView.setupDialog(dialogTexts);
+        confirmDialogView.setResultHandler(handler);
+        confirmDialogView.showDialog(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
     }
 
     @Override
@@ -184,8 +193,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         getFragmentManager().popBackStack();
     }
 
-    @VisibleForTesting
-    protected RestInterface getRestClient() {
+    private RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
