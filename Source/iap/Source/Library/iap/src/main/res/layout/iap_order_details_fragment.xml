@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
-    android:layout_width="@dimen/iap_match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:fillViewport="true">
@@ -13,17 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_time"
-            style="@style/iapCentralesansBookFont"
+            style="@style/iap_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:textSize="@dimen/iap_text_size_16sp" />
+            android:paddingTop="@dimen/border16_margin_left_right" />
 
 
         <RelativeLayout
@@ -37,7 +35,10 @@
                 android:id="@+id/iv_order_state"
                 android:layout_width="@dimen/border24_margin"
                 android:layout_height="@dimen/border24_margin"
-                android:src="@android:drawable/ic_delete" />
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/iap_product_ctn_12"
+                android:background="@drawable/iap_info_image"
+                android:scaleType="fitXY" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_order_state"
@@ -111,15 +112,13 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_quantity"
-            style="@style/iapCentralesansBookFont"
+            style="@style/iap_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/border16_margin_left_right"
-            android:paddingStart="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:text="@string/no_of_products"
-            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:textSize="@dimen/title" />
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:text="@string/no_of_products" />
 
 
         <LinearLayout

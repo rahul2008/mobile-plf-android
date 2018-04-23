@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -69,7 +70,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private Bundle mBundle;
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
-
+    private RelativeLayout mParentLayout;
 
     private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
@@ -121,7 +122,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private void displayCategorisedProductList(ArrayList<String> categorisedProductList) {
         if (categorisedProductList.size() > 0) {
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+            createCustomProgressBar(mParentLayout,BIG);
             mPresenter.getCategorizedProductList(categorisedProductList);
         }
     }
@@ -141,7 +142,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
-
+        mParentLayout = rootView.findViewById(R.id.parent_layout);
         setUpSearch();
 
         mEmptyCatalogText = rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
@@ -207,7 +208,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
 
-        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
+        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
             setCartIconVisibility(true);
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
@@ -263,24 +264,22 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void fetchProductList() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        createCustomProgressBar(mParentLayout, BIG);
 
+        if (mPresenter == null)
+            mPresenter = ControllerFactory.getInstance().
+                    getProductCatalogPresenter(mContext, this);
 
-            if (mPresenter == null)
-                mPresenter = ControllerFactory.getInstance().
-                        getProductCatalogPresenter(mContext, this);
-
-            if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
-                mIsProductsAvailable = false;
-                dismissProgressDialog();
-            }
+        if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
+            mIsProductsAvailable = false;
+            hideProgressBar();
         }
+
     }
 
     private void loadMoreItems() {
         if (mCurrentPage == mTotalPages) {
-            dismissProgressDialog();
+            hideProgressBar();
             return;
         } else
             fetchProductList();
@@ -295,7 +294,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mAdapter.tagProducts();
 
             mIapListener.onSuccess();
-            dismissProgressDialog();
+            hideProgressBar();
 
             if (paginationEntity == null)
                 return;
@@ -334,7 +333,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
 
         mIapListener.onFailure(error.getIAPErrorCode());
-        dismissProgressDialog();
+        hideProgressBar();
     }
 
     private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {

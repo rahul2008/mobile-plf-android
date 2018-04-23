@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private int mSelectedIndex = 0; //As Oth position is taken by header
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
+    private Context mContext;
 
 
     public AddressSelectionAdapter(final List<Addresses> addresses) {
@@ -36,6 +38,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        mContext = parent.getContext();
 
         View view;
         if (viewType == TYPE_ITEM) {
@@ -165,6 +168,9 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
             edit = (Button) view.findViewById(R.id.btn_edit_address);
             delete = (Button) view.findViewById(R.id.btn_delete_address);
+            if(mContext!=null) {
+                delete.setTextColor(mContext.getColor(R.color.uid_signal_red_level_45));
+            }
             view.setOnClickListener(this);
         }
 

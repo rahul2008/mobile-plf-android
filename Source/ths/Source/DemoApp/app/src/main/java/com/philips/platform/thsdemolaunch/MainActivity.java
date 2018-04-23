@@ -170,14 +170,14 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby1 = new THSConsumer();
         baby1.setFirstName("checkbaby1");
         baby1.setLastName("Hosur");
-        baby1.setDisplayName("baby");
-        baby1.setHsdpToken(user.getJanrainUUID());
+        baby1.setDisplayName("Heyyyyyy");
+        baby1.setHsdpToken(user.getHsdpAccessToken());
         baby1.setGender(Gender.MALE);
         baby1.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016,8,24);
         baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID(user.getJanrainUUID()+"xyz");
+        baby1.setHsdpUUID(user.getJanrainUUID()+"baby1+ggggg");
         baby1.setDependent(true);
         baby1.setBloodPressureSystolic("120");
         baby1.setBloodPressureDiastolic("80");
@@ -187,7 +187,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         ArrayList dependants = new ArrayList();
         dependants.add(baby1);
 
-        /*THSConsumer baby2 = new THSConsumer();
+        THSConsumer baby2 = new THSConsumer();
         baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
         baby2.setDisplayName("Hiiiiiiii");
@@ -197,7 +197,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         Calendar calendar2 = Calendar.getInstance();
         calendar.set(2015, 8, 24);
         baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID("baby2");
+        baby2.setHsdpUUID(user.getJanrainUUID()+"baby2");
         baby2.setDependent(true);
         baby2.setBloodPressureSystolic("120");
         baby2.setBloodPressureDiastolic("80");
@@ -216,13 +216,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
         calendar.set(2016,8,24);
         baby3.setDob(calendar.getTime());
-        baby3.setHsdpUUID("baby3");
+        baby3.setHsdpUUID(user.getJanrainUUID()+"baby3");
         baby3.setDependent(true);
         baby3.setBloodPressureSystolic("120");
         baby3.setBloodPressureDiastolic("80");
         baby3.setTemperature(90.0);
         baby3.setWeight(56);
-        dependants.add(baby3);*/
+        dependants.add(baby3);
 
 
         THSConsumer thsConsumer = new THSConsumer();
@@ -232,7 +232,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setGender(Gender.MALE);
         thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
-        thsConsumer.setDisplayName("Parent");
+        thsConsumer.setDisplayName("Spoorti hihi");
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
         thsConsumer.setBloodPressureSystolic("120");
