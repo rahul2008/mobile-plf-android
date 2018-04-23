@@ -107,9 +107,8 @@ public class CswInterface implements UappInterface {
             fragmentTransaction.addToBackStack(PermissionFragment.TAG);
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException ignore) {
-            Log.e(TAG, "Could not launch MYA ConsentWidgets as Fragment. See stacktrace:");
-            ignore.printStackTrace();
+        } catch (IllegalStateException exception) {
+            Log.e(TAG, "Could not launch MYA ConsentWidgets as Fragment. See stacktrace:", exception);
         }
     }
 

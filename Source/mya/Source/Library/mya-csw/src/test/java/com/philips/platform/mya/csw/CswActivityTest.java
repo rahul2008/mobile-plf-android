@@ -78,8 +78,6 @@ public class CswActivityTest {
         CswActivity startedActivity = activityController.create().start().resume().visible().get();
 
         startedActivity.onBackPressed();
-
-        // TODO Assert or verify
     }
 
     @Test
@@ -88,8 +86,6 @@ public class CswActivityTest {
         when(viewMock.getId()).thenReturn(R.id.csw_textview_back);
 
         startedActivity.onClick(viewMock);
-
-        // TODO Assert or verify
     }
 
     @Test
