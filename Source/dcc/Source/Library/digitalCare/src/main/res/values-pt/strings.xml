@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Ajuda e assistência</string>
     <string name="dcc_Call">Telefonar</string>
     <string name="dcc_Opening_Hours">Horário de funcionamento</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Cancelar</string>
+    <string name="dcc_location_consent_title">Autorização de localização</string>
+    <string name="dcc_location_consent_definition_text">Autorizo a Philips a aceder aos meus dados de localização para \"Encontrar Philips perto de si\".</string>
+    <string name="dcc_location_consent_definition_help_text">Quando permite o acesso aos dados de localização, podemos recolher a localização geográfica do seu dispositivo móvel.\n\nQuando utiliza a funcionalidade \"Encontrar Philips perto de si\" na página de assistência, é-lhe solicitado que partilhe os dados de localização com a Philips. Caso utilize as nossas funcionalidades de localização, com base nos dados de localização, é direcionado para uma loja próxima de si ou para os detalhes de contacto do Apoio ao Cliente no seu país.</string>
 
 </resources>

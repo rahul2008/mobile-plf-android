@@ -201,7 +201,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         if (restoredHSDPText != null) {
             mCheckBox.setChecked(true);
         }
-
+        updateHSDPUuidSwitch(false);
         Switch hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
         hsdpUuidUpload.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

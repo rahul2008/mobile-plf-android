@@ -181,5 +181,10 @@
     <string name="dcc_Help_Support">Pomoc i wsparcie techniczne</string>
     <string name="dcc_Call">Połączenie</string>
     <string name="dcc_Opening_Hours">Godziny otwarcia</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Anuluj</string>
+    <string name="dcc_location_consent_title">Zgoda na uzyskanie dostępu do danych lokalizacji</string>
+    <string name="dcc_location_consent_definition_text">Zezwalam firmie Philips na dostęp do danych dotyczących mojej lokalizacji celem skorzystania z funkcji „Znajdź najbliższe centrum serwisowe firmy Philips”.</string>
+    <string name="dcc_location_consent_definition_help_text">Jeśli użytkownik zezwoli na dostęp do danych lokalizacji, będziemy mogli gromadzić informacje o położeniu geograficznym urządzenia przenośnego użytkownika.\n\nW przypadku korzystania z funkcji „Znajdź najbliższe centrum serwisowe firmy Philips” na stronie pomocy technicznej użytkownik zostanie poproszony o udostępnienie firmie Philips danych lokalizacji. Na ich podstawie zostanie przekierowany do najbliższego punktu lub do danych kontaktowych centrum obsługi klienta w danym kraju.</string>
 
 </resources>

@@ -51,7 +51,7 @@ class CoppaConsentUpdater {
         JSONObject consentsObject = new JSONObject();
 
 
-        String locale = RegistrationHelper.getInstance().getLocale(mContext).toString();
+        String locale = RegistrationHelper.getInstance().getLocale().toString();
 
         try {
 

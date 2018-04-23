@@ -249,8 +249,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public void mergeSuccess() {
         hideMergeSpinner();
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         completeRegistration();
     }
 

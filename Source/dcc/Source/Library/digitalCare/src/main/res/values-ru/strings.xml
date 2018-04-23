@@ -182,5 +182,10 @@
     <string name="dcc_Help_Support">Справка и поддержка</string>
     <string name="dcc_Call">Позвонить</string>
     <string name="dcc_Opening_Hours">Часы работы</string>
+    <string name="dcc_location_consent_accept">Oк</string>
+    <string name="dcc_location_consent_reject">Отмена</string>
+    <string name="dcc_location_consent_title">Согласие на доступ к данным о местоположении</string>
+    <string name="dcc_location_consent_definition_text">Я даю Philips свое согласие на доступ к данным о местоположении для поиска ближайшего центра Philips.</string>
+    <string name="dcc_location_consent_definition_help_text">Если вы даете свое согласие на доступ к данным о местоположении, мы сможем собирать информацию о географическом положении вашего мобильного устройства.\n\nПри поиске ближайшего центра Philips на странице поддержки появляется запрос на предоставление компании Philips данных о местоположении. При использовании этой функции в зависимости от вашего местоположения предлагаются контактные данные ближайшей торговой организации или местного центра поддержки потребителей.</string>
 
 </resources>

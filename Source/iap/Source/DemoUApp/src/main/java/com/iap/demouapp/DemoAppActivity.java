@@ -2,6 +2,8 @@
 package com.iap.demouapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -68,6 +70,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mLaunchProductDetail;
     private Button mAddCtn;
     private Button mShopNowCategorizedWithRetailer;
+    private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
 
     private TextView mTitleTextView;
@@ -158,13 +161,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         if (mUser != null && mUser.isUserSignIn()) {
             mRegister.setText(this.getString(R.string.log_out));
             displayUIOnCartVisible();
+            showProgressDialog();
         } else {
             mRegister.setVisibility(View.VISIBLE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
         }
-
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
     }
 
     private void displayUIOnCartVisible() {
@@ -291,6 +293,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 // showFragment(ShoppingCartFragment.TAG);
+                mShoppingCart.setOnClickListener(null);
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
@@ -334,6 +337,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(final View view) {
         if (view == mShoppingCart) {
+            mShoppingCart.setOnClickListener(null);
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
@@ -520,11 +524,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 //        arrayList.add(productList.get(1));
 //        IAPFlowInput input = new IAPFlowInput(arrayList);
 //        launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
+        dismissProgressDialog();
     }
 
     @Override
     public void onSuccess() {
-
+        mShoppingCart.setOnClickListener(this);
     }
 
     @Override
@@ -535,6 +540,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onFailure(int errorCode) {
         showToast(errorCode);
+        dismissProgressDialog();
     }
 
 
@@ -598,5 +604,25 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addCategory(Intent.CATEGORY_HOME);
         startActivity(intent);
+    }
+
+     public void showProgressDialog() {
+        mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(this));
+        mProgressDialog.getWindow().setGravity(Gravity.CENTER);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("Please wait" + "...");
+
+        if ((!mProgressDialog.isShowing()) && !(DemoAppActivity.this).isFinishing()) {
+            mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progressbar_dls);
+        }
+    }
+
+
+
+    public void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

@@ -73,7 +73,7 @@
     <string name="iap_delete_address">Deleting Shipping Address</string>
 
     <!--Order Summary-->
-    <string name="iap_order_summary">Order Summary</string>
+    <string name="iap_order_summary">Order summary</string>
     <string name="iap_pay_now">Pay now</string>
 
     <!--Payment Selection screen-->
@@ -269,7 +269,7 @@
     <string name="contact_msg"> Please contact Philips Consumer Care (0844 - 338 - 0409) for further support. </string>
     <string name="order_ready_msg"> We are just getting your order ready. We will send you a note when it is ready for dispatch, usually with in 24 hour of your order confirmation. </string>
     <string name="order_on_way_msg"> Your order will be delivered by FedEx(Parcel Postage). Your tracking number is  %s . </string>
-    <string name="no_of_products"> %s products</string>
+    <string name="no_of_products"> %s product(s)</string>
     <string name="your_details">Your details</string>
     <string name="iap_including_vat_percentage">Including %s VAT</string>
     <string name="iap_delivery_via_what">Delivery via %s</string>
@@ -309,7 +309,7 @@
     <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
     <string name="iap_including_tax">Including tax</string>
     <string name="iap_shopping_cart_dls">Shopping cart</string>
-    <string name="iap_option">Option</string>
+    <string name="iap_option">Options</string>
     <string name="iap_cvv_code">Please enter the CVV/CVC for</string>
     <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
     <string name="iap_cvv_code_hint">000</string>
