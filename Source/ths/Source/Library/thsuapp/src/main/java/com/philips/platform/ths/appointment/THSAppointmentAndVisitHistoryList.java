@@ -15,7 +15,11 @@ import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_APPOINTMENT_AND_VISIT_LIST;
+
 
 public class THSAppointmentAndVisitHistoryList extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSAppointmentAndVisitHistoryList.class.getSimpleName();
@@ -38,6 +42,7 @@ public class THSAppointmentAndVisitHistoryList extends THSBaseFragment implement
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_appointments), true);
         }
+        THSTagUtils.doTrackPageWithInfo(THS_APPOINTMENT_AND_VISIT_LIST,null,null);
         return view;
     }
 
