@@ -21,6 +21,7 @@ import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -41,7 +42,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -81,12 +84,19 @@ public class UpdatingMonitorTest {
     private Insight insightMock;
     @Mock
     private InsightSegregator insightSegregatorMock;
+    @Mock
+    private AppComponent appComponentMock;
 
     private UpdatingMonitor updatingMonitor;
+    private DataServicesManager mDataServices;
 
     @Before
     public void setUp() {
         initMocks(this);
+        mDataServices = DataServicesManager.getInstance();
+        mDataServices.setAppComponent(appComponentMock);
+        mDataServices.registerDBChangeListener(dbChangeListener);
+
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface, dbSavingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.insightSegregator = insightSegregatorMock;
@@ -319,5 +329,34 @@ public class UpdatingMonitorTest {
         // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
         updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
         verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
+    }
+
+    @Test
+    public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbChangeListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        verify(dbChangeListener, never()).dBChangeSuccess((SyncType) any());
+    }
+
+    @Test
+    public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldCallMomentSegregator() {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbChangeListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        verify(momentsSegregatorMock).processCreatedMoment((List<Moment>)any(), (DBRequestListener<Moment>) any());
+    }
+
+    @Test
+    public void givenMonitorSetup_andSendingZeroMoments_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(new ArrayList<OrmMoment>(), dbChangeListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        verify(dbChangeListener, never()).dBChangeSuccess((SyncType) any());
     }
 }
