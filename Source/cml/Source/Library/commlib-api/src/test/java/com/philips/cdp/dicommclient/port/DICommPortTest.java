@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -23,6 +24,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.beans.PropertyChangeListener;
 import java.util.Map;
 
 import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL_MS;
@@ -30,6 +32,7 @@ import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
@@ -60,6 +63,9 @@ public class DICommPortTest {
 
     @Captor
     private ArgumentCaptor<Map<String, Object>> mapArgumentCaptor;
+
+    @Mock
+    private NetworkNode networkNodeMock;
 
     @Captor
     private ArgumentCaptor<ResponseHandler> responseHandlerCaptor;
@@ -666,6 +672,14 @@ public class DICommPortTest {
         captor.getValue().onSubscriptionEventDecryptionFailed(PORT_NAME);
 
         verifyGetPropertiesCalled(true);
+    }
+
+    @Test
+    public void whenANetworkNodeIsSet_thenThePortStartsListeningForChangesToThatNode() throws Exception {
+
+        diCommPort.setNetworkNode(networkNodeMock);
+
+        verify(networkNodeMock).addPropertyChangeListener(isA(PropertyChangeListener.class));
     }
 
     private void verifyPutPropertiesCalled(boolean invoked) {

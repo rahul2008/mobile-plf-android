@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -20,6 +21,8 @@ import com.philips.cdp2.commlib.core.port.PortProperties;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +66,8 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<>();
 
+    private NetworkNode networkNode;
+
     protected CommunicationStrategy communicationStrategy;
 
     private final Runnable resubscriptionRunnable = new Runnable() {
@@ -93,6 +98,12 @@ public abstract class DICommPort<T extends PortProperties> {
 
                 reloadProperties();
             }
+        }
+    };
+
+    private PropertyChangeListener networkNodeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
         }
     };
 
@@ -420,5 +431,11 @@ public abstract class DICommPort<T extends PortProperties> {
                 DICommLog.e(LOG_TAG, "unsubscribe - error");
             }
         });
+    }
+
+    public void setNetworkNode(@NonNull final NetworkNode networkNode) {
+        this.networkNode = networkNode;
+
+        this.networkNode.addPropertyChangeListener(networkNodeListener);
     }
 }
