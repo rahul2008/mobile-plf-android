@@ -126,8 +126,12 @@ public class NetworkUtility {
 
         builder.setTitle(pErrorString);
 
-        alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        if(alertDialogFragment==null) {
+            alertDialogFragment = builder.setCancelable(false).create();
+        }
+        if (!alertDialogFragment.isVisible()) {
+            alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        }
 
     }
 

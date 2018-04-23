@@ -96,18 +96,18 @@ public class OrderController implements AbstractModel.DataLoadListener {
         }
     }
 
-    public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener)
-    {
+    public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener) {
         ArrayList<String> ctnToBeRequested = new ArrayList<>();
         for (OrderDetail detail : details) {
-            List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
-            for (Entries entry : entries) {
-                ctnToBeRequested.add(entry.getProduct().getCode());
+            if (detail.getDeliveryOrderGroups() != null) {
+                List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
+                for (Entries entry : entries) {
+                    ctnToBeRequested.add(entry.getProduct().getCode());
+                }
             }
         }
         PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnToBeRequested, listener);
         builder.preparePRXDataRequest();
-
     }
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
@@ -115,19 +115,20 @@ public class OrderController implements AbstractModel.DataLoadListener {
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
-        for(OrderDetail detail : orderDetail)
-        {
-            List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
-            for (Entries entry : entries) {
-                ctn = entry.getProduct().getCode();
-                ProductData productItem = new ProductData(entry);
-                Data data;
-                if (list.containsKey(ctn)) {
-                    data = list.get(ctn).getData();
-                } else {
-                    continue;
+        for(OrderDetail detail : orderDetail) {
+            if (detail.getDeliveryOrderGroups() != null) {
+                List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
+                for (Entries entry : entries) {
+                    ctn = entry.getProduct().getCode();
+                    ProductData productItem = new ProductData(entry);
+                    Data data;
+                    if (list.containsKey(ctn)) {
+                        data = list.get(ctn).getData();
+                    } else {
+                        continue;
+                    }
+                    setProductData(products, detail, entry, productItem, data);
                 }
-                setProductData(products, detail, entry, productItem, data);
             }
         }
 

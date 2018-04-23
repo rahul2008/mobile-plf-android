@@ -167,6 +167,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
+
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -188,12 +189,12 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
-                    shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                    /*shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
-                    });
+                    });*/
 
                 } else {
                     shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
@@ -202,9 +203,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
 
                 if (data.getDeliveryAddressEntity() != null) {
+                    final AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
                     shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
-                    final String formattedAddress = data.getDeliveryAddressEntity().getFormattedAddress();
-                    shoppingCartFooter.mShippingAddress.setText(Utility.formatAddress(formattedAddress));
+                    shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
                 }
 
                 mBillingAddress = CartModelContainer.getInstance().getBillingAddress();

@@ -26,15 +26,13 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
-    private ProgressBar mProgress;
     private WebView mWebView;
     private String mUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
-        mProgress = createCustomProgressBar(group,MEDIUM);
-        mProgress.setVisibility(View.VISIBLE);
+        createCustomProgressBar(group,BIG);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
         initializeWebView(group);
         return group;
@@ -65,7 +63,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                mProgress.setVisibility(View.GONE);
+                hideProgressBar();
             }
 
             @Override
