@@ -30,20 +30,20 @@ import java.util.Date;
 
 public class UserDetailsFragment extends RegistrationBaseFragment implements MyaDetailContract.View {
 
-    private Label name_label;
-    private Label email_address_value;
-    private Label email_address_header;
-    private Label mobile_number_value;
-    private Label mobile_number_header;
-    private Label gender_value;
-    private Label gender_header;
-    private Label name_value;
-    private Label name_header;
-    private Label dob_value;
-    private Label dob_header;
-    private View dob_divider;
-    private Label address_header;
-    private Label address_value;
+    private Label nameLabel;
+    private Label emailAddressValue;
+    private Label emailAddressHeader;
+    private Label mobileNumberValue;
+    private Label mobileNumberHeader;
+    private Label genderValue;
+    private Label genderHeader;
+    private Label nameValue;
+    private Label nameHeader;
+    private Label dobValue;
+    private Label dobHeader;
+    private View dobDivider;
+    private Label addressHeader;
+    private Label addressValue;
 
     private final String DETAILS_BUNDLE = "details_bundle";
     private UserDetailPresenter myaDetailPresenter;
@@ -113,26 +113,26 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     }
 
     private void initViews(View view) {
-        name_label = view.findViewById(R.id.usr_myDetailsScreen_label_name);
+        nameLabel = view.findViewById(R.id.usr_myDetailsScreen_label_name);
 
-        email_address_value = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressValue);
-        email_address_header = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressHeading);
+        emailAddressValue = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressValue);
+        emailAddressHeader = view.findViewById(R.id.usr_myDetailsScreen_label_emailAddressHeading);
 
-        mobile_number_value = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberValue);
-        mobile_number_header = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberHeading);
+        mobileNumberValue = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberValue);
+        mobileNumberHeader = view.findViewById(R.id.usr_myDetailsScreen_label_mobileNumberHeading);
 
-        gender_value = view.findViewById(R.id.usr_myDetailsScreen_label_genderValue);
-        gender_header = view.findViewById(R.id.usr_myDetailsScreen_label_genderHeading);
+        genderValue = view.findViewById(R.id.usr_myDetailsScreen_label_genderValue);
+        genderHeader = view.findViewById(R.id.usr_myDetailsScreen_label_genderHeading);
 
-        name_value = view.findViewById(R.id.usr_myDetailsScreen_label_nameValue);
-        name_header = view.findViewById(R.id.usr_myDetailsScreen_label_nameHeading);
+        nameValue = view.findViewById(R.id.usr_myDetailsScreen_label_nameValue);
+        nameHeader = view.findViewById(R.id.usr_myDetailsScreen_label_nameHeading);
 
-        dob_value = view.findViewById(R.id.usr_myDetailsScreen_label_dobValue);
-        dob_header = view.findViewById(R.id.usr_myDetailsScreen_label_dobHeading);
+        dobValue = view.findViewById(R.id.usr_myDetailsScreen_label_dobValue);
+        dobHeader = view.findViewById(R.id.usr_myDetailsScreen_label_dobHeading);
 
-        dob_divider = view.findViewById(R.id.usr_myDetailsScreen_view_dobDivider);
-        address_header = view.findViewById(R.id.usr_myDetailsScreen_label_addressHeading);
-        address_value = view.findViewById(R.id.usr_myDetailsScreen_label_AddressValue);
+        dobDivider = view.findViewById(R.id.usr_myDetailsScreen_view_dobDivider);
+        addressHeader = view.findViewById(R.id.usr_myDetailsScreen_label_addressHeading);
+        addressValue = view.findViewById(R.id.usr_myDetailsScreen_label_AddressValue);
     }
 
     @Override
@@ -140,14 +140,14 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (TextUtils.isEmpty(name) || name.equalsIgnoreCase("null")) {
             RLog.d(TAG, "setUserName : name is null");
         } else {
-            name_value.setText(name);
-            myaDetailPresenter.makeVisible(name_value, name_header);
+            nameValue.setText(name);
+            myaDetailPresenter.makeVisible(nameValue, nameHeader);
         }
     }
 
     @Override
     public void setCircleText(String data) {
-        name_label.setText(data);
+        nameLabel.setText(data);
     }
 
     @Override
@@ -155,16 +155,16 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (TextUtils.isEmpty(email) || email.equalsIgnoreCase("null")) {
             RLog.d(TAG, "setEmail : email is null");
         } else {
-            email_address_value.setText(email);
-            myaDetailPresenter.makeVisible(email_address_value, email_address_header);
+            emailAddressValue.setText(email);
+            myaDetailPresenter.makeVisible(emailAddressValue, emailAddressHeader);
         }
     }
 
     @Override
     public void setGender(String gender) {
         if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
-            gender_value.setText(gender);
-            myaDetailPresenter.makeVisible(gender_value, gender_header);
+            genderValue.setText(gender);
+            myaDetailPresenter.makeVisible(genderValue, genderHeader);
         } else {
             RLog.d(TAG, "setGender : gender is null");
         }
@@ -175,8 +175,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (dateOfBirth != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
             String tempDate = formatter.format(dateOfBirth);
-            dob_value.setText(tempDate);
-            myaDetailPresenter.makeVisible(dob_value, dob_header);
+            dobValue.setText(tempDate);
+            myaDetailPresenter.makeVisible(dobValue, dobHeader);
         } else {
             RLog.d(TAG, "setDateOfBirth : Date is null");
         }
@@ -187,8 +187,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (TextUtils.isEmpty(number) || number.equalsIgnoreCase("null")) {
             RLog.d(TAG, "setMobileNumber : number is null");
         } else {
-            mobile_number_value.setText(number);
-            myaDetailPresenter.makeVisible(mobile_number_value, mobile_number_header);
+            mobileNumberValue.setText(number);
+            myaDetailPresenter.makeVisible(mobileNumberValue, mobileNumberHeader);
         }
     }
 
@@ -198,8 +198,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         if (TextUtils.isEmpty(address) || address.equalsIgnoreCase("null")) {
             RLog.d(TAG, "setAddress : address is null");
         } else {
-            address_value.setText(address);
-            myaDetailPresenter.makeVisible(dob_divider, address_header, address_value);
+            addressValue.setText(address);
+            myaDetailPresenter.makeVisible(dobDivider, addressHeader, addressValue);
         }
     }
 
