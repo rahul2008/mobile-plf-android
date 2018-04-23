@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Adresa e-pošte nije potvrđena</string>
   <string name="mya_Email_address">Adresa e-pošte</string>
   <string name="mya_Gender">Spol</string>
-  <string name="mya_Info">[hr]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Želite li promijeniti ID ili lozinku za prijavu? Posjetite naše web-mjesto.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Došlo je do problema prilikom povezivanja s poslužiteljem. Provjerite jesu li datum/vrijeme na uređaju pravilno postavljeni. Ako se problem nastavi, odjavite se i ponovo prijavite.</string>
   <string name="mya_Login_details">Pojedinosti prijave</string>
   <string name="mya_Logout">Odjavite se</string>

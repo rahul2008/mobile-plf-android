@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Az e-mail-cím nincs visszaigazolva</string>
   <string name="mya_Email_address">E-mail cím</string>
   <string name="mya_Gender">Nem</string>
-  <string name="mya_Info">[hu]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Módosítja bejelentkezési azonosítóját vagy jelszavát? Látogasson el weboldalunkra.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">A szerverhez csatlakozáskor probléma lépett fel. Ellenőrizze, hogy a dátum/idő megfelelően van-e beállítva az eszközön. Ha a probléma továbbra is fennáll, jelentkezzen ki, majd jelentkezzen be újra.</string>
   <string name="mya_Login_details">Bejelentkezési adatok</string>
   <string name="mya_Logout">Kilépés</string>

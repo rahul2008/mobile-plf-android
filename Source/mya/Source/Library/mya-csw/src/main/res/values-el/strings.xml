@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Η διεύθυνση email δεν επιβεβαιώθηκε</string>
   <string name="mya_Email_address">Διεύθυνση email</string>
   <string name="mya_Gender">Φύλο</string>
-  <string name="mya_Info">[el]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Αλλαγή ID σύνδεσης ή κωδικού πρόσβασης; Επισκεφθείτε τον ιστότοπό μας.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="mya_Login_details">Στοιχεία σύνδεσης</string>
   <string name="mya_Logout">Έξοδος</string>

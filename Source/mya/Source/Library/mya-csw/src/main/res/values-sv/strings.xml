@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-postadress ej bekräftad</string>
   <string name="mya_Email_address">E-postadress</string>
   <string name="mya_Gender">Kön</string>
-  <string name="mya_Info">[sv]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Vill du ändra ditt inloggnings-ID eller lösenord? Besök vår webbplats.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Det uppstod ett problem vid anslutning till servern. Se till att datum/tid på enheten är korrekt inställda. Om problemet kvarstår loggar du ut och sedan in igen.</string>
   <string name="mya_Login_details">Inloggningsuppgifter</string>
   <string name="mya_Logout">Logga ut</string>

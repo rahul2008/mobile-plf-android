@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">لم يتم تأكيد عنوان البريد الإلكتروني</string>
   <string name="mya_Email_address">عنوان البريد الإلكتروني</string>
   <string name="mya_Gender">الجنس</string>
-  <string name="mya_Info">[ar]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">هل تريد تغيير معرّف تسجيل الدخول وكلمة المرور؟ تفضّل بزيارة موقعنا على ويب.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">حدثت مشكلة في الاتصال بالخادم. تأكد من أن التاريخ/الوقت على جهازك صحيح. إذا استمرت المشكلة، فيرجى تسجيل الخروج وتسجيل الدخول من جديد.</string>
   <string name="mya_Login_details">تفاصيل تسجيل الدخول</string>
   <string name="mya_Logout">تسجيل الخروج</string>

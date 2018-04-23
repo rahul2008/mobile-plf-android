@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-mailová adresa nie je potvrdená</string>
   <string name="mya_Email_address">E-mailová adresa</string>
   <string name="mya_Gender">Pohlavie</string>
-  <string name="mya_Info">[sk]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Chcete si zmeniť prihlasovacie meno alebo heslo? Navštívte našu internetovú stránku.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Vyskytol sa problém pri pripájaní k serveru. Uistite sa, že je na vašom zariadení správne nastavený dátum/čas. Ak problém pretrváva, odhláste sa a prihláste sa znova.</string>
   <string name="mya_Login_details">Prihlasovacie údaje</string>
   <string name="mya_Logout">Odhlásiť sa</string>

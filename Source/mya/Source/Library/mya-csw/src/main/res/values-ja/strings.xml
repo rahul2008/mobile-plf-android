@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">メールアドレス未確認</string>
   <string name="mya_Email_address">メールアドレス</string>
   <string name="mya_Gender">性別</string>
-  <string name="mya_Info">[ja]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">ログイン ID またはパスワードを変更する場合はウェブサイトにアクセスしてください。</string>
   <string name="mya_Invalid_Access_Token_Error_Message">サーバーへの接続で問題が発生しました。デバイスの日時が正しく設定されていることを確認してください。問題が解消されない場合は、いったんログアウトしてからログインし直してください。</string>
   <string name="mya_Login_details">ログイン詳細</string>
   <string name="mya_Logout">ログアウト</string>

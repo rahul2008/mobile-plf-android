@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Sähköpostiosoitetta ei vahvistettu</string>
   <string name="mya_Email_address">Sähköpostiosoite</string>
   <string name="mya_Gender">Sukupuoli</string>
-  <string name="mya_Info">[fi]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Haluatko vaihtaa kirjautumistunnuksen tai salasanan? Siirry sivustoomme.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Virhe yhdistettäessä palvelimeen. Tarkista laitteen päivämäärä ja kellonaika. Jos ongelma toistuu, kirjaudu uudelleen.</string>
   <string name="mya_Login_details">Kirjautumistiedot</string>
   <string name="mya_Logout">Kirjaudu ulos</string>

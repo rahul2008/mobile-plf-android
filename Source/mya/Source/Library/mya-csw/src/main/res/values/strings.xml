@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Email address not confirmed</string>
   <string name="mya_Email_address">Email address</string>
   <string name="mya_Gender">Gender</string>
-  <string name="mya_Info">Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Do you want to change your login ID or password? Visit our website.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
   <string name="mya_Login_details">Login details</string>
   <string name="mya_Logout">Log out</string>

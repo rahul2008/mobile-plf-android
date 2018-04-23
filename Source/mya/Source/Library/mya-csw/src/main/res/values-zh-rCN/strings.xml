@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">电子邮件地址未确认</string>
   <string name="mya_Email_address">电子邮件地址</string>
   <string name="mya_Gender">性别</string>
-  <string name="mya_Info">[zh-CN]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">是否要更改您的登录 ID 或密码？请访问我们的网站。</string>
   <string name="mya_Invalid_Access_Token_Error_Message">连接到服务器过程中出错。请确保您设备上的日期/时间设置正确。如果问题仍存在，请退出并重新登录。</string>
   <string name="mya_Login_details">登录详情</string>
   <string name="mya_Logout">注销</string>

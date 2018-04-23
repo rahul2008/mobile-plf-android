@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-poštni naslov ni potrjen</string>
   <string name="mya_Email_address">E-poštni naslov</string>
   <string name="mya_Gender">Spol</string>
-  <string name="mya_Info">[sl]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Ali želite spremeniti ID za prijavo ali geslo? Obiščite naše spletno mesto.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Pri vzpostavljanju povezave s strežnikom je prišlo do težave. Zagotovite, da sta datum in čas v napravi pravilno nastavljena. Če težave ne odpravite, se odjavite in znova prijavite.</string>
   <string name="mya_Login_details">Podrobnosti prijave</string>
   <string name="mya_Logout">Odjavi</string>

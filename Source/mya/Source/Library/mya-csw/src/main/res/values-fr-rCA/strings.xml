@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Adresse courriel non confirmée</string>
   <string name="mya_Email_address">Adresse de courriel</string>
   <string name="mya_Gender">Genre</string>
-  <string name="mya_Info">[fr-CA]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Voulez-vous changer votre identifiant ou votre mot de passe? Visitez notre site Web.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Un problème de connexion au serveur est survenu. Assurez-vous que la date et l’heure sont exactes sur votre appareil. Si le problème persiste, déconnectez-vous et ouvrez une nouvelle session.</string>
   <string name="mya_Login_details">Détails de la connexion</string>
   <string name="mya_Logout">Fermer une session</string>

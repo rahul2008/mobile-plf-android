@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Адресу ел. пошти не підтверджено</string>
   <string name="mya_Email_address">Адреса ел. пошти</string>
   <string name="mya_Gender">Стать</string>
-  <string name="mya_Info">[uk]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Бажаєте змінити ідентифікатор входу чи пароль? Відвідайте наш веб-сайт.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Виникла проблема з підключенням до сервера. Перевірте, чи дата/час на Вашому пристрої встановлені правильно. Якщо проблема не зникне, вийдіть та увійдіть знову.</string>
   <string name="mya_Login_details">Деталі щодо входу</string>
   <string name="mya_Logout">Вийти</string>

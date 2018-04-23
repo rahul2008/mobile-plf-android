@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Адрес эл. почты не подтвержден</string>
   <string name="mya_Email_address">Адрес электронной почты</string>
   <string name="mya_Gender">Пол</string>
-  <string name="mya_Info">[ru]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Изменить идентификатор или пароль можно на нашем веб-сайте.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">При подключению к серверу возникла проблема. Проверьте настройки даты/времени на своем устройстве. Если проблему не удается устранить, выполните выход, а потом войдите в учетную запись снова.</string>
   <string name="mya_Login_details">Данные для входа</string>
   <string name="mya_Logout">Выход</string>

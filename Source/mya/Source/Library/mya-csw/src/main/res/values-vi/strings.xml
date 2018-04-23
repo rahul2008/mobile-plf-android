@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Địa chỉ email không được xác nhận</string>
   <string name="mya_Email_address">Địa chỉ email</string>
   <string name="mya_Gender">Giới tính</string>
-  <string name="mya_Info">[vi]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Bạn có muốn thay đổi ID đăng nhập hoặc mật khẩu của bạn không? Hãy truy cập trang web của chúng tôi.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Đã xảy ra vấn đề khi kết nối với máy chủ. Đảm bảo đã thiết lập đúng ngày/giờ trên thiết bị của bạn. Nếu vấn đề vẫn tiếp diễn, hãy đăng xuất và đăng nhập lại.</string>
   <string name="mya_Login_details">Chi tiết đăng nhập</string>
   <string name="mya_Logout">Đăng xuất</string>

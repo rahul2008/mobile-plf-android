@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-mailadres niet bevestigd</string>
   <string name="mya_Email_address">E-mailadres</string>
   <string name="mya_Gender">Geslacht</string>
-  <string name="mya_Info">[nl]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Wilt u uw aanmeldings-ID of wachtwoord wijzigen? Ga naar onze website.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
   <string name="mya_Login_details">Aanmeldingsgegevens</string>
   <string name="mya_Logout">Afmelden</string>

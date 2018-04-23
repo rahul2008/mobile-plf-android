@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">이메일 주소가 확인되지 않음</string>
   <string name="mya_Email_address">이메일 주소</string>
   <string name="mya_Gender">성별</string>
-  <string name="mya_Info">[ko]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">로그인 ID 또는 암호를 변경하시겠습니까? 웹 사이트로 이동해 주십시오.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">서버 연결에 문제가 발생했습니다. 기기의 날짜/시간이 올바르게 설정되었는지 확인하십시오. 문제가 계속되면 로그아웃 후 다시 로그인하십시오.</string>
   <string name="mya_Login_details">로그인 상세 정보</string>
   <string name="mya_Logout">로그아웃</string>

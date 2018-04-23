@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-posti aadress kinnitamata</string>
   <string name="mya_Email_address">E-posti aadress</string>
   <string name="mya_Gender">Sugu</string>
-  <string name="mya_Info">[et]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Kas soovite oma kasutajanime või parooli muuta? Külastage meie veebisaiti.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="mya_Login_details">Sisselogimise andmed</string>
   <string name="mya_Logout">Logi välja</string>

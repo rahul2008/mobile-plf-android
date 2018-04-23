@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-pasta adrese nav apstiprināta</string>
   <string name="mya_Email_address">E-pasta adrese</string>
   <string name="mya_Gender">Dzimums</string>
-  <string name="mya_Info">[lv]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Vai vēlaties mainīt savu pieteikšanās ID vai paroli? Apmeklējiet mūsu tīmekļa vietni.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Radās problēma, veidojot savienojumu ar serveri. Pārliecinieties, vai jūsu ierīcē ir pareizi iestatīts datums/laiks. Ja problēma joprojām pastāv, lūdzu, atsakieties un piesakieties vēlreiz.</string>
   <string name="mya_Login_details">Pieteikšanās detaļas</string>
   <string name="mya_Logout">Atteikties</string>

@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">อีเมล์แอดเดรสไม่ได้รับการยืนยัน</string>
   <string name="mya_Email_address">อีเมล์แอดเดรส</string>
   <string name="mya_Gender">เพศ</string>
-  <string name="mya_Info">[th]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">คุณต้องการเปลี่ยน ID ล็อกอินหรือรหัสผ่านหรือไม่ เข้าชมเว็บไซต์ของเรา</string>
   <string name="mya_Invalid_Access_Token_Error_Message">มีปัญหาในการเชื่อมต่อกับเซิร์ฟเวอร์ ตรวจสอบให้แน่ใจว่าตั้งวัน/เวลาบนอุปกรณ์ของคุณถูกต้องแล้ว หากปัญหายังคงอยู่ โปรดล็อกเอาท์และล็อกอิน</string>
   <string name="mya_Login_details">รายละเอียดการล็อกอิน</string>
   <string name="mya_Logout">ล็อกเอาต์</string>

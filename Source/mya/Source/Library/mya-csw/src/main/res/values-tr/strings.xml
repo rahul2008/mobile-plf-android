@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-posta adresi doğrulanmadı</string>
   <string name="mya_Email_address">E-posta adresi</string>
   <string name="mya_Gender">Cinsiyet</string>
-  <string name="mya_Info">[tr]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Oturum açma kimliği veya parolanızı değiştirmek mi istiyorsunuz? Web sitemize gidin.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Sunucuya bağlanılırken bir sorun oluştu. Cihazındaki tarih/zaman ayarlarının doğru olduğundan emin olun. Sorun devam ederse lütfen oturumunuzu kapatıp yeniden açın.</string>
   <string name="mya_Login_details">Oturum açma bilgileri</string>
   <string name="mya_Logout">Oturumu kapat</string>

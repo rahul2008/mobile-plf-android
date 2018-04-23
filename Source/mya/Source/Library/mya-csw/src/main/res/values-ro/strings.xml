@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Adresa de e-mail nu este confirmată</string>
   <string name="mya_Email_address">Adresă de e-mail</string>
   <string name="mya_Gender">Sex</string>
-  <string name="mya_Info">[ro]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Vrei să îţi schimbi ID-ul sau parola de conectare? Vizitează site-ul nostru web.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">A apărut o problemă la conectarea la server. Asigură-te că data/ora de pe dispozitiv este setată corect. Dacă problema persistă, deconectează-te şi conectează-te din nou.</string>
   <string name="mya_Login_details">Detalii conectare</string>
   <string name="mya_Logout">Deconectare</string>

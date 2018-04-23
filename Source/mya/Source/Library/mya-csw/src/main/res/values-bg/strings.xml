@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">Имейл адресът не е потвърден</string>
   <string name="mya_Email_address">Имейл адрес</string>
   <string name="mya_Gender">Пол</string>
-  <string name="mya_Info">[bg]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Искате ли да промените вашия ИД или парола за вписване? Посетете сайта ни.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Имаше проблем със свързването към сървъра. Уверете се, че датата/часът на вашето устройство е правилно зададен(а). Ако проблемът продължава, моля, отпишете се и се впишете.</string>
   <string name="mya_Login_details">Данни за влизане</string>
   <string name="mya_Logout">Изход</string>

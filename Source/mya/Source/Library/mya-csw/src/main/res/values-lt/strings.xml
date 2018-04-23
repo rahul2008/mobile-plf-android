@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">El. pašto adresas nepatvirtintas</string>
   <string name="mya_Email_address">El. pašto adresas</string>
   <string name="mya_Gender">Lytis</string>
-  <string name="mya_Info">[lt]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Ar norite pakeisti prisijungimo ID arba slaptažodį? Apsilankykite mūsų svetainėje.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Atsirado problema jungiantis prie serverio. Patikrinkite, ar jūsų prietaise teisingai nustatyta data / laikas. Jei problema išlieka, atsijunkite ir prisijunkite.</string>
   <string name="mya_Login_details">Prisijungimo informacija</string>
   <string name="mya_Logout">Išsiregistruoti</string>

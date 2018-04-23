@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">כתובת הדוא\"ל לא אושרה</string>
   <string name="mya_Email_address">כתובת דוא\"ל</string>
   <string name="mya_Gender">מין</string>
-  <string name="mya_Info">[he]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">האם ברצונך לשנות את מזהה הכניסה או את הסיסמה שלך? בקר באתר האינטרנט שלנו.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
   <string name="mya_Login_details">פרטי כניסה</string>
   <string name="mya_Logout">התנתק</string>

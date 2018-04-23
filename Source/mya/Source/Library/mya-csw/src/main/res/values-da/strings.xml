@@ -29,7 +29,7 @@
   <string name="mya_Email_Validation_message">E-mailadresse ikke bekræftet</string>
   <string name="mya_Email_address">E-mail-adresse</string>
   <string name="mya_Gender">Køn</string>
-  <string name="mya_Info">[da]Do you want to change your login ID or password?</string>
+  <string name="mya_Info">Vil du ændre dit logon-ID eller din adgangskode? Besøg vores hjemmeside.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Der opstod et problem med at oprette forbindelse til serveren. Sørg for, at dato/klokkeslæt på din enhed er indstillet korrekt. Hvis problemet fortsætter, skal du logge ud og logge på igen.</string>
   <string name="mya_Login_details">Login-oplysninger</string>
   <string name="mya_Logout">Log af</string>
