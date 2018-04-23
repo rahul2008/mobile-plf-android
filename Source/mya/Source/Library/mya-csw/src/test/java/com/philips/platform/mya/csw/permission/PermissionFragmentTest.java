@@ -2,6 +2,7 @@ package com.philips.platform.mya.csw.permission;
 
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
+import com.philips.platform.mya.csw.dialogs.DialogView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +14,18 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.never;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PermissionFragment.class)
 public class PermissionFragmentTest {
+
+    @Mock
+    private PermissionPresenter permissionPresenter;
+
+    private PermissionFragment permissionFragment;
 
     @Before
     public void setup() {
@@ -53,6 +60,20 @@ public class PermissionFragmentTest {
         permissionFragment.onPause();
         verify(confirmDialogView, never()).hideDialog();
     }
+    
+    @Test
+    public void getDialogViewWithGoBackReturnsSameInstance() {
+        DialogView dialogView1 = permissionFragment.getDialogView(true);
+        DialogView dialogView2 = permissionFragment.getDialogView(true);
+        assertEquals(dialogView1, dialogView2);
+    }
+
+    @Test
+    public void getDialogViewWithoutGoingBackCreatesNewInstance() {
+        DialogView dialogView1 = permissionFragment.getDialogView(false);
+        DialogView dialogView2 = permissionFragment.getDialogView(false);
+        assertNotEquals(dialogView1, dialogView2);
+    }
 
     private void whenResuming() {
         permissionFragment.onResume();
@@ -65,11 +86,6 @@ public class PermissionFragmentTest {
     private void thenConsentDefinitionsAreFetched() {
         verify(permissionPresenter).fetchConsentStates(null);
     }
-
-    private PermissionFragment permissionFragment;
-
-    @Mock
-    private PermissionPresenter permissionPresenter;
 
     @Mock
     private ConfirmDialogView confirmDialogView;

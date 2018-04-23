@@ -55,6 +55,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
     private ConfirmDialogView confirmDialogView;
+    private DialogView errorDialogViewWithClickListener;
 
     @Override
     public void setPresenter(final PermissionContract.Presenter presenter) {
@@ -201,13 +202,16 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
     }
 
-    @NonNull
-    private DialogView getDialogView(boolean goBack) {
-        DialogView dialogView = new DialogView();
-        if (goBack) {
-            dialogView = new DialogView(this);
+    @NonNull @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    protected DialogView getDialogView(boolean goBack) {
+        if(!goBack) {
+            return new DialogView();
         }
-        return dialogView;
+
+        if (errorDialogViewWithClickListener == null) {
+            errorDialogViewWithClickListener = new DialogView(this);
+        }
+        return errorDialogViewWithClickListener;
     }
 
     private List<ConsentView> createConsentsList() {
@@ -220,5 +224,9 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
             }
         }
         return consentViewList;
+    }
+
+    protected DialogView getErrorDialogViewWithClickListener() {
+        return this.errorDialogViewWithClickListener;
     }
 }
