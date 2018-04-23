@@ -32,7 +32,7 @@ public class CswActivity extends UIDActivity implements OnClickListener, ActionB
 
     final String iconFontAssetName = "PUIIcon.ttf";
     private TextView ivBack;
-    protected CswInterface cswInterface;
+    protected CswInterface cswInterface = new CswInterface();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,6 @@ public class CswActivity extends UIDActivity implements OnClickListener, ActionB
     }
 
     private void launchCswFragment() {
-        if(cswInterface == null) {
-            cswInterface = new CswInterface();
-        }
         cswInterface.launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
     }
 

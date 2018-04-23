@@ -16,10 +16,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -41,16 +39,18 @@ public class CatkInitializerTest {
 
 
     private CatkInitializer initializer;
+    private CatkInputs inputs;
 
     @Before
     public void setUp() {
         initMocks(this);
-        //
+
         when(appInfraMock.getConsentManager()).thenReturn(consentManagerMock);
         mockStatic(ConsentsClient.class);
         when(ConsentsClient.getInstance()).thenReturn(consentsClientMock);
 
         initializer = new CatkInitializer();
+        inputs = buildInputs(appInfraMock, contextMock);
     }
 
     @Test(expected = NullPointerException.class)
@@ -60,8 +60,6 @@ public class CatkInitializerTest {
 
     @Test
     public void givenValidInputs_whenInitCatk_thenShouldCallInitConsentClient() {
-        CatkInputs inputs = buildInputs(appInfraMock, contextMock);
-
         initializer.initCatk(inputs);
 
         verify(consentsClientMock).init((CatkInputs) any());
@@ -69,8 +67,6 @@ public class CatkInitializerTest {
 
     @Test
     public void givenValidInputs_whenInitCatk_thenShouldRegisterConsentHandler() {
-        CatkInputs inputs = buildInputs(appInfraMock, contextMock);
-
         initializer.initCatk(inputs);
 
         verify(consentManagerMock).registerHandler((List<String>)any(), (ConsentHandlerInterface) any());
@@ -78,14 +74,11 @@ public class CatkInitializerTest {
 
     @Test
     public void givenValidInputs_whenInitCatk_thenShouldRegisterConsentHandlerWithParams() {
-        CatkInputs inputs = buildInputs(appInfraMock, contextMock);
-
         initializer.initCatk(inputs);
 
         List<String> expected = Arrays.asList("moment", "coaching", "binary", "research", "analytics");
         verify(consentManagerMock).registerHandler(eq(expected), (ConsentHandlerInterface) any());
     }
-
 
     private CatkInputs buildInputs(AppInfraInterface appInfra, Context context) {
         return new CatkInputs.Builder()

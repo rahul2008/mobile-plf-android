@@ -2,16 +2,13 @@ package com.philips.platform.mya.csw;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.mya.csw.utils.CswTestApplication;
 import com.philips.platform.mya.csw.utils.ShadowXIConTextView;
 import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.UIDActivity;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,12 +23,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
@@ -56,7 +53,7 @@ public class CswActivityTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        // Init statics
+
         mockStatic(ThemeUtils.class);
         when(ThemeUtils.getThemeResourceID((Context) any())).thenReturn(R.style.AccentAqua_UltraLight);
         mockStatic(FontLoader.class);

@@ -38,7 +38,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
         fragment.containerId = containerId;
         new JustInTimeConsentPresenter(fragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
-        if(fragment.dialogView == null) {
+        if (fragment.dialogView == null) {
             fragment.dialogView = new DialogView();
         }
         if (fragment.progressDialogView == null) {

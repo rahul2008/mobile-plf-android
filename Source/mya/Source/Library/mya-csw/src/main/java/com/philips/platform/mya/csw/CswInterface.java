@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.philips.platform.mya.csw.injection.AppInfraModule;
 import com.philips.platform.mya.csw.injection.CswComponent;
@@ -29,15 +30,22 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.io.Serializable;
 
 public class CswInterface implements UappInterface {
+    private static final String TAG = "CswInterface";
+
     private static final CswInterface reference = new CswInterface();
+    private static CswComponent cswComponent;
+
+    private UiLauncher uiLauncher;
+    private CswLaunchInput cswLaunchInput;
+    private CswDependencies uappDependencies;
 
     public static CswInterface get() {
         return reference;
     }
 
-    private UiLauncher uiLauncher;
-    private CswLaunchInput cswLaunchInput;
-    private CswDependencies uappDependencies;
+    public static CswComponent getCswComponent() {
+        return cswComponent;
+    }
 
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
@@ -75,6 +83,10 @@ public class CswInterface implements UappInterface {
         launch();
     }
 
+    public CswDependencies getDependencies() {
+        return uappDependencies;
+    }
+
     private void launch() {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
@@ -96,7 +108,8 @@ public class CswInterface implements UappInterface {
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), permissionFragment, PermissionFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
-            // Ignore
+            Log.e(TAG, "Could not launch MYA ConsentWidgets as Fragment. See stacktrace:");
+            ignore.printStackTrace();
         }
     }
 
@@ -112,19 +125,8 @@ public class CswInterface implements UappInterface {
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
-
         return DaggerCswComponent.builder()
                 .cswModule(new CswModule(uappSettings.getContext()))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
-    }
-
-    public static CswComponent getCswComponent() {
-        return cswComponent;
-    }
-
-    private static CswComponent cswComponent;
-
-    public CswDependencies getDependencies() {
-        return uappDependencies;
     }
 }
