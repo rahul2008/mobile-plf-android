@@ -32,7 +32,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
     protected THSWelcomePresenter presenter;
     private RelativeLayout mRelativeLayoutAppointments;
-    private RelativeLayout mRelativeLayoutVisitHostory;
     private RelativeLayout mRelativeLayoutHowItWorks;
     private RelativeLayout mRelativeLayoutDetails;
     private RelativeLayout mCustomerSupport;
@@ -57,14 +56,12 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
 
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
-        mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mRelativeLayoutDetails = (RelativeLayout) view.findViewById(R.id.details);
         mCustomerSupport = (RelativeLayout) view.findViewById(R.id.customer_support);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
         mRelativeLayoutAppointments.setOnClickListener(this);
-        mRelativeLayoutVisitHostory.setOnClickListener(this);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
         mCustomerSupport.setOnClickListener(this);
         mButton.setOnClickListener(this);
@@ -95,9 +92,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if (i == R.id.appointments) {
 
             presenter.onEvent(R.id.appointments);
-        }else if(i == R.id.visit_history){
-
-            presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
 
             presenter.onEvent(R.id.how_it_works);

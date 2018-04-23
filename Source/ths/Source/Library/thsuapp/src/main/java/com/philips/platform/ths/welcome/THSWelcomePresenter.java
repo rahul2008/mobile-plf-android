@@ -14,6 +14,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAppointmentAndVisitHistoryList;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqFragment;
@@ -50,15 +51,10 @@ class THSWelcomePresenter implements THSBasePresenter{
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
-        } else if (componentID == R.id.visit_history) {
-            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
-            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
-            }else {
-                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
-            }
-        } else if (componentID == R.id.how_it_works) {
+               // uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+
+            uiBaseView.addFragment(new THSAppointmentAndVisitHistoryList(), THSAppointmentAndVisitHistoryList.TAG, null, false);
+        }  else if (componentID == R.id.how_it_works) {
             uiBaseView.addFragment(new THSFaqFragment(), THSFaqFragment.TAG, null, false);
         } else if (componentID == R.id.ths_start) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
