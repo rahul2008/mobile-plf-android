@@ -18,6 +18,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
@@ -59,7 +60,7 @@ public abstract class DICommPort<T extends PortProperties> {
     private boolean mGetPropertiesRequested;
     private boolean mSubscribeRequested;
     private boolean mUnsubscribeRequested;
-    private boolean mStopResubscribe;
+    private boolean isSubscribed = false;
     private final Object mResubscribeLock = new Object();
     private T mPortProperties;
     private final Map<String, Object> mPutPropertiesMap = new ConcurrentHashMap<>();
@@ -73,11 +74,7 @@ public abstract class DICommPort<T extends PortProperties> {
     private final Runnable resubscriptionRunnable = new Runnable() {
         @Override
         public void run() {
-            synchronized (mResubscribeLock) {
-                if (!mStopResubscribe) {
-                    subscribe();
-                }
-            }
+            refreshSubscriptionIfNecessary();
         }
     };
 
@@ -104,6 +101,9 @@ public abstract class DICommPort<T extends PortProperties> {
     private PropertyChangeListener networkNodeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(NetworkNodeDatabaseHelper.KEY_BOOT_ID)) {
+                refreshSubscriptionIfNecessary();
+            }
         }
     };
 
@@ -219,7 +219,7 @@ public abstract class DICommPort<T extends PortProperties> {
         this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
         mSubscribeRequested = true;
-        mStopResubscribe = false;
+        isSubscribed = true;
 
         resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
         resubscriptionHandler.postDelayed(resubscriptionRunnable, SUBSCRIPTION_TTL_MS);
@@ -247,9 +247,17 @@ public abstract class DICommPort<T extends PortProperties> {
         DICommLog.d(LOG_TAG, "stop resubscribing");
 
         synchronized (mResubscribeLock) {
-            mStopResubscribe = true;
+            isSubscribed = false;
         }
         resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
+    }
+
+    private void refreshSubscriptionIfNecessary() {
+        synchronized (mResubscribeLock) {
+            if (isSubscribed) {
+                subscribe();
+            }
+        }
     }
 
     /**
@@ -435,7 +443,6 @@ public abstract class DICommPort<T extends PortProperties> {
 
     public void setNetworkNode(@NonNull final NetworkNode networkNode) {
         this.networkNode = networkNode;
-
         this.networkNode.addPropertyChangeListener(networkNodeListener);
     }
 }
