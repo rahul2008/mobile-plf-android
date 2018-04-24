@@ -195,7 +195,7 @@ dependencies {
         compile philipsdeps.AppInfra
     }
 
-    
+
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.frankiesardo_value_processor
@@ -203,9 +203,6 @@ dependencies {
     provided deps.javax_annotation
 
     compile deps.apache
-    annotationProcessor deps.immutables
-
-    provided deps.javax_annotation
     compile files('libs/org.apache.http.legacy.jar')
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.squareup.okhttp3:okhttp-apache:3.10.0'
