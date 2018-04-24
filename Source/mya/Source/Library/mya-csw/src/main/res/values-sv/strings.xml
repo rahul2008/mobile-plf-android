@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[sv]Visit our website</string>
   <string name="csw_consent_help_label">Vad betyder det?</string>
   <string name="csw_invalid_access_token_error_message">Det uppstod ett problem vid anslutning till servern. Se till att datum/tid på enheten är korrekt inställda. Om problemet kvarstår loggar du ut och sedan in igen.</string>
   <string name="csw_offline_message">Internetanslutningen verkar inte fungera. Kontrollera och försök igen</string>
   <string name="csw_offline_title">Du är offline</string>
-  <string name="csw_ok">[sv]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[sv]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[sv]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Kontrollera din sekretess. Läs {privacy notice} för mer information.</string>
   <string name="csw_privacy_settings">Sekretessinställningar</string>
-  <string name="csw_privacy_settings_desc">[sv]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Kontrollera din sekretess. Läs {privacy notice} för mer information.</string>
   <string name="csw_problem_occurred_error_message">Ett fel inträffade (fel %1$d). Försök igen.</string>
   <string name="csw_problem_occurred_error_title">Ett problem uppstod</string>
   <string name="mya_Account_settings">Kontoinställningar</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">Inställningar</string>
   <string name="mya_change_country">Logga ut för att byta land</string>
   <string name="mya_change_country_message">Logga ut för att byta landet du bor i. Det gör att vi kan anpassa garantier och annan information beroende på var du befinner dig.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[sv]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[sv]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Avbryt</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[sv]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[sv]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[sv]OK, count me in</string>

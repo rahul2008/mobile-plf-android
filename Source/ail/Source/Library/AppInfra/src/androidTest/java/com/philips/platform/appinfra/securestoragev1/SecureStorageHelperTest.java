@@ -6,12 +6,13 @@
  *
  */
 
-package com.philips.platform.appinfra.securestorage;
+package com.philips.platform.appinfra.securestoragev1;
 
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.securestoragev1.SecureStorageHelper;
 
 import java.util.Arrays;
 

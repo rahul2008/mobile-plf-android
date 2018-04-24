@@ -45,7 +45,7 @@ import static org.mockito.Mockito.when;
  * Created by abhishek on 1/24/18.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SecureStorage2Test {
+public class SecureStorageV2Test {
 
     SecureStorageInterface mSecureStorage ;
 
@@ -109,7 +109,7 @@ public class SecureStorage2Test {
                 return null;
             }
         });
-        mSecureStorage=new SecureStorage2Mock(appInfra);
+        mSecureStorage=new SecureStorageV2Mock(appInfra);
     }
 
 
@@ -311,23 +311,6 @@ public class SecureStorage2Test {
         assertFalse(mSecureStorage.clearKey("abcd",new SecureStorageInterface.SecureStorageError()));
     }
 
-    @Test
-    public void testClearKey_Should_return_true(){
-        when(ssFileCache.deleteKey(any(String.class))).thenReturn(true);
-        assertTrue(mSecureStorage.clearKey("abcd",new SecureStorageInterface.SecureStorageError()));
-    }
-
-    @Test
-    public void testClearKey_Should_return_false_exception_case(){
-        when(ssFileCache.deleteKey(any(String.class))).thenThrow(new IllegalArgumentException());
-        assertFalse(mSecureStorage.clearKey("abcd",new SecureStorageInterface.SecureStorageError()));
-    }
-
-    @Test
-    public void testGetDeviceCapability() {
-        assertNotNull(mSecureStorage.getDeviceCapability());
-    }
-
 
     @Test
     public void testByteDataEncryptionForNullValue() throws Exception {
@@ -449,9 +432,9 @@ public class SecureStorage2Test {
         verify(dataDecryptionListener).onDecyptionError(any(SecureStorageInterface.SecureStorageError.class));
     }
 
-    public static class SecureStorage2Mock extends SecureStorage2 {
+    public static class SecureStorageV2Mock extends SecureStorageV2 {
 
-        public SecureStorage2Mock(AppInfra bAppInfra) {
+        public SecureStorageV2Mock(AppInfra bAppInfra) {
             super(bAppInfra);
         }
 
@@ -462,7 +445,7 @@ public class SecureStorage2Test {
         }
 
         @Override
-        protected SSFileCache getSecureStorageFileCahce() {
+        protected SSFileCache getSecureStorageFileCache() {
             return ssFileCache;
         }
 

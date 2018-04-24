@@ -61,6 +61,23 @@ public interface SecureStorageInterface extends Serializable {
     boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
 
     /**
+     * Retruns true if passed user key is already present in Secure storage.
+     * If you want to save a data for a key its better to check if key is already present otherwise it will override already present data for that key.
+     * @param key
+     * @return
+     * @since 2018.2.0
+     */
+    boolean doesStorageKeyExist(String key);
+
+    /**
+     * After creating encryption key using createKey you can check whether key is already present for passed key using this method.
+     * @param key user key
+     * @return boolean
+     * @since 2018.2.0
+     */
+    boolean doesEncryptionKeyExist(String key);
+
+    /**
      * Retrieve value for Create Key .
      *
      * @param keyName the user key to access the password
@@ -120,7 +137,7 @@ public interface SecureStorageInterface extends Serializable {
     void decryptBulkData(byte[] dataToBeDecrypted,DataDecryptionListener dataDecryptionListener);
 
     class SecureStorageError {
-        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData}
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData,SecureKeyAlreadyPresent}
 
         private secureStorageError errorCode = null;
 
@@ -151,6 +168,8 @@ public interface SecureStorageInterface extends Serializable {
                         return "Not able to find data for given key";
                     case NullData:
                         return "Null data";
+                    case SecureKeyAlreadyPresent:
+                        return "Secure Key already present";
                     default:
                         return "Error in secure storage";
 

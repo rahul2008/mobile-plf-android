@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.crypto.Cipher;
 
-public class SecureStorage2 implements SecureStorageInterface {
+public class SecureStorageV2 implements SecureStorageInterface {
 
     private final Context mContext;
     private final AppInfra mAppInfra;
@@ -30,20 +30,22 @@ public class SecureStorage2 implements SecureStorageInterface {
     private SSEncoderDecoder ssEncoderDecoder;
     private SSKeyProvider ssKeyProvider;
     private SSFileCache ssFileCache;
-    private static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
+    public static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
 
-    public SecureStorage2(AppInfra bAppInfra) {
+    public static final String VERSION="v2";
+
+    public SecureStorageV2(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
         mContext = mAppInfra.getAppInfraContext();
         ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
         writeLock = reentrantReadWriteLock.writeLock();
         readLock = reentrantReadWriteLock.readLock();
         ssEncoderDecoder = getSSEncoderDecoder();
-        ssFileCache = getSecureStorageFileCahce();
+        ssFileCache = getSecureStorageFileCache();
         ssKeyProvider = getSecureStorageKeyprovider();
     }
 
-    protected SSFileCache getSecureStorageFileCahce() {
+    protected SSFileCache getSecureStorageFileCache() {
         return new SSFileCache(mAppInfra);
     }
 
@@ -173,6 +175,16 @@ public class SecureStorage2 implements SecureStorageInterface {
     }
 
     @Override
+    public boolean doesStorageKeyExist(String name) {
+        return ssFileCache.isKeyAvailable(name);
+    }
+
+    @Override
+    public boolean doesEncryptionKeyExist(String name) {
+        return ssFileCache.isSecureKeyAvailable(name);
+    }
+
+    @Override
     public Key getKey(String keyName, SecureStorageError error) {
         Key decryptedKey;
         try {
@@ -204,7 +216,7 @@ public class SecureStorage2 implements SecureStorageInterface {
             return false;
         }
         try {
-            boolean clearKeyStatus = ssFileCache.deleteKey(keyName);
+            boolean clearKeyStatus = ssFileCache.deleteSecureKey(keyName);
             if (!clearKeyStatus) {
                 error.setErrorCode(SecureStorageError.secureStorageError.DeleteError);
             }
@@ -314,31 +326,11 @@ public class SecureStorage2 implements SecureStorageInterface {
 
     @Override
     public String getDeviceCapability() {
-        final String buildTags = android.os.Build.TAGS;
-        if (buildTags != null && buildTags.contains("test-keys")) {
-            return "true";
-        }
-        final String[] paths = {"/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",
-                "/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-                "/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"};
-        for (String path : paths) {
-            if (new File(path).exists()) return "true";
-        }
-        if (SSUtils.checkProcess()) {
-            return "true";
-        }
-
-        return "false";
-
+        return null;
     }
 
     @Override
     public boolean deviceHasPasscode() {
-        if (mContext != null) {
-            KeyguardManager manager = (KeyguardManager)
-                    mContext.getSystemService(Context.KEYGUARD_SERVICE);
-            return manager.isKeyguardSecure();
-        }
         return false;
     }
 

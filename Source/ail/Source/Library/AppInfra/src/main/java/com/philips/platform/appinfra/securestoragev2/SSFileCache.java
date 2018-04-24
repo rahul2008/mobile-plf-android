@@ -36,8 +36,12 @@ public class SSFileCache {
     }
 
 
-    public boolean deleteKey(String keyId) {
+    public boolean deleteSecureKey(String keyId) {
         boolean deleteResult = false;
+        //Nobody will be allowed to delete main AES key.
+        if(keyId==SecureStorageV2.RSA_WRAPPED_AES_KEY_MAIN){
+            return false;
+        }
         try {
             SharedPreferences mAppInfraPrefs = getSharedPreferences(SS_KEYS_FILE_STORE);
             // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
@@ -49,7 +53,7 @@ public class SSFileCache {
             }
 
         } catch (Exception e) {
-            appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data"+e.getMessage());
+            appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting secure key"+e.getMessage());
             deleteResult = false;
             return deleteResult;
         }
@@ -67,6 +71,16 @@ public class SSFileCache {
     public String getEncryptedString(String key){
         SharedPreferences secureStorageSharedPrefs = getSharedPreferences(SS_DATA_FILE_STORE);
         return secureStorageSharedPrefs.getString(key, null);
+    }
+
+    public boolean isKeyAvailable(String key){
+        SharedPreferences mAppInfraPrefs = getSharedPreferences(SS_DATA_FILE_STORE);
+        return mAppInfraPrefs.contains(key);
+    }
+
+    public boolean isSecureKeyAvailable(String key){
+        SharedPreferences mAppInfraPrefs = getSharedPreferences(SS_KEYS_FILE_STORE);
+        return mAppInfraPrefs.contains(key);
     }
 
     public boolean deleteEncryptedData(String key) {

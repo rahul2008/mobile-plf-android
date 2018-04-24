@@ -35,6 +35,9 @@ public class Utility {
     private static AlertDialogFragment alertDialogFragment;
 
     public static void hideKeypad(Activity pContext) {
+        if(pContext == null){
+            return;
+        }
         InputMethodManager inputMethodManager = (InputMethodManager)
                 pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 

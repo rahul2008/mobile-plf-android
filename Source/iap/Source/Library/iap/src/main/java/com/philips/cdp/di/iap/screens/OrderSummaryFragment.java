@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -58,7 +59,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     public static final String TAG = OrderSummaryFragment.class.getName();
     Context mContext;
-
+    private RelativeLayout mParentLayout;
     private Button mPayNowBtn;
     private Button mCancelBtn;
 
@@ -72,7 +73,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private PaymentMethod mPaymentMethod;
     Bundle bundle;
-    private PaymentController mPaymentController;
+    protected PaymentController mPaymentController;
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
@@ -96,7 +97,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
 
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
-
+        mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
         return rootView;
     }
@@ -120,7 +121,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 billingAddressFields.setLine2(billingAddress.getLine2());
                 billingAddressFields.setPostalCode(billingAddress.getPostalCode());
                 billingAddressFields.setTown(billingAddress.getTown());
-                billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
+                if(billingAddress.getRegion()!=null) {
+                    billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
+                }
                 CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
             }
         }
@@ -151,9 +154,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void updateCartOnResume() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
+        createCustomProgressBar(mParentLayout,BIG);
         mAddressController.getDeliveryModes();
     }
 
@@ -162,7 +163,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         super.onStop();
         if (mAdapter != null)
             mAdapter.onStop();
-        dismissProgressDialog();
+        hideProgressBar();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
@@ -198,10 +199,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private void placeOrder(String pSecurityCode) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            mPaymentController.placeOrder(pSecurityCode);
-        }
+        createCustomProgressBar(mParentLayout, BIG);
+        mPaymentController.placeOrder(pSecurityCode);
+
     }
 
     private void showCvvDialog(FragmentManager pFragmentManager) {
@@ -235,7 +235,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onEventReceived(final String event) {
-        dismissProgressDialog();
+        hideProgressBar();
        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mPayNowBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
@@ -260,7 +260,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onGetAddress(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
@@ -333,7 +333,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onLoadFinished(ArrayList<?> data) {
         if (data != null && data instanceof ArrayList)
-            dismissProgressDialog();
+            hideProgressBar();
         if (getActivity() == null) return;
         mData = (ArrayList<ShoppingCartData>) data;
         onOutOfStock(false);
@@ -355,7 +355,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onLoadError(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (!isNetworkConnected()) return;
 
         if (msg.obj instanceof IAPNetworkError) {
@@ -394,7 +394,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             updateCartOnResume();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            dismissProgressDialog();
+            hideProgressBar();
         }
     }
 
@@ -405,14 +405,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        dismissProgressDialog();
+        hideProgressBar();
     }
 
     @Override
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        if (!isProgressDialogShowing())
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+        createCustomProgressBar(mParentLayout,BIG);
         mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
 
         /*final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
@@ -435,7 +434,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onMakePayment(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (msg.obj instanceof MakePaymentData) {
 
             //Track new billing address added action
@@ -464,13 +463,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);
             if (paymentMethodAvailable()) {
-                dismissProgressDialog();
+                hideProgressBar();
                 launchConfirmationScreen((PlaceOrder) msg.obj);
             } else {
                 mPaymentController.makPayment(orderID);
             }
         } else if (msg.obj instanceof IAPNetworkError) {
-            dismissProgressDialog();
+            hideProgressBar();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
@@ -512,6 +511,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onGetCartUpdate() {
-        dismissProgressDialog();
+        hideProgressBar();
     }
 }

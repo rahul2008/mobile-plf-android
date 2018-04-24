@@ -182,5 +182,10 @@
     <string name="dcc_Help_Support">Help en ondersteuning</string>
     <string name="dcc_Call">Telefoon</string>
     <string name="dcc_Opening_Hours">Openingstijden</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Annuleren</string>
+    <string name="dcc_location_consent_title">Toestemming locatie</string>
+    <string name="dcc_location_consent_definition_text">Ik geef Philips toegang tot mijn locatiegegevens voor \'Vind Philips bij u in de buurt\'.</string>
+    <string name="dcc_location_consent_definition_help_text">Als u toegang tot uw locatiegegevens verleent, kunnen we de geografische locatie van uw mobiele apparaat registreren.\n\nWanneer u gebruikmaakt van de functie \'Vind Philips bij u in de buurt\' op de ondersteuningspagina, wordt u verzocht om uw locatiegegevens met Philips te delen. Op basis van uw locatiegegevens wordt u doorverwezen naar een winkel bij u in de buurt of naar de contactgegevens van de klantenservice voor uw land.</string>
 
 </resources>

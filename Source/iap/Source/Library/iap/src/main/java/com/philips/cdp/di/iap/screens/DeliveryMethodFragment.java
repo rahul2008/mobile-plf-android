@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
@@ -23,6 +24,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     private Context mContext;
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
+    private LinearLayout mParentContainer;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
@@ -47,6 +49,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_delivery_method_fragment, container, false);
         mDeliveryRecyclerView = view.findViewById(R.id.iap_parcel_delivery_list);
+        mParentContainer = view.findViewById(R.id.delivery_method_container);
         mAddressController = new AddressController(mContext, this);
         return view;
     }
@@ -78,11 +81,8 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-
-        if (!isProgressDialogShowing())
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+        createCustomProgressBar(mParentContainer, BIG);
         mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
-
     }
 
     @Override
@@ -117,7 +117,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         getFragmentManager().popBackStack();
     }
 }

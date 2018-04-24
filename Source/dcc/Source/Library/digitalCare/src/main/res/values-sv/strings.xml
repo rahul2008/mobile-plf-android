@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Hjälp och support</string>
     <string name="dcc_Call">Ring</string>
     <string name="dcc_Opening_Hours">Öppettider</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Avbryt</string>
+    <string name="dcc_location_consent_title">Platsmedgivande</string>
+    <string name="dcc_location_consent_definition_text">Jag godkänner att Philips får åtkomst till min platsinformation till \"Hitta Philips nära dig\".</string>
+    <string name="dcc_location_consent_definition_help_text">När du godkänner åtkomst till platsinformation kan vi samla in din mobila enhets geografiska plats.\n\nNär du använder funktionen \"Hitta Philips nära dig\" på supportsidan uppmanas du att dela platsinformation med Philips. Om du använder våra platsfunktioner styrs du, baserat på din platsinformation, till en butik i närheten eller till information om kundtjänsten i ditt land.</string>
 
 </resources>
