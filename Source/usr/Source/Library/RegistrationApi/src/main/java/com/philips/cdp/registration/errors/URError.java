@@ -33,8 +33,6 @@ public class URError {
                 return NetworkErrorEnum.getStringId(errorCode); //As for all Network error ,Message will be always same
             case SERVICEDISCOVERY:
                 return ServiceDiscoveryErrorEnum.getStringId(errorCode);
-            case UIVALIDATION:
-                return UIValidationErrorEnum.getStringId(errorCode);
             case JANRAIN:
                 return JanrainErrorEnum.getStringId(errorCode);
             case UNKNOWN:
