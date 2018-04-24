@@ -13,7 +13,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -31,6 +30,7 @@ import static java.util.Objects.requireNonNull;
  */
 public abstract class Appliance implements Availability<Appliance> {
 
+    @NonNull
     protected final NetworkNode networkNode;
 
     private final DevicePort devicePort;
@@ -90,48 +90,8 @@ public abstract class Appliance implements Availability<Appliance> {
     }
 
     protected void addPort(final @NonNull DICommPort port) {
+        port.setNetworkNode(networkNode);
         ports.add(port);
-    }
-
-    /**
-     * Subscribe on all ports to get notified on changes to properties.
-     */
-    public void subscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Subscribe to all ports for appliance: " + toString());
-
-        for (DICommPort port : ports) {
-            if (port.supportsSubscription()) {
-                port.subscribe();
-            }
-        }
-    }
-
-    /**
-     * Unsubscribe on all ports.
-     */
-    public void unsubscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Unsubscribe from all ports for appliance: " + toString());
-
-        for (DICommPort port : ports) {
-            if (port.supportsSubscription()) {
-                port.unsubscribe();
-            }
-        }
-    }
-
-    /**
-     * Stop resubscribe.
-     * <p>
-     * Prevents subscriptions to automatically renew after they expire.
-     */
-    public void stopResubscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Stop resubscribing to all ports for appliance: " + toString());
-
-        for (DICommPort port : ports) {
-            if (port.supportsSubscription()) {
-                port.stopResubscribe();
-            }
-        }
     }
 
     /**
