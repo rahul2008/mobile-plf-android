@@ -59,11 +59,11 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     }
 
     void initViews(View inflate) {
-        allow = inflate.findViewById(R.id.rap_justInTimeView_consentOk_button);
-        mayBeLater = inflate.findViewById(R.id.rap_justInTimeView_consentLater_label);
-        philipsPrivacy = inflate.findViewById(R.id.philipsPrivacy);
-        neuraPrivacyPolicy = inflate.findViewById(R.id.RA_neura_privacy_notice_label);
-        whatDoesItMean = inflate.findViewById(R.id.rap_justInTimeView_consentHelplink_button);
+        allow = inflate.findViewById(R.id.csw_justInTimeView_consentOk_button);
+        mayBeLater = inflate.findViewById(R.id.csw_justInTimeView_consentLater_label);
+        philipsPrivacy = inflate.findViewById(R.id.csw_justInTimeView_privacyPhilips_label);
+        neuraPrivacyPolicy = inflate.findViewById(R.id.csw_justInTimeView_privacyNeura_label);
+        whatDoesItMean = inflate.findViewById(R.id.csw_justInTimeView_consentHelplink_button);
     }
 
     private void applyOverLayBackground(View inflate) {

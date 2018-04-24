@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,6 @@ import com.neura.resources.user.UserDetails;
 import com.neura.resources.user.UserDetailsCallbacks;
 import com.neura.sdk.service.SubscriptionRequestCallbacks;
 import com.neura.sdk.util.NeuraUtil;
-import com.philips.platform.neu.demouapp.neura.FragmentEventSimulation;
 import com.philips.platform.neu.demouapp.neura.NeuraManager;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class NueraDemoMainActivity extends AppCompatActivity{
     RadioGroup radioGroup;
     int counter;
     android.app.FragmentTransaction transaction;
-    FragmentEventSimulation fragmentEventSimulation;
+    ProgressBar progressBar;
     List<String> momentsList = Arrays.asList(
             "userStartedWalking",
             "userIsIdleAtHome",
@@ -72,13 +72,14 @@ public class NueraDemoMainActivity extends AppCompatActivity{
         disconnect = findViewById(R.id.DisconnectButton);
         simulate = findViewById(R.id.simulateButton);
         radioGroup = findViewById(R.id.RadioGroup);
-        fragmentEventSimulation = new FragmentEventSimulation();
+        progressBar = findViewById(R.id.connectLoading);
         if (NeuraManager.getInstance().getClient().isLoggedIn()) {
             setConnected();
         }
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 NeuraManager.authenticateAnonymously(silentStateListener);
             }
         });
@@ -92,18 +93,18 @@ public class NueraDemoMainActivity extends AppCompatActivity{
         simulate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFragment(fragmentEventSimulation);
+//                openFragment(fragmentEventSimulation);
 
             }
         });
     }
 
-    public void openFragment(FragmentEventSimulation newFragment) {
-        transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
-    }
+//    public void openFragment(FragmentEventSimulation newFragment) {
+//        transaction = getFragmentManager().beginTransaction();
+//        transaction.add(R.id.fragment_container, newFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commitAllowingStateLoss();
+//    }
     private void setDisconnected() {
         disconnect.setVisibility(View.GONE);
         simulate.setVisibility(View.GONE);
@@ -165,6 +166,7 @@ public class NueraDemoMainActivity extends AppCompatActivity{
         disconnect.setVisibility(View.VISIBLE);
         simulate.setVisibility(View.VISIBLE);
         connect.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void getUserDetails() {
@@ -321,7 +323,7 @@ public class NueraDemoMainActivity extends AppCompatActivity{
 
         if(radioGroup.getCheckedRadioButtonId() == R.id.FCM){
             NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
-        }
+        } 
 
     }
 

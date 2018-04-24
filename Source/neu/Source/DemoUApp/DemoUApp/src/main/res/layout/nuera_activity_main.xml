@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ListView">
         <RadioButton
+            android:enabled="false"
             android:id="@+id/WebHook"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,9 +52,10 @@
         android:layout_below="@+id/DisconnectButton"
         android:text="Simulate"/>
 
-    <FrameLayout
-        android:layout_below="@+id/simulateButton"
-        android:id="@+id/fragment_container"
+    <ProgressBar
+        android:id="@+id/connectLoading"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
 </RelativeLayout>

@@ -49,25 +49,25 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
         NeuraConsentProvider provider = getNeuraConsentProvider(appFrameworkApplication);
         try {
             switch (componentID) {
-                case R.id.rap_justInTimeView_consentOk_button:
+                case R.id.csw_justInTimeView_consentOk_button:
                     String EVENT_ALLOW = "allow";
                     provider.storeConsentTypeState(true, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
-                case R.id.rap_justInTimeView_consentLater_label:
+                case R.id.csw_justInTimeView_consentLater_label:
                     String EVENT_MAY_BE_LATER = "mayBeLater";
                     provider.storeConsentTypeState(false, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_MAY_BE_LATER);
                     break;
-                case R.id.philipsPrivacy:
+                case R.id.csw_justInTimeView_privacyPhilips_label:
                     String EVENT_PRIVACY = "privacyPhilips";
                     baseState = getNextState(targetFlowManager, EVENT_PRIVACY);
                     break;
-                case R.id.RA_neura_privacy_notice_label:
+                case R.id.csw_justInTimeView_privacyNeura_label:
                     String EVENT_NEURA_PRIVACY = "privacyNeura";
                     baseState = getNextState(targetFlowManager, EVENT_NEURA_PRIVACY);
                     break;
-                case R.id.rap_justInTimeView_consentHelplink_button:
+                case R.id.csw_justInTimeView_consentHelplink_button:
                     launchWhatDoesItMeanFragment(neuraFragmentView.getFragmentActivity());
                     break;
 
@@ -120,12 +120,12 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
 
 
     UIStateData getUiStateData(int viewId) {
-        if (viewId == R.id.philipsPrivacy) {
+        if (viewId == R.id.csw_justInTimeView_privacyPhilips_label) {
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setServiceId(Constants.PRIVACY);
             webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
             return webViewStateData;
-        } else if (viewId == R.id.RA_neura_privacy_notice_label){
+        } else if (viewId == R.id.csw_justInTimeView_privacyNeura_label){
             WebViewStateData webViewStateData = new WebViewStateData();
             webViewStateData.setUrl(neuraFragmentView.getFragmentActivity().getString(R.string.RA_neura_policy_url));
             webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
