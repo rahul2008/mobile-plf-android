@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[es]Visit our website</string>
   <string name="csw_consent_help_label">¿Qué significa?</string>
   <string name="csw_invalid_access_token_error_message">Se ha producido un problema al conectar con el servidor. Asegúrate de que la fecha y la hora del dispositivo se han configurado correctamente. Si el problema persiste, cierra sesión e inicia sesión de nuevo.</string>
   <string name="csw_offline_message">Tu conexión a Internet parece no funcionar. Compruébalo e inténtalo de nuevo.</string>
   <string name="csw_offline_title">No tienes conexión a Internet</string>
-  <string name="csw_ok">[es]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[es]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[es]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Controla tu privacidad. Lea la {aviso de privacidad} para obtener más información.</string>
   <string name="csw_privacy_settings">Ajustes de privacidad</string>
-  <string name="csw_privacy_settings_desc">[es]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Controla tu privacidad. Lea la {aviso de privacidad} para obtener más información.</string>
   <string name="csw_problem_occurred_error_message">Se ha producido un problema (error %1$d). Inténtalo de nuevo.</string>
   <string name="csw_problem_occurred_error_title">Se ha producido un problema</string>
   <string name="mya_Account_settings">Ajustes de la cuenta</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">Ajustes</string>
   <string name="mya_change_country">Cierra sesión para cambiar el país</string>
   <string name="mya_change_country_message">Cierra sesión para cambiar tu país de residencia. Esto nos permite adaptar la garantía y otros datos según tu ubicación.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[es]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[es]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Cancelar</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[es]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[es]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[es]OK, count me in</string>

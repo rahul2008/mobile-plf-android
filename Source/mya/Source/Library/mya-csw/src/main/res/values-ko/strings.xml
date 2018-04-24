@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[ko]Visit our website</string>
   <string name="csw_consent_help_label">이는 무슨 의미입니까?</string>
   <string name="csw_invalid_access_token_error_message">서버 연결에 문제가 발생했습니다. 기기의 날짜/시간이 올바르게 설정되었는지 확인하십시오. 문제가 계속되면 로그아웃 후 다시 로그인하십시오.</string>
   <string name="csw_offline_message">인터넷 연결이 작동하지 않는 것으로 보입니다. 확인 후 다시 시도하십시오.</string>
   <string name="csw_offline_title">오프라인 상태입니다.</string>
-  <string name="csw_ok">[ko]OK</string>
+  <string name="csw_ok">확인</string>
   <string name="csw_privacy_notice">[ko]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
   <string name="csw_privacy_settings">개인 설정</string>
-  <string name="csw_privacy_settings_desc">[ko]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
   <string name="csw_problem_occurred_error_message">문제가 있습니다(오류 %1$d). 다시 시도하십시오.</string>
   <string name="csw_problem_occurred_error_title">문제가 발생했습니다</string>
   <string name="mya_Account_settings">계정 설정</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">설정</string>
   <string name="mya_change_country">국가를 전환하려면 로그아웃</string>
   <string name="mya_change_country_message">거주 중인 국가를 변경하려면 로그아웃하십시오. 위치에 따라 보증 및 기타 정보를 맞춤형으로 제공해드립니다.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ko]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ko]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">취소</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">확인</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ko]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ko]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ko]OK, count me in</string>

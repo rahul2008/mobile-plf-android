@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[hr]Visit our website</string>
   <string name="csw_consent_help_label">Što to znači?</string>
   <string name="csw_invalid_access_token_error_message">Došlo je do problema prilikom povezivanja s poslužiteljem. Provjerite jesu li datum/vrijeme na uređaju pravilno postavljeni. Ako se problem nastavi, odjavite se i ponovo prijavite.</string>
   <string name="csw_offline_message">Čini se da vaša internetska veza ne radi. Provjerite i pokušajte ponovo</string>
   <string name="csw_offline_title">Izvan mreže ste</string>
-  <string name="csw_ok">[hr]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[hr]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[hr]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Kontrolirajte svoju privatnost. Više informacija potražite u obavijesti o privatnosti.</string>
   <string name="csw_privacy_settings">Postavke privatnosti</string>
-  <string name="csw_privacy_settings_desc">[hr]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Kontrolirajte svoju privatnost. Više informacija potražite u obavijesti o privatnosti.</string>
   <string name="csw_problem_occurred_error_message">Došlo je do problema (pogreška %1$d). Pokušajte ponovo.</string>
   <string name="csw_problem_occurred_error_title">Došlo je do problema</string>
   <string name="mya_Account_settings">Postavke računa</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">Postavke</string>
   <string name="mya_change_country">Odjavite se za promjenu države</string>
   <string name="mya_change_country_message">Odjavite se kako biste promijenili državu u kojoj stanujete. To nam omogućuje da prilagodimo jamstvo i druge informacije prema vašoj lokaciji</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[hr]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[hr]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Odustani</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[hr]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[hr]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[hr]OK, count me in</string>
