@@ -177,6 +177,7 @@ ext.deps = [
         openid_appauth                : 'net.openid:appauth:0.7.0',
         play_services_gcm             : 'com.google.android.gms:play-services-gcm:11.0.4',
         play_services_location        : 'com.google.android.gms:play-services-location:11.0.4',
+        play_services_awareness       : 'com.google.android.gms:play-services-awareness:11.0.4',
         powermock_api_mockito         : 'org.powermock:powermock-api-mockito2:1.7.3',
         powermock_api_mockito_old     : 'org.powermock:powermock-api-mockito:1.7.3',
         powermock_classloading_xstream: 'org.powermock:powermock-classloading-xstream:1.7.3',

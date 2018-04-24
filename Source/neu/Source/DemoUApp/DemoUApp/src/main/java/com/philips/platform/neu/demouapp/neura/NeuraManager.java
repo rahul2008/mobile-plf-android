@@ -24,11 +24,13 @@ public class NeuraManager {
     private static NeuraManager sInstance;
 
     //TODO put here a list of events that you wish to receive. Beware, that these events must be listed to your application on our dev site. https://dev.theneura.com/console/apps
-    private static List<String> events = Arrays.asList("userLeftHome", "userArrivedHome",
-            "userStartedWalking", "userStartedRunning",
-            "userArrivedToWork", "userLeftWork",
-            "userFinishedRunning", "userFinishedWalking",
-            "userFinishedDriving", "userStartedDriving","userIsIdleFor1Hour");
+    private static List<String> events = Arrays.asList(
+            "userStartedWalking",
+            "userIsIdleAtHome",
+            "userFinishedWalking",
+            "userStartedRunning",
+            "userFinishedRunning",
+            "userIsIdleFor1Hour");
 
     private NeuraApiClient mNeuraApiClient;
 

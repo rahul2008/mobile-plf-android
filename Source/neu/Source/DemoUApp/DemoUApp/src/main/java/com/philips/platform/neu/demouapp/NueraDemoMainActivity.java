@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,22 +28,23 @@ import com.neura.resources.authentication.AnonymousAuthenticationStateListener;
 import com.neura.resources.authentication.AuthenticationState;
 import com.neura.resources.user.UserDetails;
 import com.neura.resources.user.UserDetailsCallbacks;
-import com.neura.sdk.object.SubscriptionMethod;
 import com.neura.sdk.service.SubscriptionRequestCallbacks;
 import com.neura.sdk.util.NeuraUtil;
+import com.philips.platform.neu.demouapp.neura.FragmentEventSimulation;
 import com.philips.platform.neu.demouapp.neura.NeuraManager;
-import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NueraDemoMainActivity extends UIDActivity{
+public class NueraDemoMainActivity extends AppCompatActivity{
     private String userId;
     CheckBoxAdapter adapter;
-    Button connect,disconnect;
+    Button connect,disconnect,simulate;
     RadioGroup radioGroup;
     int counter;
+    android.app.FragmentTransaction transaction;
+    FragmentEventSimulation fragmentEventSimulation;
     List<String> momentsList = Arrays.asList(
             "userStartedWalking",
             "userIsIdleAtHome",
@@ -61,12 +63,19 @@ public class NueraDemoMainActivity extends UIDActivity{
             FirebaseApp.initializeApp(this, FirebaseOptions.fromResource(this));
         }
         NeuraManager.getInstance().initNeuraConnection(getApplicationContext());
+
         requestLocationPermission();
         displayList();
+
         counter = 0;
         connect = findViewById(R.id.ConnectButton);
         disconnect = findViewById(R.id.DisconnectButton);
+        simulate = findViewById(R.id.simulateButton);
         radioGroup = findViewById(R.id.RadioGroup);
+        fragmentEventSimulation = new FragmentEventSimulation();
+        if (NeuraManager.getInstance().getClient().isLoggedIn()) {
+            setConnected();
+        }
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,22 +86,39 @@ public class NueraDemoMainActivity extends UIDActivity{
         disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NeuraManager.getInstance().getClient().forgetMe(getParent(), true, new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        setDisconnected();
-                        return false;
-                    }
-                });
+                disconnect();
+            }
+        });
+        simulate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(fragmentEventSimulation);
+
             }
         });
     }
 
+    public void openFragment(FragmentEventSimulation newFragment) {
+        transaction = getFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
+    }
     private void setDisconnected() {
         disconnect.setVisibility(View.GONE);
+        simulate.setVisibility(View.GONE);
         connect.setVisibility(View.VISIBLE);
     }
 
+    public void disconnect() {
+        NeuraManager.getInstance().getClient().forgetMe(this, true, new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                setDisconnected();
+                return true;
+            }
+        });
+    }
 
     AnonymousAuthenticationStateListener silentStateListener = new AnonymousAuthenticationStateListener() {
         @Override
@@ -117,7 +143,7 @@ public class NueraDemoMainActivity extends UIDActivity{
 //                    setUIState(isConnected, setSymbol);
 
                     // Subscribe to neura moments so that you can receive push notifications
-                    subscribeToPushEvents();
+
                     break;
                 case NotAuthenticated:
                 case FailedReceivingAccessToken:
@@ -137,6 +163,7 @@ public class NueraDemoMainActivity extends UIDActivity{
 
     private void setConnected() {
         disconnect.setVisibility(View.VISIBLE);
+        simulate.setVisibility(View.VISIBLE);
         connect.setVisibility(View.GONE);
     }
 
@@ -148,6 +175,7 @@ public class NueraDemoMainActivity extends UIDActivity{
                     // Do something with this information
                     userId = userDetails.getData().getNeuraId();
                     NeuraManager.getInstance().getClient().getUserAccessToken();
+                    subscribeToPushEvents();
                 }
             }
 
@@ -279,16 +307,21 @@ public class NueraDemoMainActivity extends UIDActivity{
     public void subscribeToEvent(final String eventName) {
         final String eventIdentifier = userId + eventName;
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.FCM){
-                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
-                }else if(checkedId == R.id.WebHook){
-                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName,eventIdentifier, SubscriptionMethod.WEBHOOK,"WebHookIdHere",mSubscribeRequest);
-                }
-            }
-        });
+
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if(checkedId == R.id.FCM){
+//                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
+//                }else if(checkedId == R.id.WebHook){
+//                    NeuraManager.getInstance().getClient().subscribeToEvent(eventName,eventIdentifier, SubscriptionMethod.WEBHOOK,"WebHookIdHere",mSubscribeRequest);
+//                }
+//            }
+//        });
+
+        if(radioGroup.getCheckedRadioButtonId() == R.id.FCM){
+            NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
+        }
 
     }
 
