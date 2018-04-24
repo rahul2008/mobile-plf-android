@@ -1,10 +1,7 @@
 package com.philips.platform.appinfra.rest;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -68,8 +65,7 @@ public class PublicKeyManager implements X509TrustManager {
         }
 
 // Hack ahead: BigInteger and toString(). We know a DER encoded Public
-        // Key starts with 0x30 (ASN.1 SEQUENCE and CONSTRUCTED), so there is
-        // no leading 0x00 to drop.
+// Key starts with 0x30 (ASN.1 SEQUENCE and CONSTRUCTED), so there is no leading 0x00 to drop.
         RSAPublicKey pubkey = (RSAPublicKey) chain[0].getPublicKey();
         chain[0].checkValidity();
         String encoded = new BigInteger(1 /* positive */, pubkey.getEncoded())
@@ -79,7 +75,8 @@ public class PublicKeyManager implements X509TrustManager {
         SecureStorageInterface secureStorage = appInfraInterface.getSecureStorage();
         String stored_public_key = secureStorage.fetchValueForKey(SSL_PUBLIC_KEY, getSecureStorageError());
         final boolean expected = encoded.equalsIgnoreCase(stored_public_key);
-        // fail if expected public key is different from the public key that is currently pinned.
+
+// fail if expected public key is different from the public key that is currently pinned.
         if (!expected) {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, SSL_PUBLIC_KEY_MANAGER, SSL_PUBLIC_KEY_LOG_MESSAGE);
             secureStorage.storeValueForKey(SSL_PUBLIC_KEY, encoded, getSecureStorageError());
