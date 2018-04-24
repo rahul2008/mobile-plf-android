@@ -67,7 +67,7 @@ class LoggingConfiguration {
         return (null != loggingProperty.get(LOG_LEVEL_KEY)) ? (String) loggingProperty.get(LOG_LEVEL_KEY) : "All";
     }
 
-    Logger getLoggerBasedOnConfig(final String pComponentId, final HashMap<?, ?> loggingProperty) {
+    Logger getLoggerBasedOnConfig(final HashMap<?, ?> loggingProperty) {
 
         // fetching properties from Configuration
         final String logLevel = getLogLevel(loggingProperty);
@@ -75,12 +75,12 @@ class LoggingConfiguration {
         final Boolean isFileLogEnabled = isFileLogEnabled(loggingProperty);
         final Boolean isComponentLevelLogEnabled = isComponentLevelLogEnabled(loggingProperty);
 
-        mJavaLogger = getLogger(pComponentId); // returns new or existing log for the provided component id
+        mJavaLogger = getLogger(mComponentID); // returns new or existing log for the provided component id
         if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
             activateLogger(); // activating created logger
-            if (isComponentLevelLogEnabled && !TextUtils.isEmpty(pComponentId)) {
+            if (isComponentLevelLogEnabled && !TextUtils.isEmpty(mComponentID)) {
                 final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);
-                if (ComponentToBeLoggedList.contains(pComponentId)) {
+                if (ComponentToBeLoggedList.contains(mComponentID)) {
                     // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
                     getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                     enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
@@ -116,7 +116,7 @@ class LoggingConfiguration {
         return componentToBeLoggedList;
     }
 
-    HashMap<?, ?> getLoggingProperties(final AppInfra mAppInfra) {
+    HashMap<?, ?> getLoggingProperties() {
         if (null == mLoggingProperties) {
             final String AppInfraLoggingPropertyKey;
             final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
@@ -287,7 +287,7 @@ class LoggingConfiguration {
         try {
             File directoryCreated = createInternalDirectory();
             final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
-            final HashMap<?, ?> loggingProperty = getLoggingProperties(mAppInfra);
+            final HashMap<?, ?> loggingProperty = getLoggingProperties();
             if (null == loggingProperty) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
                 return getFileHandlerFromLoggingProperties();

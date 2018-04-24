@@ -130,7 +130,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             HashMap<String, Object> loggingProperty = new HashMap<>();
             loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
             String logLevel = releaseConfig.getString("logLevel");
-            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
+            loggingConfiguration.getLoggerBasedOnConfig(loggingProperty);
             verify(logManager).addLogger(logger);
         } catch (JSONException e) {
             Log.e(getClass()+"","JsonException in component level logging");
@@ -184,7 +184,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             loggingProperty.put("consoleLogEnabled",true);
             loggingProperty.put("componentLevelLogEnabled",true);
 
-            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
+            loggingConfiguration.getLoggerBasedOnConfig(loggingProperty);
             verify(consoleHandler).setFormatter(logFormatter);
             verify(logger).addHandler(consoleHandler);
             verify(consoleHandler).setLevel(Level.FINE);
@@ -236,7 +236,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             loggingProperty.put("logLevel",logLevel);
             loggingProperty.put("fileLogEnabled",true);
             loggingProperty.put("componentLevelLogEnabled",true);
-            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
+            loggingConfiguration.getLoggerBasedOnConfig(loggingProperty);
             verify(fileHandler).setFormatter(logFormatter);
             verify(logger).addHandler(fileHandler);
             verify(fileHandler).setLevel(Level.FINE);
