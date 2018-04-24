@@ -405,7 +405,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateLastNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString(), false)) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString().trim(), false)) {
             setInLineErrorMessageLastName();
             setInLineErrorVisibilityLN(true);
         } else {
@@ -414,7 +414,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateFirstNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString(), true)) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString().trim(), true)) {
             setInLineErrorMessageFirstName();
             setInLineErrorVisibilityFN(true);
         } else {
