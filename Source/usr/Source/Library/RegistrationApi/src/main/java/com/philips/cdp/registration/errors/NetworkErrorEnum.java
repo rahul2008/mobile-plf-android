@@ -8,30 +8,24 @@ import com.philips.cdp.registration.R;
 
 public enum NetworkErrorEnum {
 
-    HSDP_NOT_WORKING(100,R.string.google_client_id);
+    NETWORK_ERROR(ErrorCodes.NETWORK_ERROR, R.string.reg_network_error),
+    NO_NETWORK(ErrorCodes.NO_NETWORK, R.string.reg_no_network_connection);
 
-    private static final int STRING_ID_NOT_FOUND = -1;
     int errorCode;
     int stringId;
 
-    private int getStringId() {
-        return stringId;
-    }
-
-    NetworkErrorEnum(int errorCode, int stringId){
+    NetworkErrorEnum(int errorCode, int stringId) {
         this.errorCode = errorCode;
         this.stringId = stringId;
     }
 
-    public static int getStringId(int errorCode){
+    public static int getStringId(int errorCode) {
 
-        for (NetworkErrorEnum hSDPErrorEnum : NetworkErrorEnum.values()){
-
-            if(errorCode == hSDPErrorEnum.errorCode){
-                return hSDPErrorEnum.getStringId();
-            }
+        if (errorCode == ErrorCodes.NO_NETWORK) {
+            return NetworkErrorEnum.NO_NETWORK.stringId;
+        } else {
+            return NetworkErrorEnum.NETWORK_ERROR.stringId;
         }
-        return STRING_ID_NOT_FOUND;
     }
 
 

@@ -104,11 +104,12 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
                         AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
-                mobileVerifyCodeContract.showSMSSpecifedError(jsonObject.getString("errorCode"));
+                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
+                final String errorCode = jsonObject.getString("errorCode");
+                mobileVerifyCodeContract.showSMSSpecifedError(Integer.parseInt(errorCode));
             }
         } catch (JSONException e) {
-            RLog.d(TAG, " handleResendSMSRespone is " + e.getMessage());
+            RLog.e(TAG, " handleResendSMSRespone is " + e.getMessage());
         }
 
 

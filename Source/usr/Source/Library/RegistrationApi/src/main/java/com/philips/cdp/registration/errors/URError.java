@@ -20,7 +20,7 @@ public class URError {
 
     public String getLocalizedError(ErrorType errorType, int errorCode) {
         RLog.i(TAG, "ErrorType : " + errorType + " : " + "errorCode : " + errorCode);
-        return context.getString(getStringID(errorType, errorCode));
+        return context.getString(getStringID(errorType, errorCode)) + " #" + errorCode;
     }
 
     private int getStringID(ErrorType errorType, int errorCode) {
@@ -30,7 +30,7 @@ public class URError {
             case URX:
                 return URXErrorEnum.getStringId(errorCode);
             case NETWOK:
-                return NetworkErrorEnum.getStringId(errorCode);
+                return NetworkErrorEnum.getStringId(errorCode); //As for all Network error ,Message will be always same
             case SERVICEDISCOVERY:
                 return ServiceDiscoveryErrorEnum.getStringId(errorCode);
             case UIVALIDATION:

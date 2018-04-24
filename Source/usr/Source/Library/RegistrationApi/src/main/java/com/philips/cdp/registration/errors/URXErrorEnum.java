@@ -9,7 +9,15 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public enum URXErrorEnum {
 
-    HSDP_NOT_WORKING(100,R.string.google_client_id);
+    URX_SMS_INVALID_NUMBER(ErrorCodes.URX_INVALID_PHONENUMBER, R.string.reg_URX_SMS_Invalid_PhoneNumber),
+    URX_SMS__UNAVAILABLE_NUMBER(ErrorCodes.URX_PHONENUMBER_UNAVAILABLE, R.string.reg_URX_SMS_PhoneNumber_UnAvail_ForSMS),
+    URX_SMS_UNSUPPORTED_COUNTRY(ErrorCodes.URX_UNSUPPORTED_COUNTRY, R.string.reg_URX_SMS_UnSupported_Country_ForSMS),
+    URX_SMS_LIMIT_REACHED(ErrorCodes.URX_SMS_LIMIT_REACHED, R.string.reg_URX_SMS_Limit_Reached),
+    URX_SMS_INTERNAL_SERVER_ERROR(ErrorCodes.URX_SMS_INTERNAL_SERVER_ERROR, R.string.reg_URX_SMS_InternalServerError),
+    URX_SMS_NO_INFO(ErrorCodes.URX_NO_INFO_AVAILABLE, R.string.reg_URX_SMS_NoInformation_Available),
+    URX_SMS_NOT_SENT(ErrorCodes.URX_SMS_NOT_SENT, R.string.reg_URX_SMS_Not_Sent),
+    URX_SMS_ALREADY_VERIFIED(ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED, R.string.reg_URX_SMS_Already_Verified),
+    URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.reg_URX_SMS_Failure_case);
 
     int errorCode;
     int stringId;
@@ -18,16 +26,16 @@ public enum URXErrorEnum {
         return stringId;
     }
 
-    URXErrorEnum(int errorCode, int stringId){
+    URXErrorEnum(int errorCode, int stringId) {
         this.errorCode = errorCode;
         this.stringId = stringId;
     }
 
-    public static int getStringId(int errorCode){
+    public static int getStringId(int errorCode) {
 
-        for (URXErrorEnum urxErrorEnum : URXErrorEnum.values()){
+        for (URXErrorEnum urxErrorEnum : URXErrorEnum.values()) {
 
-            if(errorCode == urxErrorEnum.errorCode){
+            if (errorCode == urxErrorEnum.errorCode) {
                 return urxErrorEnum.getStringId();
             }
         }

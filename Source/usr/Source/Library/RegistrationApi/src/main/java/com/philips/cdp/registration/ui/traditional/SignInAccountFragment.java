@@ -174,7 +174,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
-new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1008);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
@@ -404,7 +403,8 @@ new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ER
             enableAll();
         } else {
             RLog.e(TAG, "You are in Offline or Network not available");
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }

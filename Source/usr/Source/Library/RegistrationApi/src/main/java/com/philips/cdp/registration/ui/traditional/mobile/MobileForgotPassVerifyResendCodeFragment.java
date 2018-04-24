@@ -29,6 +29,9 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -39,7 +42,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.cdp.registration.ui.utils.UpdateToken;
@@ -152,7 +154,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         phoneNumberEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            //Do not do anything
+                //Do not do anything
             }
 
             @Override
@@ -168,7 +170,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
             @Override
             public void afterTextChanged(Editable s) {
-            // Do not do anything
+                // Do not do anything
             }
         });
     }
@@ -190,7 +192,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // Do not do anything
+        // Do not do anything
     }
 
     @Override
@@ -256,7 +258,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        showSmsSendFailedError();
+        showSmsSendFailedError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
         enableResendButtonAndHideSpinner();
     }
 
@@ -286,9 +288,9 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     }
 
     @Override
-    public void showSMSSpecifedError(String id) {
-        String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
-        showSmsResendTechincalError(errorMsg);
+    public void showSMSSpecifedError(int errorCode) {
+        // String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
+        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
     }
 
 
@@ -314,7 +316,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         if (networkUtility.isNetworkAvailable()) {
             resendSMSButton.setEnabled(true);
         }
-            hideProgressDialog();
+        hideProgressDialog();
     }
 
     public void updateResendTime(long timeLeft) {
@@ -351,8 +353,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     }
 
     @Override
-    public void showSmsSendFailedError() {
-        errorMessage.setError(getResources().getString(R.string.reg_URX_SMS_InternalServerError));
+    public void showSmsSendFailedError(String localizedError) {
+        errorMessage.setError(localizedError);
         phoneNumberEditText.setText(mobileNumber);
         enableResendButton();
     }
@@ -403,7 +405,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            if(this.isVisible() && popupWindow != null) {
+            if (this.isVisible() && popupWindow != null) {
                 popupWindow.showAtLocation(getActivity().
                         findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);
             }

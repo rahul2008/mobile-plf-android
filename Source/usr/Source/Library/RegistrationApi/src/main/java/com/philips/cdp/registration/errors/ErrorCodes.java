@@ -12,7 +12,9 @@ public class ErrorCodes {
 
     public static final int INPUTS_INVALID_CODE = 390;
 
-    public static final int NETWORK_ERROR = -100;
+    public static final int NETWORK_ERROR = -101;
+
+    public static final int NO_NETWORK = -100;
 
     //URX
 
@@ -188,7 +190,6 @@ public class ErrorCodes {
     public static final int HSDP_INPUT_ERROR_3073 = 3073;
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
-
 
 
 }
