@@ -40,11 +40,12 @@ import java.util.List;
 public class NueraDemoMainActivity extends AppCompatActivity{
     private String userId;
     CheckBoxAdapter adapter;
-    Button connect,disconnect,simulate;
+    Button connect,disconnect,simulate,subscribe;
     RadioGroup radioGroup;
     int counter;
     android.app.FragmentTransaction transaction;
     ProgressBar progressBar;
+    ListView listView;
     List<String> momentsList = Arrays.asList(
             "userStartedWalking",
             "userIsIdleAtHome",
@@ -71,8 +72,10 @@ public class NueraDemoMainActivity extends AppCompatActivity{
         connect = findViewById(R.id.ConnectButton);
         disconnect = findViewById(R.id.DisconnectButton);
         simulate = findViewById(R.id.simulateButton);
+        subscribe = findViewById(R.id.SubscribeButton);
         radioGroup = findViewById(R.id.RadioGroup);
         progressBar = findViewById(R.id.connectLoading);
+        listView = findViewById(R.id.ListView);
         if (NeuraManager.getInstance().getClient().isLoggedIn()) {
             setConnected();
         }
@@ -189,13 +192,14 @@ public class NueraDemoMainActivity extends AppCompatActivity{
 
     private void displayList() {
        adapter = new CheckBoxAdapter(this,R.layout.checkbox_info,momentsList);
-        ListView listView = findViewById(R.id.ListView);
         listView.setAdapter(adapter);
+        listView.setEnabled(false);
 
     }
 
     private class CheckBoxAdapter extends ArrayAdapter<String>{
         private List<String> momentsList;
+
         public CheckBoxAdapter(@NonNull Context context, int resource,List<String> momentsList) {
             super(context, resource, momentsList);
             this.momentsList = new ArrayList<>();
@@ -243,9 +247,9 @@ public class NueraDemoMainActivity extends AppCompatActivity{
                             counter --;
                         }
                         if(counter > 0){
-                            connect.setEnabled(true);
+                            subscribe.setEnabled(true);
                         }else{
-                            connect.setEnabled(false);
+                            subscribe.setEnabled(false);
                         }
                     }
                 });
@@ -323,7 +327,7 @@ public class NueraDemoMainActivity extends AppCompatActivity{
 
         if(radioGroup.getCheckedRadioButtonId() == R.id.FCM){
             NeuraManager.getInstance().getClient().subscribeToEvent(eventName, eventIdentifier, mSubscribeRequest);
-        } 
+        }
 
     }
 
@@ -332,6 +336,7 @@ public class NueraDemoMainActivity extends AppCompatActivity{
         public void onSuccess(final String eventName, Bundle resultData, String identifier) {
             //loadProgress(false);
             Toast.makeText(getApplicationContext(),"Successfully subscribed to event: " + eventName,Toast.LENGTH_SHORT).show();
+            simulate.setEnabled(true);
         }
 
         @Override

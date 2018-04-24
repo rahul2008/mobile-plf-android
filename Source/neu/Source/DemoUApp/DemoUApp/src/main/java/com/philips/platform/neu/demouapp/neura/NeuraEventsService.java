@@ -19,7 +19,7 @@ import com.philips.platform.neu.demouapp.R;
 import java.util.Map;
 
 public class NeuraEventsService extends FirebaseMessagingService {
-    String CHANNEL_ID = "my_channel_01";
+    String CHANNEL_ID = "my_channel_02";
     @Override
     public void onMessageReceived(RemoteMessage message) {
         final Map data = message.getData();

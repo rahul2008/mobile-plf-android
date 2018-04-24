@@ -44,13 +44,21 @@
         android:text="@string/disconnect"
         />
     <Button
+        android:id="@+id/SubscribeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/DisconnectButton"
+        android:enabled="false"
+        android:text="@string/subscribe"/>
+    <Button
         android:id="@+id/simulateButton"
+        android:enabled="false"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/DisconnectButton"
-        android:text="Simulate"/>
+        android:layout_below="@+id/SubscribeButton"
+        android:text="@string/simulate"/>
 
     <ProgressBar
         android:id="@+id/connectLoading"

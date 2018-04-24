@@ -84,9 +84,9 @@ public class NeuraConsentManagerPresenterTest {
     @Test
     public void testOnEvent() {
 
-        neuraConsentManagerPresenter.onEvent(R.id.rap_justInTimeView_consentOk_button);
+        neuraConsentManagerPresenter.onEvent(R.id.csw_justInTimeView_consentOk_button);
         verify(neuraConsentProviderMock).storeConsentTypeState(true, postConsentTypeCallback);
-        neuraConsentManagerPresenter.onEvent(R.id.rap_justInTimeView_consentLater_label);
+        neuraConsentManagerPresenter.onEvent(R.id.csw_justInTimeView_consentLater_label);
         verify(neuraConsentProviderMock).storeConsentTypeState(false, postConsentTypeCallback);
         verify(homeFragmentState).navigate(fragmentLauncher);
 
@@ -95,8 +95,8 @@ public class NeuraConsentManagerPresenterTest {
     @Test
     public void testGetUiStateData() {
         assertNull(neuraConsentManagerPresenter.getUiStateData(123));
-        assertNotNull(neuraConsentManagerPresenter.getUiStateData(R.id.philipsPrivacy));
-        assertTrue(neuraConsentManagerPresenter.getUiStateData(R.id.philipsPrivacy) instanceof WebViewStateData);
+        assertNotNull(neuraConsentManagerPresenter.getUiStateData(R.id.csw_justInTimeView_privacyNeura_label));
+        assertTrue(neuraConsentManagerPresenter.getUiStateData(R.id.csw_justInTimeView_privacyNeura_label) instanceof WebViewStateData);
     }
 
 
