@@ -5,6 +5,7 @@
 
     <ListView
         android:id="@+id/ListView"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <RadioGroup
@@ -31,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/RadioGroup"
-        android:enabled="false"
         android:text="@string/connect"
         android:visibility="visible"
         />
@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DisconnectButton"
         android:enabled="false"
+        android:visibility="gone"
         android:text="@string/subscribe"/>
     <Button
         android:id="@+id/simulateButton"
@@ -62,8 +63,9 @@
 
     <ProgressBar
         android:id="@+id/connectLoading"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
