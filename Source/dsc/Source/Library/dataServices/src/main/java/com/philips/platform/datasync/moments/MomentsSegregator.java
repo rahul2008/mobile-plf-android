@@ -172,11 +172,7 @@ public class MomentsSegregator {
     }
 
     private boolean hasNoExpirationDate(Moment momentInDatabase) {
-        if (momentInDatabase.getExpirationDate() == null) {
-            return true;
-        }
-
-        return false;
+        return momentInDatabase.getExpirationDate() == null;
     }
 
     private boolean isMomentDeletedFromBackend(final SynchronisationData synchronisationData) {

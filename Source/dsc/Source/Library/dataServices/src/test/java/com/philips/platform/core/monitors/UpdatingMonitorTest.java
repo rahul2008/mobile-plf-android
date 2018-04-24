@@ -1,6 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
@@ -38,11 +39,13 @@ import org.mockito.Mock;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -63,7 +66,13 @@ public class UpdatingMonitorTest {
     @Mock
     private MomentUpdateRequest momentUpdateRequestmock;
     @Mock
-    private DBRequestListener dbRequestListener;
+    private DBRequestListener<Moment> dbRequestListener;
+    @Mock
+    private DBRequestListener<Insight> insightDBRequestListener;
+    @Mock
+    private DBRequestListener<ConsentDetail> consentDetailDBRequestListener;
+    @Mock
+    private DBRequestListener<Characteristics> characteristicsDBRequestListener;
     @Mock
     private Moment momentMock;
     @Mock
@@ -88,12 +97,11 @@ public class UpdatingMonitorTest {
     private AppComponent appComponentMock;
 
     private UpdatingMonitor updatingMonitor;
-    private DataServicesManager mDataServices;
 
     @Before
     public void setUp() {
         initMocks(this);
-        mDataServices = DataServicesManager.getInstance();
+        DataServicesManager mDataServices = DataServicesManager.getInstance();
         mDataServices.setAppComponent(appComponentMock);
         mDataServices.registerDBChangeListener(dbChangeListener);
 
@@ -114,7 +122,7 @@ public class UpdatingMonitorTest {
     }
 
     @Test
-    public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
+    public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         updatingMonitor.onEventBackGround(databaseSettingsUpdateRequestMock);
     }
@@ -144,43 +152,52 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Collections.singletonList(moment1), null);
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener));
+
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(eq(Collections.singletonList(moment1)), (DBRequestListener<Moment>) isNotNull());
     }
 
     @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassedWithNull() throws Exception {
-        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(null, dbChangeListener));
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassedWithNull() {
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(new ArrayList<Moment>(), dbRequestListener));
         verifyNoMoreInteractions(momentsSegregatorMock);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestFailedWithException() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
-        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Collections.singletonList(moment1), null);
+
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener));
+
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(eq(Collections.singletonList(moment1)), (DBRequestListener<Moment>) isNotNull());
     }
 
 
     @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1), null);
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+
+        updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener));
+
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processCreatedMoment(eq(Collections.singletonList(moment1)), (DBRequestListener<Moment>) isNotNull());
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponsePassed() throws Exception {
-        updatingMonitor.onEventBackGround(new ConsentBackendSaveResponse(null, 500, dbRequestListener));
+        updatingMonitor.onEventBackGround(new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener));
         verify(dbFetchingInterface).isSynced(SyncType.CONSENT.getId());
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponsePassedAndIsSyncTypeIsConsent() throws Exception {
         when(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())).thenReturn(true);
-        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, dbRequestListener);
+        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener);
         updatingMonitor.onEventBackGround(consentBackendSaveResponse);
         verify(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
     }
@@ -188,15 +205,15 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponseFailed() throws Exception {
         when(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())).thenReturn(true);
-        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, dbRequestListener);
+        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
         updatingMonitor.onEventBackGround(consentBackendSaveResponse);
         verify(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
     }
 
     @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassedWithNullMoments() throws Exception {
-        updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(null, dbChangeListener));
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassedWithNullMoments() {
+        updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(new ArrayList<Moment>(), dbRequestListener));
         verifyNoMoreInteractions(momentsSegregatorMock);
     }
 
@@ -207,6 +224,7 @@ public class UpdatingMonitorTest {
         verify(dbUpdatingInterface).updateMoment(momentMock, dbRequestListener);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenMomentsUpdateRequestIsCalled() throws Exception {
         List list = new ArrayList();
@@ -215,6 +233,7 @@ public class UpdatingMonitorTest {
         verify(dbUpdatingInterface).updateMoments(list, null);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateMoments() throws Exception {
         List list = new ArrayList();
@@ -224,6 +243,7 @@ public class UpdatingMonitorTest {
         verify(dbUpdatingInterface).updateMoments(list, dbRequestListener);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void test_DatabaseConsentUpdateRequest() throws Exception {
         List list = new ArrayList();
@@ -233,19 +253,20 @@ public class UpdatingMonitorTest {
         verify(dbUpdatingInterface).updateConsent(list, null);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateConsent() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list, dbRequestListener);
-        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, dbRequestListener));
-        verify(dbUpdatingInterface).updateConsent(list, dbRequestListener);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list, consentDetailDBRequestListener);
+        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, consentDetailDBRequestListener));
+        verify(dbUpdatingInterface).updateConsent(list, consentDetailDBRequestListener);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenUCDBUpdateFromBackendRequestPassed() throws Exception {
         when(userCharacteristicsSegregator.isUCSynced()).thenReturn(true);
-        final UCDBUpdateFromBackendRequest consentBackendSaveResponse = new UCDBUpdateFromBackendRequest(null, dbRequestListener);
+        final UCDBUpdateFromBackendRequest consentBackendSaveResponse = new UCDBUpdateFromBackendRequest(null, characteristicsDBRequestListener);
         // doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
         updatingMonitor.onEventBackGround(consentBackendSaveResponse);
         verify(dbUpdatingInterface).updateCharacteristics(consentBackendSaveResponse.getUserCharacteristics(), null);
@@ -254,7 +275,7 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenUCDBUpdateFromBackendRequestFailedWithException() throws Exception {
         when(userCharacteristicsSegregator.isUCSynced()).thenReturn(true);
-        final UCDBUpdateFromBackendRequest consentBackendSaveResponse = new UCDBUpdateFromBackendRequest(null, dbRequestListener);
+        final UCDBUpdateFromBackendRequest consentBackendSaveResponse = new UCDBUpdateFromBackendRequest(null, characteristicsDBRequestListener);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateCharacteristics(consentBackendSaveResponse.getUserCharacteristics(), null);
         updatingMonitor.onEventBackGround(consentBackendSaveResponse);
         verify(dbUpdatingInterface).updateCharacteristics(consentBackendSaveResponse.getUserCharacteristics(), null);
@@ -307,9 +328,9 @@ public class UpdatingMonitorTest {
     public void shouldUpdateSettings_whenprocessInsightsFailsWithException() throws Exception {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
-        doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights, dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
+        doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights, insightDBRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, insightDBRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, insightDBRequestListener);
     }
 
     @Test
@@ -317,8 +338,8 @@ public class UpdatingMonitorTest {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
         // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, insightDBRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, insightDBRequestListener);
     }
 
     @Test
@@ -327,36 +348,97 @@ public class UpdatingMonitorTest {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
         // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, insightDBRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, insightDBRequestListener);
     }
 
+    // MomentDataSenderCreatedRequest
     @Test
     public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
         Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbChangeListener);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
 
-        verify(dbChangeListener, never()).dBChangeSuccess((SyncType) any());
+        //noinspection unchecked
+        verify(dbRequestListener, never()).onSuccess((List<? extends Moment>) any());
     }
+
 
     @Test
     public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldCallMomentSegregator() {
         Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
-        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbChangeListener);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
 
+        //noinspection unchecked
         verify(momentsSegregatorMock).processCreatedMoment((List<Moment>)any(), (DBRequestListener<Moment>) any());
     }
 
     @Test
-    public void givenMonitorSetup_andSendingZeroMoments_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
-        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(new ArrayList<OrmMoment>(), dbChangeListener);
+    public void givenMonitorSetup_andNoListener_whenPostMomentDataSenderCreatedRequest_thenShouldCallMomentSegregator() {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), null);
 
         updatingMonitor.onEventBackGround(event);
 
-        verify(dbChangeListener, never()).dBChangeSuccess((SyncType) any());
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processCreatedMoment((List<Moment>)any(), (DBRequestListener<Moment>) isNull());
+    }
+
+    @Test
+    public void givenMonitorSetup_andSendingZeroMoments_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(new ArrayList<OrmMoment>(), dbRequestListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        //noinspection unchecked
+        verify(dbRequestListener, never()).onSuccess((List<? extends Moment>) any());
+    }
+
+    // BackendMomentListSaveRequest
+    @Test
+    public void givenMonitorSetup_whenPostBackendMomentListSaveRequest_thenShouldNotCallback() {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        //noinspection unchecked
+        verify(dbRequestListener, never()).onSuccess((List<? extends Moment>) any());
+    }
+
+
+    @Test
+    public void givenMonitorSetup_whenPostBackendMomentListSaveRequest_thenShouldCallMomentSegregator() throws SQLException {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend((List<Moment>) any(), (DBRequestListener<Moment>) any());
+    }
+
+    @Test
+    public void givenMonitorSetup_andNoListener_whenPostBackendMomentListSaveRequest_thenShouldCallMomentSegregator() throws SQLException {
+        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), null);
+
+        updatingMonitor.onEventBackGround(event);
+
+        //noinspection unchecked
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend((List<Moment>) any(), (DBRequestListener<Moment>) any());
+    }
+
+    @Test
+    public void givenMonitorSetup_andSendingZeroMoments_whenPostBackendMomentListSaveRequest_thenShouldNotCallback() {
+        BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(new ArrayList<Moment>(), dbRequestListener);
+
+        updatingMonitor.onEventBackGround(event);
+
+        //noinspection unchecked
+        verify(dbRequestListener, never()).onSuccess((List<Moment>) any());
     }
 }
