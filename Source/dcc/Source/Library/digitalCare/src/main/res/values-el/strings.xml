@@ -176,5 +176,10 @@
     <string name="dcc_Help_Support">Βοήθεια και υποστήριξη</string>
     <string name="dcc_Call">Κλήση</string>
     <string name="dcc_Opening_Hours">Ώρες λειτουργίας</string>
+    <string name="dcc_location_consent_accept">ΟΚ</string>
+    <string name="dcc_location_consent_reject">Ακύρωση</string>
+    <string name="dcc_location_consent_title">Συναίνεση για την τοποθεσία</string>
+    <string name="dcc_location_consent_definition_text">Επιτρέπω στη Philips να έχει πρόσβαση στα δεδομένα τοποθεσίας για τη λειτουργία \"Εύρεση καταστήματος Philips\".</string>
+    <string name="dcc_location_consent_definition_help_text">Όταν επιτρέπετε την πρόσβαση στα δεδομένα τοποθεσίας, μπορούμε να λαμβάνουμε τη γεωγραφική σας θέση από την κινητή σας συσκευή.\n\nΌταν χρησιμοποιείτε τη λειτουργία \"Εύρεση καταστήματος Philips\" στη σελίδα υποστήριξης, σας ζητείται να κοινοποιήσετε τα δεδομένα τοποθεσίας σας στη Philips. Αν χρησιμοποιείτε τις δικές μας λειτουργίες τοποθεσίας, ανάλογα με τα δεδομένα τοποθεσίας, θα κατευθυνθείτε στο πλησιέστερο κατάστημα ή στις λεπτομέρειες επικοινωνίας για την εξυπηρέτηση καταναλωτών στη χώρα σας.</string>
 
 </resources>

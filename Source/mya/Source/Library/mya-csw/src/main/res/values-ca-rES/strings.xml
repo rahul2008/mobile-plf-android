@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">|[zh-TW]Visit our website|</string>
   <string name="csw_consent_help_label">|Qu\'est-ce que cela signifie ?|</string>
   <string name="csw_invalid_access_token_error_message">|Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.|</string>
   <string name="csw_offline_message">|Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.|</string>
   <string name="csw_offline_title">|Ön nem kapcsolódik az internethez|</string>
-  <string name="csw_ok">|[zh-TW]OK|</string>
+  <string name="csw_ok">|V REDU|</string>
   <string name="csw_privacy_notice">|[zh-TW]Privacy Notice|</string>
-  <string name="csw_privacy_notice_message">|[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.|</string>
+  <string name="csw_privacy_notice_message">|Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte notificarea de confidenţialitate.|</string>
   <string name="csw_privacy_settings">|Настройки конфиденциальности|</string>
-  <string name="csw_privacy_settings_desc">|[zh-TW]Control Your Privacy. Read the {privacy notice} for more information.|</string>
+  <string name="csw_privacy_settings_desc">|Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte notificarea de confidenţialitate.|</string>
   <string name="csw_problem_occurred_error_message">|Es ist ein Problem (error %1$d) aufgetreten. Versuchen Sie es erneut.|</string>
   <string name="csw_problem_occurred_error_title">|Es ist ein Problem aufgetreten|</string>
   <string name="mya_Account_settings">|Настройки учетной записи|</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">|Налаштування|</string>
   <string name="mya_change_country">|Deconectează-te pentru a schimba ţara|</string>
   <string name="mya_change_country_message">|Выполните выход, чтобы изменить страну проживания. Эта информация необходима для адаптации условий гарантии и других сведений в зависимости от вашего региона.|</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">|[zh-TW]Cancel|</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">|[zh-TW]OK|</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">|Скасувати|</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">|V REDU|</string>
   <string name="mya_csw_consent_revoked_confirm_descr">|[zh-TW]By revoking consent your data will be deleted from our servers.|</string>
   <string name="mya_csw_consent_revoked_confirm_title">|[zh-TW]Are you sure?|</string>
   <string name="mya_csw_justintime_accept">|[zh-TW]OK, count me in|</string>

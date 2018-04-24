@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Hjelp og støtte</string>
     <string name="dcc_Call">Ring</string>
     <string name="dcc_Opening_Hours">Åpningstider</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Avbryt</string>
+    <string name="dcc_location_consent_title">Samtykke for bruk av stedsfunksjon</string>
+    <string name="dcc_location_consent_definition_text">Jeg gir Philips tilgang til stedsopplysningene mine for å bruke funksjonen Finn en Philips-butikk i nærheten.</string>
+    <string name="dcc_location_consent_definition_help_text">Når du gir oss tilgang til stedsopplysningene dine, kan vi hente inn opplysninger om den geografiske posisjonen til mobilenheten din.\n\nNår du bruker funksjonen Finn en Philips-butikk i nærheten på siden for forbrukerstøtte, blir du bedt om å dele opplysninger om posisjonen din med Philips. Hvis du bruker stedsfunksjonen vår, får du basert på disse opplysningene veibeskrivelsen til nærmeste butikk eller kontaktinformasjon om forbrukerstøtten i landet ditt.</string>
 
 </resources>

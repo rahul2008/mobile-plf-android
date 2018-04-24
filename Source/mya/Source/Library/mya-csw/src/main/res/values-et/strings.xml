@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[et]Visit our website</string>
   <string name="csw_consent_help_label">Mida see tähendab?</string>
   <string name="csw_invalid_access_token_error_message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="csw_offline_message">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
   <string name="csw_offline_title">Olete võrgust väljas</string>
-  <string name="csw_ok">[et]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[et]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Kontrollige privaatsusseadeid. Lisateabe saamiseks lugege {privaatsusavaldust}.</string>
   <string name="csw_privacy_settings">Privaatsussätted</string>
-  <string name="csw_privacy_settings_desc">[et]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Kontrollige privaatsusseadeid. Lisateabe saamiseks lugege {privaatsusavaldust}.</string>
   <string name="csw_problem_occurred_error_message">Esines probleem (viga %1$d). Palun proovige uuesti.</string>
   <string name="csw_problem_occurred_error_title">Esines probleem</string>
   <string name="mya_Account_settings">Konto seaded</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">Seadistused</string>
   <string name="mya_change_country">Riigi muutmiseks logige välja</string>
   <string name="mya_change_country_message">Elukohariigi muutmiseks logige välja. See võimaldab meil garantiitingimusi ja muud teavet olenevalt teie asukohast kohandada.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[et]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[et]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Tühista</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[et]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[et]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[et]OK, count me in</string>

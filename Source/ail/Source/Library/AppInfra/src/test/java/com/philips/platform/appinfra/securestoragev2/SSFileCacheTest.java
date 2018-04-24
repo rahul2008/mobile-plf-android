@@ -60,19 +60,6 @@ public class SSFileCacheTest {
         assertEquals("value",ssFileCache.getEncryptedString("key"));
     }
 
-    @Test
-    public void testDeleteKey_Should_Return_True(){
-        when(sharedPreferences.contains(anyString())).thenReturn(true);
-        when(editor.commit()).thenReturn(true);
-        assertTrue(ssFileCache.deleteKey("key"));
-    }
-
-    @Test
-    public void testDeleteKey_Should_throw_exception(){
-        when(sharedPreferences.contains(anyString())).thenReturn(true);
-        when(editor.commit()).thenThrow(new IllegalArgumentException());
-        assertFalse(ssFileCache.deleteKey("key"));
-    }
 
     @Test
     public void testDeleteEncryptedData_Should_return_false(){
@@ -95,12 +82,6 @@ public class SSFileCacheTest {
         assertFalse(ssFileCache.deleteEncryptedData("key"));
     }
 
-    @Test
-    public void testDeleteKey_Should_return_false(){
-        when(sharedPreferences.contains(anyString())).thenReturn(false);
-        when(editor.commit()).thenReturn(true);
-        assertFalse(ssFileCache.deleteKey("key"));
-    }
     static class SSFileCacheMock extends SSFileCache{
 
         public SSFileCacheMock(AppInfra appInfra) {

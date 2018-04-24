@@ -121,5 +121,10 @@ public interface AppUpdateInterface extends Serializable {
 	 */
 	String getMinimumOSverion();
 
-
+	/**
+	 * Minimum OS version message
+	 * @return It will return OS Update Message
+	 * @since 18.2.0
+	 */
+	String getMinimumOSMessage();
 }
