@@ -103,7 +103,7 @@ public class RestManager implements RestInterface {
     private Network getNetwork() {
         HttpStack stack = null;
         try {
-            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
+            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory(mAppInfra));
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
         }
