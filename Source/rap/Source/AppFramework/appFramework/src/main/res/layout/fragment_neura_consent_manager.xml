@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/base_text_neura"
+                android:id="@+id/csw_justInTimeView_consentHeader_label"
                 style="@style/neuraBaseLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,52 +33,52 @@
                  />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/second_text_neura"
+                android:id="@+id/csw_justInTimeView_consentUserBenefitsDescription_label"
                 style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/base_text_neura"
+                android:layout_below="@+id/csw_justInTimeView_consentHeader_label"
                 android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
                 android:text="@string/RA_nuera_philips_tailor_text"
                  />
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/forth_text_neura"
+                android:id="@+id/csw_justInTimeView_consentDescription_label2"
                 style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/second_text_neura"
+                android:layout_below="@id/csw_justInTimeView_consentUserBenefitsDescription_label"
                 android:layout_marginBottom="@dimen/nuera_margin_text_bottom"
                 android:text="@string/RA_nuera_location_info_title"
                 />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/rap_justInTimeView_consentHelplink_button"
+                android:id="@+id/csw_justInTimeView_consentHelplink_button"
                 style="@style/neuraTextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/forth_text_neura"
+                android:layout_below="@+id/csw_justInTimeView_consentDescription_label2"
                 android:layout_marginBottom="@dimen/nuera_margin_image_top"
                 android:text="@string/RA_nuera_what_descp"
                  />
 
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/rap_justInTimeView_consentOk_button"
+                android:id="@+id/csw_justInTimeView_consentOk_button"
                 style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rap_justInTimeView_consentHelplink_button"
+                android:layout_below="@id/csw_justInTimeView_consentHelplink_button"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:text="@string/RA_Neura_Allow_Button" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/rap_justInTimeView_consentLater_label"
+                android:id="@+id/csw_justInTimeView_consentLater_label"
                 style="@style/neuraTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rap_justInTimeView_consentOk_button"
+                android:layout_below="@id/csw_justInTimeView_consentOk_button"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_marginTop="@dimen/nuera_margin_between_buttons"
                 android:background="@color/transparent"
@@ -89,7 +89,7 @@
                 android:id="@+id/RA_neura_link_holder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rap_justInTimeView_consentLater_label"
+                android:layout_below="@+id/csw_justInTimeView_consentLater_label"
                 android:gravity="center_horizontal">
 
                 <ImageView
@@ -111,7 +111,7 @@
                     android:orientation="horizontal">
 
                     <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/RA_neura_privacy_notice_label"
+                        android:id="@+id/csw_justInTimeView_privacyNeura_label"
                         style="@style/neuraTextLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                         />
 
                     <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/philipsPrivacy"
+                        android:id="@+id/csw_justInTimeView_privacyPhilips_label"
                         style="@style/neuraTextLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
