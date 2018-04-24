@@ -38,7 +38,9 @@ public class AppInfraLogging implements LoggingInterface {
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
         mComponentID = componentId;
         mComponentVersion = componentVersion;
-        return new LoggingWrapper(mAppInfra, mComponentID, mComponentVersion);
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+        appInfraLogging.createLogger(mComponentID, mComponentVersion);
+        return appInfraLogging;
     }
 
 
@@ -117,7 +119,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     void createLogger(String pComponentId, String pComponentVersion) {
         final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, pComponentId, pComponentVersion);
-        final HashMap<?, ?> loggingProperty = loggingConfiguration.getLoggingProperties(mAppInfra);
+        final HashMap<?, ?> loggingProperty = loggingConfiguration.getLoggingProperties();
         if (null != loggingProperty) {
             mJavaLogger = loggingConfiguration.getLoggerBasedOnConfig(pComponentId, loggingProperty);
             getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
