@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -101,7 +102,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
-    private LinearLayout mParentLayout;
+    private RelativeLayout mParentLayout;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -749,6 +750,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
 
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+            hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
             ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.deleteProduct(shoppingCartData);
