@@ -26,6 +26,7 @@ public interface LoggingInterface extends Serializable {
      * @return the logging interface
      * @since 1.0.0
      */
+    @Deprecated
     LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     /**
