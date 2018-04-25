@@ -81,8 +81,11 @@ public class Utility {
     }
 
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
+        String addressLine1ReplacingNullValue = null;
         if (!TextUtils.isEmpty(code)) {
-            String addressLine1ReplacingNullValue = code.replaceAll("null", " ");
+            if (code != null) {
+                addressLine1ReplacingNullValue = code.replaceAll("null", " ");
+            }
             sb.append(addressLine1ReplacingNullValue).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
         }
     }
