@@ -152,6 +152,7 @@ android {
     }
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation'
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
