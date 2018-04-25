@@ -124,7 +124,7 @@
   <string name="RA_Neura_Allow_Button">[th]Allow</string>
   <string name="RA_Neura_Consent_HyperLink">[th]What does this mean?</string>
   <string name="RA_Neura_Detail_Header">[th]What does this mean?</string>
-  <string name="RA_Neura_Detail_Paragraph">[th]Base app asks for the location and fitness permissions so it can better understand your unique lifestyle.Base app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them</string>
+  <string name="RA_Neura_Detail_Paragraph">[th]Reference app asks for the location and fitness permissions so it can better understand your unique lifestyle.Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them</string>
   <string name="RA_Neura_MayBeLater_Button">[th]Maybe later</string>
   <string name="RA_Neura_Navigation_Title">[th]Allow Sharing</string>
   <string name="RA_Neura_Philips_Privacy">[th]privacy Philips</string>
@@ -191,7 +191,7 @@
   <string name="RA_You_are_not_LoggedIn">คุณยังไม่ได้ล็อกอิน โปรดไปที่การตั้งค่าแล้วล็อกอิน</string>
   <string name="RA_change_config_desc">[th]Configuration can only be changed at launch time. You need to relaunch the app to change it.</string>
   <string name="RA_loading_articles">[th]Loading Article</string>
-  <string name="RA_neura_header_title">[th]Base app, Made for You</string>
+  <string name="RA_neura_header_title">[th]Reference app, Made for You</string>
   <string name="RA_nuera_location_info_title">[th]To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
   <string name="RA_nuera_philips_tailor_text">[th]&lt;html&gt;Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling &lt;&lt;b&gt;b&lt;/b&gt;&gt;location&lt;/&lt;b&gt;b&lt;/b&gt;&gt;.&lt;/html&gt;</string>
   <string name="RA_nuera_policy">[th]&lt;html&gt;&lt;&lt;b&gt;u&lt;/b&gt;&gt;privacy Neura&lt;/&lt;b&gt;u&lt;/b&gt;&gt;&lt;/html&gt;</string>
