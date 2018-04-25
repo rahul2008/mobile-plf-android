@@ -208,7 +208,10 @@ dependencies {
     androidTestCompile deps.support.annotations
     androidTestCompile deps.android_testrunner
     androidTestCompile deps.android_testrules
-    androidTestCompile deps.espresso_core
+    androidTestCompile deps.espresso_core,{
+        exclude  group: 'com.android.support', module: 'support-annotations'
+        exclude  group: 'com.android.support', module: 'support-core-utils'
+    }
     androidTestCompile deps.uiautomator
     compile fileTree(dir: 'libs', include: ['*.jar'])
     debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')

@@ -103,6 +103,11 @@ dependencies {
     compile deps.support.design
     compile deps.support.supportv4
     compile deps.support.annotations
+    compile deps.room_runtime,{
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
+    annotationProcessor deps.room_compiler
 
     testCompile deps.robolectric
     testCompile deps.assertj

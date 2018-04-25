@@ -18,7 +18,7 @@ public class CloudLogConfigHandler {
         if(isCloudLogEnabled){
             CloudLogHandler cloudLogHandler=getCurrentLogCloudLogHandler(logger);
             if(cloudLogHandler==null){
-                cloudLogHandler=new CloudLogHandler();
+                cloudLogHandler=new CloudLogHandler(loggingConfiguration.getAppInfra().getAppInfraContext());
                 if (null != logger.getLevel()) {
                     cloudLogHandler.setLevel(logger.getLevel());
                 } else {

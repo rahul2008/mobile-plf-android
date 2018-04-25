@@ -336,7 +336,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
 
     private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
         if(mAppInfra !=null && mAppInfra.getAppInfraLogInstance()!=null) {
-            log(logLevel,eventId,message);
+            mAppInfra.getAppInfraLogInstance().log(logLevel,eventId,message);
         }
     }
 
