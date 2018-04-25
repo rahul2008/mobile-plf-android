@@ -47,6 +47,8 @@
       "logLevel":"Off",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
         "DemoAppInfra",
@@ -60,11 +62,14 @@
       "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
         "DemoAppInfra",
         "PhilipsRegistration","component1"
       ]
+
     }
 
   }

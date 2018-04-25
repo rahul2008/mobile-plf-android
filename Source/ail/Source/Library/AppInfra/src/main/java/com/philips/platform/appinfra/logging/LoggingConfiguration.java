@@ -23,6 +23,7 @@ class LoggingConfiguration {
     private static final String COMPONENT_IDS_KEY = "componentIds";
     final String LOG_LEVEL_KEY = "logLevel";
     final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
+    final String CLOUD_LOG_ENABLED_KEY = "cloudLogEnabled";
     final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private HashMap<?, ?> mLoggingProperties;
@@ -116,4 +117,7 @@ class LoggingConfiguration {
         return mLoggingProperties;
     }
 
+    public boolean isCloudLogEnabled() {
+        return (null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
+    }
 }

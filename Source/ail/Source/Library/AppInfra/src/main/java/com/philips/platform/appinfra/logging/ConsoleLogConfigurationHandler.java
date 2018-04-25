@@ -29,6 +29,8 @@ public class ConsoleLogConfigurationHandler {
                 consoleHandler.setFormatter(logFormatter);
                 // mConsoleHandler.setFilter(new LogFilter(null,"ev1"));
                 logger.addHandler(consoleHandler);
+            }else{
+                //TODO:Need to handle this case.
             }
 
         } else { // remove console log if any

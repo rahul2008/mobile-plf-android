@@ -20,6 +20,7 @@ class LoggerFactory {
             javaLogger.setLevel(LoggingUtils.getJavaLoggerLogLevel(loggingConfiguration.getLogLevel()));
             LogFormatter logFormatter = new LogFormatter(loggingConfiguration.getComponentID(), loggingConfiguration.getComponentVersion(), loggingConfiguration.getAppInfra());
             new ConsoleLogConfigurationHandler().handleConsoleLogConfig(logFormatter, loggingConfiguration, javaLogger);
+            new CloudLogConfigHandler().handleCloudLogConfig(logFormatter, loggingConfiguration, javaLogger);
             try {
                 new FileLogConfigurationHandler(appInfra).handleFileLogConfig(logFormatter, loggingConfiguration, javaLogger);
             } catch (IOException e) {
