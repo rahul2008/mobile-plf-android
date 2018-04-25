@@ -1,7 +1,8 @@
-package com.philips.platform.appinfra.consentmanager;
+package com.philips.platform.mya.catk;
 
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 
 /**
  * This interface is for getting and storing consents from cache.
@@ -16,18 +17,29 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 public interface ConsentCacheInterface {
     /**
      * Store status of consentDefinition in cache
-     * @param consentDefinition consentDefinition whos status must be cached
-     * @param status            status of the consentDefinition as evaluated by consentManager
-     * @param callback          callback when request is pro .
+     *
+     * @param consentType consent type whos status must be cached
+     * @param callback    callback when request is pro .
      * @since 18.2.0
      */
-    public void storeCachedConsentState(final ConsentDefinition consentDefinition, ConsentDefinitionStatus status, PostConsentCallback callback);
+    void fetchConsentTypeState(final String consentType, final FetchConsentCacheCallback callback);
 
     /**
      * Get status of consent from cache.
-     * @param consentDefinition consentDefinition whos status must be fetched
-     * @param callback callback when consent is fetched successfully
+     *
+     * @param consentType consent type whos status must be fetched
+     * @param callback    callback when consent is fetched successfully
      */
-    public void fetchCachedConsentState(ConsentDefinition consentDefinition, final FetchConsentCallback callback);
+    void storeConsentTypeState(final String consentType, boolean status, int version, PostConsentTypeCallback callback);
+
+
+    public interface FetchConsentCacheCallback {
+        void onGetConsentsSuccess(CachedConsentStatus consentStatus);
+
+        void onGetConsentsFailed(ConsentError error);
+    }
+
 
 }
+
+

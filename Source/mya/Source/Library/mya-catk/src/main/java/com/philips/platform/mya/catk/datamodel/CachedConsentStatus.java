@@ -1,20 +1,20 @@
-package com.philips.platform.pif.chi.datamodel;
+package com.philips.platform.mya.catk.datamodel;
 
-public class ConsentStatus {
-    private ConsentStates consentState;
-    private int version;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-    public ConsentStatus(ConsentStates consentState, int version) {
-        this.consentState = consentState;
-        this.version = version;
+import java.util.Date;
+
+public class CachedConsentStatus extends ConsentStatus {
+    private Date expires;
+
+    public CachedConsentStatus(ConsentStates consentState, int version, Date expires) {
+        super(consentState, version);
+        this.expires = expires;
     }
 
-    public ConsentStates getConsentState() {
-        return consentState;
-    }
 
-    public int getVersion() {
-        return version;
+    public Date getExpires() {
+        return expires;
     }
-
 }

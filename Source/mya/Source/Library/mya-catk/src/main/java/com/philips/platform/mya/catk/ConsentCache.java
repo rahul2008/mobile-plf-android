@@ -1,7 +1,6 @@
-package com.philips.platform.appinfra.consentmanager;
+package com.philips.platform.mya.catk;
 
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 
 /**
  * Consent cache implementation.
@@ -13,12 +12,12 @@ public class ConsentCache implements ConsentCacheInterface {
 
 
     @Override
-    public void storeCachedConsentState(ConsentDefinition consentDefinition, ConsentDefinitionStatus status, PostConsentCallback callback) {
+    public void fetchConsentTypeState(String consentType, FetchConsentCacheCallback callback) {
 
     }
 
     @Override
-    public void fetchCachedConsentState(ConsentDefinition consentDefinition, FetchConsentCallback callback) {
+    public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
 
     }
 }
