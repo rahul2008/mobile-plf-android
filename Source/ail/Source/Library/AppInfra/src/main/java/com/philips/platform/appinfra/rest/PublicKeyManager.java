@@ -9,9 +9,12 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.math.BigInteger;
 import java.security.KeyStore;
+import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -22,7 +25,6 @@ public class PublicKeyManager implements X509TrustManager {
     private AppInfraInterface appInfraInterface;
 
     @VisibleForTesting
-    static final String SSL_PUBLIC_KEY_MANAGER = "PublicKeyManager";
     static final String SSL_PUBLIC_KEY_LOG_MESSAGE = "Current PublicKey not pinned";
 
     public PublicKeyManager(AppInfraInterface appInfraInterface) {
@@ -63,22 +65,23 @@ public class PublicKeyManager implements X509TrustManager {
             throw new CertificateException(e.toString());
         }
 
+        X509Certificate certificate = chain[0];
 // Hack ahead: BigInteger and toString(). We know a DER encoded Public
 // Key starts with 0x30 (ASN.1 SEQUENCE and CONSTRUCTED), so there is no leading 0x00 to drop.
-        RSAPublicKey pubkey = (RSAPublicKey) chain[0].getPublicKey();
-        chain[0].checkValidity();
-        String encoded = new BigInteger(1 /* positive */, pubkey.getEncoded())
+        RSAPublicKey publicKey = (RSAPublicKey) certificate.getPublicKey();
+        String encoded = new BigInteger(1 /* positive */, publicKey.getEncoded())
                 .toString(16);
 
 // Pin it!
         SecureStorageInterface secureStorage = appInfraInterface.getSecureStorage();
-        String stored_public_key = secureStorage.fetchValueForKey(chain[0].getSerialNumber().toString(), getSecureStorageError());
+        String stored_public_key = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString(), getSecureStorageError());
         final boolean expected = encoded.equalsIgnoreCase(stored_public_key);
 
 // fail if expected public key is different from the public key that is currently pinned.
         if (!expected) {
-            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, SSL_PUBLIC_KEY_MANAGER, SSL_PUBLIC_KEY_LOG_MESSAGE);
-            secureStorage.storeValueForKey(chain[0].getSerialNumber().toString(), encoded, getSecureStorageError());
+            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), SSL_PUBLIC_KEY_LOG_MESSAGE);
+            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), getCertificateDetails(certificate));
+            secureStorage.storeValueForKey(certificate.getSerialNumber().toString(), encoded, getSecureStorageError());
         }
     }
 
@@ -91,5 +94,46 @@ public class PublicKeyManager implements X509TrustManager {
     @Override
     public X509Certificate[] getAcceptedIssuers() {
         return new X509Certificate[0];
+    }
+
+    private String getCertificateDetails(X509Certificate c) {
+        StringBuilder si = new StringBuilder();
+        SimpleDateFormat validityDateFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        si.append("\n");
+        si.append(c.getSubjectDN().toString());
+        si.append("\n");
+        si.append(validityDateFormater.format(c.getNotBefore()));
+        si.append(" - ");
+        si.append(validityDateFormater.format(c.getNotAfter()));
+        si.append("\nSHA-256: ");
+        si.append(getHash(c, "SHA-256"));
+        si.append("\nSHA-1: ");
+        si.append(getHash(c, "SHA-1"));
+        si.append("\nSigned by: ");
+        si.append(c.getIssuerDN().toString());
+        si.append("\n");
+        return si.toString();
+    }
+
+    private String getHash(final X509Certificate cert, String digest) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(digest);
+            md.update(cert.getEncoded());
+            return hexString(md.digest());
+        } catch (java.security.cert.CertificateEncodingException e) {
+            return e.getMessage();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            return e.getMessage();
+        }
+    }
+
+    private String hexString(byte[] data) {
+        StringBuilder si = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            si.append(String.format("%02x", data[i]));
+            if (i < data.length - 1)
+                si.append(":");
+        }
+        return si.toString();
     }
 }
