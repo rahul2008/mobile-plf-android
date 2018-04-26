@@ -22,7 +22,6 @@ public class PublicKeyManager implements X509TrustManager {
     private AppInfraInterface appInfraInterface;
 
     @VisibleForTesting
-    static final String SSL_PUBLIC_KEY = "SubjectPublicKeyInfo";
     static final String SSL_PUBLIC_KEY_MANAGER = "PublicKeyManager";
     static final String SSL_PUBLIC_KEY_LOG_MESSAGE = "Current PublicKey not pinned";
 
@@ -73,13 +72,13 @@ public class PublicKeyManager implements X509TrustManager {
 
 // Pin it!
         SecureStorageInterface secureStorage = appInfraInterface.getSecureStorage();
-        String stored_public_key = secureStorage.fetchValueForKey(SSL_PUBLIC_KEY, getSecureStorageError());
+        String stored_public_key = secureStorage.fetchValueForKey(chain[0].getSerialNumber().toString(), getSecureStorageError());
         final boolean expected = encoded.equalsIgnoreCase(stored_public_key);
 
 // fail if expected public key is different from the public key that is currently pinned.
         if (!expected) {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, SSL_PUBLIC_KEY_MANAGER, SSL_PUBLIC_KEY_LOG_MESSAGE);
-            secureStorage.storeValueForKey(SSL_PUBLIC_KEY, encoded, getSecureStorageError());
+            secureStorage.storeValueForKey(chain[0].getSerialNumber().toString(), encoded, getSecureStorageError());
         }
     }
 
