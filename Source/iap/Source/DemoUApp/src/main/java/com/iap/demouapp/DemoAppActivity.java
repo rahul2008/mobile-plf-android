@@ -287,8 +287,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //if (!mIAPSettings.isUseLocalData()) {
 //        mCartIcon.setVisibility(View.VISIBLE);
 //        mCountText.setVisibility(View.VISIBLE);
-        Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart, getTheme());
-        mCartIcon.setBackground(mCartIconDrawable);
+        /*Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart, getTheme());
+        mCartIcon.setBackground(mCartIconDrawable);*/
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
