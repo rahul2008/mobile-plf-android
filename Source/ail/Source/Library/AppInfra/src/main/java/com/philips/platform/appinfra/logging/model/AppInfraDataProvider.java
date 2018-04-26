@@ -11,7 +11,7 @@ public class AppInfraDataProvider {
     public String locale;
     public Date logTime;
     
-    AppInfraDataProvider(AppInfra appInfra){
+    public AppInfraDataProvider(AppInfra appInfra){
         this.appInfra = appInfra;
     }
 
