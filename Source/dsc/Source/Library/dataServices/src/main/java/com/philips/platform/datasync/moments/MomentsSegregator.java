@@ -5,6 +5,8 @@
 */
 package com.philips.platform.datasync.moments;
 
+import android.util.Log;
+
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -26,6 +28,7 @@ import javax.inject.Inject;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsSegregator {
+    private static final String TAG = "MomentsSegregator";
 
     @Inject
     DBUpdatingInterface updatingInterface;
@@ -43,7 +46,7 @@ public class MomentsSegregator {
     }
 
     public int processMomentsReceivedFromBackend(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        int updatedCount = 0;
+        int updatedCount;
         updatedCount = processMoments(moments, dbRequestListener);
         return updatedCount;
     }
@@ -92,18 +95,19 @@ public class MomentsSegregator {
             ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             //Debug Log
+            Log.e(TAG, "putMomentsForSync: Could not fetch non-synchronized moments", e);
         }
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }
 
-    protected void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+    private void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         for (Moment moment : moments) {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-            deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, moment, dbRequestListener);
+            deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, dbRequestListener);
         }
-        dbSavingInterface.saveMoments(moments, null);
+        dbSavingInterface.saveMoments(moments, dbRequestListener);
     }
 
     private void createNewMomentInDB(List<Moment> momentsToCreate, Moment moment) {
@@ -130,7 +134,7 @@ public class MomentsSegregator {
         }
     }
 
-    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (momentInDatabase != null) {
             dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
             dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
@@ -158,7 +162,7 @@ public class MomentsSegregator {
     }
 
     private boolean hasDifferentMomentVersion(final Moment moment,
-                                              final Moment momentInDatabase) throws SQLException {
+                                              final Moment momentInDatabase) {
         boolean isVersionDifferent = true;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
 
