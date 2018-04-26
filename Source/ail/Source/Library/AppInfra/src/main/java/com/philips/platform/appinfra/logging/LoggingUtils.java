@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.text.TextUtils;
 
+import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -55,5 +56,32 @@ public class LoggingUtils {
             return javaLevel;
         }
         return Level.FINE;
+    }
+
+    public static String getUUID(){
+       return UUID.randomUUID().toString();
+    }
+
+    public static  String getAILLogLevel(String level) {
+        if (!TextUtils.isEmpty(level)) {
+            switch (level) {
+                case "SEVERE":
+                    return "ERROR";
+                case "WARNING":
+                    return "WARNING";
+                case "INFO":
+                    return "INFO";
+                case "CONFIG":
+                    return "DEBUG";
+                case "FINE":
+                    return "VERBOSE";
+                case "OFF":
+                    return "OFF";
+                default:
+                    return "VERBOSE";
+            }
+        }else {
+            return "VERBOSE";
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.AppInfra;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -13,8 +15,14 @@ import java.util.logging.Logger;
 
 public class ConsoleLogConfigurationHandler {
 
+    private AppInfra appInfra;
 
-    protected void handleConsoleLogConfig(LogFormatter logFormatter,LoggingConfiguration loggingConfiguration,@NonNull Logger logger){
+
+    public ConsoleLogConfigurationHandler(AppInfra appInfra) {
+        this.appInfra = appInfra;
+    }
+
+    protected void handleConsoleLogConfig(LogFormatter logFormatter, LoggingConfiguration loggingConfiguration, @NonNull Logger logger){
         boolean isEnabled=loggingConfiguration.isConsoleLogEnabled();
         if (isEnabled) {
             ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(logger);

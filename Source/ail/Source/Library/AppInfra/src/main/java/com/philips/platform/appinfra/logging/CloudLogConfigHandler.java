@@ -2,6 +2,8 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.AppInfra;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -13,12 +15,18 @@ import java.util.logging.Logger;
 
 public class CloudLogConfigHandler {
 
-    protected void handleCloudLogConfig(LogFormatter logFormatter,LoggingConfiguration loggingConfiguration,@NonNull Logger logger) {
+    private AppInfra appInfra;
+
+    public CloudLogConfigHandler(AppInfra appInfra) {
+        this.appInfra = appInfra;
+    }
+
+    protected void handleCloudLogConfig(LogFormatter logFormatter, LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
         boolean isCloudLogEnabled=loggingConfiguration.isCloudLogEnabled();
         if(isCloudLogEnabled){
             CloudLogHandler cloudLogHandler=getCurrentLogCloudLogHandler(logger);
             if(cloudLogHandler==null){
-                cloudLogHandler=new CloudLogHandler(loggingConfiguration.getAppInfra().getAppInfraContext());
+                cloudLogHandler=new CloudLogHandler(appInfra);
                 if (null != logger.getLevel()) {
                     cloudLogHandler.setLevel(logger.getLevel());
                 } else {

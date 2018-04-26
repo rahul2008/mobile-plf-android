@@ -3,7 +3,9 @@ package com.philips.platform.appinfra.logging;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
+import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDatabase;
 
 import java.util.logging.Handler;
@@ -15,20 +17,15 @@ import java.util.logging.LogRecord;
 
 public class CloudLogHandler extends Handler {
 
-    private  Context context;
+    private AppInfra appInfra;
 
-    public CloudLogHandler(Context context){
-        this.context=context;
+    public CloudLogHandler(AppInfra appInfra){
+        this.appInfra=appInfra;
     }
     @Override
     public void publish(LogRecord logRecord) {
-        AILCloudLogData ailCloudLogData=new AILCloudLogData();
-        ailCloudLogData.id=""+System.currentTimeMillis();
-        ailCloudLogData.details=logRecord.getMessage();
-        ailCloudLogData.severity=logRecord.getLevel().toString();
-        AILCloudLogDatabase ailCloudLogDatabase=AILCloudLogDatabase.getPersistenceDatabase(context);
-        ailCloudLogDatabase.logModel().insertLog(ailCloudLogData);
-
+        AILCloudLogDatabase ailCloudLogDatabase=AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
+        ailCloudLogDatabase.logModel().insertLog(new AILCloudLogDataBuilder(appInfra).buildCloudLogModel(logRecord));
         Log.d("test","Log messsage"+logRecord.toString());
     }
 
