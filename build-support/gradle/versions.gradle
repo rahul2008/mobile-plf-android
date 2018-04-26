@@ -199,7 +199,7 @@ ext.deps = [
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0',
-        room_runtime                  : 'android.arch.persistence.room:runtime:1.1.0-beta3',
-        room_compiler                 : 'android.arch.persistence.room:compiler:1.1.0-beta3',
+        room_runtime                  : 'android.arch.persistence.room:runtime:1.0.0',
+        room_compiler                 : 'android.arch.persistence.room:compiler:1.0.0',
         commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1']
 ]
