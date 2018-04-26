@@ -7,6 +7,13 @@ import java.util.Date;
 
 public class AppInfraDataProvider {
     private AppInfra appInfra;
+    public String homeCountry;
+    public String locale;
+    public Date logTime;
+    
+    AppInfraDataProvider(AppInfra appInfra){
+        this.appInfra = appInfra;
+    }
 
     public String getHomeCountry() {
         homeCountry = appInfra.getServiceDiscovery().getHomeCountry();
@@ -14,7 +21,7 @@ public class AppInfraDataProvider {
     }
 
     public String getLocale() {
-
+        locale = appInfra.getInternationalization().getUILocaleString();
         return locale;
     }
 
@@ -23,13 +30,9 @@ public class AppInfraDataProvider {
         return logTime;
     }
 
-    public String homeCountry;
-    public String locale;
-    public Date logTime;
 
-    AppInfraDataProvider(AppInfra appInfra){
-        this.appInfra = appInfra;
-    }
+
+
 
 
 
