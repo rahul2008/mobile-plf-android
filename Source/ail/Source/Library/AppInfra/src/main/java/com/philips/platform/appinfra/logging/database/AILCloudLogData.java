@@ -17,11 +17,6 @@ public class AILCloudLogData {
     /**
      *
      */
-    public String applicationVersion;
-
-    /**
-     *
-     */
     public String appstate;
 
     /**
@@ -79,10 +74,6 @@ public class AILCloudLogData {
      */
     public String originatingUser;
 
-    /**
-     *
-     */
-    public String serverName;
 
     /**
      *
