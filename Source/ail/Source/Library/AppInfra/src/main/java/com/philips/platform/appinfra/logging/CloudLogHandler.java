@@ -19,13 +19,16 @@ public class CloudLogHandler extends Handler {
 
     private AppInfra appInfra;
 
+    private AILCloudLogDataBuilder ailCloudLogDataBuilder;
+
     public CloudLogHandler(AppInfra appInfra){
         this.appInfra=appInfra;
+        ailCloudLogDataBuilder=new AILCloudLogDataBuilder(appInfra);
     }
     @Override
     public void publish(LogRecord logRecord) {
         AILCloudLogDatabase ailCloudLogDatabase=AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
-        ailCloudLogDatabase.logModel().insertLog(new AILCloudLogDataBuilder(appInfra).buildCloudLogModel(logRecord));
+        ailCloudLogDatabase.logModel().insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
         Log.d("test","Log messsage"+logRecord.toString());
     }
 

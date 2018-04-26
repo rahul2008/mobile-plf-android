@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +32,7 @@ public class CloudLogConfigHandler {
                     // for appinfra internal log mJavaLogger will be null
                     cloudLogHandler.setLevel(Level.FINE);
                 }
+                cloudLogHandler.setFormatter(logFormatter);
                 logger.addHandler(cloudLogHandler);
             }
         }else{

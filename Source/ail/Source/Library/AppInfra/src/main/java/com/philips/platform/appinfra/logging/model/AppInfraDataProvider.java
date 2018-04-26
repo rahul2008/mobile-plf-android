@@ -10,7 +10,7 @@ public class AppInfraDataProvider {
     public String homeCountry;
     public String locale;
     public Date logTime;
-    
+
     public AppInfraDataProvider(AppInfra appInfra){
         this.appInfra = appInfra;
     }
@@ -29,11 +29,6 @@ public class AppInfraDataProvider {
         logTime = appInfra.getTime().getUTCTime();
         return logTime;
     }
-
-
-
-
-
 
 
 }
