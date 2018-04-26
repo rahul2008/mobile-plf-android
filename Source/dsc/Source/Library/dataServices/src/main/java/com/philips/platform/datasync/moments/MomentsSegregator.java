@@ -46,9 +46,7 @@ public class MomentsSegregator {
     }
 
     public int processMomentsReceivedFromBackend(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        int updatedCount;
-        updatedCount = processMoments(moments, dbRequestListener);
-        return updatedCount;
+        return processMoments(moments, dbRequestListener);
     }
 
     public int processMoments(final List<Moment> momentList, DBRequestListener<Moment> dbRequestListener) throws SQLException {
@@ -102,7 +100,6 @@ public class MomentsSegregator {
     }
 
     private void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-
         for (Moment moment : moments) {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
             deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, dbRequestListener);
@@ -130,6 +127,23 @@ public class MomentsSegregator {
         } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
             moment.setSynced(true);
             moment.setId(momentInDatabase.getId());
+            momentsToUpdate.add(moment);
+        }
+        else if(isMomentUpdatedFromBackend(moment, momentInDatabase))
+        {
+            int momentVersionOld = 0;
+            int momentVersionNew = moment.getSynchronisationData().getVersion();
+            if(momentInDatabase.getSynchronisationData() != null) {
+                momentVersionOld = momentInDatabase.getSynchronisationData().getVersion();
+            }
+
+            if(momentVersionOld >= momentVersionNew) {
+                momentVersionNew = momentVersionOld;
+            }
+
+            moment.setSynced(true);
+            moment.setId(momentInDatabase.getId());
+            moment.getSynchronisationData().setVersion(momentVersionNew);
             momentsToUpdate.add(moment);
         }
     }
