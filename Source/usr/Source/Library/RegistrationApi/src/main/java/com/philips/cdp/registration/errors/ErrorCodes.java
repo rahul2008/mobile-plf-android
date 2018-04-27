@@ -195,4 +195,6 @@ public class ErrorCodes {
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
 
+    public static final int HSDP_LOWER_ERROR_BOUND = 7000;
+
 }

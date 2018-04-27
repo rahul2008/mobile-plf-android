@@ -14,6 +14,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -21,6 +23,8 @@ import javax.inject.Inject;
 public class BaseConfiguration {
 
     private static final String DEFAULT_PROPERTY_KEY = "default";
+
+    private static final String TAG = BaseConfiguration.class.getSimpleName();
 
     @Inject
     protected AppInfraWrapper appInfraWrapper;
@@ -31,24 +35,27 @@ public class BaseConfiguration {
 
     @Nullable
     protected String getConfigPropertyValue(Object property) {
-        if(property == null) {
+        if (property == null) {
             return null;
         }
         if (property instanceof String) {
+            RLog.i(TAG, "getConfigPropertyValue : property " + property);
             return (String) property;
         }
         if (property instanceof Map) {
+            RLog.i(TAG, "getConfigPropertyValue : getPropertyValueFromMap " + getPropertyValueFromMap((Map) property));
             return getPropertyValueFromMap((Map) property);
         }
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    private String getPropertyValueFromMap(Map<?,?> property) {
+    private String getPropertyValueFromMap(Map<?, ?> property) {
         String propertyValue = (String) property.get(RegistrationHelper.getInstance().getCountryCode());
         if (propertyValue == null || propertyValue.isEmpty()) {
             propertyValue = (String) property.get(DEFAULT_PROPERTY_KEY);
         }
+        RLog.i(TAG, "getPropertyValueFromMap : propertyValue " + propertyValue);
         return propertyValue;
     }
 

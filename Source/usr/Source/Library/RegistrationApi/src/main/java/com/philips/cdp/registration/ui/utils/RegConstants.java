@@ -99,8 +99,6 @@ public class RegConstants {
 
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 
-    public static final String REGISTRATION_COPPA_FRAGMENT_TAG = "Registration_Coppa_fragment_tag";
-
     public static final String ORIENTAION = "Orientaion";
 
 
@@ -112,9 +110,7 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 
-    public static final String HOCKEY_APPID = "db53413f9a0e675c40520bf48ce12e6c";
 
-    public static final int HSDP_LOWER_ERROR_BOUND = 7000;
 
     public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
 
