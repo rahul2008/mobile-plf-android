@@ -83,6 +83,8 @@ public class PublicKeyManager implements X509TrustManager {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), getCertificateDetails(certificate));
             secureStorage.storeValueForKey(certificate.getSerialNumber().toString(), encoded, getSecureStorageError());
         }
+
+
     }
 
     @VisibleForTesting
@@ -96,29 +98,29 @@ public class PublicKeyManager implements X509TrustManager {
         return new X509Certificate[0];
     }
 
-    private String getCertificateDetails(X509Certificate c) {
-        StringBuilder si = new StringBuilder();
-        SimpleDateFormat validityDateFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        si.append("\n");
-        si.append(c.getSubjectDN().toString());
-        si.append("\n");
-        si.append(validityDateFormater.format(c.getNotBefore()));
-        si.append(" - ");
-        si.append(validityDateFormater.format(c.getNotAfter()));
-        si.append("\nSHA-256: ");
-        si.append(getHash(c, "SHA-256"));
-        si.append("\nSHA-1: ");
-        si.append(getHash(c, "SHA-1"));
-        si.append("\nSigned by: ");
-        si.append(c.getIssuerDN().toString());
-        si.append("\n");
-        return si.toString();
+    private String getCertificateDetails(X509Certificate certificate) {
+        StringBuilder builder = new StringBuilder();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        builder.append("\n");
+        builder.append(certificate.getSubjectDN().toString());
+        builder.append("\n");
+        builder.append(simpleDateFormat.format(certificate.getNotBefore()));
+        builder.append(" - ");
+        builder.append(simpleDateFormat.format(certificate.getNotAfter()));
+        builder.append("\nSHA-256: ");
+        builder.append(getHash(certificate, "SHA-256"));
+        builder.append("\nSHA-1: ");
+        builder.append(getHash(certificate, "SHA-1"));
+        builder.append("\nSigned by: ");
+        builder.append(certificate.getIssuerDN().toString());
+        builder.append("\n");
+        return builder.toString();
     }
 
-    private String getHash(final X509Certificate cert, String digest) {
+    private String getHash(final X509Certificate certificate, String digest) {
         try {
             MessageDigest md = MessageDigest.getInstance(digest);
-            md.update(cert.getEncoded());
+            md.update(certificate.getEncoded());
             return hexString(md.digest());
         } catch (java.security.cert.CertificateEncodingException e) {
             return e.getMessage();
