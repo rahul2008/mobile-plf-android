@@ -11,7 +11,6 @@ import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
  */
 
 @Dao
-@TypeConverters(DateConverter.class)
 public interface AILCloudLogDao {
     @Insert(onConflict = IGNORE)
     void insertLog(AILCloudLogData log);

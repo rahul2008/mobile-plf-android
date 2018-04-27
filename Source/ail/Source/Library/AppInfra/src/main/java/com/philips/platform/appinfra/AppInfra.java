@@ -62,6 +62,45 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private AppUpdateInterface mAppupdateInterface;
     private ConsentManagerInterface consentManager;
 
+    private String homeCountry;
+
+    private String locale;
+
+    private String networkType;
+
+    private String userUUID;
+
+    public String getHomeCountry() {
+        return homeCountry;
+    }
+
+    public void setHomeCountry(String homeCountry) {
+        this.homeCountry = homeCountry;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getNetworkType() {
+        return networkType;
+    }
+
+    public void setNetworkType(String networkType) {
+        this.networkType = networkType;
+    }
+
+    public String getUserUUID() {
+        return userUUID;
+    }
+
+    public void setUserUUID(String userUUID) {
+        this.userUUID = userUUID;
+    }
 
     /**
      * The App infra context. This MUST be Application context

@@ -21,9 +21,12 @@ public class CloudLogHandler extends Handler {
 
     private AILCloudLogDataBuilder ailCloudLogDataBuilder;
 
-    public CloudLogHandler(AppInfra appInfra){
+    private LoggingConfiguration loggingConfiguration;
+
+    public CloudLogHandler(AppInfra appInfra,LoggingConfiguration loggingConfiguration){
         this.appInfra=appInfra;
-        ailCloudLogDataBuilder=new AILCloudLogDataBuilder(appInfra);
+        ailCloudLogDataBuilder=new AILCloudLogDataBuilder(appInfra,loggingConfiguration);
+        this.loggingConfiguration=loggingConfiguration;
     }
     @Override
     public void publish(LogRecord logRecord) {

@@ -18,7 +18,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class LoggingConfiguration {
+public class LoggingConfiguration {
 
     private static final String COMPONENT_IDS_KEY = "componentIds";
     private final String LOG_LEVEL_KEY = "logLevel";

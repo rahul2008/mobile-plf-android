@@ -12,12 +12,7 @@ public class AILCloudLogData {
 
     @PrimaryKey
     @NonNull
-    public String id;
-
-    /**
-     *
-     */
-    public String appstate;
+    public String logId;
 
     /**
      *
@@ -54,10 +49,6 @@ public class AILCloudLogData {
      */
     public String logDescription;
 
-    /**
-     *
-     */
-    public String logId;
 
     /**
      *
@@ -84,4 +75,5 @@ public class AILCloudLogData {
      *
      */
     public String transactionId;
+
 }

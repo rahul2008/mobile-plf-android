@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.logging.database;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 
 import java.util.Arrays;
@@ -14,19 +15,19 @@ import java.util.logging.LogRecord;
  */
 
 public class AILCloudLogDataBuilder {
+
+    private final LoggingConfiguration loggingConfiguration;
+
     private AppInfra appInfra;
 
-    private String homeCountry=null;
-
-    private String locale=null;
-
-    public AILCloudLogDataBuilder(AppInfra appInfra) {
+    public AILCloudLogDataBuilder(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
+        this.loggingConfiguration=loggingConfiguration;
     }
 
     public AILCloudLogData buildCloudLogModel(LogRecord logRecord) {
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
-        ailCloudLogData.id = LoggingUtils.getUUID();
+        ailCloudLogData.logId = LoggingUtils.getUUID();
         ailCloudLogData.severity = LoggingUtils.getAILLogLevel(logRecord.getLevel().toString());
         ailCloudLogData.eventId = logRecord.getMessage();
         if (logRecord.getParameters() != null) {
@@ -37,19 +38,8 @@ public class AILCloudLogDataBuilder {
                 }
             }
         }
-        Log.d("test", "Before adding heavy params:" + System.currentTimeMillis());
-        if (appInfra.getServiceDiscovery() != null) {
-            if(homeCountry==null){
-                homeCountry=appInfra.getServiceDiscovery().getHomeCountry();
-            }
-            ailCloudLogData.homecountry = homeCountry;
-        }
-        if (appInfra.getInternationalization() != null) {
-            if(locale==null){
-                locale= appInfra.getInternationalization().getUILocaleString();
-            }
-            ailCloudLogData.locale =locale;
-        }
+            ailCloudLogData.homecountry = appInfra.getHomeCountry();
+            ailCloudLogData.locale =appInfra.getLocale();
         if (appInfra.getTime() != null && appInfra.getTime().getUTCTime() != null) {
             ailCloudLogData.logTime = appInfra.getTime().getUTCTime().getTime();
         }
@@ -57,6 +47,9 @@ public class AILCloudLogDataBuilder {
             ailCloudLogData.networktype = appInfra.getRestClient().getNetworkReachabilityStatus().toString();
         }
         ailCloudLogData.localtime = System.currentTimeMillis();
+        if(loggingConfiguration.getComponentID()!=null && loggingConfiguration.getComponentVersion()!=null) {
+            ailCloudLogData.component = loggingConfiguration.getComponentID() + "/" + loggingConfiguration.getComponentVersion();
+        }
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }
