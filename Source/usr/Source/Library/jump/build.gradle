@@ -152,7 +152,6 @@ android {
     }
     lintOptions {
         abortOnError false
-        disable 'MissingTranslation'
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -169,14 +168,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
             consumerProguardFiles 'proguard-rules-jump.pro'
         }
         debug {
-            minifyEnabled false
             debuggable true
-//            proguardFile 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
     publishNonDefault true
 }
@@ -204,9 +205,8 @@ dependencies {
     provided deps.javax_annotation
 
     compile deps.apache
-    compile files('libs/org.apache.http.legacy.jar')
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'com.squareup.okhttp3:okhttp-apache:3.10.0'
+    compile deps.okhttp3
+    compile deps.okhttp_apache3
     compile deps.squareup_okio
     compile deps.support.appcompatv7
     compile deps.wechat
@@ -236,8 +236,6 @@ dependencies {
     androidTestCompile deps.mockito_android
 
     retrolambdaConfig deps.retrolambda
-
-
 }
 
 task copyToLib(type: Copy) {
