@@ -11,8 +11,11 @@ import java.math.BigInteger;
 import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -22,10 +25,10 @@ import javax.net.ssl.X509TrustManager;
 
 public class PublicKeyManager implements X509TrustManager {
 
-    private AppInfraInterface appInfraInterface;
-
     @VisibleForTesting
-    static final String SSL_PUBLIC_KEY_LOG_MESSAGE = "Current PublicKey not pinned";
+    static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Certificate Mismatch!";
+    static final String SSL_CERTIFICATE_VALIDITY_KEY = "_Validity";
+    private AppInfraInterface appInfraInterface;
 
     public PublicKeyManager(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
@@ -72,19 +75,34 @@ public class PublicKeyManager implements X509TrustManager {
         String encoded = new BigInteger(1 /* positive */, publicKey.getEncoded())
                 .toString(16);
 
-// Pin it!
+
         SecureStorageInterface secureStorage = appInfraInterface.getSecureStorage();
         String stored_public_key = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString(), getSecureStorageError());
-        final boolean expected = encoded.equalsIgnoreCase(stored_public_key);
+        final boolean isSamePin = encoded.equalsIgnoreCase(stored_public_key);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-// fail if expected public key is different from the public key that is currently pinned.
-        if (!expected) {
-            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), SSL_PUBLIC_KEY_LOG_MESSAGE);
-            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), getCertificateDetails(certificate));
+// check validity if expected public key is same as the public key that is currently pinned.
+        if (isSamePin) {
+            String storedDateValue = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, getSecureStorageError());
+            try {
+                certificate.checkValidity(dateFormat.parse(storedDateValue));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (CertificateExpiredException | CertificateNotYetValidException e) {
+                log(storedDateValue);
+            }
+        } else {
+// Log it and Pin it!
+            log(getCertificateDetails(certificate));
+
             secureStorage.storeValueForKey(certificate.getSerialNumber().toString(), encoded, getSecureStorageError());
+            secureStorage.storeValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, dateFormat.format(certificate.getNotAfter()), getSecureStorageError());
         }
+    }
 
-
+    private void log(String message) {
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), SSL_PUBLIC_KEY_PIN_LOG_MESSAGE);
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), message);
     }
 
     @VisibleForTesting
@@ -100,10 +118,10 @@ public class PublicKeyManager implements X509TrustManager {
 
     private String getCertificateDetails(X509Certificate certificate) {
         StringBuilder builder = new StringBuilder();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         builder.append("\n");
         builder.append(certificate.getSubjectDN().toString());
         builder.append("\n");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         builder.append(simpleDateFormat.format(certificate.getNotBefore()));
         builder.append(" - ");
         builder.append(simpleDateFormat.format(certificate.getNotAfter()));
