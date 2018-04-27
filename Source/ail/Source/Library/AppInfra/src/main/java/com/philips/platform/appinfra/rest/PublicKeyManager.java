@@ -27,11 +27,13 @@ public class PublicKeyManager implements X509TrustManager {
 
     @VisibleForTesting
     static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Certificate Mismatch!";
-    static final String SSL_CERTIFICATE_VALIDITY_KEY = "_Validity";
+    private static final String SSL_CERTIFICATE_VALIDITY_KEY = "_Validity";
     private AppInfraInterface appInfraInterface;
+    private SecureStorageInterface secureStorage;
 
     public PublicKeyManager(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
+         secureStorage = appInfraInterface.getSecureStorage();
     }
 
     @Override
@@ -44,6 +46,17 @@ public class PublicKeyManager implements X509TrustManager {
         verifyCertificates(chain, authType);
     }
 
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+        return new X509Certificate[0];
+    }
+
+    @VisibleForTesting
+    @NonNull
+    SecureStorageInterface.SecureStorageError getSecureStorageError() {
+        return new SecureStorageInterface.SecureStorageError();
+    }
+
     private void verifyCertificates(X509Certificate[] chain, String authType) throws CertificateException {
         if (chain == null) {
             throw new IllegalArgumentException("checkServerTrusted: X509Certificate array is null");
@@ -53,7 +66,48 @@ public class PublicKeyManager implements X509TrustManager {
                     "checkServerTrusted: X509Certificate is empty");
         }
 
+        X509Certificate certificate = chain[0];
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
 // Perform customary SSL/TLS checks
+        verifyChainWithTLS(chain, authType);
+
+        String encoded = getEncodedPin(certificate);
+        String stored_public_key = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString(), getSecureStorageError());
+
+        final boolean isSamePin = encoded.equalsIgnoreCase(stored_public_key);
+
+// check validity if expected public key is same as the public key that is currently pinned.
+        if (isSamePin) {
+            String storedDateValue = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, getSecureStorageError());
+            verifyCertificateValidity(certificate, dateFormat, storedDateValue);
+        } else {
+// Log it and Pin it!
+            log(getCertificateDetails(certificate));
+
+            secureStorage.storeValueForKey(certificate.getSerialNumber().toString(), encoded, getSecureStorageError());
+            secureStorage.storeValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, dateFormat.format(certificate.getNotAfter()), getSecureStorageError());
+        }
+    }
+
+    private String getEncodedPin(X509Certificate certificate) {
+// BigInteger and toString(). We know a DER encoded PublicKey starts with 0x30 (ASN.1 SEQUENCE and CONSTRUCTED), so there is no leading 0x00 to drop.
+        RSAPublicKey publicKey = (RSAPublicKey) certificate.getPublicKey();
+        return new BigInteger(1 /* positive */, publicKey.getEncoded())
+                .toString(16);
+    }
+
+    private void verifyCertificateValidity(X509Certificate certificate, SimpleDateFormat dateFormat, String storedDateValue) {
+        try {
+            certificate.checkValidity(dateFormat.parse(storedDateValue));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (CertificateExpiredException | CertificateNotYetValidException e) {
+            log(storedDateValue);
+        }
+    }
+
+    private void verifyChainWithTLS(X509Certificate[] chain, String authType) throws CertificateException {
         TrustManagerFactory tmf;
         try {
             tmf = TrustManagerFactory.getInstance("X509");
@@ -67,37 +121,6 @@ public class PublicKeyManager implements X509TrustManager {
         } catch (Exception e) {
             throw new CertificateException(e.toString());
         }
-
-        X509Certificate certificate = chain[0];
-// Hack ahead: BigInteger and toString(). We know a DER encoded Public
-// Key starts with 0x30 (ASN.1 SEQUENCE and CONSTRUCTED), so there is no leading 0x00 to drop.
-        RSAPublicKey publicKey = (RSAPublicKey) certificate.getPublicKey();
-        String encoded = new BigInteger(1 /* positive */, publicKey.getEncoded())
-                .toString(16);
-
-
-        SecureStorageInterface secureStorage = appInfraInterface.getSecureStorage();
-        String stored_public_key = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString(), getSecureStorageError());
-        final boolean isSamePin = encoded.equalsIgnoreCase(stored_public_key);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
-// check validity if expected public key is same as the public key that is currently pinned.
-        if (isSamePin) {
-            String storedDateValue = secureStorage.fetchValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, getSecureStorageError());
-            try {
-                certificate.checkValidity(dateFormat.parse(storedDateValue));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (CertificateExpiredException | CertificateNotYetValidException e) {
-                log(storedDateValue);
-            }
-        } else {
-// Log it and Pin it!
-            log(getCertificateDetails(certificate));
-
-            secureStorage.storeValueForKey(certificate.getSerialNumber().toString(), encoded, getSecureStorageError());
-            secureStorage.storeValueForKey(certificate.getSerialNumber().toString() + SSL_CERTIFICATE_VALIDITY_KEY, dateFormat.format(certificate.getNotAfter()), getSecureStorageError());
-        }
     }
 
     private void log(String message) {
@@ -105,33 +128,27 @@ public class PublicKeyManager implements X509TrustManager {
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), message);
     }
 
-    @VisibleForTesting
-    @NonNull
-    SecureStorageInterface.SecureStorageError getSecureStorageError() {
-        return new SecureStorageInterface.SecureStorageError();
-    }
-
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return new X509Certificate[0];
-    }
-
     private String getCertificateDetails(X509Certificate certificate) {
         StringBuilder builder = new StringBuilder();
+
         builder.append("\n");
         builder.append(certificate.getSubjectDN().toString());
+
         builder.append("\n");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         builder.append(simpleDateFormat.format(certificate.getNotBefore()));
         builder.append(" - ");
         builder.append(simpleDateFormat.format(certificate.getNotAfter()));
+
         builder.append("\nSHA-256: ");
         builder.append(getHash(certificate, "SHA-256"));
         builder.append("\nSHA-1: ");
         builder.append(getHash(certificate, "SHA-1"));
+
         builder.append("\nSigned by: ");
         builder.append(certificate.getIssuerDN().toString());
         builder.append("\n");
+
         return builder.toString();
     }
 
