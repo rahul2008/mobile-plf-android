@@ -27,6 +27,9 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -53,7 +56,7 @@ import static com.janrain.android.Jump.getRedirectUri;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
-        MobileForgotPassVerifyCodeContract, OnUpdateListener{
+        MobileForgotPassVerifyCodeContract, OnUpdateListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -95,7 +98,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -108,7 +111,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
 
         Bundle bundle = getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             mobileNumber = bundle.getString(MOBILE_NUMBER_KEY);
             responseToken = bundle.getString(RESPONSE_TOKEN_KEY);
             redirectUriValue = bundle.getString(RE_DIRECT_URI_KEY);
@@ -117,7 +120,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
         View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
@@ -158,12 +161,12 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     @Subscribe
-    public void onEvent(UpdateToken event){
+    public void onEvent(UpdateToken event) {
         responseToken = event.getToken();
     }
 
     @Subscribe
-    public void onEvent(UpdateMobile event){
+    public void onEvent(UpdateMobile event) {
         if (this.isVisible()) {
             mobileNumber = event.getMobileNumber();
             setDescription();
@@ -186,7 +189,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // Do not do anything
+        // Do not do anything
     }
 
     @Override
@@ -294,7 +297,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }

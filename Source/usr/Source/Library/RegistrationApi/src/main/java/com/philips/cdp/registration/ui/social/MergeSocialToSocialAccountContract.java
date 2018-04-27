@@ -11,7 +11,7 @@ interface MergeSocialToSocialAccountContract {
 
     void mergeSuccess();
 
-    void mergeFailure(String errorDescription);
+    void mergeFailure(int errorCode);
 
     void mergeFailureIgnored();
 

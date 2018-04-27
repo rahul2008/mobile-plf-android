@@ -15,9 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
@@ -63,25 +61,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
-    }
-
     @Override
     public void onStop() {
         super.onStop();
-
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -95,8 +78,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
-
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
@@ -107,19 +88,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
-            trackBackActionPage();
             fragment.setResourceID(mPrevTitleResourceId);
         }
-    }
-
-    private void trackBackActionPage() {
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
     }
 
     private void setCurrentTitle() {
@@ -129,7 +99,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 && -99 != fragment.getResourceID()) {
             mPrevTitleResourceId = fragment.getResourceID();
         }
-
         if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if (this instanceof HomeFragment && null != fragment.
@@ -182,13 +151,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         RLog.i(TAG,"consumeTouch is called");
         if (view == null)
             return;
-        view.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        view.setOnTouchListener((v, event) -> true);
     }
 
         private int dpToPx(int dp) {

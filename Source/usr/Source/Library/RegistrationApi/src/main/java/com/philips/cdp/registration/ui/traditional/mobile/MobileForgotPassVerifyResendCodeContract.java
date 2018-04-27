@@ -16,7 +16,7 @@ public interface MobileForgotPassVerifyResendCodeContract {
 
     void enableResendButtonAndHideSpinner();
 
-    void showSmsResendTechincalError(String errorCodeString);
+//    void showSmsResendTechincalError(String errorCodeString);
 
     void trackMultipleActionsOnMobileSuccess();
 

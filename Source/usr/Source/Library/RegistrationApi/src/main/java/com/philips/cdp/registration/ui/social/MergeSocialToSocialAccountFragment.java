@@ -25,6 +25,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -87,7 +90,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -98,7 +101,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         initUI(view);
         networkChangeStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
-        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this,user);
+        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this, user);
         return view;
     }
 
@@ -126,8 +129,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);
 
-        usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(),  "<b>" + conflictSocialProvider+"</b>")));
-        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + conflictSocialProvider+"</b>")));
+        usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(), "<b>" + conflictSocialProvider + "</b>")));
+        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + conflictSocialProvider + "</b>")));
         usr_mergeScreen_login_button.setText(String.format(usr_mergeScreen_login_button.getText(), conflictSocialProvider));
     }
 
@@ -167,7 +170,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             mergeSocialToSocialAccountPresenter.loginUserUsingSocialProvider(mConflictProvider, mMergeToken);
             showMergeSpinner();
         } else {
-            mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
         }
     }
@@ -191,7 +194,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             mRegError.hideError();
         } else {
             scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
     }
 
@@ -255,12 +258,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void mergeFailure(String errorDescription) {
+    public void mergeFailure(int errorCode) {
         hideMergeSpinner();
-        if (null != errorDescription) {
-            mRegError.setError(errorDescription);
-            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-        }
+        mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
+        scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
     }
 
     @Override

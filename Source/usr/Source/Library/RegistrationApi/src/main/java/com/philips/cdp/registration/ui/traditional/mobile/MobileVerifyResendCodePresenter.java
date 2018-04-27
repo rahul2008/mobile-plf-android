@@ -7,6 +7,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -30,9 +31,8 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final String BASE_URL_CODE_SERVICE_ID = "userreg.janrain.api";
     private static final int RESEND_OTP_REQUEST_CODE = 101;
-    private static final String ERROR_CODE = "errorCode";
-    private static final String OTP_RESEND_SUCCESS = "0";
     private static final int CHANGE_NUMBER_REQUEST_CODE = 102;
+    private static final String ERROR_CODE = "errorCode";
 
     private static final String STAT = "stat";
 
@@ -111,11 +111,13 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
                 mobileVerifyCodeContract.refreshUser();
             } else {
                 mobileVerifyCodeContract.hideProgressSpinner();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode"));
+                final String errorCode = jsonObject.getString(ERROR_CODE);
+                mobileVerifyCodeContract.showNumberChangeTechincalError(Integer.parseInt(errorCode));
             }
         } catch (Exception e) {
             mobileVerifyCodeContract.hideProgressSpinner();
-            mobileVerifyCodeContract.showSmsSendFailedError();
+            RLog.e(TAG, "handlePhoneNumberChange : Exception " + e.getMessage());
+            // mobileVerifyCodeContract.showSmsSendFailedError();
 
         }
     }
@@ -125,13 +127,15 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(response);
-            if (jsonObject.getString(ERROR_CODE).equals(OTP_RESEND_SUCCESS)) {
+            if (jsonObject.getString(ERROR_CODE).equals(ErrorCodes.URX_SUCCESS)) {
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
             } else {
-                mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode"));
+                final String errorCode = jsonObject.getString(ERROR_CODE);
+                mobileVerifyCodeContract.showNumberChangeTechincalError(Integer.parseInt(errorCode));
             }
         } catch (Exception e) {
-            mobileVerifyCodeContract.showSmsSendFailedError();
+            RLog.e(TAG, "handleResendSms : Exception " + e.getMessage());
+//            mobileVerifyCodeContract.showSmsSendFailedError();
         }
     }
 
@@ -139,7 +143,6 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
-
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {

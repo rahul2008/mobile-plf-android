@@ -268,13 +268,13 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+        RLog.d("MobileActivationFragment", " onRefreshUserSuccess");
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+        RLog.d("MobileActivationFragment", " onRefreshUserFailed");
     }
 
     @Override
@@ -289,8 +289,11 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void showSMSSpecifedError(int errorCode) {
+        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
+        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        enableResendButton();
         // String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
-        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+//        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
     }
 
 
@@ -346,7 +349,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void netWorkStateOfflineUiHandle() {
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
         smsReceivedButton.setEnabled(false);
@@ -365,12 +368,12 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         handleResendVerificationEmailSuccess();
     }
 
-    @Override
-    public void showSmsResendTechincalError(String errorCodeString) {
-        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        errorMessage.setError(errorCodeString);
-        enableResendButton();
-    }
+//    @Override
+//    public void showSmsResendTechincalError(String errorCodeString) {
+//        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
+//        errorMessage.setError(errorCodeString);
+//        enableResendButton();
+//    }
 
     @Override
     public void trackMultipleActionsOnMobileSuccess() {

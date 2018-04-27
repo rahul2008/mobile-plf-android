@@ -49,7 +49,7 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         EventBus.getDefault().post(new LoginFailureNotification());
-        mergeSocialToSocialAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription());
+        mergeSocialToSocialAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorCode());
     }
 
     @Override

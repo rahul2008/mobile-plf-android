@@ -18,6 +18,8 @@ public class ErrorCodes {
 
     //URX
 
+    public static final int URX_SUCCESS = 0;
+
     public static final int URX_INVALID_PHONENUMBER = 10;
 
     public static final int URX_PHONENUMBER_UNAVAILABLE = 20;
@@ -35,6 +37,8 @@ public class ErrorCodes {
     public static final int URX_SMS_ACCOUNT_ALREADY_VERIFIED = 90;
 
     public static final int URX_MOBILE_ACCOUNT_FAIURE = 3200;
+
+    public static final int URX_INVALID_VERIFICATION_CODE = 200;
 
     //JANRAIN
 
@@ -190,6 +194,5 @@ public class ErrorCodes {
     public static final int HSDP_INPUT_ERROR_3073 = 3073;
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
-
 
 }

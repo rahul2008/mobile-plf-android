@@ -17,7 +17,8 @@ public enum URXErrorEnum {
     URX_SMS_NO_INFO(ErrorCodes.URX_NO_INFO_AVAILABLE, R.string.reg_URX_SMS_NoInformation_Available),
     URX_SMS_NOT_SENT(ErrorCodes.URX_SMS_NOT_SENT, R.string.reg_URX_SMS_Not_Sent),
     URX_SMS_ALREADY_VERIFIED(ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED, R.string.reg_URX_SMS_Already_Verified),
-    URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.reg_URX_SMS_Failure_case);
+    URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.reg_URX_SMS_Failure_case),
+    URX_INVALID_VERIFICATION_CODE(ErrorCodes.URX_INVALID_VERIFICATION_CODE, R.string.reg_Mobile_Verification_Invalid_Code);
 
     int errorCode;
     int stringId;
