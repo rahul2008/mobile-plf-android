@@ -278,15 +278,19 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
-            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            if(getActivity()!=null) {
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
         }
     }
 
     public void hideProgressBar() {
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.GONE);
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            if(getActivity()!=null) {
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
         }
     }
 }
