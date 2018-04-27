@@ -107,9 +107,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         @Override
         public void onSuccess(final int count) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
+            mAddToCart.hideProgressIndicator();
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -119,10 +117,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         @Override
         public void onFailure(final Message msg) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
-
+            mAddToCart.hideProgressIndicator();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
@@ -678,9 +673,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onLoadFinished(ArrayList<? extends Object> data) {
         hideProgressBar();
-        if(mAddToCart.isActivated()){
-            mAddToCart.hideProgressIndicator();
-        }
+        mAddToCart.hideProgressIndicator();
 
         if (data != null && data.get(0) instanceof ShoppingCartData) {
 
