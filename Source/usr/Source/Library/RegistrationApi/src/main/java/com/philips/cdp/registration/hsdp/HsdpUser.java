@@ -96,7 +96,7 @@ public class HsdpUser {
                     RLog.e(TAG, "logOut dhpResponse is NULL");
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             logoutHandler.
-                                    onLogoutFailure(NETWORK_ERROR_CODE +
+                                    onLogoutFailure(ErrorCodes.NETWORK_ERROR +
                                             ErrorCodes.HSDP_LOWER_ERROR_BOUND, mContext.
                                             getString(R.string.
                                                     reg_JanRain_Server_Connection_Failed))));
@@ -139,7 +139,7 @@ public class HsdpUser {
         } else {
             RLog.e(TAG, "logOut No Network Connection");
             ThreadUtils.postInMainThread(mContext, () ->
-                    logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE +
+                    logoutHandler.onLogoutFailure(ErrorCodes.NETWORK_ERROR +
                                     ErrorCodes.HSDP_LOWER_ERROR_BOUND,
                             new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK)));
         }
@@ -181,7 +181,7 @@ public class HsdpUser {
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             refreshHandler.
                                     onRefreshLoginSessionFailedWithError
-                                            (NETWORK_ERROR_CODE +
+                                            (ErrorCodes.NETWORK_ERROR +
                                                     ErrorCodes.HSDP_LOWER_ERROR_BOUND)));
                 } else if (null != dhpAuthenticationResponse.responseCode &&
                         dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
