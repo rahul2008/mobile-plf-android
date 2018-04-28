@@ -119,6 +119,8 @@ ext.deps = [
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
+        okhttp3                        : 'com.squareup.okhttp3:okhttp:3.10.0',
+        okhttp_apache3                 :'com.squareup.okhttp3:okhttp-apache:3.10.0',
         ormlite                       : [
                 android: "com.j256.ormlite:ormlite-android:5.0",
                 core   : "com.j256.ormlite:ormlite-core:5.0"
