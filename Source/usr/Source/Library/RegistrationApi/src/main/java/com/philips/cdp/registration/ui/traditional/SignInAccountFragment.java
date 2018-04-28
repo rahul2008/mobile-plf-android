@@ -426,7 +426,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.INPUTS_INVALID_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
-            if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
+            if (userRegistrationFailureInfo.getErrorCode() >= ErrorCodes.HSDP_LOWER_ERROR_BOUND) {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
