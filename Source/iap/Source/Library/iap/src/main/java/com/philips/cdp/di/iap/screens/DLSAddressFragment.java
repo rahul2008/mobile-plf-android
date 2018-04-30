@@ -105,8 +105,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 } else {
                     if (isChecked) {
                         setFragmentVisibility(billingFragment, false);
-                        ((DLSBillingAddressFragment) billingFragment).disableAllFields();
-                        ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
                         mBtnContinue.setEnabled(true);
                     } else {
                         setFragmentVisibility(billingFragment, true);
