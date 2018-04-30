@@ -21,7 +21,12 @@
     ],
     "weChatAppId": "wx5b3bfa4e2970475e",
     "weChatAppSecret": "b2f6437ea42bacca704493bce8226125",
-    "ShowCountrySelection": "true"
+    "ShowCountrySelection": "true",
+    "supportedHomeCountries":["BG","CZ","DK","AT","CH","DE","GR","AU","CA","GB","HK","ID","IE",
+      "IN","MY","NZ","PH","PK","SA","SG","US","ZA","AR","CL","CO","ES","MX","PE","EE","FI","BE","FR",
+      "HR","HU","IT","JP","KR","LT","LV","NL","NO","PL","BR","PT","RO","RU","UA","SI","SK","SE","TH",
+      "TR","VN","CN","TW"],
+    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK","AE":"AE"}
   },
   "IAP": {
     "propositionid": "Tuscany2016"
@@ -55,7 +60,9 @@
     "servicediscovery.propositionEnabled": true,
     "servicediscovery.countryMapping": {
       "LU": "BE",
-      "MO": "HK"
+      "MO": "HK",
+      "AE":"AE"
+
     },
     "logging.releaseConfig": {
       "fileName": "AppInfraLog",
