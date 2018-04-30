@@ -32,6 +32,13 @@ public class VerboseLinkedBlockingQueueTest {
     }
 
     @Test
+    public void givenListenerIsSet_whenQueueIsEmpty_thenListenerIsCalled() throws InterruptedException {
+        queue.take();
+
+        verify(listenerMock, times(1)).onQueueEmpty();
+    }
+
+    @Test
     public void givenListenerIsSet_whenOperationIsTaken_thenListenerIsCalled() throws InterruptedException {
         queue.setListener(listenerMock);
 
