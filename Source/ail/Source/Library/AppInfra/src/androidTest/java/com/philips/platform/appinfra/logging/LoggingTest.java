@@ -67,25 +67,15 @@ public class LoggingTest extends AppInfraInstrumentation {
     public void testCreateLogger() {
         final Logger logger = mock(Logger.class);
         AppInfraLogging appInfraLogging;
-        appInfraLogging = new AppInfraLogging(mAppInfra){
-            @Override
-            protected Logger getJavaLogger() {
-                return logger;
-            }
-        };
-        appInfraLogging.createLogger("component_id","component_version");
+        appInfraLogging = new AppInfraLogging(mAppInfra);
+        appInfraLogging.createInstanceForComponent("component_id","component_version");
         verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
     }
 
     public void testLog() {
         final Logger logger = mock(Logger.class);
-        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
-            @Override
-            protected Logger getJavaLogger() {
-                return logger;
-            }
-        };
-        appInfraLogging.createLogger("component_id","");
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+        appInfraLogging.createInstanceForComponent("component_id","");
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
@@ -101,19 +91,8 @@ public class LoggingTest extends AppInfraInstrumentation {
     public void testLogWithMap() {
         final Logger logger = mock(Logger.class);
         final Object[] values = new Object[2];
-        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
-            @Override
-            protected Logger getJavaLogger() {
-                return logger;
-            }
-
-            @NonNull
-            @Override
-            Object[] getParamObjects() {
-                return values;
-            }
-        };
-        appInfraLogging.createLogger("component_id","");
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+        appInfraLogging.createInstanceForComponent("component_id","");
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("key1", "val1");
         map.put("key2", "val2");
