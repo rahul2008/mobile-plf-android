@@ -19,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Country;
+import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -40,6 +42,7 @@ import com.philips.platform.uid.view.widget.RadioGroup;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -76,19 +79,17 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private RelativeLayout mLocationCantainer;
     private Label mStateLabel;
     static final long serialVersionUID = 127L;
+    private boolean isLaunchedFromEditDetails;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_registration_form, container, false);
 
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
-        }
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT, -1);
+            isLaunchedFromEditDetails = bundle.getBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS, false);
         }
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
         setView(view);
@@ -132,7 +133,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mValidStates = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
         } catch (Exception e) {
             final String errorTag = THSTagUtils.createErrorTag(ANALYTICS_FETCH_STATES, e.getMessage());
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR,errorTag);
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
 
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
@@ -155,19 +156,90 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                     }
                 }
         );
-        prePopulateData();
 
-        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+        if (isLaunchedFromEditDetails) {
+            prePopulateFromConsumerData();
+        } else {
+            prePopulateFromPropositionData();
+        }
+
+        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent() && !isLaunchedFromEditDetails) {
             mStateLabel.setVisibility(View.GONE);
             mLocationCantainer.setVisibility(View.GONE);
         }
     }
 
-    private void prePopulateData() {
+    private void prePopulateFromConsumerData() {
+
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_edit_details), true);
+        }
+
+        mContinueButton.setText(R.string.ths_save);
+
+        Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
+        if (consumer == null) {
+            return;
+        }
+
+        if (consumer.getEmail() != null) {
+            dependantEmailAddress.setText(consumer.getEmail());
+        }
+        if (consumer.getFirstName() != null) {
+            mEditTextFirstName.setText(consumer.getFirstName());
+        }
+        if (consumer.getLastName() != null) {
+            mEditTextLastName.setText(consumer.getLastName());
+        }
+        if (consumer.getDob() != null) {
+            final SDKLocalDate dob = consumer.getDob();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(dob.getYear(), dob.getMonth() - 1, dob.getDay());
+
+            final Date time = calendar.getTime();
+
+            mDob = time;
+            setDate(mDob);
+        }
+        final String gender = consumer.getGender();
+        if (gender == null)
+            return;
+        if (gender == Gender.FEMALE) {
+            mCheckBoxFemale.setSelected(true);
+            mCheckBoxFemale.setChecked(true);
+        } else {
+            mCheckBoxMale.setSelected(true);
+            mCheckBoxMale.setChecked(true);
+        }
+
+        final State legalResidence = consumer.getLegalResidence();
+        if (mValidStates.contains(legalResidence)) {
+            mCurrentSelectedState = legalResidence;
+            mEditTextStateSpinner.setText(mCurrentSelectedState.getName());
+            uiPicker.setSelection(mValidStates.indexOf(mCurrentSelectedState));
+        }
+
+
+        if (consumer.isDependent()) {
+            dependantEmailAddress.setEnabled(false);
+            mEditTextStateSpinner.setEnabled(false);
+        }
+
+
+    }
+
+    private void prePopulateFromPropositionData() {
+
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
+        }
+
+        mContinueButton.setText(R.string.ths_continue);
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
-        if(user.getEmail() != null){
+        if (user.getEmail() != null) {
             dependantEmailAddress.setText(user.getEmail());
         }
         if (user.getFirstName() != null) {
@@ -212,27 +284,42 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.ths_continue) {
+
+        int radioButtonID = radio_group_single_line.getCheckedRadioButtonId();
+        View radioButton = radio_group_single_line.findViewById(radioButtonID);
+        int idx = radio_group_single_line.indexOfChild(radioButton);
+
+        if (id == R.id.ths_continue && mContinueButton.getText().toString().equalsIgnoreCase(getString(R.string.ths_continue))) {
             if (validateUserFields()) {
 
                 mContinueButton.showProgressIndicator();
 
                 if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
                 } else {
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
-                            mEditTextLastName.getText().toString(), Gender.MALE, mCurrentSelectedState);
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
                 }
             }
 
-        }
-        if (id == R.id.ths_edit_dob) {
+        } else if (id == R.id.ths_edit_dob) {
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
-        }
-        if (id == R.id.ths_edit_location) {
+        } else if (id == R.id.ths_edit_location) {
             uiPicker.show();
             updateUiPickerSelection();
+        } else {
+            if (validateUserFields()) {
+                mContinueButton.showProgressIndicator();
+                if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
+                    mThsRegistrationPresenter.updateDependentConsumerData(THSManager.getInstance().getThsConsumer(getContext()).getConsumer(), mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE);
+
+                } else {
+                    mThsRegistrationPresenter.updateConsumerData(dependantEmailAddress.getText().toString(), mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), idx == 0 ? Gender.FEMALE : Gender.MALE, mCurrentSelectedState);
+                }
+            }
         }
     }
 
@@ -245,18 +332,18 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
     }
 
-    protected boolean validateUserFields(){
+    protected boolean validateUserFields() {
         return validateNameFields() && validateDOB() && validateState();
     }
 
     private boolean validateState() {
-        if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
             isLocationValid = false;
-        }else {
+        } else {
             isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
         }
         if (isLocationValid) {
-            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_location_validation_error),false);
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING, getString(R.string.ths_registration_location_validation_error), false);
             ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
             ths_edit_location_container.showError();
             return false;
@@ -270,13 +357,13 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private boolean validateDOB() {
         boolean isValidDOB = mThsRegistrationPresenter.validateDOB(mDob);
-        if(isValidDOB){
+        if (isValidDOB) {
             if (ths_edit_dob_container.isShowingError()) {
                 ths_edit_dob_container.hideError();
             }
             return true;
-        }else {
-            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,getString(R.string.ths_registration_dob_validation_error),false);
+        } else {
+            doTagging(THS_ANALYTICS_ENROLLMENT_MISSING, getString(R.string.ths_registration_dob_validation_error), false);
             ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
             ths_edit_dob_container.showError();
             return false;
@@ -318,7 +405,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateLastNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString(), false)) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString().trim(), false)) {
             setInLineErrorMessageLastName();
             setInLineErrorVisibilityLN(true);
         } else {
@@ -327,7 +414,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateFirstNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString(), true)) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString().trim(), true)) {
             setInLineErrorMessageFirstName();
             setInLineErrorVisibilityFN(true);
         } else {
@@ -370,13 +457,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() == 1) {
             THSTagUtils.doExitToPropositionWithCallBack();
-            AmwellLog.v("REG_FRAG","handleBackEvent exit");
+            AmwellLog.v("REG_FRAG", "handleBackEvent exit");
             return true;
-        }
-        else {
-            AmwellLog.v("REG_FRAG","handleBackEvent false");
+        } else {
+            AmwellLog.v("REG_FRAG", "handleBackEvent false");
             return false;
         }
+    }
+
+    public boolean isLaunchedFromEditDetails() {
+        return isLaunchedFromEditDetails;
     }
 
 }

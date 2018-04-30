@@ -292,8 +292,22 @@ public class User {
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RLog.d(TAG, "refreshLoginSession");
-        RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
-        refreshUserSession.refreshUserSession();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(new NetworkUtility(mContext).isInternetAvailable()){
+                    RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
+                    refreshUserSession.refreshUserSession();
+                }else{
+                    ThreadUtils.postInMainThread(mContext, new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(RegConstants.FAILURE_TO_CONNECT);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 

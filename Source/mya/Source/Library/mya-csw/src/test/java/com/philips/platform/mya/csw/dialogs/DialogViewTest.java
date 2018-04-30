@@ -1,6 +1,7 @@
 package com.philips.platform.mya.csw.dialogs;
 
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
@@ -14,16 +15,28 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.robolectric.RobolectricTestRunner;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
 public class DialogViewTest {
+
+    private FragmentActivityMock fragmentActivity = new FragmentActivityMock(new FragmentManagerMock(new FragmentTransactionMock()));
+    private DialogView dialogView;
+    private MockOkayButtonListener listener = new MockOkayButtonListener();
+
+    @Mock
+    private Button okButton;
+    @Mock
+    private AlertDialogFragment alertDialogFragmentMock;
 
     @Before
     public void setUp() {
@@ -46,6 +59,24 @@ public class DialogViewTest {
         thenCustomListenerIsNotInvoked(listener);
     }
 
+    @Test
+    public void dialogIsShownFirstTimeIsCalled() {
+        givenDialogViewIsCreatedWithoutListener();
+        whenShowingDialog();
+        thenNewDialogIsShownTimes(1);
+    }
+
+    @Test
+    public void dialogIsOnlyShownOnce() {
+        givenDialogViewIsCreatedWithoutListener();
+        whenShowingDialog();
+        whenShowingDialog();
+        thenNewDialogIsShownTimes(1);
+    }
+
+    private void thenNewDialogIsShownTimes(int times) {
+        verify(alertDialogFragmentMock, times(times)).show((FragmentManager) any(), anyString());
+    }
 
     private void givenDialogViewIsCreatedWithoutListener() {
         dialogView = new DialogView(){
@@ -61,7 +92,7 @@ public class DialogViewTest {
 
             @Override
             protected void setupAlertDialogFragment(FragmentActivity activity) {
-                this.alertDialogFragment = mock(AlertDialogFragment.class);
+                this.alertDialogFragment = alertDialogFragmentMock;
             }
 
             @Override
@@ -87,7 +118,7 @@ public class DialogViewTest {
 
           @Override
           protected void setupAlertDialogFragment(FragmentActivity activity) {
-              this.alertDialogFragment = mock(AlertDialogFragment.class);
+              this.alertDialogFragment = alertDialogFragmentMock;
           }
 
           @Override
@@ -115,11 +146,4 @@ public class DialogViewTest {
     private void thenCustomListenerIsNotInvoked(MockOkayButtonListener listener) {
         assertFalse(listener.listenerInvoked);
     }
-
-    private FragmentActivityMock fragmentActivity = new FragmentActivityMock(new FragmentManagerMock(new FragmentTransactionMock()));
-    private DialogView dialogView;
-    private MockOkayButtonListener listener = new MockOkayButtonListener();
-
-    @Mock
-    private Button okButton;
 }

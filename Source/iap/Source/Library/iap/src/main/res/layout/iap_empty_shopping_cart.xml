@@ -8,15 +8,13 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/extra_option"
-        style="@style/iapCentralesansBookFont"
+        style="@style/iap_list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/border16_margin_left_right"
+        android:gravity="left|center_vertical"
         android:paddingLeft="@dimen/border16_margin_left_right"
-        android:paddingTop="@dimen/border16_margin_left_right"
-        android:text="@string/iap_product_catalog"
-        android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-        android:textSize="@dimen/title" />
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:text="@string/iap_product_catalog" />
 
     <LinearLayout
         android:id="@+id/ll_content"

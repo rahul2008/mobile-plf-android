@@ -162,7 +162,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled appointment(s)</string>
-    <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report(s)</string>
+    <string name="ths_number_of_visits_report"><xliff:g name="count">%d</xliff:g> visit report(s)</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
     <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
@@ -200,6 +200,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_this_services_is_provided_by">This service is provided by</string>
     <string name="ths_see_doctor">Go see a provider</string>
     <string name="ths_appointments">Appointments</string>
+    <string name="ths_upcoming_appointments">Upcoming appointments</string>
+    <string name="ths_my_details">My details</string>
     <string name="ths_visit_history">Visit history</string>
     <string name="ths_how_it_works">How it works</string>
     <string name="ths_customer_support">Customer support</string>
@@ -503,4 +505,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 When you make use of the \'Find Pharmacies\' functionality, you are requested to share your location data with Amwell. If you use our location features, based on your location data, the pharmacies near you will be shown.</string>
     <string name="ths_location_consent_accept">Allow</string>
     <string name="ths_location_consent_reject">Don\'t Allow</string>
+
+    <!-- Save Details -->
+    <string name="ths_save">Save</string>
+    <string name="ths_edit_details">Edit details</string>
+    <string name="ths_edit_detail_list">Please select the person for which you would like to view or edit details</string>
 </resources>

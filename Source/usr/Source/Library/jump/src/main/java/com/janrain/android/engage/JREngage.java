@@ -38,7 +38,7 @@ package com.janrain.android.engage;
  * Janrain Engage for Android SDK</a> makes it easy to include third party authentication and
  * social publishing in your Android app.  This library includes the same key
  * features as Janrain Engage for the web, as well as additional features created specifically for
- * the mobile platform. With as few as three lines of code, you can authenticate your users with 
+ * the mobile platform. With as few as three lines of code, you can authenticate your users with
  * their accounts on Google, Yahoo!, Facebook, etc., and they can immediately publish their
  * activities to multiple social networks, including Facebook, Twitter, LinkedIn, MySpace,
  * and Yahoo, through one simple interface.
@@ -56,11 +56,11 @@ package com.janrain.android.engage;
  * Janrain Engage application</a>,
  * which you can do on <a href="http://rpxnow.com">http://rpxnow.com</a>
  *
- * For an overview of how the library works and how you can take advantage of the library's 
- * features, please see the <a href="http://rpxnow.com/docs/android#user_experience">"Overview"</a> 
+ * For an overview of how the library works and how you can take advantage of the library's
+ * features, please see the <a href="http://rpxnow.com/docs/android#user_experience">"Overview"</a>
  * section of our documentation.
  *
- * To begin using the SDK, please see the 
+ * To begin using the SDK, please see the
  * <a href="http://rpxnow.com/docs/android#quick">"Quick Start Guide"</a>.
  *
  * For more detailed documentation of the library's API, you can use
@@ -92,6 +92,7 @@ import com.janrain.android.engage.ui.JRCustomInterface;
 import com.janrain.android.engage.ui.JRFragmentHostActivity;
 import com.janrain.android.engage.ui.JRPublishFragment;
 import com.janrain.android.engage.ui.JRUiFragment;
+import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
@@ -791,7 +792,7 @@ public class JREngage {
      * @param engageAppId
      *   The new Engage app id
      * @param engageAppUrl
-     *   Used for non rpx.now Engage apps
+     *   Used for non rpxnow.com Engage apps
      */
     public void changeEngageAppId(String engageAppId, String engageAppUrl) {
         blockOnInitialization();
@@ -828,6 +829,62 @@ public class JREngage {
     public static enum ExternalAuthError {
         ENGAGE_ERROR
     }
+
+    public void getAuthInfoCodeForNativeProvider(final Activity fromActivity,
+                                                  final String providerName,
+                                                  final String serverAuthCode,
+                                                  String redirectUri) {
+        blockOnInitialization();
+        if (checkSessionDataError()) return;
+        checkNullActivity(fromActivity);
+
+        JRProvider provider = mSession.getProviderByName(providerName);
+
+        mSession.setCurrentlyAuthenticatingProvider(provider);
+
+        ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
+            public void run(JSONObject json) {
+
+                if (json == null) {
+                    triggerOnFailure("Bad Response", ExternalAuthError.ENGAGE_ERROR);
+                    return;
+                }
+
+                String status = json.optString("stat");
+
+                if (json == null || json.optString("stat") == null || !json.optString("stat").equals("ok")) {
+                    triggerOnFailure("Bad Json: " + json, ExternalAuthError.ENGAGE_ERROR);
+                    return;
+                }
+
+                String auth_token = json.optString("token");
+
+                JRDictionary payload = new JRDictionary();
+                payload.put("token", auth_token);
+                payload.put("auth_info", new JRDictionary());
+
+                triggerOnSuccess(payload);
+            }
+        };
+
+        String rp_base_url = JRSession.getInstance().getRpBaseUrl();
+
+        if(!TextUtils.isEmpty(providerName)){
+            rp_base_url = rp_base_url + "/signin/oauth_token?providername=" + providerName;
+        }
+
+        ApiConnection connection =
+                new ApiConnection(rp_base_url);
+        if(TextUtils.isEmpty(redirectUri)) {
+            redirectUri = JRSession.getInstance().getRpBaseUrl() + "/" + providerName + "/callback";
+        }
+        connection.addAllToParams("code", serverAuthCode, "provider", providerName, "redirect_uri", redirectUri, "application_id", "appcfamhnpkagijaeinl");
+
+        connection.fetchResponseAsJson(handler);
+
+
+    }
+
 
     public void getAuthInfoTokenForNativeProvider(final Activity fromActivity,
                                                   final String providerName,
@@ -866,8 +923,14 @@ public class JREngage {
             }
         };
 
+        String rp_base_url = JRSession.getInstance().getRpBaseUrl();
+
+        if(!TextUtils.isEmpty(providerName)){
+            rp_base_url = rp_base_url + "/signin/oauth_token?providername=" + providerName;
+        }
+
         ApiConnection connection =
-                new ApiConnection(JRSession.getInstance().getRpBaseUrl() + "/signin/oauth_token");
+                new ApiConnection(rp_base_url);
         if(tokenSecret != null){
             if(providerName.equals("wechat")){
                 connection.addAllToParams("token", accessToken, "openid", tokenSecret, "provider", providerName);
@@ -881,6 +944,10 @@ public class JREngage {
         connection.fetchResponseAsJson(handler);
 
 
+    }
+
+    public boolean isNativeProviderConfigured(String providerName) {
+        return mSession.getProviderByName(providerName) != null;
     }
 
     /*package*/ void triggerOnSuccess(JRDictionary payload) {
@@ -975,10 +1042,10 @@ public class JREngage {
                 i.putExtra(JRFragmentHostActivity.JR_UI_CUSTOMIZATION_CLASS, uiCustomization.getName());
             }
         }
+
         i.putExtra(JRUiFragment.JR_FRAGMENT_FLOW_MODE, JRUiFragment.JR_FRAGMENT_FLOW_AUTH);
         fromActivity.startActivity(i);
     }
-
 
     /**
      * @param jrActivity See the undeprecated method
@@ -1286,7 +1353,7 @@ public class JREngage {
 /*@}*/
 
 
-    
+
     private JRSessionDelegate mJrsd = new JRSessionDelegate.SimpleJRSessionDelegate() {
         public void authenticationDidCancel() {
             LogUtils.logd();
@@ -1388,7 +1455,7 @@ public class JREngage {
         return new ArrayList<JREngageDelegate>(mDelegates);
     }
 
-    
+
 }
 
 /**

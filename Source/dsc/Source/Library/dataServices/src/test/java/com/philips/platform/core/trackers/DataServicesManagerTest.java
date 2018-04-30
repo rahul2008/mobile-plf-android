@@ -1,7 +1,6 @@
 package com.philips.platform.core.trackers;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -104,6 +103,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unchecked")
 @RunWith(RobolectricTestRunner.class)
 public class DataServicesManagerTest {
     private static final DateTime START_DATE = new DateTime();
@@ -182,8 +182,6 @@ public class DataServicesManagerTest {
     private SharedPreferences prefsMock;
     @Mock
     private SharedPreferences.Editor prefsEditorMock;
-    @Mock
-    private Handler handlerMock;
 
     @Before
     public void setUp() {
@@ -210,25 +208,25 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
+    public void ShouldPostSaveEvent_WhenSaveIsCalled() {
         mDataServicesManager.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
 
     @Test
-    public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
+    public void ShouldPostUpdateEvent_WhenUpdateIsCalled() {
         mDataServicesManager.updateMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentUpdateRequest.class));
     }
 
     @Test
-    public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
+    public void ShouldPostFetchEvent_WhenFetchIsCalled() {
         mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
-    public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() throws Exception {
+    public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() {
         mDataServicesManager.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
@@ -254,135 +252,135 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
+    public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() {
         mDataServicesManager.fetchMomentForMomentID(1, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
-    public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
+    public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() {
         mDataServicesManager.fetchConsentDetail(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
 
     @Test
-    public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
+    public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() {
         mDataServicesManager.fetchUserSettings(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadSettingsRequest.class));
     }
 
     @Test
-    public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
+    public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
         mDataServicesManager.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
     }
 
     @Test
-    public void ShouldAddConcentDetail_WhenConsentIsNull() throws Exception {
+    public void ShouldAddConcentDetail_WhenConsentIsNull() {
         mDataServicesManager.createConsentDetail("Phase", ConsentDetailStatusType.ACCEPTED, "2", "fsdfsdf");
     }
 
     @Test
-    public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
+    public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() {
         mDataServicesManager.saveConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
-    public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
+    public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() {
         mDataServicesManager.updateUserSettings(any(Settings.class), dbRequestListener);
         verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }
 
     @Test
-    public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
+    public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() {
         mDataServicesManager.updateUserCharacteristics(ArgumentMatchers.<Characteristics>anyList(), dbRequestListener);
     }
 
     @Test
-    public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() throws Exception {
+    public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() {
         mDataServicesManager.fetchUserCharacteristics(dbFetchRequestListner);
     }
 
     @Test
-    public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
+    public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() {
         mDataServicesManager.updateConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentUpdateRequest.class));
     }
 
     @Test
-    public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
+    public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() {
         mDataServicesManager.deleteAllMoments(dbRequestListener);
         verify(eventingMock).post(any(DeleteAllMomentsRequest.class));
     }
 
     //TODO: Spoorti - revisit this
     @Test
-    public void ShouldCreateMoment_WhenCreateMomentIsCalled() throws Exception {
+    public void ShouldCreateMoment_WhenCreateMomentIsCalled() {
         mDataServicesManager.createMoment("jh");
     }
 
     @Test
-    public void ShouldCreateMeasurementGroup_WhenCreateMeasurementGroupIsCalled() throws Exception {
+    public void ShouldCreateMeasurementGroup_WhenCreateMeasurementGroupIsCalled() {
         mDataServicesManager.createMeasurementGroup(momentMock);
     }
 
     //TODO: Spoorti - revisit
     @Test
-    public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() throws Exception {
+    public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() {
         baseAppDataCreator.createMomentDetail(TEST_MEASUREMENT_DETAIL_TYPE, momentMock);
     }
 
     @Test
-    public void ShouldStopCore_WhenStopCoreIsCalled() throws Exception {
+    public void ShouldStopCore_WhenStopCoreIsCalled() {
         mDataServicesManager.stopCore();
     }
 
     @Test(expected = RuntimeException.class)
-    public void ShouldinitializeSyncMonitors_WheninitializeSyncMonitorsIsCalled() throws Exception {
+    public void ShouldinitializeSyncMonitors_WheninitializeSyncMonitorsIsCalled() {
         mDataServicesManager.initializeSyncMonitors(null, new ArrayList<DataFetcher>(), new ArrayList<DataSender>(), synchronisationCompleteListener);
     }
 
     @Test
-    public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() throws Exception {
+    public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() {
         mDataServicesManager.createMeasurementGroup(measurementGroupMock);
     }
 
     @Test
-    public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() throws Exception {
+    public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() {
         mDataServicesManager.initializeDatabaseMonitor(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
     @Test
-    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
+    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() {
         mDataServicesManager.createUserCharacteristics("TYPE", "VALUE", mock(Characteristics.class));
     }
 
     @Test
-    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
+    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() {
         mDataServicesManager.createUserCharacteristics("TYPE", "VALUE", null);
     }
 
     @Test
-    public void Should_fetchAllMoment_called() throws Exception {
+    public void Should_fetchAllMoment_called() {
         mDataServicesManager.fetchAllMoment(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
-    public void Should_createUserSettings_called() throws Exception {
+    public void Should_createUserSettings_called() {
         Settings settings = mDataServicesManager.createUserSettings("en_us", "metric", null);
         assertThat(settings).isNotNull();
         assertThat(settings).isInstanceOf(Settings.class);
     }
 
     @Test
-    public void Should_createsaveUserSettings_called() throws Exception {
+    public void Should_createsaveUserSettings_called() {
         mDataServicesManager.saveUserSettings(settingsMock, dbRequestListener);
         verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
     }
 
     @Test
-    public void Should_createMomentDetail_called() throws Exception {
+    public void Should_createMomentDetail_called() {
         mDataServicesManager.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMomentDetail("Temperature", momentMock)).thenReturn(momentDetailMock);
         MomentDetail detail = mDataServicesManager.createMomentDetail("Temperature", "23", momentMock);
@@ -392,7 +390,7 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_createMeasurement_called() throws Exception {
+    public void Should_createMeasurement_called() {
         mDataServicesManager.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurement("Temperature", measurementGroupMock)).thenReturn(measurementMock);
         Measurement measurement = mDataServicesManager.createMeasurement("Temperature", "23", "celcius", measurementGroupMock);
@@ -402,7 +400,7 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_createMeasurementDetail_called() throws Exception {
+    public void Should_createMeasurementDetail_called() {
         mDataServicesManager.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurementDetail("Temperature", measurementMock)).thenReturn(measurementDetailMock);
         MeasurementDetail measurementDetail = mDataServicesManager.createMeasurementDetail("Temperature", "23", measurementMock);
@@ -412,13 +410,13 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_deleteMoment_called() throws Exception {
+    public void Should_deleteMoment_called() {
         mDataServicesManager.deleteMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentDeleteRequest.class));
     }
 
     @Test
-    public void Should_deleteMoments_called() throws Exception {
+    public void Should_deleteMoments_called() {
         List list = new ArrayList();
         list.add(momentMock);
         mDataServicesManager.deleteMoments(list, dbRequestListener);
@@ -426,7 +424,7 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_updateMoments_called() throws Exception {
+    public void Should_updateMoments_called() {
         List list = new ArrayList();
         list.add(momentMock);
         mDataServicesManager.updateMoments(list, dbRequestListener);
@@ -434,13 +432,13 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_deleteAll_called() throws Exception {
+    public void Should_deleteAll_called() {
         mDataServicesManager.deleteAll(dbRequestListener);
         verify(eventingMock).post(any(DataClearRequest.class));
     }
 
     @Test
-    public void Should_createMeasurementGroupDetail_called() throws Exception {
+    public void Should_createMeasurementGroupDetail_called() {
         mDataServicesManager.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurementGroupDetail("Temperature", measurementGroupMock)).thenReturn(measurementGroupDetailMock);
         MeasurementGroupDetail measurementGroupDetail = mDataServicesManager.createMeasurementGroupDetail("Temperature", "23", measurementGroupMock);
@@ -450,7 +448,7 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_saveUserCharacteristics_called() throws Exception {
+    public void Should_saveUserCharacteristics_called() {
         List list = new ArrayList();
         list.add(consentDetailMock);
         mDataServicesManager.saveUserCharacteristics(list, dbRequestListener);
@@ -458,20 +456,20 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_unRegisterDBChangeListener_called() throws Exception {
+    public void Should_unRegisterDBChangeListener_called() {
         mDataServicesManager.unRegisterDBChangeListener();
         DBChangeListener dbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
         assertThat(dbChangeListener).isNull();
     }
 
     @Test
-    public void Should_registerSynchronisationCompleteListener_called() throws Exception {
+    public void Should_registerSynchronisationCompleteListener_called() {
         mDataServicesManager.registerSynchronisationCompleteListener(synchronisationCompleteListenerMock);
         assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
     }
 
     @Test
-    public void Should_saveMoments_called() throws Exception {
+    public void Should_saveMoments_called() {
         List list = new ArrayList();
         list.add(momentMock);
         mDataServicesManager.saveMoments(list, dbRequestListener);
@@ -479,19 +477,19 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_unRegisterSynchronisationCosmpleteListener_called() throws Exception {
+    public void Should_unRegisterSynchronisationCosmpleteListener_called() {
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isNull();
     }
 
     @Test
-    public void Should_fetchInsights_called() throws Exception {
+    public void Should_fetchInsights_called() {
         mDataServicesManager.fetchInsights(dbFetchRequestListner);
         verify(eventingMock).post(any(FetchInsightsFromDB.class));
     }
 
     @Test
-    public void Should_deleteInsights_called() throws Exception {
+    public void Should_deleteInsights_called() {
         List list = new ArrayList();
         list.add(insightMock);
         mDataServicesManager.deleteInsights(list, dbRequestListener);
@@ -506,13 +504,13 @@ public class DataServicesManagerTest {
 
     //Push Notification test
     @Test
-    public void unRegisterDeviceTokenTest() throws Exception {
+    public void unRegisterDeviceTokenTest() {
         mDataServicesManager.unRegisterDeviceToken("token", "variant", null);
         verify(eventingMock).post(any(UnRegisterDeviceToken.class));
     }
 
     @Test
-    public void registerDeviceTokenTest() throws Exception {
+    public void registerDeviceTokenTest() {
         mDataServicesManager.registerDeviceToken("token", "variant", "protocol provider", null);
         verify(eventingMock).post(any(RegisterDeviceToken.class));
     }
@@ -524,44 +522,44 @@ public class DataServicesManagerTest {
 
     //Subject Profile Test
     @Test
-    public void createSubjectProfileTest() throws Exception {
+    public void createSubjectProfileTest() {
         mDataServicesManager.createSubjectProfile("test user", "2013-05-05", "female", 78.88, "2015-10-01T12:11:10.123+0100", null);
         verify(eventingMock).post(any(CreateSubjectProfileRequestEvent.class));
     }
 
     @Test
-    public void getSubjectProfilesTest() throws Exception {
+    public void getSubjectProfilesTest() {
         mDataServicesManager.getSubjectProfiles(null);
         verify(eventingMock).post(any(GetSubjectProfileListRequestEvent.class));
     }
 
     @Test
-    public void getSubjectProfileTest() throws Exception {
+    public void getSubjectProfileTest() {
         mDataServicesManager.getSubjectProfile("39989890000898989", null);
         verify(eventingMock).post(any(GetSubjectProfileRequestEvent.class));
     }
 
     @Test
-    public void deleteSubjectProfileTest() throws Exception {
+    public void deleteSubjectProfileTest() {
         mDataServicesManager.deleteSubjectProfile("78798089987868789", null);
         verify(eventingMock).post(any(DeleteSubjectProfileRequestEvent.class));
     }
 
     //Device Pairing test
     @Test
-    public void pairDevicesTest() throws Exception {
+    public void pairDevicesTest() {
         mDataServicesManager.pairDevices("77908787878978", "RefNode", null, null, "rxd", null);
         verify(eventingMock).post(any(PairDevicesRequestEvent.class));
     }
 
     @Test
-    public void unPairDeviceTest() throws Exception {
+    public void unPairDeviceTest() {
         mDataServicesManager.unPairDevice("7867697879787", null);
         verify(eventingMock).post(any(UnPairDeviceRequestEvent.class));
     }
 
     @Test
-    public void getPairedDevicesTest() throws Exception {
+    public void getPairedDevicesTest() {
         mDataServicesManager.getPairedDevices(null);
         verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
     }
@@ -731,7 +729,7 @@ public class DataServicesManagerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void migrateGDPR_withResultListener_shouldCallbackWhenDone() throws Exception{
+    public void migrateGDPR_withResultListener_shouldCallbackWhenDone() {
         givenHandlerExecutesImmediately();
         givenSuccessfulDeleteSyncedMomentsRequest();
         givenSyncCompletedOnStartSync();
@@ -839,10 +837,17 @@ public class DataServicesManagerTest {
         verify(eventingMock).post((DeleteExpiredInsightRequest) any());
     }
 
+    @Test
+    public void givenManagerExist_whenClearLastSyncTimeCache_thenShouldCallAccessProvider() {
+        mDataServicesManager.clearLastSyncTimeCache();
+
+        verify(uCoreAccessProvider).clearSyncTimeCache();
+    }
+
     private void givenFailedDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
                 DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
 
@@ -855,7 +860,7 @@ public class DataServicesManagerTest {
     private void givenSyncFailedOnStartSync() {
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
 
                 arg0.onSyncFailed(new Exception());
@@ -867,7 +872,7 @@ public class DataServicesManagerTest {
     private void givenSuccessfulDeleteSyncedMomentsRequest() {
         doAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
                 DBRequestListener<Moment> listener = arg0.getDbRequestListener();
 
@@ -880,7 +885,7 @@ public class DataServicesManagerTest {
     private void givenSuccessfulDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 DeleteAllInsights deleteAllInsights = (DeleteAllInsights) invocation.getArguments()[0];
                 DBRequestListener<Insight> listener = deleteAllInsights.getDbRequestListener();
 
@@ -893,7 +898,7 @@ public class DataServicesManagerTest {
     private void givenFailureDeleteSyncedMomentRequest() {
         doAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 DeleteSyncedMomentsRequest arg0 = (DeleteSyncedMomentsRequest) invocation.getArguments()[0];
                 DBRequestListener<Moment> listener = arg0.getDbRequestListener();
 
@@ -910,7 +915,7 @@ public class DataServicesManagerTest {
     private void givenSyncCompletedOnStartSync() {
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 SynchronisationCompleteListener arg0 = (SynchronisationCompleteListener) invocation.getArguments()[0];
 
                 arg0.onSyncComplete();
@@ -919,7 +924,7 @@ public class DataServicesManagerTest {
         }).when(synchronisationManagerMock).startSync((SynchronisationCompleteListener) any());
     }
 
-    private void givenHandlerExecutesImmediately() throws Exception {
+    private void givenHandlerExecutesImmediately() {
         ShadowLooper.runUiThreadTasks();
     }
 

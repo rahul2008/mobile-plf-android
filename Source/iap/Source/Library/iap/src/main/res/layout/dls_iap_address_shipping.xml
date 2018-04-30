@@ -3,23 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/iap_margin_20dp"
-    android:layout_marginEnd="@dimen/border16_margin_left_right"
-    android:layout_marginStart="@dimen/border16_margin_left_right"
+    android:paddingLeft="@dimen/border16_margin_left_right"
+    android:paddingRight="@dimen/border16_margin_left_right"
     android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_shipping_address"
-        style="@style/UIDLabel"
-
-        android:layout_width="wrap_content"
+        style="@style/iap_list_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/iap_shipping_address"
-        android:layout_marginTop="@dimen/border24_margin"
-        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:textSize="@dimen/iap_shipping_address_title_size"
-        android:textStyle="bold" />
+        android:gravity="left|center_vertical"
+        android:text="@string/iap_shipping_address" />
+
 
     <!--Personal Detail Linear Layout-->
     <com.philips.platform.uid.view.widget.Label

@@ -1,14 +1,18 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
- String cron_string = BRANCH_NAME == "develop" ? "H H(20-22) * * *" : ""
+String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
+def nodes = 'android && device'
+if (BranchName == "develop") {
+    nodes = nodes + " && TICS"
+}
 
 pipeline {
     agent {
         node {
-            label 'android && device'
+            label nodes
         }
     }
     parameters {
@@ -29,6 +33,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
+                echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
                 checkout scm

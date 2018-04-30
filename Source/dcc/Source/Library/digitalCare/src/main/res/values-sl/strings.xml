@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Pomoč in podpora</string>
     <string name="dcc_Call">Kliči</string>
     <string name="dcc_Opening_Hours">Delovni čas</string>
+    <string name="dcc_location_consent_accept">V redu</string>
+    <string name="dcc_location_consent_reject">Prekliči</string>
+    <string name="dcc_location_consent_title">Soglasje glede lokacije</string>
+    <string name="dcc_location_consent_definition_text">Družbi Philips dovoljujem, da dostopa do mojih lokacijskih podatkov za funkcijo \"Poiščite Philips v bližini\".</string>
+    <string name="dcc_location_consent_definition_help_text">Če dovolite dostop do lokacijskih podatkov, bomo morda zbirali podatke o geografski lokaciji vaše mobilne naprave.\n\nKo na strani za podporo uporabite funkcijo \"Poiščite Philips v bližini\", morate družbi Philips posredovati podatke o svoji lokaciji. Glede na podatke o lokaciji vas bomo usmerili do trgovine v vaši bližini ali pa vam bomo posredovali kontaktne podatke za pomoč uporabnikom v vaši državi.</string>
 
 </resources>

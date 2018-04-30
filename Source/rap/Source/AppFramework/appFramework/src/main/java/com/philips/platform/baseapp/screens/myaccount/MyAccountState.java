@@ -22,6 +22,7 @@ import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -45,6 +46,7 @@ public class MyAccountState extends BaseState{
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_SETTINGS_EVENT = "PrivacySettingsEvent";
     private static final String MY_DETAILS_EVENT = "MyDetailsEvent";
+    private static final String TAG = MyAccountState.class.getSimpleName();
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -120,11 +122,14 @@ public class MyAccountState extends BaseState{
             public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
 
                 URLogout urLogout = new URLogout();
+                ((HamburgerActivity) actContext).showProgressBar();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
                         ((HamburgerActivity) actContext).onLogoutResultSuccess();
                         myaLogoutListener.onLogoutSuccess();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultSuccess");
                     }
 
                     @Override
@@ -133,6 +138,9 @@ public class MyAccountState extends BaseState{
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure");
+
                     }
 
                     @Override
@@ -141,6 +149,8 @@ public class MyAccountState extends BaseState{
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onNetworkError");
                     }
                 });
                 User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);

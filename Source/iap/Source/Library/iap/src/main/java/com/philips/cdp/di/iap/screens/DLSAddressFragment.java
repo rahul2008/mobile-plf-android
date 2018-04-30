@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     protected Button mBtnCancel;
     private AddressController mAddressController;
     private PaymentController mPaymentController;
+    private LinearLayout mParentContainer;
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
 
@@ -59,6 +61,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.iap_address, container, false);
+        mParentContainer = view.findViewById(R.id.address_container);
         initializeViews(view);
         return view;
     }
@@ -151,7 +154,14 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-        dismissProgressDialog();
+        hideProgressBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+
     }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {
@@ -213,7 +223,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
-        showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        createCustomProgressBar(mParentContainer,BIG);
         if (checkBox.isChecked()) {
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
@@ -254,17 +264,16 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void setBillingAddressAndOpenOrderSummary(AddressFields billingAddressFields) {
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
-        dismissProgressDialog();
+        hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
                 OrderSummaryFragment.TAG);
     }
 
     private void saveShippingAddressToBackend() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-            HashMap<String, String> addressHashMap = addressPayload(shippingAddressFields);
-            mAddressController.updateAddress(addressHashMap);
-        }
+        createCustomProgressBar(mParentContainer, BIG);
+        HashMap<String, String> addressHashMap = addressPayload(shippingAddressFields);
+        mAddressController.updateAddress(addressHashMap);
+
     }
 
      HashMap<String, String> addressPayload(AddressFields pAddressFields) {
@@ -313,7 +322,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
-            dismissProgressDialog();
+            hideProgressBar();
             //((DLSShippingAddressFragment) shippingFragment).handleError(msg);
             showError(msg);
         }
@@ -322,7 +331,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onGetAddress(Message msg) {
         Toast.makeText(mContext, "onGetAddress", Toast.LENGTH_SHORT).show();
-        dismissProgressDialog();
+        hideProgressBar();
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
                 showError(msg);
@@ -361,7 +370,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             else
                 mPaymentController.getPaymentDetails();
         } else {
-            dismissProgressDialog();
+            hideProgressBar();
             IAPLog.d(IAPLog.LOG, msg.getData().toString());
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
@@ -382,7 +391,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             else
                 setBillingAddressAndOpenOrderSummary(billingAddressFields);
         } else {
-            dismissProgressDialog();
+            hideProgressBar();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
@@ -398,7 +407,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onGetPaymentDetails(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
 
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {

@@ -402,7 +402,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             }
         }
         if (editText.getId() == R.id.et_billing_address_line_two) {
-            result = inputValidatorAddressLineTwoBilling.isValidAddress(((EditText) editText).getText().toString());
+            result = (((EditText) editText).getText().toString().trim().equals("")) || (inputValidatorAddressLineTwoBilling.isValidAddress(((EditText) editText).getText().toString()));
             if (mEtAddressLineTwoBilling.getText().toString().trim().equals("")) {
                 result = true;
             } else {

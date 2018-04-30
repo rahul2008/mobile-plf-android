@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -55,7 +56,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
-
+    private RelativeLayout mParentLayout;
     public ShoppingCartAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
@@ -100,6 +101,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
+        mParentLayout = rootView.findViewById(R.id.parent_layout);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
@@ -120,9 +122,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartOnResume() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
+        createCustomProgressBar(mParentLayout,BIG);
 
         mAddressController.getDeliveryModes();
     }
@@ -132,7 +132,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         super.onStop();
         if (mAdapter != null)
             mAdapter.onStop();
-        dismissProgressDialog();
+        hideProgressBar();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
@@ -156,17 +156,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext,
-                        mContext.getResources().getString(R.string.iap_please_wait));
-                mAddressController.getRegions();
-            }
+            createCustomProgressBar(mParentLayout, BIG);
+            mAddressController.getRegions();
+
 
             //Track checkout action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
 
-            if (mAdapter.isFreeDelivery()) {
+            if (mAdapter!=null && mAdapter.isFreeDelivery()) {
                 //Action to track free delivery
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
@@ -193,7 +191,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onEventReceived(final String event) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
@@ -203,25 +201,23 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
-            }
+            createCustomProgressBar(mParentLayout, BIG);
+            mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
+
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_UPDATE_PRODUCT_COUNT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
-                        mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
-            }
+            createCustomProgressBar(mParentLayout, BIG);
+            mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
+                    mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
+
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     AddressSelectionFragment.TAG);
-        }else if(event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
-            Utility.showActionDialog(mContext,getString(R.string.iap_remove_product),getString(R.string.iap_cancel)
-                    ,null,getString(R.string.iap_product_remove_description),getFragmentManager(),this);
-          }
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
+            Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
+                    , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
         }
+    }
 
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
@@ -243,7 +239,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetAddress(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
@@ -290,7 +286,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onLoadFinished(ArrayList<?> data) {
         if (data!=null && data instanceof ArrayList)
-        dismissProgressDialog();
+        hideProgressBar();
         if (getActivity() == null) return;
         mData = (ArrayList<ShoppingCartData>) data;
         onOutOfStock(false);
@@ -313,7 +309,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onLoadError(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (!isNetworkConnected()) return;
 
         if (msg.obj instanceof IAPNetworkError) {
@@ -358,7 +354,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        dismissProgressDialog();
+        hideProgressBar();
     }
 
     @Override
@@ -366,8 +362,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);
 
-        if (!isProgressDialogShowing())
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+        createCustomProgressBar(mParentLayout,BIG);
         mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
     }
 

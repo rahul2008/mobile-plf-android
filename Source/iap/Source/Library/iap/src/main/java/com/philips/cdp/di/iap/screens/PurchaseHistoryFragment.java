@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -52,7 +54,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private int mRemainingOrders = 0;
     private boolean mIsLoading = false;
     private int mOrderCount = 0;
-
+    private RelativeLayout mParentLayout;
     ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
 
@@ -71,6 +73,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
 
         mOrderHistoryView = rootView.findViewById(R.id.order_history);
+        mParentLayout = rootView.findViewById(R.id.order_history_container);
+        createCustomProgressBar(mParentLayout,BIG);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
@@ -101,15 +105,13 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        hideProgressBar();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
     }
 
     private void updateHistoryListOnResume() {
         mController = new OrderController(mContext, this);
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            mController.getOrderList(mPageNo);
-        }
+        mController.getOrderList(mPageNo);
     }
 
     @Override
@@ -121,9 +123,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                 if (msg.obj instanceof OrdersData) {
                     OrdersData orderData = (OrdersData) msg.obj;
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
-                        if (isProgressDialogShowing()) {
-                            dismissProgressDialog();
-                        }
+                        hideProgressBar();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
@@ -177,8 +177,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         for (ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        hideProgressBar();
     }
 
     @Override
@@ -232,7 +231,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
             if (prxModel == null || prxModel.size() == 0) {
-                dismissProgressDialog();
+                hideProgressBar();
                 return true;
             }
             updateUiOnProductList();
@@ -243,14 +242,12 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     @Override
     public void onModelDataLoadFinished(Message msg) {
         if (processResponseFromPRX(msg)) return;
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        hideProgressBar();
     }
 
     @Override
     public void onModelDataError(Message msg) {
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        hideProgressBar();
     }
 
     private RecyclerView.OnScrollListener
@@ -284,8 +281,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     };
 
     private void loadMoreItems() {
-        if (!isProgressDialogShowing())
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
         mRemainingOrders = mRemainingOrders - mPageSize;
         mController.getOrderList(++mPageNo);
     }

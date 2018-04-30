@@ -18,46 +18,17 @@ public class SSEncoderDecoder {
     private static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
 
     protected String encodeDecodeData(int mode, Key secretKey, String value) throws SSEncodeDecodeException {
-        try {
-            final Cipher cipher = getCipherInstance();
-            if (mode == Cipher.ENCRYPT_MODE) {
-                byte[] iv = new byte[12];
-                new SecureRandom().nextBytes(iv);
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
-                final byte[] encryptedBytes = cipher.doFinal(value.getBytes()); // encrypt string value using AES
-
-                ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encryptedBytes.length);
-                byteBuffer.putInt(iv.length);
-                byteBuffer.put(iv);
-                byteBuffer.put(encryptedBytes);
-                byte[] cipherMessage = byteBuffer.array();
-                String encodedEncryptedString = Base64.encodeToString(cipherMessage, Base64.DEFAULT);
-                return encodedEncryptedString;
-            } else if (mode == Cipher.DECRYPT_MODE) {
-                byte[] cipherMessage = Base64.decode(value, Base64.DEFAULT);
-                ByteBuffer byteBuffer = ByteBuffer.wrap(cipherMessage);
-                int ivLength = byteBuffer.getInt();
-                byte[] iv = new byte[ivLength];
-                byteBuffer.get(iv);
-                byte[] cipherText = new byte[byteBuffer.remaining()];
-                byteBuffer.get(cipherText);
-
-                cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
-                byte[] plainText = cipher.doFinal(cipherText);
-                return new String(plainText);
-            }else{
-                return null;
-            }
-        } catch (GeneralSecurityException exception) {
-            throw new SSEncodeDecodeException("Error while encoding/decoding data");
+        if (mode == Cipher.ENCRYPT_MODE) {
+            byte[] cipherMessage = encodeDecodeData(mode, secretKey, value.getBytes());
+            String encodedEncryptedString = Base64.encodeToString(cipherMessage, Base64.DEFAULT);
+            return encodedEncryptedString;
+        } else if (mode == Cipher.DECRYPT_MODE) {
+            byte[] cipherMessage = Base64.decode(value, Base64.DEFAULT);
+            byte[] plainText = encodeDecodeData(mode, secretKey, cipherMessage);
+            return new String(plainText);
+        } else {
+            return null;
         }
-        catch(Exception exception){
-            throw new SSEncodeDecodeException("Error while encoding/decoding data");
-        }
-    }
-
-    public Cipher getCipherInstance() throws NoSuchAlgorithmException, NoSuchPaddingException {
-        return Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
     }
 
     protected byte[] encodeDecodeData(int mode, Key secretKey, byte[] value) throws SSEncodeDecodeException {
@@ -68,32 +39,36 @@ public class SSEncoderDecoder {
                 byte[] iv = new byte[12];
                 new SecureRandom().nextBytes(iv);
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
-                byte[] encBytes = cipher.doFinal(value);
-                ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encBytes.length);
+                byte[] encryptedBytes = cipher.doFinal(value);
+                byte[] version = SecureStorageV2.VERSION.getBytes();
+                ByteBuffer byteBuffer = ByteBuffer.allocate(4 + version.length + 4 + iv.length + encryptedBytes.length);//IV length integer+ Iv length+Integer to indicate Version of SS+Encrypted bytes length
+                byteBuffer.putInt(version.length);//Secure Storage version
+                byteBuffer.put(version);//Secure Storage version
                 byteBuffer.putInt(iv.length);
                 byteBuffer.put(iv);
-                byteBuffer.put(encBytes);
+                byteBuffer.put(encryptedBytes);
                 byte[] cipherMessage = byteBuffer.array();
                 return cipherMessage;
             } else if (mode == Cipher.DECRYPT_MODE) {
                 ByteBuffer byteBuffer = ByteBuffer.wrap(value);
+                int versionLength = byteBuffer.getInt();//Remove version from bytebuffer
+                byte[] version = new byte[versionLength];
+                byteBuffer.get(version);
                 int ivLength = byteBuffer.getInt();
                 byte[] iv = new byte[ivLength];
                 byteBuffer.get(iv);
                 byte[] cipherText = new byte[byteBuffer.remaining()];
                 byteBuffer.get(cipherText);
-
                 cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
                 byte[] plainText = cipher.doFinal(cipherText);
                 return plainText;
-            }else{
+            } else {
                 return null;
             }
         } catch (GeneralSecurityException exception) {
-            throw new SSEncodeDecodeException("Error while encoding/decoding data");
-        }
-        catch(Exception exception){
-            throw new SSEncodeDecodeException("Error while encoding/decoding data");
+            throw new SSEncodeDecodeException("Error while encoding/decoding data"+ exception.getMessage());
+        } catch (Exception exception) {
+            throw new SSEncodeDecodeException("Error while encoding/decoding data"+exception.getMessage());
         }
     }
 

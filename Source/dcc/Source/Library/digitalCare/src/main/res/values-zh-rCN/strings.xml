@@ -178,5 +178,10 @@
     <string name="dcc_Help_Support">帮助和支持</string>
     <string name="dcc_Call">通话</string>
     <string name="dcc_Opening_Hours">开放时间</string>
+    <string name="dcc_location_consent_accept">确定</string>
+    <string name="dcc_location_consent_reject">取消</string>
+    <string name="dcc_location_consent_title">位置许可</string>
+    <string name="dcc_location_consent_definition_text">我允许飞利浦访问我的位置数据以使用“查找您附近的飞利浦”功能。</string>
+    <string name="dcc_location_consent_definition_help_text">当您允许访问位置数据时，我们可能会收集有关您移动设备的地理位置信息。\n\n当您使用支持页面上的“查找您附近的飞利浦”功能时，系统将要求您与飞利浦共享位置数据。如果您使用我们的位置功能，根据您的位置数据，系统将指引您到附近的商店，或提供您所在国家/地区的客户服务联系人详细信息。</string>
 
 </resources>

@@ -178,5 +178,10 @@
     <string name="dcc_Help_Support">Nápověda a podpora</string>
     <string name="dcc_Call">Hovor</string>
     <string name="dcc_Opening_Hours">Otevírací hodiny</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Zrušit</string>
+    <string name="dcc_location_consent_title">Souhlas s používáním polohy</string>
+    <string name="dcc_location_consent_definition_text">Tímto dovoluji společnosti Philips přistupovat k mým údajům o poloze za účelem použití funkce „Najít nejbližší pobočku Philips“.</string>
+    <string name="dcc_location_consent_definition_help_text">Jestliže umožníte přístup k údajům o své poloze, budeme moci shromažďovat údaje o geografické poloze vašeho mobilního zařízení.\n\nPokud chcete na stránce podpory využít funkci „Najít nejbližší pobočku Philips“, budete požádáni o sdílení údajů o své poloze se společností Philips. Na základě těchto údajů se vám zobrazí nejbližší pobočka ve vašem okolí nebo kontaktní údaje střediska péče o zákazníky ve vaší zemi.</string>
 
 </resources>

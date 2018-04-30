@@ -8,15 +8,16 @@
 
 
 <resources>
+  <string name="MYA_Visit_Website">[nl]Visit our website</string>
   <string name="csw_consent_help_label">Wat betekent dit?</string>
   <string name="csw_invalid_access_token_error_message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
   <string name="csw_offline_message">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
   <string name="csw_offline_title">U bent offline</string>
-  <string name="csw_ok">[nl]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[nl]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[nl]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Beheer uw privacy. Lees onze {privacyverklaring} voor meer informatie.</string>
   <string name="csw_privacy_settings">Privacyinstellingen</string>
-  <string name="csw_privacy_settings_desc">[nl]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Beheer uw privacy. Lees onze {privacyverklaring} voor meer informatie.</string>
   <string name="csw_problem_occurred_error_message">Er is een probleem opgetreden (error %1$d). Probeer het opnieuw.</string>
   <string name="csw_problem_occurred_error_title">Probleem opgetreden</string>
   <string name="mya_Account_settings">Accountinstellingen</string>
@@ -53,8 +54,8 @@
   <string name="mya_Settings">Instellingen</string>
   <string name="mya_change_country">Meld u af om uw land te wijzigen</string>
   <string name="mya_change_country_message">Meld u af en wijzig het land waar u woont. Zo kunnen we de garantie en andere informatie op uw locatie afstemmen.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[nl]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[nl]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Annuleren</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[nl]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[nl]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[nl]OK, count me in</string>
