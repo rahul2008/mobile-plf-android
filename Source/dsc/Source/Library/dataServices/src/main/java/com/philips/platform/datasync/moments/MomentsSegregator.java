@@ -125,27 +125,26 @@ public class MomentsSegregator {
             moment.setId(moment.getId());
             momentsToUpdate.add(moment);
         } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
+            if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+                moment.getSynchronisationData().setVersion(getNewMomentVersion(moment, momentInDatabase));
+            }
             moment.setSynced(true);
             moment.setId(momentInDatabase.getId());
             momentsToUpdate.add(moment);
         }
-        else if(isMomentUpdatedFromBackend(moment, momentInDatabase))
-        {
-            int momentVersionOld = 0;
-            int momentVersionNew = moment.getSynchronisationData().getVersion();
-            if(momentInDatabase.getSynchronisationData() != null) {
-                momentVersionOld = momentInDatabase.getSynchronisationData().getVersion();
-            }
+    }
 
-            if(momentVersionOld >= momentVersionNew) {
-                momentVersionNew = momentVersionOld;
-            }
-
-            moment.setSynced(true);
-            moment.setId(momentInDatabase.getId());
-            moment.getSynchronisationData().setVersion(momentVersionNew);
-            momentsToUpdate.add(moment);
+    private int getNewMomentVersion(Moment moment, Moment momentInDatabase) {
+        int momentVersionOld = 0;
+        int momentVersionNew = moment.getSynchronisationData().getVersion();
+        if(momentInDatabase.getSynchronisationData() != null) {
+            momentVersionOld = momentInDatabase.getSynchronisationData().getVersion();
         }
+
+        if(momentVersionOld >= momentVersionNew) {
+            momentVersionNew = momentVersionOld;
+        }
+        return momentVersionNew;
     }
 
     private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener) throws SQLException {
