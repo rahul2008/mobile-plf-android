@@ -101,7 +101,7 @@ public class PublicKeyManager implements X509TrustManager {
         try {
             certificate.checkValidity(dateFormat.parse(storedDateValue));
         } catch (ParseException e) {
-            e.printStackTrace();
+            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, PublicKeyManager.class.getSimpleName(), e.getMessage());
         } catch (CertificateExpiredException | CertificateNotYetValidException e) {
             log(storedDateValue);
         }
