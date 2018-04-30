@@ -58,8 +58,12 @@ public class AILCloudLogDataBuilder {
         return ailCloudLogData;
     }
 
-    private String convertMapToJsonString(Object o) {
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(o);
+    private String convertMapToJsonString(Object param) {
+        if(param != null) {
+            Gson gson = new GsonBuilder().create();
+            return gson.toJson(param);
+        }
+        else
+            return null;
     }
 }
