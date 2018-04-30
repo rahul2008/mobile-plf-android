@@ -42,6 +42,8 @@
       "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":true,
       "componentIds": [
         "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
@@ -54,6 +56,8 @@
       "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":true,
       "componentIds": [
         "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"

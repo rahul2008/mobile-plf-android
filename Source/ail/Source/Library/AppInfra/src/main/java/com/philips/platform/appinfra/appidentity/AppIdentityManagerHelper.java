@@ -61,6 +61,7 @@ class AppIdentityManagerHelper {
             } else {
                 throw new IllegalArgumentException("Appversion cannot be null");
             }
+            mAppInfra.getAilCloudLogMetaData().setAppVersion(appVersion);
             return appVersion;
         } catch (PackageManager.NameNotFoundException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY, "Error in validate AppVersion " + e.getMessage());
@@ -178,7 +179,9 @@ class AppIdentityManagerHelper {
                         " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
                         "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
             }
+            mAppInfra.getAilCloudLogMetaData().setAppState(appState);
         }
+
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "App State Environment " + mAppStateEnum);
         return mAppStateEnum;

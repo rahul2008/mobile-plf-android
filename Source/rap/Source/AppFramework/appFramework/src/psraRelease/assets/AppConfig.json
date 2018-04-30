@@ -41,6 +41,8 @@
       "logLevel":"Off",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
       ]
@@ -52,6 +54,8 @@
       "logLevel":"Off",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
       ]

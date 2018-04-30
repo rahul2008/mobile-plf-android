@@ -800,7 +800,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private void saveToSecureStore(final String country, final String countrySource) {
-        mAppInfra.setHomeCountry(country);
+        mAppInfra.getAilCloudLogMetaData().setHomeCountry(country);
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
         final SecureStorage.SecureStorageError mSecureStorageError = getSecureStorageError();
 

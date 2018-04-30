@@ -79,4 +79,9 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
+    @Override
+    public void setUserUUID(String userUUID) {
+        mAppInfra.getAilCloudLogMetaData().setUserUUID(userUUID);
+    }
+
 }

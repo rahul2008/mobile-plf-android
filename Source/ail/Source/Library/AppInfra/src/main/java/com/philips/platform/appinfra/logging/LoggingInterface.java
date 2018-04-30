@@ -48,6 +48,12 @@ public interface LoggingInterface extends Serializable {
      */
     void log(LogLevel level, String eventId, String message, Map<String, ?> map);
 
+    /**
+     * Unique used id
+     * @param userUUID
+     */
+    void setUserUUID(String userUUID);
+
 
 
 }

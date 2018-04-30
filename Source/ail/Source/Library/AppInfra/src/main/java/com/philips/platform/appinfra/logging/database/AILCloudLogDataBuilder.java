@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
+import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,8 +42,9 @@ public class AILCloudLogDataBuilder {
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
         }
-        ailCloudLogData.homecountry = appInfra.getHomeCountry();
-        ailCloudLogData.locale = appInfra.getLocale();
+        AILCloudLogMetaData ailCloudLogMetaData=appInfra.getAilCloudLogMetaData();
+        ailCloudLogData.homecountry = ailCloudLogMetaData.getHomeCountry();
+        ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
         if (appInfra.getTime() != null && appInfra.getTime().getUTCTime() != null) {
             ailCloudLogData.logTime = appInfra.getTime().getUTCTime().getTime();
         }
@@ -50,6 +52,9 @@ public class AILCloudLogDataBuilder {
             ailCloudLogData.networktype = appInfra.getRestClient().getNetworkReachabilityStatus().toString();
         }
         ailCloudLogData.localtime = System.currentTimeMillis();
+        ailCloudLogData.appState=ailCloudLogMetaData.getAppState();
+        ailCloudLogData.appVersion=ailCloudLogMetaData.getAppVersion();
+        ailCloudLogData.appsId=ailCloudLogMetaData.getAppsId();
         if (loggingConfiguration.getComponentID() != null && !loggingConfiguration.getComponentID().isEmpty()
                 && loggingConfiguration.getComponentVersion() != null && !loggingConfiguration.getComponentVersion().isEmpty()) {
             ailCloudLogData.component = loggingConfiguration.getComponentID() + "/" + loggingConfiguration.getComponentVersion();

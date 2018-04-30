@@ -76,4 +76,21 @@ public class AILCloudLogData {
      */
     public String transactionId;
 
+    /**
+     *
+     */
+    public String appState;
+    /**
+     *
+     */
+    public String appVersion;
+    /**
+     *
+     */
+    public String appsId;
+
+
+
+
+
 }

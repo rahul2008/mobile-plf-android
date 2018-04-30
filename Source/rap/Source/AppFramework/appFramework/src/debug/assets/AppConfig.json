@@ -65,6 +65,8 @@
       "logLevel": "All",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",
@@ -86,6 +88,8 @@
       "fileSizeInBytes": 50000,
       "logLevel": "All",
       "fileLogEnabled": false,
+      "cloudLogEnabled":true,
+      "batchLimit":5,
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": true,
       "componentIds": [
