@@ -526,33 +526,35 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void emailError(int errorDesc) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(context.getResources().getString(errorDesc));
-    }
-
-    @Override
-    public void emailError(String errorDesc) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(errorDesc);
-    }
-
-    @Override
-    public void genericError(String errorDesc) {
-        usrCreatescreenErrorView.setError(errorDesc);
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
-    }
-
-    @Override
-    public void genericError(int errorDescID) {
-        usrCreatescreenErrorView.setError(context.getString(errorDescID));
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
-    }
-
-    @Override
-    public void serverConnectionError(int errorDescID) {
-        usrCreatescreenErrorView.setError(context.getString(errorDescID));
+    public void setErrorCode(int errorDesc) {
+        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorDesc));
         scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
         enableCreateButton();
     }
+
+//    @Override
+//    public void emailError(String errorDesc) {
+//        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(errorDesc);
+//    }
+//
+//    @Override
+//    public void genericError(String errorDesc) {
+//        usrCreatescreenErrorView.setError(errorDesc);
+//        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
+//    }
+//
+//    @Override
+//    public void genericError(int errorDescID) {
+//        usrCreatescreenErrorView.setError(context.getString(errorDescID));
+//        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
+//    }
+//
+//    @Override
+//    public void serverConnectionError(int errorDescID) {
+//        usrCreatescreenErrorView.setError(context.getString(errorDescID));
+//        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
+//        enableCreateButton();
+//    }
 
     @Override
     public String getEmail() {

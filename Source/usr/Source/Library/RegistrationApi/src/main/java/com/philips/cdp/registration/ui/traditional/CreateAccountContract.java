@@ -16,15 +16,15 @@ public interface CreateAccountContract {
 
     void completeRegistration();
 
-    void emailError(int errorDescID);
+    void setErrorCode(int errorDescID);
 
-    void emailError(String errorDesc);
+//    void setErrorCode(String errorDesc);
+//
+//    void genericError(String errorDesc);
+//
+//    void genericError(int errorDescID);
 
-    void genericError(String errorDesc);
-
-    void genericError(int errorDescID);
-
-    void serverConnectionError(int errorDesc);
+//    void serverConnectionError(int errorDesc);
 
     String getEmail();
 

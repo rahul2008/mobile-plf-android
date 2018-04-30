@@ -11,18 +11,27 @@ package com.philips.cdp.registration.controller;
 
 import android.app.Activity;
 import android.content.Context;
+
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
-import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
@@ -117,7 +126,7 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         } else {
             RLog.d(TAG,"onFailure : else is called");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
         }

@@ -21,6 +21,7 @@ import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
@@ -139,7 +140,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         } else {
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             ThreadUtils.postInMainThread(mContext,()->
             mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }

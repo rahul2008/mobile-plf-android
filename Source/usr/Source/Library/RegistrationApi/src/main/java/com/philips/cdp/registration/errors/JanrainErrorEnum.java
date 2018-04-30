@@ -8,6 +8,7 @@ import com.philips.cdp.registration.R;
 
 public enum JanrainErrorEnum {
 
+    JANRAIN_UNKNOWN_ERROR(ErrorCodes.UNKNOWN_ERROR, R.string.reg_Janrain_Connection_Lost_No_Invalid_Mismatch),
     JANRAIN_CONNECTION_LOST_NO_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_NO_ARGUMENT, R.string.reg_Janrain_Connection_Lost_No_Invalid_Mismatch),
     JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT, R.string.reg_Janrain_Connection_Lost_No_Invalid_Mismatch),
     JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT, R.string.reg_Janrain_Connection_Lost_No_Invalid_Mismatch),
@@ -50,7 +51,6 @@ public enum JanrainErrorEnum {
     JANRAIN_API_CALL_LIMIT_REACHED(ErrorCodes.JANRAIN_API_CALL_LIMIT_REACHED, R.string.reg_Janrain_API_call_Limit_Reached),
     JANRAIN_ERROR_ON_FLOW(ErrorCodes.JANRAIN_ERROR_ON_FLOW, R.string.reg_Janrain_Failed_Consumer_Care);
 
-    private static final int STRING_ID_NOT_FOUND = -1;
     int errorCode;
     int stringId;
 
@@ -71,7 +71,7 @@ public enum JanrainErrorEnum {
                 return janrainErrorEnum.getStringId();
             }
         }
-        return STRING_ID_NOT_FOUND;
+        return ErrorCodes.UNKNOWN_ERROR;
     }
 
 

@@ -3,6 +3,7 @@ package com.philips.cdp.registration.update;
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureRecord;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.json.JSONObject;
@@ -29,11 +30,11 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
                 ((CaptureRecord) updatedUserData).synchronize(this, userData);
             } catch (Capture.InvalidApidChangeException e) {
                 RLog.e(TAG, "Exception occured while updating User Info ");
-                mUpdateUserListener.onUserUpdateFailed(-1);
+                mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
             }
         } else {
             RLog.e(TAG, "updatedUserData NULL ");
-            mUpdateUserListener.onUserUpdateFailed(-1);
+            mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
         }
     }
 

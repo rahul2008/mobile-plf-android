@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 
 public class CreateAccountPresenter implements NetworkStateListener, EventListener, TraditionalRegistrationHandler {
 
-    private static final int FAILURE_TO_CONNECT = -1;
+    private static final String TAG = CreateAccountPresenter.class.getSimpleName();
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
     private final static int TOO_MANY_REGISTARTION_ATTEMPTS = 510;
@@ -139,23 +138,25 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
+        RLog.e(TAG, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         createAccountContract.registrtionFail();
-        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isMobileFlow()) {
-                createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
-            } else {
-                createAccountContract.emailError(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg);
-            }
-            createAccountContract.scrollViewAutomaticallyToEmail();
-            createAccountContract.emailAlreadyUsed();
-        } else if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT) {
-            createAccountContract.serverConnectionError(R.string.reg_JanRain_Server_Connection_Failed);
-        } else if (userRegistrationFailureInfo.getErrorCode() == TOO_MANY_REGISTARTION_ATTEMPTS) {
-            createAccountContract.genericError(R.string.reg_Generic_Network_Error);
-        } else {
-            createAccountContract.genericError(userRegistrationFailureInfo.getErrorDescription());
-        }
+//        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
+////            if (RegistrationHelper.getInstance().isMobileFlow()) {
+////                createAccountContract.setErrorCode(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
+////            } else {
+////                createAccountContract.setErrorCode(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg);
+////            }
+//            createAccountContract.setErrorCode(userRegistrationFailureInfo.getErrorCode());
+//            createAccountContract.scrollViewAutomaticallyToEmail();
+//            createAccountContract.emailAlreadyUsed();
+//        } else if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+//            createAccountContract.serverConnectionError(R.string.reg_JanRain_Server_Connection_Failed);
+//        } else if (userRegistrationFailureInfo.getErrorCode() == TOO_MANY_REGISTARTION_ATTEMPTS) {
+//            createAccountContract.genericError(R.string.reg_Generic_Network_Error);
+//        } else {
+//            createAccountContract.genericError(userRegistrationFailureInfo.getErrorDescription());
+//        }
+        createAccountContract.setErrorCode(userRegistrationFailureInfo.getErrorCode());
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 

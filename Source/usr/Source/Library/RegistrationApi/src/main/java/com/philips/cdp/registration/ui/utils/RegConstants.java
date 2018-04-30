@@ -91,8 +91,6 @@ public class RegConstants {
 
     public static final String MESSAGE = "message";
 
-    public static final int DI_PROFILE_NULL_ERROR_CODE = -1;
-
     public static final String FONT_PATH = "registration/fonts/";
 
     public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration.json";
