@@ -83,7 +83,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
         if (mOrders.isEmpty()) {
             updateHistoryListOnResume();
-
         }
 
         return rootView;

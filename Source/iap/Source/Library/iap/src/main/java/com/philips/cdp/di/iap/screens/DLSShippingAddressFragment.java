@@ -118,7 +118,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+
 
 
         mLlTown = rootView.findViewById(R.id.ll_town);
