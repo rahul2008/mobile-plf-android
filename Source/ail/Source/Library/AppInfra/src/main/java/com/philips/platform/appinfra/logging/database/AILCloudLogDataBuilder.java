@@ -30,18 +30,23 @@ public class AILCloudLogDataBuilder {
 
     public AILCloudLogData buildCloudLogModel(LogRecord logRecord) {
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
-        ailCloudLogData.logId = LoggingUtils.getUUID();
-        ailCloudLogData.severity = LoggingUtils.getAILLogLevel(logRecord.getLevel().toString());
-        ailCloudLogData.eventId = logRecord.getMessage();
+
         if (logRecord.getParameters() != null) {
             List<Object> parameters = Arrays.asList(logRecord.getParameters());
             if (parameters.size() == 2) {
                 if (parameters.get(1) != null) {
                     ailCloudLogData.details = convertMapToJsonString(parameters.get(1));
+                    Log.d("Memory Test", "Memory of values param: " + ailCloudLogData.details.length());
                 }
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
+            if (messageExceedsSizeLimit(ailCloudLogData)) {
+                return null;
+            }
         }
+        ailCloudLogData.logId = LoggingUtils.getUUID();
+        ailCloudLogData.severity = LoggingUtils.getAILLogLevel(logRecord.getLevel().toString());
+        ailCloudLogData.eventId = logRecord.getMessage();
         AILCloudLogMetaData ailCloudLogMetaData = appInfra.getAilCloudLogMetaData();
         ailCloudLogData.homecountry = ailCloudLogMetaData.getHomeCountry();
         ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
@@ -63,6 +68,16 @@ public class AILCloudLogDataBuilder {
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
+    }
+
+    private boolean messageExceedsSizeLimit(AILCloudLogData ailCloudLogData) {
+        if (!(ailCloudLogData.details == null || ailCloudLogData.details.isEmpty())) {
+            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > 1000;
+        } else {
+            if(!(ailCloudLogData.logDescription == null || ailCloudLogData.logDescription.isEmpty()) )
+            return ailCloudLogData.logDescription.length() > 1000;
+        }
+        return false;
     }
 
     private String convertMapToJsonString(Object param) {

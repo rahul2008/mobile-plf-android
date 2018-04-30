@@ -116,8 +116,9 @@ public class LoggingActivity extends AppCompatActivity {
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {
                             HashMap<String, String> map= new HashMap<>();
-                            map.put("key1","val1");
-                            map.put("key2","val2");
+                            map.put("k",
+                                    "LbINODm1lO6OM96soIfmXtPzDbeHNZcJz7sHg19NuOUa2ghhplUvEXV061olvVopjSzPjHVWGByKyx70306OAof1vxoSkpRrLTIWV2XC5mkUzASpoUGEFblc4sI8eQNHrAhRuiZH0zTqpchCPBM9VGijdYYgcIZYpxee6nUZuqEPOZrDasD1g5lIpcn07t3ir8aMndJW1M7vMS2AjYHspJboXeuL60pXkDrYymqSFb15yjGlrf0bgilr8jB8I9nALf14bARWZe04qvtjAHeVHJPpY4pLevfgZobrmMwDwmnFkPDQHiq9NV3o3QDfonII0SC51kVIJ64qDN26UGMLGQ6c1FwlG3uH7f3ozyWCV7EUEW0VwIe50Jtb0LYL1zpHLnHeg0CCZWneJq2CezKvsZQUTvXRNB8XbPSUyO1ck5VJOzevkvrJOJbnBjugOEjabz0MHTKwkqjhKaPy1fS8EMJAr91Y9OSmyn2bGfVB3rPAReREUvk5kv7FKLFqzQaO2lYJQLCptHsCRbm2PfcHZrdmGH2ZqhVS0kydtj1TofB33TUDkWp8I3Caf64VVEXL6vCjiooYdaeCPnoiAVJc36JIlnAEh7z41H1pHmHme81HyKZ1AD5RY4KYqzH9QWy1nPCPH2ObT0j86bP5W7Oxl85d6wbPv64NLUxNBenUMR0HYLEYo1hhpCENuEaZSJ68zZwqNTk4z2ZeMoR2mnOTcZDiq1VR2UXCfh5pqPklk1Z6lq0kAxrrBG6qXpd2JDZPaXV3PvX547CcHTX7oKinkfTHROPXTu2eeV6Z3ZMyc5k8yWYR4lEqYCFz9kmhpgAg52cXZHTENr2MZkw5bOGwPhD40hZM6Eogvi2lRVLDKoCTdc1ZgHEyShtkQyoBS5HrNFkAl1F8Jf7v2vFAULfXUqUDIYja7RJNaq2dxiJEUm9CxnA3NWNmgDYHUnBflYrwqSDAP38okOXK6uSUGnEQduquo2UBu");
+                            //map.put("key2","val2");
 
                             HashMap<String, Integer> map2= new HashMap<>();
                             map2.put("key1",2);
