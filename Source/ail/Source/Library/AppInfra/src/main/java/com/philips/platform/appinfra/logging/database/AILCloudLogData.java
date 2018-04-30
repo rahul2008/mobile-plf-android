@@ -89,8 +89,10 @@ public class AILCloudLogData {
      */
     public String appsId;
 
-
-
+    /**
+     *
+     */
+    public String serverName;
 
 
 }

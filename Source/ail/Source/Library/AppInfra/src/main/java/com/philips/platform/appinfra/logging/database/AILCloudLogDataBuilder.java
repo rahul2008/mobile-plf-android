@@ -42,7 +42,7 @@ public class AILCloudLogDataBuilder {
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
         }
-        AILCloudLogMetaData ailCloudLogMetaData=appInfra.getAilCloudLogMetaData();
+        AILCloudLogMetaData ailCloudLogMetaData = appInfra.getAilCloudLogMetaData();
         ailCloudLogData.homecountry = ailCloudLogMetaData.getHomeCountry();
         ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
         if (appInfra.getTime() != null && appInfra.getTime().getUTCTime() != null) {
@@ -52,23 +52,24 @@ public class AILCloudLogDataBuilder {
             ailCloudLogData.networktype = appInfra.getRestClient().getNetworkReachabilityStatus().toString();
         }
         ailCloudLogData.localtime = System.currentTimeMillis();
-        ailCloudLogData.appState=ailCloudLogMetaData.getAppState();
-        ailCloudLogData.appVersion=ailCloudLogMetaData.getAppVersion();
-        ailCloudLogData.appsId=ailCloudLogMetaData.getAppsId();
+        ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
+        ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
+        ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
         if (loggingConfiguration.getComponentID() != null && !loggingConfiguration.getComponentID().isEmpty()
                 && loggingConfiguration.getComponentVersion() != null && !loggingConfiguration.getComponentVersion().isEmpty()) {
             ailCloudLogData.component = loggingConfiguration.getComponentID() + "/" + loggingConfiguration.getComponentVersion();
         }
+
+        ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }
 
     private String convertMapToJsonString(Object param) {
-        if(param != null) {
+        if (param != null) {
             Gson gson = new GsonBuilder().create();
             return gson.toJson(param);
-        }
-        else
+        } else
             return null;
     }
 }

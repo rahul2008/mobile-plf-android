@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.util.UUID;
@@ -84,4 +85,9 @@ public class LoggingUtils {
             return "VERBOSE";
         }
     }
+
+    public static String getOSVersion(){
+        return Build.VERSION.RELEASE;
+    }
+
 }
