@@ -25,7 +25,6 @@ public class VerboseLinkedBlockingQueueTest {
     @Test
     public void givenListenerIsNotSet_whenOperationIsTaken_thenListenerIsNotCalled() throws InterruptedException {
         Runnable element = generateTask();
-
         queue.add(element);
         queue.take();
 
@@ -34,11 +33,10 @@ public class VerboseLinkedBlockingQueueTest {
 
     @Test
     public void givenListenerIsSet_whenOperationIsTaken_thenListenerIsCalled() throws InterruptedException {
-        Runnable element = generateTask();
-
         queue.setListener(listenerMock);
-        queue.add(element);
 
+        Runnable element = generateTask();
+        queue.add(element);
         queue.take();
 
         verify(listenerMock, times(1)).onBeforeTake(element);
