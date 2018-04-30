@@ -278,22 +278,43 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
      HashMap<String, String> addressPayload(AddressFields pAddressFields) {
         HashMap<String, String> mShippingAddressHashMap = new HashMap<>();
-
-        mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
-        mShippingAddressHashMap.put(ModelConstants.LAST_NAME, pAddressFields.getLastName());
-        mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
-        mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
-        mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
-        mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
-        mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
+        if(pAddressFields.getFirstName()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
+        }
+        if(pAddressFields.getLastName()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LAST_NAME, pAddressFields.getLastName());
+        }
+        if(pAddressFields.getLine1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
+        }
+        if(pAddressFields.getLine2()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
+        }
+        if(pAddressFields.getTitleCode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
+        }
+        if(pAddressFields.getCountryIsocode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
+        }
+        if( pAddressFields.getPostalCode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getTown()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
+        }
         final String addressId = CartModelContainer.getInstance().getAddressId();
         if (addressId != null) {
             mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, addressId);
         }
-        mShippingAddressHashMap.put(ModelConstants.PHONE_1, pAddressFields.getPhone1().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.PHONE_2, pAddressFields.getPhone1().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
+        if(pAddressFields.getPhone1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.PHONE_1, pAddressFields.getPhone1().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getPhone1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.PHONE_2, pAddressFields.getPhone1().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getEmail()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
+        }
         if (!CartModelContainer.getInstance().isAddessStateVisible()) {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
         } else {
