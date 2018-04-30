@@ -31,7 +31,6 @@ public class ConsentStatus {
         if (consentState != null ? !consentState.equals(consentStatus.consentState) : consentStatus.consentState != null)
             return false;
         return true;
-        //return timestamp != null ? timestamp.equals(consent.timestamp) : consent.timestamp == null;
     }
 
     @Override

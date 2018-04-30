@@ -44,7 +44,7 @@ public class ConsentCacheTest {
     private String CONSENT_TYPE_2 = "consentType2";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10).toDate());
     private CachedConsentStatus consentTypeStatus2 = new CachedConsentStatus(ConsentStates.inactive, 1, NOW.plusMinutes(10).toDate());
-    private String cacheMapTest = "{\"consentType1\":{\"consentState\":\"active\",\"version\":\"1\",\"expires\":\"" + (new DateTime(DateTimeZone.UTC)).toString() + "\"}}";
+    private String cacheMapTest = "{\"consentType1\":{\"consentState\":\"active\",\"version\":\"1\",\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\"}}";
     private ConsentCacheInterface consentCache;
     private String consentType;
 
