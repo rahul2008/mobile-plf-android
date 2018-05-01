@@ -27,27 +27,38 @@ class CharacteristicsPresenter {
         mDataServicesManager = DataServicesManager.getInstance();
     }
 
-    boolean createOrUpdateCharacteristics(String userCharacteristics) {
+    String createOrUpdateCharacteristics(String userCharacteristics) {
         List<Characteristics> characteristicsList = new ArrayList<>();
+        String errorMessage;
         try {
             AppUserCharacteristics mAppUserCharacteristics = parseUserCharacteristics(userCharacteristics);
-            if (mAppUserCharacteristics == null || mAppUserCharacteristics.getCharacteristics() == null)
-                return false;
-            for (int i = 0; i < mAppUserCharacteristics.getCharacteristics().size(); i++) {
-
-                if (mAppUserCharacteristics.getCharacteristics().get(i) != null) {
-                    String type = mAppUserCharacteristics.getCharacteristics().get(i).getType();
-                    String value = mAppUserCharacteristics.getCharacteristics().get(i).getValue();
-                    Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
-                    characteristicsList.add(characteristics);
-                    saveUserCharacteristicsToLocalDBRecursively(characteristicsList, characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+            errorMessage = isValidCharacteristic(mAppUserCharacteristics);
+            if (errorMessage == null) {
+                for (int i = 0; i < mAppUserCharacteristics.getCharacteristics().size(); i++) {
+                    AppCharacteristics appCharacteristics = mAppUserCharacteristics.getCharacteristics().get(i);
+                    errorMessage = createOrUpdateAppCharacteristics(appCharacteristics, characteristicsList);
+                    if (errorMessage != null) { break; }
                 }
+                mDataServicesManager.updateUserCharacteristics(characteristicsList, dbRequestListener);
             }
-            mDataServicesManager.updateUserCharacteristics(characteristicsList, dbRequestListener);
         } catch (JsonParseException exception) {
-            return false;
+            return "";
         }
-        return true;
+        return errorMessage;
+    }
+
+    private String createOrUpdateAppCharacteristics(AppCharacteristics appCharacteristics, List<Characteristics> characteristicsList) {
+        if (appCharacteristics != null) {
+            String type = appCharacteristics.getType();
+            String value = appCharacteristics.getValue();
+            if (type == null || value == null) {
+                return "type and value fields are mandatory in the json and it's case sensitive";
+            }
+            Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
+            characteristicsList.add(characteristics);
+            saveUserCharacteristicsToLocalDBRecursively(characteristicsList, characteristics, appCharacteristics.getCharacteristics());
+        }
+        return null;
     }
 
     @Nullable
@@ -72,5 +83,15 @@ class CharacteristicsPresenter {
                 }
             }
         }
+    }
+
+    private String isValidCharacteristic(AppUserCharacteristics mAppUserCharacteristics) {
+        if (mAppUserCharacteristics == null) {
+            return "The JSON you entered is invalid or too lengthy";
+        } else if (mAppUserCharacteristics.getCharacteristics() == null) {
+            return "'characteristics' is mandatory element";
+        }
+
+        return null;
     }
 }
