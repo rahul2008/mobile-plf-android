@@ -5,11 +5,11 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNDevice;
 
 import org.junit.Before;
@@ -23,7 +23,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -49,6 +48,9 @@ public class BleCommunicationStrategyTest {
     @Mock
     private Handler callbackHandlerMock;
 
+    @Mock
+    private VerboseExecutor executorMock;
+
     private BleCommunicationStrategy strategy;
 
     @Before
@@ -60,7 +62,7 @@ public class BleCommunicationStrategyTest {
         when(bleCacheDataMock.isAvailable()).thenReturn(true);
         when(bleCacheDataMock.getDevice()).thenReturn(deviceMock);
 
-        strategy = new BleCommunicationStrategy(CPP_ID, deviceCacheMock, callbackHandlerMock);
+        strategy = new BleCommunicationStrategy(CPP_ID, deviceCacheMock, callbackHandlerMock, 2000, executorMock);
     }
 
     @Test
@@ -95,42 +97,33 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void givenCommunicationIsEnabled_andExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDevice() {
-        strategy.enableCommunication();
-        strategy.disableCommunication();
+    public void whenCommunicationIsEnabled_thenDeviceIsConnectedAndDisconnectAfterRequestIsFalse() throws Exception {
 
-        assertThat(strategy.disconnectAfterRequest.get()).isTrue();
-        verify(deviceMock, times(1)).disconnect();
+        strategy.enableCommunication();
+
+        assertThat(strategy.disconnectAfterRequest.get()).isFalse();
+        verify(deviceMock).connect(anyLong());
     }
 
     @Test
-    public void givenCommunicationIsEnabled_andExecutorIsNotIdle_whenCommunicationIsDisabled_thenNotDisconnectDevice() {
+    public void givenCommunicationIsEnabledAndExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDeviceAndDisconnectAfterRequestIsSet() {
         strategy.enableCommunication();
-        strategy.requestExecutor.getQueue().add(generateTask());
+        when(executorMock.isIdle()).thenReturn(true);
+
+        strategy.disableCommunication();
+
+        assertThat(strategy.disconnectAfterRequest.get()).isTrue();
+        verify(deviceMock).disconnect();
+    }
+
+    @Test
+    public void givenCommunicationIsEnabledAndExecutorIsNotIdle_whenCommunicationIsDisabled_thenNotDisconnectDeviceButDisconnectAfterRequestIsSet() {
+        strategy.enableCommunication();
+        when(executorMock.isIdle()).thenReturn(false);
+
         strategy.disableCommunication();
 
         assertThat(strategy.disconnectAfterRequest.get()).isTrue();
         verify(deviceMock, never()).disconnect();
-    }
-
-    @Test
-    public void givenCommunicationIsEnabled_andAGetPropsIsPerformed_whenCommunicationIsDisabled_thenDisconnectDevice() {
-        strategy.enableCommunication();
-
-        verify(deviceMock).connect(anyLong());
-
-        strategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
-        strategy.disableCommunication();
-
-        verify(deviceMock).disconnect();
-    }
-
-    @NonNull
-    private Runnable generateTask() {
-        return new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
     }
 }

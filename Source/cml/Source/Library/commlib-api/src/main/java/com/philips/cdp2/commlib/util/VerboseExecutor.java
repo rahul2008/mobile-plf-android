@@ -5,49 +5,32 @@
 
 package com.philips.cdp2.commlib.util;
 
-import android.support.annotation.VisibleForTesting;
-
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class VerboseExecutor extends ThreadPoolExecutor {
 
-    private volatile boolean isExecuting = false;
+    private int nrOfScheduledTasks = 0;
 
     public VerboseExecutor() {
-        super(1, 1, 0L, TimeUnit.MILLISECONDS, new VerboseLinkedBlockingQueue<Runnable>());
-
-        ((VerboseLinkedBlockingQueue<Runnable>) getQueue()).setListener(createQueueListener());
-    }
-
-    @VisibleForTesting
-    VerboseLinkedBlockingQueueListener<Runnable> createQueueListener() {
-        return new VerboseLinkedBlockingQueueListener<Runnable>() {
-            @Override
-            public void onBeforeTake(Runnable task) {
-                isExecuting = true;
-            }
-
-            @Override
-            public void onQueueEmpty() {
-            }
-        };
+        super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
     @Override
-    protected void beforeExecute(Thread t, Runnable r) {
-        isExecuting = true;
-        super.beforeExecute(t, r);
+    public void execute(final Runnable command) {
+        nrOfScheduledTasks++;
+        super.execute(command);
     }
 
     @Override
-    protected void afterExecute(Runnable r, Throwable t) {
+    protected void afterExecute(final Runnable r, final Throwable t) {
         super.afterExecute(r, t);
-        isExecuting = false;
+        nrOfScheduledTasks--;
     }
 
     public boolean isIdle() {
-        return getQueue().isEmpty() && !isExecuting;
+        return nrOfScheduledTasks == 0;
     }
 }
 

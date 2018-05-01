@@ -9,114 +9,125 @@ import android.support.annotation.NonNull;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.mockito.verification.VerificationMode;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class VerboseExecutorTest {
 
+    private CountDownLatch latch;
+
     private VerboseExecutor executor;
 
-    @Mock
-    private VerboseLinkedBlockingQueueListener<Runnable> queueListenerMock;
-    private CountDownLatch queueEmptyLatch;
+    private Boolean idleness;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        queueEmptyLatch = new CountDownLatch(1);
-
-        this.executor = new VerboseExecutor() {
-            @Override
-            VerboseLinkedBlockingQueueListener<Runnable> createQueueListener() {
-                return queueListenerMock;
-            }
-        };
+        latch = new CountDownLatch(1);
+        executor = new VerboseExecutor();
     }
 
     @Test
-    public void givenQueueIsEmpty_whenOperationIsNotStarted_thenIsIdle() {
+    public void givenNoWorkHasBeenScheduled_thenItIsIdle() {
         assertThat(this.executor.isIdle()).isTrue();
     }
 
     @Test
-    public void givenQueueIsEmpty_whenOperationIsStarted_thenIsNotIdle() throws InterruptedException {
-        expectQueueTakes(never());
+    public void givenNoWorkHasBeenScheduled_whenWorkIsScheduled_thenTheExecutorIsNotIdle() throws InterruptedException {
 
-        executor.execute(generateAssertingTask());
+        executor.execute(generateTaskThatSetsIdleness());
 
-        queueEmptyLatch.await(1L, TimeUnit.SECONDS);
+        latch.await(10, TimeUnit.SECONDS);
+
+        assertThat(idleness).isFalse();
     }
 
     @Test
-    public void givenQueueIsNotEmpty_whenOperationIsNotStarted_thenIsNotIdle() {
-        executor.getQueue().add(generateAssertingTask());
+    public void givenWorkHasBeenScheduled_whenThatWorkCompletes_thenTheExecutorIsIdle() throws Exception {
+        executor = new VerboseExecutor() {
 
-        assertThat(this.executor.isIdle()).isFalse();
+            @Override
+            protected void afterExecute(final Runnable r, final Throwable t) {
+                super.afterExecute(r, t);
+                idleness = executor.isIdle();
+                latch.countDown();
+            }
+        };
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+
+        latch.await(10, TimeUnit.SECONDS);
+
+        assertThat(idleness).isTrue();
     }
 
     @Test
-    public void givenQueueIsNotEmpty_whenOperationIsStarted_thenIsNotIdle() throws InterruptedException {
-        expectQueueTakes(times(1));
+    public void givenWorkHasBeenScheduledTwice_whenFirstOperationFinishesAndSecondIsNotYetStarted_thenTheExecutorIsNotIdle() throws Exception {
+        latch = new CountDownLatch(2);
+        executor = new VerboseExecutor() {
 
-        executor.getQueue().add(generateAssertingTask());
-        executor.execute(generateAssertingTask());
+            @Override
+            protected void afterExecute(final Runnable r, final Throwable t) {
+                super.afterExecute(r, t);
+                if (latch.getCount() == 2) {
+                    idleness = executor.isIdle();
+                }
+                latch.countDown();
+            }
+        };
 
-        queueEmptyLatch.await(1L, TimeUnit.SECONDS);
-    }
+        final Runnable task1 = new Runnable() {
 
-    @Test
-    public void givenEnoughFreeThreads_andATaskIsExecuted_thenListenerShouldNotBeNotified() throws InterruptedException {
-        expectQueueTakes(never());
+            @Override
+            public void run() {
+                synchronized (this) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
 
-        executor.execute(generateAssertingTask());
+                    }
+                }
+            }
+        };
+        executor.execute(task1);
 
-        queueEmptyLatch.await(1L, TimeUnit.SECONDS);
-    }
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+            }
+        });
 
-    @Test
-    public void givenNotEnoughFreeThreads_andTasksAreExecuted_thenListenerShouldBeNotified() throws InterruptedException {
-        expectQueueTakes(times(2));
+        synchronized (task1) {
+            task1.notify();
+        }
 
-        executor.getQueue().add(generateAssertingTask());
-        executor.getQueue().add(generateAssertingTask());
-        executor.execute(generateAssertingTask());
+        latch.await(10, TimeUnit.SECONDS);
 
-        queueEmptyLatch.await(1L, TimeUnit.SECONDS);
+        assertThat(idleness).isFalse();
     }
 
     @NonNull
-    private Runnable generateAssertingTask() {
+    private Runnable generateTaskThatSetsIdleness() {
         return new Runnable() {
             @Override
             public void run() {
-                assertThat(executor.isIdle()).isFalse();
+                idleness = executor.isIdle();
+                latch.countDown();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
             }
         };
-    }
-
-    private void expectQueueTakes(final VerificationMode amount) {
-        doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                verify(queueListenerMock, amount).onBeforeTake(nullable(Runnable.class));
-                queueEmptyLatch.countDown();
-
-                return null;
-            }
-        }).when(queueListenerMock).onQueueEmpty();
     }
 }
