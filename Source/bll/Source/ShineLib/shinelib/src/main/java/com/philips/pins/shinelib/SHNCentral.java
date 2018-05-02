@@ -445,14 +445,13 @@ public class SHNCentral {
      * This should be called before the object is destroyed by the garbage collector.
      */
     public void shutdown() {
-        internalHandler.getLooper().quitSafely();
+        shnDeviceScanner.stopScanning();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
         if (bondStateChangedReceiver != null) {
             applicationContext.unregisterReceiver(bondStateChangedReceiver);
             bondStateChangedReceiver = null;
         }
-        shnDeviceScannerInternal.stopScanning();
-        shnDeviceScannerInternal = null;
+        internalHandler.getLooper().quitSafely();
     }
 
     /**
