@@ -42,7 +42,7 @@ class CharacteristicsPresenter {
                 mDataServicesManager.updateUserCharacteristics(characteristicsList, dbRequestListener);
             }
         } catch (JsonParseException exception) {
-            return "";
+            return "Error parsing JSON";
         }
         return errorMessage;
     }
