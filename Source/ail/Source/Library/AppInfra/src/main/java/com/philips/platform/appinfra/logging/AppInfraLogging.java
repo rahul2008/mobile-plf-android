@@ -6,6 +6,8 @@
 package com.philips.platform.appinfra.logging;
 
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.AppInfra;
 
 import java.util.Map;
@@ -84,4 +86,12 @@ public class AppInfraLogging implements LoggingInterface {
         mAppInfra.getAilCloudLogMetaData().setUserUUID(userUUID);
     }
 
+    protected Logger getJavaLogger() {
+        return mJavaLogger;
+    }
+
+    @NonNull
+    Object[] getParamObjects() {
+        return new Object[2];
+    }
 }
