@@ -130,10 +130,10 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         mDcsEventListenersMap = new HashMap<>();
 
         if (mSignOn == null) {
-            mSignOn = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+            mSignOn = createSignonInstance();
         }
 
-        mSignOn.setInterfaceAndContextObject(this, mContext);
+        mSignOn.setInterfaceObject(this);
 
         int commandResult = mSignOn.init();
         if (commandResult == Errors.SUCCESS) {
@@ -224,10 +224,14 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @Override
     public boolean isSignOn() {
         if (mSignOn == null) {
-            mSignOn = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+            mSignOn = createSignonInstance();
         }
         Log.i(LogConstants.CLOUD_CONTROLLER, "isSign: " + mSignOn.getSignOnStatus());
         return mSignOn.getSignOnStatus();
+    }
+
+    private SignOn createSignonInstance() {
+        return SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext, null);
     }
 
     private KeyProvision getKeyProvisioningState() {
