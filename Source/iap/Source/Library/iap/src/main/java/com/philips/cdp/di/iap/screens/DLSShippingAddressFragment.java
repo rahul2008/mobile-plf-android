@@ -118,7 +118,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+
 
 
         mLlTown = rootView.findViewById(R.id.ll_town);
@@ -381,18 +381,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOne.showError();
             }
         }
-        if (editText.getId() == R.id.et_address_line_two) {
-            result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
-            if (mEtAddressLineTwo.getText().toString().trim().equals("")) {
-                result = true;
-            } else {
-                if (!result) {
-                    mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
-                    mLlAddressLineTwo.showError();
-                }
-            }
-
-        }
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
             checkFields();
         }
@@ -418,7 +406,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
-                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
+                && mValidator.isValidAddress(addressLineOne)
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
