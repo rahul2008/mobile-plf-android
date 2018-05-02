@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[el]Visit our website</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">ΟΚ</string>
   <string name="mya_Personal_details">Προσωπικά στοιχεία</string>
   <string name="mya_Privacy_Settings">Ρυθμίσεις απορρήτου</string>
-  <string name="mya_Privacy_Settings_Desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη _δήλωση απορρήτου_ για περισσότερες πληροφορίες.</string>
+  <string name="mya_Privacy_Settings_Desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη {δήλωση απορρήτου} για περισσότερες πληροφορίες.</string>
   <string name="mya_Problem_Occurred_Error_Message">Προέκυψε πρόβλημα (σφάλμα %d). Δοκιμάστε ξανά.</string>
   <string name="mya_Problem_Occurred_Error_Title">Προέκυψε πρόβλημα</string>
   <string name="mya_Profile">Προφίλ</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[el]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[el]Maybe later</string>
   <string name="mya_csw_justintime_title">[el]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[el]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[el]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,el][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,el][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
   <string name="mya_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>
 </resources>

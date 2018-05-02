@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[th]Visit our website</string>
@@ -15,9 +12,9 @@
   <string name="csw_offline_title">คุณอยู่ในสถานะออฟไลน์</string>
   <string name="csw_ok">ตกลง</string>
   <string name="csw_privacy_notice">[th]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่านประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+  <string name="csw_privacy_notice_message">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่าน {privacy notice}</string>
   <string name="csw_privacy_settings">ค่าความเป็นส่วนตัว</string>
-  <string name="csw_privacy_settings_desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่านประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+  <string name="csw_privacy_settings_desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่าน {privacy notice}</string>
   <string name="csw_problem_occurred_error_message">มีปัญหาใน (error %1$d) โปรดลองอีกครั้ง</string>
   <string name="csw_problem_occurred_error_title">เกิดปัญหาขึ้น</string>
   <string name="mya_Account_settings">การตั้งค่าบัญชี</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">ตกลง</string>
   <string name="mya_Personal_details">รายละเอียดส่วนตัว</string>
   <string name="mya_Privacy_Settings">ค่าความเป็นส่วนตัว</string>
-  <string name="mya_Privacy_Settings_Desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่านประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+  <string name="mya_Privacy_Settings_Desc">ควบคุมความเป็นส่วนตัว สำหรับข้อมูลเพิ่มเติม อ่าน {privacy notice}</string>
   <string name="mya_Problem_Occurred_Error_Message">มีปัญหาใน (error %d) โปรดลองอีกครั้ง</string>
   <string name="mya_Problem_Occurred_Error_Title">เกิดปัญหาขึ้น</string>
   <string name="mya_Profile">โปรไฟล์</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[th]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[th]Maybe later</string>
   <string name="mya_csw_justintime_title">[th]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[th]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[th]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,th][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,th][NT]What do we have to offer?</string>
   <string name="mya_logout_message">คุณจะออกจากแอปพลิเคชัน หลังจากคุณล็อกเอาท์แล้ว คุณสามารถล็อกอินใหม่ได้เสมอ</string>
   <string name="mya_logout_title">คุณแน่ใจว่าต้องการออกจากระบบหรือไม่</string>
 </resources>

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[es]Visit our website</string>
@@ -15,9 +12,9 @@
   <string name="csw_offline_title">No tienes conexión a Internet</string>
   <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[es]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Controla tu privacidad. Lea la {aviso de privacidad} para obtener más información.</string>
+  <string name="csw_privacy_notice_message">Controla tu privacidad. Lee el {aviso de privacidad} para obtener más información.</string>
   <string name="csw_privacy_settings">Ajustes de privacidad</string>
-  <string name="csw_privacy_settings_desc">Controla tu privacidad. Lea la {aviso de privacidad} para obtener más información.</string>
+  <string name="csw_privacy_settings_desc">Controla tu privacidad. Lee el {aviso de privacidad} para obtener más información.</string>
   <string name="csw_problem_occurred_error_message">Se ha producido un problema (error %1$d). Inténtalo de nuevo.</string>
   <string name="csw_problem_occurred_error_title">Se ha producido un problema</string>
   <string name="mya_Account_settings">Ajustes de la cuenta</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Datos personales</string>
   <string name="mya_Privacy_Settings">Ajustes de privacidad</string>
-  <string name="mya_Privacy_Settings_Desc">Controla tu privacidad. Lea la _privacy notice_ para obtener más información.</string>
+  <string name="mya_Privacy_Settings_Desc">Controla tu privacidad. Lee el {aviso de privacidad} para obtener más información.</string>
   <string name="mya_Problem_Occurred_Error_Message">Se ha producido un problema (error %d). Inténtalo de nuevo.</string>
   <string name="mya_Problem_Occurred_Error_Title">Se ha producido un problema</string>
   <string name="mya_Profile">Perfil</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[es]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[es]Maybe later</string>
   <string name="mya_csw_justintime_title">[es]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[es]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[es]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,es][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,es][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Se cerrará la sesión en la aplicación. Después de cerrar sesión, siempre puedes iniciar sesión de nuevo.</string>
   <string name="mya_logout_title">¿Seguro que deseas cerrar la sesión?</string>
 </resources>
