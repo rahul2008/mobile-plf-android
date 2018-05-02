@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
 import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
@@ -71,7 +72,9 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                 }
                 plainByte= text.getBytes();
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before encryptData::"+System.currentTimeMillis());
                 encryptedByte = mSecureStorage.encryptData(plainByte, sseStore);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after encryptData::"+System.currentTimeMillis());
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -100,7 +103,9 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before decryptData::"+System.currentTimeMillis());
                 byte[] plainData = mSecureStorage.decryptData(encryptedByte, sseStore);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after decryptData::"+System.currentTimeMillis());
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {

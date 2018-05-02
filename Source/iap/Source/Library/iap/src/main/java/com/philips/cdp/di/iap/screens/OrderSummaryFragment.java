@@ -104,7 +104,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     void initializeViews(View rootView) {
         TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "3"));
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps_overview), "3"));
 
         mPaymentController = new PaymentController(mContext, this);
         bundle = getArguments();

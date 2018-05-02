@@ -81,15 +81,23 @@ public class Utility {
     }
 
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
+        String addressLine1ReplacingNullValue = null;
         if (!TextUtils.isEmpty(code)) {
-            sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
+            if (code != null) {
+                addressLine1ReplacingNullValue = code.replaceAll("null", " ");
+            }
+            sb.append(addressLine1ReplacingNullValue).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
         }
     }
 
     public static String getAddressToDisplay(final AddressFields address) {
         StringBuilder sb = new StringBuilder();
-        appendAddressWithNewLineIfNotNull(sb, address.getLine1());
-        appendAddressWithNewLineIfNotNull(sb, address.getLine2());
+
+        final String line1 = address.getLine1();
+        final String line2 = address.getLine2();
+
+        appendAddressWithNewLineIfNotNull(sb, line1);
+        appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
         appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());

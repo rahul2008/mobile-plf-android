@@ -15,12 +15,13 @@ import android.widget.EditText;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.util.UiUtils;
 
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.readPin;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 
 public class PinFragment extends Fragment {
 
@@ -36,6 +37,9 @@ public class PinFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_pinning, container, false);
 
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        currentAppliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+
         rootview.findViewById(R.id.cml_btnGetPin).setOnClickListener(buttonClickListener);
         rootview.findViewById(R.id.cml_btnSetPin).setOnClickListener(buttonClickListener);
 
@@ -48,12 +52,10 @@ public class PinFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        if (appliance == null) {
+        if (currentAppliance == null) {
             getFragmentManager().popBackStack();
             return;
         }
-        currentAppliance = appliance;
     }
 
     private final View.OnClickListener buttonClickListener = new View.OnClickListener() {

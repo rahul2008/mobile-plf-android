@@ -72,6 +72,24 @@
 -keepattributes InnerClasses,Exceptions
 
 
+
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+
+-dontwarn com.squareup.okhttp.**
+
+-dontwarn okio.**
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *; }
+-keep interface com.squareup.okhttp3.** { *; }
+
+-keep class com.squareup.okhttp3.** {*;}
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+
+
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 
@@ -181,9 +199,6 @@
 -keepattributes InnerClasses,Exceptions
 -dontwarn com.philips.platform.appinfra.**
 
--dontwarn org.apache.**
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
 
 
 
@@ -273,3 +288,8 @@
 -dontwarn org.joda.time.**
 -keep class org.joda.time.** { *; }
 -keep interface org.joda.time.** { *; }
+
+
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
