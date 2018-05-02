@@ -395,7 +395,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             enableAll();
         } else {
             RLog.e(TAG, "You are in Offline or Network not available");
-//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
@@ -424,11 +423,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.INPUTS_INVALID_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, userRegistrationFailureInfo.getErrorCode()));
         } else {
-            if (userRegistrationFailureInfo.getErrorCode() >= ErrorCodes.HSDP_LOWER_ERROR_BOUND) {
+            if (userRegistrationFailureInfo.getErrorCode() != ErrorCodes.UNKNOWN_ERROR) {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
                 scrollViewAutomatically(mRegError, mSvRootLayout);

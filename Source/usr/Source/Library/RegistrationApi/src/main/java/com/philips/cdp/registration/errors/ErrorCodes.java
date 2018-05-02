@@ -195,9 +195,6 @@ public class ErrorCodes {
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
 
-    //Extra Which I don't know
-    public static final int HSDP_LOWER_ERROR_BOUND = 7000;
-
     public static final int REGISTER_TRADITIONAL_FAILED_SERVER_ERROR = 7003;
 
 }

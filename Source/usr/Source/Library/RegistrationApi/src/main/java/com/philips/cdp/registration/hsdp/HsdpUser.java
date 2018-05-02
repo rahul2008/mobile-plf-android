@@ -96,8 +96,7 @@ public class HsdpUser {
                     RLog.e(TAG, "logOut dhpResponse is NULL");
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             logoutHandler.
-                                    onLogoutFailure(ErrorCodes.NETWORK_ERROR +
-                                            ErrorCodes.HSDP_LOWER_ERROR_BOUND, mContext.
+                                    onLogoutFailure(ErrorCodes.NETWORK_ERROR, mContext.
                                             getString(R.string.
                                                     reg_JanRain_Server_Connection_Failed))));
                 } else {
@@ -128,8 +127,7 @@ public class HsdpUser {
                                         " message : " + dhpResponse.message);
                                 ThreadUtils.postInMainThread(mContext, () ->
                                         logoutHandler.onLogoutFailure(Integer.
-                                                        parseInt(dhpResponse.responseCode) +
-                                                        ErrorCodes.HSDP_LOWER_ERROR_BOUND,
+                                                        parseInt(dhpResponse.responseCode),
                                                 new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(dhpResponse.responseCode))));
                             });
                         }
@@ -139,8 +137,7 @@ public class HsdpUser {
         } else {
             RLog.e(TAG, "logOut No Network Connection");
             ThreadUtils.postInMainThread(mContext, () ->
-                    logoutHandler.onLogoutFailure(ErrorCodes.NETWORK_ERROR +
-                                    ErrorCodes.HSDP_LOWER_ERROR_BOUND,
+                    logoutHandler.onLogoutFailure(ErrorCodes.NO_NETWORK,
                             new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK)));
         }
     }
@@ -181,8 +178,7 @@ public class HsdpUser {
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             refreshHandler.
                                     onRefreshLoginSessionFailedWithError
-                                            (ErrorCodes.NETWORK_ERROR +
-                                                    ErrorCodes.HSDP_LOWER_ERROR_BOUND)));
+                                            (ErrorCodes.NETWORK_ERROR)));
                 } else if (null != dhpAuthenticationResponse.responseCode &&
                         dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
                     if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
@@ -226,8 +222,7 @@ public class HsdpUser {
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer.
-                                            parseInt(dhpAuthenticationResponse.responseCode) +
-                                            ErrorCodes.HSDP_LOWER_ERROR_BOUND));
+                                            parseInt(dhpAuthenticationResponse.responseCode)));
                         });
                     }
                 }
@@ -342,8 +337,8 @@ public class HsdpUser {
                                     accessToken, refreshSecret);
 
                     if (dhpAuthenticationResponse1 == null) {
-                        handler.post(() -> handleSocialConnectionFailed(loginHandler, ErrorCodes.HSDP_LOWER_ERROR_BOUND,
-                                new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR), AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED));
+                        handler.post(() -> handleSocialConnectionFailed(loginHandler, ErrorCodes.NO_NETWORK,
+                                new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED));
                         return;
                     }
 
@@ -371,7 +366,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, ErrorCodes.HSDP_LOWER_ERROR_BOUND,
+                                handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK,
                                         new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
 
                             }
@@ -397,8 +392,7 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK +
-                            ErrorCodes.HSDP_LOWER_ERROR_BOUND,
+            handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK ,
                     new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
         }
 
