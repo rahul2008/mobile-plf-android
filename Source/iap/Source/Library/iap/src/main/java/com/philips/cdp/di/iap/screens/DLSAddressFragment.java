@@ -56,6 +56,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     private LinearLayout mParentContainer;
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
+    private  TextView tv_checkOutSteps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +69,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     void initializeViews(View rootView) {
 
-        TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
+        tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
+
 
 
         mBtnContinue = rootView.findViewById(R.id.btn_continue);
@@ -119,6 +120,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                updateCheckoutStepNumber("2");
                 checkBox.setVisibility(View.VISIBLE);
                 checkBox.setChecked(true);
                 setFragmentVisibility(billingFragment, true);
@@ -129,18 +131,24 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            updateCheckoutStepNumber("1");
             checkBox.setVisibility(View.GONE);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             ((DLSShippingAddressFragment) shippingFragment).updateFields(mAddressFieldsHashmap);
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+            updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.GONE);
             setFragmentVisibility(shippingFragment, false);
             setFragmentVisibility(billingFragment, true);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
             ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
         }
+    }
+
+    private void updateCheckoutStepNumber(String stepNumber){
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), stepNumber));
     }
 
     @Override
