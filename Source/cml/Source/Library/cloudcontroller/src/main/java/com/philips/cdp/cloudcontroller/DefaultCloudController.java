@@ -146,12 +146,13 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @VisibleForTesting
-    DefaultCloudController() {
+    DefaultCloudController(Context context) {
         mSignOn = null;
         mSignOnListeners = new CopyOnWriteArraySet<>();
         mDcsResponseListeners = new CopyOnWriteArraySet<>();
         mDcsEventListenersMap = new HashMap<>();
         mPublishEventListeners = null;
+        mContext = context;
     }
 
     @VisibleForTesting
