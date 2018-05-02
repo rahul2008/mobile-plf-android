@@ -264,6 +264,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
+        mUser.unRegisterUserRegistrationListener(this);
         mCategorizedProductList.clear();
     }
 
@@ -312,7 +313,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
 //        dismissProgressDialog();
-        mUser.unRegisterUserRegistrationListener(this);
+
         super.onDestroy();
     }
 
