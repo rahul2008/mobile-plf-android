@@ -127,10 +127,10 @@ public class CharacteristicsFragment extends DSBaseFragment
             if (!userCharacteristics.trim().isEmpty()) {
                 String errorMessage = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
                 if (errorMessage != null) {
-                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_LONG).show();
             }
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
