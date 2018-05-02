@@ -56,7 +56,7 @@ class CharacteristicsPresenter {
                     return "type and value fields are mandatory in the json and it's case sensitive";
                 }
                 Characteristics characteristic = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
-                easterEggForTesters(type, value, characteristic);
+                surpriseEggForTesters(type, value, characteristic);
                 List<AppCharacteristics> childCharacteristics = appCharacteristic.getCharacteristics();
                 String errorMessage = populateCharacteristics(childCharacteristics, characteristicsList, characteristic);
                 if (errorMessage != null) {
@@ -71,7 +71,7 @@ class CharacteristicsPresenter {
         return null;
     }
 
-    private void easterEggForTesters(String type, String value, Characteristics characteristic) {
+    private void surpriseEggForTesters(String type, String value, Characteristics characteristic) {
         if ((type.equals("test") && value.equals("test")) || (type.equals("type") && value.equals("value"))) {
             characteristic.setType("Moron");
             characteristic.setValue("Is that all your mind can come up with?");
