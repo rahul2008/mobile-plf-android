@@ -151,7 +151,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void showFragment(String fragmentTag) {
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(fragmentTag, 0);
-            getActivity().getSupportFragmentManager().executePendingTransactions();
+
         }
     }
 
