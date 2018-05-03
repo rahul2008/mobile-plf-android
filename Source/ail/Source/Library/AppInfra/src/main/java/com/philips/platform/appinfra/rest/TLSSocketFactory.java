@@ -1,7 +1,5 @@
 package com.philips.platform.appinfra.rest;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -22,9 +20,9 @@ public class TLSSocketFactory extends SSLSocketFactory {
 
     private SSLSocketFactory internalSSLSocketFactory;
 
-    public TLSSocketFactory(AppInfraInterface appInfraInterface) throws KeyManagementException, NoSuchAlgorithmException {
+    public TLSSocketFactory() throws KeyManagementException, NoSuchAlgorithmException {
         final SSLContext context = SSLContext.getInstance("TLS");
-        TrustManager trustManager[] = {new PublicKeyManager(appInfraInterface)};
+        TrustManager trustManager[] = {new AITrustManager()};
         context.init(null, trustManager , null);
         internalSSLSocketFactory = context.getSocketFactory();
     }
