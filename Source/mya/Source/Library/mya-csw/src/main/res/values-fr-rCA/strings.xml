@@ -6,7 +6,7 @@
 
 <resources>
   <string name="MYA_Visit_Website">[fr-CA]Visit our website</string>
-  <string name="csw_consent_help_label">Qu&apos;est-ce que cela signifie?</string>
+  <string name="csw_consent_help_label">Qu\&apos;est-ce que cela signifie?</string>
   <string name="csw_invalid_access_token_error_message">Un problème de connexion au serveur est survenu. Assurez-vous que la date et l’heure sont exactes sur votre appareil. Si le problème persiste, déconnectez-vous et ouvrez une nouvelle session.</string>
   <string name="csw_offline_message">Votre connexion internet semble ne pas fonctionner. Veuillez vérifier et essayer à nouveau</string>
   <string name="csw_offline_title">Vous êtes hors ligne</string>
@@ -20,7 +20,7 @@
   <string name="mya_Account_settings">Paramètres du compte</string>
   <string name="mya_Address">Adresse</string>
   <string name="mya_Cancel">Annuler</string>
-  <string name="mya_Consent_Help_Label">Qu&apos;est-ce que cela signifie?</string>
+  <string name="mya_Consent_Help_Label">Qu\&apos;est-ce que cela signifie?</string>
   <string name="mya_Country">Pays</string>
   <string name="mya_Date_of_birth">Date de naissance</string>
   <string name="mya_Email_Validation_message">Adresse courriel non confirmée</string>
