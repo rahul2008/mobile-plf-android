@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 public class VerboseExecutor extends ThreadPoolExecutor {
 
+    private final Object idleLock = new Object();
+
     private int nrOfScheduledTasks = 0;
 
     public VerboseExecutor() {
@@ -19,18 +21,24 @@ public class VerboseExecutor extends ThreadPoolExecutor {
 
     @Override
     public void execute(final Runnable command) {
-        nrOfScheduledTasks++;
+        synchronized (idleLock) {
+            nrOfScheduledTasks++;
+        }
         super.execute(command);
     }
 
     @Override
     protected void afterExecute(final Runnable r, final Throwable t) {
         super.afterExecute(r, t);
-        nrOfScheduledTasks--;
+        synchronized (idleLock) {
+            nrOfScheduledTasks--;
+        }
     }
 
     public boolean isIdle() {
-        return nrOfScheduledTasks == 0;
+        synchronized (idleLock) {
+            return nrOfScheduledTasks == 0;
+        }
     }
 }
 
