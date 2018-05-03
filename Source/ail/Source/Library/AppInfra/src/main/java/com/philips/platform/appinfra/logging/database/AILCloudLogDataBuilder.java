@@ -60,6 +60,7 @@ public class AILCloudLogDataBuilder {
         ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
         ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
         ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
+        ailCloudLogData.originatingUser=ailCloudLogMetaData.getUserUUID();
         if (loggingConfiguration.getComponentID() != null && !loggingConfiguration.getComponentID().isEmpty()
                 && loggingConfiguration.getComponentVersion() != null && !loggingConfiguration.getComponentVersion().isEmpty()) {
             ailCloudLogData.component = loggingConfiguration.getComponentID() + "/" + loggingConfiguration.getComponentVersion();
