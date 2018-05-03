@@ -31,14 +31,10 @@ public class URError {
                 return URXErrorEnum.getStringId(errorCode);
             case NETWOK:
                 return NetworkErrorEnum.getStringId(errorCode); //As for all Network error ,Message will be always same
-            case SERVICEDISCOVERY:
-                return ServiceDiscoveryErrorEnum.getStringId(errorCode);
             case JANRAIN:
                 return JanrainErrorEnum.getStringId(errorCode);
-            case UNKNOWN:
-                return UnknownErrorEnum.getStringId(errorCode);
             default:
-                return UnknownErrorEnum.getStringId(errorCode);
+                return JanrainErrorEnum.getStringId(errorCode);
         }
 
     }
