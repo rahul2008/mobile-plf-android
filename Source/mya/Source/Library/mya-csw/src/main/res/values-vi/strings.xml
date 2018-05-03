@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[vi]Visit our website</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Chi tiết cá nhân</string>
   <string name="mya_Privacy_Settings">Cài đặt quyền riêng tư</string>
-  <string name="mya_Privacy_Settings_Desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc _thông báo về quyền riêng tư_ để biết thêm thông tin.</string>
+  <string name="mya_Privacy_Settings_Desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc {thông báo về quyền riêng tư} để biết thêm thông tin.</string>
   <string name="mya_Problem_Occurred_Error_Message">Đã xảy ra vấn đề (lỗi %d). Vui lòng thử lại.</string>
   <string name="mya_Problem_Occurred_Error_Title">Đã xảy ra lỗi</string>
   <string name="mya_Profile">Hồ sơ</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[vi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[vi]Maybe later</string>
   <string name="mya_csw_justintime_title">[vi]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[vi]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[vi]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,vi][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,vi][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Bạn sẽ được đăng xuất khỏi ứng dụng. Sau khi đăng xuất, bạn vẫn luôn có thể đăng nhập lại.</string>
   <string name="mya_logout_title">Bạn có chắc chắn muốn đăng xuất không?</string>
 </resources>
