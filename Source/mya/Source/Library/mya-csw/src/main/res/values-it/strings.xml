@@ -12,9 +12,9 @@
   <string name="csw_offline_title">Non sei online</string>
   <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[it]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;_informativa sulla privacy.</string>
+  <string name="csw_privacy_notice_message">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;{informativa sulla privacy}.</string>
   <string name="csw_privacy_settings">Impostazioni di privacy</string>
-  <string name="csw_privacy_settings_desc">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;_informativa sulla privacy.</string>
+  <string name="csw_privacy_settings_desc">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;{informativa sulla privacy}.</string>
   <string name="csw_problem_occurred_error_message">Si è verificato un problema (errore %1$d). Riprova.</string>
   <string name="csw_problem_occurred_error_title">Problema rilevato</string>
   <string name="mya_Account_settings">Impostazioni account</string>
@@ -44,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Dettagli personali</string>
   <string name="mya_Privacy_Settings">Impostazioni di privacy</string>
-  <string name="mya_Privacy_Settings_Desc">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;_informativa sulla privacy.</string>
+  <string name="mya_Privacy_Settings_Desc">Preserva la tua privacy. Per ulteriori informazioni, leggi l&apos;{informativa sulla privacy}.</string>
   <string name="mya_Problem_Occurred_Error_Message">Si è verificato un problema (errore %d). Riprova.</string>
   <string name="mya_Problem_Occurred_Error_Title">Problema rilevato</string>
   <string name="mya_Profile">Profilo</string>
