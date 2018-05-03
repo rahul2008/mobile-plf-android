@@ -54,7 +54,6 @@ public class NetworkUtility {
         if (!((Activity) context).isFinishing()) {
             showDLSDialog(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager);
         }
-
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
@@ -125,10 +124,11 @@ public class NetworkUtility {
                         });
 
         builder.setTitle(pErrorString);
-
+        alertDialogFragment = builder.create();
         if(alertDialogFragment==null) {
             alertDialogFragment = builder.setCancelable(false).create();
         }
+
         if (!alertDialogFragment.isVisible()) {
             alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
         }
