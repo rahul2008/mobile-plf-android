@@ -6,7 +6,7 @@
 
 <resources>
   <string name="MYA_Visit_Website">|[zh-TW]Visit our website|</string>
-  <string name="csw_consent_help_label">|Qu&apos;est-ce que cela signifie ?|</string>
+  <string name="csw_consent_help_label">|Qu\&apos;est-ce que cela signifie ?|</string>
   <string name="csw_invalid_access_token_error_message">|Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.|</string>
   <string name="csw_offline_message">|Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.|</string>
   <string name="csw_offline_title">|Ön nem kapcsolódik az internethez|</string>
@@ -20,7 +20,7 @@
   <string name="mya_Account_settings">|Настройки учетной записи|</string>
   <string name="mya_Address">|Διεύθυνση|</string>
   <string name="mya_Cancel">|Скасувати|</string>
-  <string name="mya_Consent_Help_Label">|Qu&apos;est-ce que cela signifie ?|</string>
+  <string name="mya_Consent_Help_Label">|Qu\&apos;est-ce que cela signifie ?|</string>
   <string name="mya_Country">|Държава|</string>
   <string name="mya_Date_of_birth">|Ημερομηνία γέννησης|</string>
   <string name="mya_Email_Validation_message">|La dirección de correo electrónico no se ha confirmado.|</string>
