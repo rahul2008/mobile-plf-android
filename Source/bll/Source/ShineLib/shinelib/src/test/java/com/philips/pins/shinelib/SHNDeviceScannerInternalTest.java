@@ -395,14 +395,14 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
         Handler handlerMock = mockedHandler.getMock();
         verify(handlerMock).post(runnableCaptor.capture());
-        runnableCaptor.capture();
+        runnableCaptor.getValue().run();
 
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
         verify(leScanCallbackProxyMock, times(2)).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
     }
 
     @Test
-    public void whenScanning_ThenRestrartIsPerformedEvery30Seconds() {
+    public void whenScanning_ThenRestartIsPerformedEvery30Seconds() {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
