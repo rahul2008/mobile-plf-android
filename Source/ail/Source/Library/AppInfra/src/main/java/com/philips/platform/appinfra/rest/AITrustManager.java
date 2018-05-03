@@ -1,23 +1,8 @@
 package com.philips.platform.appinfra.rest;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-
-import java.math.BigInteger;
 import java.security.KeyStore;
-import java.security.MessageDigest;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPublicKey;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
