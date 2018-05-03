@@ -27,26 +27,11 @@ public class AITrustManager implements X509TrustManager {
 
     @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        verifyCertificates(chain, authType);
+        throw new CertificateException("Client certificates not supported!");
     }
 
     @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        verifyCertificates(chain, authType);
-    }
-
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return new X509Certificate[0];
-    }
-
-    @VisibleForTesting
-    @NonNull
-    SecureStorageInterface.SecureStorageError getSecureStorageError() {
-        return new SecureStorageInterface.SecureStorageError();
-    }
-
-    private void verifyCertificates(X509Certificate[] chain, String authType) throws CertificateException {
         if (chain == null) {
             throw new IllegalArgumentException("checkServerTrusted: X509Certificate array is null");
         }
@@ -54,8 +39,12 @@ public class AITrustManager implements X509TrustManager {
             throw new IllegalArgumentException(
                     "checkServerTrusted: X509Certificate is empty");
         }
-
         verifyChainWithTLS(chain, authType);
+    }
+
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+        return new X509Certificate[0];
     }
 
     private void verifyChainWithTLS(X509Certificate[] chain, String authType) throws CertificateException {
@@ -65,8 +54,10 @@ public class AITrustManager implements X509TrustManager {
             tmf.init((KeyStore) null);
 
             for (TrustManager trustManager : tmf.getTrustManagers()) {
-                ((X509TrustManager) trustManager).checkServerTrusted(
-                        chain, authType);
+                if(trustManager instanceof X509TrustManager){
+                    ((X509TrustManager) trustManager).checkServerTrusted(
+                            chain, authType);
+                }
             }
 
         } catch (Exception e) {
