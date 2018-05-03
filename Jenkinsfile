@@ -256,6 +256,8 @@ def BuildAndUnitTest() {
             :ews-android:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
     '''
+
+    archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/*.apk'
 }
 
 def BuildLint() {
