@@ -192,6 +192,9 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void onClick(android.view.View view) {
         getFragmentManager().popBackStack();
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 
     private RestInterface getRestClient() {
@@ -202,9 +205,10 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
     }
 
-    @NonNull @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @NonNull
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     protected DialogView getDialogView(boolean goBack) {
-        if(!goBack) {
+        if (!goBack) {
             return new DialogView();
         }
 
