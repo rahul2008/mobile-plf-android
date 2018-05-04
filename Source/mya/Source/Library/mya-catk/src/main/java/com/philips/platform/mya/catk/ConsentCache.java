@@ -41,7 +41,12 @@ public class ConsentCache implements ConsentCacheInterface {
         Type listType = new TypeToken<Map<String, CachedConsentStatus>>() {
         }.getType();
         inMemoryCache = objGson.fromJson(serializedCache, listType);
-        callback.onGetConsentsSuccess(inMemoryCache.get(consentType));
+        if (inMemoryCache == null) {
+            callback.onGetConsentsSuccess(null);
+        } else {
+            callback.onGetConsentsSuccess(inMemoryCache.get(consentType));
+        }
+
     }
 
     @Override

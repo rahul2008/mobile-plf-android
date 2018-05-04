@@ -88,6 +88,18 @@ public class ConsentCacheTest {
         thenNullConsentStatusIsreturned();
     }
 
+    @Test
+    public void fetchConsentTypeState_SecureStorageEmpty() {
+        givenSecureStorageIsEmpty();
+        givenConsentType(CONSENT_TYPE_1);
+        whenFetchConsentTypeStateIsCalled();
+        thenNullConsentStatusIsreturned();
+    }
+
+    private void givenSecureStorageIsEmpty() {
+        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(null);
+    }
+
 
     private void givenConsentType(String consentTypeParam) {
         consentType = consentTypeParam;
