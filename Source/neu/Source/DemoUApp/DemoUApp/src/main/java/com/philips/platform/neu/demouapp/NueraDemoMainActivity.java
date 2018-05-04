@@ -176,6 +176,8 @@ public class NueraDemoMainActivity extends AppCompatActivity {
     private void setConnected() {
         disconnect.setVisibility(View.VISIBLE);
         listView.setVisibility(View.VISIBLE);
+        displayList();
+        Arrays.fill(array,false);
         simulate.setVisibility(View.VISIBLE);
         simulate.setEnabled(false);
         connect.setVisibility(View.GONE);

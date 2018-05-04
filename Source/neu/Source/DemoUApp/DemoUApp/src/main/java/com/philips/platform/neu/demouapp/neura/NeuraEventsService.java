@@ -20,24 +20,27 @@ import java.util.Map;
 
 public class NeuraEventsService extends FirebaseMessagingService {
     String CHANNEL_ID = "my_channel_02";
+    String eventText;
     @Override
     public void onMessageReceived(RemoteMessage message) {
         final Map data = message.getData();
         Log.i(getClass().getSimpleName(), "Received push");
-        NeuraPushCommandFactory.getInstance().isNeuraPush(getApplicationContext(), data, new NeuraEventCallBack() {
+        final boolean isNeuraPush = NeuraPushCommandFactory.getInstance().isNeuraPush(getApplicationContext(), data, new NeuraEventCallBack() {
             @Override
             public void neuraEventDetected(NeuraEvent event) {
-                final String eventText = event != null ? event.toString() : "couldn't parse data";
+                eventText = event != null ? event.toString() : "couldn't parse data";
                 Log.i(getClass().getSimpleName(), "received Neura event - " + eventText);
                 Handler handler = new Handler(getMainLooper());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                 Toast.makeText(getApplicationContext(),"Notification: " + eventText,Toast.LENGTH_SHORT).show();
+                        generateNotification(getApplicationContext(), eventText);
                     }
                 });
-                generateNotification(getApplicationContext(), eventText);
+
             }
+
         });
     }
 
