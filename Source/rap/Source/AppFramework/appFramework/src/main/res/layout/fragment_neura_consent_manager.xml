@@ -119,6 +119,10 @@
                         android:layout_weight="0.5"
                         android:gravity="center_horizontal"
                         android:lines="1"
+                        android:paddingStart="@dimen/nuera_link_padding"
+                        android:paddingEnd="@dimen/nuera_link_padding"
+                        android:paddingLeft="@dimen/nuera_link_padding"
+                        android:paddingRight="@dimen/nuera_link_padding"
                         android:text="@string/RA_nuera_policy"
                         />
 
@@ -131,6 +135,10 @@
                         android:layout_weight="0.5"
                         android:gravity="center_horizontal"
                         android:lines="1"
+                        android:paddingStart="@dimen/nuera_link_padding"
+                        android:paddingEnd="@dimen/nuera_link_padding"
+                        android:paddingLeft="@dimen/nuera_link_padding"
+                        android:paddingRight="@dimen/nuera_link_padding"
                         android:text="@string/RA_nuera_privacy_philips"
                          />
                 </LinearLayout>
