@@ -6,27 +6,27 @@
 
 <resources>
   <string name="MYA_Visit_Website">|[zh-TW]Visit our website|</string>
-  <string name="csw_consent_help_label">|Qu\&apos;est-ce que cela signifie ?|</string>
+  <string name="csw_consent_help_label">|Qu\'est-ce que cela signifie ?|</string>
   <string name="csw_invalid_access_token_error_message">|Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.|</string>
   <string name="csw_offline_message">|Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.|</string>
   <string name="csw_offline_title">|Ön nem kapcsolódik az internethez|</string>
   <string name="csw_ok">|V REDU|</string>
   <string name="csw_privacy_notice">|[zh-TW]Privacy Notice|</string>
-  <string name="csw_privacy_notice_message">|ご自分のプライバシーを管理しましょう。詳細については {プライバシーに関する通知} をお読みください。|</string>
+  <string name="csw_privacy_notice_message">|Контролирайте поверителността си. Прочетете {бележката за поверителност} за повече информация.|</string>
   <string name="csw_privacy_settings">|Настройки конфиденциальности|</string>
-  <string name="csw_privacy_settings_desc">|ご自分のプライバシーを管理しましょう。詳細については {プライバシーに関する通知} をお読みください。|</string>
+  <string name="csw_privacy_settings_desc">|Контролирайте поверителността си. Прочетете {бележката за поверителност} за повече информация.|</string>
   <string name="csw_problem_occurred_error_message">|Es ist ein Problem (error %1$d) aufgetreten. Versuchen Sie es erneut.|</string>
   <string name="csw_problem_occurred_error_title">|Es ist ein Problem aufgetreten|</string>
   <string name="mya_Account_settings">|Настройки учетной записи|</string>
   <string name="mya_Address">|Διεύθυνση|</string>
   <string name="mya_Cancel">|Скасувати|</string>
-  <string name="mya_Consent_Help_Label">|Qu\&apos;est-ce que cela signifie ?|</string>
+  <string name="mya_Consent_Help_Label">|Qu\'est-ce que cela signifie ?|</string>
   <string name="mya_Country">|Държава|</string>
   <string name="mya_Date_of_birth">|Ημερομηνία γέννησης|</string>
   <string name="mya_Email_Validation_message">|La dirección de correo electrónico no se ha confirmado.|</string>
   <string name="mya_Email_address">|Endereço de correio electrónico|</string>
   <string name="mya_Gender">|Geschlecht|</string>
-  <string name="mya_Info">|Bạn có muốn thay đổi ID đăng nhập hoặc mật khẩu của bạn không? Hãy truy cập trang web của chúng tôi.|</string>
+  <string name="mya_Info">|[zh-TW]Do you want to change your login ID or password?|</string>
   <string name="mya_Invalid_Access_Token_Error_Message">|Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.|</string>
   <string name="mya_Login_details">|Detalhes de início de sessão|</string>
   <string name="mya_Logout">|Fermer une session|</string>
@@ -44,7 +44,7 @@
   <string name="mya_Ok">|V REDU|</string>
   <string name="mya_Personal_details">|Renseignements personnels|</string>
   <string name="mya_Privacy_Settings">|Настройки конфиденциальности|</string>
-  <string name="mya_Privacy_Settings_Desc">|ご自分のプライバシーを管理しましょう。詳細については {プライバシーに関する通知} をお読みください。|</string>
+  <string name="mya_Privacy_Settings_Desc">|Контролирайте поверителността си. Прочетете {бележката за поверителност} за повече информация.|</string>
   <string name="mya_Problem_Occurred_Error_Message">|Es ist ein Problem (error %d) aufgetreten. Versuchen Sie es erneut.|</string>
   <string name="mya_Problem_Occurred_Error_Title">|Es ist ein Problem aufgetreten|</string>
   <string name="mya_Profile">|ملف التعريف|</string>
