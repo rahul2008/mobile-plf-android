@@ -172,16 +172,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         @Override
         public int isEmpty(boolean emptyField) {
-            if (emptyField) {
+            if (emptyField && !RegistrationHelper.getInstance().isMobileFlow()) {
                 usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                        R.string.reg_EmptyField_ErrorMsg);
+                        R.string.reg_kemailFieldErrorText);
             } else {
                 if (RegistrationHelper.getInstance().isMobileFlow()) {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
                             R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
                 } else {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                            R.string.reg_kemailFieldErrorText);
                 }
             }
             isValidEmail = false;

@@ -181,7 +181,7 @@ public class ErrorCodes {
 
     public static final int HSDP_INPUT_ERROR_1312 = 1312;
 
-    public static final int HSDP_INVALID = 1437;
+    public static final int HSDP_INVALID_1437 = 1437;
 
     public static final int HSDP_INPUT_ERROR_1571 = 1571;
 
@@ -189,7 +189,7 @@ public class ErrorCodes {
 
     public static final int HSDP_INPUT_ERROR_3055 = 3055;
 
-    public static final int HSDP_TIME_ERROR = 3056;
+    public static final int HSDP_TIME_ERROR_3056 = 3056;
 
     public static final int HSDP_INPUT_ERROR_3073 = 3073;
 

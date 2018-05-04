@@ -10,7 +10,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 
 public class URError {
 
-    Context context;
+    private Context context;
 
     private final String TAG = URError.class.getSimpleName();
 

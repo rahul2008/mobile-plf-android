@@ -273,13 +273,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
-        if (emailOrMobile.isEmpty()) {
-            RLog.e(TAG, "Email or Mobile No. is Empty");
-            mEtEmail.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
-            return false;
-        }
+//        if (emailOrMobile.isEmpty()) {
+//            RLog.e(TAG, "Email or Mobile No. is Empty");
+//            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
+//            return false;
+//        }
 
-        if (RegistrationHelper.getInstance().isMobileFlow()) {
+        if (emailOrMobile.isEmpty() && RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
                 RLog.e(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
@@ -287,7 +287,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else {
             RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
-            mEtEmail.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+            mEtEmail.setErrorMessage(R.string.reg_kemailFieldErrorText);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
         return false;
@@ -718,11 +718,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void enableAll() {
-        if (networkUtility.isNetworkAvailable()) {
-            mBtnSignInAccount.setEnabled(true);
-        } else {
-            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-        }
+        mBtnSignInAccount.setEnabled(true);
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
         resetPasswordLabel.setEnabled(true);

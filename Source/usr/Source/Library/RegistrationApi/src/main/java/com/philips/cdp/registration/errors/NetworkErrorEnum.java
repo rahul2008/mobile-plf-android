@@ -8,8 +8,8 @@ import com.philips.cdp.registration.R;
 
 public enum NetworkErrorEnum {
 
-    NETWORK_ERROR(ErrorCodes.NETWORK_ERROR, R.string.reg_network_error),
-    NO_NETWORK(ErrorCodes.NO_NETWORK, R.string.reg_no_network_connection);
+    NETWORK_ERROR(ErrorCodes.NETWORK_ERROR, R.string.reg_Generic_Network_ErrorMsg),
+    NO_NETWORK(ErrorCodes.NO_NETWORK, R.string.reg_Network_ErrorMsg);
 
     int errorCode;
     int stringId;
