@@ -59,12 +59,7 @@ public class VerboseExecutorTest {
             }
         };
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
+        executor.execute(generateEmptyTask());
 
         latch.await(10, TimeUnit.SECONDS);
 
@@ -73,13 +68,19 @@ public class VerboseExecutorTest {
 
     @Test
     public void givenWorkHasBeenScheduledTwice_whenFirstOperationFinishesAndSecondIsNotYetStarted_thenTheExecutorIsNotIdle() throws Exception {
+        //GIVEN
+
+        //latch used to ensure that second Runnable will get scheduled, before the first runnable completes
+        final CountDownLatch task1latch = new CountDownLatch(1);
+
+        //latch will be counted down twice, because we execute two runnables
         latch = new CountDownLatch(2);
         executor = new VerboseExecutor() {
 
             @Override
             protected void afterExecute(final Runnable r, final Throwable t) {
                 super.afterExecute(r, t);
-                if (latch.getCount() == 2) {
+                if (latch.getCount() == 2) { //here we know that we finished the first runnable, but not the second
                     idleness = executor.isIdle();
                 }
                 latch.countDown();
@@ -90,30 +91,30 @@ public class VerboseExecutorTest {
 
             @Override
             public void run() {
-                synchronized (this) {
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-
-                    }
+                try {
+                    task1latch.await(10, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
                 }
             }
         };
         executor.execute(task1);
+        executor.execute(generateEmptyTask());
 
-        executor.execute(new Runnable() {
+        //WHEN
+        task1latch.countDown();
+        latch.await(10, TimeUnit.SECONDS);
+
+        //THEN
+        assertThat(idleness).isFalse();
+    }
+
+    @NonNull
+    Runnable generateEmptyTask() {
+        return new Runnable() {
             @Override
             public void run() {
             }
-        });
-
-        synchronized (task1) {
-            task1.notify();
-        }
-
-        latch.await(10, TimeUnit.SECONDS);
-
-        assertThat(idleness).isFalse();
+        };
     }
 
     @NonNull
