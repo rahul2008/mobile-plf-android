@@ -205,7 +205,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if (data.getDeliveryAddressEntity() != null) {
                     final AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
                     shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
-                    shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
+                    if(shippingAddressFields!=null) {
+                        shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
+                    }
                 }
 
                 mBillingAddress = CartModelContainer.getInstance().getBillingAddress();

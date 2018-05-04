@@ -54,6 +54,8 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
+    private ConfirmDialogView confirmDialogView;
+    private DialogView errorDialogViewWithClickListener;
 
     @Override
     public void setPresenter(final PermissionContract.Presenter presenter) {
@@ -168,10 +170,18 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showConfirmRevokeConsentDialog(final ConfirmDialogTextResources dialogTexts, final ConfirmDialogView.ConfirmDialogResultHandler handler) {
-        ConfirmDialogView dialog = new ConfirmDialogView();
-        dialog.setupDialog(dialogTexts);
-        dialog.setResultHandler(handler);
-        dialog.showDialog(getActivity());
+        confirmDialogView = new ConfirmDialogView();
+        confirmDialogView.setupDialog(dialogTexts);
+        confirmDialogView.setResultHandler(handler);
+        confirmDialogView.showDialog(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
     }
 
     @Override
@@ -181,11 +191,12 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void onClick(android.view.View view) {
-        getFragmentManager().popBackStack();
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 
-    @VisibleForTesting
-    protected RestInterface getRestClient() {
+    private RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
@@ -194,12 +205,16 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @NonNull
-    private DialogView getDialogView(boolean goBack) {
-        DialogView dialogView = new DialogView();
-        if (goBack) {
-            dialogView = new DialogView(this);
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    protected DialogView getDialogView(boolean goBack) {
+        if (!goBack) {
+            return new DialogView();
         }
-        return dialogView;
+
+        if (errorDialogViewWithClickListener == null) {
+            errorDialogViewWithClickListener = new DialogView(this);
+        }
+        return errorDialogViewWithClickListener;
     }
 
     private List<ConsentView> createConsentsList() {
@@ -212,5 +227,9 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
             }
         }
         return consentViewList;
+    }
+
+    protected DialogView getErrorDialogViewWithClickListener() {
+        return this.errorDialogViewWithClickListener;
     }
 }

@@ -111,7 +111,8 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         try {
-            momentsSegregator.processMomentsReceivedFromBackend(moments, null);
+            DBRequestListener<Moment> requestListener = momentSaveRequest.getDBRequestListener();
+            momentsSegregator.processMomentsReceivedFromBackend(moments, requestListener);
             notifyDBChangeSuccess(SyncType.MOMENT);
         } catch (SQLException e) {
             notifyDBFailure(e);
@@ -121,10 +122,11 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentDataSenderCreatedRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
-        if (moments == null || moments.isEmpty()) {
+        if (moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments, null);
+        DBRequestListener<Moment> requestListener = momentSaveRequest.getDBRequestListener();
+        momentsSegregator.processCreatedMoment(moments, requestListener);
     }
 
     private void notifyDBChangeSuccess(SyncType moment) {

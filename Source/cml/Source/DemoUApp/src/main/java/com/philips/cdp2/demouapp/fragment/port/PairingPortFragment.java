@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,29 +18,27 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PairingPortFragment extends Fragment {
 
-    private static final String TAG = "PairingPortFragment";
-
     private View rootview;
 
-    private Appliance appliance;
+    private PairingPort pairingPort;
 
     private final DICommPortListener pairingListener = new DICommPortListener<PairingPort>() {
         @Override
         public void onPortUpdate(PairingPort port) {
-            Log.d(TAG, "Paired successfully - appliance [" + appliance + "]");
-            appliance.getPairingPort().removePortListener(this);
+            pairingPort.removePortListener(this);
 
             Activity activity = getActivity();
             if (activity != null) {
@@ -51,8 +48,7 @@ public class PairingPortFragment extends Fragment {
 
         @Override
         public void onPortError(PairingPort port, Error error, @Nullable String errorData) {
-            Log.d(TAG, "Pairing failed - appliance [" + appliance + "]: " + error.getErrorMessage());
-            appliance.getPairingPort().removePortListener(this);
+            pairingPort.removePortListener(this);
 
             Activity activity = getActivity();
             if (activity != null) {
@@ -64,8 +60,7 @@ public class PairingPortFragment extends Fragment {
     private final DICommPortListener unpairingListener = new DICommPortListener<PairingPort>() {
         @Override
         public void onPortUpdate(PairingPort port) {
-            Log.d(TAG, "Unpaired successfully - appliance [" + appliance + "]");
-            appliance.getPairingPort().removePortListener(this);
+            pairingPort.removePortListener(this);
 
             Activity activity = getActivity();
             if (activity != null) {
@@ -75,8 +70,7 @@ public class PairingPortFragment extends Fragment {
 
         @Override
         public void onPortError(PairingPort port, Error error, @Nullable String errorData) {
-            Log.d(TAG, "Unpairing failed - appliance [" + appliance + "]: " + error.getErrorMessage());
-            appliance.getPairingPort().removePortListener(this);
+            pairingPort.removePortListener(this);
 
             Activity activity = getActivity();
             if (activity != null) {
@@ -88,8 +82,7 @@ public class PairingPortFragment extends Fragment {
     private final View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-            if (appliance == null) {
+            if (pairingPort == null) {
                 return;
             }
 
@@ -102,11 +95,11 @@ public class PairingPortFragment extends Fragment {
 
             int id = view.getId();
             if (id == R.id.cml_button_pair) {
-                appliance.getPairingPort().addPortListener(pairingListener);
-                appliance.getPairingPort().pair(clientProvider, clientType, clientId, secretKey, type, permissions);
+                pairingPort.addPortListener(pairingListener);
+                pairingPort.pair(clientProvider, clientType, clientId, secretKey, type, permissions);
             } else if (id == R.id.cml_button_unpair) {
-                appliance.getPairingPort().addPortListener(unpairingListener);
-                appliance.getPairingPort().unpair(clientProvider, clientType, clientId, type);
+                pairingPort.addPortListener(unpairingListener);
+                pairingPort.unpair(clientProvider, clientType, clientId, type);
             }
         }
     };
@@ -115,6 +108,12 @@ public class PairingPortFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_port_pairing, container, false);
+
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        if (appliance != null) {
+            pairingPort = appliance.getPairingPort();
+        }
 
         rootview.findViewById(R.id.cml_button_pair).setOnClickListener(clickListener);
         rootview.findViewById(R.id.cml_button_unpair).setOnClickListener(clickListener);

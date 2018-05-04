@@ -18,13 +18,14 @@ import android.widget.EditText;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
@@ -42,6 +43,9 @@ public class PairingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
 
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        currentAppliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+
         editTextUserId = rootview.findViewById(R.id.cml_userId);
         editTextUserToken = rootview.findViewById(R.id.cml_userToken);
 
@@ -58,8 +62,6 @@ public class PairingFragment extends Fragment {
                 startUnpairing();
             }
         });
-
-        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         return rootview;
     }

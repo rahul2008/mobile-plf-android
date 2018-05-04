@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
 import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
@@ -31,6 +31,8 @@ import com.philips.cdp2.demouapp.fragment.port.PairingPortFragment;
 import com.philips.cdp2.demouapp.fragment.port.TimePortFragment;
 import com.philips.cdp2.demouapp.fragment.port.WakeUpAlarmPortFragment;
 
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
+
 public class ApplianceFragment extends Fragment {
 
     private Appliance currentAppliance;
@@ -40,7 +42,8 @@ public class ApplianceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.cml_fragment_appliance, container, false);
 
-        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        currentAppliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
 
         setupFragments();
 
@@ -52,39 +55,39 @@ public class ApplianceFragment extends Fragment {
             return;
         }
 
-        addFragment(new DevicePortFragment());
-        addFragment(new PersistApplianceFragment());
+        addFragment(ApplianceFragmentFactory.newInstance(DevicePortFragment.class, currentAppliance));
+        addFragment(ApplianceFragmentFactory.newInstance(PersistApplianceFragment.class, currentAppliance));
 
         if (currentAppliance instanceof AirPurifier) {
-            addFragment(new PairingFragment());
-            addFragment(new AirPortFragment());
+            addFragment(ApplianceFragmentFactory.newInstance(PairingFragment.class, currentAppliance));
+            addFragment(ApplianceFragmentFactory.newInstance(AirPortFragment.class, currentAppliance));
         }
 
         if (currentAppliance instanceof ReferenceAppliance) {
 
             if (currentAppliance instanceof WifiReferenceAppliance) {
-                addFragment(new PairingPortFragment());
-                addFragment(new PairingFragment());
+                addFragment(ApplianceFragmentFactory.newInstance(PairingFragment.class, currentAppliance));
+                addFragment(ApplianceFragmentFactory.newInstance(PairingPortFragment.class, currentAppliance));
+                addFragment(ApplianceFragmentFactory.newInstance(PinFragment.class, currentAppliance));
             }
 
-            addFragment(new TimePortFragment());
+            addFragment(ApplianceFragmentFactory.newInstance(TimePortFragment.class, currentAppliance));
 
             if (currentAppliance instanceof BleReferenceAppliance) {
-                addFragment(new BleApplianceFragment());
+                addFragment(ApplianceFragmentFactory.newInstance(BleApplianceFragment.class, currentAppliance));
             }
 
-            addFragment(new FirmwareUpgradeFragment());
+            addFragment(ApplianceFragmentFactory.newInstance(FirmwareUpgradeFragment.class, currentAppliance));
         }
 
         if (currentAppliance instanceof BrightEyesAppliance) {
-            addFragment(new WakeUpAlarmPortFragment());
+            addFragment(ApplianceFragmentFactory.newInstance(WakeUpAlarmPortFragment.class, currentAppliance));
+            addFragment(ApplianceFragmentFactory.newInstance(PinFragment.class, currentAppliance));
         }
 
         if(currentAppliance instanceof PolarisAppliance) {
-            addFragment(new PairingFragment());
+            addFragment(ApplianceFragmentFactory.newInstance(PairingFragment.class, currentAppliance));
         }
-        
-        addFragment(new PinFragment());
     }
 
     public void addFragment(Fragment fragment) {

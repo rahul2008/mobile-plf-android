@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -101,15 +102,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
-    private LinearLayout mParentLayout;
+    private RelativeLayout mParentLayout;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
+            mAddToCart.hideProgressIndicator();
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -119,10 +118,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         @Override
         public void onFailure(final Message msg) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
-
+            mAddToCart.hideProgressIndicator();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
@@ -678,9 +674,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onLoadFinished(ArrayList<? extends Object> data) {
         hideProgressBar();
-        if(mAddToCart.isActivated()){
-            mAddToCart.hideProgressIndicator();
-        }
+        mAddToCart.hideProgressIndicator();
 
         if (data != null && data.get(0) instanceof ShoppingCartData) {
 
@@ -749,6 +743,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
 
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+            hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
             ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.deleteProduct(shoppingCartData);

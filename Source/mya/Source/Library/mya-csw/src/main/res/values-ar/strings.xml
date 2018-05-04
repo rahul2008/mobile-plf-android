@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
+  <string name="MYA_Visit_Website">[ar]Visit our website</string>
   <string name="csw_consent_help_label">لم أفهم</string>
   <string name="csw_invalid_access_token_error_message">حدثت مشكلة في الاتصال بالخادم. تأكد من أن التاريخ/الوقت على جهازك صحيح. إذا استمرت المشكلة، فيرجى تسجيل الخروج وتسجيل الدخول من جديد.</string>
   <string name="csw_offline_message">يبدو أن اتصال الإنترنت لديك لا يعمل. يُرجى التحقق من الاتصال وإعادة المحاولة</string>
   <string name="csw_offline_title">أنت غير متصل</string>
-  <string name="csw_ok">[ar]OK</string>
+  <string name="csw_ok">موافق</string>
   <string name="csw_privacy_notice">[ar]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[ar]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">تحكم بخصوصيتك: اقرأ {إشعار الخصوصية} للحصول على مزيد من المعلومات</string>
   <string name="csw_privacy_settings">إعدادات الخصوصية</string>
-  <string name="csw_privacy_settings_desc">[ar]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">تحكم بخصوصيتك: اقرأ {إشعار الخصوصية} للحصول على مزيد من المعلومات</string>
   <string name="csw_problem_occurred_error_message">حدثت مشكلة (خطأd$1% d). يرجى إعادة المحاولة.</string>
   <string name="csw_problem_occurred_error_title">حدثت مشكلة</string>
   <string name="mya_Account_settings">إعدادات الحساب</string>
@@ -46,22 +44,22 @@
   <string name="mya_Ok">موافق</string>
   <string name="mya_Personal_details">التفاصيل الشخصية</string>
   <string name="mya_Privacy_Settings">إعدادات الخصوصية</string>
-  <string name="mya_Privacy_Settings_Desc">تحكم بخصوصيتك: اقرأ _إشعار الخصوصية_ للحصول على مزيد من المعلومات</string>
+  <string name="mya_Privacy_Settings_Desc">تحكم بخصوصيتك: اقرأ {إشعار الخصوصية} للحصول على مزيد من المعلومات</string>
   <string name="mya_Problem_Occurred_Error_Message">حدثت مشكلة (خطأ %d). يرجى إعادة المحاولة.</string>
   <string name="mya_Problem_Occurred_Error_Title">حدثت مشكلة</string>
   <string name="mya_Profile">ملف التعريف</string>
   <string name="mya_Settings">الإعدادات</string>
   <string name="mya_change_country">تسجيل الخروج لتغيير البلد</string>
   <string name="mya_change_country_message">يرجى تسجيل الخروج لتغيير البلد حيث تقيم. سيسمح لنا ذلك بتخصيص الضمان ومعلومات أخرى بحسب موقعك.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[ar]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[ar]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">إلغاء</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">موافق</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[ar]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[ar]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[ar]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ar]Maybe later</string>
   <string name="mya_csw_justintime_title">[ar]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ar]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[ar]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ar][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,ar][NT]What do we have to offer?</string>
   <string name="mya_logout_message">سيتم تسجيل خروجك من التطبيق. يمكنك دائمًا تسجيل الدخول من جديد بعد تسجيل الخروج.</string>
   <string name="mya_logout_title">هل تريد بالتأكيد تسجيل الخروج؟</string>
 </resources>

@@ -119,6 +119,8 @@ ext.deps = [
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
+        okhttp3                        : 'com.squareup.okhttp3:okhttp:3.10.0',
+        okhttp_apache3                 :'com.squareup.okhttp3:okhttp-apache:3.10.0',
         ormlite                       : [
                 android: "com.j256.ormlite:ormlite-android:5.0",
                 core   : "com.j256.ormlite:ormlite-core:5.0"
@@ -165,7 +167,7 @@ ext.deps = [
         jackson_databind              : 'com.fasterxml.jackson.core:jackson-databind:2.9.2',
         junit                         : 'junit:junit:4.12',
         junit_runners                 : 'com.nitorcreations:junit-runners:1.3',
-        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.8.7',
+        libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.9.4',
         maven_ant                     : 'org.apache.maven:maven-ant-tasks:2.1.3',
         mockito                       : 'org.mockito:mockito-core:2.8.9',  // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         mockito_android               : 'org.mockito:mockito-android:2.7.22',
@@ -192,7 +194,7 @@ ext.deps = [
         robolectric_utils             : 'org.robolectric:robolectric-utils:3.3.2',
         rubygems                      : 'rubygems:roo:2.0.0',
         rxbinding                     : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
-        rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+        rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.0.2',
         squareup_okio                 : 'com.squareup.okio:okio:1.13.0',
         squareup_picasso              : 'com.squareup.picasso:picasso:2.5.2',
         stetho                        : 'com.facebook.stetho:stetho:1.5.0',

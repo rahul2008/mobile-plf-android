@@ -6,7 +6,6 @@ package com.philips.cdp2.commlib.ble.communication;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
@@ -33,7 +32,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -58,9 +56,6 @@ public class PollingSubscriptionTest {
     @Mock
     private
     CountDownLatch mockCountDownLatch;
-
-    @Mock
-    private Callback mockCallback;
 
     private PortParameters portParameters = new PortParameters("testPort", 42);
 
@@ -111,39 +106,19 @@ public class PollingSubscriptionTest {
     }
 
     @Test
-    public void whenRunning_thenCallesGetProperties() {
+    public void whenRunning_thenCallsGetProperties() {
         pollerUnderTest.run();
 
         verify(mockStrategy).getProperties(eq("testPort"), eq(42), isA(ResponseHandler.class));
     }
 
     @Test
-    public void whenRunningAfterTTL_thenFutureIsCancelled() {
+    public void whenRunningAfterTTL_thenGetPropertiesIsNoLongerCalled() {
         currentTime.add(0, 5001L);
 
         pollerUnderTest.run();
 
         verify(mockFuture).cancel(anyBoolean());
-    }
-
-    @Test
-    public void whenRunningAfterTTL_thenCallbackIsCalled() {
-        currentTime.add(0, 5001L);
-        pollerUnderTest.addCancelCallback(mockCallback);
-
-        pollerUnderTest.run();
-
-        verify(mockCallback).onCancel();
-    }
-
-    @Test
-    public void whenRunningJustBeforeTTL_thenCallbackIsNotCalled() {
-        currentTime.add(0, 5000L);
-        pollerUnderTest.addCancelCallback(mockCallback);
-
-        pollerUnderTest.run();
-
-        verify(mockCallback, never()).onCancel();
     }
 
     @Test
@@ -187,6 +162,14 @@ public class PollingSubscriptionTest {
         pollerUnderTest.run();
 
         verify(mockCountDownLatch).await();
+    }
+
+    @Test
+    public void whenCancelIsCalled_thenPollingIsStopped() throws Exception {
+
+        pollerUnderTest.cancel();
+
+        verify(mockFuture).cancel(anyBoolean());
     }
 
     @Test

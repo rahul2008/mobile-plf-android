@@ -9,9 +9,11 @@ package com.philips.platform.mya.csw.justintime;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.VisibleForTesting;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.csw.CswBaseFragment;
@@ -30,11 +32,18 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     @LayoutRes
     private int containerId;
     private JustInTimeConsentContract.Presenter presenter;
+    private DialogView dialogView;
 
     public static JustInTimeConsentFragment newInstance(final int containerId) {
         JustInTimeConsentFragment fragment = new JustInTimeConsentFragment();
         fragment.containerId = containerId;
         new JustInTimeConsentPresenter(fragment, JustInTimeConsentDependencies.appInfra, JustInTimeConsentDependencies.consentDefinition, JustInTimeConsentDependencies.completionListener);
+        if (fragment.dialogView == null) {
+            fragment.dialogView = new DialogView();
+        }
+        if (fragment.progressDialogView == null) {
+            fragment.progressDialogView = new ProgressDialogView();
+        }
         return fragment;
     }
 
@@ -46,7 +55,7 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        android.view.View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
+        View justInTimeConsentView = inflater.inflate(R.layout.csw_just_in_time_consent_view, container, false);
         initializeDescriptionLabel(justInTimeConsentView);
         initializeHelpLabel(justInTimeConsentView);
         initializeGiveConsentButton(justInTimeConsentView);
@@ -61,11 +70,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     public void onStart() {
         super.onStart();
         presenter.trackPageName();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -127,7 +131,6 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
     }
 
     private void showErrorDialog(String errorTitle, String errorMessage) {
-        DialogView dialogView = new DialogView();
         dialogView.showDialog(getActivity(), errorTitle, errorMessage);
     }
 
@@ -145,10 +148,9 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
 
     @Override
     public void showProgressDialog() {
-        if (progressDialogView == null) {
-            progressDialogView = new ProgressDialogView();
+        if(progressDialogView != null) {
+            progressDialogView.showDialog(getActivity());
         }
-        progressDialogView.showDialog(getActivity());
     }
 
     @Override
@@ -156,5 +158,15 @@ public class JustInTimeConsentFragment extends CswBaseFragment implements JustIn
         if (progressDialogView != null && progressDialogView.isDialogShown()) {
             progressDialogView.hideDialog();
         }
+    }
+
+    @VisibleForTesting
+    protected void setProgressDialogView(ProgressDialogView view) {
+        this.progressDialogView = view;
+    }
+
+    @VisibleForTesting
+    protected void setDialogView(DialogView view) {
+        this.dialogView = view;
     }
 }
