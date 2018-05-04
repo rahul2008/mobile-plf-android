@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
@@ -73,10 +74,10 @@ public class AILCloudLogDataBuilder {
 
     private boolean messageExceedsSizeLimit(AILCloudLogData ailCloudLogData) {
         if (!(ailCloudLogData.details == null || ailCloudLogData.details.isEmpty())) {
-            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > 1000;
+            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > CloudLoggingConstants.LOG_SIZE;
         } else {
             if(!(ailCloudLogData.logDescription == null || ailCloudLogData.logDescription.isEmpty()) )
-            return ailCloudLogData.logDescription.length() > 1000;
+            return ailCloudLogData.logDescription.length() > CloudLoggingConstants.LOG_SIZE;
         }
         return false;
     }
