@@ -415,7 +415,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
             setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
-            if (mParentFragment.checkBox.isChecked()) {
+            if (mParentFragment.checkBox.isChecked() && shippingAddressFields!=null) {
                 mParentFragment.mBtnContinue.setEnabled(true);
                 mParentFragment.setShippingAddressFields(shippingAddressFields);
             } else {
