@@ -273,13 +273,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
-//        if (emailOrMobile.isEmpty()) {
-//            RLog.e(TAG, "Email or Mobile No. is Empty");
-//            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
-//            return false;
-//        }
+        if (emailOrMobile.isEmpty()) {
+            RLog.e(TAG, "Email or Mobile No. is Empty");
+            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
+            return false;
+        }
 
-        if (emailOrMobile.isEmpty() && RegistrationHelper.getInstance().isMobileFlow()) {
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
                 RLog.e(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
