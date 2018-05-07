@@ -62,7 +62,7 @@ public class HamburgerActivityTest {
     private Resources resource = null;
     private LinearLayout navigationView;
     private SideBar sideBar;
-//    private FrameLayout hamburgerClick = null;
+    private FrameLayout hamburgerClick = null;
     private ActivityController<HamburgerMock> activityController;
 
     @Rule
@@ -114,7 +114,7 @@ public class HamburgerActivityTest {
 
         View customView = LayoutInflater.from(hamburgerActivity).
                 inflate(R.layout.af_action_bar_with_shopping_cart, null);
-     //   hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
+        hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         resource = hamburgerActivity.getResources();
     }
 
@@ -132,7 +132,7 @@ public class HamburgerActivityTest {
         assertNotNull(drawerToggle);
     }
 
-    /*@Test
+    @Test
     public void ActionBarDrawableToggleClickListener() {
         ActionBarDrawerToggle drawerToggle = hamburgerActivity.configureDrawer();
 
@@ -140,7 +140,7 @@ public class HamburgerActivityTest {
         hamburgerClick.performClick();
         sideBar.openDrawer(navigationView);
         assertTrue(sideBar.isDrawerVisible(navigationView));
-    }*/
+    }
 
     @Test
     public void updateActionBarWithStringAndTrueValue() {
