@@ -64,7 +64,6 @@ import com.philips.platform.uid.view.widget.SideBar;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.philips.platform.prdemoapp.activity.MainActivity.THEMESETTINGS_ACTIVITY_RESTART;
@@ -106,7 +105,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private ImageView cartIcon;
     private TextView cartCount;
     private FrameLayout shoppingCartLayout;
-    private Menu mMenu;
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
@@ -144,9 +142,11 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     }
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mMenu = menu;
         menu.clear();
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.catalog_view_menu, menu);
@@ -162,7 +162,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HamburgerActivityPresenter)presenter).launchShoppingCartState();
+                presenter.onEvent(Constants.SHOPPING_CART_CLICK);
             }
         });
 
@@ -512,11 +512,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 Intent intent=new Intent(this,ThemeSelectionActivity.class);
                 startActivityForResult(intent, START_THEME_SELECTOR);
                 break;
-            case R.id.badge:
-                Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show();
-                break;
-
-
         }
         return super.onOptionsItemSelected(item);
     }

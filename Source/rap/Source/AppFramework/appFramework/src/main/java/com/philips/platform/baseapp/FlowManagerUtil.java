@@ -63,5 +63,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
+        uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
     }
 }
