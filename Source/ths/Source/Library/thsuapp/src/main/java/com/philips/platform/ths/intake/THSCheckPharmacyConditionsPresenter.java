@@ -27,7 +27,8 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.consentDefinition;
+import static com.philips.platform.ths.utility.THSConstants.THS_LOCATION_CONSENT_FRAGMENT;
+
 
 class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
 
@@ -89,15 +90,14 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                     justInTimeTextResources.titleTextRes = R.string.ths_location_consent_fragment_title;
                     // justInTimeTextResources.userBenefitsTitleRes = R.string.ths_location_consent_title;
                     // justInTimeTextResources.userBenefitsDescriptionRes = R.string.ths_location_consent_help;
-
-                    consentDefinition = thsConsentDefinition;
+                    JustInTimeConsentDependencies.appInfra = THSManager.getInstance().getAppInfra();
+                    JustInTimeConsentDependencies.consentDefinition = thsConsentDefinition;
                     JustInTimeConsentDependencies.textResources = justInTimeTextResources;
                     JustInTimeConsentDependencies.completionListener = justInTimeWidgetHandler();
                     JustInTimeConsentFragment justInTimeConsentFragment = THSJustInTimeConsentFragment.newInstance(thsCheckPharmacyConditonsView.getContainerID());
                     justInTimeConsentFragment.setUpdateTitleListener(actionBarListener);
                     fragmentTransaction = thsCheckPharmacyConditonsView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, "consentTAG");
-                    //fragmentTransaction.addToBackStack(CONSENT_FRAGMENT_TAG);
+                    fragmentTransaction.add(thsCheckPharmacyConditonsView.getContainerID(), justInTimeConsentFragment, THS_LOCATION_CONSENT_FRAGMENT);
                     fragmentTransaction.commitAllowingStateLoss();
                 } else {
                     thsCheckPharmacyConditonsView.displayPharmacy();
