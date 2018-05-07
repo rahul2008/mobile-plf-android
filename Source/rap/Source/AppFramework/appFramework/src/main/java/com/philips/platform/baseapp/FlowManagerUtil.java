@@ -47,7 +47,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
         uiStateMap.put(AppStates.DEBUG, new DebugTestFragmentState());
         uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
-        uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
