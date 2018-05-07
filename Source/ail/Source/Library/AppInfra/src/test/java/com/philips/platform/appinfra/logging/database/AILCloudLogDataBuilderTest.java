@@ -38,17 +38,35 @@ public class AILCloudLogDataBuilderTest extends TestCase {
     public void testBuildCloudLogModel() {
         LogRecord logRecord = mock(LogRecord.class);
         when(logRecord.getLevel()).thenReturn(Level.ALL);
+        AILCloudLogMetaData ailCloudLogMetaData = getAILCloudLogMetaData();
+        when(appInfra.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
         Object[] objects = new Object[2];
         objects[0] = "data";
         objects[1] = getMap();
         when(logRecord.getParameters()).thenReturn(objects);
         AILCloudLogData ailCloudLogData = ailCloudLogDataBuilder.buildCloudLogModel(logRecord);
         assertEquals(ailCloudLogData.logDescription, "data");
+        assertEquals(ailCloudLogData.appsId, "app_id");
+        assertEquals(ailCloudLogData.appState, "app_state");
+        assertEquals(ailCloudLogData.locale, "locale");
+        assertEquals(ailCloudLogData.homecountry, "en");
+        assertEquals(ailCloudLogData.originatingUser, "uuid");
     }
 
     public Object getMap() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
         return hashMap;
+    }
+
+    private AILCloudLogMetaData getAILCloudLogMetaData() {
+        AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
+        ailCloudLogMetaData.setAppsId("app_id");
+        ailCloudLogMetaData.setAppState("app_state");
+        ailCloudLogMetaData.setLocale("locale");
+        ailCloudLogMetaData.setHomeCountry("en");
+        ailCloudLogMetaData.setUserUUID("uuid");
+        ailCloudLogMetaData.setAppVersion("appVersion");
+        return ailCloudLogMetaData;
     }
 }
