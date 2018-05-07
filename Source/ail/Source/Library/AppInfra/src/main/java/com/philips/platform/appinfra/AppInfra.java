@@ -26,6 +26,7 @@ import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
@@ -63,10 +64,14 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private AppUpdateInterface mAppupdateInterface;
     private ConsentManagerInterface consentManager;
 
-    private AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
+    private  AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
 
     public AILCloudLogMetaData getAilCloudLogMetaData() {
         return ailCloudLogMetaData;
+    }
+
+    public void setAilCloudLogMetaData(AILCloudLogMetaData ailCloudLogMetaData){
+        this.ailCloudLogMetaData=ailCloudLogMetaData;
     }
 
     /**
@@ -482,10 +487,31 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 //            }
+            updateMetadata(ai);
 
             postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
+        private void updateMetadata(AppInfra appInfra) {
+            AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
+            if(appIdentity!=null) {
+                ailCloudLogMetaData.setAppName(appIdentity.getAppName());
+                ailCloudLogMetaData.setAppState(appIdentity.getAppState().toString());
+                ailCloudLogMetaData.setAppVersion(appIdentity.getAppVersion());
+            }
+            if(tagging!=null) {
+                ailCloudLogMetaData.setAppsId(tagging.getTrackingIdentifier());
+            }
+            if(local!=null) {
+                ailCloudLogMetaData.setLocale(local.getUILocaleString());
+            }
+            if(mServiceDiscoveryInterface!=null) {
+                ailCloudLogMetaData.setHomeCountry(mServiceDiscoveryInterface.getHomeCountry());
+            }
+            appInfra.setAilCloudLogMetaData(ailCloudLogMetaData);
+        }
+
+
     }
 
 

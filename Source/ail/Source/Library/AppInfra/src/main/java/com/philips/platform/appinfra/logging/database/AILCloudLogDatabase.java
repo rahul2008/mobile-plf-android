@@ -18,7 +18,7 @@ public abstract class AILCloudLogDatabase extends RoomDatabase {
     public static AILCloudLogDatabase getPersistenceDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), AILCloudLogDatabase.class,"ail_cloud_log_db").allowMainThreadQueries()
+                    Room.databaseBuilder(context.getApplicationContext(), AILCloudLogDatabase.class,"ail_cloud_log_db")
                             .build();
         }
         return INSTANCE;

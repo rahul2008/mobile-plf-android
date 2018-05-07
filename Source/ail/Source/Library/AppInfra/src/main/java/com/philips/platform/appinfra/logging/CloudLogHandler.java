@@ -1,5 +1,9 @@
 package com.philips.platform.appinfra.logging;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -9,7 +13,6 @@ import com.philips.platform.appinfra.logging.database.AILCloudLogDatabase;
 
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
 
 /**
  * Created by abhishek on 4/25/18.
@@ -23,46 +26,31 @@ public class CloudLogHandler extends Handler {
 
     private LoggingConfiguration loggingConfiguration;
 
+    private CloudLogProcessor cloudLogProcessor;
+
+    private AILCloudLogDatabase ailCloudLogDatabase;
+
     public CloudLogHandler(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
         ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra, loggingConfiguration);
         this.loggingConfiguration = loggingConfiguration;
+        ailCloudLogDatabase = AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
+        SupportSQLiteDatabase sqLiteDatabase = ailCloudLogDatabase.getOpenHelper().getWritableDatabase();
+        sqLiteDatabase.execSQL("drop trigger if exists clear_data_trigger");
+        sqLiteDatabase.execSQL("create trigger clear_data_trigger before insert on AILCloudLogData  when (select count(*) from AILCloudLogData)>=1000 Begin delete FROM AILCloudLogData where logId in (select logId from AILCloudLogData order by logTime LIMIT 25); end");
+        cloudLogProcessor = new CloudLogProcessor("cloud log handler thread");
+        cloudLogProcessor.start();
+        cloudLogProcessor.prepareHandler();
     }
 
     @Override
-    public void publish(LogRecord logRecord) {
-        AILCloudLogDatabase ailCloudLogDatabase = AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
-        AILCloudLogData ailCloudLogData;
-        if (ailCloudLogDataBuilder.buildCloudLogModel(logRecord) != null) {
-            ailCloudLogData = ailCloudLogDataBuilder.buildCloudLogModel(logRecord);
-            checkSizeForDBInsertion(ailCloudLogDatabase,ailCloudLogData);
-
-        }
-
-    }
-
-    private void checkSizeForDBInsertion(AILCloudLogDatabase ailCloudLogDatabase,AILCloudLogData ailCloudLogData) {
-        if(ailCloudLogDatabase.logModel().getNumberOfRows(ailCloudLogData) > CloudLoggingConstants.MAX_ROWS_IN_DB){
-            ailCloudLogDatabase.logModel().deleteGivenRows(fetchRemovingDataFromDB( ailCloudLogDatabase, ailCloudLogData));
-        }
-        ailCloudLogDatabase.logModel().insertLog(ailCloudLogData);
-        Log.d("test", "Log messsage" + ailCloudLogData.toString());
-    }
-
-    private AILCloudLogData fetchRemovingDataFromDB(AILCloudLogDatabase ailCloudLogDatabase, AILCloudLogData ailCloudLogData) {
-        AILCloudLogData rowsWithSeverityLessThanWarning = ailCloudLogDatabase.logModel().getRowsWithSeverityLessThanWarning(ailCloudLogData);
-        int countOfRowsWithSeverityLessThanWarning = ailCloudLogDatabase.logModel().getNumberOfRows(rowsWithSeverityLessThanWarning);
-        if(countOfRowsWithSeverityLessThanWarning > 0){
-            if(countOfRowsWithSeverityLessThanWarning >= CloudLoggingConstants.ROWS_TO_BE_DELETED_BATCH_SIZE){
-               return ailCloudLogDatabase.logModel().getOldestRowsUnderLimit(rowsWithSeverityLessThanWarning);
+    public void publish(final LogRecord logRecord) {
+        cloudLogProcessor.postTask(new Runnable() {
+            @Override
+            public void run() {
+                ailCloudLogDatabase.logModel().insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
             }
-            else{
-                //check about this flow
-                return ailCloudLogDatabase.logModel().getOldestRowsUnderLimit(rowsWithSeverityLessThanWarning);
-            }
-        }else{
-            return ailCloudLogDatabase.logModel().getOldestRowsUnderLimit(ailCloudLogData);
-        }
+        });
     }
 
     @Override

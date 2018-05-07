@@ -9,19 +9,25 @@ import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
 @Dao
 public interface AILCloudLogDao {
 
-    @Query("SELECT COUNT(*) FROM AILCloudLogData,log WHERE log.logId = AILCloudLogData.logId")
-    int getNumberOfRows(AILCloudLogData log);
+//    @Query("SELECT COUNT(*) FROM AILCloudLogData,log WHERE log.logId = AILCloudLogData.logId")
+//    int getNumberOfRows(AILCloudLogData log);
+//
+//    @Query("SELECT * FROM AILCloudLogData,log WHERE severity in ('DEBUG','INFO','VERBOSE') AND log.logId = AILCloudLogData.logId")
+//    AILCloudLogData getRowsWithSeverityLessThanWarning(AILCloudLogData log);
+//
+////TODO: fetch limit from constants
+//
+//    @Query("SELECT * FROM AILCloudLogData,log WHERE log.logId = AILCloudLogData.logId ORDER BY logTime LIMIT 20 ")
+//    AILCloudLogData getOldestRowsUnderLimit(AILCloudLogData log);
+//
+//    @Query("DELETE FROM AILCloudLogData where log.logId = AILCloudLogData.logId")
+//    void deleteGivenRows(AILCloudLogData log);
 
-    @Query("SELECT * FROM AILCloudLogData,log WHERE severity in ('DEBUG','INFO','VERBOSE') AND log.logId = AILCloudLogData.logId")
-    AILCloudLogData getRowsWithSeverityLessThanWarning(AILCloudLogData log);
+    @Query("select count(*) from AILCloudLogData")
+    int getNumberOfRows();
 
-//TODO: fetch limit from constants
-
-    @Query("SELECT * FROM AILCloudLogData,log WHERE log.logId = AILCloudLogData.logId ORDER BY logTime LIMIT 20 ")
-    AILCloudLogData getOldestRowsUnderLimit(AILCloudLogData log);
-
-    @Query("DELETE FROM AILCloudLogData where log.logId = AILCloudLogData.logId")
-    void deleteGivenRows(AILCloudLogData log);
+    @Query("delete FROM AILCloudLogData where logId in (select logId from AILCloudLogData where severity in ('DEBUG','INFO','VERBOSE') order by logTime LIMIT :batch)")
+    void deleteOldestRowsByBatchSize(int batch);
 
 
     @Insert(onConflict = IGNORE)
