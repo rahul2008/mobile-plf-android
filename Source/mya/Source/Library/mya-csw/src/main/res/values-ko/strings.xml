@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[ko]Visit our website</string>
@@ -15,9 +12,9 @@
   <string name="csw_offline_title">오프라인 상태입니다.</string>
   <string name="csw_ok">확인</string>
   <string name="csw_privacy_notice">[ko]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
+  <string name="csw_privacy_notice_message">개인정보를 관리하십시오. 자세한 내용은 {개인정보 보호정책}을 읽어 보십시오.</string>
   <string name="csw_privacy_settings">개인 설정</string>
-  <string name="csw_privacy_settings_desc">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
+  <string name="csw_privacy_settings_desc">개인정보를 관리하십시오. 자세한 내용은 {개인정보 보호정책}을 읽어 보십시오.</string>
   <string name="csw_problem_occurred_error_message">문제가 있습니다(오류 %1$d). 다시 시도하십시오.</string>
   <string name="csw_problem_occurred_error_title">문제가 발생했습니다</string>
   <string name="mya_Account_settings">계정 설정</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">확인</string>
   <string name="mya_Personal_details">개인 정보</string>
   <string name="mya_Privacy_Settings">개인 설정</string>
-  <string name="mya_Privacy_Settings_Desc">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
+  <string name="mya_Privacy_Settings_Desc">개인정보를 관리하십시오. 자세한 내용은 {개인정보 보호정책}을 읽어 보십시오.</string>
   <string name="mya_Problem_Occurred_Error_Message">문제가 있습니다(오류 %d). 다시 시도하십시오.</string>
   <string name="mya_Problem_Occurred_Error_Title">문제가 발생했습니다</string>
   <string name="mya_Profile">프로필</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[ko]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ko]Maybe later</string>
   <string name="mya_csw_justintime_title">[ko]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ko]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[ko]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ko][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,ko][NT]What do we have to offer?</string>
   <string name="mya_logout_message">애플리케이션에서 로그아웃합니다. 로그아웃한 후에도 언제든 다시 로그인할 수 있습니다.</string>
   <string name="mya_logout_title">로그아웃하시겠습니까?</string>
 </resources>

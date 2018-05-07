@@ -51,7 +51,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         @Override
         public void onSuccess(final int count) {
             updateCount(count);
-           hideProgressBar();
+            hideProgressBar();
         }
 
         @Override
@@ -151,6 +151,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void showFragment(String fragmentTag) {
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(fragmentTag, 0);
+
         }
     }
 

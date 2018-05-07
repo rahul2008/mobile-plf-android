@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[ru]Visit our website</string>
@@ -15,9 +12,9 @@
   <string name="csw_offline_title">У вас нет соединения с сетью</string>
   <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[ru]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">Задайте настройки приватности (см. {privacy notice}).</string>
+  <string name="csw_privacy_notice_message">Задайте настройки приватности (см. {уведомление о конфиденциальности}).</string>
   <string name="csw_privacy_settings">Настройки конфиденциальности</string>
-  <string name="csw_privacy_settings_desc">Задайте настройки приватности (см. {privacy notice}).</string>
+  <string name="csw_privacy_settings_desc">Задайте настройки приватности (см. {уведомление о конфиденциальности}).</string>
   <string name="csw_problem_occurred_error_message">Возникла проблема (ошибка %1$d). Повторите попытку.</string>
   <string name="csw_problem_occurred_error_title">Возникла проблема</string>
   <string name="mya_Account_settings">Настройки учетной записи</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Личные данные</string>
   <string name="mya_Privacy_Settings">Настройки конфиденциальности</string>
-  <string name="mya_Privacy_Settings_Desc">Задайте настройки приватности (см. _privacy notice_).</string>
+  <string name="mya_Privacy_Settings_Desc">Задайте настройки приватности (см. {уведомление о конфиденциальности}).</string>
   <string name="mya_Problem_Occurred_Error_Message">Возникла проблема (ошибка %d). Повторите попытку.</string>
   <string name="mya_Problem_Occurred_Error_Title">Возникла проблема</string>
   <string name="mya_Profile">Профиль</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[ru]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ru]Maybe later</string>
   <string name="mya_csw_justintime_title">[ru]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[ru]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[ru]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ru][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,ru][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Будет выполнен выход из приложения. Выполнив выход, вы в любой момент можете войти в приложение снова.</string>
   <string name="mya_logout_title">Выйти из учетной записи?</string>
 </resources>

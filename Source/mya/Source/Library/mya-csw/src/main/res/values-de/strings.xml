@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[de]Visit our website</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Persönliche Informationen</string>
   <string name="mya_Privacy_Settings">Privatsphäreneinstellungen</string>
-  <string name="mya_Privacy_Settings_Desc">Schützen Sie Ihre Privatspäre. Die Datenschutzrichtlinie enthält weiterführende Informationen.</string>
+  <string name="mya_Privacy_Settings_Desc">Schützen Sie Ihre Privatspäre. Die {Datenschutzrichtlinie} enthält weiterführende Informationen.</string>
   <string name="mya_Problem_Occurred_Error_Message">Es ist ein Problem (error %d) aufgetreten. Versuchen Sie es erneut.</string>
   <string name="mya_Problem_Occurred_Error_Title">Es ist ein Problem aufgetreten</string>
   <string name="mya_Profile">Profil</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[de]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[de]Maybe later</string>
   <string name="mya_csw_justintime_title">[de]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[de]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[de]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,de][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,de][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Sie werden von der Anwendung abgemeldet. Nach der Abmeldung können Sie sich jederzeit wieder anmelden.</string>
   <string name="mya_logout_title">Möchten Sie sich wirklich abmelden?</string>
 </resources>

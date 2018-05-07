@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[pt-BR]Visit our website</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Detalhes pessoais</string>
   <string name="mya_Privacy_Settings">Privacidade</string>
-  <string name="mya_Privacy_Settings_Desc">Controle sua privacidade. Leia o _aviso de privacidade_ para obter mais informações.</string>
+  <string name="mya_Privacy_Settings_Desc">Controle sua privacidade. Leia o {aviso de privacidade} para obter mais informações.</string>
   <string name="mya_Problem_Occurred_Error_Message">Ocorreu um problema (erro %d). Tente novamente.</string>
   <string name="mya_Problem_Occurred_Error_Title">Ocorreu um problema</string>
   <string name="mya_Profile">Perfil</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[pt-BR]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt-BR]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt-BR]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[pt-BR]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[pt-BR]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,pt-BR][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,pt-BR][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Você sairá do aplicativo agora. É possível conectar-se novamente depois.</string>
   <string name="mya_logout_title">Tem certeza de que deseja sair?</string>
 </resources>

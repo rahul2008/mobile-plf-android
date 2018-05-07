@@ -264,6 +264,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
+        mUser.unRegisterUserRegistrationListener(this);
         mCategorizedProductList.clear();
     }
 
@@ -312,7 +313,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
 //        dismissProgressDialog();
-        mUser.unRegisterUserRegistrationListener(this);
+
         super.onDestroy();
     }
 
@@ -462,7 +463,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showToast(int errorCode) {
-        String errorText = "Server error";
+        String errorText = null;
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
@@ -472,9 +473,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
-        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if(errorText!=null) {
+            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
     //In-App listener functions
