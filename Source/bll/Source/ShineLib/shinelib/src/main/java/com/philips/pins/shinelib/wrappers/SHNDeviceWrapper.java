@@ -193,20 +193,6 @@ public class SHNDeviceWrapper implements SHNDevice {
         internalHandler.post(runnable);
     }
 
-    /**
-     * @deprecated
-     */
-    public void connect(final boolean withTimeout, final long timeoutInMS) {
-        // when removing this method, also remove the method with same signature from SHNDeviceImpl.java
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ((SHNDeviceImpl) shnDevice).connect(withTimeout, timeoutInMS);
-            }
-        };
-        internalHandler.post(runnable);
-    }
-
     @Override
     public void disconnect() {
         Runnable runnable = new Runnable() {

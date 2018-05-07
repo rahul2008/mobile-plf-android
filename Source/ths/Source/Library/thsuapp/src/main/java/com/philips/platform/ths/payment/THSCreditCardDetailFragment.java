@@ -52,9 +52,9 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();
     THSCreditCardDetailPresenter thsCreditCardDetailPresenter;
-    ValidationEditText mCardExpiryYearEditText,mCardExpiryMonthEditText;
+    ValidationEditText mCardExpiryYearEditText,mCardExpiryMonthEditText,mAddressOneEditText,mCityEditText,mZipcodeEditText;
     EditText mCardHolderNameEditText, mCardNumberEditText , mCVCcodeEditText,
-            mAddressOneEditText, mAddressTwoEditText, mCityEditText, placeHolderUIPicker, mZipcodeEditText;
+            mAddressTwoEditText, placeHolderUIPicker;
     Label cvvDetail, mBillingAddresslabel, anchorUIPicker;
     Button mPaymentDetailContinueButton;
     AlertDialogFragment alertDialogFragment;
@@ -128,7 +128,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
                 boolean validateString = validateString(mCityEditText.getText().toString());
                 if (!validateString) {
                     cityValidationLayout.showError();
-                    doTagging(ANALYTICS_UPDATE_PAYMENT, addressValidationLayout.getErrorLabelView().getText().toString(), false);
+                    doTagging(ANALYTICS_UPDATE_PAYMENT, cityValidationLayout.getErrorLabelView().getText().toString(), false);
                     return false;
                 }
                 return true;
@@ -256,6 +256,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         );
 
         mProgressbarContainer = view.findViewById(R.id.shipping_address_container);
+        updateContinueBtnState();
         return view;
     }
 
@@ -402,12 +403,25 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
 
     @Override
     public void updateAddress(Address address) {
-        mAddressOneEditText.setText(address.getAddress1());
-        mAddressTwoEditText.setText(address.getAddress2());
-        mCityEditText.setText(address.getCity());
-        mZipcodeEditText.setText(address.getZipCode());
-        mCurrentSelectedState = null != address.getState() ? address.getState() : stateList.get(0);
-        placeHolderUIPicker.setText(mCurrentSelectedState.getName());
+        if(null != address) {
+            mAddressOneEditText.setText(address.getAddress1());
+            mAddressTwoEditText.setText(address.getAddress2());
+            mCityEditText.setText(address.getCity());
+            mZipcodeEditText.setText(address.getZipCode());
+            mCurrentSelectedState = null != address.getState() ? address.getState() : stateList.get(0);
+            placeHolderUIPicker.setText(mCurrentSelectedState.getName());
+        }else {
+            mAddressOneEditText.setText("");
+            addressValidationLayout.hideError();
+            mAddressTwoEditText.setText("");
+            mCityEditText.setText("");
+            cityValidationLayout.hideError();
+            mZipcodeEditText.setText("");
+            postCodeValidationLayout.hideError();
+            mCurrentSelectedState = null;
+            placeHolderUIPicker.setText("");
+        }
+        updateContinueBtnState();
     }
 
     @Override
@@ -443,10 +457,20 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
         if(isEnabled){
+            setFieldState(false);
             thsCreditCardDetailPresenter.onEvent(compoundButton.getId());
         }else {
+            setFieldState(true);
             updateAddress(billingAddress);
         }
+    }
+
+    private void setFieldState(boolean enable) {
+        mAddressOneEditText.setEnabled(enable);
+        mAddressTwoEditText.setEnabled(enable);
+        mCityEditText.setEnabled(enable);
+        mZipcodeEditText.setEnabled(enable);
+        placeHolderUIPicker.setEnabled(enable);
     }
 
     public void setBillingAddress(Address billingAddress) {

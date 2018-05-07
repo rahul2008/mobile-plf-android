@@ -37,6 +37,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.janrain.android.engage.session.JRProvider;
@@ -64,10 +65,7 @@ public class JROpenIDAppAuth {
     /*package*/ JRSession mSession;
     /*package*/ JRProvider mProvider;
     /*package*/ final String TAG = getLogTag();
-
-    /*package*/ String getLogTag() {
-        return getClass().getSimpleName();
-    }
+    /*package*/ String getLogTag() { return getClass().getSimpleName(); }
 
 
     public static boolean canHandleProvider(Context context, JRProvider provider) {
@@ -164,8 +162,7 @@ public class JROpenIDAppAuth {
             mAuthService = authorizationService;
         }
 
-        /*package*/
-        static boolean canHandleAuthentication() {
+        /*package*/ static boolean canHandleAuthentication() {
             return false;
         }
 
@@ -185,34 +182,49 @@ public class JROpenIDAppAuth {
 
         /*package*/ void getAuthInfoTokenForAccessToken(final Uri userinfoEndpoint, final String token, String accessToken) {
 
-            ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
-                public void run(JSONObject json) {
+            if (accessToken != null && !accessToken.isEmpty()) {
+                ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
+                    public void run(JSONObject json) {
 
-                    if (json == null) {
-                        triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
-                        return;
+                        if (json == null) {
+                            triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
+                            return;
+                        }
+
+                        String status = json.optString("stat");
+
+                        if (json.optString("stat") == null || !json.optString("stat").equals("ok")) {
+                            triggerOnFailure("Bad Json: " + json, OpenIDAppAuthError.ENGAGE_ERROR);
+                            return;
+                        }
+
+                        String auth_token = json.optString("token");
+
+                        JRDictionary payload = new JRDictionary();
+                        payload.put("token", auth_token);
+                        payload.put("auth_info", new JRDictionary());
+
+                        fetchUserInfo(userinfoEndpoint, token, payload);
+
                     }
+                };
 
-                    if (json.optString("stat") == null || !json.optString("stat").equals("ok")) {
-                        triggerOnFailure("Bad Json: " + json, OpenIDAppAuthError.ENGAGE_ERROR);
-                        return;
-                    }
+                String rp_base_url = JRSession.getInstance().getRpBaseUrl();
 
-                    String auth_token = json.optString("token");
-
-                    JRDictionary payload = new JRDictionary();
-                    payload.put("token", auth_token);
-                    fetchUserInfo(userinfoEndpoint, token, payload);
+                if (!TextUtils.isEmpty(provider())) {
+                    rp_base_url = rp_base_url + "/signin/oauth_token?providername=" + provider();
                 }
-            };
 
-            ApiConnection connection =
-                    new ApiConnection(JRSession.getInstance().getRpBaseUrl() + "/signin/oauth_token");
-            connection.addAllToParams("token", accessToken, "provider", provider());
-            connection.fetchResponseAsJson(handler);
+                ApiConnection connection =
+                        new ApiConnection(rp_base_url);
+
+                connection.addAllToParams("token", accessToken, "provider", provider());
+                connection.fetchResponseAsJson(handler);
+            } else {
+                triggerOnFailure("Null or Empty AccessToken", OpenIDAppAuthError.ENGAGE_ERROR);
+            }
+
         }
-
-
         private void fetchUserInfo(Uri puserinfoEndpoint, final String accessToken, final JRDictionary payload) {
             final URL userInfoEndpoint;
             try {

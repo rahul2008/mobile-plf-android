@@ -93,17 +93,17 @@ public class ConsentsClient {
         }
     }
 
-    private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
+    private void retrieveConsentServiceInfo(final ConfigCompletionListener listener) {
         ServiceInfoProvider.ResponseListener responseListener = new ServiceInfoProvider.ResponseListener() {
             @Override
             public void onResponse(AppInfraInfo info) {
-                listner.onConfigurationCompletion(info.getCssUrl());
+                listener.onConfigurationCompletion(info.getCssUrl());
             }
 
             @Override
             public void onError(String message) {
                 CatkLogger.e("ConsentsClient", "markErrorAndGetPrevious retrieving cssUrl: " + message);
-                listner.onConfigurationError(message);
+                listener.onConfigurationError(message);
             }
         };
         serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);

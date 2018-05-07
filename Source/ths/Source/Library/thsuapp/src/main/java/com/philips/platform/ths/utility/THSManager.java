@@ -28,7 +28,9 @@ import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
+import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
 import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
@@ -60,6 +62,7 @@ import com.americanwell.sdk.manager.MatchmakerCallback;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
+import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -119,6 +122,7 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSEditUserDetailsCallBack;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
@@ -138,6 +142,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1761,4 +1766,69 @@ public class THSManager {
         //getThsParentConsumer(context).setLastName(user.getFamilyName());
         getThsParentConsumer(context).setHsdpUUID(user.getHsdpUUID());
     }
+
+    public void updateConsumerData(final Context context, String email, Date date, String firstname, String lastname, String gender, State state, final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException {
+        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getThsParentConsumer(context).getConsumer());
+        consumerUpdate.setEmail(email);
+        consumerUpdate.setLegalResidence(state);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
+        consumerUpdate.setDob(sdkLocalDate);
+        consumerUpdate.setFirstName(firstname);
+        consumerUpdate.setLastName(lastname);
+        consumerUpdate.setGender(gender);
+        getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
+            @Override
+            public void onValidationFailure(Map<String, String> map) {
+                thsEditUserDetailsCallBack.onEditUserDataValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                getThsParentConsumer(context).setConsumer(consumer);
+                getThsConsumer(context).setConsumer(consumer);
+                thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkPasswordError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+            }
+        });
+    }
+
+    public void updateDependentConsumerData(final Context context,Consumer consumer, Date date, String firstname, String lastname, String gender,  final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException{
+        DependentUpdate dependentUpdate = getAwsdk(context).getConsumerManager().getNewDependentUpdate(consumer);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
+        dependentUpdate.setDob(sdkLocalDate);
+        dependentUpdate.setFirstName(firstname);
+        dependentUpdate.setLastName(lastname);
+        dependentUpdate.setGender(gender);
+        getAwsdk(context).getConsumerManager().updateDependent(dependentUpdate, new SDKValidatedCallback<Consumer, SDKError>() {
+            @Override
+            public void onValidationFailure(@NonNull Map<String, String> map) {
+                thsEditUserDetailsCallBack.onEditUserDataValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(@Nullable Consumer consumer, @Nullable SDKError sdkError) {
+                getThsParentConsumer(context).setConsumer(consumer);
+                getThsConsumer(context).setConsumer(consumer);
+                thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkError);
+            }
+
+            @Override
+            public void onFailure(@NonNull Throwable throwable) {
+                thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+            }
+        });
+
+
+
+    }
+
+
 }

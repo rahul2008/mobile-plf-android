@@ -1,14 +1,18 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
- String cron_string = BRANCH_NAME == "develop" ? "H H(20-22) * * *" : ""
+String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
+def nodes = 'android && device'
+if (BranchName == "develop") {
+    nodes = nodes + " && TICS"
+}
 
 pipeline {
     agent {
         node {
-            label 'android && device'
+            label nodes
         }
     }
     parameters {
@@ -29,6 +33,7 @@ pipeline {
     stages {
         stage('Build+test') {
             steps {
+                echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
                 checkout scm
@@ -114,6 +119,21 @@ pipeline {
                     echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
                     sh """#!/bin/bash -le
                         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+                    """
+                }
+            }
+        }
+
+        stage('TICS') {
+           when {
+               expression { return TRIGGER_BY_TIMER=='true' }
+          }
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -le
+                        /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
+                        /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
                 }
             }
@@ -236,6 +256,8 @@ def BuildAndUnitTest() {
             :ews-android:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
     '''
+
+    archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/*.apk'
 }
 
 def BuildLint() {

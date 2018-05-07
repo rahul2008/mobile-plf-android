@@ -75,6 +75,12 @@ public class ConfirmDialogView {
         alertDialogFragment.show(activity.getSupportFragmentManager(),"Show dialog");
     }
 
+    public void hideDialog() {
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        }
+    }
+
     protected AlertDialogFragment createDialogFragment(AlertDialogFragment.Builder builder) {
         return builder.create(new AlertDialogFragment());
     }

@@ -111,7 +111,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
+
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -401,18 +401,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOneBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_address_line_two) {
-            result = inputValidatorAddressLineTwoBilling.isValidAddress(((EditText) editText).getText().toString());
-            if (mEtAddressLineTwoBilling.getText().toString().trim().equals("")) {
-                result = true;
-            } else {
-                if (!result) {
-                    mLlAddressLineTwoBilling.setErrorMessage(R.string.iap_address_error);
-                    mLlAddressLineTwoBilling.showError();
-                }
-            }
-
-        }
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
             checkBillingAddressFields();
         }
@@ -438,7 +426,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
-                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
+                && mValidator.isValidAddress(addressLineOne)
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
@@ -447,8 +435,12 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
             setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
-            dlsAddressFragment.setBillingAddressFields(billingAddressFields);
-            dlsAddressFragment.mBtnContinue.setEnabled(true);
+            if (billingAddressFields != null) {
+                dlsAddressFragment.setBillingAddressFields(billingAddressFields);
+                dlsAddressFragment.mBtnContinue.setEnabled(true);
+            }else {
+                dlsAddressFragment.mBtnContinue.setEnabled(false);
+            }
         } else {
             dlsAddressFragment.mBtnContinue.setEnabled(false);
         }

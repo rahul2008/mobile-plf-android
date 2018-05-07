@@ -1,9 +1,28 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-
 Version {next}
--------------
+----------------
+
+### Functionality Delivered
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Breaking Changes
+* Not really a breaking change, because it was not meant to be public api: `SHNDeviceImpl.connect(boolean withTimeout, long timeoutInMS)` was removed. Please use `SHNDeviceImpl.connect(long timout)` instead.
+
+### Defects solved
+* \#120536 Disconnecting state sustaining forever.
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+Version 2017.5.0
+----------------
 
 ### Functionality Delivered
 

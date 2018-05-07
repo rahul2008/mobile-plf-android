@@ -319,12 +319,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
             RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+            setDiscription();
             if (mEmailId.equals(mUser.getEmail())) {
                 updateActivationUIState();
             } else {
                 mEmailId = mUser.getEmail();
             }
-            setDiscription();
         }
     }
 

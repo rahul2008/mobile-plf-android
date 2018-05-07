@@ -86,7 +86,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        getCurrentCartDetails();
+                        mLoadListener.onLoadError(msg);
                     }
                 });
         getHybrisDelegate().sendRequest(0, model, model);

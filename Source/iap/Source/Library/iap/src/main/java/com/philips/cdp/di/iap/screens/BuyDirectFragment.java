@@ -7,6 +7,8 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -36,6 +38,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     private String mCTN;
     private PaymentMethod mPaymentMethod;
     private ErrorDialogFragment mErrorDialogFragment;
+    private ViewGroup mView;
 
     public static BuyDirectFragment createInstance(Bundle args, AnimationType animType) {
         BuyDirectFragment fragment = new BuyDirectFragment();
@@ -56,10 +59,10 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBuyDirectController = new BuyDirectController(mContext, this);
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, mContext.getString(R.string.iap_order_processing));
-            mBuyDirectController.createCart();
-        }
+        mView = (ViewGroup) getView();
+        createCustomProgressBar(mView, BIG);
+        mBuyDirectController.createCart();
+
     }
 
     @Override
@@ -94,8 +97,6 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     @Override
     public void onGetUser(Message msg) {
-        if (isProgressDialogShowing())
-            changeProgressMessage("Validating Address");
 
         if (msg.obj instanceof IAPNetworkError) {
             handleError(msg);
@@ -105,7 +106,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             if (defaultAddress != null) {
                 setAddressField(defaultAddress);
             } else {
-                dismissProgressDialog();
+                hideProgressBar();
                 addFragment(
                         DLSAddressFragment.createInstance(new Bundle(), AnimationType.NONE), DLSAddressFragment.TAG);
             }
@@ -144,11 +145,9 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     @Override
     public void onGetPaymentMode(Message msg) {
-        if (isProgressDialogShowing())
-            changeProgressMessage("Fetching Payment details");
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            dismissProgressDialog();
+            hideProgressBar();
 //            addFragment(
 //                    BillingAddressFragment.createInstance(new Bundle(),
 //                            AnimationType.NONE), BillingAddressFragment.TAG);
@@ -165,7 +164,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     @Override
     public void onSetPaymentMode(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
@@ -206,7 +205,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     }
 
     private void handleError(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         showErrorDialog(msg);
     }
 

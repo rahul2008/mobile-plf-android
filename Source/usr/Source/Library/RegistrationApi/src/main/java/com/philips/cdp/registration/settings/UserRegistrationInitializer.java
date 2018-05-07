@@ -267,7 +267,7 @@ public class UserRegistrationInitializer {
         RLog.d(TAG, "updateAppLocale : Configuration: " + registrationType.getValue());
         mRegistrationSettings.intializeRegistrationSettings(context,
                 RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
-                RegistrationHelper.getInstance().getLocale(context).toString());
+                RegistrationHelper.getInstance().getLocale().toString());
     }
 
 

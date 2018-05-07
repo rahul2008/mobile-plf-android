@@ -180,5 +180,10 @@
     <string name="dcc_Help_Support">التعليمات والدعم</string>
     <string name="dcc_Call">المكالمة</string>
     <string name="dcc_Opening_Hours">ساعات العمل</string>
+    <string name="dcc_location_consent_accept">موافق</string>
+    <string name="dcc_location_consent_reject">إلغاء</string>
+    <string name="dcc_location_consent_title">الموافقة على الموقع</string>
+    <string name="dcc_location_consent_definition_text">أسمح لشركة Philips بالوصول إلى بيانات موقعي لوظيفة \"العثور على متجر Philips بالقرب منك\".</string>
+    <string name="dcc_location_consent_definition_help_text">عند السماح بالوصول إلى بيانات الموقع، قد نجمع البيانات المتعلّقة بالموقع الجغرافي لجهازك المحمول.\n\nعند استخدام وظيفة \"\"العثور على متجر Philips بالقرب منك\"\" في صفحة الدعم، تتم مطالبتك بمشاركة بيانات موقعك مع شركة Philips. إذا استخدمت ميزات المواقع الخاصة بنا، وبالاستناد إلى بيانات موقعك، فسيتم توجيهك إلى متجر بالقرب منك أو إلى تفاصيل الاتصال بخدمة المستهلك في بلدك.</string>
 
 </resources>

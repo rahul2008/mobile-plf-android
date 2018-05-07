@@ -60,7 +60,7 @@ public class CoppaExtension {
             if (!consent.getGiven().equalsIgnoreCase(null)
                     && Boolean.parseBoolean(consent.getGiven())) {
                 coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
-                if (null != consent.getConfirmationGiven() && !consent.getConfirmationGiven().equalsIgnoreCase(NULL)) {
+                if (null != consent.getConfirmationGiven() && !consent.getConfirmationGiven().equalsIgnoreCase(NULL) && !consent.getConfirmationGiven().equalsIgnoreCase("")) {
                     if ((Boolean.parseBoolean(consent.getConfirmationGiven()))) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     } else {

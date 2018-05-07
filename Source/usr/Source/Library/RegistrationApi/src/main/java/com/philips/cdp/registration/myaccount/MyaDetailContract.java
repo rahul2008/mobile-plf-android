@@ -13,7 +13,7 @@ import java.util.Date;
 
 class MyaDetailContract {
 
-    interface View extends MyaBaseView {
+    interface View {
 
         void setUserName(String name);
 

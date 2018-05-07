@@ -13,13 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.table.OrmMoment;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,12 +87,12 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
 
         InsightHolder(final View view) {
             super(view);
-            mInsightID = (TextView) view.findViewById(R.id.insight_id);
-            mMomentID = (TextView) view.findViewById(R.id.moment_id);
-            mLastModified = (TextView) view.findViewById(R.id.last_modified);
-            mRuleID = (TextView) view.findViewById(R.id.rule_id);
-            mExpirationDate = (TextView) view.findViewById(R.id.expiration_date);
-            mDeleteInsight = (Button) view.findViewById(R.id.btn_delete_insight);
+            mInsightID = view.findViewById(R.id.insight_id);
+            mMomentID = view.findViewById(R.id.moment_id);
+            mLastModified = view.findViewById(R.id.last_modified);
+            mRuleID = view.findViewById(R.id.rule_id);
+            mExpirationDate = view.findViewById(R.id.expiration_date);
+            mDeleteInsight = view.findViewById(R.id.btn_delete_insight);
         }
     }
 }

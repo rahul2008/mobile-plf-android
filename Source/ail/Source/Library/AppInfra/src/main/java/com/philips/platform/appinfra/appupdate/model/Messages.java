@@ -20,6 +20,9 @@ public class Messages {
 	@SerializedName("currentVersionMessage")
 	@Expose
 	private String currentVersionMessage;
+	@SerializedName("minimumOSMessage")
+	@Expose
+	private String minimumOSMessage;
 
 	public String getMinimumVersionMessage() {
 		return minimumVersionMessage;
@@ -43,5 +46,13 @@ public class Messages {
 
 	public void setCurrentVersionMessage(String currentVersionMessage) {
 		this.currentVersionMessage = currentVersionMessage;
+	}
+
+	public String getMinimumOSMessage() {
+		return minimumOSMessage;
+	}
+
+	public void setMinimumOSMessage(String minimumOSMessage) {
+		this.minimumOSMessage = minimumOSMessage;
 	}
 }

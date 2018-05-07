@@ -61,4 +61,16 @@ public class UserDetailPresenterTest {
         Mockito.verify(viewMock).setCircleText("PP");
     }
 
+    @Mock
+    View viewMock1;
+
+    @Mock
+    View viewMock2;
+
+    @Test
+    public void shouldMakeViewsVisible() throws Exception {
+        myaDetailPresenter.makeVisible(viewMock1,viewMock2);
+        Mockito.verify(viewMock1).setVisibility(View.VISIBLE);
+        Mockito.verify(viewMock2).setVisibility(View.VISIBLE);
+    }
 }

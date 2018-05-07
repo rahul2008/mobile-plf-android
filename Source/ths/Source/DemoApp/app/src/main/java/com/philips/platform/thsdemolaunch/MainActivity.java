@@ -177,7 +177,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016,8,24);
         baby1.setDob(calendar.getTime());
-        baby1.setHsdpUUID("baby1+ggggg");
+        baby1.setHsdpUUID(user.getJanrainUUID()+"baby1+ggggg");
         baby1.setDependent(true);
         baby1.setBloodPressureSystolic("120");
         baby1.setBloodPressureDiastolic("80");
@@ -197,7 +197,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         Calendar calendar2 = Calendar.getInstance();
         calendar.set(2015, 8, 24);
         baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID("baby2");
+        baby2.setHsdpUUID(user.getJanrainUUID()+"baby2");
         baby2.setDependent(true);
         baby2.setBloodPressureSystolic("120");
         baby2.setBloodPressureDiastolic("80");
@@ -216,7 +216,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
         calendar.set(2016,8,24);
         baby3.setDob(calendar.getTime());
-        baby3.setHsdpUUID("baby3");
+        baby3.setHsdpUUID(user.getJanrainUUID()+"baby3");
         baby3.setDependent(true);
         baby3.setBloodPressureSystolic("120");
         baby3.setBloodPressureDiastolic("80");

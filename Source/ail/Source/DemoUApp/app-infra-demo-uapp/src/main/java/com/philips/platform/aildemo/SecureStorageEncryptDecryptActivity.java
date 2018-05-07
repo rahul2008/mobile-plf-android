@@ -1,19 +1,24 @@
 package com.philips.platform.aildemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
+import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
+import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
 
 import java.util.Arrays;
 
@@ -27,19 +32,24 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
     ScrollView encryptScrollView, decryptScrollView;
     private boolean isOldSSEnabled;
 
+    private AppInfraInterface appInfra;
+
+    private static final String IS_OLD_SS_ENABLED="is_ols_ss_enabled";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_storage_encrypt_decrypt);
-        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+        appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+        ToggleButton toggleButton= (ToggleButton)findViewById(R.id.toggleButton);
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
+        toggleButton.setChecked(isOldSSEnabled);
         if(isOldSSEnabled) {
-            mSecureStorage = appInfra.getSecureStorage();
+            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
-            mSecureStorage=new SecureStorage2((AppInfra) appInfra);
+            mSecureStorage=appInfra.getSecureStorage();
         }
-
         final TextView textViewEncrypt = (TextView)findViewById(R.id.textViewEncrypted);
         final TextView textViewDecrypted = (TextView)findViewById(R.id.textViewDecrpted);
         final TextView textViewDataMatched = (TextView)findViewById(R.id.textViewDataMatched);
@@ -62,7 +72,9 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                 }
                 plainByte= text.getBytes();
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before encryptData::"+System.currentTimeMillis());
                 encryptedByte = mSecureStorage.encryptData(plainByte, sseStore);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after encryptData::"+System.currentTimeMillis());
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -74,12 +86,26 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
             }
         });
 
+
+
+       toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+               Intent intent=new Intent(SecureStorageEncryptDecryptActivity.this,SecureStorageEncryptDecryptActivity.class);
+               intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+               intent.putExtra(IS_OLD_SS_ENABLED,isChecked);
+               startActivity(intent);
+           }
+       });
+
         Button decryptButton = (Button) findViewById(R.id.buttonDecrypt);
         decryptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before decryptData::"+System.currentTimeMillis());
                 byte[] plainData = mSecureStorage.decryptData(encryptedByte, sseStore);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after decryptData::"+System.currentTimeMillis());
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -91,6 +117,19 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        boolean isOldSSEnabled=intent.getBooleanExtra(IS_OLD_SS_ENABLED,false);
+        if(isOldSSEnabled) {
+            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
+            Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
+        }else{
+            mSecureStorage=appInfra.getSecureStorage();
+        }
+
     }
 
     public void onClick(View view) {

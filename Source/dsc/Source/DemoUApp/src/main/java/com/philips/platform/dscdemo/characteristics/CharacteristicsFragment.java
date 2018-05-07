@@ -66,16 +66,16 @@ public class CharacteristicsFragment extends DSBaseFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_user_characteristics, container, false);
 
-        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        Button mBtnOk = rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
 
-        mBtnEdit = (Button) rootView.findViewById(R.id.btnEdit);
+        mBtnEdit = rootView.findViewById(R.id.btnEdit);
         mBtnEdit.setOnClickListener(this);
 
-        Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
+        Button mBtnCancel = rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
 
-        mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
+        mEtCharacteristics = rootView.findViewById(R.id.et_characteristics);
 
         mCharacteristicsDialogPresenter = new CharacteristicsPresenter(this);
 
@@ -125,12 +125,12 @@ public class CharacteristicsFragment extends DSBaseFragment
             isEditable = false;
             String userCharacteristics = mEtCharacteristics.getText().toString().trim();
             if (!userCharacteristics.trim().isEmpty()) {
-                boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
-                if (!isUpdated) {
-                    Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                String errorMessage = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                if (errorMessage != null) {
+                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_LONG).show();
             }
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
