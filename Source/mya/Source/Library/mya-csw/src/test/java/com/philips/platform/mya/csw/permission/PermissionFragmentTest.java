@@ -13,8 +13,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.never;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -24,6 +24,9 @@ public class PermissionFragmentTest {
 
     @Mock
     private PermissionPresenter permissionPresenter;
+
+    @Mock
+    private PermissionContract.View mockView;
 
     private PermissionFragment permissionFragment;
 
@@ -60,7 +63,14 @@ public class PermissionFragmentTest {
         permissionFragment.onPause();
         verify(confirmDialogView, never()).hideDialog();
     }
-    
+
+    @Test
+    public void onPause_doesNotDisplayErrorDialogView() {
+        permissionFragment.onPause();
+        permissionFragment.showErrorDialog(false, 1, 1);
+        thenErrorIsNotShown(false, 1, 1);
+    }
+
     @Test
     public void getDialogViewWithGoBackReturnsSameInstance() {
         DialogView dialogView1 = permissionFragment.getDialogView(true);
@@ -85,6 +95,10 @@ public class PermissionFragmentTest {
 
     private void thenConsentDefinitionsAreFetched() {
         verify(permissionPresenter).fetchConsentStates(null);
+    }
+
+    private void thenErrorIsNotShown(boolean goBack, int titleRes, int error) {
+        verify(mockView, never()).showErrorDialog(goBack, titleRes, error);
     }
 
     @Mock
