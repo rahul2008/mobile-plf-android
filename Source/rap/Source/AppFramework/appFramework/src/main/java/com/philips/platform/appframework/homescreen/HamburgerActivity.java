@@ -64,6 +64,7 @@ import com.philips.platform.uid.view.widget.SideBar;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.philips.platform.prdemoapp.activity.MainActivity.THEMESETTINGS_ACTIVITY_RESTART;
