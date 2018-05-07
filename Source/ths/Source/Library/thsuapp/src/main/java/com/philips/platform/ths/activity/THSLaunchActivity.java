@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
@@ -42,7 +41,6 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.ths.utility.THSConstants.KEY_DEEP_LINKING_FLOW;
-import static com.philips.platform.ths.utility.THSConstants.THS_LOCATION_CONSENT_FRAGMENT;
 
 
 public class THSLaunchActivity extends UIDActivity implements ActionBarListener {
@@ -105,9 +103,6 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
             finish();
         } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
-        }else if (currentFrag instanceof JustInTimeConsentFragment && currentFrag.getTag().equalsIgnoreCase(THS_LOCATION_CONSENT_FRAGMENT)){
-            super.onBackPressed();
-            // this condition is required because JustInTimeConsentFragment does not implement BackEventListener and it is part of myAccount library
         }
     }
 
