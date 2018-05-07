@@ -249,44 +249,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
-       // setSupportActionBar(toolbar);
-       // setActionBar(getSupportActionBar());
     }
-
-    /**
-     * To set the actionbar
-     * @param actionBar : Requires the actionbar obejct
-     *//*
-    private void setActionBar(ActionBar actionBar) {
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_with_shopping_cart, null); // layout which contains your button.
-
-        actionBarTitle = (ActionBarTextView) mCustomView.findViewById(R.id.af_actionbar_title);
-        setTitle(getResources().getString(R.string.app_name));
-        cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
-        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
-        Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
-        cartIcon.setBackground(mCartIconDrawable);
-        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((HamburgerActivityPresenter)presenter).launchShoppingCartState();
-            }
-        });
-        cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.INVISIBLE);
-        cartIcon.setVisibility(View.INVISIBLE);
-        actionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
-    }*/
-
 
     public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
@@ -311,8 +274,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         UIDHelper.setTitle(this, title);
-       // actionBarTitle.setText(title);
-     //   actionBarTitle.setSelected(true);
     }
 
     protected ActionBarDrawerToggle configureDrawer() {
@@ -396,8 +357,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
         UIDHelper.setTitle(this, i);
-      //  actionBarTitle.setText(i);
-       // actionBarTitle.setSelected(true);
         updateActionBarIcon(b);
     }
 
@@ -409,10 +368,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void updateActionBar(String s, boolean b) {
         UIDHelper.setTitle(this, s);
-      //  actionBarTitle.setText(s);
-    //    actionBarTitle.setSelected(true);
         updateActionBarIcon(b);
-
     }
 
     public String getActionbarTag() {
