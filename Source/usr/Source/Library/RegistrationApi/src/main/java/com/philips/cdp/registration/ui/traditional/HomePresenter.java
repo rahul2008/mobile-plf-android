@@ -5,6 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -49,7 +53,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 
-public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
+public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener,FacebookCallback<LoginResult> {
 
     private String TAG = HomePresenter.class.getSimpleName();
 
@@ -344,6 +348,21 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        homeContract.onFaceBookAccessTokenReceived(loginResult.getAccessToken());
+    }
+
+    @Override
+    public void onCancel() {
+        homeContract.onFaceBookLogInCancelled();
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+        homeContract.onFacebookError(error);
+    }
+
     public enum FLOWDELIGATE {
         DEFAULT, CREATE, LOGIN, SOCIALPROVIDER;
     }
@@ -395,6 +414,11 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     public void startSocialLogin() {
         user.loginUserUsingSocialProvider(homeContract.getActivityContext(), provider, this, null);
+    }
+
+    public void startNativeSocialLogin(String providerName,String accessToken,String to,String openId,String mergeToken ){
+        user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
+                "wechat", accessToken, openId, HomePresenter.this, mergeToken);
     }
 
     public void trackSocialProviderPage() {
@@ -499,4 +523,5 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                     }
                 });
     }
+
 }

@@ -2,6 +2,10 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.*;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.philips.cdp.registration.dao.*;
 
 import org.json.*;
@@ -82,4 +86,14 @@ interface HomeContract {
     void handleBtnClickableStates(boolean state);
 
     HomeFragment getHomeFragment();
+
+    void initFacebookLogIn(CallbackManager callbackManager,LoginManager loginManager);
+
+    void onFaceBookAccessTokenReceived(AccessToken accessToken);
+
+    void onFacebookError(FacebookException exception);
+
+    void onFaceBookLogInCancelled();
+
+    void startFaceBookLogin(LoginManager loginManager);
 }

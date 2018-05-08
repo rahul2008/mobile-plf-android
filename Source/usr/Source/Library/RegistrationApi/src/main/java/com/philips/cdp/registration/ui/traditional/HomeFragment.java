@@ -34,6 +34,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -53,6 +57,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -125,10 +130,17 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private HomePresenter homePresenter;
     View view;
+    private CallbackManager mCallbackManager;
+    private LoginManager mLoginManager;
+    static List<String> FACEBOOK_PERMISSION_LIST;
+
+    static {
+        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.d(TAG,"OnCreateView : is Called");
+        RLog.d(TAG, "OnCreateView : is Called");
         homePresenter = new HomePresenter(this);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
@@ -137,6 +149,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         initUI(view);
         handleOrientation(view);
         homePresenter.registerWeChatApp();
+        mCallbackManager = CallbackManager.Factory.create();
+        mLoginManager = LoginManager.getInstance();
+        initFacebookLogIn(mCallbackManager, mLoginManager);
         return view;
     }
 
@@ -145,10 +160,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         View lHomeFragmentView;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             lHomeFragmentView = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
-            RLog.d(TAG,"getViewFromRegistrationFunction : Create account UI is Called");
+            RLog.d(TAG, "getViewFromRegistrationFunction : Create account UI is Called");
         } else {
             lHomeFragmentView = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
-            RLog.d(TAG,"getViewFromRegistrationFunction : Log In UI is Called");
+            RLog.d(TAG, "getViewFromRegistrationFunction : Log In UI is Called");
         }
         return lHomeFragmentView;
     }
@@ -238,7 +253,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void setContentConfig() {
-        RLog.d(TAG,"setContentConfig is called");
+        RLog.d(TAG, "setContentConfig is called");
         if (null != getRegistrationFragment().getContentConfiguration()) {
             if (null != getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle()) {
                 mTvWelcome.setText(getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle());
@@ -249,13 +264,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             if (getRegistrationFragment().getContentConfiguration().getEnableContinueWithouAccount()) {
                 continueWithouAccount.setVisibility(View.VISIBLE);
             }
-        }else{
-            RLog.d(TAG,"ContentConfiguration is null");
+        } else {
+            RLog.d(TAG, "ContentConfiguration is null");
         }
     }
 
     private void handleCountrySelection() {
-        RLog.d(TAG,"handleCountrySelection : is called");
+        RLog.d(TAG, "handleCountrySelection : is called");
         if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
@@ -271,7 +286,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void updateAppLocale(String localeString, String countryName) {
-        RLog.d(TAG,"updateAppLocale : is called");
+        RLog.d(TAG, "updateAppLocale : is called");
         String localeArr[] = localeString.toString().split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
@@ -281,19 +296,19 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void localeServiceDiscoveryFailed() {
-        RLog.d(TAG,"localeServiceDiscoveryFailed : is called");
+        RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
 
     @Override
     public void countryChangeStarted() {
-        RLog.d(TAG,"countryChangeStarted : is called");
+        RLog.d(TAG, "countryChangeStarted : is called");
         showProgressDialog();
     }
 
     private void launchSignInFragment() {
-        RLog.d(TAG,"launchSignInFragment : is called");
+        RLog.d(TAG, "launchSignInFragment : is called");
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             showSignInAccountFragment();
@@ -307,7 +322,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void launchCreateAccountFragment() {
-        RLog.d(TAG,"launchCreateAccountFragment : is called");
+        RLog.d(TAG, "launchCreateAccountFragment : is called");
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             showCreateAccountFragment();
@@ -336,28 +351,31 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void callSocialProvider(String providerName) {
-        if (homePresenter.isNetworkAvailable()) {
-            trackMultipleActionsLogin(providerName);
-            homePresenter.trackSocialProviderPage();
-            if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-                handleBtnClickableStates(false);
-                if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
-                    if (homePresenter.isWeChatAuthenticate()) {
-                        homePresenter.startWeChatAuthentication();
-                    } else {
-                        hideProgressDialog();
-                    }
-                    return;
+        trackMultipleActionsLogin(providerName);
+        homePresenter.trackSocialProviderPage();
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            handleBtnClickableStates(false);
+            if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
+                if (homePresenter.isWeChatAuthenticate()) {
+                    homePresenter.startWeChatAuthentication();
                 } else {
-                    showProgressDialog();
-                    homePresenter.setProvider(providerName);
-                    homePresenter.startSocialLogin();
+                    hideProgressDialog();
                 }
                 return;
+            } else if(true){
+                showProgressDialog();
+                homePresenter.setProvider(providerName);
+                startFaceBookLogin(mLoginManager);
+            }else  {
+                showProgressDialog();
+                homePresenter.setProvider(providerName);
+                homePresenter.startSocialLogin();
             }
-            showProgressDialog();
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+            return;
         }
+        showProgressDialog();
+        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+
     }
 
     @Override
@@ -505,6 +523,31 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public HomeFragment getHomeFragment() {
         return this;
+    }
+
+    @Override
+    public void initFacebookLogIn(CallbackManager callbackManager, LoginManager loginManager) {
+        loginManager.registerCallback(callbackManager, homePresenter);
+    }
+
+    @Override
+    public void onFaceBookAccessTokenReceived(AccessToken accessToken) {
+
+    }
+
+    @Override
+    public void onFacebookError(FacebookException exception) {
+
+    }
+
+    @Override
+    public void onFaceBookLogInCancelled() {
+    hideProgressDialog();
+    }
+
+    @Override
+    public void startFaceBookLogin(LoginManager loginManager) {
+        loginManager.logInWithReadPermissions(this,FACEBOOK_PERMISSION_LIST);
     }
 
     private void enableSocialProviders(boolean enableState) {
