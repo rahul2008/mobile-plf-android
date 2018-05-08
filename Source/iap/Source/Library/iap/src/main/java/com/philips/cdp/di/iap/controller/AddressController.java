@@ -67,8 +67,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     public void createAddress(AddressFields addressFields) {
         HashMap<String, String> params = getAddressHashMap(addressFields);
-            CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
-            getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
+        CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
+        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
     }
 
     public void getAddresses() {
@@ -158,19 +158,19 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     private HashMap<String, String> getAddressHashMap(final AddressFields addressFields) {
-            HashMap<String, String> params = new HashMap<>();
-            params.put(ModelConstants.FIRST_NAME, addressFields.getFirstName());
-            params.put(ModelConstants.LAST_NAME, addressFields.getLastName());
-            params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode().toLowerCase(Locale.getDefault()));
-            params.put(ModelConstants.COUNTRY_ISOCODE, addressFields.getCountryIsocode());
-            params.put(ModelConstants.LINE_1, addressFields.getLine1());
-            params.put(ModelConstants.LINE_2, addressFields.getLine2());
-            params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
-            params.put(ModelConstants.TOWN, addressFields.getTown());
-            params.put(ModelConstants.PHONE_1, addressFields.getPhone1());
-            params.put(ModelConstants.PHONE_2, addressFields.getPhone1());
-            params.put(ModelConstants.REGION_ISOCODE, addressFields.getRegionIsoCode());
-            return params;
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.FIRST_NAME, addressFields.getFirstName());
+        params.put(ModelConstants.LAST_NAME, addressFields.getLastName());
+        params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode().toLowerCase(Locale.getDefault()));
+        params.put(ModelConstants.COUNTRY_ISOCODE, addressFields.getCountryIsocode());
+        params.put(ModelConstants.LINE_1, addressFields.getLine1());
+        params.put(ModelConstants.LINE_2, addressFields.getLine2());
+        params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
+        params.put(ModelConstants.TOWN, addressFields.getTown());
+        params.put(ModelConstants.PHONE_1, addressFields.getPhone1());
+        params.put(ModelConstants.PHONE_2, addressFields.getPhone1());
+        params.put(ModelConstants.REGION_ISOCODE, addressFields.getRegionIsoCode());
+        return params;
     }
 
     public void setDefaultAddress(Addresses address) {
