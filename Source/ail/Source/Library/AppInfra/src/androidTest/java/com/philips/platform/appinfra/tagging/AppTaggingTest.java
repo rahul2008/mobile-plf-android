@@ -15,6 +15,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
+import org.junit.Ignore;
 
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.when;
 /**
  * AppTagging Test class.
  */
+@Ignore
 public class AppTaggingTest extends AppInfraInstrumentation {
 
     AppTaggingInterface mAIAppTaggingInterface;
