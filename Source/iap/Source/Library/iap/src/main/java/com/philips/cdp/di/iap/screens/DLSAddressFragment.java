@@ -56,6 +56,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     private LinearLayout mParentContainer;
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
+    private  TextView tv_checkOutSteps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +69,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     void initializeViews(View rootView) {
 
-        TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
+        tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
+
 
 
         mBtnContinue = rootView.findViewById(R.id.btn_continue);
@@ -105,13 +106,14 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 } else {
                     if (isChecked) {
                         setFragmentVisibility(billingFragment, false);
-                        ((DLSBillingAddressFragment) billingFragment).disableAllFields();
-                        ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
-                        mBtnContinue.setEnabled(true);
                     } else {
                         setFragmentVisibility(billingFragment, true);
-                        mBtnContinue.setEnabled(false);
+                        if(billingAddressFields!=null && shippingAddressFields!=null) {
+                            ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                            mBtnContinue.setEnabled(true);
+                        }
                     }
+
                 }
             }
         });
@@ -121,6 +123,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                updateCheckoutStepNumber("2");
                 checkBox.setVisibility(View.VISIBLE);
                 checkBox.setChecked(true);
                 setFragmentVisibility(billingFragment, true);
@@ -131,18 +134,24 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            updateCheckoutStepNumber("1");
             checkBox.setVisibility(View.GONE);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             ((DLSShippingAddressFragment) shippingFragment).updateFields(mAddressFieldsHashmap);
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+            updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.GONE);
             setFragmentVisibility(shippingFragment, false);
             setFragmentVisibility(billingFragment, true);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
             ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
         }
+    }
+
+    private void updateCheckoutStepNumber(String stepNumber){
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), stepNumber));
     }
 
     @Override
@@ -238,7 +247,9 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         else {
             if (checkBox.isChecked() && billingAddressFields == null) {
                 billingAddressFields = shippingAddressFields;
-                updateAddressPayload = addressPayload(billingAddressFields);
+                if(billingAddressFields!=null) {
+                    updateAddressPayload = addressPayload(billingAddressFields);
+                }
             }
         }
         if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
@@ -246,12 +257,14 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
-                if (billingFragment.isVisible()) {
+                if (billingFragment.isVisible() && billingAddressFields!=null) {
                     CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
                     addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
+                    mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
                     mAddressController.updateAddress(updateAddressPayload);
+                    mBtnContinue.setEnabled(false);
                 }
 
             } else {
@@ -278,22 +291,43 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
      HashMap<String, String> addressPayload(AddressFields pAddressFields) {
         HashMap<String, String> mShippingAddressHashMap = new HashMap<>();
-
-        mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
-        mShippingAddressHashMap.put(ModelConstants.LAST_NAME, pAddressFields.getLastName());
-        mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
-        mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
-        mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
-        mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
-        mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
+        if(pAddressFields.getFirstName()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
+        }
+        if(pAddressFields.getLastName()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LAST_NAME, pAddressFields.getLastName());
+        }
+        if(pAddressFields.getLine1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
+        }
+        if(pAddressFields.getLine2()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
+        }
+        if(pAddressFields.getTitleCode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
+        }
+        if(pAddressFields.getCountryIsocode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
+        }
+        if( pAddressFields.getPostalCode()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getTown()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
+        }
         final String addressId = CartModelContainer.getInstance().getAddressId();
         if (addressId != null) {
             mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, addressId);
         }
-        mShippingAddressHashMap.put(ModelConstants.PHONE_1, pAddressFields.getPhone1().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.PHONE_2, pAddressFields.getPhone1().replaceAll(" ", ""));
-        mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
+        if(pAddressFields.getPhone1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.PHONE_1, pAddressFields.getPhone1().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getPhone1()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.PHONE_2, pAddressFields.getPhone1().replaceAll(" ", ""));
+        }
+        if(pAddressFields.getEmail()!=null) {
+            mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
+        }
         if (!CartModelContainer.getInstance().isAddessStateVisible()) {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
         } else {

@@ -256,15 +256,15 @@ class OpenIDIdentityProvider {
 
         this.name = getConfigStringMandatory("name");
         this.mEnabled = getConfigBoolean("enabled", true);
-        this.mRedirectUri = getConfigUriMandatory("redirect_uri");
+        this.mRedirectUri = Uri.parse(context.getApplicationContext().getString(R.string.google_auth_redirect_uri));;
         this.mScope = getConfigStringMandatory("authorization_scope");
 
         this.mDiscoveryEndpoint = getConfigUri("discovery_uri");
         this.mAuthEndpoint = getConfigUri("authorization_endpoint_uri");
         this.mTokenEndpoint = getConfigUri("token_endpoint_uri");
         this.mRegistrationEndpoint = getConfigUri("registration_endpoint_uri");
-        this.mClientId = getConfigString("client_id", null);
-        this.mRedirectUri = getConfigUri("redirect_uri");
+        this.mClientId =  context.getApplicationContext().getString(R.string.google_client_id); //getConfigString("client_id", null);
+        this.mRedirectUri = Uri.parse(context.getApplicationContext().getString(R.string.google_auth_redirect_uri));
 
         if (mDiscoveryEndpoint == null && mAuthEndpoint == null && mTokenEndpoint == null) {
             throw new IllegalArgumentException(

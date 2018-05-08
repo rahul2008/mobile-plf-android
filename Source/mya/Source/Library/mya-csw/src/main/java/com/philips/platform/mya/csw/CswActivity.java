@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -60,7 +61,10 @@ public class CswActivity extends UIDActivity implements OnClickListener, ActionB
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentById(R.id.csw_frame_layout_fragment_container);
-        if (fragment != null && fragment instanceof BackEventListener) {
+        if (fragment instanceof PermissionFragment) {
+            this.finish();
+            return;
+        } else if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
             if (isConsumed)
                 return;

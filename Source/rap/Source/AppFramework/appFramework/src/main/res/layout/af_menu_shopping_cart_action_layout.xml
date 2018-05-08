@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/cart_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/cart_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/iap_shopping_cart"
+            android:paddingEnd="@dimen/network_margin_left_right" />
+
+        <com.philips.platform.uid.view.widget.NotificationBadge
+            android:id="@+id/item_count"
+            style="@style/NotificationBadge.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginBottom="15dp" />
+    </FrameLayout>
+
+</RelativeLayout>

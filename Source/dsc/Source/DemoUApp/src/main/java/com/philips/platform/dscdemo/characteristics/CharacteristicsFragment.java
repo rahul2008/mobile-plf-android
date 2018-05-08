@@ -125,12 +125,12 @@ public class CharacteristicsFragment extends DSBaseFragment
             isEditable = false;
             String userCharacteristics = mEtCharacteristics.getText().toString().trim();
             if (!userCharacteristics.trim().isEmpty()) {
-                boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
-                if (!isUpdated) {
-                    Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                String errorMessage = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                if (errorMessage != null) {
+                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_LONG).show();
             }
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
