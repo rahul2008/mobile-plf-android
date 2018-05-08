@@ -90,7 +90,7 @@ public class FileLogConfigurationHandler {
 
 
     // return file handler for writing logs on file based on logging.properties config
-    private FileHandler getFileHandler(LoggingConfiguration loggingConfiguration) {
+    FileHandler getFileHandler(LoggingConfiguration loggingConfiguration) {
         FileHandler fileHandler = null;
         try {
             File directoryCreated = createInternalDirectory();
