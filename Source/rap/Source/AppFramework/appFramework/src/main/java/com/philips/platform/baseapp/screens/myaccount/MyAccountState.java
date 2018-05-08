@@ -10,6 +10,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
@@ -22,6 +23,7 @@ import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.error.MyaError;
@@ -46,6 +48,7 @@ public class MyAccountState extends BaseState{
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_SETTINGS_EVENT = "PrivacySettingsEvent";
     private static final String MY_DETAILS_EVENT = "MyDetailsEvent";
+    private static final String MY_ORDERS_EVENT = "MyOrdersEvent";
     private static final String TAG = MyAccountState.class.getSimpleName();
 
     @Override
@@ -61,7 +64,7 @@ public class MyAccountState extends BaseState{
         launchInput.setMyaListener(getMyaListener());
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
-        String[] profileItems = {"MYA_My_details"};
+        String[] profileItems = {"MYA_My_details","MYA_My_orders"};
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
@@ -95,9 +98,10 @@ public class MyAccountState extends BaseState{
 
             @Override
             public boolean onProfileMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+                BaseState baseState = null;
+
                 if (itemName.equalsIgnoreCase("MYA_My_details")) {
-                    BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-                    BaseState baseState = null;
                     try {
                         baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), MY_DETAILS_EVENT);
                     } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
@@ -106,6 +110,22 @@ public class MyAccountState extends BaseState{
                     }
                     if(null != baseState){
                         baseState.init(actContext);
+                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
+                    }
+                    return true;
+                }else if(itemName.equalsIgnoreCase("MYA_My_orders")){
+
+                    try {
+                        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), MY_ORDERS_EVENT);
+                    } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                            e) {
+                        Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                    if(null != baseState){
+                        final UIStateData iapStateData = new UIStateData();
+                        iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                        baseState.setUiStateData(iapStateData);
+                        baseState.init(actContext.getApplicationContext());
                         baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
                     }
                     return true;

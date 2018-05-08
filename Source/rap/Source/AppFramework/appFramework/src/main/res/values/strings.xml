@@ -192,4 +192,6 @@
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
+
+  <string name="MYA_My_orders">My orders</string>
 </resources>

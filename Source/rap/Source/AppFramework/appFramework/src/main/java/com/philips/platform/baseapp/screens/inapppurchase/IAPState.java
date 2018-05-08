@@ -62,6 +62,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        setLaunchType(IAPState.IAP_CATALOG_VIEW);
         updateDataModel();
         if (getApplicationContext().isShopingCartVisible) {         // for hybris flow
             setListener();
