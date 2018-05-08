@@ -43,7 +43,7 @@
         "fileLogEnabled":false,
         "consoleLogEnabled":true,
         "cloudLogEnabled":true,
-        "CloudBatchLimit":5,
+        "cloudBatchLimit":5,
         "componentLevelLogEnabled":true,
         "componentIds": [
           "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
@@ -57,7 +57,7 @@
         "fileLogEnabled":false,
         "consoleLogEnabled":true,
         "cloudLogEnabled":true,
-        "CloudBatchLimit":5,
+        "cloudBatchLimit":5,
         "componentLevelLogEnabled":true,
         "componentIds": [
           "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"

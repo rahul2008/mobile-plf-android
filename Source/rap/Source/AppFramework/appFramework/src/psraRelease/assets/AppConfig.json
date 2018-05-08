@@ -42,7 +42,7 @@
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
       ]
@@ -55,7 +55,7 @@
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
       ]

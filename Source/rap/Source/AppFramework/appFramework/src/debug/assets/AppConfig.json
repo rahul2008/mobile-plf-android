@@ -66,7 +66,7 @@
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",
@@ -89,7 +89,7 @@
       "logLevel": "All",
       "fileLogEnabled": false,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": true,
       "componentIds": [

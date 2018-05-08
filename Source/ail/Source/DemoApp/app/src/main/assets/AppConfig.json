@@ -48,7 +48,7 @@
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
         "DemoAppInfra",
@@ -63,7 +63,7 @@
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
       "cloudLogEnabled":true,
-      "CloudBatchLimit":5,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
         "DemoAppInfra",
