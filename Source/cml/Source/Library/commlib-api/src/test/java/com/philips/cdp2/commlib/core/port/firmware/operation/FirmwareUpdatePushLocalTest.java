@@ -10,6 +10,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
+import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateState;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateDownloading;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateError;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateIdle;
@@ -30,13 +31,16 @@ import java.util.Map;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.ERROR;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -147,22 +151,6 @@ public class FirmwareUpdatePushLocalTest {
     @Test(expected = IllegalArgumentException.class)
     public void givenPushLocalIsInitialized_whenFirmwareDataIsEmpty_thenExceptionIsThrown() {
         firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, new byte[0]);
-    }
-
-    @Test
-    public void givenPushLocalIsInitialized_whenFirmwareUpdateIsStarted_thenCancelIsPerformed() throws FirmwareUpdateException {
-        firmwareUpdateUnderTest.start(1000);
-
-        verify(mockIdleState).cancel();
-    }
-
-    @Test
-    public void givenCancelIsNotSupportedByCurrentState_whenFirmwareUpdateIsStarted_thenStartIsPerformed() throws FirmwareUpdateException {
-        doThrow(new FirmwareUpdateException("")).when(mockIdleState).cancel();
-
-        firmwareUpdateUnderTest.start(1000);
-
-        verify(mockIdleState).start(null);
     }
 
     @Test
@@ -306,5 +294,57 @@ public class FirmwareUpdatePushLocalTest {
         assertEquals(portPropertiesArgumentCaptor.getValue().get("size"), firmwaredata.length);
         assertTrue(portPropertiesArgumentCaptor.getValue().containsKey("state"));
         assertEquals(portPropertiesArgumentCaptor.getValue().get("state"), "downloading");
+    }
+
+    @Test
+    public void givenPushLocalIsInitialized_whenFirmwareUpdateIsStarted_thenCancelIsPerformed() throws FirmwareUpdateException {
+        firmwareUpdateUnderTest.start(1000);
+
+        verify(mockIdleState).cancel();
+    }
+
+    @Test
+    public void givenCancelIsNotSupportedByCurrentState_whenFirmwareUpdateIsStarted_thenStartIsPerformed() throws FirmwareUpdateException {
+        doThrow(new FirmwareUpdateException("")).when(mockIdleState).cancel();
+
+        firmwareUpdateUnderTest.start(1000);
+
+        verify(mockIdleState).start(null);
+    }
+
+    @Test
+    public void givenStartIsRequested_whenRemoteSwitchesToIdle_thenDownloadIsStarted() throws Exception {
+        firmwareUpdateUnderTest.start(1000);
+        firmwareUpdateUnderTest.waitForNextState();
+
+        PowerMockito.verifyNew(FirmwarePortStateWaiter.class).withArguments(eq(mockFirmwarePort), eq(mockCommunicationStrategy), eq(IDLE), waiterListenerArgumentCaptor.capture());
+        waiterListenerArgumentCaptor.getValue().onNewState(IDLE);
+
+        verify(mockIdleState).start(null);
+    }
+
+    @Test
+    public void givenStartIsRequested_whenRemoteSwitchesToError_thenDownloadIsNotStarted() throws Exception {
+        firmwareUpdateUnderTest.start(1000);
+        firmwareUpdateUnderTest.waitForNextState();
+
+        PowerMockito.verifyNew(FirmwarePortStateWaiter.class).withArguments(eq(mockFirmwarePort), eq(mockCommunicationStrategy), eq(IDLE), waiterListenerArgumentCaptor.capture());
+        waiterListenerArgumentCaptor.getValue().onNewState(ERROR);
+
+        verify(mockErrorState).start(any(FirmwareUpdateState.class));
+    }
+
+    @Test
+    public void givenDownloadWasCanceled_whenStateSwitchesToIdle_thenNewDownloadIsNotStarted() throws Exception {
+        when(mockPortProperties.getState()).thenReturn(DOWNLOADING);
+        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+        firmwareUpdateUnderTest.start(1000);
+        firmwareUpdateUnderTest.waitForNextState();
+        PowerMockito.verifyNew(FirmwarePortStateWaiter.class).withArguments(eq(mockFirmwarePort), eq(mockCommunicationStrategy), eq(DOWNLOADING), waiterListenerArgumentCaptor.capture());
+        waiterListenerArgumentCaptor.getValue().onNewState(IDLE);
+
+        waiterListenerArgumentCaptor.getValue().onNewState(IDLE);
+
+        verify(mockIdleState, times(1)).start(null);
     }
 }

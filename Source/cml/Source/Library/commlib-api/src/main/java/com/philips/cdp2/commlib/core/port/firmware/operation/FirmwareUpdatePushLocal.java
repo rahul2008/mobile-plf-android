@@ -53,6 +53,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             }
             throw new IllegalStateException("State mapping not implemented.");
         }
+
     }
 
     @NonNull
@@ -78,6 +79,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private FirmwareUpdateState currentState;
 
+    private boolean startIsRequested;
+
     @NonNull
     private final FirmwarePortStateWaiter.WaiterListener waiterListener = new FirmwarePortStateWaiter.WaiterListener() {
         @Override
@@ -85,7 +88,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             final FirmwareUpdateState previousState = currentState;
             currentState.finish();
             currentState = stateMap.get(newState);
-            currentState.start(previousState);
+
+            if (startIsRequested && currentState instanceof FirmwareUpdateStateIdle) {
+                startIsRequested = false;
+                currentState.start(null);
+            } else {
+                currentState.start(previousState);
+            }
         }
 
         @Override
@@ -133,6 +142,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         try {
             currentState.cancel();
+            startIsRequested = true;
         } catch (FirmwareUpdateException ignored) {
             currentState.start(null);
         }
