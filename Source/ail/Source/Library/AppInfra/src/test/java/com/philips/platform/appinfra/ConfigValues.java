@@ -257,18 +257,18 @@ public class ConfigValues {
 		Map<String, Object> map = new HashMap<>();
 
 		Iterator<String> keysItr = object.keys();
-		while(keysItr.hasNext()) {
-			String key = keysItr.next();
-			Object value = object.get(key);
+		if (keysItr != null) {
+			while (keysItr.hasNext()) {
+				String key = keysItr.next();
+				Object value = object.get(key);
 
-			if(value instanceof JSONArray) {
-				value = toList((JSONArray) value);
+				if (value instanceof JSONArray) {
+					value = toList((JSONArray) value);
+				} else if (value instanceof JSONObject) {
+					value = toMap((JSONObject) value);
+				}
+				map.put(key, value);
 			}
-
-			else if(value instanceof JSONObject) {
-				value = toMap((JSONObject) value);
-			}
-			map.put(key, value);
 		}
 		return map;
 	}

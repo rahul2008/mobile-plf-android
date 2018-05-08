@@ -28,10 +28,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     public AppInfraLogging(AppInfra aAppInfra,String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
-        mJavaLogger=LoggerFactory.createLoggerWithLogConfiguration(mAppInfra,new LoggingConfiguration(mAppInfra, componentId, componentVersion));
-        if(mJavaLogger==null){
-            mJavaLogger=Logger.getLogger(componentId);
-        }
+        mJavaLogger = getJavaLogger(componentId, componentVersion);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class AppInfraLogging implements LoggingInterface {
      */
     @Override
     public void log(LogLevel level, String eventId, String message, Map<String, ?> map) {
-        Object[] params = new Object[2];
+        Object[] params = getParamObjects();
 
         if (null != mJavaLogger) {
             params[0]=message;
@@ -86,7 +83,11 @@ public class AppInfraLogging implements LoggingInterface {
         mAppInfra.getAilCloudLogMetaData().setUserUUID(userUUID);
     }
 
-    protected Logger getJavaLogger() {
+    protected Logger getJavaLogger(String componentId, String componentVersion) {
+        Logger mJavaLogger = LoggerFactory.createLoggerWithLogConfiguration(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
+        if (mJavaLogger == null) {
+            mJavaLogger = Logger.getLogger(componentId);
+        }
         return mJavaLogger;
     }
 

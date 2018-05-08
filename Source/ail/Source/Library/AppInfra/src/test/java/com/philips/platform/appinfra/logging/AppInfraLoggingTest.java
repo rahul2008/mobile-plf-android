@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
@@ -11,18 +12,20 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AppInfraLoggingTest extends TestCase {
 
     private AppInfraLogging appInfraLogging;
-    private LoggingInterface loggingInterface;
 
     @Mock
     private Context contextMock;
@@ -39,32 +42,46 @@ public class AppInfraLoggingTest extends TestCase {
     private AppConfigurationInterface appConfigurationInterfaceMock;
     @Mock
     private LoggingConfiguration loggingConfigurationMock;
+    private Object[] params;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         String componentId = "compTest";
         String componentVersion = "2.1";
-        loggingInterface = new AppInfraLogging(appInfraMock);
-        Mockito.when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
-        Mockito.when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
-        Mockito.when(appConfigurationInterfaceMock.getPropertyForKey(anyString(),anyString(),any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
+        params = new Object[2];
+        when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
+        when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
+        when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
+        when(appInfraMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        HashMap hashMap = new HashMap();
+        hashMap.put("logging.debugConfig", true);
+        when(loggingConfigurationMock.getLoggingProperties()).thenReturn(hashMap);
         appInfraLogging = new AppInfraLogging(appInfraMock, componentId, componentVersion) {
             @Override
-            protected Logger getJavaLogger() {
+            protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return loggerMock;
+            }
+
+            @NonNull
+            @Override
+            Object[] getParamObjects() {
+                return params;
             }
         };
 
     }
 
     public void testLog(){
-        appInfraLogging.createInstanceForComponent("component_id","2.1");
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.WARNING, "some_event", "event_message");
+        verify(loggerMock).log(Level.WARNING, "some_event", params);
+        assertEquals(params[0], "event_message");
+        assertNull(params[1]);
 
     }
 

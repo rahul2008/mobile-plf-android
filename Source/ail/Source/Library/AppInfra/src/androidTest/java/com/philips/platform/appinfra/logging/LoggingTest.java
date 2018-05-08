@@ -72,7 +72,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         AppInfraLogging appInfraLogging;
         appInfraLogging = new AppInfraLogging(mAppInfra){
             @Override
-            protected Logger getJavaLogger() {
+            protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return logger;
             }
         };
@@ -84,7 +84,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         final Logger logger = mock(Logger.class);
         AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
             @Override
-            protected Logger getJavaLogger() {
+            protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return logger;
             }
         };
@@ -106,7 +106,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         final Object[] values = new Object[2];
         AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
             @Override
-            protected Logger getJavaLogger() {
+            protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return logger;
             }
 
