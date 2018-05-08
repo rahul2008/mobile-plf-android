@@ -6,7 +6,6 @@ package com.philips.cdp2.commlib.core.port.firmware.operation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
@@ -69,17 +68,17 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private final byte[] firmwareData;
 
-    private FirmwarePortStateWaiter firmwarePortStateWaiter;
     private FirmwareUploader firmwareUploader;
 
     private long stateTransitionTimeoutMillis;
 
+    @NonNull
     private FirmwareUpdateState currentState;
 
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
-                                   @NonNull byte[] firmwareData) {
+                                   @NonNull final byte[] firmwareData) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
@@ -90,11 +89,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.firmwareData = firmwareData;
         this.stateMap = new StateMap();
         initStateMap();
-        initDeviceState();
-    }
-
-    private void initDeviceState() {
-        FirmwarePortProperties properties = firmwarePort.getPortProperties();
+        FirmwarePortProperties properties = this.firmwarePort.getPortProperties();
 
         if (properties == null) {
             currentState = stateMap.get(IDLE);
@@ -196,8 +191,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     public void waitForNextState() {
         FirmwarePortState currentPortState = stateMap.findByState(currentState);
 
-        this.firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
-        this.firmwarePortStateWaiter.waitForNextState(this.stateTransitionTimeoutMillis);
+        FirmwarePortStateWaiter firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
+        firmwarePortStateWaiter.waitForNextState(this.stateTransitionTimeoutMillis);
     }
 
     private String getStatusMessage() {
@@ -223,5 +218,10 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
                 currentState.onError(message);
             }
         });
+    }
+
+    @VisibleForTesting
+    public FirmwareUpdateState getState() {
+        return currentState;
     }
 }
