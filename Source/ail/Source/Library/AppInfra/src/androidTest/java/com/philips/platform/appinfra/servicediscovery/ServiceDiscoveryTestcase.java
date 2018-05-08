@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -296,6 +297,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		AppInfra mAppInfra = mock(AppInfra.class);
 		LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
 		when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+		when(mAppInfra.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
 		return mAppInfra;
 	}
 

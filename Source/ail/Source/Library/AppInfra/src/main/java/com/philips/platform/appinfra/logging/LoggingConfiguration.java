@@ -53,19 +53,19 @@ public class LoggingConfiguration {
     }
 
     boolean isComponentLevelLogEnabled() {
-        return (null != mLoggingProperties.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
+        return (null != mLoggingProperties && null != mLoggingProperties.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
     }
 
     boolean isFileLogEnabled() {
-        return (null != mLoggingProperties.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(FILE_LOG_ENABLED_KEY) : false;
+        return (null != mLoggingProperties && null != mLoggingProperties.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(FILE_LOG_ENABLED_KEY) : false;
     }
 
     boolean isConsoleLogEnabled() {
-        return (null != mLoggingProperties.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CONSOLE_LOG_ENABLED_KEY) : true;
+        return (null != mLoggingProperties && null != mLoggingProperties.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CONSOLE_LOG_ENABLED_KEY) : true;
     }
 
     String getLogLevel() {
-        return (null != mLoggingProperties.get(LOG_LEVEL_KEY)) ? (String) mLoggingProperties.get(LOG_LEVEL_KEY) : "All";
+        return (null != mLoggingProperties && null != mLoggingProperties.get(LOG_LEVEL_KEY)) ? (String) mLoggingProperties.get(LOG_LEVEL_KEY) : "All";
     }
 
     /**
@@ -118,6 +118,6 @@ public class LoggingConfiguration {
     }
 
     public boolean isCloudLogEnabled() {
-        return (null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
+        return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
     }
 }
