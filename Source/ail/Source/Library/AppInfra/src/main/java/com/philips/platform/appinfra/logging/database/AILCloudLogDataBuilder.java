@@ -2,11 +2,8 @@ package com.philips.platform.appinfra.logging.database;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
-import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
@@ -60,7 +57,7 @@ public class AILCloudLogDataBuilder {
         ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
         ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
         ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
-        ailCloudLogData.originatingUser=ailCloudLogMetaData.getUserUUID();
+        ailCloudLogData.userUUID =ailCloudLogMetaData.getUserUUID();
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;

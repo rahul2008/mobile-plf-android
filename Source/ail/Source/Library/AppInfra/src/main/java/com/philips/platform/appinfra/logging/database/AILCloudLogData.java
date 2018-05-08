@@ -63,7 +63,7 @@ public class AILCloudLogData {
     /**
      *
      */
-    public String originatingUser;
+    public String userUUID;
 
 
     /**
@@ -71,10 +71,6 @@ public class AILCloudLogData {
      */
     public String severity;
 
-    /**
-     *
-     */
-    public String transactionId;
 
     /**
      *
