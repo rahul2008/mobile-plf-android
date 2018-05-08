@@ -5,6 +5,7 @@
 
 package com.philips.cdp.cloudcontroller;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -67,7 +68,7 @@ public class CloudControllerTest {
         initMocks(this);
 
         mockStatic(SignOn.class);
-        when(SignOn.getInstance((CallbackHandler) any(), (Params) any())).thenReturn(signOnMock);
+        when(SignOn.getInstance((CallbackHandler) any(), (Params) any(), (Context) any(), (byte[]) any())).thenReturn(signOnMock);
 
         mockStatic(EventSubscription.class);
         when(EventSubscription.getInstance((CallbackHandler) any(), anyInt())).thenReturn(eventSubscriptionMock);
@@ -393,7 +394,7 @@ public class CloudControllerTest {
     }
 
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener, DcsResponseListener responseListener) {
-        DefaultCloudController controller = new DefaultCloudController();
+        DefaultCloudController controller = new DefaultCloudController(null);
         controller.addDCSEventListener(cppId, dcsListener);
         if (responseListener != null) {
             controller.addDCSResponseListener(responseListener);
