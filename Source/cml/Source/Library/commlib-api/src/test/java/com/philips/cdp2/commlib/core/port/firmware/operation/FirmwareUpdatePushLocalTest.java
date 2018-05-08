@@ -26,9 +26,14 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Map;
+
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -78,6 +83,9 @@ public class FirmwareUpdatePushLocalTest {
     @Captor
     private ArgumentCaptor<FirmwarePortStateWaiter.WaiterListener> waiterListenerArgumentCaptor;
 
+    @Captor
+    private ArgumentCaptor<Map<String, Object>> portPropertiesArgumentCaptor;
+
     private byte[] firmwaredata = {0xC, 0x0, 0xF, 0xF, 0xE, 0xE};
 
     private FirmwareUpdatePushLocal firmwareUpdateUnderTest;
@@ -107,6 +115,15 @@ public class FirmwareUpdatePushLocalTest {
     @Test
     public void givenPushLocalIsInitialized_whenRemoteIsInIdleState_thenStateIsIdle() {
         assertTrue(firmwareUpdateUnderTest.getState() instanceof FirmwareUpdateStateIdle);
+    }
+
+    @Test
+    public void givenPushLocalIsInitialized_whenCreateFirmwareUploaderIsCalled_thenARealInstanceIsCreated() {
+        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+
+        FirmwareUploader firmwareUploader = firmwareUpdateUnderTest.createFirmwareUploader(mockUploadListener);
+
+        assertNotNull(firmwareUploader);
     }
 
     @Test
@@ -217,7 +234,14 @@ public class FirmwareUpdatePushLocalTest {
     }
 
     @Test
-    public void givenRemoteReportsAnError_whenDownloadHasFailed_thenFailureIsReportedWithMessage() {
+    public void givenRemoteReportsDeployFinished_thenFinishIsReported() {
+        firmwareUpdateUnderTest.onDeployFinished();
+
+        verify(mockListener).onDeployFinished();
+    }
+
+    @Test
+    public void givenRemoteReportsAnErrorForDownload_whenDownloadHasFailed_thenFailureIsReportedWithMessage() {
         when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);
         when(mockPortProperties.getStatusMessage()).thenReturn("TestError");
 
@@ -225,5 +249,62 @@ public class FirmwareUpdatePushLocalTest {
 
         verify(mockListener).onDownloadFailed(exceptionArgumentCaptor.capture());
         assertEquals("TestError", exceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    @Test
+    public void givenRemoteReportsAnErrorForDeploy_whenDownloadHasFailed_thenFailureIsReportedWithMessage() {
+        when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);
+        when(mockPortProperties.getStatusMessage()).thenReturn("TestError");
+
+        firmwareUpdateUnderTest.onDeployFailed();
+
+        verify(mockListener).onDeployFailed(exceptionArgumentCaptor.capture());
+        assertEquals("TestError", exceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    @Test
+    public void givenRemoteReportsDownloadFinished_thenFinishIsReported() {
+        firmwareUpdateUnderTest.onDownloadFinished();
+
+        verify(mockListener).onDownloadFinished();
+    }
+
+    @Test
+    public void givenRemoteReportsDownloadProgress_thenDownloadIsReported() {
+        firmwareUpdateUnderTest.onDownloadProgress(42);
+
+        verify(mockListener).onDownloadProgress(42);
+    }
+
+    @Test
+    public void givenRemoteReportsCheckingProgress_thenProgressIsReported() {
+        firmwareUpdateUnderTest.onCheckingProgress(42);
+
+        verify(mockListener).onCheckingProgress(42);
+    }
+
+    @Test
+    public void givenCancelingStateIsRequested_thenPropertiesAreUpdated() {
+        firmwareUpdateUnderTest.requestState(CANCELING);
+
+        verify(mockFirmwarePort).putProperties("state", "cancel");
+    }
+
+    @Test
+    public void givenProgrammingStateIsRequested_thenPropertiesAreUpdated() {
+        firmwareUpdateUnderTest.requestState(PROGRAMMING);
+
+        verify(mockFirmwarePort).putProperties("state", "go");
+    }
+
+    @Test
+    public void givenDownloadingStateIsRequested_thenPropertiesAreUpdated() {
+        firmwareUpdateUnderTest.requestStateDownloading();
+
+        verify(mockFirmwarePort).putProperties(portPropertiesArgumentCaptor.capture());
+        assertTrue(portPropertiesArgumentCaptor.getValue().containsKey("size"));
+        assertEquals(portPropertiesArgumentCaptor.getValue().get("size"), firmwaredata.length);
+        assertTrue(portPropertiesArgumentCaptor.getValue().containsKey("state"));
+        assertEquals(portPropertiesArgumentCaptor.getValue().get("state"), "downloading");
     }
 }

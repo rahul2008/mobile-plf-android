@@ -45,7 +45,6 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
 
-
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
             for (Entry<FirmwarePortState, FirmwareUpdateState> entry : this.entrySet()) {
                 if (entry.getValue().equals(state)) {
