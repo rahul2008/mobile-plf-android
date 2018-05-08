@@ -9,6 +9,10 @@
         android:visible="false"
         app:showAsAction="always" />
 
-
+    <item
+        android:title="menu_cart_icon"
+        android:id="@+id/badge"
+        app:actionLayout="@layout/af_menu_shopping_cart_action_layout"
+        app:showAsAction="always"/>
 
 </menu>
