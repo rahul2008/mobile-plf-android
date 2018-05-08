@@ -71,7 +71,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 
-
+        updateCheckoutStepNumber("2");
 
         mBtnContinue = rootView.findViewById(R.id.btn_continue);
         mBtnCancel = rootView.findViewById(R.id.btn_cancel);
