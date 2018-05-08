@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
+import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class AILCloudLogDataBuilder {
         this.loggingConfiguration = loggingConfiguration;
     }
 
-    public AILCloudLogData buildCloudLogModel(LogRecord logRecord) {
+    public AILCloudLogData buildCloudLogModel(LogRecord logRecord) throws MessageSizeExceedsException {
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
 
         if (logRecord.getParameters() != null) {
@@ -37,12 +38,11 @@ public class AILCloudLogDataBuilder {
             if (parameters.size() == 2) {
                 if (parameters.get(1) != null) {
                     ailCloudLogData.details = convertMapToJsonString(parameters.get(1));
-                    Log.d("Memory Test", "Memory of values param: " + ailCloudLogData.details.length());
                 }
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
-            if (messageExceedsSizeLimit(ailCloudLogData)) {
-                return null;
+            if (LoggingUtils.getStringLengthInBytes(ailCloudLogData.logDescription+ailCloudLogData.details)>CloudLoggingConstants.MAX_LOG_SIZE) {
+               throw  new MessageSizeExceedsException();
             }
         }
         ailCloudLogData.logId = LoggingUtils.getUUID();
@@ -74,10 +74,10 @@ public class AILCloudLogDataBuilder {
 
     private boolean messageExceedsSizeLimit(AILCloudLogData ailCloudLogData) {
         if (!(ailCloudLogData.details == null || ailCloudLogData.details.isEmpty())) {
-            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > CloudLoggingConstants.LOG_SIZE;
+            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > CloudLoggingConstants.MAX_LOG_SIZE;
         } else {
             if(!(ailCloudLogData.logDescription == null || ailCloudLogData.logDescription.isEmpty()) )
-            return ailCloudLogData.logDescription.length() > CloudLoggingConstants.LOG_SIZE;
+            return ailCloudLogData.logDescription.length() > CloudLoggingConstants.MAX_LOG_SIZE;
         }
         return false;
     }

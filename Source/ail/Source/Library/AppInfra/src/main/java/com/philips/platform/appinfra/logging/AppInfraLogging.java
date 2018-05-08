@@ -23,23 +23,23 @@ public class AppInfraLogging implements LoggingInterface {
     private transient Logger mJavaLogger;
 
     public AppInfraLogging(AppInfra aAppInfra) {
-        this(aAppInfra,"","");
+        this(aAppInfra, "", "");
     }
 
-    public AppInfraLogging(AppInfra aAppInfra,String componentId, String componentVersion) {
+    public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         mJavaLogger = getJavaLogger(componentId, componentVersion);
     }
 
     @Override
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-        return new AppInfraLogging(mAppInfra,componentId,componentVersion);
+        return new AppInfraLogging(mAppInfra, componentId, componentVersion);
     }
 
 
     @Override
     public void log(LogLevel level, String eventId, String message) {
-        log(level,eventId,message,null);
+        log(level, eventId, message, null);
     }
 
     /**
@@ -48,7 +48,7 @@ public class AppInfraLogging implements LoggingInterface {
      * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
      * @param eventId the Event name or Tag
      * @param message the message
-     * @param map the dictionary
+     * @param map     the dictionary
      * @since 1.0.0
      */
     @Override
@@ -56,8 +56,8 @@ public class AppInfraLogging implements LoggingInterface {
         Object[] params = getParamObjects();
 
         if (null != mJavaLogger) {
-            params[0]=message;
-            params[1]=map;
+            params[0] = message;
+            params[1] = map;
             switch (level) {
                 case ERROR:
                     mJavaLogger.log(Level.SEVERE, eventId, params);

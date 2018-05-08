@@ -494,19 +494,19 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         }
         private void updateMetadata(AppInfra appInfra) {
             AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
-            if(appIdentity!=null) {
-                ailCloudLogMetaData.setAppName(appIdentity.getAppName());
-                ailCloudLogMetaData.setAppState(appIdentity.getAppState().toString());
-                ailCloudLogMetaData.setAppVersion(appIdentity.getAppVersion());
+            if(appInfra.getAppIdentity()!=null) {
+                ailCloudLogMetaData.setAppName(appInfra.getAppIdentity().getAppName());
+                ailCloudLogMetaData.setAppState(appInfra.getAppIdentity().getAppState().toString());
+                ailCloudLogMetaData.setAppVersion(appInfra.getAppIdentity().getAppVersion());
             }
-            if(tagging!=null) {
-                ailCloudLogMetaData.setAppsId(tagging.getTrackingIdentifier());
+            if(appInfra.getTagging()!=null) {
+                ailCloudLogMetaData.setAppsId(appInfra.getTagging().getTrackingIdentifier());
             }
-            if(local!=null) {
-                ailCloudLogMetaData.setLocale(local.getUILocaleString());
+            if(appInfra.getInternationalization()!=null) {
+                ailCloudLogMetaData.setLocale(appInfra.getInternationalization().getUILocaleString());
             }
-            if(mServiceDiscoveryInterface!=null) {
-                ailCloudLogMetaData.setHomeCountry(mServiceDiscoveryInterface.getHomeCountry());
+            if(appInfra.getServiceDiscovery()!=null) {
+                ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
             appInfra.setAilCloudLogMetaData(ailCloudLogMetaData);
         }

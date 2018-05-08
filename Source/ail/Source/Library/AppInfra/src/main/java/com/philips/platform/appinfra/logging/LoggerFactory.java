@@ -12,8 +12,8 @@ import java.util.logging.Logger;
  * Created by abhishek on 4/24/18.
  */
 
-class LoggerFactory {
-    protected static Logger createLoggerWithLogConfiguration(AppInfra appInfra,LoggingConfiguration loggingConfiguration) {
+public class LoggerFactory {
+    protected static Logger createLoggerWithLogConfiguration(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
         Logger javaLogger = Logger.getLogger(loggingConfiguration.getComponentID());
         if (loggingConfiguration.isLoggingEnabled()) {
             LogManager.getLogManager().addLogger(javaLogger);

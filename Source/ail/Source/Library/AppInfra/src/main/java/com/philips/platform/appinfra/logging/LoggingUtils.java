@@ -90,4 +90,11 @@ public class LoggingUtils {
         return Build.VERSION.RELEASE;
     }
 
+    public static int getStringLengthInBytes(String string){
+        if(TextUtils.isEmpty(string)){
+            return 0;
+        }
+        return string.toCharArray().length * 2;
+    }
+
 }
