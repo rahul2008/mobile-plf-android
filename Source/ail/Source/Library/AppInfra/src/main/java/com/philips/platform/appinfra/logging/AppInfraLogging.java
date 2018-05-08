@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.logging;
 
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -21,6 +22,7 @@ public class AppInfraLogging implements LoggingInterface {
     private static final long serialVersionUID = -4898715486015827285L;
     private AppInfra mAppInfra;
     private transient Logger mJavaLogger;
+    private String componentId,componentVersion;
 
     public AppInfraLogging(AppInfra aAppInfra) {
         this(aAppInfra, "", "");
@@ -29,6 +31,8 @@ public class AppInfraLogging implements LoggingInterface {
     public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         mJavaLogger = getJavaLogger(componentId, componentVersion);
+        this.componentId=componentId;
+        this.componentVersion=componentVersion;
     }
 
     @Override
@@ -40,6 +44,12 @@ public class AppInfraLogging implements LoggingInterface {
     @Override
     public void log(LogLevel level, String eventId, String message) {
         log(level, eventId, message, null);
+        if(TextUtils.isEmpty(componentId)){
+            componentId=mAppInfra.getAppIdentity().getAppName();
+        }
+        if(TextUtils.isEmpty(componentVersion)){
+            componentVersion=mAppInfra.getAppIdentity().getAppVersion();
+        }
     }
 
     /**
@@ -57,7 +67,9 @@ public class AppInfraLogging implements LoggingInterface {
 
         if (null != mJavaLogger) {
             params[0] = message;
-            params[1] = map;
+            params[1]=componentId;
+            params[2]=componentVersion;
+            params[3] = map;
             switch (level) {
                 case ERROR:
                     mJavaLogger.log(Level.SEVERE, eventId, params);
@@ -84,15 +96,12 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     protected Logger getJavaLogger(String componentId, String componentVersion) {
-        Logger mJavaLogger = LoggerFactory.createLoggerWithLogConfiguration(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
-        if (mJavaLogger == null) {
-            mJavaLogger = Logger.getLogger(componentId);
-        }
+        Logger mJavaLogger = LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
         return mJavaLogger;
     }
 
     @NonNull
     Object[] getParamObjects() {
-        return new Object[2];
+        return new Object[4];
     }
 }

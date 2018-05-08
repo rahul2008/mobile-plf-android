@@ -21,13 +21,11 @@ import java.util.logging.LogRecord;
 
 public class AILCloudLogDataBuilder {
 
-    private final LoggingConfiguration loggingConfiguration;
 
     private AppInfra appInfra;
 
-    public AILCloudLogDataBuilder(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
+    public AILCloudLogDataBuilder(AppInfra appInfra) {
         this.appInfra = appInfra;
-        this.loggingConfiguration = loggingConfiguration;
     }
 
     public AILCloudLogData buildCloudLogModel(LogRecord logRecord) throws MessageSizeExceedsException {
@@ -35,12 +33,13 @@ public class AILCloudLogDataBuilder {
 
         if (logRecord.getParameters() != null) {
             List<Object> parameters = Arrays.asList(logRecord.getParameters());
-            if (parameters.size() == 2) {
-                if (parameters.get(1) != null) {
-                    ailCloudLogData.details = convertMapToJsonString(parameters.get(1));
+            if (parameters.size() == 4) {
+                if (parameters.get(3) != null) {
+                    ailCloudLogData.details = LoggingUtils.convertObjectToJsonString(parameters.get(3));
                 }
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
+            ailCloudLogData.component=(String)parameters.get(1)+"/"+(String)parameters.get(2);
             if (LoggingUtils.getStringLengthInBytes(ailCloudLogData.logDescription+ailCloudLogData.details)>CloudLoggingConstants.MAX_LOG_SIZE) {
                throw  new MessageSizeExceedsException();
             }
@@ -62,31 +61,10 @@ public class AILCloudLogDataBuilder {
         ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
         ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
         ailCloudLogData.originatingUser=ailCloudLogMetaData.getUserUUID();
-        if (loggingConfiguration.getComponentID() != null && !loggingConfiguration.getComponentID().isEmpty()
-                && loggingConfiguration.getComponentVersion() != null && !loggingConfiguration.getComponentVersion().isEmpty()) {
-            ailCloudLogData.component = loggingConfiguration.getComponentID() + "/" + loggingConfiguration.getComponentVersion();
-        }
-
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }
 
-    private boolean messageExceedsSizeLimit(AILCloudLogData ailCloudLogData) {
-        if (!(ailCloudLogData.details == null || ailCloudLogData.details.isEmpty())) {
-            return ailCloudLogData.logDescription.length() + ailCloudLogData.details.length() > CloudLoggingConstants.MAX_LOG_SIZE;
-        } else {
-            if(!(ailCloudLogData.logDescription == null || ailCloudLogData.logDescription.isEmpty()) )
-            return ailCloudLogData.logDescription.length() > CloudLoggingConstants.MAX_LOG_SIZE;
-        }
-        return false;
-    }
 
-    private String convertMapToJsonString(Object param) {
-        if (param != null) {
-            Gson gson = new GsonBuilder().create();
-            return gson.toJson(param);
-        } else
-            return null;
-    }
 }

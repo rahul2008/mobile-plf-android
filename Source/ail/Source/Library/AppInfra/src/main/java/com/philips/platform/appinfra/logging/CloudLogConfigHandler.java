@@ -20,16 +20,15 @@ public class CloudLogConfigHandler {
         this.appInfra = appInfra;
     }
 
-    protected void handleCloudLogConfig(LogFormatter logFormatter, LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
+    protected void handleCloudLogConfig(LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
         boolean isCloudLogEnabled=loggingConfiguration.isCloudLogEnabled();
         if(isCloudLogEnabled){
             CloudLogHandler cloudLogHandler=getCurrentLogCloudLogHandler(logger);
             if(cloudLogHandler==null){
-                cloudLogHandler=new CloudLogHandler(appInfra,loggingConfiguration);
+                cloudLogHandler=new CloudLogHandler(appInfra);
                 if (null != logger.getLevel()) {
                     cloudLogHandler.setLevel(logger.getLevel());
                 } else {
-                    // for appinfra internal log mJavaLogger will be null
                     cloudLogHandler.setLevel(Level.FINE);
                 }
                 logger.addHandler(cloudLogHandler);

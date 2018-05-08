@@ -39,7 +39,7 @@ public class CloudLogConfigurationHandlerTest extends TestCase {
         logger.setLevel(Level.ALL);
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(true);
         when(loggingConfiguration.getLogLevel()).thenReturn("All");
-        consoleLogConfigurationHandler.handleCloudLogConfig(logFormatter, loggingConfiguration, logger);
+        consoleLogConfigurationHandler.handleCloudLogConfig(loggingConfiguration, logger);
         assertTrue(logger.getHandlers().length == 1);
         Handler handler = logger.getHandlers()[0];
         assertTrue(handler instanceof CloudLogHandler);
@@ -51,7 +51,7 @@ public class CloudLogConfigurationHandlerTest extends TestCase {
         logger.setLevel(Level.OFF);
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(false);
         when(loggingConfiguration.getLogLevel()).thenReturn("All");
-        consoleLogConfigurationHandler.handleCloudLogConfig(logFormatter, loggingConfiguration, logger);
+        consoleLogConfigurationHandler.handleCloudLogConfig(loggingConfiguration, logger);
         assertTrue(logger.getHandlers().length == 0);
     }
 

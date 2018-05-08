@@ -33,7 +33,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         super.setUp();
         MockitoAnnotations.initMocks(this);
         when(appInfra.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
-        ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra, loggingConfiguration);
+        ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
     }
 
     public void testBuildCloudLogModel() throws MessageSizeExceedsException {
@@ -41,9 +41,11 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         when(logRecord.getLevel()).thenReturn(Level.ALL);
         AILCloudLogMetaData ailCloudLogMetaData = getAILCloudLogMetaData();
         when(appInfra.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
-        Object[] objects = new Object[2];
+        Object[] objects = new Object[4];
         objects[0] = "data";
-        objects[1] = getMap();
+        objects[1] = "ail";
+        objects[2] = "18.2.0";
+        objects[3] = getMap();
         when(logRecord.getParameters()).thenReturn(objects);
         AILCloudLogData ailCloudLogData = ailCloudLogDataBuilder.buildCloudLogModel(logRecord);
         assertEquals(ailCloudLogData.logDescription, "data");

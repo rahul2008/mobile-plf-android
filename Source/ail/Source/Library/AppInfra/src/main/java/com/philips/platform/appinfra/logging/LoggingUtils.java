@@ -3,6 +3,9 @@ package com.philips.platform.appinfra.logging;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -95,6 +98,14 @@ public class LoggingUtils {
             return 0;
         }
         return string.toCharArray().length * 2;
+    }
+
+    public static String convertObjectToJsonString(Object param) {
+        if (param != null) {
+            Gson gson = new GsonBuilder().create();
+            return gson.toJson(param);
+        } else
+            return null;
     }
 
 }

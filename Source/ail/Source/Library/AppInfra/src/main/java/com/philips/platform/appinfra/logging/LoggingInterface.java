@@ -21,7 +21,6 @@ public interface LoggingInterface extends Serializable {
     }
 
     /**
-     * Use overloaded constructor instead
      * <p>
      * Create instance for component logging interface.
      * This method to be used by all component to get their respective logging
@@ -31,7 +30,6 @@ public interface LoggingInterface extends Serializable {
      * @return the logging interface
      * @since 1.0.0
      */
-    @Deprecated
     LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     /**

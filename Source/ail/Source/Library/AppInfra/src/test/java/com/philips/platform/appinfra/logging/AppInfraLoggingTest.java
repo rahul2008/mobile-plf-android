@@ -50,7 +50,7 @@ public class AppInfraLoggingTest extends TestCase {
         MockitoAnnotations.initMocks(this);
         String componentId = "compTest";
         String componentVersion = "2.1";
-        params = new Object[2];
+        params = new Object[4];
         when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
         when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
         when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
@@ -82,7 +82,7 @@ public class AppInfraLoggingTest extends TestCase {
         appInfraLogging.log(LoggingInterface.LogLevel.WARNING, "some_event", "event_message");
         verify(loggerMock).log(Level.WARNING, "some_event", params);
         assertEquals(params[0], "event_message");
-        assertNull(params[1]);
+        assertNull(params[3]);
     }
 
     public void testSetUserUUID() {

@@ -13,14 +13,23 @@ import java.util.logging.Logger;
  */
 
 public class LoggerFactory {
-    protected static Logger createLoggerWithLogConfiguration(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
-        Logger javaLogger = Logger.getLogger(loggingConfiguration.getComponentID());
+    private static Logger logger;
+
+    public static synchronized Logger getLoggerInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration){
+        if(logger==null){
+            logger=createLoggerWithLogConfiguration(appInfra,loggingConfiguration);
+        }
+        return logger;
+    }
+
+    private static Logger createLoggerWithLogConfiguration(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
+        Logger javaLogger = Logger.getLogger(appInfra.getAppInfraContext().getPackageName());
         if (loggingConfiguration.isLoggingEnabled()) {
             LogManager.getLogManager().addLogger(javaLogger);
             javaLogger.setLevel(LoggingUtils.getJavaLoggerLogLevel(loggingConfiguration.getLogLevel()));
-            LogFormatter logFormatter = new LogFormatter(loggingConfiguration.getComponentID(), loggingConfiguration.getComponentVersion(), loggingConfiguration.getAppInfra());
+            LogFormatter logFormatter = new LogFormatter(appInfra);
             new ConsoleLogConfigurationHandler(appInfra).handleConsoleLogConfig(logFormatter, loggingConfiguration, javaLogger);
-            new CloudLogConfigHandler(appInfra).handleCloudLogConfig(logFormatter, loggingConfiguration, javaLogger);
+            new CloudLogConfigHandler(appInfra).handleCloudLogConfig(loggingConfiguration, javaLogger);
             try {
                 new FileLogConfigurationHandler(appInfra).handleFileLogConfig(logFormatter, loggingConfiguration, javaLogger);
             } catch (IOException e) {

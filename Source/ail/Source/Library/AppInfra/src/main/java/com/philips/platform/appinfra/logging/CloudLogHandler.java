@@ -25,9 +25,9 @@ public class CloudLogHandler extends Handler {
     private CloudLogProcessor cloudLogProcessor;
 
 
-    public CloudLogHandler(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
+    public CloudLogHandler(AppInfra appInfra) {
         this.appInfra = appInfra;
-        ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra, loggingConfiguration);
+        ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
         cloudLogProcessor = new CloudLogProcessor("cloud log handler thread");
         cloudLogProcessor.start();
         cloudLogProcessor.prepareHandler();
@@ -43,7 +43,6 @@ public class CloudLogHandler extends Handler {
                 } catch (MessageSizeExceedsException e) {
                     Log.d(TAG,"Message size exceeds allowed length"+e.getMessage());
                 }
-//                ailCloudLogDatabase.logModel().insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
             }
         });
     }

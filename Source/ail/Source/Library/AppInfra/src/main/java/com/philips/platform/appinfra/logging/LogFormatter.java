@@ -28,36 +28,15 @@ import java.util.logging.LogRecord;
 public class LogFormatter extends Formatter {
     // Create a DateFormat to format the logger ;.
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
-    private final String componentNameAndVersion;
-    String mComponentName = "NA";
-    String mComponentVersion = "NA";
     AppInfra mappInfra;
 
-    public LogFormatter(String ComponentName, String componentVersion, AppInfra mAppinfra) {
+    public LogFormatter(AppInfra mAppinfra) {
         mappInfra = mAppinfra;
-        try {
-            if (null != ComponentName) {
-                mComponentName = ComponentName;
-            } else {
-                if (mAppinfra.getAppIdentity() != null)
-                    mComponentName = mAppinfra.getAppIdentity().getAppName();
-            }
-            if (null != componentVersion) {
-                mComponentVersion = componentVersion;
-            } else {
-                if (mAppinfra.getAppIdentity() != null)
-                    mComponentVersion = mAppinfra.getAppIdentity().getAppVersion();
-            }
-        } catch (IllegalArgumentException e) {
-            mAppinfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING,"Logging"+e.getMessage());
-        }
-
-        componentNameAndVersion = mComponentName + " " + mComponentVersion;
     }
 
     public String format(LogRecord record) {
         Map<?,?> dictionary = null;
-        final StringBuilder builder = new StringBuilder(1000);
+        final StringBuilder builder = new StringBuilder();
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
             dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
@@ -74,24 +53,29 @@ public class LogFormatter extends Formatter {
         } else if (logLevel == Level.FINE) {
             logLevelPrettyName = "VERBOSE";
         }
-        builder.append("[").append(logLevelPrettyName).append("]");
-        builder.append("[").append(componentNameAndVersion).append("]");
-        builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
-        //builder.append("[").append(record.getSourceClassName()).append("] ");
-        //builder.append("[").append(record.getSourceMethodName()).append("] ");
         final Object[] params = record.getParameters(); // this we assume as message
         String eventName = "NA";// Default event name
+        String componentID="";
+        String componentVersion="";
         if (null != params && params.length > 0) {
             eventName = (String) params[0];  // params[0] is message
-            if (params.length == 2) {
+            componentID=(String)params[1];
+            componentVersion=(String)params[2];
+            if (params.length == 4) {
                 try {
                     if (params[1] instanceof Map)
-                        dictionary = (Map) params[1];
+                        dictionary = (Map) params[3];
                 } catch (Exception e) {
                     mappInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
             }
         }
+        builder.append("[").append(logLevelPrettyName).append("]");
+        builder.append("[").append(componentID+componentVersion).append("]");
+        builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
+        //builder.append("[").append(record.getSourceClassName()).append("] ");
+        //builder.append("[").append(record.getSourceMethodName()).append("] ");
+
         builder.append("[").append(eventName).append("]");
         if (null != dictionary) {
             builder.append("[").append(dictionary).append("]"); // optional Map/dictionary

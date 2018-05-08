@@ -30,10 +30,6 @@ public void testAILogLevel(){
 }
 
 
-public void testOSVersion(){
-    assertNotNull(LoggingUtils.getOSVersion());
-}
-
 public void testUUID(){
     assertNotNull(LoggingUtils.getUUID());
 }
