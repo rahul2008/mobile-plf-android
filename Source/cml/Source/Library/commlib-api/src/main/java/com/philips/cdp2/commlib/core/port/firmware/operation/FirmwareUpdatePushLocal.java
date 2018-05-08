@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.core.port.firmware.operation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -43,6 +44,8 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
+
+
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
             for (Entry<FirmwarePortState, FirmwareUpdateState> entry : this.entrySet()) {
                 if (entry.getValue().equals(state)) {
@@ -68,12 +71,29 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private final byte[] firmwareData;
 
+    @Nullable
     private FirmwareUploader firmwareUploader;
 
     private long stateTransitionTimeoutMillis;
 
     @NonNull
     private FirmwareUpdateState currentState;
+
+    @NonNull
+    private final FirmwarePortStateWaiter.WaiterListener waiterListener = new FirmwarePortStateWaiter.WaiterListener() {
+        @Override
+        public void onNewState(final FirmwarePortState newState) {
+            final FirmwareUpdateState previousState = currentState;
+            currentState.finish();
+            currentState = stateMap.get(newState);
+            currentState.start(previousState);
+        }
+
+        @Override
+        public void onError(String message) {
+            currentState.onError(message);
+        }
+    };
 
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
@@ -112,7 +132,11 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @Override
     public void start(long stateTransitionTimeoutMillis) {
         this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
-        currentState.start(null);
+        try {
+            currentState.cancel();
+        } catch (FirmwareUpdateException ignored) {
+            currentState.start(null);
+        }
     }
 
     @Override
@@ -133,8 +157,14 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     public void uploadFirmware(UploadListener firmwareUploadListener) {
-        this.firmwareUploader = new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener);
+        this.firmwareUploader = createFirmwareUploader(firmwareUploadListener);
         this.firmwareUploader.start();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    FirmwareUploader createFirmwareUploader(UploadListener firmwareUploadListener) {
+        return new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener);
     }
 
     public void stopUploading() {
@@ -191,7 +221,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     public void waitForNextState() {
         FirmwarePortState currentPortState = stateMap.findByState(currentState);
 
-        FirmwarePortStateWaiter firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, currentPortState, waiterListener);
         firmwarePortStateWaiter.waitForNextState(this.stateTransitionTimeoutMillis);
     }
 
@@ -199,25 +229,6 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
 
         return (portProperties == null) ? "Unknown failure." : portProperties.getStatusMessage();
-    }
-
-    @VisibleForTesting
-    FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
-        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, new FirmwarePortStateWaiter.WaiterListener() {
-
-            @Override
-            public void onNewState(final FirmwarePortState newState) {
-                final FirmwareUpdateState previousState = currentState;
-                currentState.finish();
-                currentState = stateMap.get(newState);
-                currentState.start(previousState);
-            }
-
-            @Override
-            public void onError(String message) {
-                currentState.onError(message);
-            }
-        });
     }
 
     @VisibleForTesting

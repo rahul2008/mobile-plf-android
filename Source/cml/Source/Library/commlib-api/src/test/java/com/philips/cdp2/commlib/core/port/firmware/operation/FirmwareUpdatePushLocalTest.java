@@ -1,9 +1,10 @@
 /*
  * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved. 
+ * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.port.firmware.operation;
 
+import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -12,7 +13,9 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateDownloading;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateError;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateIdle;
+import com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUpdateException;
+import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUploader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +26,15 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -46,13 +54,29 @@ public class FirmwareUpdatePushLocalTest {
     @Mock
     private FirmwarePortProperties mockPortProperties;
 
+    @Mock
+    private FirmwareUploader.UploadListener mockUploadListener;
 
-    @Mock private FirmwareUpdateStateIdle mockIdleState;
-    @Mock private FirmwareUpdateStateDownloading mockDownloadingState;
-    @Mock private FirmwareUpdateStateError mockErrorState;
+    @Mock
+    private FirmwareUpdateStateIdle mockIdleState;
+
+    @Mock
+    private FirmwareUpdateStateDownloading mockDownloadingState;
+
+    @Mock
+    private FirmwareUpdateStateError mockErrorState;
+
+    @Mock
+    private FirmwarePortStateWaiter mockFirmwarePortStateWaiter;
+
+    @Mock
+    private FirmwareUploader mockFirmwareUploader;
 
     @Captor
     private ArgumentCaptor<FirmwarePortListener.FirmwarePortException> exceptionArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<FirmwarePortStateWaiter.WaiterListener> waiterListenerArgumentCaptor;
 
     private byte[] firmwaredata = {0xC, 0x0, 0xF, 0xF, 0xE, 0xE};
 
@@ -63,14 +87,21 @@ public class FirmwareUpdatePushLocalTest {
         initMocks(this);
         DICommLog.disableLogging();
 
-        when(mockPortProperties.getState()).thenReturn(FirmwarePortProperties.FirmwarePortState.IDLE);
+        when(mockPortProperties.getState()).thenReturn(IDLE);
         when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);
 
         PowerMockito.whenNew(FirmwareUpdateStateIdle.class).withAnyArguments().thenReturn(mockIdleState);
         PowerMockito.whenNew(FirmwareUpdateStateDownloading.class).withAnyArguments().thenReturn(mockDownloadingState);
         PowerMockito.whenNew(FirmwareUpdateStateError.class).withAnyArguments().thenReturn(mockErrorState);
+        PowerMockito.whenNew(FirmwarePortStateWaiter.class).withAnyArguments().thenReturn(mockFirmwarePortStateWaiter);
 
-        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata) {
+            @NonNull
+            @Override
+            FirmwareUploader createFirmwareUploader(FirmwareUploader.UploadListener firmwareUploadListener) {
+                return mockFirmwareUploader;
+            }
+        };
     }
 
     @Test
@@ -89,7 +120,7 @@ public class FirmwareUpdatePushLocalTest {
 
     @Test
     public void givenPushLocalIsInitialized_whenRemoteIsInDownloadingState_thenStateIsDownloading() {
-        when(mockPortProperties.getState()).thenReturn(FirmwarePortProperties.FirmwarePortState.DOWNLOADING);
+        when(mockPortProperties.getState()).thenReturn(DOWNLOADING);
 
         firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
 
@@ -99,6 +130,90 @@ public class FirmwareUpdatePushLocalTest {
     @Test(expected = IllegalArgumentException.class)
     public void givenPushLocalIsInitialized_whenFirmwareDataIsEmpty_thenExceptionIsThrown() {
         firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, new byte[0]);
+    }
+
+    @Test
+    public void givenPushLocalIsInitialized_whenFirmwareUpdateIsStarted_thenCancelIsPerformed() throws FirmwareUpdateException {
+        firmwareUpdateUnderTest.start(1000);
+
+        verify(mockIdleState).cancel();
+    }
+
+    @Test
+    public void givenCancelIsNotSupportedByCurrentState_whenFirmwareUpdateIsStarted_thenStartIsPerformed() throws FirmwareUpdateException {
+        doThrow(new FirmwareUpdateException("")).when(mockIdleState).cancel();
+
+        firmwareUpdateUnderTest.start(1000);
+
+        verify(mockIdleState).start(null);
+    }
+
+    @Test
+    public void givenPushLocalIsWaitingForNextState_whenRemoteSwitchesToDownloading_thenDownloadIsStarted() throws Exception {
+        firmwareUpdateUnderTest.waitForNextState();
+
+        PowerMockito.verifyNew(FirmwarePortStateWaiter.class).withArguments(eq(mockFirmwarePort), eq(mockCommunicationStrategy), eq(IDLE), waiterListenerArgumentCaptor.capture());
+        waiterListenerArgumentCaptor.getValue().onNewState(DOWNLOADING);
+
+        verify(mockDownloadingState).start(mockIdleState);
+    }
+
+    @Test
+    public void givenPushLocalIsWaitingForNextState_whenRemoteReportsError_thenErrorIsReported() throws Exception {
+        firmwareUpdateUnderTest.waitForNextState();
+
+        PowerMockito.verifyNew(FirmwarePortStateWaiter.class).withArguments(eq(mockFirmwarePort), eq(mockCommunicationStrategy), eq(IDLE), waiterListenerArgumentCaptor.capture());
+        String wtf = "What a terrible failure";
+        waiterListenerArgumentCaptor.getValue().onError(wtf);
+
+        verify(mockIdleState).onError(wtf);
+    }
+
+    @Test
+    public void whenDeployIsCalled_thenDeployIsCalledOnCurrentState() throws FirmwareUpdateException {
+        firmwareUpdateUnderTest.deploy(1000);
+
+        verify(mockIdleState).deploy();
+    }
+
+    @Test
+    public void whenCancelIsCalled_thenCancelIsCalledOnCurrentState() throws FirmwareUpdateException {
+        firmwareUpdateUnderTest.cancel(1000);
+
+        verify(mockIdleState).cancel();
+    }
+
+    @Test
+    public void whenFinishIsCalled_thenFinishIsCalledOnPort() {
+        firmwareUpdateUnderTest.finish();
+
+        verify(mockFirmwarePort).finishFirmwareUpdate();
+    }
+
+    @Test
+    public void whenUploadFirmwareIsCalled_thenUploadIsStarted() {
+        firmwareUpdateUnderTest.uploadFirmware(mockUploadListener);
+
+        verify(mockFirmwareUploader).start();
+        verifyNoMoreInteractions(mockFirmwareUploader);
+    }
+
+    @Test
+    public void givenFirmwareUploadWasStarted_whenStopUploadIsCalled_thenUploaderStops() {
+        firmwareUpdateUnderTest.uploadFirmware(mockUploadListener);
+        verify(mockFirmwareUploader).start();
+
+        firmwareUpdateUnderTest.stopUploading();
+
+        verify(mockFirmwareUploader).stop();
+        verifyNoMoreInteractions(mockFirmwareUploader);
+    }
+
+    @Test
+    public void givenFirmwareUploadIsNotStartedYet_whenStopUploadIsCalled_then() {
+        firmwareUpdateUnderTest.stopUploading();
+
+        verifyZeroInteractions(mockFirmwareUploader);
     }
 
     @Test
