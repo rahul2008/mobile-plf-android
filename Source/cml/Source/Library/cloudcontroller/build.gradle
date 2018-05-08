@@ -59,15 +59,6 @@ dependencies {
 
     testCompile deps.junit
     testCompile deps.assertj
-
-    testCompile(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testCompile(deps.robolectric_shadows) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
     testCompile deps.powermock_junit
     testCompile deps.powermock_api_mockito
 }
