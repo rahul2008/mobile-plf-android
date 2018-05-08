@@ -65,8 +65,7 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public String getTrackingIdentifier() {
-        String trackingIdentifier=Analytics.getTrackingIdentifier();
-        return trackingIdentifier;
+        return Analytics.getTrackingIdentifier();
     }
 
 

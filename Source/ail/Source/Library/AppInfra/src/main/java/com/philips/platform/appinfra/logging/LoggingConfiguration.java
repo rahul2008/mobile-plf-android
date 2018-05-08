@@ -75,7 +75,7 @@ public class LoggingConfiguration {
     boolean isLoggingEnabled() {
         String logLevel = getLogLevel();
         if (!logLevel.equalsIgnoreCase("Off")) {
-            if (isConsoleLogEnabled() || isFileLogEnabled()) {
+            if (isConsoleLogEnabled() || isFileLogEnabled() || isCloudLogEnabled()) {
                 if(isComponentLevelLogEnabled()&& !TextUtils.isEmpty(mComponentID)){
                     final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig();
                     if (!ComponentToBeLoggedList.contains(mComponentID)) {
