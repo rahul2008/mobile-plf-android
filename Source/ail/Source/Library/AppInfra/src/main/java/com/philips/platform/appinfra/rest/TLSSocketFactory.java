@@ -22,7 +22,7 @@ public class TLSSocketFactory extends SSLSocketFactory {
 
     public TLSSocketFactory() throws KeyManagementException, NoSuchAlgorithmException {
         final SSLContext context = SSLContext.getInstance("TLS");
-        TrustManager trustManager[] = {new AITrustManager()};
+        TrustManager trustManager[] = {new AppInfraTrustManager()};
         context.init(null, trustManager , null);
         internalSSLSocketFactory = context.getSocketFactory();
     }

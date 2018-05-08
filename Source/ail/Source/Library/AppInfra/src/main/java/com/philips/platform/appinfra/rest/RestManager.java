@@ -108,7 +108,7 @@ public class RestManager implements RestInterface {
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
         }
-        return new BasicNetwork(stack);
+        return new AppInfraNetwork(stack, mAppInfra);
     }
 
     public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
