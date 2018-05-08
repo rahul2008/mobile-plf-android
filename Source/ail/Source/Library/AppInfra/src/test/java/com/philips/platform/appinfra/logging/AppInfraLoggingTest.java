@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
 import junit.framework.TestCase;
 
@@ -82,7 +83,13 @@ public class AppInfraLoggingTest extends TestCase {
         verify(loggerMock).log(Level.WARNING, "some_event", params);
         assertEquals(params[0], "event_message");
         assertNull(params[1]);
-
     }
 
+    public void testSetUserUUID() {
+        AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
+        when(appInfraMock.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
+        appInfraLogging.setUserUUID("uuid");
+        assertEquals(ailCloudLogMetaData.getUserUUID(), "uuid");
+
+    }
 }
