@@ -61,19 +61,19 @@ public class AppInfraTest extends AppInfraInstrumentation {
 	    Object abTestConfig = ABTestClientManager.getAbtestConfig(configInterface, mAppInfra);
 
 	    if(abTestConfig == null) {
-			assertNotNull(mAppInfra.getAbTesting());
+			assertTrue(mAppInfra.getAbTesting() == null);
 		}
 
 	    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(configInterface,mAppInfra);
 	    if(languagePackConfig == null) {
-			assertNotNull(mAppInfra.getLanguagePack());
+			assertTrue(mAppInfra.getLanguagePack() == null);
 		}
 
 	    Object appUpdateConfig = AppUpdateManager.getAutoRefreshValue(configInterface,mAppInfra);
 	    if(appUpdateConfig == null) {
-			assertNotNull(mAppInfra.getAppUpdate());
+			assertTrue(mAppInfra.getAppUpdate() == null);
 		}
-    }
+	}
 
     public void testInitializationWithValues() {
 
