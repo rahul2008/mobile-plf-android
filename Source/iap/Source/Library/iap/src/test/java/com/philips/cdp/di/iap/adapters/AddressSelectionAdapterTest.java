@@ -10,7 +10,12 @@ import android.widget.RadioButton;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,10 +49,23 @@ public class AddressSelectionAdapterTest {
     @Mock
     ImageLoader imageLoaderMock;
 
+    Context mContext;
+    @Mock
+    IAPUser mIAPMockedUser;
+    private StoreListener mStore;
+    MockIAPSetting mockIAPSetting;
+
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        addressSelectionAdapter = new AddressSelectionAdapter(addressessListMock);
+        when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
+        when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
+        mockIAPSetting = new MockIAPSetting(mContext);
+        mockIAPSetting.setUseLocalData(false);
+        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
+        String mJanRainEmail =  mStore.getJanRainEmail();
+        addressSelectionAdapter = new AddressSelectionAdapter(addressessListMock,mJanRainEmail);
     }
 
     @Mock
