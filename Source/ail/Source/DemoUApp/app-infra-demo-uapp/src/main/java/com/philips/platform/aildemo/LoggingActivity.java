@@ -118,13 +118,7 @@ public class LoggingActivity extends AppCompatActivity {
                             HashMap<String, String> map= new HashMap<>();
                             map.put("key1","val1");
                             map.put("key2","val2");
-
-                            HashMap<String, Integer> map2= new HashMap<>();
-                            map2.put("key1",2);
-                            map2.put("key2",3);
-
                             AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map);
-                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map2);
                         }
                     }
 
