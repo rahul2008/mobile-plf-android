@@ -6,6 +6,8 @@
 
 package com.philips.platform.baseapp.screens.inapppurchase;
 
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,6 @@ public class ShoppingCartFlowStateTest {
     public void updateDataModel() throws Exception {
         shoppingCartState.updateDataModel();
         final int launchType = shoppingCartState.getLaunchType();
-        assertTrue(launchType == IAPState.IAP_SHOPPING_CART_VIEW);
+        assertTrue(launchType == IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW);
     }
 }

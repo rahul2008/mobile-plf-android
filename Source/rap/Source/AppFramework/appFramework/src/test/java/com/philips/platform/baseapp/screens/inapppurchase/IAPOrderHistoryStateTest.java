@@ -6,6 +6,8 @@
 
 package com.philips.platform.baseapp.screens.inapppurchase;
 
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +29,7 @@ public class IAPOrderHistoryStateTest {
     public void updateDataModel() throws Exception {
         iapOrderState.updateDataModel();
         final int launchType = iapOrderState.getLaunchType();
-        assert launchType == IAPState.IAP_PURCHASE_HISTORY_VIEW;
+        assert launchType == IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
     }
 
 }
