@@ -216,6 +216,7 @@ def BuildAndUnitTest() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies assembleRelease \
             :AppInfra:cC \
+            :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
             :registrationApi:cC \
             :registrationApi:testReleaseUnitTest \

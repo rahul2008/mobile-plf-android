@@ -71,7 +71,7 @@ public class LogFormatter extends Formatter {
             }
         }
         builder.append("[").append(logLevelPrettyName).append("]");
-        builder.append("[").append(componentID+componentVersion).append("]");
+        builder.append("[").append(componentID + " " + componentVersion).append("]");
         builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
