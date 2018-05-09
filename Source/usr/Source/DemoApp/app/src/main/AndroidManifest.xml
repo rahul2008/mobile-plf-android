@@ -27,7 +27,7 @@
 
         <activity
             android:name="com.philips.cdp.registration.wxapi.WXEntryActivity"
-            android:exported="true"></activity>
+            android:exported="false"></activity>
 
         <!--
           This activity declaration is merged with the version from the library manifest.
