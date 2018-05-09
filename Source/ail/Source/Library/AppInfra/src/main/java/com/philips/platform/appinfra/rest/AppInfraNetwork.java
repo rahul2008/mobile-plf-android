@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.Map;
 
 public class AppInfraNetwork extends BasicNetwork {
@@ -33,7 +32,7 @@ public class AppInfraNetwork extends BasicNetwork {
         super(httpStack, pool);
     }
 
-    public AppInfraNetwork(BaseHttpStack httpStack, AppInfraInterface appInfraInterface){
+    public AppInfraNetwork(BaseHttpStack httpStack, AppInfraInterface appInfraInterface) {
         this(httpStack);
         this.appInfraInterface = appInfraInterface;
     }
@@ -41,21 +40,33 @@ public class AppInfraNetwork extends BasicNetwork {
     @Override
     public NetworkResponse performRequest(Request<?> request) throws VolleyError {
         NetworkResponse networkResponse = super.performRequest(request);
-        String publicKey = getPublicKey(networkResponse);
-        String storedKey = appInfraInterface.getSecureStorage().fetchValueForKey(getHostname(request), getSecureStorageError());
-        
+        String networkInfo = getPublicKeyInfo(networkResponse);
+        String storedInfo = appInfraInterface.getSecureStorage().fetchValueForKey(getHostname(request), getSecureStorageError());
 
-        if(false){
-            appInfraInterface.getSecureStorage().storeValueForKey(getHostname(request), publicKey, getSecureStorageError());
-            log(publicKey);
+        String[] networkKeys = extractPublicKeys(networkInfo);
+        String[] storedKeys = extractPublicKeys(storedInfo);
+
+        if (isKeyMismatch(networkKeys, storedKeys)) {
+            appInfraInterface.getSecureStorage().storeValueForKey(getHostname(request), networkInfo, getSecureStorageError());
+            log(networkInfo);
         }
-
         return networkResponse;
     }
 
-    private String getPublicKey(NetworkResponse networkResponse) {
+    private boolean isKeyMismatch(String[] networkKeys, String[] storedKeys) {
+        return !(networkKeys != null && storedKeys != null && networkKeys[1].equals(storedKeys[1]) && networkKeys[3].equals(storedKeys[3]));
+    }
+
+    private String[] extractPublicKeys(String publicKeyInfo) {
+        if (publicKeyInfo.contains("=\"")) {
+            return publicKeyInfo.split("=\"");
+        }
+        return null;
+    }
+
+    private String getPublicKeyInfo(NetworkResponse networkResponse) {
         Map<String, String> headers = networkResponse.headers;
-        if(headers.containsKey(SSL_RESPONSE_PUBLIC_KEY)){
+        if (headers.containsKey(SSL_RESPONSE_PUBLIC_KEY)) {
             return headers.get(SSL_RESPONSE_PUBLIC_KEY);
         }
         return "";
@@ -67,7 +78,7 @@ public class AppInfraNetwork extends BasicNetwork {
             return url.getHost();
         } catch (MalformedURLException e) {
             log(e.getMessage());
-            return null;
+            return "";
         }
     }
 
