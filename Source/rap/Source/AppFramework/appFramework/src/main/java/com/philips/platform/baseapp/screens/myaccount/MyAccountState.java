@@ -98,39 +98,40 @@ public class MyAccountState extends BaseState{
 
             @Override
             public boolean onProfileMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
-                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-                BaseState baseState = null;
 
                 if (itemName.equalsIgnoreCase("MYA_My_details")) {
-                    try {
-                        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), MY_DETAILS_EVENT);
-                    } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                            e) {
-                        Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                    if(null != baseState){
-                        baseState.init(actContext);
-                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
-                    }
+                    getBaseState(fragmentLauncher, MY_DETAILS_EVENT);
                     return true;
-                }else if(itemName.equalsIgnoreCase("MYA_My_orders")){
-
-                    try {
-                        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), MY_ORDERS_EVENT);
-                    } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                            e) {
-                        Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                    if(null != baseState){
-                        final UIStateData iapStateData = new UIStateData();
-                        iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                        baseState.setUiStateData(iapStateData);
-                        baseState.init(actContext.getApplicationContext());
-                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
-                    }
+                } else if (itemName.equalsIgnoreCase("MYA_My_orders")) {
+                    getBaseState(fragmentLauncher, MY_ORDERS_EVENT);
                     return true;
                 }
                 return false;
+            }
+
+            private void getStateData(BaseState baseState) {
+                final UIStateData stateData = new UIStateData();
+                stateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                baseState.setUiStateData(stateData);
+            }
+
+            private void getBaseState(FragmentLauncher fragmentLauncher, String event) {
+                BaseState baseState = null;
+                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+
+                try {
+                    baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), event);
+                } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                        e) {
+                    Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+                }
+
+                if (null != baseState) {
+                    getStateData(baseState);
+
+                    baseState.init(actContext.getApplicationContext());
+                    baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
+                }
             }
 
             @Override

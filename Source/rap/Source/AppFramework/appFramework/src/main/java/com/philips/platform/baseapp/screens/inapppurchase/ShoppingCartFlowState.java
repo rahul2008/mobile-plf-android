@@ -27,13 +27,6 @@ public class ShoppingCartFlowState extends IAPState{
 
     @Override
     public void updateDataModel() {
-        RALog.d(TAG, "updateDataModel called ");
         setLaunchType(IAPState.IAP_SHOPPING_CART_VIEW);
-        try {
-            setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry()))));
-        } catch (RuntimeException e) {
-            RALog.e(TAG,e.getMessage());
-            Toast.makeText(getApplicationContext(), R.string.RA_CTN_Null, Toast.LENGTH_LONG).show();
-        }
     }
 }
